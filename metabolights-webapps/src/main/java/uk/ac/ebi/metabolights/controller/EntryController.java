@@ -34,6 +34,7 @@ import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
+import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.service.AppContext;
@@ -260,7 +261,8 @@ public class EntryController extends AbstractController {
 
 		mav.addObject("files", fdController.getStudyFileList(study.getStudyIdentifier()));
 
-		if(!study.isPublicStudy() && (user.isCurator() || user.getRole() == AppRole.ROLE_SUBMITTER.ordinal())) {
+		// Applies only to studies with status SUBMITTED, when accessed by a user with roles CURATOR or SUBMITTER
+		if(study.getStudyStatus() == Study.StudyStatus.SUBMITTED && (user.isCurator() || user.getRole() == AppRole.ROLE_SUBMITTER.ordinal())) {
 			mav.addObject("ftpFiles", fdController.getPrivateFtpFileList(study.getStudyIdentifier()));
 			mav.addObject("hasPrivateFtpFolder", fdController.hasPrivateFtpFolder(study.getStudyIdentifier()));
 		}

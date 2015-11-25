@@ -525,7 +525,7 @@ public class StudyController extends BasicController{
 		return obfuscationCode;
 	}
 
-	private String ftpPath = "/prod/";
+	private static String FTP_PATH = "/prod/";
 	/**
 	 * Create a private FTP folder for a Study, so the user can upload big files using ftp.
 	 *
@@ -570,7 +570,7 @@ public class StudyController extends BasicController{
 				.append('\t').append("server: ")
 				.append("<b>").append(privateFTPServer).append("</b>").append('\n')
 				.append('\t').append("remote folder: ")
-				.append("<b>").append(ftpPath).append(ftpFolder).append("</b>").append('\n')
+				.append("<b>").append(FTP_PATH).append(ftpFolder).append("</b>").append('\n')
 				.append('\n')
 				.append("Please, note that the remote folder needs to be entirely typed, as the folder is not browsable. So use ")
 				.append("\"").append("<b>").append("cd ").append("/private/").append(ftpFolder).append("</b>").append("\"").append(" to access your private folder.")
