@@ -16,6 +16,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.js" charset="utf-8"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.Rheaction.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/wiki-pathways.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/JSmol.min.js"></script>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
@@ -36,9 +37,34 @@
                 <div class="col-md-12 metabolite-wrapper">
                     <div class="row">
                         <div class="col-md-3">
-                            <%--<h5>Structure</h5><br>--%>
-                            <img src="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=${compound.mc.chebiId}"
-                                 class="metabolite-image thumbnail"/>
+
+                            <div>
+
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#2d" aria-controls="home" role="tab" data-toggle="tab">2D</a></li>
+                                    <li role="presentation"><a href="#3d" aria-controls="profile" role="tab" data-toggle="tab">3D</a></li>
+                                </ul>
+
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="2d">
+                                        <%--<h5>Structure</h5><br>--%>
+                                        <img src="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=${compound.mc.chebiId}&dimensions=600&transbg=true"
+                                             class="metabolite-image thumbnail"/>
+
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="3d">
+                                        <div id="appdiv"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+
+                            <br>
                             <p>
                                 <a href="http://www.ebi.ac.uk/chebi/searchId.do?chebiId=${compound.mc.chebiId}">${compound.chebiEntity.chebiAsciiName}
                                     - (${compound.mc.chebiId})</a>
@@ -151,6 +177,7 @@
                                                 </td>
                                             </tr>
                                         </table>
+
                                     </div>
 
                                     <c:if test="${compound.mc.hasSpecies}">
@@ -420,6 +447,7 @@
 
 
     var pathwaysretrieved = false;
+    var dDisplayed = false;
 
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         var target = $(e.target).attr("href") // activated tab
@@ -436,10 +464,60 @@
             $('#reactions-content').html( reactions.getReactions("${compound.mc.accession}"));
         } else if (target == '#literature') {
             $('#literature-content').html( literature.getLiterature("${compound.mc.accession}"));
+        } else if (target == '#3d') {
+            if(!dDisplayed){
+                $("#appdiv").html(Jmol.getAppletHtml("jmolApplet0", Info));
+                javascript:Jmol.loadFile(jmolApplet0,'$'+'${compound.chebiEntity.smiles}');
+                dDisplayed = true;
+            }
         }
     });
 
 
 </script>
+
+    <script type="text/javascript">
+
+    Jmol._isAsync = false;
+
+    // last update 2/18/2014 2:10:06 PM
+
+    var jmolApplet0; // set up in HTML table, below
+
+    // logic is set by indicating order of USE -- default is HTML5 for this test page, though
+
+    var s = document.location.search;
+
+    // Developers: The _debugCode flag is checked in j2s/core/core.z.js,
+    // and, if TRUE, skips loading the core methods, forcing those
+    // to be read from their individual directories. Set this
+    // true if you want to do some code debugging by inserting
+    // System.out.println, document.title, or alert commands
+    // anywhere in the Java or Jmol code.
+
+
+    var Info = {
+        width: '100%',
+        height: 300,
+        debug: false,
+        color: "0xFFFFFF",
+        use: "HTML5",   // JAVA HTML5 WEBGL are all options
+        j2sPath: "${pageContext.request.contextPath}/javascript/j2s", // this needs to point to where the j2s directory is.
+        jarPath: "${pageContext.request.contextPath}/javascript/java",// this needs to point to where the java directory is.
+        jarFile: "JmolAppletSigned.jar",
+        isSigned: true,
+
+        serverURL: "http://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php",
+
+        disableJ2SLoadMonitor: true,
+        disableInitialConsole: true,
+        allowJavaScript: true,
+        addSelectionOptions: false
+        //console: "none", // default will be jmolApplet0_infodiv, but you can designate another div here or "none"
+    }
+
+    var lastPrompt=0;
+</script>
+
 
 
