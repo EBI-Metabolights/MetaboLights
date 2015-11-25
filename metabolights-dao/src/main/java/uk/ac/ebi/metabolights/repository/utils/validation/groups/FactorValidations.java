@@ -42,7 +42,6 @@ public class FactorValidations implements IValidationProcess {
         validation.setId(ValidationIdentifier.FACTOR_NAME.getID());
         if (!study.getFactors().isEmpty()) {
             for (StudyFactor studyFactor : study.getFactors()) {
-                if (!Utilities.minCharRequirementPassed(studyFactor.getName(), 3)) {
                 if (!Utilities.minCharRequirementPassed(studyFactor.getName(), 2)) {
                     validation.setMessage("Study Factor " + studyFactor.getName() + " is not valid");
                     validation.setPassedRequirement(false);
