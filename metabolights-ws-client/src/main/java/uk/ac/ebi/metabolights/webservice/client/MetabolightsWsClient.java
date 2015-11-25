@@ -253,8 +253,8 @@ public class MetabolightsWsClient {
     private RestResponse<Study> getStudyRestResponse(String path) {
         // Make the request
         String response = makeGetRequest(path);
-
-        return deserializeJSONString(response, Study.class);
+        RestResponse<Study> resS = deserializeJSONString(response, Study.class);
+        return resS;
     }
 
     private RestResponse<Compound> getCompoundRestResponse(String path) {

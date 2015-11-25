@@ -893,6 +893,10 @@ ol.progtrckr li.progtrckr-todo:before {
     color: green;
 }
 
+.override {
+    color: darkorange;
+}
+
 .ok:before{
     content: "\002713";
     font-weight: bold;
