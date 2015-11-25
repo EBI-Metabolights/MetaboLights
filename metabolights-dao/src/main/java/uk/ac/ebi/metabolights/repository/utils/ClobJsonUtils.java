@@ -2,7 +2,7 @@ package uk.ac.ebi.metabolights.repository.utils;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.ArrayUtils;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.Session;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.HibernateUtil;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.SessionWrapper;
@@ -48,7 +48,7 @@ public class ClobJsonUtils {
     public static <T> T parseJson(String jsonString, Class<T> valueType) {
         if(jsonString==null)return null;
 
-        ObjectMapper mapper = new ObjectMapper();
+       ObjectMapper mapper = new ObjectMapper();
 
         try {
             return mapper.readValue(jsonString, valueType);

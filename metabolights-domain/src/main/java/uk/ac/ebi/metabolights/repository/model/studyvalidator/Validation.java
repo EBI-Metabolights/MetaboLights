@@ -58,7 +58,7 @@ public class Validation {
 
     public void setPassedRequirement(boolean passedRequirement) {
         this.passedRequirement = passedRequirement;
-        setStatus();
+        //setStatus();
     }
 
     public Requirement getType() {
@@ -77,9 +77,9 @@ public class Validation {
         this.message = message;
     }
 
-    public Status getStatus() {
-        return status;
-    }
+//    public Status getStatus() {
+//        return status;
+//    }
 
     public void setStatus(Status status) {
         this.status = status;
@@ -101,17 +101,29 @@ public class Validation {
         this.id = id;
     }
 
-    public void setStatus() {
+    //    public void setStatus() {
+//        if (getPassedRequirement()) {
+//            setStatus(Status.GREEN);
+//            statusExt = (description == null ? "" : description) + " - PASSED";
+//        } else {
+//            if (getType().equals(Requirement.MANDATORY)) {
+//                setStatus(Status.RED);
+//                statusExt = (description == null ? "" : description) + " - FAILED";
+//            } else {
+//                setStatus(Status.ORANGE);
+//                statusExt = (description == null ? "" : description) + " - PASSED";
+//            }
+//        }
+//
+//    }
+    public Status getStatus() {
         if (getPassedRequirement()) {
-            setStatus(Status.GREEN);
-            statusExt = (description == null ? "" : description) + " - PASSED";
+            return Status.GREEN;
         } else {
             if (getType().equals(Requirement.MANDATORY)) {
-                setStatus(Status.RED);
-                statusExt = (description == null ? "" : description) + " - FAILED";
+                return Status.RED;
             } else {
-                setStatus(Status.ORANGE);
-                statusExt = (description == null ? "" : description) + " - PASSED";
+                return Status.ORANGE;
             }
         }
 

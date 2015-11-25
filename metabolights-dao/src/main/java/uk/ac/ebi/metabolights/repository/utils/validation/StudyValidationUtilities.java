@@ -64,25 +64,27 @@ public class StudyValidationUtilities {
         exceptionValidation.setGroup(Group.EXCEPTION);
         exceptionValidation.setType(Requirement.MANDATORY);
         exceptionValidation.setMessage(message);
-        exceptionValidation.setStatus(Status.RED);
         exceptionValidation.setPassedRequirement(false);
 
         study.getValidations().getEntries().add(exceptionValidation);
     }
 
     private static void checkForOverriding(Validations fromDB, Validations generatedNow) {
-        for(Validation current : generatedNow.getEntries()){
-             if(!current.getPassedRequirement()){
-                if(validationsFromDB.contains(current)){
+        if (fromDB == null) {
+            return;
+        }
+        for (Validation current : generatedNow.getEntries()) {
+            if (!current.getPassedRequirement()) {
+                if (validationsFromDB.contains(current)) {
                     boolean overRiddenValue = validationsFromDB.get(current.getId()).getPassedRequirement();
                     boolean currentValue = current.getPassedRequirement();
-                    if(overRiddenValue != currentValue){
-                         current.setPassedRequirement(overRiddenValue);
-                         current.setOverriden(true);
+                    if (overRiddenValue != currentValue) {
+                        current.setPassedRequirement(overRiddenValue);
+                        current.setOverriden(true);
                         generatedNow.setOverriden(true);
                     }
                 }
-             }
+            }
         }
 
     }

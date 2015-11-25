@@ -125,9 +125,6 @@ public class JSONserialization {
 		ObjectMapper mapper = new ObjectMapper();
 		Study study = getNewFullStudy();
 
-		logger.info("Before mapping Validation status " + study.getValidations().getEntries().iterator().next().getStatus().name());
-		Assert.assertEquals("Before mapping Validation status", Status.RED, study.getValidations().getEntries().iterator().next().getStatus());
-
 
 		String studyJSON = mapper.writeValueAsString(study);
 
@@ -139,8 +136,6 @@ public class JSONserialization {
 
 		logger.info("Validation size : " + study.getValidations().getEntries().size());
 		Assert.assertEquals("Study hasn't got a validation.", 1, study.getValidations().getEntries().size());
-
-		Assert.assertEquals("study title Validation status", Status.RED, study.getValidations().getEntries().iterator().next().getStatus());
 
 		for(Validation validation : study.getValidations().getEntries()){
 			logger.info(validation.getDescription());
