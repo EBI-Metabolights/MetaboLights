@@ -108,7 +108,7 @@ public class ProtocolValidations implements IValidationProcess {
     }
 
     public static Validation getSampleCollectionProtocolValidation(Study study) {
-        Validation validation = new Validation(DescriptionConstants.PROTOCOLS_SAMPLE_COLLECTION, Requirement.OPTIONAL, Group.PROTOCOLS);
+        Validation validation = new Validation(DescriptionConstants.PROTOCOLS_SAMPLE_COLLECTION, Requirement.MANDATORY, Group.PROTOCOLS);
         validation.setId(ValidationIdentifier.PROTOCOLS_SAMPLE_COLLECTION.getID());
         if (!sampleCollectionProtocolIsPresent(study)) {
             validation.setPassedRequirement(false);
