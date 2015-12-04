@@ -114,6 +114,28 @@ public class StudyController extends BasicController{
 
 	}
 
+	@RequestMapping("listWithDetails")
+	@ResponseBody
+	public String getAllStudiesDetails() throws DAOException {
+
+		logger.info("Requesting a list of all public studies from the webservice");
+
+		RestResponse<String[]> response = new RestResponse<>();
+
+		studyDAO = getStudyDAO();
+		String studyList = "";
+
+		try {
+			studyList = studyDAO.getListWithDetails(getUser().getApiToken());
+		} catch (DAOException e) {
+			logger.error("Can't get the list of studies", e);
+			response.setMessage("Can't get the study requested.");
+			response.setErr(e);
+		}
+
+		return studyDAO.getListWithDetails(getUser().getApiToken());
+	}
+
 	@RequestMapping("goinglive/{days}")
 	@ResponseBody
 	public RestResponse<String[]> getAllStudyIdentifiersGoingLive(@PathVariable("days") int numberOfDays) throws DAOException {

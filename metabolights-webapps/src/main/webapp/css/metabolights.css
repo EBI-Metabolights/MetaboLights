@@ -91,3 +91,15 @@ body{
     overflow-x: hidden !important;
     max-width: 500px;
 }
+
+.study-select{
+    width:100%;
+}
+
+.section-content{
+    min-height: 50vh;
+}
+
+.ml-wrapper{
+    min-height: 100vh;
+}

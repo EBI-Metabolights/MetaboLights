@@ -24,102 +24,132 @@
   --%>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<div class="container">
-    <h2 class="row">Curator tools page</h2>
-    <hr>
-    <div>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/select2.css" type="text/css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
 
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#studyliterature" aria-controls="studyliterature" role="tab" data-toggle="tab">Study Literature</a></li>
-        </ul>
-
-        <!-- Tab panes -->
-        <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="studyliterature">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="panel panel-default">
-                            <div class="panel-body">
+<div class="container-fluid ml-wrapper">
+            <div class="col-md-9">
+                <div id="app">
+                    <div class="col-md-12 row">
+                        <a name="#studyLiterature"><h2 class="row">Curator tools page</h2></a>
+                        <hr>
+                        <div id="el">
+                            <div class="form-group">
+                            <select id="ss" v-model="selected" class="form-control">
+                                <option v-for="option in options" v-bind:value="option.value">
+                                    {{ option.text }}
+                                </option>
+                            </select>
+                            </div>
+                            <hr>
+                            <div class="section-content">
                                 <table class="mltable table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>Study</th>
                                         <th>Study Description</th>
                                         <th>Study Protocols</th>
                                     </tr>
                                     </thead>
-                                    <tbody id="study-wrapper">
+                                    <tbody id="literaturebody">
+                                    <tr>
+                                        <td colspan="4"> <p class="text-center">Select a study</p> </td>
+                                    </tr>
                                     </tbody>
                                 </table>
+                            </div>
+                        </div>
 
+                    </div>
+
+                    <div class="col-md-12 row">
+                        <a name="studiesList"><h2 class="row">Studies List <small class="pull-right text-muted"><i><a href="#top">Back to top</a></i></small></h2></a>
+                        <hr>
+                        <div class="section-content">
+                            <div class="col-md-3">
+                                <ul class="list-group" >
+                                    <li class="list-group-item"  v-for="option in options">{{ option.text }}</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        <div class="col-md-3">
+            <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm">
+                <ul class="nav bs-docs-sidenav">
+                    <li class="active"> <a href="#studyLiterature">Study Literature</a></li>
+                    <li> <a href="#studiesList">Studies List</a></li>
+                </ul>
+            </nav>
         </div>
-    </div>
-
 </div>
+<script src="${pageContext.request.contextPath}/javascript/select2.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.10/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.17/vue-resource.js"></script>
+
 <script>
-    $('#myTabs a').click(function (e) {
-        e.preventDefault()
-        $(this).tab('show')
-    })
 
-    var studies = [];
-    $.ajax({
-        url: 'http://www.ebi.ac.uk/metabolights/webservice/study/list',
-        async: false,
-        headers: { 'user_token': '2bdb7fb7-bcb6-4e2b-a254-5969904d62de' },
-        error: function() {
-            $('#info').html('<div class="alert alert-danger alert-dismissible fade in" role="alert"><button class="close" aria-label="Close" data-dismiss="alert" type="button"><span aria-hidden="true">×</span></button><strong>Error has occured</strong></div>');
+
+    var vm = new Vue({
+        http: {
+            headers: {
+                'user_token' : '6996ca30-672c-4cda-9a0e-d113d640776f'
+            }
         },
-        success: function(data) {
-            studies = String(data['content']).split(',');
+        el: '#app',
+        data: {
+            selected: '1',
+            options: [],
+            studies: [],
         },
-        type: 'POST'
-    });
+        methods: {
+            loadStudyLiterature: function () {
+                $('#literaturebody').html('<tr><td colspan="3"><p class="text-center"><img src="${pageContext.request.contextPath}/img/beta_loading.gif"></p></td></tr>');
+                this.$http.get('http://www.ebi.ac.uk/metabolights/webservice/study/MTBLS'+this.selected+'/full', function (data, status, request) {
+                    var studyDescription = data['content']['description'];
+                    var studyProtocols = data['content']['protocols'];
+                    var sprot = '';
+                    for (var j = 0; j < studyProtocols.length; j++) {
+                        sprot = sprot + studyProtocols[j]['name'] + '</br>' + studyProtocols[j]['description'] + '<hr>'
+                    }
+                    var htmldata = '<tr><td>MTBLS'+this.selected+'</td><td>'+ studyDescription +'</td><td>'+sprot+'</td></tr>';
+                    $('#literaturebody').html(htmldata);
+                }).error(function (data, status, request) {
+                    $('#literaturebody').html("<tr><td colspan='3'> <p class='text-center'>error loading studies literature</p></td></tr>");
+                });
 
-    function getStudiesData(){
-        var studieswop = [];
-        $('#studieswoploading').css("display", "block");
-        var nos = studies.length;
-        for (var i = 0; i<50; i++) {
-            try {
-
-                console.log(studies[i] + '--');
-                var id_string = '<tr><th scope="row">' + (i + 1) + '</th><td>' + studies[i] + '</td><td id="' + studies[i] + '_description" >&nbsp;</td><td class="col-md-6 wrap-content" id="' + studies[i] + '_protocol" class="protocol_div">&nbsp;</td></tr>';
-                $('#study-wrapper').append(id_string);
-                $.ajax({
-                    url: 'http://www.ebi.ac.uk/metabolights/webservice/study/' + studies[i] + '/full',
-                    headers: {'user_token': '2bdb7fb7-bcb6-4e2b-a254-5969904d62de'},
-                    async: false,
-                    error: function () {
-                        $('#info').html('<div class="alert alert-danger alert-dismissible fade in" role="alert"><button class="close" aria-label="Close" data-dismiss="alert" type="button"><span aria-hidden="true">×</span></button><strong>Error has occured</strong></div>');
-                    },
-                    success: function (data) {
-                        study = data;
-                        var studyDescription = study['content']['description'];
-                        var studyProtocols = study['content']['protocols'];
-                        var sprot = '';
-                        for (var j = 0; j < studyProtocols.length; j++) {
-                            sprot = sprot + studyProtocols[j]['name'] + '</br>' + studyProtocols[j]['description'] + '<hr>'
-                        }
-                        $('#' + studies[i] + '_description').append(studyDescription);
-                        $('#' + studies[i] + '_protocol').append(sprot);
-
-                    },
-                    type: 'POST'
+            },
+            sortByKey: function(array, key) {
+                return array.sort(function(a, b) {
+                    var x = a[key]; var y = b[key];
+                    return ((x < y) ? -1 : ((x > y) ? 1 : 0));
                 });
             }
-            catch (err) {
-                $('#info').html('<div class="alert alert-danger alert-dismissible fade in" role="alert"><button class="close" aria-label="Close" data-dismiss="alert" type="button"><span aria-hidden="true">×</span></button><strong>Error has occured</strong></div>');
-            }
-        }
+        },
 
-    }
-    getStudiesData();
+        ready: function() {
+            this.$http.get('http://www.ebi.ac.uk/metabolights/webservice/study/list', function (data, status, request) {
+                this.studies = data['content'];
+                for(var i in this.studies) {
+                    var item = parseInt(this.studies[i].replace("MTBLS", ""));
+                    this.options.push({
+                        "value" : item,
+                        "text" : "MTBLS" + item
+                    });
+                }
+                this.options = this.sortByKey(this.options, 'value');
+            }).error(function (data, status, request) {
+                alert('error loading studies list');
+            });
+            this.loadStudyLiterature();
+        }
+    })
+
+    vm.$watch('selected', function (val) {
+        this.loadStudyLiterature();
+    })
+
+
+
 </script>
