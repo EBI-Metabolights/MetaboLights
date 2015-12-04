@@ -21,6 +21,8 @@
 
 package uk.ac.ebi.metabolights.repository.dao;
 
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -129,6 +131,28 @@ public class StudyDAO {
 
     public List<String> getList(String userToken) throws DAOException {
         return dbDAO.getStudyListForUser(userToken);
+    }
+
+    public String getListWithDetails(String userToken) throws DAOException {
+
+        List<String> studies = dbDAO.getStudyListForUser(userToken);
+
+        JSONArray ja = new JSONArray();
+
+        for(String study :studies){
+            Study tempStudy = dbDAO.findByAccession(study);
+            getStudyFromFileSystem(tempStudy, false);
+            JSONObject jo = new JSONObject();
+            jo.put("id",study);
+            jo.put("title", tempStudy.getTitle());
+            jo.put("description", tempStudy.getDescription());
+            ja.add(jo);
+        }
+
+        JSONObject mainObj = new JSONObject();
+        mainObj.put("content", ja);
+
+        return mainObj.toJSONString();
     }
 
     public List<String> getStudiesToGoLiveList(String userToken) throws DAOException {
