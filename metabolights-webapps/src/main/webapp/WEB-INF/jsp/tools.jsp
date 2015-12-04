@@ -24,7 +24,6 @@
   --%>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/select2.css" type="text/css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
 
 <div class="container-fluid ml-wrapper">
@@ -66,9 +65,10 @@
                         <a name="studiesList"><h2 class="row">Studies List <small class="pull-right text-muted"><i><a href="#top">Back to top</a></i></small></h2></a>
                         <hr>
                         <div class="section-content">
-                            <div class="col-md-3">
+                            <div class="col-md-12">
                                 <ul class="list-group" >
-                                    <li class="list-group-item"  v-for="option in options">{{ option.text }}</li>
+                                    <div id="studieslist"></div>
+                                    <li class="list-group-item"  v-for="dstudies in studiesWithDetails">{{ dstudies.id }} <br> <b>{{ dstudies.title }}</b> <hr> {{ dstudies.description }}</li>
                                 </ul>
                             </div>
                         </div>
@@ -84,7 +84,7 @@
             </nav>
         </div>
 </div>
-<script src="${pageContext.request.contextPath}/javascript/select2.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.10/vue.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.17/vue-resource.js"></script>
 
@@ -102,6 +102,7 @@
             selected: '1',
             options: [],
             studies: [],
+            studiesWithDetails: []
         },
         methods: {
             loadStudyLiterature: function () {
@@ -125,7 +126,16 @@
                     var x = a[key]; var y = b[key];
                     return ((x < y) ? -1 : ((x > y) ? 1 : 0));
                 });
-            }
+            },
+                loadStudyWithDetails: function(){
+                    $('#studieslist').html('<tr><td colspan="3"><p class="text-center"><img src="${pageContext.request.contextPath}/img/beta_loading.gif"></p></td></tr>');
+                    this.$http.get('http://ves-ebi-8d:8080/metabolights/webservice/study/listWithDetails', function (data, status, request) {
+                        this.studiesWithDetails = data['content'];
+                        $('#studieslist').html("");
+                    }).error(function (data, status, request) {
+                        $('#studieslist').html("<tr><td colspan='3'> <p class='text-center'>error loading studies list</p></td></tr>");
+                    });
+                }
         },
 
         ready: function() {
@@ -143,6 +153,7 @@
                 alert('error loading studies list');
             });
             this.loadStudyLiterature();
+            this.loadStudyWithDetails();
         }
     })
 

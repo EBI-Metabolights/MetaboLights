@@ -143,7 +143,7 @@ public class StudyDAO {
             Study tempStudy = dbDAO.findByAccession(study);
             getStudyFromFileSystem(tempStudy, false);
             JSONObject jo = new JSONObject();
-            jo.put("id", tempStudy.getTitle());
+            jo.put("id",study);
             jo.put("title", tempStudy.getTitle());
             jo.put("description", tempStudy.getDescription());
             ja.add(jo);
