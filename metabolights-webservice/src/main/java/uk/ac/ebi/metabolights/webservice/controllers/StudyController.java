@@ -713,19 +713,13 @@ public class StudyController extends BasicController{
 		logger.info("User {} requested to delete files from study {} private FTP folder.", user.getFullName(), studyIdentifier);
 
 		// look for the private FTP folder
-		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");	// ~/ftp_private/
+		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");
 		String ftpFolder = studyIdentifier.toLowerCase() + "-" + getObfuscationCode(studyIdentifier, user);
 
-
-		// compose full file path names
-		List<String> filePaths = new LinkedList<>();
-		for (String filename:fileNames){
-			filePaths.add(privateFTPRoot + File.separator + ftpFolder + File.separator + filename);
-		}
-
 		// delete the files
-		String result = FileUtil.deleteFiles(filePaths);
+		String result = FileUtil.deleteFilesFromPrivateFtpFolder(fileNames, ftpFolder);
 
+		// compose a response
 		RestResponse<Boolean> restResponse = new RestResponse<>();
 		restResponse.setContent(true);
 		restResponse.setMessage(result);
