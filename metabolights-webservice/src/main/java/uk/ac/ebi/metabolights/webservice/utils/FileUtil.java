@@ -288,7 +288,7 @@ public class FileUtil {
 	 * @date 20151104
      */
 	private static boolean moveFileFromFTP(String fileName, String ftpFolder, String studyFolder) {
-		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");	// ~/ftp_private/
+
 		boolean result = false;
 
 		// move the file
@@ -300,7 +300,12 @@ public class FileUtil {
 				File.separator + fileName);
 
 		try {
-			Files.move(filePath, studyPath, ATOMIC_MOVE);
+			// we are no longer moving the file, but copying it...
+			Files.copy(filePath, studyPath, COPY_ATTRIBUTES);
+			// ...and re-naming it to be deleted later by a bash script
+			filePath.toFile().renameTo(new File(privateFTPRoot + File.separator +
+					ftpFolder + File.separator +
+					filePrefix + fileName));
 			result = true;
 		} catch (IOException ex) {
 			logger.error("Error: can't move the file. {}", ex.getMessage());
@@ -369,5 +374,56 @@ public class FileUtil {
 		File folder = new File(ftpFolder);
 
 		return folder.exists() && folder.isDirectory();
+	}
+
+	static String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");
+	static String filePrefix = ".DELETEME-";
+
+	/**
+	 * Delete a list of files from the private FTP folder, upon user request
+	 *
+	 * @param fileNames
+	 * @param ftpFolder
+     * @return
+	 * @author jrmacias
+	 * @date 20151204
+     */
+	public static String deleteFilesFromPrivateFtpFolder(List<String> fileNames, String ftpFolder) {
+		StringBuffer result = new StringBuffer();
+
+		for (String fileName : fileNames) {
+			result.append(new File(fileName).getName()).append(", ").append("file was ")
+					.append(deleteFileFromFTP(fileName,ftpFolder) ? "":"NOT ").append("deleted.").append("|");
+		}
+		return result.toString();
+	}
+
+	/**
+	 * Delete a file from the private FTP folder, upon user request
+	 * Although, actually we are no longer moving the file,
+	 * just re-naming it to be deleted later by a bash script
+	 *
+	 * @param fileName
+	 * @param ftpFolder
+     * @return
+	 * @author jrmacias
+	 * @date 20151204
+     */
+	private static boolean deleteFileFromFTP(String fileName, String ftpFolder) {
+
+		boolean result = false;
+
+		Path filePath = Paths.get(privateFTPRoot + File.separator +
+				ftpFolder + File.separator +
+				fileName);
+
+		// we are no longer moving the file...
+		// ...just re-naming it to be deleted later by a bash script
+		filePath.toFile().renameTo(new File(privateFTPRoot + File.separator +
+				ftpFolder + File.separator +
+				filePrefix + fileName));
+			result = true;
+
+		return result;
 	}
 }
