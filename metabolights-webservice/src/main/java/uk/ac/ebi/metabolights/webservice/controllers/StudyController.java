@@ -525,6 +525,7 @@ public class StudyController extends BasicController{
 		return obfuscationCode;
 	}
 
+	private static String FTP_PATH = "/prod/";
 	/**
 	 * Create a private FTP folder for a Study, so the user can upload big files using ftp.
 	 *
@@ -540,15 +541,10 @@ public class StudyController extends BasicController{
 	public RestResponse<String> createPrivateFtpFolder(@PathVariable("studyIdentifier") String studyIdentifier)
 			throws DAOException, IOException, IsaTabException {
 
-		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");	// ~/ftp_private/
 		String privateFTPServer = PropertiesUtil.getProperty("privateFTPServer");	// ftp-private.ebi.ac.uk
 		String privateFTPUser = PropertiesUtil.getProperty("privateFTPUser");		// mtblight
 		String privateFTPPass = PropertiesUtil.getProperty("privateFTPPass");		// gs4qYabh
 		String linkFTPUploadDoc = PropertiesUtil.getProperty("linkFTPUploadDoc");	// ...
-
-		// /net/isilonP/public/rw/homes/tc_cm01/metabolights/test/ftp_private
-		String[] tokens = privateFTPRoot.split("/");
-		String versionPath = tokens[tokens.length - 1];
 
 		User user = getUser();
 		logger.info("User {} has requested a private FTP folder for the study {}", user.getUserName(),studyIdentifier);
@@ -574,7 +570,7 @@ public class StudyController extends BasicController{
 				.append('\t').append("server: ")
 				.append("<b>").append(privateFTPServer).append("</b>").append('\n')
 				.append('\t').append("remote folder: ")
-				.append("<b>").append(versionPath).append(ftpFolder).append("</b>").append('\n')
+				.append("<b>").append(FTP_PATH).append(ftpFolder).append("</b>").append('\n')
 				.append('\n')
 				.append("Please, note that the remote folder needs to be entirely typed, as the folder is not browsable. So use ")
 				.append("\"").append("<b>").append("cd ").append("/private/").append(ftpFolder).append("</b>").append("\"").append(" to access your private folder.")
@@ -695,13 +691,19 @@ public class StudyController extends BasicController{
 		logger.info("User {} requested to delete files from study {} private FTP folder.", user.getFullName(), studyIdentifier);
 
 		// look for the private FTP folder
-		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");
+		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");	// ~/ftp_private/
 		String ftpFolder = studyIdentifier.toLowerCase() + "-" + getObfuscationCode(studyIdentifier, user);
 
-		// delete the files
-		String result = FileUtil.deleteFilesFromPrivateFtpFolder(fileNames, ftpFolder);
 
-		// compose a response
+		// compose full file path names
+		List<String> filePaths = new LinkedList<>();
+		for (String filename:fileNames){
+			filePaths.add(privateFTPRoot + File.separator + ftpFolder + File.separator + filename);
+		}
+
+		// delete the files
+		String result = FileUtil.deleteFiles(filePaths);
+
 		RestResponse<Boolean> restResponse = new RestResponse<>();
 		restResponse.setContent(true);
 		restResponse.setMessage(result);
