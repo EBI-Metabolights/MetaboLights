@@ -20,7 +20,6 @@
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/biojs.Rheaction.css" type="text/css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/st.css" type="text/css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
 
@@ -69,6 +68,7 @@
                                 <a href="http://www.ebi.ac.uk/chebi/searchId.do?chebiId=${compound.mc.chebiId}">${compound.chebiEntity.chebiAsciiName}
                                     - (${compound.mc.chebiId})</a>
                             </p>
+
                             <p><a href="${pageContext.request.contextPath}/referencespectraupload?cid=${compound.mc.accession}"
                                   class="icon icon-functional" data-icon="_">Upload Reference Spectra</a></p>
                         </div>
@@ -131,15 +131,101 @@
                                 </ul>
 
                                 <!-- Tab panes -->
-                                <div class="tab-content row">
+                                <div class="tab-content ml_mtc row">
                                     <div role="tabpanel" class="tab-pane active" id="chemistry">
                                         <c:if test="${not empty compound.chebiEntity.definition}">
+
+
                                             <h6 class="text-muted"><i><spring:message
                                                     code="ref.compound.tab.characteristics.definition"/></i></h6>
-
+                                            <div id="app">
                                             <p>${compound.chebiEntity.definition}</p>
+
+
+                                                <br>
+                                            <div class="tabbable">
+                                                <ul class="nav nav-pills nav-stacked col-md-2 ml_vnb">
+                                                    <li class="active"><a href="#a" data-toggle="tab">Chemical Properties</a></li>
+                                                    <li><a href="#b" data-toggle="tab">Synonyms</a></li>
+                                                    <li><a href="#c" data-toggle="tab">External links</a></li>
+                                                </ul>
+                                                <div class="tab-content col-md-10 ml_vntc">
+                                                    <div class="tab-pane active" id="a">
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading">
+                                                                Chemical Properties
+                                                            </div>
+                                                            <div class="panel-body">
+                                                                <div class="ml_tb row">
+                                                                <div class="col-md-12 ml_tr">
+                                                                    <div class="col-md-2 ml_trc"><b>Property</b></div>
+                                                                    <div class="col-md-10 ml_trc"><b>Value</b></div>
+                                                                </div>
+                                                                <div class="col-md-12 ml_tr">
+                                                                    <div class="col-md-2 ml_trc">Inchikey</div>
+                                                                    <div class="col-md-10 ml_trc">{{ inchikey }}</div>
+                                                                </div>
+                                                                <div class="col-md-12 ml_tr">
+                                                                    <div class="col-md-2 ml_trc">Inchi</div>
+                                                                    <div class="col-md-10 ml_trc">{{ inchicode }}</div>
+                                                                </div>
+                                                                <div class="col-md-12 ml_tr">
+                                                                    <div class="col-md-2 ml_trc">Formula</div>
+                                                                    <div class="col-md-10 ml_trc">{{ formula }}</div>
+                                                                </div>
+                                                                <div class="col-md-12 ml_tr">
+                                                                    <div class="col-md-2 ml_trc">Molecular Weight</div>
+                                                                    <div class="col-md-10 ml_trc">{{ molweight }}</div>
+                                                                </div>
+                                                                <div class="col-md-12 ml_tr">
+                                                                    <div class="col-md-2 ml_trc">Exact Mass</div>
+                                                                    <div class="col-md-10 ml_trc">{{ exactmass }}</div>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane" id="b">
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading">
+                                                                Synonymns
+                                                            </div>
+                                                            <div class="panel-body">
+                                                                <ul class="list-group">
+                                                                    <li v-for="synonym in synonyms" class="list-group-item">{{ synonym }}</li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane" id="c">
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading">
+                                                                External Links
+                                                            </div>
+                                                            <div class="panel-body">
+                                                                <div class="ml_tb row">
+                                                                    <div class="col-md-12 ml_tr">
+                                                                        <div class="col-md-3 ml_trc"><b>Property</b></div>
+                                                                        <div class="col-md-9 ml_trc"><b>Value</b></div>
+                                                                    </div>
+                                                                    <div class="col-md-12 ml_tr" v-for="id in externalids">
+                                                                        <div class="col-md-3 ml_trc">{{ $key }}</div>
+                                                                        <div class="col-md-9 ml_trc">{{{ id }}}</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+                                            </div>
+
                                         </c:if>
-                                        <br>
+                                        <!--<br>
                                         <table class="table table-bordered">
                                             <c:if test="${not empty compound.chebiEntity.iupacNames}">
                                                 <tr>
@@ -176,7 +262,7 @@
                                                     </c:forEach>
                                                 </td>
                                             </tr>
-                                        </table>
+                                        </table> -->
 
                                     </div>
 
@@ -517,6 +603,83 @@
     }
 
     var lastPrompt=0;
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.10/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.17/vue-resource.js"></script>
+<script>
+
+    var vm = new Vue({
+        //http: {
+        //    headers: {
+        //     'user_token' : '6996ca30-672c-4cda-9a0e-d113d640776f'
+        //    }
+        //},
+        el: '#app',
+        data: {
+            metabolight: 'MTBLC15355',
+            inchikey: "",
+            inchicode: "",
+            formula: "",
+            molweight: "",
+            exactmass: "",
+            synonyms: [],
+            chemicalproperties: {
+                inchikey: "${compound.chebiEntity.inchiKey}"
+            },
+            externalids: [],
+            kegg: []
+        },
+        methods: {
+            loadMTBLCCP: function(){
+                this.$http.get('http://cts.fiehnlab.ucdavis.edu/service/compound/'+this.chemicalproperties.inchikey, function (data, status, request) {
+                    this.synonyms = this.getNames(data.synonyms)
+                    this.inchikey = data.inchikey
+                    this.inchicode = data.inchicode
+                    this.molweight = data.molweight
+                    this.exactmass = data.exactmass
+                    this.formula = data.formula
+                    this.extractIds(data.externalIds)
+
+                    this.synonyms
+
+                }).error(function (data, status, request) {
+                    alert('Cannot fetch Compound details');
+                });
+            },
+            extractIds: function(eids , ex){
+                var tempArray = {};
+                var arrayLength = eids.length;
+                for (var i = 0; i < arrayLength; i++) {
+                    if (tempArray[eids[i].name]){
+                        tempArray[eids[i].name].push(" <span><a href='" + eids[i].url + "'>" + eids[i].value + "</a></span> ");
+                    }else{
+                        tempArray[eids[i].name] = [" <span><a href='" + eids[i].url + "'>" + eids[i].value + "</a></span> "];
+                    }
+                }
+                this.externalids = tempArray;
+                var result = eids.filter(function( obj ) {
+                    return obj.name == 'KEGG';
+                });
+                this.kegg = result;
+            },
+            getNames: function(data) {
+                synonymns = [];
+                for (obj in data) {
+                    var tempSyn= data[obj].name;
+                    console.log(tempSyn)
+                    if( synonymns.indexOf(tempSyn)<0){
+                        synonymns.push(tempSyn);
+                    }
+                }
+                return synonymns;
+            }
+        },
+
+        ready: function() {
+            this.loadMTBLCCP();
+        }
+    })
 </script>
 
 
