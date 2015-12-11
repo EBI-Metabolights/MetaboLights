@@ -103,3 +103,45 @@ body{
 .ml-wrapper{
     min-height: 100vh;
 }
+
+.ml_vnb{
+    padding: 0;
+}
+
+.nav-pills > li > a{
+    border-radius: 0;
+    font-size: 0.9em;
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover {
+    background-color: #f1f1f4;
+    color: #000;
+}
+
+.ml_vntc{
+    border: none;
+    padding-top: 0;;
+}
+
+.ml_mtc{
+    min-height: 80vh;
+}
+
+.abs{
+    overflow: auto;
+}
+
+.ml_tr{
+    border-bottom: 1px solid #f1f1f4;
+    padding: 5px 0;
+}
+
+.ml_trc{
+    padding: 5px 15px;
+    overflow: auto;
+}
+
+.ml_tb{
+    margin: 5px;
+    border: 1px solid #f1f1f4;
+}
