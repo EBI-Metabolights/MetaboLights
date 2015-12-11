@@ -51,16 +51,19 @@ public class StatisticsController extends AbstractController{
         //General stats, number of....
         List<MLStats> dataList = metaboLightsStatsService.getByPageCategory(MLStats.PageCategory.DATA.getValue());
         //Which databases the compound/database acc was identified in
-        List<MLStats> idList   = metaboLightsStatsService.getByPageCategory(MLStats.PageCategory.IDENTIFIED.getValue());
+        List<MLStats> idList = metaboLightsStatsService.getByPageCategory(MLStats.PageCategory.IDENTIFIED.getValue());
         //How many submitters, reviewers, curators
-        List<MLStats> subList  = metaboLightsStatsService.getByPageCategory(MLStats.PageCategory.SUBMITTERS.getValue());
+        List<MLStats> subList = metaboLightsStatsService.getByPageCategory(MLStats.PageCategory.SUBMITTERS.getValue());
+        List<MLStats> topSubList = metaboLightsStatsService.getByPageCategory(MLStats.PageCategory.TOPSUBM.getValue());
 
-        List<MLStats> topSubList  = metaboLightsStatsService.getByPageCategory(MLStats.PageCategory.TOPSUBM.getValue());
+        //General info
+        List<MLStats> infoList = metaboLightsStatsService.getByPageCategory(MLStats.PageCategory.INFO.getValue());
 
         mav.addObject("dataList",dataList);
         mav.addObject("identifierList",idList);
         mav.addObject("submittersList",subList);
         mav.addObject("topSubList",topSubList);
+        mav.addObject("infoList",infoList);
 
 		return mav;
     }

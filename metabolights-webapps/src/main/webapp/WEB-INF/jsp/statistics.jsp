@@ -95,3 +95,20 @@
             </p>
         </c:when>
     </c:choose>
+
+<c:choose>
+    <c:when test="${not empty infoList}">
+        <p>
+        <H4><spring:message code="msg.statistics.info"/></H4>
+        <c:forEach var="info" items="${infoList}">
+            <div class="grid_8">
+                    ${info.displayName}
+            </div>
+            <div class="grid_8">
+                <b>${info.displayValue}</b>
+            </div>
+            </br>
+        </c:forEach>
+        </p>
+    </c:when>
+</c:choose>

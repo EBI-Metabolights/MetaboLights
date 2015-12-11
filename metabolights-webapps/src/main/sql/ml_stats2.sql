@@ -63,6 +63,8 @@ where
 --Force a different sort order, most submissions first
 update ml_stats set sort_order = rownum where page_section = 'Topsubmitters';
 
+insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Info', 'Last updated', sysdate, 1 from dual;
+
 update ml_stats set sort_order = 999 where sort_order is null;
 
 update metabolights_parameters set value = (select listagg(acc,',')  WITHIN GROUP (order by acc) from  (select acc, releasedate from studies where status = 0 order by 2 desc) where rownum <= 10)

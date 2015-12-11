@@ -71,7 +71,7 @@ public class MLStats {
 
     public static enum PageCategory {
 
-        DATA("Data"), IDENTIFIED("Identified"), SUBMITTERS("Submitters"), SPECIES("Species"), COMPOUNDS("Compounds"), TOPSUBM("Topsubmitters");
+        DATA("Data"), IDENTIFIED("Identified"), SUBMITTERS("Submitters"), SPECIES("Species"), COMPOUNDS("Compounds"), TOPSUBM("Topsubmitters"), INFO("Info");
 
         private String val;
         PageCategory(String val) {
