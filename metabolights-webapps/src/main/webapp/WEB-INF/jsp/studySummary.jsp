@@ -31,6 +31,28 @@
 	</div>
 
 	<div class='grid_20 alpha omega'>
+		<br/>
+		<strong><spring:message code="label.validationsStatus"/>:&nbsp;</strong>
+		<c:if test="${liteStudy.validations.status == 'RED'}">
+			<span class="redTrafficL"/>
+			<span class="offTrafficL"/>
+			<span class="offTrafficL"/>
+		</c:if>
+		<c:if test="${liteStudy.validations.status == 'AMBER'}">
+			<span class="offTrafficL"/>
+			<span class="amberTrafficL"/>
+			<span class="offTrafficL"/>
+		</c:if>
+		<c:if test="${liteStudy.validations.status == 'GREEN'}">
+			<span class="offTrafficL"/>
+			<span class="offTrafficL"/>
+			<span class="greenTrafficL"/>
+		</c:if>
+		<br/>
+		<br/>
+	</div>
+
+	<div class='grid_20 alpha omega'>
 		<strong><spring:message code="label.releaseDate"/>:</strong> <fmt:formatDate pattern="dd-MMM-yyyy" value="${liteStudy.studyPublicReleaseDate}"/>
 		<c:if test="${!(liteStudy.studyStatus == 'PUBLIC')}">
 			&nbsp;<div class="ebiicon key"></div><strong>&nbsp;<spring:message code="label.expPrivate"/></strong>
