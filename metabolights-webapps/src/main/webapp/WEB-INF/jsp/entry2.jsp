@@ -599,9 +599,20 @@
                             </a>
                         </c:if>
                         &nbsp;
+                        <c:if test="${study.publicStudy}">
+                            |&nbsp;
+                            <span id="asperaDownloadWrapper"></span>
+                        </c:if>
 
                     </h5>
+
                     <br/>
+
+                    <div id="asperaStatus">
+                        <div id="transferDiv" class="transferDiv"></div>
+                        <div id="noAspera" class="noAspera"></div>
+                    </div>
+
                     <h5><spring:message code="label.fileListTableExplanation"/></h5>
                     <p><input class="inputDiscrete resizable" id="fileSelector" class="" type="text" placeholder="<spring:message code='label.fileList.Input.placeholder'/>"></p>
                     <c:if test="${!study.publicStudy}">
@@ -854,3 +865,34 @@
         <p><input class="inputDiscrete resizable" type="text" value="${fullContextPath}/reviewer${study.obfuscationCode}" readonly/></p>
     </c:if>
 </div>
+
+<script type="text/javascript" src="javascript/aspera/asperaweb-4.js" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/aspera/connectinstaller-4.js" charset="utf-8"></script>
+
+<script type="text/javascript" src="javascript/aspera/jquery-ui.js" charset="utf-8"></script>
+
+<script type="text/javascript" src="javascript/aspera/jquery-namespace.js" charset="utf-8"></script>
+<script type="text/javascript" src="javascript/aspera/ml-aspera-config.js" charset="utf-8"></script>
+
+<script type="text/javascript" src="javascript/aspera/ml-aspera.js" charset="utf-8"></script>
+
+<script type="text/javascript" src="javascript/aspera/install.js" charset="utf-8"></script>
+
+<script>
+    var fc = new METABOLIGHTS.FileControl( { sessionId: 'metabolights-download',
+        transferContainer: '#transferDiv',
+        messageContainer: '#noAspera',
+        id: '0' });
+
+
+    // Adds an input element download button that uses Aspera
+    var downloadButton = $('<a id="downloadButton">Aspera: Download Study</a>')
+
+    $('#asperaDownloadWrapper').append(downloadButton);
+    var downloadButtonClick = function (e) {
+        source = "studies/public/${study.studyIdentifier}";
+        fc.asperaWeb.showSelectFolderDialog( { success: function(dataTransferObj) { if (dataTransferObj.dataTransfer.files[0]) fc.download(source, dataTransferObj.dataTransfer.files[0].name); } });
+    };
+    downloadButton.on("click", downloadButtonClick);
+
+</script>
