@@ -901,3 +901,21 @@ ol.progtrckr li.progtrckr-todo:before {
     content: "\002713";
     font-weight: bold;
 }
+
+.redTrafficL::before{
+    content: "\002B24";
+    color: red;
+}
+.amberTrafficL::before{
+    content: "\002B24";
+    color: darkorange;
+}
+.greenTrafficL::before{
+    content: "\002B24";
+    color: green;
+}
+.offTrafficL::before{
+    content: "\002B24";
+    color: #bbb;
+}
+
