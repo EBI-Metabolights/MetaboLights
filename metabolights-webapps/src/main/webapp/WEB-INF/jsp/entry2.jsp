@@ -608,10 +608,8 @@
 
                     <br/>
 
-                    <div id="asperaStatus">
-                        <div id="transferDiv" class="transferDiv"></div>
-                        <div id="noAspera" class="noAspera"></div>
-                    </div>
+                    <div id="transferDiv" class="transferDiv"></div>
+                    <div id="noAspera" class="noAspera"></div>
 
                     <h5><spring:message code="label.fileListTableExplanation"/></h5>
                     <p><input class="inputDiscrete resizable" id="fileSelector" class="" type="text" placeholder="<spring:message code='label.fileList.Input.placeholder'/>"></p>

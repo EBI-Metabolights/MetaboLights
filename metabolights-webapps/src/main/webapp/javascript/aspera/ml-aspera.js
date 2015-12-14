@@ -288,6 +288,7 @@ METABOLIGHTS.FileControl.prototype.handleTransferEvents = function (event, allTr
                 if (fcObj.transferId !== null && (fcObj.transferStatus === "initiating" || fcObj.transferStatus === "running")) {
                     fcObj.requestId = fcObj.asperaWeb.stopTransfer(fcObj.transferId);
                 }
+                e.preventDefault();
             };
 
             this.transferPauseButton.on("click", function(e) { transferPauseButtonClick(e, self); });
@@ -309,6 +310,7 @@ METABOLIGHTS.FileControl.prototype.handleTransferEvents = function (event, allTr
                 if (fcObj.transferId !== null && (fcObj.transferStatus !== "initiating" && fcObj.transferStatus !== "running")) {
                     fcObj.requestId = fcObj.asperaWeb.resumeTransfer(fcObj.transferId);
                 }
+                e.preventDefault();
             };
 
             this.transferResumeButton.on("click", function(e) { transferResumeButtonClick(e, self); });
@@ -330,6 +332,7 @@ METABOLIGHTS.FileControl.prototype.handleTransferEvents = function (event, allTr
                     fcObj.requestId = fcObj.asperaWeb.removeTransfer(fcObj.transferId);
                     fcObj.transferId = null;
                 }
+                e.preventDefault();
             };
 
             this.transferAbortButton.on("click", function(e) { transferAbortButtonClick(e, self); });
