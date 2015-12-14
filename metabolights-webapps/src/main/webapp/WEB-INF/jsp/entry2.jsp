@@ -877,20 +877,47 @@
 <script type="text/javascript" src="javascript/aspera/install.js" charset="utf-8"></script>
 
 <script>
-    var fc = new METABOLIGHTS.FileControl( { sessionId: 'metabolights-download',
-        transferContainer: '#transferDiv',
-        messageContainer: '#noAspera',
-        id: '0' });
+    $(document).ready(function () {
+
+        $(function () {
+            var hash = document.location.hash;
+            // Remove the #
+            hash = hash.substring(1);
+            if (hash != undefined) {
+                // If it's not a number'
+                if (isNaN(hash)){
+                    tabToActivate = $("[hash='" + hash + "']").getIndex();
+                    if (tabToActivate == -1) tabToActivate = 0;
+                } else {
+                    tabToActivate= hash;
+                }
+            }
+            $("#tabs").tabs({
+                cache: true,
+                activate: function (event, ui) {
+                    // If the new tab is NMR...
+                    if ($(ui.newTab.children('a')[0]).attr('href') == "#tabs-files") {
+
+                        var fc = new METABOLIGHTS.FileControl( { sessionId: 'metabolights-download',
+                            transferContainer: '#transferDiv',
+                            messageContainer: '#noAspera',
+                            id: '0' });
 
 
-    // Adds an input element download button that uses Aspera
-    var downloadButton = $('<a id="downloadButton">Aspera: Download Study</a>')
+                        // Adds an input element download button that uses Aspera
+                        var downloadButton = $('<a id="downloadButton">Aspera: Download Study</a>')
 
-    $('#asperaDownloadWrapper').append(downloadButton);
-    var downloadButtonClick = function (e) {
-        source = "studies/public/${study.studyIdentifier}";
-        fc.asperaWeb.showSelectFolderDialog( { success: function(dataTransferObj) { if (dataTransferObj.dataTransfer.files[0]) fc.download(source, dataTransferObj.dataTransfer.files[0].name); } });
-    };
-    downloadButton.on("click", downloadButtonClick);
+                        $('#asperaDownloadWrapper').append(downloadButton);
+                        var downloadButtonClick = function (e) {
+                            source = "studies/public/${study.studyIdentifier}";
+                            fc.asperaWeb.showSelectFolderDialog( { success: function(dataTransferObj) { if (dataTransferObj.dataTransfer.files[0]) fc.download(source, dataTransferObj.dataTransfer.files[0].name); } });
+                        };
+                        downloadButton.on("click", downloadButtonClick);
 
+                    }
+                    //document.location.hash =  "#"+ui.newTab.attr("hash");
+                }
+            });
+        });
+    });
 </script>
