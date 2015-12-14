@@ -864,10 +864,12 @@
     function downloadUsingAspera(e){
         var asperaConnect = new AW4.Connect();
 
+        console.log(asperaConnect);
+
         var ts = {
             "paths": [
             {
-                "source": "/studies/public/MTBLS1/"
+                "source": "/studies/public/MTBLS1"
             }
         ],
             remote_download_host: 'fasp.ebi.ac.uk',
@@ -877,19 +879,20 @@
             target_rate_kbps: 200000,
             rate_policy: 'fair',
             cipher: 'none',
-            direction: 'receive',
             asperaDownloadConnectPath: 'http://downloads.asperasoft.com/download_connect/',
+            uploadDirectoryPrefix: 'upload'
         }
 
         asperaConnect.startTransfers({'transfer_specs': ts}, {"error": self.handleStartResponse});
 
 
         function handleStartResponse(responseData) {
-            var code,
-                    userMessage;
+            var code, userMessage;
 
             code = responseData.error.code;
             userMessage = responseData.error.user_message;
+
+            console.log(code + "---" + userMessage);
             switch(code) {
                 case 401:
                     break;
