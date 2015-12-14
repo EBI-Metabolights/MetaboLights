@@ -15,7 +15,7 @@
     <span class="wrong mandatory"></span>
   </c:if>
 </c:if>
-<c:if test="${validationstatus == 'ORANGE'}">
+<c:if test="${validationstatus == 'AMBER'}">
   <c:if test="${validationoverridden == 'true'}">
     <span class="wrong optional">*</span>
   </c:if>

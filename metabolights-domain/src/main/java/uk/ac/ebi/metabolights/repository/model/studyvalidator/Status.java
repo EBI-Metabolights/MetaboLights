@@ -5,7 +5,7 @@ package uk.ac.ebi.metabolights.repository.model.studyvalidator;
  */
 public enum Status {
     RED(1),
-    ORANGE(2),
+    AMBER(2),
     GREEN(3);
 
     private final int status;

@@ -123,7 +123,7 @@ public class Validation {
             if (getType().equals(Requirement.MANDATORY)) {
                 return Status.RED;
             } else {
-                return Status.ORANGE;
+                return Status.AMBER;
             }
         }
 

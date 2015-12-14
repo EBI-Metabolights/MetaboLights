@@ -16,31 +16,31 @@ public class Utilities {
 
     public static Status checkOverallStatus(Collection<Validation> validations) {
         int red = 0;
-        int orange = 0;
+        int amber = 0;
         for (Validation validation : validations) {
-            if (validation.getStatus().equals(Status.ORANGE)) {
-                orange++;
+            if (validation.getStatus().equals(Status.AMBER)) {
+                amber++;
             }
             if (validation.getStatus().equals(Status.RED)) {
                 red++;
             }
         }
-        return red > 0 ? Status.RED : orange > 0 ? Status.ORANGE : Status.GREEN;
+        return red > 0 ? Status.RED : amber > 0 ? Status.AMBER : Status.GREEN;
 
     }
 
     public static boolean checkPassedMinimumRequirement(Collection<Validation> validations) {
         int red = 0;
-        int orange = 0;
+        int amber = 0;
         for (Validation validation : validations) {
-            if (validation.getStatus().equals(Status.ORANGE)) {
-                orange++;
+            if (validation.getStatus().equals(Status.AMBER)) {
+                amber++;
             }
             if (validation.getStatus().equals(Status.RED)) {
                 red++;
             }
         }
-        return red > 0 ? false : orange > 0 ? true : true;
+        return red > 0 ? false : amber > 0 ? true : true;
 
     }
 
