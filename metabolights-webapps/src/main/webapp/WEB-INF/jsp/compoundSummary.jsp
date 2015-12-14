@@ -72,7 +72,15 @@
                 ,
               </c:otherwise>
             </c:choose>
-            <a href="${specie.crossReference.accession}">${specie.crossReference.accession}</a>
+
+              <c:choose>
+                  <c:when test="${not fn:containsIgnoreCase(specie.crossReference.accession, 'CHEBI:')}">
+                      <a href="${specie.crossReference.accession}">${specie.crossReference.accession}</a>
+                  </c:when>
+                  <c:otherwise>
+                      <a href="https://www.ebi.ac.uk/chebi/searchId.do?chebiId=${specie.crossReference.accession}">${specie.crossReference.accession}</a>
+                  </c:otherwise>
+              </c:choose>
           </c:forEach>
         </p>
       </div>
