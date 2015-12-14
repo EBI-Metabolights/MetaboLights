@@ -32,10 +32,6 @@
 <%--<script type="text/javascript" src="http://www.ebi.ac.uk/Tools/biojs/registry/src/Biojs.ChEBICompound.js" charset="utf-8"></script>--%>
 <script type="text/javascript" src="javascript/jquery.linkify-1.0-min.js" charset="utf-8"></script>
 
-<!-- Aspera JS files -->
-<script type="text/javascript" src="javascript/aspera/asperaweb-4.js" charset="utf-8"></script>
-<script type="text/javascript" src="javascript/aspera/connectinstaller-4.js" charset="utf-8"></script>
-
 <script type="text/javascript" src="//cdn.datatables.net/1.10.4/js/jquery.dataTables.js" charset="utf-8"></script>
 <script type="text/javascript" src="javascript/chebicompoundpopup.js" charset="utf-8"></script>
 
@@ -575,7 +571,6 @@
             </c:if>
 
             <div id="tabs-files" class="tab"> <!-- Study files -->
-                <button onclick="downloadUsingAspera(event)">Download Using Aspera</button>
                 <form id="selFilesForm" action="${study.studyIdentifier}/files/downloadSelFiles" method="post">
                     <h5>
                         <!--  Request FTP folder -->
@@ -859,48 +854,3 @@
         <p><input class="inputDiscrete resizable" type="text" value="${fullContextPath}/reviewer${study.obfuscationCode}" readonly/></p>
     </c:if>
 </div>
-
-<script>
-    function downloadUsingAspera(e){
-        var asperaConnect = new AW4.Connect();
-
-        console.log(asperaConnect);
-
-        var ts = {
-            "paths": [
-            {
-                "source": "/studies/public/MTBLS1"
-            }
-        ],
-            remote_download_host: 'fasp.ebi.ac.uk',
-            remote_download_user: 'fasp-ml',
-            download_token: 'metabolights download',
-            download_authentication:'token',
-            target_rate_kbps: 200000,
-            rate_policy: 'fair',
-            cipher: 'none',
-            asperaDownloadConnectPath: 'http://downloads.asperasoft.com/download_connect/',
-            uploadDirectoryPrefix: 'upload'
-        }
-
-        asperaConnect.startTransfers({'transfer_specs': ts}, {"error": self.handleStartResponse});
-
-
-        function handleStartResponse(responseData) {
-            var code, userMessage;
-
-            code = responseData.error.code;
-            userMessage = responseData.error.user_message;
-
-            console.log(code + "---" + userMessage);
-            switch(code) {
-                case 401:
-                    break;
-                case 900:
-                    // Content protection not accepted by the destination
-                    break;
-                default:
-            }
-        }
-    }
-</script>

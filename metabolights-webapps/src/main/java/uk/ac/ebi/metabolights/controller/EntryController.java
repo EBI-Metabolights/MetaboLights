@@ -132,11 +132,16 @@ public class EntryController extends AbstractController {
 		return getMetabolitesModelAndView(null,assayNumber,obfuscationCode);
 	}
 
+	@RequestMapping(value = "/aspera")
+	public ModelAndView getAsperaTestPage(){
+		return AppContext.getMAVFactory().getFrontierMav("aspera");
+	}
+
+
 	@RequestMapping(value = "/" + ALTERNATIVE_ENTRY_PREFIX + "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/assay/{assayNumber}/maf")
 	public ModelAndView getAltMetabolitesIdentified(
 			@PathVariable("studyIdentifier") String studyIdentifier,
 			@PathVariable("assayNumber") int assayNumber){
-
 
 		return getMetabolitesModelAndView(studyIdentifier, assayNumber, null);
 

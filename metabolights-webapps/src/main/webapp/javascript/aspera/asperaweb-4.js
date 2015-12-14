@@ -1,11 +1,11 @@
 /*
-* Revision: 3.6.1.111494
-* Revision date: 09/14/2015
-*
-* http://www.asperasoft.com/
-*
-* © Copyright IBM Corp. 2008, 2015, Copyright (C) 1991, 1999 Free Software Foundation, Inc.
-*/
+ * Revision: 3.6.1.111494
+ * Revision date: 09/14/2015
+ *
+ * http://www.asperasoft.com/
+ *
+ * Â© Copyright IBM Corp. 2008, 2015, Copyright (C) 1991, 1999 Free Software Foundation, Inc.
+ */
 
 "use strict";
 
@@ -19,38 +19,38 @@ if (typeof AW4 === "undefined") var AW4 = {};
  **/
 AW4.Utils = (function() {
 
-  var 
-    /** 
-     * AW4.Utils.FASP_URL -> String
-     *
-     * Returns the URL to initialize Aspera Connect
-     **/
-    FASP_URL = "fasp://initialize",
-    ////////////////////////////////////////////////////////////////////////////////////////
-    // Browser helpers
-    // https://github.com/ded/bowser
-    // MIT License | (c) Dustin Diaz 2014
-    ////////////////////////////////////////////////////////////////////////////////////////
-    ua = typeof navigator !== 'undefined' ? navigator.userAgent : '',
+  var
+      /**
+       * AW4.Utils.FASP_URL -> String
+       *
+       * Returns the URL to initialize Aspera Connect
+       **/
+      FASP_URL = "fasp://initialize",
+  ////////////////////////////////////////////////////////////////////////////////////////
+  // Browser helpers
+  // https://github.com/ded/bowser
+  // MIT License | (c) Dustin Diaz 2014
+  ////////////////////////////////////////////////////////////////////////////////////////
+      ua = typeof navigator !== 'undefined' ? navigator.userAgent : '',
 
-    /** 
-     * AW4.Utils.BROWSER -> Object
-     *
-     * Contains the type of browser that we are currently on (based on user agent):
-     *
-     * 1. `AW4.Utils.BROWSER.OPERA` (`Boolean`)
-     * 2. `AW4.Utils.BROWSER.IE` (`Boolean`)
-     * 3. `AW4.Utils.BROWSER.CHROME` (`Boolean`)
-     * 4. `AW4.Utils.BROWSER.FIREFOX` (`Boolean`)
-     * 5. `AW4.Utils.BROWSER.SAFARI` (`Boolean`)
-     **/
-    BROWSER = {
-      OPERA: /opera|opr/i.test(ua),
-      IE: /msie|trident/i.test(ua),
-      CHROME: /chrome|crios|crmo/i.test(ua) && !/opera|opr/i.test(ua),
-      FIREFOX: /firefox|iceweasel/i.test(ua),
-      SAFARI: /safari/i.test(ua)
-    };
+      /**
+       * AW4.Utils.BROWSER -> Object
+       *
+       * Contains the type of browser that we are currently on (based on user agent):
+       *
+       * 1. `AW4.Utils.BROWSER.OPERA` (`Boolean`)
+       * 2. `AW4.Utils.BROWSER.IE` (`Boolean`)
+       * 3. `AW4.Utils.BROWSER.CHROME` (`Boolean`)
+       * 4. `AW4.Utils.BROWSER.FIREFOX` (`Boolean`)
+       * 5. `AW4.Utils.BROWSER.SAFARI` (`Boolean`)
+       **/
+      BROWSER = {
+        OPERA: /opera|opr/i.test(ua),
+        IE: /msie|trident/i.test(ua),
+        CHROME: /chrome|crios|crmo/i.test(ua) && !/opera|opr/i.test(ua),
+        FIREFOX: /firefox|iceweasel/i.test(ua),
+        SAFARI: /safari/i.test(ua)
+      };
 
   ////////////////////////////////////////////////////////////////////////////
   // Compatibility functions
@@ -74,9 +74,9 @@ AW4.Utils = (function() {
   };
 
   /*
-  * - str
-  * @returns {Object}
-  */
+   * - str
+   * @returns {Object}
+   */
   var parseJson = function(str) {
     var obj;
     if ( typeof str === "string" && (str.length === 0 || str.replace(/\s/g, "") === "{}")) {
@@ -101,40 +101,40 @@ AW4.Utils = (function() {
    *
    * Compares two version strings.
    * Returns true if version string 'a' is less than version string 'b'
-   *     "1.2.1" < "1.11.3" 
+   *     "1.2.1" < "1.11.3"
    *     "1.1"   < "2.1"
    *     "1"     = "1"
    *     "1.2"   < "2"
    * Note the following behavior:
    *     "1"     = "1.2"
    *     "1.2"   = "1"
-   *  This helps with upgrade checks.  If at least version "4" is required, and 
+   *  This helps with upgrade checks.  If at least version "4" is required, and
    *   "4.4.2" is installed, versionLessThan("4.4.2","4") will return false.
    */
   var versionLessThan = function(a, b) {
     var versionToArray = function( version ) {
-        var splits = version.split(".");
-        var versionArray = new Array();
-        for (var i = 0; i < splits.length; i++) {
-          if (isNaN(parseInt(splits[i]))) {
-            AW.utils.logger('Warning: Version contains non-numbers');
-          }
-          versionArray.push(parseInt(splits[i],10));
+      var splits = version.split(".");
+      var versionArray = new Array();
+      for (var i = 0; i < splits.length; i++) {
+        if (isNaN(parseInt(splits[i]))) {
+          AW.utils.logger('Warning: Version contains non-numbers');
         }
-        return versionArray;
-      };
-      var a_arr = versionToArray(a);
+        versionArray.push(parseInt(splits[i],10));
+      }
+      return versionArray;
+    };
+    var a_arr = versionToArray(a);
     var b_arr = versionToArray(b);
     var i;
     for ( i = 0; i < Math.min(a_arr.length, b_arr.length); i++ ) {
       // if i=2, a=[0,0,1,0] and b=[0,0,2,0]
       if( a_arr[i] < b_arr[i] ) {
         return true;
-      } 
+      }
       // if i=2, a=[0,0,2,0] and b=[0,0,1,0]
       if( a_arr[i] > b_arr[i] ) {
         return false;
-      } 
+      }
       // a[i] and b[i] exist and are equal:
       // move on to the next version number
     }
@@ -166,12 +166,12 @@ AW4.Utils = (function() {
    *  - callback (function):  It will be called once we have determined if
    *  connect is installed in the system.
    *
-   * Attempt to launch connect. Returns true if Aspera Connect is installed. 
-   * Given the different implementation on each browser, we can only 
-   * deterministically decide if the application is installed, in which case 
-   * true is returned, if the result is false is because either we couldn't 
+   * Attempt to launch connect. Returns true if Aspera Connect is installed.
+   * Given the different implementation on each browser, we can only
+   * deterministically decide if the application is installed, in which case
+   * true is returned, if the result is false is because either we couldn't
    * detect that Aspera Connect is installed or because it is not installed.
-   *  
+   *
    * ##### Object returned to success callback as parameter
    *
    * 1. `true` : if Aspera Connect is installed
@@ -182,7 +182,7 @@ AW4.Utils = (function() {
     var callback = function(installed) {
       if (typeof userCallback === 'function') {
         userCallback(installed);
-      } 
+      }
     }
     var isRegistered = false;
     if (BROWSER.CHROME || BROWSER.OPERA) {
@@ -231,7 +231,7 @@ AW4.Utils = (function() {
     //     });
     //   }
     // } else if (BROWSER.SAFARI) {
-      
+
     // } else {
     //   //Default application launch, consider we couldn't launch connect
     //   //for compatibility reasons
@@ -244,7 +244,7 @@ AW4.Utils = (function() {
 
   /**
    * AW4.Utils.getFullURI(relativeURL) -> String
-   *  - relativeURL (String):  The relative URL that we want the full path to, 
+   *  - relativeURL (String):  The relative URL that we want the full path to,
    *  it must be relative to the current page being rendered. If a full URL is
    *  provided, it will return the same.
    *
@@ -353,9 +353,9 @@ AW4.XMLhttpRequestImplementation = function() {
 AW4.NPAPIrequestImplementation = function() {
 
   var
-    npapiPlugin = null,
-    pluginId = null,
-    listenerId = null;
+      npapiPlugin = null,
+      pluginId = null,
+      listenerId = null;
 
   /*
    * Return the mime type for NPAPI plugin.
@@ -424,14 +424,14 @@ AW4.NPAPIrequestImplementation = function() {
         //Browser does not support Netscape Plugin API
       } else if (npapiPlugin == null) {
         if ((AW4.Utils.BROWSER.IE && (new ActiveXObject("Aspera.AsperaWebCtrl.1"))) ||
-          navigator.mimeTypes[mimeType()] !== undefined)
+            navigator.mimeTypes[mimeType()] !== undefined)
         {
           listenerId = options.containerId;
           pluginId = options.pluginId;
           createNPAPIPlugin(options.initializeTimeout);
           /* Safari needs a timeout to finish loading the plugin
            * Firefox if prompts user to allow plugin will take as much as
-           * the user takes to allow the plugin to initialize the object, 
+           * the user takes to allow the plugin to initialize the object,
            * so we just put an interval and keep trying until the object is
            * initialized and has the expected call
            */
@@ -503,12 +503,12 @@ AW4.NPAPIrequestImplementation = function() {
 
 AW4.PPAPIrequestImplementation = function() {
 
-  var 
-    idCallbackHash = {},
-    nextId = 0,
-    pluginId = null,
-    naclModule = null,
-    onLoadCallback = null;
+  var
+      idCallbackHash = {},
+      nextId = 0,
+      pluginId = null,
+      naclModule = null,
+      onLoadCallback = null;
 
   /*
    * Return the mime type for NaCl plugin.
@@ -573,7 +573,7 @@ AW4.PPAPIrequestImplementation = function() {
    * given (if exists)
    *
    * @param {string} URL To the SDK location
-   */ 
+   */
   function createNaClModule(URL) {
     var moduleEl = document.createElement('embed');
     moduleEl.setAttribute('name', pluginId);
@@ -645,7 +645,7 @@ AW4.PPAPIrequestImplementation = function() {
   }
 
   /*
-   * Called to initialize the plugin, it creates a new instance by appending an 
+   * Called to initialize the plugin, it creates a new instance by appending an
    * <embed> element to the DOM and runs the callback with the status
    */
   function initPPAPIPlugin(options) {
@@ -697,55 +697,55 @@ AW4.PPAPIrequestImplementation = function() {
 };
 
 AW4.RequestHandler = function() {
-  
+
   ////////////////////////////////////////////////////////////////////////////////////////
   // PRIVATE CONSTANTS
   ////////////////////////////////////////////////////////////////////////////////////////
 
-  var 
-    //The two possible http requests
-    HTTP_METHOD = {
-      GET : "GET",
-      POST : "POST"
-    },
-    //ALL the status in which connect can be
-    STATUS = {
-      INITIALIZING : 0,
-      RETRYING : 1,
-      RUNNING : 2,
-      FAILED : 3,
-      STOPPED : 4
-    },
-    //The port in which we are going to look for connect first
-    DEFAULT_PORT = 33003, 
-    //Localhost value for the requests
-    LOCALHOST = "http://127.0.0.1:",
-    //Current version of the Connect Client API
-    URI_VERSION_PREFIX = "/v5/connect",
-    //Controls how many ports we want to search from the DEFAULT_PORT
-    MAX_PORT_SEARCH = 10;
-  
+  var
+  //The two possible http requests
+      HTTP_METHOD = {
+        GET : "GET",
+        POST : "POST"
+      },
+  //ALL the status in which connect can be
+      STATUS = {
+        INITIALIZING : 0,
+        RETRYING : 1,
+        RUNNING : 2,
+        FAILED : 3,
+        STOPPED : 4
+      },
+  //The port in which we are going to look for connect first
+      DEFAULT_PORT = 33003,
+  //Localhost value for the requests
+      LOCALHOST = "http://127.0.0.1:",
+  //Current version of the Connect Client API
+      URI_VERSION_PREFIX = "/v5/connect",
+  //Controls how many ports we want to search from the DEFAULT_PORT
+      MAX_PORT_SEARCH = 10;
+
   ////////////////////////////////////////////////////////////////////////////////////////
   // PRIVATE VARS
   ////////////////////////////////////////////////////////////////////////////////////////
 
-  var 
-    //Technology we are going to use to make the http requests
-    requestImplementation = null,
-    //Current connect status
-    connectStatus = null, 
-    //Port in which connect is listening
-    connectPort = DEFAULT_PORT, 
-    //Position in which we are going to store the callbacks for a requests
-    nextId = 0,
-    //Hash in which we are going to store the callbacks for the requests
-    idCallbackHash = {}, 
-    //Array in which we are going to store all the requests that cannot be processed at this time
-    requestQueue = [],
-    //Listeners for connect status
-    statusListener = null,
-    //Controls the time between ports rescan
-    scanRetryTimeValues = [0,1];
+  var
+  //Technology we are going to use to make the http requests
+      requestImplementation = null,
+  //Current connect status
+      connectStatus = null,
+  //Port in which connect is listening
+      connectPort = DEFAULT_PORT,
+  //Position in which we are going to store the callbacks for a requests
+      nextId = 0,
+  //Hash in which we are going to store the callbacks for the requests
+      idCallbackHash = {},
+  //Array in which we are going to store all the requests that cannot be processed at this time
+      requestQueue = [],
+  //Listeners for connect status
+      statusListener = null,
+  //Controls the time between ports rescan
+      scanRetryTimeValues = [0,1];
 
   ////////////////////////////////////////////////////////////////////////////////////////
   // PRIVATE METHODS
@@ -763,7 +763,7 @@ AW4.RequestHandler = function() {
 
   /*
    * ##### Format for `listener`
-   * 
+   *
    *      function(eventType, data) { ... }
    */
   var changeConnectStatus = function(newConnectStatus) {
@@ -834,7 +834,7 @@ AW4.RequestHandler = function() {
     idCallbackHash[requestId] = requestInfo;
 
     requestImplementation.httpRequest(method, fullURL, null, iteratePortsCallback, requestId);
-    
+
     return null;
   };
 
@@ -932,15 +932,15 @@ AW4.RequestHandler = function() {
     requestImplementation = (function () {
       var requestImpl = new AW4.PPAPIrequestImplementation();
       if (requestImpl.isSupportedByBrowser()) {
-          return requestImpl;
-      } 
+        return requestImpl;
+      }
       var requestImpl = new AW4.NPAPIrequestImplementation();
       if (requestImpl.isSupportedByBrowser()) {
-          return requestImpl;
-      } 
+        return requestImpl;
+      }
       var requestImpl = new AW4.XMLhttpRequestImplementation();
       if (requestImpl.isSupportedByBrowser()) {
-          return requestImpl;
+        return requestImpl;
       }
       return "This browser is not supported";
     }());
@@ -962,10 +962,10 @@ AW4.RequestHandler = function() {
     };
 
     var initializationOptions = {
-      pluginId: options.pluginId, 
-      containerId: options.containerId, 
-      initializeTimeout: options.initializeTimeout, 
-      sdkLocation: options.sdkLocation, 
+      pluginId: options.pluginId,
+      containerId: options.containerId,
+      initializeTimeout: options.initializeTimeout,
+      sdkLocation: options.sdkLocation,
       callback: initializedCallback
     };
     requestImplementation.init(initializationOptions);
@@ -986,7 +986,7 @@ AW4.RequestHandler = function() {
     start: processClientRequest,
     addStatusListener: addStatusListener,
     stopRequests: stopRequests
-  }  
+  }
 };
 
 /**
@@ -1014,7 +1014,7 @@ AW4.RequestHandler = function() {
  * ##### Options
  *
  * 1. `connectLaunchWaitTimeoutMs` (`Number`):
- *     How long to wait in milliseconds for Aspera Connect to launch, if we reach 
+ *     How long to wait in milliseconds for Aspera Connect to launch, if we reach
  *     this timeout without a successful request to connect, we will go into FAILED
  *     status.
  *     `5000`.
@@ -1063,7 +1063,7 @@ AW4.Connect = function(options) {
   // Public constants
   ////////////////////////////////////////////////////////////////////////////
 
-  /** 
+  /**
    * AW4.Connect.HTTP_METHOD -> Object
    *
    * Http method types:
@@ -1076,7 +1076,7 @@ AW4.Connect = function(options) {
     POST : "POST"
   };
 
-  /** 
+  /**
    * AW4.Connect.STATUS -> Object
    *
    * Event types:
@@ -1095,7 +1095,7 @@ AW4.Connect = function(options) {
     FAILED : "FAILED"
   };
 
-  /** 
+  /**
    * AW4.Connect.EVENT -> Object
    *
    * Event types:
@@ -1139,34 +1139,34 @@ AW4.Connect = function(options) {
     RUNNING : "running",
     WILLRETRY : "willretry"
   };
- 
+
   ////////////////////////////////////////////////////////////////////////////
   // Private constants
   ////////////////////////////////////////////////////////////////////////////
 
-  var 
-    INITIALIZE_TIMEOUT = options.connectLaunchWaitTimeoutMs || 5000,
-    PLUGIN_ID = options.id || "aspera-web",
-    PLUGIN_CONTAINER_ID = options.containerId || "aspera-web-container",
-    SDK_LOCATION = AW4.Utils.getFullURI(options.sdkLocation) || "//d3gcli72yxqn2z.cloudfront.net/connect/v4", 
-    APPLICATION_ID = "",
-    AUTHORIZATION_KEY = options.authorizationKey || "",
-    POLLING_TIME = options.pollingTime || 2000,
-    MINIMUM_VERSION = options.minVersion || "",
-    DRAGDROP_ENABLED = options.dragDropEnabled || false;
+  var
+      INITIALIZE_TIMEOUT = options.connectLaunchWaitTimeoutMs || 5000,
+      PLUGIN_ID = options.id || "aspera-web",
+      PLUGIN_CONTAINER_ID = options.containerId || "aspera-web-container",
+      SDK_LOCATION = AW4.Utils.getFullURI(options.sdkLocation) || "//d3gcli72yxqn2z.cloudfront.net/connect/v4",
+      APPLICATION_ID = "",
+      AUTHORIZATION_KEY = options.authorizationKey || "",
+      POLLING_TIME = options.pollingTime || 2000,
+      MINIMUM_VERSION = options.minVersion || "",
+      DRAGDROP_ENABLED = options.dragDropEnabled || false;
 
   ////////////////////////////////////////////////////////////////////////////
   // Private variables
   ////////////////////////////////////////////////////////////////////////////
- 
-  var 
-    transferListeners = [], 
-    transferEventIntervalId = 0, 
-    transferEventIterationToken = 0,
-    requestHandler = null,
-    statusListeners = [],
-    connectVersion = "",
-    connectStatus = AW4.Connect.STATUS.INITIALIZING;
+
+  var
+      transferListeners = [],
+      transferEventIntervalId = 0,
+      transferEventIterationToken = 0,
+      requestHandler = null,
+      statusListeners = [],
+      connectVersion = "",
+      connectStatus = AW4.Connect.STATUS.INITIALIZING;
 
   ////////////////////////////////////////////////////////////////////////////
   // Helper Functions
@@ -1215,7 +1215,7 @@ AW4.Connect = function(options) {
     requestHandler.start(method, path, dataStr, callbacks);
     return null;
   };
- 
+
   function getAllTransfersHelper(iterationToken, callbacks) {
     //This is never supposed to happen
     if (isNullOrUndefinedOrEmpty(iterationToken)) {
@@ -1233,7 +1233,7 @@ AW4.Connect = function(options) {
       transferListeners[i](AW4.Connect.EVENT.TRANSFER, response);
     }
   };
- 
+
   function pollTranfersHelperFunction() {
     getAllTransfersHelper(transferEventIterationToken, {success: notifyTransferListeners});
   };
@@ -1278,7 +1278,7 @@ AW4.Connect = function(options) {
         connectVersion = response.version;
         connectStatus = AW4.Connect.STATUS.RUNNING;
         notifyStatusListeners(connectStatus);
-      }; 
+      };
       var lowerVersion = function(response) {
         connectStatus = AW4.Connect.STATUS.OUTDATED;
         notifyStatusListeners(connectStatus);
@@ -1292,13 +1292,13 @@ AW4.Connect = function(options) {
     }
     notifyStatusListeners(connectStatus);
   };
- 
+
   ////////////////////////////////////////////////////////////////////////////
   // API Functions
   ////////////////////////////////////////////////////////////////////////////
 
 
-  /** 
+  /**
    * AW4.Connect#addEventListener(type, listener) -> null | Error
    * - type (AW4.Connect.EVENT): The type of event to receive events for. See
    * below for the format.
@@ -1306,18 +1306,18 @@ AW4.Connect = function(options) {
    * occurs.
    *
    * Subscribe for Aspera Web events. The first time the listener is called
-   * it will receive an event for each of the transfers already displayed in 
+   * it will receive an event for each of the transfers already displayed in
    * Connect, such that the listener will know the complete state of all transfers.
    *
    * ##### Format for `listener`
-   * 
+   *
    *      function(eventType, data) { ... }
-   * 
+   *
    * Event types ([[AW4.Connect.EVENT]]) and their associated `data`:
    *
    * 1. `TRANSFER` - [[AllTransfersInfo]]
    * 2. `STATUS` - [[AW4.Connect.STATUS]]
-   * 
+   *
    **/
   this.addEventListener = function(type, listener) {
     //Check the parameters
@@ -1350,8 +1350,8 @@ AW4.Connect = function(options) {
    *
    * Test authentication credentials against a transfer server.
    *
-   * ##### Options for `authSpec`  
-   *  
+   * ##### Options for `authSpec`
+   *
    * These are a subset of [[TransferSpec]].
    *
    * 1. `remote_host`
@@ -1361,7 +1361,7 @@ AW4.Connect = function(options) {
    * 5. `token`
    *
    * ##### Object returned to success callback as parameter
-   *  
+   *
    *     {}
    **/
   this.authenticate = function(authSpec, callbacks) {
@@ -1371,7 +1371,7 @@ AW4.Connect = function(options) {
     connectHttpRequest(AW4.Connect.HTTP_METHOD.POST, "/info/authenticate", authSpec, callbacks);
     return null;
   };
- 
+
   /**
    * AW4.Connect#getAllTransfers(callbacks[, iterationToken]) -> null
    * - callbacks (Callbacks): `success` and `error` functions to receive
@@ -1384,7 +1384,7 @@ AW4.Connect = function(options) {
    * Get statistics for all transfers.
    *
    * ##### Object returned to success callback as parameter
-   * 
+   *
    * See [[AllTransfersInfo]]
    *
    **/
@@ -1409,16 +1409,16 @@ AW4.Connect = function(options) {
    * AW4.Connect#initSession([applicationId]) -> Object | Error
    *  - applicationId (String): (*optional*) An ID to represent this session.
    * Transfers initiated during this session will be associated with the ID.
-   * To continue a previous session, use the same ID as before. Use a unique ID  
-   * in order to keep transfer information private from other websites. An ID  
+   * To continue a previous session, use the same ID as before. Use a unique ID
+   * in order to keep transfer information private from other websites. An ID
    * is automatically generated for you if not specified (default).
    *
    * Call this method after creating the [[AW4.Connect]] object. It is mandatory to call
    * this function before making use of any other function of the API. If called more than
    * once on the same instance, it will return an error
-   *  
+   *
    * ##### Return format
-   *  
+   *
    *      {
    *        "app_id" : "^mydomain"
    *      }
@@ -1441,7 +1441,7 @@ AW4.Connect = function(options) {
     }
     return error;
   };
- 
+
   /**
    * AW4.Connect#modifyTransfer(transferId, options, callbacks) -> null
    * - transferId (String): The ID of the transfer to modify.
@@ -1452,11 +1452,11 @@ AW4.Connect = function(options) {
    * *This method is asynchronous.*
    *
    * Change the speed of a running transfer.
-   *  
+   *
    * ##### `options`:
-   *  
+   *
    * See [[TransferSpec]] for definitions.
-   *  
+   *
    * 1. `rate_policy`
    * 2. `target_rate_kbps`
    * 3. `min_rate_kbps`
@@ -1464,9 +1464,9 @@ AW4.Connect = function(options) {
    * 5. `lock_rate_policy`
    * 6. `lock_target_rate`
    * 7. `lock_min_rate`
-   *  
+   *
    * ##### Object returned to success callback as parameter
-   * 
+   *
    * See [[TransferSpec]]
    **/
   this.modifyTransfer = function(transferId, options, callbacks) {
@@ -1481,13 +1481,13 @@ AW4.Connect = function(options) {
    * results.
    *
    * *This method is asynchronous.*
-   *  
+   *
    * ##### Options
    * 1. 'path' ('String'):
-   *     Absolute path to the file we want to read the chunk from.  
+   *     Absolute path to the file we want to read the chunk from.
    *
    * ##### Object returned to success callback as parameter
-   *  
+   *
    *      {
    *        "type" : "image/pjpeg",
    *        "data" : "/9j/4AAQSkZ..."
@@ -1512,14 +1512,14 @@ AW4.Connect = function(options) {
    *
    * ##### Options
    * 1. 'path' ('String'):
-   *     Absolute path to the file we want to read the chunk from.  
+   *     Absolute path to the file we want to read the chunk from.
    * 2. 'offset' ('Number'):
    *     Offset (in bytes) that we want to start reading the file.
    * 3. 'chunkSize' ('Number'):
    *     The size (in bytes) of the chunk we want.
    *
    * ##### Object returned to success callback as parameter
-   *  
+   *
    *      {
    *        "type" : "image/pjpeg",
    *        "data" : "/9j/4AAQSkZ..."
@@ -1544,10 +1544,10 @@ AW4.Connect = function(options) {
    * all versions of the `listener` with different types will be removed.
    * If `listener` is not specified, all listeners for the `type` will be
    * removed. If neither `type` nor `listener` are specified, all listeners
-   * will be removed. 
+   * will be removed.
    *
    * ##### Return values
-   *  
+   *
    * 1. `true` : if we could find a listener for the parameters provided
    * 2. `false` : if we could not find a listener for the parameters provided
    **/
@@ -1564,7 +1564,7 @@ AW4.Connect = function(options) {
         listenerFound = true;
       }
     } else if (typeof type !== typeof AW4.Connect.EVENT.ALL) {
-      //The parameter type is actually the listener 
+      //The parameter type is actually the listener
       listenerFound = listenerFound || removeEventListenerHelper(type, transferListeners);
       listenerFound = listenerFound || removeEventListenerHelper(type, statusListeners);
     } else if (typeof listener !== 'function') {
@@ -1600,7 +1600,7 @@ AW4.Connect = function(options) {
     }
     return listenerFound;
   };
- 
+
   /**
    * AW4.Connect#removeTransfer(transferId, callbacks) -> null
    * - transferId (String): The ID (`uuid`) of the transfer to delete.
@@ -1608,18 +1608,18 @@ AW4.Connect = function(options) {
    * results.
    *
    * *This method is asynchronous.*
-   *  
+   *
    * Remove the transfer - terminating it if necessary - from Connect.
    *
    * ##### Object returned to success callback as parameter
-   * 
+   *
    * See [[TransferSpec]]
    **/
   this.removeTransfer = function(transferId, callbacks) {
     connectHttpRequest(AW4.Connect.HTTP_METHOD.POST, "/transfers/remove/" + transferId, null, callbacks);
     return null;
   };
- 
+
   /**
    * AW4.Connect#resumeTransfer(transferId, options, callbacks) -> null
    * - transferId (String): The ID (`uuid`) of the transfer to resume.
@@ -1628,13 +1628,13 @@ AW4.Connect = function(options) {
    * results.
    *
    * *This method is asynchronous.*
-   *  
+   *
    * Resume a transfer that was stopped.
-   *  
+   *
    * ##### `options`:
-   *  
+   *
    * See [[TransferSpec]] for definitions.
-   *  
+   *
    * 1. `token`
    * 2. `cookie`
    * 3. `authentication`
@@ -1643,7 +1643,7 @@ AW4.Connect = function(options) {
    * 6. `content_protection_passphrase`
    *
    * ##### Object returned to success callback as parameter
-   * 
+   *
    * See [[TransferSpec]]
    **/
   this.resumeTransfer = function(transferId, options, callbacks) {
@@ -1680,7 +1680,7 @@ AW4.Connect = function(options) {
   this.setDragDropTargets = function(cssSelector, options, listener) {
     if (!DRAGDROP_ENABLED) {
       return AW4.Utils.createError(-1, "Drop is not enabled in the initialization " +
-        "options, please instantiate Connect again with the dragDropEnabled option set to true.");
+          "options, please instantiate Connect again with the dragDropEnabled option set to true.");
     }
     if (typeof listener !== 'function') {
       return AW4.Utils.createError(-1, "You must provide a valid listener");
@@ -1756,14 +1756,14 @@ AW4.Connect = function(options) {
    * Displays the Aspera Connect "About" window.
    *
    * ##### Object returned to success callback as parameter
-   *  
+   *
    *     {}
    **/
   this.showAbout = function(callbacks) {
     connectHttpRequest(AW4.Connect.HTTP_METHOD.GET, "/windows/about", null, callbacks);
     return null;
   };
- 
+
   /**
    * AW4.Connect#showDirectory(transferId, callbacks) -> null
    * - transferId (String): The ID (`uuid`) of the transfer to show files for.
@@ -1771,19 +1771,19 @@ AW4.Connect = function(options) {
    * results.
    *
    * *This method is asynchronous.*
-   *  
+   *
    * Open the destination directory of the transfer, using the system file
    * browser.
    *
    * ##### Object returned to success callback as parameter
-   *  
+   *
    *     {}
    **/
   this.showDirectory = function(transferId, callbacks) {
     connectHttpRequest(AW4.Connect.HTTP_METHOD.GET, "/windows/finder/" + transferId, null, callbacks);
     return null;
   };
- 
+
   /**
    * AW4.Connect#showPreferences(callbacks) -> null
    * - callbacks (Callbacks): `success` and `error` functions to receive
@@ -1794,26 +1794,26 @@ AW4.Connect = function(options) {
    * Displays the Aspera Connect "Preferences" window.
    *
    * ##### Object returned to success callback as parameter
-   *  
+   *
    *     {}
    **/
   this.showPreferences = function(callbacks) {
     connectHttpRequest(AW4.Connect.HTTP_METHOD.GET, "/windows/preferences", null, callbacks);
     return null;
   };
- 
+
   /**
    * AW4.Connect#showSaveFileDialog(callbacks[, options]) -> null
    * - callbacks (Callbacks): On success, returns the selected file path.
    * Returns `null` if the user cancels the dialog.
    * - options (Object): (*optional*) File chooser options
-   *  
+   *
    * *This method is asynchronous.*
-   *  
+   *
    * Displays a file chooser dialog for the user to pick a "save-to" path.
-   *  
+   *
    * ##### `options`:
-   *  
+   *
    * 1. `allowedFileTypes` ([[FileFilters]]): Filter the files displayed by file
    * extension.
    * 2. `suggestedName` (`String`): The file name to pre-fill the dialog with.
@@ -1841,13 +1841,13 @@ AW4.Connect = function(options) {
    * - callbacks (Callbacks): `success` and `error` functions to receive
    * results.
    * - options (Object): (*optional*) File chooser options
-   *  
+   *
    * *This method is asynchronous.*
-   *  
+   *
    * Displays a file browser dialog for the user to select files.
-   *  
+   *
    * ##### `options`:
-   *  
+   *
    * 1. `allowedFileTypes` ([[FileFilters]]): Filter the files displayed by file
    * extension.
    * 2. `allowMultipleSelection` (`Boolean`): Allow the selection of multiple
@@ -1877,13 +1877,13 @@ AW4.Connect = function(options) {
    * - callbacks (Callbacks): `success` and `error` functions to receive
    * results.
    * - options (Object): (*optional*) File chooser options
-   *  
+   *
    * *This method is asynchronous.*
-   *  
+   *
    * Displays a file browser dialog for the user to select directories.
-   *  
+   *
    * ##### `options`:
-   *  
+   *
    * 1. `allowMultipleSelection` (`Boolean`): Allow the selection of multiple
    * folders. Default: `true`.
    * 2. `title` (`String`): The name of the dialog window.
@@ -1914,14 +1914,14 @@ AW4.Connect = function(options) {
    * Displays the Aspera Connect "Transfer Manager" window.
    *
    * ##### Object returned to success callback as parameter
-   *  
+   *
    *     {}
    **/
   this.showTransferManager = function(callbacks) {
     connectHttpRequest(AW4.Connect.HTTP_METHOD.GET, "/windows/transfer-manager", null, callbacks);
     return null;
   };
- 
+
   /**
    * AW4.Connect#showTransferMonitor(transferId, callbacks) -> null
    * - transferId (String): The ID (`uuid`) of the corresponding transfer.
@@ -1929,11 +1929,11 @@ AW4.Connect = function(options) {
    * results.
    *
    * *This method is asynchronous.*
-   *  
+   *
    * Displays the Aspera Connect "Transfer Monitor" window for the transfer.
    *
    * ##### Object returned to success callback as parameter
-   *  
+   *
    *     {}
    **/
   this.showTransferMonitor = function(transferId, callbacks) {
@@ -1943,7 +1943,7 @@ AW4.Connect = function(options) {
 
   /**
    * AW4.Connect#start() -> null | error
-   *  
+   *
    * It will start looking for Connect. Please note that this is called when calling AW4.Connect#initSession
    * and it should only be used after a call to AW4.Connect#stop
    **/
@@ -1958,12 +1958,12 @@ AW4.Connect = function(options) {
     var options = {
       pluginId: PLUGIN_ID,
       containerId: PLUGIN_CONTAINER_ID,
-      initializeTimeout: INITIALIZE_TIMEOUT, 
+      initializeTimeout: INITIALIZE_TIMEOUT,
       sdkLocation: SDK_LOCATION
     };
     return requestHandler.init(options);
   };
- 
+
   /**
    * AW4.Connect#startTransfer(transferSpec, connectSpecs, callbacks) -> Object | Error
    * - transferSpec (TransferSpec): Transfer parameters
@@ -1973,18 +1973,18 @@ AW4.Connect = function(options) {
    * transfer. Note that an error could still occur after the transfer starts,
    * e.g. if authentication fails. Use [[AW4.Connect#addEventListener]] to
    * receive notification about errors that occur during a transfer session.
-   * This call fails if validation fails or the user rejects the transfer.  
+   * This call fails if validation fails or the user rejects the transfer.
    *
    * *This method is asynchronous.*
    *
    * Initiates a single transfer. Call [[AW4.Connect#getAllTransfers]] to get transfer
    * statistics, or register an event listener through [[AW4.Connect#addEventListener]].
-   *  
+   *
    * ##### Return format
-   *  
+   *
    * The `request_id`, which is returned immediately, may be for matching
    * this transfer with its events.
-   *  
+   *
    *      {
    *        "request_id" : "bb1b2e2f-3002-4913-a7b3-f7aef4e79132"
    *      }
@@ -1995,7 +1995,7 @@ AW4.Connect = function(options) {
     }
 
     aspera_connect_settings = aspera_connect_settings || {};
- 
+
     var transferSpecs = {
       transfer_specs : [{
         transfer_spec : transfer_spec,
@@ -2014,29 +2014,29 @@ AW4.Connect = function(options) {
    * transfer. Note that an error could still occur after the transfer starts,
    * e.g. if authentication fails. Use [[AW4.Connect#addEventListener]] to
    * receive notification about errors that occur during a transfer session.
-   * This call fails if validation fails or the user rejects the transfer.  
-   *  
+   * This call fails if validation fails or the user rejects the transfer.
+   *
    * *This method is asynchronous.*
    *
    * Initiates one or more transfers (_currently only the first `transfer_spec`
    * is used_). Call [[AW4.Connect#getAllTransfers]] to get transfer
    * statistics, or register an event listener through [[AW4.Connect#addEventListener]].
-   *  
+   *
    * Use this method when generating transfer specs using Aspera Node.
    *
    * ##### Return format
-   *  
+   *
    * The `request_id`, which is returned immediately, may be for matching
    * this start request with transfer events.
-   *  
+   *
    *      {
    *        "request_id" : "bb1b2e2f-3002-4913-a7b3-f7aef4e79132"
    *      }
-   *  
+   *
    * ##### Format for `transferSpecs`
-   *  
+   *
    * See [[TransferSpec]] and [[ConnectSpec]] for definitions.
-   *  
+   *
    *      {
    *        transfer_specs : [
    *          {
@@ -2056,7 +2056,7 @@ AW4.Connect = function(options) {
       return AW4.Utils.createError(-1, "Invalid transferSpecs parameter");
     }
     var i, requestId, result, transferSpec;
- 
+
     requestId = AW4.Utils.generateUuid();
 
     for ( i = 0; i < transfer_specs.transfer_specs.length; i++) {
@@ -2073,8 +2073,8 @@ AW4.Connect = function(options) {
 
   /**
    * AW4.Connect#stop() -> null
-   *  
-   * Stop all requests from AW4.Connect to restart activity, please 
+   *
+   * Stop all requests from AW4.Connect to restart activity, please
    * create a new AW4.Connect object or call AW4.Connect#start
    **/
   this.stop = function() {
@@ -2088,7 +2088,7 @@ AW4.Connect = function(options) {
    * results.
    *
    * *This method is asynchronous.*
-   *  
+   *
    * Terminate the transfer. Use [[AW4.Connect#resumeTransfer]] to resume.
    **/
   this.stopTransfer = function(transferId, callbacks) {
@@ -2096,7 +2096,7 @@ AW4.Connect = function(options) {
     return null;
   };
 
- 
+
   /**
    * AW4.Connect#version(callbacks) -> null
    * - callbacks (Callbacks): `success` and `error` functions to receive
@@ -2107,8 +2107,8 @@ AW4.Connect = function(options) {
    * *This method is asynchronous.*
    *
    * ##### Object returned to success callback as parameter
-   *  
-   *     {    
+   *
+   *     {
    *       version : "3.6.0.8456"
    *     }
    **/
@@ -2143,7 +2143,7 @@ AW4.Connect = function(options) {
  *
  * The argument passed to the `success` function depends on the original method
  * invoked. The argument to the `error` function is an [[Error]] object.
- * 
+ *
  * If an Error is thrown during a callback, it is logged to window.console
  * (if supported by the browser).
  **/
@@ -2169,11 +2169,11 @@ AW4.Connect = function(options) {
  *     }
  **/
 
- /** section: Objects
+/** section: Objects
  * class AllTransfersInfo
  *
  * The data format for statistics for all the existing transfers.
- * 
+ *
  * See [[TransferInfo]].
  *
  * ##### Example
@@ -2369,7 +2369,7 @@ AW4.Connect = function(options) {
 
 /**
  * TransferInfo.status -> String
- * 
+ *
  * The status of the transfer.
  *
  * See [[AW4.Connect.TRANSFER_STATUS]]
@@ -2378,13 +2378,13 @@ AW4.Connect = function(options) {
 
 /**
  * TransferInfo.title -> String
- * 
+ *
  * The name of the file.
  **/
 
 /**
  * TransferInfo.transfer_iteration_token -> Number
- * 
+ *
  * A marker that represents the moment in time that the transfer status was
  * checked.
  **/
@@ -2478,7 +2478,7 @@ AW4.Connect = function(options) {
  *           }
  *         ]
  *       }
- *     }  
+ *     }
  *
  **/
 
@@ -2544,7 +2544,7 @@ AW4.Connect = function(options) {
  * *optional*
  *
  * Data to associate with the transfer. The cookie is reported to both client-
- * and server-side applications monitoring fasp™ transfers. It is often used
+ * and server-side applications monitoring faspâ„¢ transfers. It is often used
  * by applications to identify associated transfers.
  *
  * Default: none
@@ -2585,7 +2585,7 @@ AW4.Connect = function(options) {
  *
  * *optional*
  *
- * The IP datagram size for fasp™ to use. If not specified, fasp™ will
+ * The IP datagram size for faspâ„¢ to use. If not specified, faspâ„¢ will
  * automatically detect and use the path MTU as the datagram size.
  * Use this option only to satisfy networks with strict MTU requirements.
  *
@@ -2610,7 +2610,7 @@ AW4.Connect = function(options) {
  *
  * *optional*
  *
- * The UDP port for fasp™ to use. The default value is satisfactory for most
+ * The UDP port for faspâ„¢ to use. The default value is satisfactory for most
  * situations. However, it can be changed to satisfy firewall requirements.
  *
  * Default: `33001`
@@ -2621,7 +2621,7 @@ AW4.Connect = function(options) {
  *
  * *optional*
  *
- * Attempts to perform an HTTP transfer if a fasp™ transfer cannot be
+ * Attempts to perform an HTTP transfer if a faspâ„¢ transfer cannot be
  * performed.
  *
  * Values:
@@ -2685,7 +2685,7 @@ AW4.Connect = function(options) {
  *
  * *optional*
  *
- * The minimum speed of the transfer. fasp™ will only share bandwidth exceeding
+ * The minimum speed of the transfer. faspâ„¢ will only share bandwidth exceeding
  * this value.
  *
  * Note: This value has no effect if `rate_policy` is `"fixed"`.
@@ -2798,7 +2798,7 @@ AW4.Connect = function(options) {
  *
  * *optional*
  *
- * The server's TCP port that is listening for SSH connections. fasp™ initiates
+ * The server's TCP port that is listening for SSH connections. faspâ„¢ initiates
  * transfers through SSH.
  *
  * Default: `33001`
@@ -2832,7 +2832,7 @@ AW4.Connect = function(options) {
  * *optional*
  *
  * The desired speed of the transfer. If there is competing network traffic,
- * fasp™ may share this bandwidth, depending on the `rate_policy`.
+ * faspâ„¢ may share this bandwidth, depending on the `rate_policy`.
  *
  * Default: Server-side target rate default setting (aspera.conf). Will
  * respect both local- and server-side target rate caps if set.
@@ -2943,4 +2943,4 @@ AW4.Connect = function(options) {
  *       }
  *     ]
  **/
- 
+

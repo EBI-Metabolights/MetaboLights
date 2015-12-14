@@ -233,6 +233,11 @@
         <put-attribute name="body" value="/WEB-INF/jsp/entry2.jsp" />
     </definition>
 
+    <definition name="aspera" extends="default">
+        <put-attribute name="title" value="Aspera Connect Test Page" />
+        <put-attribute name="body" value="/WEB-INF/jsp/asperaTest.jsp" />
+    </definition>
+
     <definition name="species" extends="default">
         <put-attribute name="title" value="Species search" />
         <put-attribute name="body" value="/WEB-INF/jsp/species.jsp" />

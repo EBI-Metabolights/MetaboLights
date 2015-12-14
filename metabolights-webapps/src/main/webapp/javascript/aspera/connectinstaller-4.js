@@ -1,11 +1,11 @@
 /*
-* Revision: 3.6.1.111494
-* Revision date: 09/14/2015
-*
-* http://www.asperasoft.com/
-*
-* © Copyright IBM Corp. 2008, 2015, Copyright (C) 1991, 1999 Free Software Foundation, Inc.
-*/
+ * Revision: 3.6.1.111494
+ * Revision date: 09/14/2015
+ *
+ * http://www.asperasoft.com/
+ *
+ * Â© Copyright IBM Corp. 2008, 2015, Copyright (C) 1991, 1999 Free Software Foundation, Inc.
+ */
 
 "use strict";
 
@@ -19,38 +19,38 @@ if (typeof AW4 === "undefined") var AW4 = {};
  **/
 AW4.Utils = (function() {
 
-  var 
-    /** 
-     * AW4.Utils.FASP_URL -> String
-     *
-     * Returns the URL to initialize Aspera Connect
-     **/
-    FASP_URL = "fasp://initialize",
-    ////////////////////////////////////////////////////////////////////////////////////////
-    // Browser helpers
-    // https://github.com/ded/bowser
-    // MIT License | (c) Dustin Diaz 2014
-    ////////////////////////////////////////////////////////////////////////////////////////
-    ua = typeof navigator !== 'undefined' ? navigator.userAgent : '',
+  var
+      /**
+       * AW4.Utils.FASP_URL -> String
+       *
+       * Returns the URL to initialize Aspera Connect
+       **/
+      FASP_URL = "fasp://initialize",
+  ////////////////////////////////////////////////////////////////////////////////////////
+  // Browser helpers
+  // https://github.com/ded/bowser
+  // MIT License | (c) Dustin Diaz 2014
+  ////////////////////////////////////////////////////////////////////////////////////////
+      ua = typeof navigator !== 'undefined' ? navigator.userAgent : '',
 
-    /** 
-     * AW4.Utils.BROWSER -> Object
-     *
-     * Contains the type of browser that we are currently on (based on user agent):
-     *
-     * 1. `AW4.Utils.BROWSER.OPERA` (`Boolean`)
-     * 2. `AW4.Utils.BROWSER.IE` (`Boolean`)
-     * 3. `AW4.Utils.BROWSER.CHROME` (`Boolean`)
-     * 4. `AW4.Utils.BROWSER.FIREFOX` (`Boolean`)
-     * 5. `AW4.Utils.BROWSER.SAFARI` (`Boolean`)
-     **/
-    BROWSER = {
-      OPERA: /opera|opr/i.test(ua),
-      IE: /msie|trident/i.test(ua),
-      CHROME: /chrome|crios|crmo/i.test(ua) && !/opera|opr/i.test(ua),
-      FIREFOX: /firefox|iceweasel/i.test(ua),
-      SAFARI: /safari/i.test(ua)
-    };
+      /**
+       * AW4.Utils.BROWSER -> Object
+       *
+       * Contains the type of browser that we are currently on (based on user agent):
+       *
+       * 1. `AW4.Utils.BROWSER.OPERA` (`Boolean`)
+       * 2. `AW4.Utils.BROWSER.IE` (`Boolean`)
+       * 3. `AW4.Utils.BROWSER.CHROME` (`Boolean`)
+       * 4. `AW4.Utils.BROWSER.FIREFOX` (`Boolean`)
+       * 5. `AW4.Utils.BROWSER.SAFARI` (`Boolean`)
+       **/
+      BROWSER = {
+        OPERA: /opera|opr/i.test(ua),
+        IE: /msie|trident/i.test(ua),
+        CHROME: /chrome|crios|crmo/i.test(ua) && !/opera|opr/i.test(ua),
+        FIREFOX: /firefox|iceweasel/i.test(ua),
+        SAFARI: /safari/i.test(ua)
+      };
 
   ////////////////////////////////////////////////////////////////////////////
   // Compatibility functions
@@ -74,9 +74,9 @@ AW4.Utils = (function() {
   };
 
   /*
-  * - str
-  * @returns {Object}
-  */
+   * - str
+   * @returns {Object}
+   */
   var parseJson = function(str) {
     var obj;
     if ( typeof str === "string" && (str.length === 0 || str.replace(/\s/g, "") === "{}")) {
@@ -101,40 +101,40 @@ AW4.Utils = (function() {
    *
    * Compares two version strings.
    * Returns true if version string 'a' is less than version string 'b'
-   *     "1.2.1" < "1.11.3" 
+   *     "1.2.1" < "1.11.3"
    *     "1.1"   < "2.1"
    *     "1"     = "1"
    *     "1.2"   < "2"
    * Note the following behavior:
    *     "1"     = "1.2"
    *     "1.2"   = "1"
-   *  This helps with upgrade checks.  If at least version "4" is required, and 
+   *  This helps with upgrade checks.  If at least version "4" is required, and
    *   "4.4.2" is installed, versionLessThan("4.4.2","4") will return false.
    */
   var versionLessThan = function(a, b) {
     var versionToArray = function( version ) {
-        var splits = version.split(".");
-        var versionArray = new Array();
-        for (var i = 0; i < splits.length; i++) {
-          if (isNaN(parseInt(splits[i]))) {
-            AW.utils.logger('Warning: Version contains non-numbers');
-          }
-          versionArray.push(parseInt(splits[i],10));
+      var splits = version.split(".");
+      var versionArray = new Array();
+      for (var i = 0; i < splits.length; i++) {
+        if (isNaN(parseInt(splits[i]))) {
+          AW.utils.logger('Warning: Version contains non-numbers');
         }
-        return versionArray;
-      };
-      var a_arr = versionToArray(a);
+        versionArray.push(parseInt(splits[i],10));
+      }
+      return versionArray;
+    };
+    var a_arr = versionToArray(a);
     var b_arr = versionToArray(b);
     var i;
     for ( i = 0; i < Math.min(a_arr.length, b_arr.length); i++ ) {
       // if i=2, a=[0,0,1,0] and b=[0,0,2,0]
       if( a_arr[i] < b_arr[i] ) {
         return true;
-      } 
+      }
       // if i=2, a=[0,0,2,0] and b=[0,0,1,0]
       if( a_arr[i] > b_arr[i] ) {
         return false;
-      } 
+      }
       // a[i] and b[i] exist and are equal:
       // move on to the next version number
     }
@@ -166,12 +166,12 @@ AW4.Utils = (function() {
    *  - callback (function):  It will be called once we have determined if
    *  connect is installed in the system.
    *
-   * Attempt to launch connect. Returns true if Aspera Connect is installed. 
-   * Given the different implementation on each browser, we can only 
-   * deterministically decide if the application is installed, in which case 
-   * true is returned, if the result is false is because either we couldn't 
+   * Attempt to launch connect. Returns true if Aspera Connect is installed.
+   * Given the different implementation on each browser, we can only
+   * deterministically decide if the application is installed, in which case
+   * true is returned, if the result is false is because either we couldn't
    * detect that Aspera Connect is installed or because it is not installed.
-   *  
+   *
    * ##### Object returned to success callback as parameter
    *
    * 1. `true` : if Aspera Connect is installed
@@ -182,7 +182,7 @@ AW4.Utils = (function() {
     var callback = function(installed) {
       if (typeof userCallback === 'function') {
         userCallback(installed);
-      } 
+      }
     }
     var isRegistered = false;
     if (BROWSER.CHROME || BROWSER.OPERA) {
@@ -231,7 +231,7 @@ AW4.Utils = (function() {
     //     });
     //   }
     // } else if (BROWSER.SAFARI) {
-      
+
     // } else {
     //   //Default application launch, consider we couldn't launch connect
     //   //for compatibility reasons
@@ -244,7 +244,7 @@ AW4.Utils = (function() {
 
   /**
    * AW4.Utils.getFullURI(relativeURL) -> String
-   *  - relativeURL (String):  The relative URL that we want the full path to, 
+   *  - relativeURL (String):  The relative URL that we want the full path to,
    *  it must be relative to the current page being rendered. If a full URL is
    *  provided, it will return the same.
    *
@@ -291,14 +291,14 @@ AW4.Utils = (function() {
  *
  * The Aspera Web namespace.
  **/
- 
+
 /** section: API
  * class AW4.ConnectInstaller
  *
  * The [[AW4.ConnectInstaller]] class offers support for connect installation.
  **/
 
- /**
+/**
  * new AW4.ConnectInstaller([options])
  * - options (Object): Configuration parameters for the plug-in.
  *
@@ -312,19 +312,19 @@ AW4.Utils = (function() {
  *
  *     `//domain/path/to/connect/sdk`
  *
- *     Default: 
+ *     Default:
  *
  *     `//d3gcli72yxqn2z.cloudfront.net/connect/v4`.
  *
- *     If the installer cannot reach the needed files (by checking for connectversions.js 
- *     or connectversions.min.js) on the default server it will automatically fallback to 
+ *     If the installer cannot reach the needed files (by checking for connectversions.js
+ *     or connectversions.min.js) on the default server it will automatically fallback to
  *     locate them at the hosted SDKs location.
  *
- *     The client web application can choose to load connectinstaller-4.js (or connectinstaller-4.min.js) 
+ *     The client web application can choose to load connectinstaller-4.js (or connectinstaller-4.min.js)
  *     from a local deployment of the Connect SDK (` by specifying an `sdklocation`).
- *     The Connect installer tries to reach the default cloudfront.net location and, if reachable, 
+ *     The Connect installer tries to reach the default cloudfront.net location and, if reachable,
  *     delivers the Connect installer from the cloudfront.net.
- *     If cloudfront.net is not reachable, connectinstaller-4.js will deliver the Connect 
+ *     If cloudfront.net is not reachable, connectinstaller-4.js will deliver the Connect
  *     installer from the provided `sdkLocation`.
  *
  * 2. `stylesheetLocation` (`String`):
@@ -356,7 +356,7 @@ AW4.ConnectInstaller = function(options) {
   // Public constants
   ////////////////////////////////////////////////////////////////////////////
 
-  /** 
+  /**
    * AW4.ConnectInstaller.EVENT -> Object
    *
    * Event types:
@@ -372,25 +372,25 @@ AW4.ConnectInstaller = function(options) {
     IFRAME_REMOVED : "removeiframe",
     IFRAME_LOADED : "iframeloaded"
   };
- 
+
   ////////////////////////////////////////////////////////////////////////////
   // Private constants
   ////////////////////////////////////////////////////////////////////////////
 
   var
-    EVENT = AW4.ConnectInstaller.EVENT,
-    DEFAULT_SDK_LOCATION = "//d3gcli72yxqn2z.cloudfront.net/connect/v4",
-    CONNECT_VERSIONS_JS = "/connectversions.min.js";
+      EVENT = AW4.ConnectInstaller.EVENT,
+      DEFAULT_SDK_LOCATION = "//d3gcli72yxqn2z.cloudfront.net/connect/v4",
+      CONNECT_VERSIONS_JS = "/connectversions.min.js";
   ////////////////////////////////////////////////////////////////////////////
   // Private variables
   ////////////////////////////////////////////////////////////////////////////
   var
-    connectOptions = {},
-    listeners = [],
-    connectJSONreferences = null,
-    showInstallTimerID = 0,
-    iframeLoadedFlag = false,
-    iframeLoadedTimerID = 0;
+      connectOptions = {},
+      listeners = [],
+      connectJSONreferences = null,
+      showInstallTimerID = 0,
+      iframeLoadedFlag = false,
+      iframeLoadedTimerID = 0;
 
   if (isNullOrUndefinedOrEmpty(options)) {
     options = {};
@@ -403,7 +403,7 @@ AW4.ConnectInstaller = function(options) {
   ////////////////////////////////////////////////////////////////////////////
   // Helper Functions
   ////////////////////////////////////////////////////////////////////////////
- 
+
   /*
    * loadFiles(files, type, callback) -> null
    * - files (Array): Set of files to load
@@ -422,8 +422,8 @@ AW4.ConnectInstaller = function(options) {
       return null;
     }
     var
-      numberOfFiles = 0,
-      head = document.getElementsByTagName("head")[0] || document.documentElement;
+        numberOfFiles = 0,
+        head = document.getElementsByTagName("head")[0] || document.documentElement;
 
     /* Loads the file given, and sets a callback, when the file is the last one and a callback is
      * provided, it will call it
@@ -432,8 +432,8 @@ AW4.ConnectInstaller = function(options) {
     var loadFilesHelper = function (file) {
       //IE9+ supports both script.onload AND script.onreadystatechange thus the done check
       var
-        done = false,
-        fileref = null;
+          done = false,
+          fileref = null;
 
       if (type.toLowerCase() === "js") {
         fileref = document.createElement('script');
@@ -450,20 +450,20 @@ AW4.ConnectInstaller = function(options) {
       if (typeof callback === 'function') {
         // Attach handlers for all browsers
         fileref.onload = fileref.onreadystatechange = function() {
-            if (!done && (!this.readyState || this.readyState === "loaded" || this.readyState === "complete") ) {
-              done = false;
-              // Handle memory leak in IE
-              fileref.onload = fileref.onreadystatechange = null;
-              if (head && fileref.parentNode) {
-                  head.removeChild(fileref);
-              }
-              if (--numberOfFiles <= 0 && typeof callback === 'function') {
-                callback(true);
-              }
+          if (!done && (!this.readyState || this.readyState === "loaded" || this.readyState === "complete") ) {
+            done = false;
+            // Handle memory leak in IE
+            fileref.onload = fileref.onreadystatechange = null;
+            if (head && fileref.parentNode) {
+              head.removeChild(fileref);
             }
+            if (--numberOfFiles <= 0 && typeof callback === 'function') {
+              callback(true);
+            }
+          }
         };
         fileref.onerror = function() {
-            callback(false);
+          callback(false);
         };
       }
       // Use insertBefore instead of appendChild  to circumvent an IE6 bug.
@@ -487,13 +487,13 @@ AW4.ConnectInstaller = function(options) {
       }
     }
     else if (/Mac OS X 10[._]6/.test(navigator.userAgent)) {
-        os = "MacIntel-10.6-legacy"
+      os = "MacIntel-10.6-legacy"
     }else if (/Mac/.test(navigator.platform)) {
       os = "MacIntel";
     } else if (/Linux x86_64/.test(navigator.platform)) {
-        os = "Linux x86_64";
+      os = "Linux x86_64";
     } else if (/Linux/.test(navigator.platform)) {
-        os = "Linux i686";
+      os = "Linux i686";
     }
 
 
@@ -501,33 +501,33 @@ AW4.ConnectInstaller = function(options) {
   };
 
   var osVersion = function () {
- 	  var match = "";
-      if (/Win/.test(navigator.platform)) {
-         match = navigator.userAgent.match(/Windows NT (\d+)[._](\d+)/);
-      } else if (/Mac/.test(navigator.platform)) {
-         match = navigator.userAgent.match(/OS X (\d+)[._](\d+)/);
-      }
-      if (isNullOrUndefinedOrEmpty(match))
-          return null;
-      var os_version = {
-          highWord:parseFloat(match[1]),
-          loWord:parseFloat( match[2])
-      }
-      return os_version;
+    var match = "";
+    if (/Win/.test(navigator.platform)) {
+      match = navigator.userAgent.match(/Windows NT (\d+)[._](\d+)/);
+    } else if (/Mac/.test(navigator.platform)) {
+      match = navigator.userAgent.match(/OS X (\d+)[._](\d+)/);
+    }
+    if (isNullOrUndefinedOrEmpty(match))
+      return null;
+    var os_version = {
+      highWord:parseFloat(match[1]),
+      loWord:parseFloat( match[2])
+    }
+    return os_version;
   };
 
   var platformVersion = function (arg0) {
-      if (!isNullOrUndefinedOrEmpty(arg0)) {
-          var match = arg0.match(/(\d+)[.](\d+)/);
-          if (isNullOrUndefinedOrEmpty(match))
-              return null;
-          var platform_version = {
-              highWord: parseFloat(match[1]),
-              loWord: parseFloat(match[2])
-          }
-          return platform_version;
+    if (!isNullOrUndefinedOrEmpty(arg0)) {
+      var match = arg0.match(/(\d+)[.](\d+)/);
+      if (isNullOrUndefinedOrEmpty(match))
+        return null;
+      var platform_version = {
+        highWord: parseFloat(match[1]),
+        loWord: parseFloat(match[2])
       }
-      return arg0;
+      return platform_version;
+    }
+    return arg0;
   }
 
   var notifyListeners = function(event) {
@@ -555,7 +555,7 @@ AW4.ConnectInstaller = function(options) {
   function isNullOrUndefinedOrEmpty(x) {
     return x === "" || x === null || typeof x === "undefined";
   };
- 
+
   ////////////////////////////////////////////////////////////////////////////
   // API Functions
   ////////////////////////////////////////////////////////////////////////////
@@ -564,9 +564,9 @@ AW4.ConnectInstaller = function(options) {
    * AW4.ConnectInstaller#addEventListener(listener) -> null
    * - listener (Function): function that will be called when the event is fired
    *
-   * ##### Event types ([[AW4.ConnectInstaller.EVENT]]) 
+   * ##### Event types ([[AW4.ConnectInstaller.EVENT]])
    *
-   **/  
+   **/
   var addEventListener = function(listener) {
     if (typeof listener !== 'function') {
       return null;
@@ -583,7 +583,7 @@ AW4.ConnectInstaller = function(options) {
    * documentation and binaries available for it.
    *
    * ##### Object returned to the callback function as parameter
-   * 
+   *
    *      {
    *        "title": "Aspera Connect for Windows",
    *        "platform": {
@@ -679,19 +679,19 @@ AW4.ConnectInstaller = function(options) {
       for (var i = 0; i < installEntries.length; i++) {
         var entry = installEntries[i];
         if (entry.navigator.platform === userOS) {
-            var userOSVersion = osVersion();
-            var currentPlatform = platformVersion(entry.platform.version);
-            if (!isNullOrUndefinedOrEmpty(currentPlatform) && !isNullOrUndefinedOrEmpty(userOSVersion)) {
-                if ((userOSVersion.highWord > currentPlatform.highWord) ||
-                    (userOSVersion.highWord >= currentPlatform.highWord &&
-                    userOSVersion.loWord >= currentPlatform.loWord)) {
-                    procesJSONentry(entry);
-                    return null;
-                }
-            } else {
-                procesJSONentry(entry);
-                return null;
+          var userOSVersion = osVersion();
+          var currentPlatform = platformVersion(entry.platform.version);
+          if (!isNullOrUndefinedOrEmpty(currentPlatform) && !isNullOrUndefinedOrEmpty(userOSVersion)) {
+            if ((userOSVersion.highWord > currentPlatform.highWord) ||
+                (userOSVersion.highWord >= currentPlatform.highWord &&
+                userOSVersion.loWord >= currentPlatform.loWord)) {
+              procesJSONentry(entry);
+              return null;
             }
+          } else {
+            procesJSONentry(entry);
+            return null;
+          }
         }
       }
     };
@@ -707,7 +707,7 @@ AW4.ConnectInstaller = function(options) {
     loadFiles([updatesURL + CONNECT_VERSIONS_JS], 'js', scriptLoaded);
     return null;
   };
- 
+
   /*
    * AW4.ConnectInstaller#show(eventType) -> null
    * - eventType (String): the event type
@@ -720,7 +720,7 @@ AW4.ConnectInstaller = function(options) {
    * 4. `outdated` (`String`).
    * 5. `running` (`String`).
    *
-   **/  
+   **/
   var show = function(eventType) {
     //We always need to check if launching was going to be popped up, if so delete it
     if (showInstallTimerID !== 0) {
@@ -738,9 +738,9 @@ AW4.ConnectInstaller = function(options) {
         //Fix for refreshing only window in which we are contained, if we are an iframe just refresh the iframe (Sharepoint bug)
         var inIframe = false;
         try {
-            inIframe = window.self !== window.top;
+          inIframe = window.self !== window.top;
         } catch (e) {
-            inIframe = true;
+          inIframe = true;
         }
         var refreshWindow = inIframe ? contentWindow : window;
         refreshWindow.location.reload(true);
@@ -762,7 +762,7 @@ AW4.ConnectInstaller = function(options) {
           var link = referencesJSON.links[i];
           if (link.rel === 'enclosure') {
             if (typeof iframe !== 'undefined' && iframe !== null) {
-                iframe.contentWindow.postMessage('downloadlink=' + link.hrefAbsolute, "*");
+              iframe.contentWindow.postMessage('downloadlink=' + link.hrefAbsolute, "*");
             }
           }
         }
@@ -792,31 +792,31 @@ AW4.ConnectInstaller = function(options) {
         return;
       }
 
-        // Set listener for messages from the iframe installer.
+      // Set listener for messages from the iframe installer.
       if (window.attachEvent) {
-          window.attachEvent("onmessage", handleMessage);
+        window.attachEvent("onmessage", handleMessage);
       } else {
-          window.addEventListener("message", handleMessage, false);
+        window.addEventListener("message", handleMessage, false);
       }
     }
     if (iframeLoadedFlag) {
       iframe.contentWindow.postMessage(eventType, "*");
     } else {
-        //Give time to the iFrame to be loaded #31040
-        if (iframe.attachEvent)
-            iframe.attachEvent('onload', iframeLoaded);
-        else
-            iframe.onload = iframeLoaded;
+      //Give time to the iFrame to be loaded #31040
+      if (iframe.attachEvent)
+        iframe.attachEvent('onload', iframeLoaded);
+      else
+        iframe.onload = iframeLoaded;
     }
   };
- 
+
   /**
    * AW4.ConnectInstaller#showLaunching(timeout) -> null
-   * - timeout (Number): (*optional*) Timeout to show the banner in milliseconds. If at any point 
-   * during this timeout [[AW4.ConnectInstaller#connected]] or [[AW4.ConnectInstaller#dismiss]] 
+   * - timeout (Number): (*optional*) Timeout to show the banner in milliseconds. If at any point
+   * during this timeout [[AW4.ConnectInstaller#connected]] or [[AW4.ConnectInstaller#dismiss]]
    * are called, the banner will not show up. Default: `1500`.
    *
-   * Displays a banner in the top of the screen explaining the user that Aspera Connect 
+   * Displays a banner in the top of the screen explaining the user that Aspera Connect
    * is trying to be launched.
    *
    **/
@@ -830,7 +830,7 @@ AW4.ConnectInstaller = function(options) {
     };
     showInstallTimerID = setTimeout(showLaunchingHelperFunction, timeout);
   };
- 
+
   /**
    * AW4.ConnectInstaller#showDownload() -> null
    *
@@ -840,7 +840,7 @@ AW4.ConnectInstaller = function(options) {
   var showDownload = function() {
     show('download');
   };
- 
+
   /**
    * AW4.ConnectInstaller#showInstall() -> null
    *
@@ -851,7 +851,7 @@ AW4.ConnectInstaller = function(options) {
   var showInstall = function() {
     show('install');
   };
- 
+
   /**
    * AW4.ConnectInstaller#showUpdate() -> null
    *
@@ -865,7 +865,7 @@ AW4.ConnectInstaller = function(options) {
 
   /**
    * AW4.ConnectInstaller#connected(timeout) -> null
-   * - timeout (Number): (*optional*) If specified, this will add a timeout to the 
+   * - timeout (Number): (*optional*) If specified, this will add a timeout to the
    * dismiss function. Default: `2000`.
    *
    * Displays a temporary message that connect has been found, and after *timeout* dismisses the
