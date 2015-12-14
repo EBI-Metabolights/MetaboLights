@@ -52,6 +52,7 @@ public class MetabolightsXMLExporter {
     private final static String DATE = "date";
     private final static String ML_BASE_URL = "http://www.ebi.ac.uk/metabolights";
     private final static String ML_BASE_FTP = "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/";
+    private final static String ML_BASE_FTP_DIR = "/ebi/ftp/pub/databases/metabolights/studies/public/";
     private static String xmlFileName = null;
     private static DocumentBuilderFactory dbf = null;
     private static DocumentBuilder builder = null;
@@ -113,7 +114,7 @@ public class MetabolightsXMLExporter {
         return str != null && !str.isEmpty();
     }
 
-    private static void initParams(String fileName, String wsClientURL, Boolean includeCompounds, Boolean detailedTags){
+    private static void initParams(String fileName, String wsClientURL, Boolean includeCompounds){
         if (xmlFileName == null)
             xmlFileName = fileName;
 
@@ -139,7 +140,14 @@ public class MetabolightsXMLExporter {
 
     private static String[] getCompoundsList(){
         RestResponse<String[]> response = getWsClient().getAllCompoundsAcc();
-        //return new String[]{"MTBLC100"};
+        //return new String[]{"MTBLC16566","MTBLC100"};
+        return response.getContent();
+    }
+
+    private static String[] getStudiesList(){
+        RestResponse<String[]> response = getWsClient().getAllStudyAcc();
+        //return new String[]{"MTBLS1", "MTBLS2"};
+        //return new String[]{"MTBLS143"};
         return response.getContent();
     }
 
@@ -166,19 +174,19 @@ public class MetabolightsXMLExporter {
             return false;
         }
 
-        if (s1 != null && ( !s1.matches("[yn]*")) ){
+        if (!s1.matches("[yn]*")){
             System.out.println("ERROR param 2: Yes or No are indicated by 'y', 'n', 'Y' or 'N'. Not sure what you mean by "+args[1]);
             System.out.println("----");
             return false;
         }
 
-        if (s2 != null && ( !s2.matches("[yn]*")) ){
+        if (!s2.matches("[yn]*")){
             System.out.println("ERROR param 3: Yes or No are indicated by 'y', 'n', 'Y' or 'N'. Not sure what you mean by "+args[2]);
             System.out.println("----");
             return false;
         }
 
-        if (s3 != null && (!s3.startsWith("http") || s3.equals(""))){
+        if (!s3.startsWith("http") || s3.equals("")){
             System.out.println("ERROR param 4: You must provide a fully qualified URL for the WebService, starting with 'http'. Not sure what you mean by "+args[3]);
             System.out.println("----");
             return false;
@@ -222,7 +230,7 @@ public class MetabolightsXMLExporter {
     public static boolean writeFile(String fileName, Boolean includeCompounds, Boolean detailedTags, String wsClientURL) throws Exception {
         try {
 
-            initParams(fileName, wsClientURL, includeCompounds, detailedTags);
+            initParams(fileName, wsClientURL, includeCompounds);
 
             // create the root element node
             setRootXmlElements(includeCompounds);
@@ -251,7 +259,7 @@ public class MetabolightsXMLExporter {
         int numberofcompounds = allCompounds.length;
         //Add all the public studies
         int i = 0;
-        ArrayList<String> failedCompounds = new ArrayList<String>();
+        ArrayList<String> failedCompounds = new ArrayList<>();
         for (String compoundAcc : allCompounds){
 
             try {
@@ -287,7 +295,7 @@ public class MetabolightsXMLExporter {
                         additionalField.appendChild(createChildElement(FIELD, "organism", species.getSpecies().getSpecies()));
 
                         if (species.getSpecies().getSpecies().equalsIgnoreCase("reference compound")) {
-
+                        //TODO, complete this....
                         }
                         else {
                             if (species.getSpecies().getSpeciesMember() != null) {
@@ -381,13 +389,6 @@ public class MetabolightsXMLExporter {
 
     }
 
-    private static String[] getStudiesList(){
-        RestResponse<String[]> response = getWsClient().getAllStudyAcc();
-        //return new String[]{"MTBLS1", "MTBLS2"};
-        //return new String[]{"MTBLS67"};
-        return response.getContent();
-    }
-
     private static Study getStudy(String accession){
         RestResponse<Study> response = getWsClient().getStudy(accession);
         return response.getContent();
@@ -468,7 +469,6 @@ public class MetabolightsXMLExporter {
 
         //PubMed
         for (Publication publication : study.getPublications()) {
-            String pmid = null;
             if (hasValue(publication.getPubmedId()))
                 crossRefs.appendChild(createChildElement(REF, publication.getPubmedId(), "pubmed"));
         }
@@ -599,6 +599,30 @@ public class MetabolightsXMLExporter {
         return authorshipField;
 
     }
+    private static String getPathForFile(String studyId, String ftpPath){
+
+        // Try the public folder
+        File file = new File (ftpPath + studyId +"/");
+
+        if (file.exists()) return file.getAbsolutePath();
+
+        // File not found
+        return "";
+
+    }
+
+    public static File[] getStudyFileList(String studyId, String ftpPath) {
+
+        String studyFolders = getPathForFile(studyId, ftpPath);
+
+        // If found
+        if (!studyFolders.equals("")) {
+            File studyFolder = new File(studyFolders);
+            return studyFolder.listFiles();
+        }
+
+        return null;
+    }
 
     private static void addStudies(Element entries, Boolean detailedTags){
         //First, add the surrounding <entries> tags
@@ -667,8 +691,20 @@ public class MetabolightsXMLExporter {
                         additionalField.appendChild(createChildElement(FIELD, "instrument_platform", assay.getPlatform()));
                     }
 
+
                     //TODO, MS: Autosampler model - Chromatography Instrument - Instrument
                     //TODO, NMR: Autosampler model - Instrument
+
+                }
+
+                //List of filenames
+                File[] files = getStudyFileList(studyAcc, ML_BASE_FTP_DIR);
+
+                for (File file:files){
+                    String filename = file.toString().replaceAll(ML_BASE_FTP_DIR,ML_BASE_FTP);
+
+                    if (filename != null)
+                        additionalField.appendChild(createChildElement(FIELD, "dataset_file", filename ));
 
                 }
 
@@ -848,18 +884,22 @@ public class MetabolightsXMLExporter {
         Element element = doc.createElement(elementType);
 
         // add an attribute to the node
-        if (elementType.equals(FIELD)) {
-            element.setAttribute("name", attributeValue);
-            //element.setAttribute("type", "text");
-            element.setTextContent(attributeText);
-            //} else if (elementType.equals(DBKEY)){
-            //    element.setAttribute(DBKEY, attributeValue);
-        } else if (elementType.equals(REF)){
-            element.setAttribute("dbkey", attributeValue);
-            element.setAttribute("dbname", attributeText);
-        } else if (elementType.equals(DATE)) {
-            element.setAttribute("type", attributeValue);
-            element.setAttribute("value", attributeText);
+        switch (elementType) {
+            case FIELD:
+                element.setAttribute("name", attributeValue);
+                //element.setAttribute("type", "text");
+                element.setTextContent(attributeText);
+                //} else if (elementType.equals(DBKEY)){
+                //    element.setAttribute(DBKEY, attributeValue);
+                break;
+            case REF:
+                element.setAttribute("dbkey", attributeValue);
+                element.setAttribute("dbname", attributeText);
+                break;
+            case DATE:
+                element.setAttribute("type", attributeValue);
+                element.setAttribute("value", attributeText);
+                break;
         }
 
         return element;

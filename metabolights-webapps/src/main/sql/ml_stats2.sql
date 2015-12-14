@@ -63,7 +63,7 @@ where
 --Force a different sort order, most submissions first
 update ml_stats set sort_order = rownum where page_section = 'Topsubmitters';
 
-insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Info', 'Last updated', sysdate, 1 from dual;
+insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Info', 'Last updated', to_char(sysdate,'DD-Mon-YYYY HH24:MI:SS'), 1 from dual;
 
 update ml_stats set sort_order = 999 where sort_order is null;
 
