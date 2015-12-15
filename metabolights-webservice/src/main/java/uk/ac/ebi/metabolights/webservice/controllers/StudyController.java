@@ -33,6 +33,7 @@ import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.*;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
 import uk.ac.ebi.metabolights.webservice.models.StudyRestResponse;
@@ -272,6 +273,42 @@ public class StudyController extends BasicController{
 		} catch (Exception e) {
 
 			restResponse.setMessage("Couldn't update status for " + studyIdentifier + ": " + e.getMessage());
+			restResponse.setErr(e);
+		}
+
+
+		return restResponse;
+
+	}
+
+	/**
+	 * To update the status of a study.
+	 * @param studyIdentifier
+	 * @param validations
+	 * @return
+	 */
+	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/overridevalidations", method= RequestMethod.POST)
+	@ResponseBody
+	public RestResponse<Boolean> updateCuratorsValidationOverride(@PathVariable("studyIdentifier") String studyIdentifier, @RequestBody Validations validations) {
+
+		RestResponse<Boolean> restResponse = new RestResponse<>();
+
+		try {
+			User user = getUser();
+
+			logger.info("User {} requested to override validations of {}", user.getFullName(), studyIdentifier);
+
+			studyDAO= getStudyDAO();
+			// Update the overriden validations
+			studyDAO.updateValidations(studyIdentifier, validations, user.getApiToken());
+
+
+			restResponse.setContent(true);
+			restResponse.setMessage("Validations for " + studyIdentifier + " successfully updated");
+
+		} catch (Exception e) {
+
+			restResponse.setMessage("Error applying curator's validations override for " + studyIdentifier + ": " + e.getMessage());
 			restResponse.setErr(e);
 		}
 

@@ -112,7 +112,7 @@ public class ProtocolValidations implements IValidationProcess {
         validation.setId(ValidationIdentifier.PROTOCOLS_SAMPLE_COLLECTION.getID());
         if (!sampleCollectionProtocolIsPresent(study)) {
             validation.setPassedRequirement(false);
-            validation.setMessage("Sample data is provided but no \"Sample collection\" protocol is" +
+            validation.setMessage("Sample data is provided but no \'Sample collection\' protocol is" +
                     " described");
 
         }
@@ -151,7 +151,7 @@ public class ProtocolValidations implements IValidationProcess {
             if (!protocol.getDescription().isEmpty()) {
                 List<String> notCoded = Utilities.getNonUnicodeCharacters(protocol.getDescription());
                 if (notCoded.size() > 0) {
-                    message += protocol.getName() + ",\n";
+                    message += protocol.getName() + ",";
                 }
             }
         }

@@ -65,13 +65,13 @@ public class StudyValidations implements IValidationProcess {
         validation.setId(ValidationIdentifier.STUDY_TEXT.getID());
         String message = "";
         if (Utilities.getNonUnicodeCharacters(study.getTitle()).size() > 0) {
-            message += "Study title, \n";
+            message += "Study title,";
         }
         if (Utilities.getNonUnicodeCharacters(study.getDescription()).size() > 0) {
-            message += "Study description,\n";
+            message += "Study description,";
         }
         if (Utilities.getNonUnicodeCharacters(getContactAsString(study.getContacts())).size() > 0) {
-            message += "Study contact,\n";
+            message += "Study contact,";
         }
         if (!message.isEmpty()) {
             validation.setPassedRequirement(false);

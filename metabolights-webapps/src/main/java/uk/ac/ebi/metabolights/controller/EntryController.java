@@ -20,6 +20,9 @@
 
 package uk.ac.ebi.metabolights.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -256,6 +259,16 @@ public class EntryController extends AbstractController {
 
 		mav.addObject("studyStatuses", LiteStudy.StudyStatus.values());
 
+		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		try {
+			String json = ow.writeValueAsString(study.getValidations());
+			mav.addObject("validationJson", json);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+
+
+
 		// Things that don't come from the web service:
 		FileDispatcherController fdController = new FileDispatcherController();
 
@@ -265,6 +278,10 @@ public class EntryController extends AbstractController {
 		if(study.getStudyStatus() == Study.StudyStatus.SUBMITTED && (user.isCurator() || user.getRole() == AppRole.ROLE_SUBMITTER.ordinal())) {
 			mav.addObject("ftpFiles", fdController.getPrivateFtpFileList(study.getStudyIdentifier()));
 			mav.addObject("hasPrivateFtpFolder", fdController.hasPrivateFtpFolder(study.getStudyIdentifier()));
+		}
+
+		if(user.isCurator()){
+			mav.addObject("curatorAPIToken", user.getApiToken());
 		}
 
 		return  mav;

@@ -63,6 +63,7 @@
                     </c:if>
                     <c:if test="${curator}">
                         <li><a href="deleteStudy?study=${study.studyIdentifier}" confirmationText="This will delete the study from the system, no way back!." onclick="return confirmAction(this);">delete</a></li>
+                        <%--<li><a href="overrideValidations?study=${study.studyIdentifier}" confirmationText="Do you want to override the Study Validations manually?" onclick="return overrideValidationAction(this);">override validations</a></li>--%>
                         <c:if test="${not empty study.backups}">
                             <c:if test="${fn:length(study.backups) gt 0}">
                                 <li><a href="#">restore ...</a>
@@ -85,6 +86,9 @@
 </div>
 <div id="warnaction" title="The study is incomplete" style="display: none">
 </div>
+<div id="overrideaction" title="Manually Override Validation.." style="display: none">
+</div>
+
 <script type="text/javascript">
    function confirmAction(element){
 
@@ -173,4 +177,123 @@
        return false;
    }
 
+   function overrideValidationAction(element){
+
+       var dialog = $("#overrideaction");
+
+       // Fill dialog
+       var targetUrl = $(element).attr("href");
+       var text = $(element).attr("confirmationText");
+
+       dialog.text(text);
+
+       $(dialog).dialog({
+//           autoOpen: false,
+           modal: true,
+           buttons : {
+               "Yes" : function() {
+                   // window.location.href = targetUrl;
+                   $(this).dialog("close");
+                   loadSelectOptions();
+                   document.getElementById("valid-tab").click();
+               },
+               "Cancel" : function() {
+                   $(this).dialog("close");
+               }
+           }
+       });
+
+//       $(dialog).dialog("open");
+
+       return false;
+   }
+
+
+   function loadSelectOptions(){
+       var dataTable = document.getElementById("validationTable");
+       //var dataTable = $('#validationTable').DataTable();
+       //gets rows of table
+       var rowLength = dataTable.rows.length;
+       var i;
+
+       //loops through rows
+       for (i = 1; i < rowLength; i++){
+
+           //gets cells of current row
+           var oCells = dataTable.rows.item(i).cells;
+           // get status column
+           var cellVal = oCells.item(1).innerHTML;
+           // append select options
+           var selectList = document.createElement("select");
+           selectList.id = "statusOptions";
+           selectList.name = "statusValidation";
+
+           var option1 = document.createElement("option");
+           option1.innerText = "PASSES";
+           option1.value = 1;
+           selectList.appendChild(option1);
+           var option2 = document.createElement("option");
+           option2.innerHTML = "FAILS";
+           option2.value = 2;
+           selectList.appendChild(option2);
+           var option3 = document.createElement("option");
+           option3.innerHTML = "INCOMPLETE";
+           option3.value = 3;
+           selectList.appendChild(option3);
+           // set the selected value to current value
+           for(var k = 0; k < selectList.options.length; k++) {
+               if(selectList.options[k].innerHTML == cellVal) {
+                   selectList.selectedIndex = k;
+                   break;
+               }
+           }
+           oCells.item(1).innerHTML = "";
+           oCells.item(1).appendChild(selectList);
+
+       }
+   }
+
+   function loadSelectOptions(){
+       var dataTable = document.getElementById("validationTable");
+       //var dataTable = $('#validationTable').DataTable();
+       //gets rows of table
+       var rowLength = dataTable.rows.length;
+       var i;
+
+       //loops through rows
+       for (i = 1; i < rowLength; i++){
+
+           //gets cells of current row
+           var oCells = dataTable.rows.item(i).cells;
+           // get status column
+           var cellVal = oCells.item(1).innerHTML;
+           // append select options
+           var selectList = document.createElement("select");
+           selectList.id = "statusOptions";
+           selectList.name = "statusValidation";
+
+           var option1 = document.createElement("option");
+           option1.innerText = "PASSES";
+           option1.value = 1;
+           selectList.appendChild(option1);
+           var option2 = document.createElement("option");
+           option2.innerHTML = "FAILS";
+           option2.value = 2;
+           selectList.appendChild(option2);
+           var option3 = document.createElement("option");
+           option3.innerHTML = "INCOMPLETE";
+           option3.value = 3;
+           selectList.appendChild(option3);
+           // set the selected value to current value
+           for(var k = 0; k < selectList.options.length; k++) {
+               if(selectList.options[k].innerHTML == cellVal) {
+                       selectList.selectedIndex = k;
+                   break;
+               }
+           }
+           oCells.item(1).innerHTML = "";
+           oCells.item(1).appendChild(selectList);
+
+       }
+   }
 </script>

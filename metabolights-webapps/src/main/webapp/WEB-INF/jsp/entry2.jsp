@@ -713,49 +713,17 @@
                 <div class="specs">
                 Validations marked with (*) are specially approved by the MetaboLights Curators
                 </div>
-                <table class="display clean" order="[[ 1, 'asc' ],[ 0, 'desc' ]]">
-                    <thead class='text_header'>
-                    <tr>
-                        <th>Condition</th>
-                        <th>Status</th>
-                        <th>Description</th>
-                        <th>Requirement</th>
-                        <th>Group</th>
-                        <th>Message</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach var="validation" items="${study.validations.entries}">
-                        <tr>
-                            <td>
-                                <c:set var="validationType" value="${validation.type}"/>
-                                <c:set var="validationOverridden" value="${validation.overriden}"/>
-                                <c:set var="validationPassedRequirement" value="${validation.passedRequirement}"/>
-                                <%@include file="validation.jsp" %>
-                            </td>
+                <c:choose>
+                    <c:when test="${curator}">
+                        <%@include file="validationOverride.jsp"%>
+                    </c:when>
+                    <c:otherwise>
+                        <c:set var="validations" value="${study.validations.entries}"/>
+                        <%@include file="validationsTable.jsp"%>
+                    </c:otherwise>
+                </c:choose>
 
-                            <c:if test="${validation.status == 'GREEN'}">
-                               <td>PASSES</td>
-                            </c:if>
-                            <c:if test="${validationPassedRequirement == 'false'}">
-                                <c:if test="${validationType == 'MANDATORY'}">
-                                    <td>FAILS</td>
-                                </c:if>
-                                <c:if test="${validationType == 'OPTIONAL'}">
-                                    <td>INCOMPLETE</td>
-                                </c:if>
-                            </c:if>
 
-                            <%--<td>${validation.status}</td>--%>
-                            <td>${validation.description}</td>
-                            <td>${validation.type}</td>
-                            <td>${validation.group}</td>
-                            <td>${validation.message}</td>
-                        </tr>
-
-                    </c:forEach>
-                    </tbody>
-                </table>
             </c:if>
         </div>
         <!-- ends tabs-Validations -->
