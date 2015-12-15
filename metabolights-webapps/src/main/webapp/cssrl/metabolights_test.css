@@ -903,19 +903,19 @@ ol.progtrckr li.progtrckr-todo:before {
 }
 
 .redTrafficL::before{
-    content: "\002B24";
+    content: "\0025C9";
     color: red;
 }
 .amberTrafficL::before{
-    content: "\002B24";
+    content: "\0025C9";
     color: darkorange;
 }
 .greenTrafficL::before{
-    content: "\002B24";
+    content: "\0025C9";
     color: green;
 }
 .offTrafficL::before{
-    content: "\002B24";
+    content: "\0025EF";
     color: #bbb;
 }
 
