@@ -628,7 +628,6 @@
                                 <td><input type="checkbox" name="file" value="${file.name}"/></td>
                                 <td>
                                     <a rel="nofollow" href="${study.studyIdentifier}/files/${file.name}${token}">${file.name}</a>
-
                                 </td>
                             </tr>
                             <%--</c:if>--%>
@@ -640,6 +639,9 @@
                     <div style="position: relative; width: 100%;">
                         <div style="float: left; padding: 10px;">
                             <input name="btnSubmit" type="submit" class="submit" value="<spring:message code="label.downloadSelectedFiles"/>"/>
+                            <c:if test="${study.publicStudy}">
+                               <span id="aspDMF"></span>
+                            </c:if>
                         </div>
                         <sec:authorize ifAnyGranted="ROLE_SUPER_USER">
                             <div style="float: right; padding: 10px;">
@@ -681,11 +683,10 @@
                                         <tbody>
                                         <c:forEach var="ftpFile" items="${ftpFiles}">
                                             <tr>
-                                                <td><input type="checkbox" name="ftpFile" value="${ftpFile.name}"/></td>
+                                                <td><input type="checkbox" class="asperaMultipleFiles" name="ftpFile" value="${ftpFile.name}"/></td>
                                                 <td>
                                                    ${ftpFile.name}
                                                 </td>
-
                                             </tr>
                                         </c:forEach>
                                         </tbody>
@@ -895,6 +896,8 @@
             $("#tabs").tabs({
                 cache: true,
                 activate: function (event, ui) {
+
+                    <c:if test="${study.publicStudy}">
                     // If the new tab is NMR...
                     if ($(ui.newTab.children('a')[0]).attr('href') == "#tabs-files") {
 
@@ -902,7 +905,6 @@
                             transferContainer: '#transferDiv',
                             messageContainer: '#noAspera',
                             id: '0' });
-
 
                         // Adds an input element download button that uses Aspera
                         var downloadButton = $('<a id="downloadButton">Aspera: Download Study</a>')
@@ -914,7 +916,29 @@
                         };
                         downloadButton.on("click", downloadButtonClick);
 
+
+                        var asperaMultipleFilesDownloadButton = $('<input type="button" value="Aspera: Download Selected Files" class="submit"/>')
+                        $('#aspDMF').append(asperaMultipleFilesDownloadButton)
+
+
+                        var asperaDownloadSelectedFiles = function(e){
+                            var selectedFilesArray = []
+                            $("input:checkbox[name=file]:checked").each(function(){
+                                selectedFilesArray.push('studies/public/${study.studyIdentifier}/' + $(this).val());
+                            });
+                            if(selectedFilesArray.length == 0){
+                                alert('Please Select Files to download');
+                            }else{
+                                source = selectedFilesArray;
+                                fc.asperaWeb.showSelectFolderDialog( { success: function(dataTransferObj) { if (dataTransferObj.dataTransfer.files[0]) fc.download(source, dataTransferObj.dataTransfer.files[0].name); } });
+                            }
+                            e.preventDefault();
+                        };
+                        asperaMultipleFilesDownloadButton.on("click", asperaDownloadSelectedFiles )
+
+
                     }
+                    </c:if>
                     //document.location.hash =  "#"+ui.newTab.attr("hash");
                 }
             });
