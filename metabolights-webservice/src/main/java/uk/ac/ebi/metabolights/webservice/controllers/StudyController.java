@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import uk.ac.ebi.biobabel.util.collections.CollectionMap;
 import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
@@ -94,9 +95,39 @@ public class StudyController extends BasicController{
 
 		logger.info("Requesting " + studyIdentifier + "metabolite update mapping");
 
-		RestResponse resp = new RestResponse();
-		resp.setContent(studyIdentifier);
-		return resp;
+        RestResponse response = new RestResponse();
+
+        studyDAO= getStudyDAO();
+
+        Study study = studyDAO.getStudy(studyIdentifier.toUpperCase(), getUser().getApiToken(), true);
+
+        if(study==null){
+
+            response.setMessage("Study not found");
+
+            logger.error("Can't get the study requested " + studyIdentifier);
+
+        }
+
+        ArrayList<String> metabolites = new ArrayList<>();
+
+        for (Assay assay: study.getAssays()){
+
+            for (MetaboliteAssignmentLine mal : assay.getMetaboliteAssignment().getMetaboliteAssignmentLines()){
+
+                String databaseIdentifier = mal.getDatabaseIdentifier();
+
+                if (databaseIdentifier != null && !databaseIdentifier.isEmpty()){
+
+                    metabolites.add(databaseIdentifier);
+
+                }
+            }
+        }
+
+        response.setContent(metabolites.toString());
+
+        return response;
 	}
 
 	@RequestMapping("list")
