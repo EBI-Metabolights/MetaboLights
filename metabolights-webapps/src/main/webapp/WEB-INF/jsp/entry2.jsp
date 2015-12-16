@@ -901,27 +901,34 @@
                     // If the new tab is NMR...
                     if ($(ui.newTab.children('a')[0]).attr('href') == "#tabs-files") {
 
-                        var fc = new METABOLIGHTS.FileControl( { sessionId: 'metabolights-download',
-                            transferContainer: '#transferDiv',
-                            messageContainer: '#noAspera',
-                            id: '0' });
+
 
                         // Adds an input element download button that uses Aspera
                         var downloadButton = $('<a id="downloadButton">Aspera: Download Study</a>')
 
                         $('#asperaDownloadWrapper').append(downloadButton);
-                        var downloadButtonClick = function (e) {
+
+                        function downloadButtonClick(e) {
+                            var fc = new METABOLIGHTS.FileControl( { sessionId: 'metabolights-download',
+                                transferContainer: '#transferDiv',
+                                messageContainer: '#noAspera',
+                                id: '0' });
+
                             source = "studies/public/${study.studyIdentifier}";
                             fc.asperaWeb.showSelectFolderDialog( { success: function(dataTransferObj) { if (dataTransferObj.dataTransfer.files[0]) fc.download(source, dataTransferObj.dataTransfer.files[0].name); } });
                         };
                         downloadButton.on("click", downloadButtonClick);
 
-
                         var asperaMultipleFilesDownloadButton = $('<input type="button" value="Aspera: Download Selected Files" class="submit"/>')
                         $('#aspDMF').append(asperaMultipleFilesDownloadButton)
 
 
-                        var asperaDownloadSelectedFiles = function(e){
+                        function asperaDownloadSelectedFiles(e){
+                            var fc = new METABOLIGHTS.FileControl( { sessionId: 'metabolights-download',
+                                transferContainer: '#transferDiv',
+                                messageContainer: '#noAspera',
+                                id: '0' });
+
                             var selectedFilesArray = []
                             $("input:checkbox[name=file]:checked").each(function(){
                                 selectedFilesArray.push('studies/public/${study.studyIdentifier}/' + $(this).val());
@@ -935,7 +942,6 @@
                             e.preventDefault();
                         };
                         asperaMultipleFilesDownloadButton.on("click", asperaDownloadSelectedFiles )
-
 
                     }
                     </c:if>

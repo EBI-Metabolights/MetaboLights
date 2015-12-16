@@ -88,6 +88,17 @@ public class StudyController extends BasicController{
 
 	}
 
+	@RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/updatemetabolites")
+	@ResponseBody
+	public RestResponse<Study> updateStudyMetaboliteMapping(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException {
+
+		logger.info("Requesting " + studyIdentifier + "metabolite update mapping");
+
+		RestResponse resp = new RestResponse();
+		resp.setContent(studyIdentifier);
+		return resp;
+	}
+
 	@RequestMapping("list")
 	@ResponseBody
 	public RestResponse<String[]> getAllStudyIdentifiers() throws DAOException {
