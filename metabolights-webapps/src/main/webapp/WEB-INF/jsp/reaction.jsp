@@ -55,14 +55,14 @@
                     var bioJSReaction = new Biojs.Rheaction({
                         target: 'BioJSReaction',
                         id: id,
-                        proxyUrl: undefined,
+                        proxyUrl: 'RheaAndReactomeProxy',
                         rheaWsUrl: "http://www.rhea-db.org/rest/1.0/ws/reaction/cmlreact/"
                     });
 
                     // Fill the reaction title
                     var header= $("#reactionTitle");
 
-                    $(header).html("<a href='http://www.ebi.ac.uk/rhea/reaction.xhtml?id=" + id + "'>RHEA:" + id + "</a>");
+                    $(header).html("<a href='hhttp://www.rhea-db.org/reaction.xhtml?id=" + id + "'>RHEA:" + id + "</a>");
 
                 });
 
