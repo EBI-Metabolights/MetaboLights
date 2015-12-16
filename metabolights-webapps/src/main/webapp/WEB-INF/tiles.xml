@@ -195,6 +195,7 @@
 	</definition>
 
 	<definition name="proxy" template="/WEB-INF/jsp/proxy.jsp"/>
+    <definition name="RheaAndReactomeProxy" template="/WEB-INF/jsp/proxy.jsp"/>
 
 	<definition name="html" template="/WEB-INF/jsp/html.jsp"/>
 

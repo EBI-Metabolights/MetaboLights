@@ -16,7 +16,11 @@ Biojs.Rheaction = Biojs.extend({constructor: function(a) {
         this._reactionRow = jQuery("<div/>", {"class": "reactionRow"});
         this._container.append(this._reactionRow);
         this._getCml(b);
-    }, opt: {target: undefined, id: undefined, dimensions: "200", proxyUrl: "../biojs/dependencies/proxy/proxy.php", rheaWsUrl: "http://www.ebi.ac.uk/rhea/rest/1.0/ws/reaction/cmlreact/", chebiUrl: "http://www.ebi.ac.uk/chebi/searchId.do?chebiId=", compoundImgUrl: "http://www.ebi.ac.uk/rhea/compoundImage.xhtml?", showCompoundAccession: false, showChebiId: false, showFormulaAndCharge: false}, _clearContent: function() {
+    }, opt: {target: undefined, id: undefined, dimensions: "200",
+            proxyUrl: "RheaAndReactomeProxy",
+            rheaWsUrl: "http://www.rhea-db.org/rest/1.0/ws/reaction/cmlreact/",
+            chebiUrl: "http://www.ebi.ac.uk/chebi/searchId.do?chebiId=",
+            compoundImgUrl: "http://www.rhea-db.org/compoundImage.xhtml?", showCompoundAccession: false, showChebiId: false, showFormulaAndCharge: false}, _clearContent: function() {
         jQuery("#" + this.opt.target).html("");
     }, _displayNoDataMessage: function() {
         jQuery("#" + this.opt.target + "").html(Biojs.Rheaction.MESSAGE_NODATA);
