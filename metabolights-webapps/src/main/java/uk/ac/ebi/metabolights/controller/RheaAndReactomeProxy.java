@@ -38,10 +38,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by kenneth on 16/12/2015.
- */
-
-/**
  * @author venkat
  * @date 03/11/15
  */
