@@ -7,12 +7,18 @@
 --%>
 <div id="overrideForm">
 
-    <validations :list="validationsComplete['entries']" >
+    <validations :list="validationsComplete['entries']" :changed="changedValidations">
     </validations>
 
-    <save-override-button :validations-completed='validationsComplete'>
+    <save-override-button :validations-changed.once='changedValidations' :validations-original.once='validationsComplete'>
     </save-override-button>
 
+</div>
+
+<div id="overrideaction" title="Save Manual override.." style="display: none">
+</div>
+
+<div id="curatorOverrideSuccessAlert" title="Overriden validations saved" style="display: none">
 </div>
 
 
@@ -41,7 +47,7 @@
         </td>
 
         <td>
-            <select class="form-control" v-model="entry.passedRequirement">
+            <select class="form-control" v-model="entry.passedRequirement" @change="add(entry)">
 
                 <option selected="{{'PASSES' == status(entry)}}" v-bind:value='true'>PASSES</option>
                 <option selected="{{'FAILS' == status(entry)}}" v-bind:value='false'>FAILS</option>
@@ -66,7 +72,7 @@
     Vue.config.debug = true
 
     Vue.component('validations',{
-                props: ['list'],
+                props: ['list','changed'],
                 template: '#curator-form',
                 methods:{
                     status: function(entry){
@@ -83,6 +89,36 @@
                             }
                         }
                         return statusString;
+                    },
+                    add : function(entry){
+                        console.log("checking...")
+
+                        if(!this.has(entry)){
+                            this.changed.push(entry);
+                        }
+                        else{
+                            this.replace(entry);
+                        }
+                        console.log( JSON.stringify(this.changed));
+
+                    }
+                    ,
+                    has: function(entry){
+                        for (var j = 0; j < this.changed.length; j++) {
+                            if(entry.id ==  this.changed[j].id){
+                                console.log(entry.id)
+                                return true;
+                            }
+                        }
+                        return false;
+
+                    },
+                    replace: function(entry){
+                        for (var j = 0; j < this.changed.length; j++) {
+                            if(entry.id ==  this.changed[j].id){
+                                this.changed[j] = entry;
+                            }
+                        }
                     }
 
                 }
@@ -98,13 +134,62 @@
             }
 
         },
-        props: ['validationsCompleted'],
+        props: ['validationsChanged','validationsOriginal'],
         methods: {
             saveOverride : function(event){
-                console.log(JSON.stringify(this.validationsCompleted));
-                console.log('saving current data');
-                this.$http.post('http://localhost:8080/metabolights/webservice/study/${study.studyIdentifier}/overridevalidations', JSON.stringify(this.validationsCompleted));
+
+                var dialog = $("#overrideaction");
+                dialog.text("Have you got all the override in one go? Doing one by one will replace the existing override.");
+                $(dialog).dialog({
+                    modal: true,
+                    buttons : {
+                        "Take me back" : function() {
+                            $(this).dialog("close");
+                        },
+                        "Good to go" : function(){
+                            var output = vm.$data.validationsComplete;
+                            output['entries'] = vm.$data.changedValidations;
+                            console.log(JSON.stringify(output));
+                            this.$http.post('http://localhost:8080/metabolights/webservice/study/${study.studyIdentifier}/overridevalidations', JSON.stringify(output));
+                            $(this).dialog("close");
+
+                            var dialog = $("#curatorOverrideSuccessAlert");
+                            dialog.text("Click refresh to see changes");
+                            $(dialog).dialog({
+                                modal: true,
+                                buttons : {
+                                    "OK" : function() {
+                                        $(this).dialog("close");
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            },
+            persistValidations : function(){
+                console.log(JSON.stringify(this.validationsChanged));
+                this.validationsOriginal['entries'] = this.validationsChanged;
+                console.log(JSON.stringify(this.validationsOriginal));
+                <%--console.log('saving current data');--%>
+                // this.$http.post('http://localhost:8080/metabolights/webservice/study/${study.studyIdentifier}/overridevalidations', JSON.stringify(this.validationsOriginal));
                 console.log('saved current choices');
+                this.notifyCurator();
+            }
+            ,
+            notifyCurator : function(){
+
+                var dialog = $("#curatorOverrideSuccessAlert");
+                dialog.text("Click refresh to see changes");
+                $(dialog).dialog({
+                    modal: true,
+                    buttons : {
+                        "OK" : function() {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+
             }
         }
 
@@ -114,14 +199,10 @@
 
 
     var vm =new Vue({
-        http: {
-            headers: {
-                'user_token' : '3d80c1f1-397c-4b5c-8d9a-4da606466847'
-            }
-        },
         el: '#overrideForm',
         data: {
-            validationsComplete: JSON.parse(`${validationJson}`)
+            validationsComplete: JSON.parse(`${validationJson}`),
+            changedValidations: []
         }
     })
 
