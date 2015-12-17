@@ -13,7 +13,7 @@ METABOLIGHTS.ConfigFileControl = {
     remote_download_user: 'fasp-ml',
     download_token: 'metabolights  download',
     download_authentication:'token',
-    target_rate_kbps: 200000,
+    target_rate_kbps: 500000,
     rate_policy: 'fair',
     cipher: 'none',
     asperaDownloadConnectPath: 'http://downloads.asperasoft.com/download_connect/',
