@@ -595,7 +595,7 @@ public class StudyController extends BasicController{
 				.append("<b>").append(FTP_PATH).append(ftpFolder).append("</b>").append('\n')
 				.append('\n')
 				.append("Please, note that the remote folder needs to be entirely typed, as the folder is not browsable. So use ")
-				.append("\"").append("<b>").append("cd ").append("/private/").append(ftpFolder).append("</b>").append("\"").append(" to access your private folder.")
+				.append("\"").append("<b>").append("cd ").append(FTP_PATH).append(ftpFolder).append("</b>").append("\"").append(" to access your private folder.")
 				.append(" More extensive instructions can be found here: ").append(linkFTPUploadDoc)
 				.append('\n').append('\n')
 				.append("We would be grateful for any feedback on the upload procedure and any issues you may find.")
