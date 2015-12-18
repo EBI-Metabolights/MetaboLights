@@ -76,7 +76,7 @@ public class IsaTabReplacer
     static private String newOntologyType;
     static private String newOntologyValue; //This is the new type ontology reference used in ISAcreator 1.7.5+
     static private String sampleFile;
-    static private String validateError = "***** You must make sure your study successfully passes the ISAcreator validation (file -> validate ISAtab) before resubmitting your study! *****\n";
+    static private String validateError = "***** You must make sure your study successfully passes the ISAcreator validation (file -> validate ISAtab) before resubmitting your study! *****";
 
 	static final String PROP_IDS = "isatab.ids";
 	static String[] idList;
@@ -343,10 +343,11 @@ public class IsaTabReplacer
 				}
 
                 if (!newOntologyUsed(line)){
-                    String errTxt = "\n<b>This study does not conform to the current ontology setup requirements or it was created with an old version of ISAcreator</b>.\n\n\n";
-                        errTxt = errTxt + "Please download the latest version of our ISAcreator bundle and update your study. ";
-                        errTxt = errTxt + "Download here: ftp://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip\n\n";
-                        errTxt = errTxt + validateError;
+					String errTxt = "";
+                       errTxt = "This study does not conform to the current ontology setup requirements or it was created with an old version of ISAcreator.";
+                        errTxt = errTxt + " Please download the latest version of our ISAcreator bundle and update your study. ";
+                        errTxt = errTxt + " Download here: ftp://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip";
+                       errTxt = errTxt + validateError;
 
                     annotateError(errTxt);
                 }
