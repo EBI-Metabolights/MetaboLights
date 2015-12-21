@@ -301,7 +301,7 @@ public class AssayValidations implements IValidationProcess {
     }
 
     private static String getSampleColumnEmptyErrMsg(Map<String, HashSet<Integer>> columnName_assay_map) {
-        String message = "The following columns are missing in the Assay Definition Sheet(s): \n";
+        String message = "The following columns are missing in the Assay Definition Sheet(s): ";
 
         for (Map.Entry<String, HashSet<Integer>> entry : columnName_assay_map.entrySet()) {
             String missingColumn = entry.getKey();
@@ -310,7 +310,6 @@ public class AssayValidations implements IValidationProcess {
                 message += "Assay " + (assayNumber+1) + ";";
             }
             message += ")";
-            message += "\n";
 
         }
 

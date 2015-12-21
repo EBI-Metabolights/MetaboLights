@@ -77,6 +77,21 @@ public class SecurityService {
 
 	}
 
+	public static User userOverridingStudyValidations(String studyIdentifier, String userToken) throws DAOException {
+
+		User user = tokenToUser(userToken,"Override Validations " + studyIdentifier);
+
+		// if user is a curator
+		if (user.isCurator()){
+			return  user;
+		}
+
+		throwSecurityException(user.getFullName() + " is not authorised to override validations. Only curators can do it. ");
+
+		return null;
+
+	}
+
 
 
 	/**

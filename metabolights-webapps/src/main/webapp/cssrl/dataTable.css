@@ -246,10 +246,12 @@ table.dataTable tbody td.dt-body-nowrap {
 
 table.dataTable,
 table.dataTable th,
-table.dataTable td {
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing: content-box; }
+table.dataTable td:before,
+:after  {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box; }
+
 
 /*
  * Control feature layout

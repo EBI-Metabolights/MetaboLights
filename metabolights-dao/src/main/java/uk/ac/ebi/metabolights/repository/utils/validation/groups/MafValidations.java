@@ -90,7 +90,7 @@ public class MafValidations implements IValidationProcess {
         some_assays_have_maf_reference_validation.setId(ValidationIdentifier.ASSAY_ATLEAST_SOME_MAF_REFERENCE.getID());
         if (assaysWithNoMaf.size() == study.getAssays().size()) {
             some_assays_have_maf_reference_validation.setPassedRequirement(false);
-            some_assays_have_maf_reference_validation.setMessage("Metabolite identification protocol is described \n" +
+            some_assays_have_maf_reference_validation.setMessage("Metabolite identification protocol is described " +
                     "but no Metabolite Assignment File (MAF) is referenced in the Assay table");
         }
         return some_assays_have_maf_reference_validation;
