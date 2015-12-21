@@ -140,14 +140,15 @@ public class MetabolightsXMLExporter {
 
     private static String[] getCompoundsList(){
         RestResponse<String[]> response = getWsClient().getAllCompoundsAcc();
-        //return new String[]{"MTBLC16566","MTBLC100"};
+        //return new String[]{"MTBLC64889"};
+        //return new String[]{"MTBLC66662","MTBLC64889"};
         return response.getContent();
     }
 
     private static String[] getStudiesList(){
         RestResponse<String[]> response = getWsClient().getAllStudyAcc();
         //return new String[]{"MTBLS1", "MTBLS2"};
-        //return new String[]{"MTBLS8"};
+        //return new String[]{"MTBLS124"};
         return response.getContent();
     }
 
@@ -342,6 +343,7 @@ public class MetabolightsXMLExporter {
             }
             catch (Exception e) {
                 System.out.println(e.getMessage());
+                System.out.println("Could not export compound:"+compoundAcc);
                 failedCompounds.add(compoundAcc);
             }
         }
@@ -349,9 +351,12 @@ public class MetabolightsXMLExporter {
         //Add the complete study list to the entries section
         //doc.getDocumentElement().appendChild(entries);        //Moved the calling method
 
-        System.out.println("======================================");
-        for (String failedCompound : failedCompounds){
-            System.out.println(failedCompound);
+        if (failedCompounds != null) {
+            System.out.println("======================================");
+            System.out.println("List of failed compound(s):");
+            for (String failedCompound : failedCompounds) {
+                System.out.println(failedCompound);
+            }
         }
     }
 
