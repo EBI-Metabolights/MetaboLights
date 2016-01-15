@@ -178,7 +178,8 @@ public class UpdateStudyController extends AbstractController {
 		mav.addObject("message", msg);
 		mav.addObject("action", action);
 		mav.addObject("submitText", submitText);
-        mav.addObject("studyCheck", getStudy(study));
+        mav.addObject("releaseDate", getStudy(study).getStudyPublicReleaseDate());
+		mav.addObject("studyCheck", getStudy(study));
 		return mav;
 	}
 	
