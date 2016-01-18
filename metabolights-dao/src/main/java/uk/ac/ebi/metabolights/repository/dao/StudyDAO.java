@@ -35,6 +35,7 @@ import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
 import uk.ac.ebi.metabolights.repository.security.SecurityService;
 import uk.ac.ebi.metabolights.repository.utils.FileAuditUtil;
 
@@ -416,6 +417,20 @@ public class StudyDAO {
             throw new DAOException("Backup (" + backUpIdentifier + ") not found for " + studyIdentifier);
         }
 
+    }
+
+    public void updateValidations(String studyIdentifier, Validations validations, String userToken) throws DAOException  {
+
+        // Security: Check if the user can override the study validations
+        User user = SecurityService.userOverridingStudyValidations(studyIdentifier, userToken);
+
+        Study study = dbDAO.findByAccession(studyIdentifier);
+
+        // Change the date in the database
+        study.setValidations(validations);
+        dbDAO.save(study);
+
+        logger.info("{} curator validations successfully updated", studyIdentifier);
     }
 }
 

@@ -33,7 +33,7 @@ public class IsatabValidations implements IValidationProcess{
         if (!study.getIsatabErrorMessages().isEmpty()) {
             String errMsgs = "";
             for (String msg : study.getIsatabErrorMessages()) {
-                errMsgs += msg + "\n";
+                errMsgs += msg;
             }
             validation.setMessage(errMsgs);
             validation.setPassedRequirement(false);

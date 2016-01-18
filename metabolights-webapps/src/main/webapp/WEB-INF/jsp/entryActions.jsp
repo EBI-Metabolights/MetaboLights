@@ -85,6 +85,7 @@
 </div>
 <div id="warnaction" title="The study is incomplete" style="display: none">
 </div>
+
 <script type="text/javascript">
    function confirmAction(element){
 

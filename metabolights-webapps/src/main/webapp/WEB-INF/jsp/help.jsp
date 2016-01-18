@@ -34,12 +34,11 @@
         <a href="https://docs.google.com/document/d/1s7X5tLF0q0tXm76LMbBovW1NReOdmWoOGLO3bm7xm6E/edit?usp=sharing"/><strong>Setup&nbsp;and&nbsp;create&nbsp;GC/MS&nbsp;study</strong></a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
         <a href="https://docs.google.com/document/d/1QIAwwt9yMZuZMi3sYaRnaHkW9BVgimgIBbF0lec7tu0/edit?usp=sharing"/><strong>Setup&nbsp;and&nbsp;create&nbsp;LC/MS&nbsp;study</strong></a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
         <a href="https://docs.google.com/document/d/1Gnv0pvYpbYOY1pv-XZKXanCYMNIlMhPgVUEHCJ4gm98/edit?usp=sharing"/><strong>Submit&nbsp;your&nbsp;study&nbsp;to&nbsp;MetaboLights</strong></a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <a href="https://docs.google.com/document/d/1eNF4Gho0BMxst5ZAj1awrWP4QRFBLW8ycwhiIqHoYk8/edit?usp=sharing"/><strong>Curation&nbsp;status&nbsp;and&nbsp;automatic&nbsp;validations</strong></a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
         <a href="https://docs.google.com/document/d/15rSS6Mrj2Aj_uMyh4-3n8RJzAdWi1uoHsaKkxqPyC4I/edit?usp=sharing"/><strong>Frequently&nbsp;asked&nbsp;questions&nbsp;(FAQ)</strong></a>&nbsp;&nbsp;&nbsp;
 
         <br/>
         <br/>
-        <a href="https://docs.google.com/document/d/1kvBdnleInVr1UMyV-sm91w2uK_IfkU11Rx-uxvILOFU/edit?usp=sharing"/><strong>Old&nbsp;submission&nbsp;guide&nbsp;-&nbsp;now&nbsp;obsolete</strong></a>
-
     </p>
     <p/>
     <p/>

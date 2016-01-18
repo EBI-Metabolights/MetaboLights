@@ -109,14 +109,13 @@ public class SampleValidations implements IValidationProcess {
     }
 
     private static String getMisMatchErrMsg(Map<Integer, List<String>> assay_SampleNames) {
-        String message = "The following Sample Names are not consistent: \n";
+        String message = "The following Sample Names are not consistent: ";
         for (Map.Entry<Integer, List<String>> entry : assay_SampleNames.entrySet()) {
             int index = entry.getKey().intValue();
             message += " Assay " + index + ":";
             for (String name : entry.getValue()) {
                 message += name.trim() + "; ";
             }
-            message += "\n";
         }
         return message;
     }

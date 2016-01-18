@@ -118,15 +118,17 @@ public class Validation {
 //    }
     public Status getStatus() {
         if (getPassedRequirement()) {
+            statusExt = (description == null ? "" : description) + " - PASSES";
             return Status.GREEN;
         } else {
             if (getType().equals(Requirement.MANDATORY)) {
+                statusExt = (description == null ? "" : description) + " - FAILS";
                 return Status.RED;
             } else {
+                statusExt = (description == null ? "" : description) + " - INCOMPLETE";
                 return Status.AMBER;
             }
         }
-
     }
 
 

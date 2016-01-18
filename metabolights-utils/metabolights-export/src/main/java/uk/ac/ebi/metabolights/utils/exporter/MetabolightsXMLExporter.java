@@ -140,14 +140,15 @@ public class MetabolightsXMLExporter {
 
     private static String[] getCompoundsList(){
         RestResponse<String[]> response = getWsClient().getAllCompoundsAcc();
-        //return new String[]{"MTBLC16566","MTBLC100"};
+        //return new String[]{"MTBLC64889"};
+        //return new String[]{"MTBLC66662","MTBLC64889"};
         return response.getContent();
     }
 
     private static String[] getStudiesList(){
         RestResponse<String[]> response = getWsClient().getAllStudyAcc();
         //return new String[]{"MTBLS1", "MTBLS2"};
-        //return new String[]{"MTBLS143"};
+        //return new String[]{"MTBLS124"};
         return response.getContent();
     }
 
@@ -342,6 +343,7 @@ public class MetabolightsXMLExporter {
             }
             catch (Exception e) {
                 System.out.println(e.getMessage());
+                System.out.println("Could not export compound:"+compoundAcc);
                 failedCompounds.add(compoundAcc);
             }
         }
@@ -349,9 +351,12 @@ public class MetabolightsXMLExporter {
         //Add the complete study list to the entries section
         //doc.getDocumentElement().appendChild(entries);        //Moved the calling method
 
-        System.out.println("======================================");
-        for (String failedCompound : failedCompounds){
-            System.out.println(failedCompound);
+        if (failedCompounds != null) {
+            System.out.println("======================================");
+            System.out.println("List of failed compound(s):");
+            for (String failedCompound : failedCompounds) {
+                System.out.println(failedCompound);
+            }
         }
     }
 
@@ -383,7 +388,7 @@ public class MetabolightsXMLExporter {
         //Section for the standard headings
         createRootItemElement("name", "MetaboLights");
         createRootItemElement("description", "MetaboLights is a database for Metabolomics experiments and derived information");
-        createRootItemElement("release", "3");
+        createRootItemElement("release", "4");
         createRootItemElement("release_date", getDateString(new Date()));
         createRootItemElement("entry_count", String.valueOf( + exportLength));
 
@@ -698,14 +703,17 @@ public class MetabolightsXMLExporter {
                 }
 
                 //List of filenames
+
                 File[] files = getStudyFileList(studyAcc, ML_BASE_FTP_DIR);
 
-                for (File file:files){
-                    String filename = file.toString().replaceAll(ML_BASE_FTP_DIR,ML_BASE_FTP);
+                if (files != null) {
+                    for (File file : files) {
+                        String filename = file.toString().replaceAll(ML_BASE_FTP_DIR, ML_BASE_FTP);
 
-                    if (filename != null)
-                        additionalField.appendChild(createChildElement(FIELD, "dataset_file", filename ));
+                        if (filename != null)
+                            additionalField.appendChild(createChildElement(FIELD, "dataset_file", filename));
 
+                    }
                 }
 
                 additionalField.appendChild(createChildElement(FIELD, "disease", ""));  //We currently do not capture this in a concise way

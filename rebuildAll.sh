@@ -1,6 +1,6 @@
 #!/bin/sh
 export ML="/Users/`whoami`/Development/metabolights"
-export DEPLOY=" -DskipTests=true"
+export DEPLOY=" install -DskipTests=true"
 #export DEPLOY=" deploy -DskipTests=true"
 export MVNOPTS=""
 #export MVNOPTS="--offline"
