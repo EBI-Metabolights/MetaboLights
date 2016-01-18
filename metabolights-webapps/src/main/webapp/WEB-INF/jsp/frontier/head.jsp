@@ -43,7 +43,7 @@
     <link rel="stylesheet" type="text/css" href='<spring:url value="/css/metabolights.css"/>' media="screen">
  	<%--<link rel="stylesheet" type="text/css" href='<spring:url value="/cssrl/movingboxes.css"/>' media="screen" />--%>
 
-    <script type="text/javascript" src="//code.jquery.com/jquery-1.8.3.min.js" ></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.js" ></script>
     <script type="text/javascript" src="//code.jquery.com/ui/1.9.2/jquery-ui.min.js" charset="utf-8"></script>
 
 	<%--<script type="text/javascript" src='<spring:url value="/javascript/jquery.movingboxes.js"/>' charset="utf-8"></script>--%>

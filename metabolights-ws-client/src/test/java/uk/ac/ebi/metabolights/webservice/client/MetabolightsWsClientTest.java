@@ -492,5 +492,12 @@ public class MetabolightsWsClientTest {
 	}
 
 
+	@Test
+	public void testUpdateMetaboliteStudyMappings() throws Exception {
+		RestResponse<ArrayListOfStrings> response = wsClient.updateMetaboliteStudyMappings();
+		System.out.println(response.getContent());
+	}
+
+
 
 }

@@ -146,9 +146,159 @@ body{
     border: 1px solid #f1f1f4;
 }
 
-#transferDiv{
-    background-color:#f1f1f4;
+/*
+    Metabolights study beta page CSS
+*/
+
+.study--wrapper{
+    background-color: #f1f1f4;
+    padding: 15px 10px;
+    border-radius: 2px;
+    margin-top: 20px;
+    padding-bottom: 20px;
+}
+
+.study--wrapper hr{
+    border-color: #DBDCDE;
+    margin-bottom: 10px;
+    margin: 10px;
+}
+
+.study--description{
+    padding: 15px 10px;
+    font-size: 14px;
+}
+
+.study--title{
+    color: #2c3e50;
+    font-weight: 400;
+    font-size: 26px;
+    padding: 0px 15px;
+}
+
+.study--subtitle{
+    color: #2c3e50;
+    font-size: 16px;
+    margin: 10px;
+}
+
+.study--id{
+    color: #2E789A;
+}
+
+.study--description{
+    padding: 5px 15px;
+    font-size: 14px;
+}
+
+.study--infopanel{
+    display: inline-block;
+    width: calc(100% - 20px);
+    margin: 15px 10px 5px 10px;
+
+    border-top: 3px solid #C58A4D;
+    border-bottom: 1px solid #DBDCDE;
+
+    padding: 20px 10px 10px 10px;
+}
+
+.study--infopanel p{
+    padding: 0;
+}
+
+.tabs--wrapper{
     padding: 10px;
-    border: 1px solid #D9D9D9;
-    margin-bottom: 30px;
+}
+
+.study--tabcontent{
+    background-color: white;
+    min-height: 300px;
+    padding: 20px;
+}
+
+.no--padding{
+    padding: 0 !important;
+}
+
+.collapse{
+    min-height: 36px;
+    min-width: 36px;
+    height: auto;
+    width: auto;
+}
+
+table.dataTable {
+    padding: 0;
+    border-radius: 2px !important;
+}
+
+.dataTable th {
+    background-color: #fff;
+}
+
+table.assayTable {
+    padding: 0;
+    border-radius: 2px !important;
+}
+
+.assayTable th {
+    background-color: #fff;
+}
+
+table.filesTable {
+    padding: 0;
+    border-radius: 2px !important;
+}
+
+.filesTable th {
+    background-color: #fff;
+}
+
+table.maf th{
+    background-color: #fff;
+}
+
+table.maf {
+    padding: 0;
+    border-radius: 2px !important;
+}
+
+
+table.maf.clean {
+    border: 1px solid #ddd;
+    margin: 0px;
+}
+
+.scrollStyle
+{
+    overflow-x:auto;
+}
+
+a:link.hyperlinks{
+    color: #333 !important;
+    padding: 25px 25px;
+}
+
+
+#study-metabolitesicon.icon-conceptual::before {
+    font-size: 100% !important;
+}
+
+.dropdown-menu > li > a {
+    border-bottom: none;
+}
+
+.panel-heading span {
+    margin-top: -20px;
+    font-size: 15px;
+}
+.row {
+    padding: 0 10px;
+}
+.clickable {
+    cursor: pointer;
+}
+
+.ml--icons{
+    font-size: 1.38em !important;
 }

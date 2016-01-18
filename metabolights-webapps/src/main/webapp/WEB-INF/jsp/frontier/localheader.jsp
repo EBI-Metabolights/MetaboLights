@@ -50,7 +50,7 @@ ${localfrontierheader}
 
 		$loginA = $('[href="/metabolights/login"]');
 		$loginA.html('<sec:authentication property="principal.firstName" />');
-        $loginA.attr("href", '<spring:url value="useroptions"/>');
+        $loginA.attr("href", '<spring:url value="/useroptions"/>');
         $loginA.attr("title", '<spring:message code= "msg.welcome"/><sec:authentication property="principal.firstName" />');
 
 

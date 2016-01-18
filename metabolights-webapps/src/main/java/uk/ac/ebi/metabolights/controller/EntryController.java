@@ -170,7 +170,7 @@ public class EntryController extends AbstractController {
 	public ModelAndView showAltReviewerEntry(@PathVariable("obfuscationCode") String obfuscationCode) {
 
 
-		return getWSEntryMAV(null, obfuscationCode);
+		return getWSEntryMAV(null, obfuscationCode, "entry2");
 
 	}
 
@@ -199,10 +199,18 @@ public class EntryController extends AbstractController {
 	@RequestMapping(value = { "/" + ALTERNATIVE_ENTRY_PREFIX + "{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}"})
     public ModelAndView showWSEntry(@PathVariable("metabolightsId") String mtblsId, HttpServletRequest request) {
 
-		return getWSEntryMAV(mtblsId, null);
+		return getWSEntryMAV(mtblsId, null, "entry2");
     }
 
-	private ModelAndView getWSEntryMAV(String mtblsId, String obfuscationCode) {
+	@RequestMapping(value = { "beta/" + ALTERNATIVE_ENTRY_PREFIX + "{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}"})
+	public ModelAndView showStudyBetaPage(@PathVariable("metabolightsId") String mtblsId, HttpServletRequest request) {
+
+		return getWSEntryMAV(mtblsId, null, "study");
+	}
+
+
+
+	private ModelAndView getWSEntryMAV(String mtblsId, String obfuscationCode, String view) {
 
 		// Get the user
 		MetabolightsUser user = LoginController.getLoggedUser();
@@ -248,7 +256,7 @@ public class EntryController extends AbstractController {
 
 		}
 
-		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("entry2");
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(view);
 
 		mav.addObject("pageTitle", study.getStudyIdentifier() + ":" +study.getTitle() );
 

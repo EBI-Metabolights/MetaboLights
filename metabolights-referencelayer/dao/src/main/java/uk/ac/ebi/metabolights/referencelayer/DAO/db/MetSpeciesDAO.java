@@ -131,6 +131,58 @@ public class MetSpeciesDAO extends AbstractDAO implements IMetSpeciesDAO{
 		return metSpecies;
 	}
 
+	public void save(Species species, MetaboLightsCompound compound, CrossReference crossReference) throws DAOException {
+
+		// Validate:
+		// CrossReference must exist
+		if (crossReference == null ){
+			String msg = "MetSpecies can't be saved without a CrossReference object associated";
+			LOGGER.error(msg);
+			throw new DAOException(msg);
+		}
+
+
+		// Species must exist
+		if (species.getId() == null ){
+			String msg = "MetSpecies can't be saved without a Species object associated";
+			LOGGER.error(msg);
+			throw new DAOException(msg);
+		}
+
+		// Compound must exist
+		if (compound == null ){
+			String msg = "MetSpecies can't be saved without a compound object associated";
+			LOGGER.error(msg);
+			throw new DAOException(msg);
+		}
+
+		insert(species,compound,crossReference);
+
+	}
+
+	/**
+	 * Inserts a new MetSpecies into the MetSpecies
+	 * <br>
+	 * @throws java.sql.SQLException
+	 */
+	private void insert(Species species, MetaboLightsCompound compound, CrossReference crossReference) throws DAOException {
+		try {
+			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.metspecies", new String[]{"ID"}, null);
+			stm.clearParameters();
+			stm.setLong(1,compound.getId());
+			stm.setLong(2, species.getId());
+			stm.setLong(3, crossReference.getId());
+			stm.executeUpdate();
+
+			ResultSet keys = stm.getGeneratedKeys();
+
+			keys.close();
+
+		} catch (SQLException ex) {
+			throw new DAOException(ex);
+		}
+	}
+
 	public void save(MetSpecies metSpecies, MetaboLightsCompound compound) throws DAOException {
 
         // Validate:

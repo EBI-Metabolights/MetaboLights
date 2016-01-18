@@ -27,7 +27,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import uk.ac.ebi.biobabel.util.collections.CollectionMap;
+import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
+import uk.ac.ebi.chebi.webapps.chebiWS.model.*;
+import uk.ac.ebi.chebi.webapps.chebiWS.model.Entity;
+import uk.ac.ebi.metabolights.referencelayer.DAO.db.*;
+import uk.ac.ebi.metabolights.referencelayer.model.CrossReference;
+import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
+import uk.ac.ebi.metabolights.referencelayer.model.Species;
 import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
@@ -37,13 +43,21 @@ import uk.ac.ebi.metabolights.repository.model.*;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
 import uk.ac.ebi.metabolights.webservice.models.StudyRestResponse;
+import uk.ac.ebi.metabolights.webservice.services.AppContext;
 import uk.ac.ebi.metabolights.webservice.services.EmailService;
 import uk.ac.ebi.metabolights.webservice.services.IndexingService;
 import uk.ac.ebi.metabolights.webservice.utils.FileUtil;
 import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
 
+
+import javax.naming.NamingException;
+import javax.xml.namespace.QName;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.*;
 
 @Controller
@@ -55,9 +69,21 @@ public class StudyController extends BasicController{
 	@Autowired
 	private IndexingService indexingService;
 
-    public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
+    private ChebiWebServiceClient chebiWS;
+    private MetaboLightsCompoundDAO mcd;
+    private CrossReferenceDAO crd;
+    private DatabaseDAO dbd;
+
 	private final static Logger logger = LoggerFactory.getLogger(StudyController.class.getName());
+    private final String chebiWSUrl = "http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl";
+
 	private StudyDAO studyDAO;
+    private SpeciesDAO speciesDAO;
+    private MetSpeciesDAO msDAO;
+
+    public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
+
+    private static final Long MTBLS_DB_ID = new Long(2);
 
     @RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}", method = RequestMethod.GET)
 	@ResponseBody
@@ -89,46 +115,22 @@ public class StudyController extends BasicController{
 
 	}
 
-	@RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/updatemetabolites")
-	@ResponseBody
-	public RestResponse<Study> updateStudyMetaboliteMapping(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException {
+    private Entity getChebiEntity(String chebiId) throws ChebiWebServiceFault_Exception {
+        return getChebiWS().getCompleteEntity(chebiId);
+    }
 
-		logger.info("Requesting " + studyIdentifier + "metabolite update mapping");
-
-        RestResponse response = new RestResponse();
-
-        studyDAO= getStudyDAO();
-
-        Study study = studyDAO.getStudy(studyIdentifier.toUpperCase(), getUser().getApiToken(), true);
-
-        if(study==null){
-
-            response.setMessage("Study not found");
-
-            logger.error("Can't get the study requested " + studyIdentifier);
-
-        }
-
-        ArrayList<String> metabolites = new ArrayList<>();
-
-        for (Assay assay: study.getAssays()){
-
-            for (MetaboliteAssignmentLine mal : assay.getMetaboliteAssignment().getMetaboliteAssignmentLines()){
-
-                String databaseIdentifier = mal.getDatabaseIdentifier();
-
-                if (databaseIdentifier != null && !databaseIdentifier.isEmpty()){
-
-                    metabolites.add(databaseIdentifier);
-
-                }
+    public ChebiWebServiceClient getChebiWS() {
+        if (chebiWS == null)
+            try {
+                logger.info("Starting a new instance of the ChEBI ChebiWebServiceClient");
+                chebiWS = new ChebiWebServiceClient(new URL(chebiWSUrl),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
+            } catch (MalformedURLException e) {
+                logger.error("Error instanciating a new ChebiWebServiceClient "+ e.getMessage());
             }
-        }
+        return chebiWS;
+    }
 
-        response.setContent(metabolites.toString());
 
-        return response;
-	}
 
 	@RequestMapping("list")
 	@ResponseBody
@@ -769,5 +771,189 @@ public class StudyController extends BasicController{
 
 
 	}
+
+    /**
+     * Update Metabolites and Metabolights study mappings
+     *
+     * @param   studyIdentifier
+     * @author  CS76
+     * @date    20160108
+     */
+
+    @RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/updateMetabolitesMapping")
+    @ResponseBody
+    public RestResponse<Study> updateStudyMetaboliteMapping(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException {
+
+        logger.info("Requesting " + studyIdentifier + "metabolite mapping update");
+
+        RestResponse response = new RestResponse();
+
+        Map<String, String> metabolites = getMetabolitesFromMAF(studyIdentifier);
+
+
+        for (Map.Entry<String, String> entry : metabolites.entrySet()) {
+			if(entry.getValue() != null && !entry.getValue().isEmpty())
+            	mapCompound(entry.getKey(), studyIdentifier, entry.getValue());
+
+        }
+
+        return response;
+    }
+
+    /**
+     * Returns list of  Metabolites identified in the given Metabolights Study - MTBLSX
+     *
+     * @param   studyIdentifier
+     * @return  ChebiIds Array
+     * @author  CS76
+     * @date    20160108
+     */
+
+    @RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/getMetabolites")
+    @ResponseBody
+    public RestResponse<Study> getIdentifiedMetabolites(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException {
+
+        logger.info("Requesting " + studyIdentifier + "metabolite mapping update");
+
+        RestResponse response = new RestResponse();
+
+       // ArrayList<String> metabolites = getMetabolitesFromMAF(studyIdentifier);
+
+       // response.setContent(metabolites);
+
+        return response;
+    }
+
+    public void initializeDAOs(){
+
+        Connection connection = null;
+
+        try {
+
+            connection = AppContext.getConnection();
+
+            mcd = new MetaboLightsCompoundDAO(connection);
+            crd = new CrossReferenceDAO(connection);
+            dbd = new DatabaseDAO(connection);
+            speciesDAO = new SpeciesDAO(connection);
+            msDAO = new MetSpeciesDAO(connection);
+
+        }  catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    private boolean mapCompound(String chebiId, String studyIdentifier, String species){
+
+        try {
+
+            Entity entity = getChebiEntity(chebiId);
+
+            // Check if the metabolite entry exits
+
+            if (entity.getSmiles()== null){
+                return false;
+            }
+
+            initializeDAOs();
+
+            String accession = "";
+
+            try {
+               accession  = MetaboLightsCompoundDAO.chebiID2MetaboLightsID(entity.getChebiId());
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+
+            // Check if we have already the Metabolite (since querying the WS is what takes more...)
+            MetaboLightsCompound mc = mcd.findByCompoundAccession(accession);
+
+            if(mc != null){
+
+                    CrossReference cr = crd.findByCrossReferenceAccession(studyIdentifier);
+
+                    // If not CrossReference was found
+                    if (cr == null){
+                        cr = new CrossReference();
+                        cr.setAccession(studyIdentifier);
+                        cr.setDb(dbd.findByDatabaseName("MTBLS"));
+                        crd.save(cr);
+                    }else{
+						cr.setDb(dbd.findByDatabaseName("MTBLS"));
+						crd.save(cr);
+					}
+
+                    Species spe = speciesDAO.findBySpeciesName(species);
+
+					if(spe != null){
+						mc.setHasSpecies(true);
+						mcd.save(mc);
+					}
+
+                    msDAO.save(spe,mc,cr);
+
+            }
+
+        } catch (ChebiWebServiceFault_Exception e) {
+
+            e.printStackTrace();
+
+        } catch (uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException e) {
+
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+
+
+    private Map<String, String> getMetabolitesFromMAF(String studyIdentifier){
+
+        Map<String, String> metabolites = new HashMap<>();
+
+        try {
+            studyDAO= getStudyDAO();
+
+            Study study = studyDAO.getStudy(studyIdentifier.toUpperCase(), getUser().getApiToken(), true);
+
+            if(study==null) {
+
+                logger.error("Can't get the study requested " + studyIdentifier);
+
+            } else {
+
+                for (Assay assay: study.getAssays()){
+
+                    for (MetaboliteAssignmentLine mal : assay.getMetaboliteAssignment().getMetaboliteAssignmentLines()){
+
+                        String databaseIdentifier = mal.getDatabaseIdentifier();
+
+                        if (databaseIdentifier != null && !databaseIdentifier.isEmpty() && databaseIdentifier != "unknown"){
+
+                            if (databaseIdentifier.startsWith("CHEBI:"))
+
+                                metabolites.put(databaseIdentifier, mal.getSpecies());
+
+                        }
+                    }
+                }
+            }
+
+        } catch (DAOException e) {
+
+            e.printStackTrace();
+
+        }
+
+        return metabolites;
+
+    }
 
 }

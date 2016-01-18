@@ -87,6 +87,8 @@ public class MetabolightsWsClient {
     public static final String COMPOUNDS = "compounds";
     private static final String QUEUE_PATH = "queue/";
 
+
+
     private String metabolightsWsUrl = "http://www.ebi.ac.uk/metabolights/webservice/";
     private static final String STUDY_PATH = "study/";
 
@@ -854,4 +856,29 @@ public class MetabolightsWsClient {
 
         return deserializeJSONString(response, String.class);
     }
+
+
+    /**
+     * Update metabolites and studies mappings
+     *
+     * @param
+     * @return
+     * @author: CS76
+     * @date: 2016112
+     */
+    public RestResponse<ArrayListOfStrings> updateMetaboliteStudyMappings(){
+
+        logger.info("Updating the Study and metabolites mappings  @ MET_SPECIES Table");
+
+        logger.info("Requesting for study list");
+        RestResponse<ArrayListOfStrings> response = deserializeJSONString(makeGetRequest( STUDY_PATH + "list"), ArrayListOfStrings.class);
+
+        ArrayListOfStrings studies = response.getContent();
+
+        String updateMetaboliteStatus = makeGetRequest(STUDY_PATH + "MTBLS100" + "/updatemetabolites");
+
+
+        return null;
+    }
+
 }
