@@ -626,7 +626,6 @@ public class StudyController extends BasicController{
 		return obfuscationCode;
 	}
 
-	private static String FTP_PATH = "/prod/";
 	/**
 	 * Create a private FTP folder for a Study, so the user can upload big files using ftp.
 	 *
@@ -643,9 +642,13 @@ public class StudyController extends BasicController{
 			throws DAOException, IOException, IsaTabException {
 
 		String privateFTPServer = PropertiesUtil.getProperty("privateFTPServer");	// ftp-private.ebi.ac.uk
+		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");
 		String privateFTPUser = PropertiesUtil.getProperty("privateFTPUser");		// mtblight
 		String privateFTPPass = PropertiesUtil.getProperty("privateFTPPass");		// gs4qYabh
 		String linkFTPUploadDoc = PropertiesUtil.getProperty("linkFTPUploadDoc");	// ...
+		// get the version of the app currently in use from the last part of the path
+		String[] ftp_paths = privateFTPRoot.split("/");
+		String ftp_path = "/"+ftp_paths[ftp_paths.length - 1]+"/";
 
 		User user = getUser();
 		logger.info("User {} has requested a private FTP folder for the study {}", user.getUserName(),studyIdentifier);
@@ -671,10 +674,10 @@ public class StudyController extends BasicController{
 				.append('\t').append("server: ")
 				.append("<b>").append(privateFTPServer).append("</b>").append('\n')
 				.append('\t').append("remote folder: ")
-				.append("<b>").append(FTP_PATH).append(ftpFolder).append("</b>").append('\n')
+				.append("<b>").append(ftp_path).append(ftpFolder).append("</b>").append('\n')
 				.append('\n')
 				.append("Please, note that the remote folder needs to be entirely typed, as the folder is not browsable. So use ")
-				.append("\"").append("<b>").append("cd ").append(FTP_PATH).append(ftpFolder).append("</b>").append("\"").append(" to access your private folder.")
+				.append("\"").append("<b>").append("cd ").append(ftp_path).append(ftpFolder).append("</b>").append("\"").append(" to access your private folder.")
 				.append(" More extensive instructions can be found here: ").append(linkFTPUploadDoc)
 				.append('\n').append('\n')
 				.append("We would be grateful for any feedback on the upload procedure and any issues you may find.")
