@@ -25,7 +25,7 @@
 
 <template id="curator-form">
     <div class="">
-        <table id="validationTable" class="display clean">
+        <table id="validationTable" class="dataTable table table-striped table-bordered">
             <thead class='text_header'>
             <tr>
                 <th>Condition</th>
@@ -50,12 +50,14 @@
             </td>
 
             <td>
-                <select class="form-control" v-model="entry.passedRequirement" @change="add(entry)">
+                <div class="form-group">
+                    <select class="form-control" v-model="entry.passedRequirement" @change="add(entry)">
 
-                    <option selected="{{'PASSES' == status(entry)}}" v-bind:value='true'>PASSES</option>
-                    <option selected="{{'FAILS' == status(entry)}}" v-bind:value='false'>FAILS</option>
-                    <option selected="{{'INCOMPLETE' == status(entry)}}" v-bind:value='false'>INCOMPLETE</option>
-                </select>
+                        <option selected="{{'PASSES' == status(entry)}}" v-bind:value='true'>PASSES</option>
+                        <option selected="{{'FAILS' == status(entry)}}" v-bind:value='false'>FAILS</option>
+                        <option selected="{{'INCOMPLETE' == status(entry)}}" v-bind:value='false'>INCOMPLETE</option>
+                    </select>
+                </div>
             </td>
 
 

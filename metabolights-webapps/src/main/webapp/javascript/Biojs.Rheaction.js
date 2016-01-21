@@ -20,7 +20,7 @@ Biojs.Rheaction = Biojs.extend({constructor: function(a) {
             proxyUrl: "RheaAndReactomeProxy",
             rheaWsUrl: "http://www.rhea-db.org/rest/1.0/ws/reaction/cmlreact/",
             chebiUrl: "http://www.ebi.ac.uk/chebi/searchId.do?chebiId=",
-            compoundImgUrl: "http://www.rhea-db.org/compoundImage.xhtml?", showCompoundAccession: false, showChebiId: false, showFormulaAndCharge: false}, _clearContent: function() {
+            compoundImgUrl: "http://www.rhea-db.org/compoundImage?", showCompoundAccession: false, showChebiId: false, showFormulaAndCharge: false}, _clearContent: function() {
         jQuery("#" + this.opt.target).html("");
     }, _displayNoDataMessage: function() {
         jQuery("#" + this.opt.target + "").html(Biojs.Rheaction.MESSAGE_NODATA);

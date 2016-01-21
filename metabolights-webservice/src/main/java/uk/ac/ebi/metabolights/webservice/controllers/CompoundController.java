@@ -106,7 +106,6 @@ public class CompoundController extends BasicController {
 
         FileUtil.streamFile(spectra.getPathToJsonSpectra(), response);
 
-
     }
 
     @RequestMapping(value = "/pathway/{pathwayId}/svg")
@@ -120,6 +119,18 @@ public class CompoundController extends BasicController {
 
         FileUtil.streamFile(pathway.getPathToPathwayFile(), response, "image/svg+xml");
 
+
+    }
+
+    @RequestMapping(value = "/splash/{spectraId}/")
+    public void getSplash(@PathVariable("spectraId") String spectraId, HttpServletResponse response) {
+
+
+        long spectraID = Long.parseLong(spectraId);
+
+        Spectra spectra = ModelObjectFactory.getSpectra(spectraID);
+
+        FileUtil.streamFile(spectra.getPathToJsonSpectra(), response);
 
     }
 

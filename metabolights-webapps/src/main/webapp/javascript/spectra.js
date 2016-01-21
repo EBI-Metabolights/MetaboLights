@@ -129,8 +129,8 @@ function loadSpectrumAndInfo(spectrum, infoDiv) {
     loadSpectrum(spectrum);
     loadSpectraInfo(spectrum, infoDiv);
 
-
 }
+
 function loadSpectraAndInfo(spectra, infoDiv) {
 
     loadSpectra(spectra);

@@ -66,10 +66,11 @@
 
 			var pathwayDisplayArea = document.createElement("div");
 			pathwayDisplayArea.id='pathwayDisplayArea';
+            pathwayDisplayArea.className = "ml--loading";
 			pathwayCanvas.appendChild(pathwayDisplayArea);
 
 			registerChangeEvents();
-			$("#pathwayDisplayArea").html('<iframe src ="http://www.wikipathways.org/wpi/PathwayWidget.php?id=' + selectList.options[selectList.selectedIndex].value + '&xref='+compound+',Ce&colors=green" frameborder="0" width="100%" height="500px" seamless="seamless" scrolling="no" ></iframe>')
+			 $("#pathwayDisplayArea").html('<iframe src ="http://www.wikipathways.org/wpi/PathwayWidget.php?id=' + selectList.options[selectList.selectedIndex].value + '&xref='+compound+',Ce&colors=green" frameborder="0" width="100%" height="500px" seamless="seamless" scrolling="no" ></iframe>')
 		}
 
 		function extractPathwaysFromJSON(data){
@@ -84,7 +85,7 @@
 		function registerChangeEvents(){
 			var select = document.getElementById('pathwaySelect');
 			select.onchange=function(){
-				$("#pathwayDisplayArea").html('<iframe src ="http://www.wikipathways.org/wpi/PathwayWidget.php?id=' + select.options[select.selectedIndex].value + '&xref='+compound+',Ce&colors=green" frameborder="0" width="100%" height="500px" seamless="seamless" scrolling="no"></iframe>');
+				 $("#pathwayDisplayArea").html('<iframe src ="http://www.wikipathways.org/wpi/PathwayWidget.php?id=' + select.options[select.selectedIndex].value + '&xref='+compound+',Ce&colors=green" frameborder="0" width="100%" height="500px" seamless="seamless" scrolling="no"></iframe>');
 			};
 		}
 

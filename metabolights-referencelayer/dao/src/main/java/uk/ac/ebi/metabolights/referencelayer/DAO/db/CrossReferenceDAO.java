@@ -134,7 +134,6 @@ public class CrossReferenceDAO extends AbstractDAO implements ICrossReferenceDAO
 
 	public void save(CrossReference crossReference) throws DAOException {
 
-        // Validate:
         // CrossReference must exist
         if (crossReference.getDb() == null ){
             String msg = "CrossReference can't be saved without a Database object associated";

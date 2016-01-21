@@ -806,7 +806,31 @@ public class StudyController extends BasicController{
 		restResponse.setMessage(result);
 		return restResponse;
 
+	}
 
+
+	/**
+	 * Returns list of  Metabolites identified in the given Metabolights Study - MTBLSX
+	 *
+	 * @param   studyIdentifier
+	 * @return  ChebiIds Array
+	 * @author  CS76
+	 * @date    20160108
+	 */
+
+	@RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/getMetabolites")
+	@ResponseBody
+	public RestResponse<Study> getIdentifiedMetabolites(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException {
+
+		logger.info("Requesting " + studyIdentifier + "metabolite mapping update");
+
+		RestResponse response = new RestResponse();
+
+		Map<String, String> metabolites = getMetabolitesFromMAF(studyIdentifier);
+
+		response.setContent(metabolites);
+
+		return response;
 	}
 
     /**
@@ -837,54 +861,6 @@ public class StudyController extends BasicController{
         return response;
     }
 
-    /**
-     * Returns list of  Metabolites identified in the given Metabolights Study - MTBLSX
-     *
-     * @param   studyIdentifier
-     * @return  ChebiIds Array
-     * @author  CS76
-     * @date    20160108
-     */
-
-    @RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/getMetabolites")
-    @ResponseBody
-    public RestResponse<Study> getIdentifiedMetabolites(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException {
-
-        logger.info("Requesting " + studyIdentifier + "metabolite mapping update");
-
-        RestResponse response = new RestResponse();
-
-       // ArrayList<String> metabolites = getMetabolitesFromMAF(studyIdentifier);
-
-       // response.setContent(metabolites);
-
-        return response;
-    }
-
-    public void initializeDAOs(){
-
-        Connection connection = null;
-
-        try {
-
-            connection = AppContext.getConnection();
-
-            mcd = new MetaboLightsCompoundDAO(connection);
-            crd = new CrossReferenceDAO(connection);
-            dbd = new DatabaseDAO(connection);
-            speciesDAO = new SpeciesDAO(connection);
-            msDAO = new MetSpeciesDAO(connection);
-
-        }  catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NamingException e) {
-            e.printStackTrace();
-        }
-
-    }
-
 
     private boolean mapCompound(String chebiId, String studyIdentifier, String species){
 
@@ -906,6 +882,7 @@ public class StudyController extends BasicController{
                accession  = MetaboLightsCompoundDAO.chebiID2MetaboLightsID(entity.getChebiId());
             }catch (Exception e){
                 System.out.println(e.getMessage());
+                return false;
             }
 
             // Check if we have already the Metabolite (since querying the WS is what takes more...)
@@ -917,13 +894,17 @@ public class StudyController extends BasicController{
 
                     // If not CrossReference was found
                     if (cr == null){
+
                         cr = new CrossReference();
                         cr.setAccession(studyIdentifier);
                         cr.setDb(dbd.findByDatabaseName("MTBLS"));
                         crd.save(cr);
+
                     }else{
-						cr.setDb(dbd.findByDatabaseName("MTBLS"));
+
+                        cr.setDb(dbd.findByDatabaseName("MTBLS"));
 						crd.save(cr);
+
 					}
 
                     Species spe = speciesDAO.findBySpeciesName(species);
@@ -947,6 +928,30 @@ public class StudyController extends BasicController{
         }
 
         return false;
+    }
+
+    private void initializeDAOs(){
+
+        Connection connection = null;
+
+        try {
+
+            connection = AppContext.getConnection();
+
+            mcd = new MetaboLightsCompoundDAO(connection);
+            crd = new CrossReferenceDAO(connection);
+            dbd = new DatabaseDAO(connection);
+            speciesDAO = new SpeciesDAO(connection);
+            msDAO = new MetSpeciesDAO(connection);
+
+        }  catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
+
     }
 
 

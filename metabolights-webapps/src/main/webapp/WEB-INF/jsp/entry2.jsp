@@ -262,6 +262,8 @@
             <span class="icon icon-functional" data-icon="b"/><spring:message code="label.viewAllFiles"/>
         </a>
         &nbsp;|&nbsp;
+        <a href="${pageContext.request.contextPath}/beta/${study.studyIdentifier}" class="icon icon-generic" data-icon="&lt;">BETA</a>
+        &nbsp;|&nbsp;
         <%@include file="entryActions.jsp" %>
         <c:if test="${!(study.publicStudy)}">
             <span class="right">

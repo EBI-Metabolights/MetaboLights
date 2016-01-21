@@ -27,19 +27,19 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
 
-<link rel="stylesheet" href="cssrl/iconfont/font_style.css" type="text/css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/dataTables.bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
-<link rel="stylesheet" href="css/ChEBICompound.css" type="text/css" />
-<link rel="stylesheet" href="css/metabolights.css"  type="text/css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/ChEBICompound.css" type="text/css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css"  type="text/css" />
 
 
-<script type="text/javascript" src="javascript/Biojs.js" charset="utf-8"></script>
-<script type="text/javascript" src="javascript/Biojs.ChEBICompound.js" charset="utf-8"></script>
-<script type="text/javascript" src="javascript/jquery.linkify-1.0-min.js" charset="utf-8"></script>
-<script type="text/javascript" src="javascript/chebicompoundpopup.js" charset="utf-8"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.js" charset="utf-8"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.ChEBICompound.js" charset="utf-8"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/jquery.linkify-1.0-min.js" charset="utf-8"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/chebicompoundpopup.js" charset="utf-8"></script>
 
 
 
@@ -121,11 +121,12 @@
                             </span>
                     </c:forEach>
                 </p>
-                <p>
+                <div>
+                    <%@include file="studyActions.jsp" %>
                     <a data-toggle="modal" data-target="#shareStudy"><i class="fa fa-link"></i>&nbsp;
                         <spring:message code="label.study.share"/>
                     </a>
-                </p>
+                </div>
             </div>
 
             <div class="col-md-7 no--padding">
@@ -307,10 +308,10 @@
                                                                    <c:set var="DOIValue" value="${fn:replace(DOIValue, 'DOI:','')}"/>
                                                                </c:if>
                                                                <c:if test="${fn:contains(DOIValue, 'dx.doi')}">
-                                                                   <a href="${DOIValue}">${pub.title}</a>
+                                                                   <a target="_blank" href="${DOIValue}">${pub.title}</a>
                                                                </c:if>
                                                                <c:if test="${not fn:contains(DOIValue, 'dx.doi')}">
-                                                                   <a href="http://dx.doi.org/${DOIValue}">${pub.title}</a>
+                                                                   <a target="_blank" href="http://dx.doi.org/${DOIValue}">${pub.title}</a>
                                                                </c:if>
                                                            </c:when>
                                                            <c:otherwise>${pub.title}</c:otherwise>
@@ -338,9 +339,8 @@
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="protocols">
-
                         <c:if test="${not empty study.protocols}">
-                                <table class="dataTable table table-striped table-bordered">
+                                <table class="table table-striped table-bordered protocols-table">
                                     <thead class='text_header'>
                                     <tr>
                                         <th>Protocol</th>
@@ -387,7 +387,7 @@
 
                                                 <c:if test="${cell.field.header eq 'Sample Name'}">
                                                     <c:if test="${fn:startsWith(cellvalue, 'SAMEA')}">
-                                                        <c:set var="cellvalue" value="<A href='http://www.ebi.ac.uk/biosamples/sample/${cellvalue}'>${cellvalue}</A>"/>
+                                                        <c:set var="cellvalue" value="<a href='http://www.ebi.ac.uk/biosamples/sample/${cellvalue}'>${cellvalue}</a>"/>
                                                     </c:if>
                                                 </c:if>
                                                 <td>${cellvalue}</td>
@@ -401,130 +401,71 @@
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="validations">
-                        <c:if test="${not empty study.validations.entries}">
-                            <div class="specs well">
-                                Validations marked with (*) are specially approved by the MetaboLights Curators
-                            </div>
-                            <table class="dataTable table table-striped table-bordered">
-                                <thead class='text_header'>
-                                <tr>
-                                    <th>Condition</th>
-                                    <th>Status</th>
-                                    <th>Description</th>
-                                    <th>Requirement</th>
-                                    <th>Group</th>
-                                    <th>Message</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <c:forEach var="validation" items="${study.validations.entries}">
-                                    <tr>
-                                        <td>
-                                            <c:set var="validationType" value="${validation.type}"/>
-                                            <c:set var="validationOverridden" value="${validation.overriden}"/>
-                                            <c:set var="validationPassedRequirement" value="${validation.passedRequirement}"/>
-                                            <%@include file="validation.jsp" %>
-                                        </td>
+                        <!-- TAB: Validations-->
+                        <div id="tabs-validations" class="tab">
+                            <c:if test="${not empty study.validations.entries}">
+                                <div class="specs well">
+                                    Validations marked with (*) are specially approved by the MetaboLights Curators
+                                </div>
+                                <c:choose>
+                                    <c:when test="${curator}">
+                                        <%@include file="validationOverride.jsp"%>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:set var="validations" value="${study.validations.entries}"/>
+                                        <c:if test="${not empty study.validations.entries}">
+                                            <table class="dataTable table table-striped table-bordered">
+                                                <thead class='text_header'>
+                                                <tr>
+                                                    <th>Condition</th>
+                                                    <th>Status</th>
+                                                    <th>Description</th>
+                                                    <th>Requirement</th>
+                                                    <th>Group</th>
+                                                    <th>Message</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <c:forEach var="validation" items="${study.validations.entries}">
+                                                    <tr>
+                                                        <td>
+                                                            <c:set var="validationType" value="${validation.type}"/>
+                                                            <c:set var="validationOverridden" value="${validation.overriden}"/>
+                                                            <c:set var="validationPassedRequirement" value="${validation.passedRequirement}"/>
+                                                            <%@include file="validation.jsp" %>
+                                                        </td>
 
-                                        <c:if test="${validation.status == 'GREEN'}">
-                                            <td>PASSES</td>
+                                                        <c:if test="${validation.status == 'GREEN'}">
+                                                            <td>PASSES</td>
+                                                        </c:if>
+                                                        <c:if test="${validationPassedRequirement == 'false'}">
+                                                            <c:if test="${validationType == 'MANDATORY'}">
+                                                                <td>FAILS</td>
+                                                            </c:if>
+                                                            <c:if test="${validationType == 'OPTIONAL'}">
+                                                                <td>INCOMPLETE</td>
+                                                            </c:if>
+                                                        </c:if>
+
+                                                            <%--<td>${validation.status}</td>--%>
+                                                        <td>${validation.description}</td>
+                                                        <td>${validation.type}</td>
+                                                        <td>${validation.group}</td>
+                                                        <td>${validation.message}</td>
+                                                    </tr>
+
+                                                </c:forEach>
+                                                </tbody>
+                                            </table>
                                         </c:if>
-                                        <c:if test="${validationPassedRequirement == 'false'}">
-                                            <c:if test="${validationType == 'MANDATORY'}">
-                                                <td>FAILS</td>
-                                            </c:if>
-                                            <c:if test="${validationType == 'OPTIONAL'}">
-                                                <td>INCOMPLETE</td>
-                                            </c:if>
-                                        </c:if>
+                                    </c:otherwise>
+                                </c:choose>
 
-                                            <%--<td>${validation.status}</td>--%>
-                                        <td>${validation.description}</td>
-                                        <td>${validation.type}</td>
-                                        <td>${validation.group}</td>
-                                        <td>${validation.message}</td>
-                                    </tr>
 
-                                </c:forEach>
-                                </tbody>
-                            </table>
-                        </c:if>
+                            </c:if>
+                        </div>
                     </div>
 
-                    <script type="text/javascript">
-                        function confirmDeleteFiles(element){
-
-                            var dialog = $("#confirmaction");
-
-                            // Fill dialog
-                            ///var targetUrl = $(element).attr("href");
-                            var text = $(element).attr("confirmationText");
-
-                            dialog.text(text);
-
-                            $(dialog).dialog({
-                            //           autoOpen: false,
-                                modal: true,
-                                buttons : {
-                                    "Confirm" : function() {
-                                        ///window.location.href = targetUrl;
-
-                                        var frm = element.form;
-                                        // change action for deleting files
-                                        frm.action = "${study.studyIdentifier}/files/deleteSelFiles";
-                                        frm.method ="post";
-                                        frm.submit();
-
-                                        // change action back to download files (default)
-                                        frm.reset();
-                                        frm.action = "${study.studyIdentifier}/files/downloadSelFiles";
-                                        frm.method ="post";
-
-                                    },
-                                    "Cancel" : function() {
-                                        $(this).dialog("close");
-                                    }
-                                }
-                            });
-
-                        //       $(dialog).dialog("open");
-
-                            return false;
-                        }
-
-                        function confirmDeleteFtpFiles(element){
-                            var dialog = $("#confirmaction");
-
-                            // Fill dialog
-                            var text = $(element).attr("confirmationText");
-
-                            dialog.text(text);
-
-                            $(dialog).dialog({
-                                modal: true,
-                                buttons : {
-                                    "Confirm" : function() {
-
-                                        var frm = element.form;
-                                        // change action for deleting files
-                                        frm.action = "${study.studyIdentifier}/files/deleteSelFtpFiles";
-                                        frm.method ="post";
-                                        frm.submit();
-
-                                        // change action back to move files (default)
-                                        frm.reset();
-                                        frm.action = "${study.studyIdentifier}/files/moveFilesfromFtpFolder";
-                                        frm.method ="post";
-                                    },
-                                    "Cancel" : function() {
-                                        $(this).dialog("close");
-                                    }
-                                }
-                            });
-
-                            return false;
-                        }
-                    </script>
 
                     <c:if test="${fn:length(study.assays) eq 1}">
                         <c:if test="${not empty study.assays}">
@@ -532,7 +473,7 @@
                                 <div role="tabpanel" class="tab-pane" id="assay">
                                     <h3>Assay&nbsp;<c:if test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if></h3>
                                     <div class="specs well">
-                                        <h5><spring:message code="label.assayName"/>:<b> <a href="/metabolights/${study.studyIdentifier}/files/${assay.fileName}"><span class="icon icon-fileformats" data-icon="v">${assay.fileName}</span></a></b></h5>
+                                        <h5><spring:message code="label.assayName"/>:<b> <a href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/${assay.fileName}"><span class="icon icon-fileformats" data-icon="v">${assay.fileName}</span></a></b></h5>
                                         <h5><spring:message code="label.measurement"/>: <b>${assay.measurement}</b></h5>
                                         <h5><spring:message code="label.technology"/>:  <b>${assay.technology}
                                             <c:if test="${fn:contains(assay.technology,'NMR')}">
@@ -562,7 +503,7 @@
 
                                             <div class="panel-body">
                                                 <div id="mafTableWrapper${assay.assayNumber}" data-studyid="${study.studyIdentifier}" data-assayid="${assay.assayNumber}">
-                                                    <p class="text-center"><span><img src="/metabolights/img/beta_loading.gif"></span></p>
+                                                    <p class="text-center"><span><img src="${pageContext.request.contextPath}/img/beta_loading.gif"></span></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -596,7 +537,7 @@
 
                                                                         <c:if test="${cell.field.header eq 'Sample Name'}">
                                                                             <c:if test="${fn:startsWith(cellvalue, 'SAMEA')}">
-                                                                                <c:set var="cellvalue" value="<A href='http://www.ebi.ac.uk/biosamples/sample/${cell.value}'>${cell.value}</A>"/>
+                                                                                <c:set var="cellvalue" value="<a href='http://www.ebi.ac.uk/biosamples/sample/${cell.value}'>${cell.value}</a>"/>
                                                                             </c:if>
                                                                         </c:if>
                                                                         <td>${cellvalue}</td>
@@ -625,7 +566,7 @@
                                 <div role="tabpanel" class="tab-pane" id="assay${assay.assayNumber}">
                                     <h3>Assay&nbsp;<c:if test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if></h3>
                                     <div class="specs well">
-                                        <h5><spring:message code="label.assayName"/>:<b> <a href="/metabolights/${study.studyIdentifier}/files/${assay.fileName}"><span class="icon icon-fileformats" data-icon="v">${assay.fileName}</span></a></b></h5>
+                                        <h5><spring:message code="label.assayName"/>:<b> <a href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/${assay.fileName}"><span class="icon icon-fileformats" data-icon="v">${assay.fileName}</span></a></b></h5>
                                         <h5><spring:message code="label.measurement"/>: <b>${assay.measurement}</b></h5>
                                         <h5><spring:message code="label.technology"/>:  <b>${assay.technology}
                                             <c:if test="${fn:contains(assay.technology,'NMR')}">
@@ -689,7 +630,7 @@
 
                                                                         <c:if test="${cell.field.header eq 'Sample Name'}">
                                                                             <c:if test="${fn:startsWith(cellvalue, 'SAMEA')}">
-                                                                                <c:set var="cellvalue" value="<A href='http://www.ebi.ac.uk/biosamples/sample/${cell.value}'>${cell.value}</A>"/>
+                                                                                <c:set var="cellvalue" value="<a href='http://www.ebi.ac.uk/biosamples/sample/${cell.value}'>${cell.value}</a>"/>
                                                                             </c:if>
                                                                         </c:if>
                                                                         <td>${cellvalue}</td>
@@ -728,18 +669,18 @@
                                     <c:if test="${(study.studyStatus == 'SUBMITTED') and !hasPrivateFtpFolder }">
                                         <sec:authorize access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
                                             &nbsp;
-                                            <a class="noLine" rel="nofollow" href="/metabolights/${study.studyIdentifier}/files/requestFtpFolder" title="<spring:message code="label.requestFtpFolder"/>">
+                                            <a class="noLine" rel="nofollow" href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/requestFtpFolder" title="<spring:message code="label.requestFtpFolder"/>">
                                                 <span class="icon icon-functional" data-icon="D"/><spring:message code="label.requestFtpFolder"/>
                                             </a>
                                         </sec:authorize>
                                         &nbsp;|&nbsp;
                                     </c:if>
                                     <!--  Request FTP folder -->
-                                    <a class="noLine" rel="nofollow" href="/metabolights/${study.studyIdentifier}/files/${study.studyIdentifier}${token}" title="<spring:message code="label.downloadstudy"/>">
+                                    <a class="noLine" rel="nofollow" href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/${study.studyIdentifier}${token}" title="<spring:message code="label.downloadstudy"/>">
                                         <span class="icon icon-functional" data-icon="="/><spring:message code="label.downloadstudy"/>
                                     </a>
                                     &nbsp;|&nbsp;
-                                    <a class="noLine" rel="nofollow" href="/metabolights/${study.studyIdentifier}/files/metadata${token}" title="<spring:message code="label.downloadstudyMetadata"/>">
+                                    <a class="noLine" rel="nofollow" href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/metadata${token}" title="<spring:message code="label.downloadstudyMetadata"/>">
                                         <span class="icon icon-functional" data-icon="="><spring:message code="label.downloadstudyMetadata"/>
                                     </a>
                                     &nbsp;
@@ -789,7 +730,7 @@
                                         <tr>
                                             <td><input type="checkbox" name="file" value="${file.name}"/></td>
                                             <td>
-                                                <a rel="nofollow" href="/metabolights/${study.studyIdentifier}/files/${file.name}${token}">${file.name}</a>
+                                                <a rel="nofollow" href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/${file.name}${token}">${file.name}</a>
                                             </td>
                                         </tr>
                                         <%--</c:if>--%>
@@ -807,8 +748,7 @@
                                     </div>
                                     <sec:authorize ifAnyGranted="ROLE_SUPER_USER">
                                         <div style="float: right; padding: 10px;">
-                                            <input id="deleteSelFiles" name="deleteSelFiles" type="button" class="submit cancel" value="<spring:message code="label.deleteSelectedFiles"/>"
-                                                   confirmationText="This will delete all selected files from the system, no way back!." onclick="return confirmDeleteFiles(this);"/>
+                                            <input data-delete="${pageContext.request.contextPath}/${study.studyIdentifier}/files/deleteSelFiles" data-download="${pageContext.request.contextPath}/${study.studyIdentifier}/files/downloadSelFiles" data-title="Confirmation" data-info="This will delete all selected files from the system, no way back!." data-toggle="modal" data-target="#confirm-delete-modal" id="deleteSelFiles" name="deleteSelFiles" type="button" class="submit cancel" value="<spring:message code="label.deleteSelectedFiles"/>"/>
                                         </div>
                                     </sec:authorize>
                                 </div>
@@ -821,6 +761,120 @@
                                     </sec:authorize>
                                 </div>
                             </form>
+
+                            <script type="text/javascript">
+                                function confirmDeleteFiles(element){
+
+                                    var dialog = $("#confirmaction");
+
+                                    // Fill dialog
+                                    ///var targetUrl = $(element).attr("href");
+                                    var text = $(element).attr("confirmationText");
+
+                                    dialog.text(text);
+
+                                    $(dialog).dialog({
+                                        //           autoOpen: false,
+                                        modal: true,
+                                        buttons : {
+                                            "Confirm" : function() {
+                                                ///window.location.href = targetUrl;
+
+                                                var frm = element.form;
+                                                // change action for deleting files
+                                                frm.action = "${study.studyIdentifier}/files/deleteSelFiles";
+                                                frm.method ="post";
+                                                frm.submit();
+
+                                                // change action back to download files (default)
+                                                frm.reset();
+                                                frm.action = "${study.studyIdentifier}/files/downloadSelFiles";
+                                                frm.method ="post";
+
+                                            },
+                                            "Cancel" : function() {
+                                                $(this).dialog("close");
+                                            }
+                                        }
+                                    });
+
+                                    //       $(dialog).dialog("open");
+
+                                    return false;
+                                }
+
+                                function confirmDeleteFtpFiles(element){
+                                    var dialog = $("#confirmaction");
+
+                                    // Fill dialog
+                                    var text = $(element).attr("confirmationText");
+
+                                    dialog.text(text);
+
+                                    $(dialog).dialog({
+                                        modal: true,
+                                        buttons : {
+                                            "Confirm" : function() {
+
+                                                var frm = element.form;
+                                                // change action for deleting files
+                                                frm.action = "${study.studyIdentifier}/files/deleteSelFtpFiles";
+                                                frm.method ="post";
+                                                frm.submit();
+
+                                                // change action back to move files (default)
+                                                frm.reset();
+                                                frm.action = "${study.studyIdentifier}/files/moveFilesfromFtpFolder";
+                                                frm.method ="post";
+                                            },
+                                            "Cancel" : function() {
+                                                $(this).dialog("close");
+                                            }
+                                        }
+                                    });
+
+                                    return false;
+                                }
+                            </script>
+
+                            <div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <div id="modal-title"></div>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div id="modal-info"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            <a class="btn btn-ok btn-danger" onclick="">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <script>
+                                $('#confirm-delete-modal').on('show.bs.modal', function(e) {
+                                    $(this).find('#modal-title').html($(e.relatedTarget).data('title'));
+                                    $(this).find('#modal-info').html($(e.relatedTarget).data('info'));
+
+                                    $(this).find('.btn-ok').click(function() {
+                                        var frm = document.getElementById('selFilesForm');
+                                        frm.action = $(e.relatedTarget).data('delete');
+                                        frm.method ="post";
+                                        frm.submit();
+
+                                        alert();
+
+
+                                        // change action back to download files (default)
+                                        frm.reset();
+                                        frm.action = $(e.relatedTarget).data('download');
+                                        frm.method ="post";
+                                    });
+                                });
+                            </script>
 
 
                             <br/><br/>
@@ -861,8 +915,7 @@
                                                                    onclick="form.submit();" />
                                                         </div>
                                                         <div style="float: right; padding: 10px;">
-                                                            <input id="deleteFtpSelFilesBtn" name="deleteFtpSelFilesBtn" type="button" class="submit cancel" value="<spring:message code="label.deleteFtpSelFiles"/>"
-                                                                   confirmationText="This will delete all selected files from the system, no way back!." onclick="return confirmDeleteFtpFiles(this);"/>
+                                                            <input data-delete="${study.studyIdentifier}/files/deleteSelFtpFiles" data-download="${study.studyIdentifier}/files/moveFilesfromFtpFolder" data-title="Confirmation" data-info="This will delete all selected files from the system, no way back!." data-toggle="modal" data-target="#confirm-delete-modal" id="deleteFtpSelFilesBtn" name="deleteFtpSelFilesBtn" type="button" class="submit cancel" value="<spring:message code="label.deleteFtpSelFiles"/>"/>
                                                         </div>
                                                     </sec:authorize>
                                                 </div>
@@ -971,6 +1024,13 @@
         $('.assayTable').wrap('<div class="scrollStyle" />');
 
         $('.dataTable').DataTable();
+
+        $('.protocols-table').DataTable({
+            "ordering": false
+        });
+
+
+
 
         $('.quicklinks').click(function(e){
             e.preventDefault();

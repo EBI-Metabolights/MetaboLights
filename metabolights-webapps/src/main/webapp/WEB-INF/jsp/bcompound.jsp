@@ -17,8 +17,10 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.Rheaction.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/wiki-pathways.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/JSmol.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/splash.js"></script>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet"  href="${pageContext.request.contextPath}/cssrl/biojs.Rheaction.css" type="text/css"/>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/st.css" type="text/css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
@@ -289,6 +291,7 @@
                                             </table>
                                         </div>
                                     </c:if>
+
                                     <c:if test="${compound.mc.hasPathways}">
                                         <div role="tabpanel" class="tab-pane" id="pathways">
                                             <!-- Pathways Container -->
@@ -297,6 +300,7 @@
                                             </div>
                                         </div>
                                     </c:if>
+
                                     <c:if test="${compound.mc.hasNMR}">
                                         <div role="tabpanel" class="tab-pane" id="nmrspectra">
                                             <!-- NMR Spectra -->
@@ -314,7 +318,7 @@
                                                     {
                                                         "id":${spectra.id},
                                                         "name": "${spectra.name}",
-                                                        "url": "${pageContext.request.contextPath}/webservice/compounds/spectra/${spectra.id}/json",
+                                                        "url": "http://www.ebi.ac.uk/metabolights/webservice/compounds/spectra/${spectra.id}/json",
                                                         "type": "${spectra.spectraType}",
                                                         "properties": [
                                                             <c:forEach var="attribute" items="${spectra.attributes}" varStatus="attributeLoopStatus">
@@ -336,6 +340,13 @@
                                     </c:if>
                                     <c:if test="${compound.mc.hasMS}">
                                         <div role="tabpanel" class="tab-pane" id="msspectra">
+
+                                            <br>
+                                            <div class="panel panel-default">
+                                                <div class="panel-body">
+                                                    <p><a href="http://splash.fiehnlab.ucdavis.edu/">Splash - The Spectral Hash Identifier</a> <span class="pull-right" id="splash-container"></span></p>
+                                                </div>
+                                            </div>
                                             <!-- MS Spectra -->
 
                                             <select multiple class="form-control" id="msSpectraList"></select>
@@ -352,7 +363,7 @@
                                                     {
                                                         "id":${msspectra.id},
                                                         "name": "${msspectra.name}",
-                                                        "url": "${pageContext.request.contextPath}/webservice/compounds/spectra/${msspectra.id}/json",
+                                                        "url": "http://www.ebi.ac.uk/metabolights/webservice/compounds/spectra/${msspectra.id}/json",
                                                         "type": "${msspectra.spectraType}",
                                                         "properties": [
                                                             <c:forEach var="attribute" items="${msspectra.attributes}" varStatus="attributeLoopStatus">
@@ -417,6 +428,7 @@
         MSchart.load(MSData);
         loadSpectralist("#msSpectraList", msInfo);
     }
+
     var NMRchart;
     var NMRarray;
     function initializeNMRSpeckTackle() {
@@ -437,9 +449,11 @@
                 text: item.name
             }));
         });
+
         $(list).change({"spectraList": spectraList}, function (event) {
             spectraChangeHandler(event);
         })
+
         // Get the first spectra and load it
         loadSpectraAndInfo([spectraList[0]], $(list).next().next());
     }
@@ -482,6 +496,7 @@
         loadSpectraInfo(spectrum, infoDiv);
     }
     function loadSpectraAndInfo(spectra, infoDiv) {
+        loadSPLASH(spectra[0]['url']);
         loadSpectra(spectra);
         if (spectra.length == 1) {
             loadSpectraInfo(spectra[0], infoDiv);
@@ -490,6 +505,32 @@
             $(infoDiv).hide();
         }
     }
+
+    function loadSPLASH(spectraURl){
+        var spectralCoordinates;
+        $.ajax({
+            type: 'GET',
+            url: spectraURl,
+            success: function (data) {
+                spectralCoordinates = data;
+                var ions = [];
+                for (x in spectralCoordinates['peaks']) {
+                    var coord = spectralCoordinates['peaks'][x];
+                    ions.push('{"mass": ' + coord['mz'] + ', "intensity" : '+ coord["intensity"] +'}');
+                }
+                var SPLASH_JSON = '{ "ions" : [' + ions + '], "type" : "MS" }';
+                generateSplash(JSON.parse(SPLASH_JSON));
+
+            },
+            error: function (xhr, status, errorThrown) {
+                console.log('STATUS ' + status);
+                console.log('ERROR THROWN ' + errorThrown);
+                done();
+            }
+        });
+    }
+
+
     function loadSpectra(spectra) {
 //        if (spectra.length > 0)
 //        {
@@ -667,7 +708,6 @@
                 synonymns = [];
                 for (obj in data) {
                     var tempSyn= data[obj].name;
-                    console.log(tempSyn)
                     if( synonymns.indexOf(tempSyn)<0){
                         synonymns.push(tempSyn);
                     }
