@@ -99,6 +99,11 @@ public class StudyValidations implements IValidationProcess {
         Validation validation = new Validation(DescriptionConstants.STUDY_CONTACT_EMAIL, Requirement.MANDATORY, Group.CONTACT);
         validation.setId(ValidationIdentifier.STUDY_CONTACT_EMAIL.getID());
         Collection<Contact> contacts = study.getContacts();
+        if (contacts.size() == 0) {
+            validation.setPassedRequirement(false);
+            validation.setMessage("No Study Contact information is provided");
+            return validation;
+        }
         int noEmail = 0;
         for (Contact contact : contacts) {
             if (contact.getEmail().isEmpty()) {
