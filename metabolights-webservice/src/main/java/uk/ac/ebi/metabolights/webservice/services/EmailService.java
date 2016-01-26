@@ -37,6 +37,9 @@ import uk.ac.ebi.metabolights.repository.model.AppRole;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.User;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
 import uk.ac.ebi.metabolights.webservice.utils.TextUtils;
 
 import javax.mail.internet.AddressException;
@@ -44,9 +47,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.net.InetAddress;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Uses a central Spring interface for sending emails (the MailSender interface).
@@ -295,7 +296,7 @@ public class EmailService {
 				model.put("body", HTMLbody);
 				model.put("technicalInfo", HTMLtechnicalInfo);
 				String text = VelocityEngineUtils.mergeTemplateIntoString(
-						velocityEngine, "email_template/htmlemail.vm", model);
+						velocityEngine, "email_template/htmlemail.vm", "UTF-8", model);
 				message.setText(text, true);
 			}
 		};
@@ -398,4 +399,164 @@ public class EmailService {
 
 		sendSimpleEmail(to, subject, body);
 	}
+
+	/**
+	 * Send a report to the submitter with the whole validation status
+	 * by email
+	 *
+	 * @param study
+	 * @author jrmacias
+	 * @date 20160125
+     */
+	public void sendValidationStatus(Study study) {
+
+		String from = curationEmailAddress;
+		// TODO provably inclyde all the recipients
+		/// String[] to = getRecipientsFromStudy(study);
+		String[] to = {curationEmailAddress};
+		String subject = PropertyLookUpService.getMessage("mail.validations.status.subject", study.getStudyIdentifier());
+		String body = PropertyLookUpService.getMessage("mail.validations.status.body", study.getStudyIdentifier());
+
+		Validations validations = study.getValidations();
+		Status valStatus = validations.getStatus();
+		Collection<Validation> vals = validations.getEntries();
+
+		StringBuilder status = new StringBuilder("Overall Status: ");
+		switch (valStatus) {
+			case RED:
+				status.append("FAILS").append("\n");
+				break;
+			case AMBER:
+				status.append("INCOMPLETE").append("\n");
+				break;
+			case GREEN:
+				status.append("PASSES").append("\n");
+				break;
+		}
+
+		Collection<Validation> failingValidations  = getValidations(vals, Status.RED);
+		StringBuilder failing = new StringBuilder();
+		for(Validation validation : failingValidations){
+			failing.append(formatValidationStatusString(validation));
+		}
+
+		Collection<Validation> amberValidations = getValidations(vals, Status.AMBER);
+		StringBuilder incomplete = new StringBuilder();
+		incomplete.append("\n").append("\n");
+		for(Validation validation : amberValidations){
+			incomplete.append(formatValidationStatusString(validation));
+		}
+
+		Collection<Validation> passingValidations = getValidations(vals, Status.GREEN);
+		StringBuilder passing = new StringBuilder();
+		passing.append("\n").append("\n");
+		for(Validation validation : passingValidations){
+			passing.append(formatValidationStatusString(validation));
+		}
+
+		sendValidationsEmail(from, to, subject, body, status.toString(), failing.toString(), incomplete.toString(), passing.toString());
+	}
+
+	/**
+	 *
+	 * @param validation
+	 * @return
+	 * @author jrmacias
+	 * @date 20160126
+     */
+	private String formatValidationStatusString(Validation validation) {
+		StringBuilder strB = new StringBuilder();
+
+		strB.append(validation.getDescription()).append(":").append("\t");
+
+		switch (validation.getStatus()) {
+			case RED:
+				strB.append("FAILS").append("\t").append(" - ");
+				break;
+			case AMBER:
+				strB.append("INCOMPLETE").append("\t").append(" - ");
+				break;
+			case GREEN:
+				strB.append("PASSES").append("\t").append(" - ");
+				break;
+		}
+
+		strB.append(validation.getPassedRequirement()?"MANDATORY":"OPTIONAL").append("\t")
+				.append(validation.getGroup()).append("\t")
+				.append(" : ")
+				.append(validation.getMessage()).append("\n");
+
+		return strB.toString();
+	}
+
+	/**
+	 *
+	 * @param from
+	 * @param to
+	 * @param subject
+	 * @param body
+	 *
+	 * @param status
+	 * @param failing
+	 * @param incomplete
+     * @param passing
+	 * @author jrmacias
+	 * @date 20160126
+     */
+	private void sendValidationsEmail(final String from, final String[] to, final String subject, final String body,
+									  final String status, final String failing, String incomplete, String passing) {
+
+		final String HTMLbody = body.replace("\n", "<BR/>");
+		final String statusMsg = status.replace("\n", "<BR/>");
+		final String failingVals = failing.replace("\n", "<BR/>");
+		final String incompleteVals = incomplete.replace("\n", "<BR/>");
+		final String passingVals = passing.replace("\n", "<BR/>");
+
+		MimeMessagePreparator preparator = new MimeMessagePreparator() {
+			public void prepare(MimeMessage mimeMessage) throws Exception {
+
+				MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+				message.setTo(to);
+				message.setFrom(from);
+				message.setSubject(subject);
+				Map model = new HashMap();
+				model.put("body", HTMLbody);
+				model.put("status", statusMsg);
+				model.put("failingValidations", failingVals);
+				model.put("incompleteValidations", incompleteVals);
+				model.put("passingValidations", passingVals);
+
+				String text = VelocityEngineUtils.mergeTemplateIntoString(
+						velocityEngine, "email_template/validationsEmail.vm", "UTF-8", model);
+				message.setText(text, true);
+			}
+		};
+
+		try {
+			this.mailSender.send(preparator);
+		} catch (Exception e) {
+
+			logger.error("Couldn't sent email: \n Subject: \n {}\n\n Body:\n{}\n\nMesssage:\n{}",subject,body, statusMsg, e );
+		}
+	}
+
+	/**
+	 *
+	 * @param validations
+	 * @param status
+     * @return
+	 * @author jrmacias
+	 * @date 20160126
+     */
+	private Collection<Validation> getValidations(Collection<Validation> validations, Status status) {
+
+		LinkedList<Validation> rslt = new LinkedList<>();
+
+		for (Validation validation : validations){
+			if (validation.getStatus().equals(status))
+				rslt.add(validation);
+		}
+		return rslt;
+	}
+
 }
