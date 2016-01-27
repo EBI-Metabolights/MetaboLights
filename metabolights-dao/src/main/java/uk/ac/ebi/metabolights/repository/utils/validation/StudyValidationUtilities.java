@@ -16,13 +16,24 @@ public class StudyValidationUtilities {
     private static Validations validationsFromDB = new Validations();
 
     public static void validate(Study study) {
-        validationsFromDB = study.getValidations();
-        validateStudy(study);
-        checkForOverriding(validationsFromDB, study.getValidations());
+        if (!hasInvalidIsaTab(study)) {
+            validationsFromDB = study.getValidations();
+            validateStudy(study);
+            checkForOverriding(validationsFromDB, study.getValidations());
+        }
         Status status = Utilities.checkOverallStatus(study.getValidations().getEntries());
         study.getValidations().setStatus(status);
         study.getValidations().setPassedMinimumRequirement(Utilities.checkPassedMinimumRequirement(study.getValidations().getEntries()));
 
+    }
+
+    private static boolean hasInvalidIsaTab(Study study) {
+        for (Validation v : study.getValidations().getEntries()) {
+            if (v.getDescription().equals("Study metadata load")) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

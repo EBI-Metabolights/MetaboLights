@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.Study;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
 import uk.ac.ebi.metabolights.repository.utils.ClobJsonUtils;
 import uk.ac.ebi.metabolights.repository.utils.FileAuditUtil;
 import uk.ac.ebi.metabolights.repository.utils.IsaTab2MetaboLightsConverter;
@@ -170,7 +171,7 @@ public class StudyDAO {
 
 
         } catch (IsaTabException e) {
-
+            studyToFill.setValidations(new Validations()); // this is to remove any validations loaded from database
             StudyValidationUtilities.AddValidationFromException(studyToFill, "Study metadata load","We could NOT load the isatab files: " + e.getMessage() + ", " +
                     e.getClass().getName());
 

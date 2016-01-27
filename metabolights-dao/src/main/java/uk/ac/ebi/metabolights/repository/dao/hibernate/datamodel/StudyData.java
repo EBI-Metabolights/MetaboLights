@@ -62,8 +62,6 @@ public class StudyData extends DataModel<Study> {
     private String validations;
 
 
-
-
     @Column(name = "studysize")
     public BigDecimal getStudysize() {
         return studysize;
@@ -79,17 +77,16 @@ public class StudyData extends DataModel<Study> {
         return acc;
     }
 
-	@Column(name="validations", nullable=true)
+    @Column(name = "validations", nullable = true)
     @Basic(fetch = FetchType.LAZY)
     @Lob
     public String getValidations() {
-		return validations;
-	}
+        return validations;
+    }
 
-	public void setValidations(String validations) {
-		this.validations = validations;
-	}
-
+    public void setValidations(String validations) {
+        this.validations = validations;
+    }
 
 
     public void setAcc(String acc) {
@@ -173,8 +170,8 @@ public class StudyData extends DataModel<Study> {
         // Convert Users...
         this.users = UserData.businessModelToDataModel(businessModelEntity.getUsers());
 
-		//convert Validations
-		this.validations = ClobJsonUtils.parseToJSONString(businessModelEntity.getValidations());
+        //convert Validations
+        this.validations = ClobJsonUtils.parseToJSONString(businessModelEntity.getValidations());
 
     }
 
@@ -203,17 +200,23 @@ public class StudyData extends DataModel<Study> {
 
     private void studyDataToLiteStudy(LiteStudy study) {
 
-		study.setId(this.id);
-		study.setObfuscationCode(this.obfuscationcode);
-		study.setStudyIdentifier(this.acc);
-		study.setStudyStatus(Study.StudyStatus.values()[this.status]);
-		study.setStudyPublicReleaseDate(new Date(this.releaseDate.getTime()));
-		study.setUpdateDate(new Date(this.updateDate.getTime()));
-		study.setStudySubmissionDate(new Date(this.getSubmissionDate().getTime()));
-		study.setStudySize(this.studysize);
-		study.setValidations(ClobJsonUtils.parseJson(
-				this.getValidations(),Validations.class
-		));
+        study.setId(this.id);
+        study.setObfuscationCode(this.obfuscationcode);
+        study.setStudyIdentifier(this.acc);
+        study.setStudyStatus(Study.StudyStatus.values()[this.status]);
+        study.setStudyPublicReleaseDate(new Date(this.releaseDate.getTime()));
+        study.setUpdateDate(new Date(this.updateDate.getTime()));
+        study.setStudySubmissionDate(new Date(this.getSubmissionDate().getTime()));
+        study.setStudySize(this.studysize);
+        Validations validations = ClobJsonUtils.parseJson(
+                this.getValidations(), Validations.class
+        );
+        if (validations == null) {
+            study.setValidations(new Validations());
+        } else {
+            study.setValidations(validations);
+        }
+
 
     }
 
