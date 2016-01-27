@@ -1,9 +1,7 @@
 package uk.ac.ebi.metabolights.repository.utils.validation.groups;
 
-import uk.ac.ebi.metabolights.repository.model.Assay;
-import uk.ac.ebi.metabolights.repository.model.Field;
-import uk.ac.ebi.metabolights.repository.model.Study;
-import uk.ac.ebi.metabolights.repository.model.StudyFactor;
+import uk.ac.ebi.bioinvindex.model.term.Factor;
+import uk.ac.ebi.metabolights.repository.model.*;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Group;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.ValidationIdentifier;
 import uk.ac.ebi.metabolights.repository.utils.validation.DescriptionConstants;
@@ -28,8 +26,8 @@ public class FactorValidations implements IValidationProcess {
         Validation basicValidation = getFactorNameValidation(study);
         factorValidations.add(basicValidation);
         if (basicValidation.getPassedRequirement()) {
-            Collection<Validation> factorsInSamplesAssays = getFactorsPresentInSamplesOrAssaysValidation(study);
-            if(!Utilities.allPassed(factorsInSamplesAssays)){
+            Collection<Validation> factorsInSamplesAssays = getAllFactorsPresentEitherInSamplesOrAssaysValidation(study);
+            if (!Utilities.allPassed(factorsInSamplesAssays)) {
                 factorValidations.addAll(factorsInSamplesAssays);
             }
         }
@@ -53,6 +51,94 @@ public class FactorValidations implements IValidationProcess {
         }
         return validation;
     }
+
+    public static Collection<Validation> getAllFactorsPresentEitherInSamplesOrAssaysValidation(Study study) {
+        Collection<Validation> validations = new LinkedList<>();
+        Validation validation1 = new Validation(DescriptionConstants.FACTOR_IN_SAMPLES_ASSAYS, Requirement.MANDATORY, Group.FACTORS);
+        validation1.setId(ValidationIdentifier.FACTOR_IN_SAMPLES_ASSAYS.getID());
+        Validation validation2 = new Validation(DescriptionConstants.FACTOR_COLUMNS_SAMPLES_ASSAYS, Requirement.MANDATORY, Group.FACTORS);
+        validation2.setId(ValidationIdentifier.FACTOR_COLUMNS_SAMPLES_ASSAYS.getID());
+
+        Map<String, List<Boolean>> masterFactorValidationMap = new HashMap<>();
+
+        updateMasterMapWithIsPresentValues(masterFactorValidationMap, study.getSampleTable());
+
+        if (!goodToGo(masterFactorValidationMap)) {
+            for (Assay assay : study.getAssays()) {
+                updateMasterMapWithIsPresentValues(masterFactorValidationMap, assay.getAssayTable());
+                if (goodToGo(masterFactorValidationMap)) break;
+            }
+            if (!goodToGo(masterFactorValidationMap)) {
+                if (hasFailedValues(masterFactorValidationMap, 0)) {
+                    validation2.setPassedRequirement(false);
+                    validation2.setMessage(getErrMessage(masterFactorValidationMap, 0));
+                }
+                if (hasFailedValues(masterFactorValidationMap, 1)) {
+                    validation2.setPassedRequirement(false);
+                    validation2.setMessage("Empty Study Factor column(s) found in the Sample and Assay sheet(s)");
+                }
+
+            }
+        }
+
+        validations.add(validation1);
+        validations.add(validation2);
+        return validations;
+    }
+
+    private static Map<String, List<Boolean>> getMasterMap(Study study) {
+        Map<String, List<Boolean>> masterFactorValidationMap = new HashMap<>();
+        for (StudyFactor f : study.getFactors()) {
+            List<Boolean> presentAndHasValue = new ArrayList<>(2);
+            presentAndHasValue.add(0, false);                // factor is present
+            presentAndHasValue.add(1, false);                // factor has value
+            masterFactorValidationMap.put(f.getName(), presentAndHasValue);
+        }
+        return masterFactorValidationMap;
+    }
+
+    private static void updateMasterMapWithIsPresentValues(Map<String, List<Boolean>> masterFactorValidationMap, Table table) {
+        for (Map.Entry<String, List<Boolean>> entry : masterFactorValidationMap.entrySet()) {
+            int index = getFieldIndex(table.getFields(), entry.getKey());
+            if (index != -1) {
+                entry.getValue().add(0, true);  // update master map for "isPresent"
+                if (thisColumnHasSomething(index, table.getData())) {
+                    entry.getValue().add(1, true); // update master map for "hasValue"
+                }
+            }
+        }
+    }
+
+    private static boolean goodToGo(Map<String, List<Boolean>> masterFactorValidationMap) {
+        for (Map.Entry<String, List<Boolean>> entry : masterFactorValidationMap.entrySet()) {
+            for (Boolean passed : entry.getValue()) {
+                if (!passed) {
+                    return passed;
+                }
+            }
+        }
+        return true;
+    }
+
+    private static boolean hasFailedValues(Map<String, List<Boolean>> masterFactorValidationMap, int index) {
+        for (Map.Entry<String, List<Boolean>> entry : masterFactorValidationMap.entrySet()) {
+            if (!entry.getValue().get(index)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static String getErrMessage(Map<String, List<Boolean>> masterFactorValidationMap, int index) {
+        String message = "The following Study Factor column(s) are not present in the Sample/Assay(s) sheet:";
+        for (Map.Entry<String, List<Boolean>> entry : masterFactorValidationMap.entrySet()) {
+            if (entry.getValue().get(index) == false) {
+                message += " " + entry.getKey() + ";";
+            }
+        }
+        return message;
+    }
+
 
     public static Collection<Validation> getFactorsPresentInSamplesOrAssaysValidation(Study study) {
         Collection<Validation> validations = new LinkedList<>();
@@ -116,6 +202,7 @@ public class FactorValidations implements IValidationProcess {
     private static boolean isAtleastFullyPresentInOneAssay(Map<Assay, Map<String, Integer>> factorAssayMap) {
         return factorAssayMap.size() > 0;
     }
+
     private static int getMissingFactorColumnsCount(Map<String, Integer> map) {
         int count = 0;
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
