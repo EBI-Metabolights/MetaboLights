@@ -40,6 +40,7 @@ import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.*;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
@@ -1000,5 +1001,43 @@ public class StudyController extends BasicController{
         return metabolites;
 
     }
+
+	/**
+	 * Send a mail to the submitter with a Validations Status Report
+	 * with all the current validations results,
+	 * ordered by status, so the submitter can find what is failing to pass
+	 * and accordingly update the study.
+	 *
+	 * @param studyIdentifier
+	 * @return
+	 * @throws DAOException
+	 * @throws IsaTabException
+	 * @author jrmacias
+	 * @date 20160125
+     */
+	@PreAuthorize("hasRole('ROLE_SUPER_USER') or hasRole('ROLE_SUBMITTER')")
+	@RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/validations/statusReportByMail")
+	@ResponseBody
+	public RestResponse<String> sendValidationsStatusMail(@PathVariable("studyIdentifier") String studyIdentifier)
+			throws DAOException, IsaTabException{
+
+		User user = getUser();
+		logger.info("User {} has requested a validations status report to be sent by mail for the study {}", user.getUserName(),studyIdentifier);
+
+		// get the validations status report
+		Study study = getStudyDAO().getStudy(studyIdentifier, user.getApiToken());
+
+		// compose the response
+		RestResponse<String> restResponse = new RestResponse<>();
+		restResponse.setContent("Validations Status Report for Study.");
+		restResponse.setMessage("Your requested Validations Status Report is being created. It will be emailed to the study's submitter shortly.");
+
+		logger.info("Sending Validations status report to user {} by email {} .", user.getUserName(), user.getEmail());
+		emailService.sendValidationStatus(study);
+
+
+		return restResponse;
+
+	}
 
 }

@@ -404,6 +404,14 @@
                         <!-- TAB: Validations-->
                         <div id="tabs-validations" class="tab">
                             <c:if test="${not empty study.validations.entries}">
+                                <!-- Send report to submitter via email -->
+                                <sec:authorize access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
+                                    <div class="specs well">
+                                        <a class="noLine" rel="nofollow" href="${pageContext.request.contextPath}/${study.studyIdentifier}/validations/statusReportByMail" title="<spring:message code="label.sendValidationsStatusReport"/>">
+                                            <span class="icon icon-generic" data-icon="E"/><spring:message code="label.sendValidationsStatusReport"/></a>
+                                    </div>
+                                </sec:authorize>
+
                                 <div class="specs well">
                                     Validations marked with (*) are specially approved by the MetaboLights Curators
                                 </div>
@@ -465,7 +473,6 @@
                             </c:if>
                         </div>
                     </div>
-
 
                     <c:if test="${fn:length(study.assays) eq 1}">
                         <c:if test="${not empty study.assays}">
