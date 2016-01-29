@@ -401,8 +401,7 @@ public class EmailService {
 	}
 
 	/**
-	 * Send a report to the submitter with the whole validation status
-	 * by email
+	 * Send a report to the submitter with the whole validations status by email
 	 *
 	 * @param study
 	 * @author jrmacias
@@ -411,106 +410,55 @@ public class EmailService {
 	public void sendValidationStatus(Study study) {
 
 		String from = curationEmailAddress;
-		// TODO provably inclyde all the recipients
-		/// String[] to = getRecipientsFromStudy(study);
-		String[] to = {curationEmailAddress};
+		String submitterEmail = getSubmitterEmail(study);
+//		String[] to = new String[]{curationEmailAddress};
+		String[] to = new String[]{submitterEmail, curationEmailAddress};
 		String subject = PropertyLookUpService.getMessage("mail.validations.status.subject", study.getStudyIdentifier());
-		String body = PropertyLookUpService.getMessage("mail.validations.status.body", study.getStudyIdentifier());
 
 		Validations validations = study.getValidations();
 		Status valStatus = validations.getStatus();
 		Collection<Validation> vals = validations.getEntries();
 
-		StringBuilder status = new StringBuilder("Overall Status: ");
-		switch (valStatus) {
-			case RED:
-				status.append("FAILS").append("\n");
-				break;
-			case AMBER:
-				status.append("INCOMPLETE").append("\n");
-				break;
-			case GREEN:
-				status.append("PASSES").append("\n");
-				break;
-		}
-
-		Collection<Validation> failingValidations  = getValidations(vals, Status.RED);
-		StringBuilder failing = new StringBuilder();
-		for(Validation validation : failingValidations){
-			failing.append(formatValidationStatusString(validation));
-		}
-
-		Collection<Validation> amberValidations = getValidations(vals, Status.AMBER);
-		StringBuilder incomplete = new StringBuilder();
-		incomplete.append("\n").append("\n");
-		for(Validation validation : amberValidations){
-			incomplete.append(formatValidationStatusString(validation));
-		}
-
-		Collection<Validation> passingValidations = getValidations(vals, Status.GREEN);
-		StringBuilder passing = new StringBuilder();
-		passing.append("\n").append("\n");
-		for(Validation validation : passingValidations){
-			passing.append(formatValidationStatusString(validation));
-		}
-
-		sendValidationsEmail(from, to, subject, body, status.toString(), failing.toString(), incomplete.toString(), passing.toString());
+		sendValidationsEmail(from, to, subject,
+				study,
+				getValidations(vals, Status.RED),
+				getValidations(vals, Status.AMBER),
+				getValidations(vals, Status.GREEN));
 	}
 
 	/**
 	 *
-	 * @param validation
+	 * @param study
 	 * @return
 	 * @author jrmacias
 	 * @date 20160126
      */
-	private String formatValidationStatusString(Validation validation) {
-		StringBuilder strB = new StringBuilder();
-
-		strB.append(validation.getDescription()).append(":").append("\t");
-
-		switch (validation.getStatus()) {
-			case RED:
-				strB.append("FAILS").append("\t").append(" - ");
-				break;
-			case AMBER:
-				strB.append("INCOMPLETE").append("\t").append(" - ");
-				break;
-			case GREEN:
-				strB.append("PASSES").append("\t").append(" - ");
-				break;
+	private String getSubmitterEmail(Study study) {
+		for (User user : study.getUsers()){
+			if (user.getRole() == AppRole.ROLE_SUBMITTER)
+				return user.getEmail();
 		}
-
-		strB.append(validation.getPassedRequirement()?"MANDATORY":"OPTIONAL").append("\t")
-				.append(validation.getGroup()).append("\t")
-				.append(" : ")
-				.append(validation.getMessage()).append("\n");
-
-		return strB.toString();
+		return null;
 	}
 
 	/**
+	 * Send email with the Validations Status Report using Velocity template
 	 *
 	 * @param from
 	 * @param to
 	 * @param subject
-	 * @param body
-	 *
-	 * @param status
-	 * @param failing
-	 * @param incomplete
-     * @param passing
+	 * @param study
+	 * @param failingVals
+	 * @param incompleteVals
+     * @param passingVals
 	 * @author jrmacias
 	 * @date 20160126
      */
-	private void sendValidationsEmail(final String from, final String[] to, final String subject, final String body,
-									  final String status, final String failing, String incomplete, String passing) {
-
-		final String HTMLbody = body.replace("\n", "<BR/>");
-		final String statusMsg = status.replace("\n", "<BR/>");
-		final String failingVals = failing.replace("\n", "<BR/>");
-		final String incompleteVals = incomplete.replace("\n", "<BR/>");
-		final String passingVals = passing.replace("\n", "<BR/>");
+	private void sendValidationsEmail(final String from, final String[] to, final String subject,
+									  final Study study,
+									  final Collection<Validation> failingVals,
+									  final Collection<Validation> incompleteVals,
+									  final Collection<Validation> passingVals) {
 
 		MimeMessagePreparator preparator = new MimeMessagePreparator() {
 			public void prepare(MimeMessage mimeMessage) throws Exception {
@@ -519,12 +467,12 @@ public class EmailService {
 				message.setTo(to);
 				message.setFrom(from);
 				message.setSubject(subject);
+
 				Map model = new HashMap();
-				model.put("body", HTMLbody);
-				model.put("status", statusMsg);
-				model.put("failingValidations", failingVals);
-				model.put("incompleteValidations", incompleteVals);
-				model.put("passingValidations", passingVals);
+				model.put("study", study);
+				model.put("failingVals", failingVals);
+				model.put("incompleteVals", incompleteVals);
+				model.put("passingVals", passingVals);
 
 				String text = VelocityEngineUtils.mergeTemplateIntoString(
 						velocityEngine, "email_template/validationsEmail.vm", "UTF-8", model);
@@ -536,11 +484,12 @@ public class EmailService {
 			this.mailSender.send(preparator);
 		} catch (Exception e) {
 
-			logger.error("Couldn't sent email: \n Subject: \n {}\n\n Body:\n{}\n\nMesssage:\n{}",subject,body, statusMsg, e );
+			logger.error("Couldn't sent email: \n Subject: \n {}\n\n Study:\n{}",subject,study.getStudyIdentifier(), e );
 		}
 	}
 
 	/**
+	 * Get a list of validations for the given status
 	 *
 	 * @param validations
 	 * @param status

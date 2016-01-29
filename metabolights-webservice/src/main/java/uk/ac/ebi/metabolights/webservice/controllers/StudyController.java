@@ -1029,8 +1029,8 @@ public class StudyController extends BasicController{
 
 		// compose the response
 		RestResponse<String> restResponse = new RestResponse<>();
-		restResponse.setContent("Validations status report for Study.");
-		restResponse.setMessage("Your requested validations status report is being created. It will be mailed to you shortly.");
+		restResponse.setContent("Validations Status Report for Study.");
+		restResponse.setMessage("Your requested Validations Status Report is being created. It will be emailed to the study's submitter shortly.");
 
 		logger.info("Sending Validations status report to user {} by email {} .", user.getUserName(), user.getEmail());
 		emailService.sendValidationStatus(study);
