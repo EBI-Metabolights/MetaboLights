@@ -140,8 +140,13 @@
 
                 var output = vm.$data.validationsComplete;
                 output['entries'] = vm.$data.changedValidations;
-                vm.$http.post('http://localhost:8080/metabolights/webservice/study/${study.studyIdentifier}/overridevalidations', JSON.stringify(output));
 
+                vm.$http.post('http://localhost:8080/metabolights/webservice/study/${study.studyIdentifier}/overridevalidations',
+                         JSON.stringify(output))
+                        .success(function() {
+                    console.log('Indexing..');
+                            vm.$http.get('http://localhost:8080/metabolights/webservice/index/${study.studyIdentifier}');
+                });
 
                 var dialog = $("#curatorOverrideSuccessAlert");
                 dialog.text("Click refresh to see changes");
@@ -153,8 +158,6 @@
                         }
                     }
                 });
-
-
             }
         }
 
