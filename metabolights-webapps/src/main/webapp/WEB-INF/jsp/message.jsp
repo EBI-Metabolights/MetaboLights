@@ -35,3 +35,16 @@
   </c:if>
 
 </div>
+
+
+
+<div class="grid_24 alpha omega">
+
+  <h4 class="well">
+    <a class="noLine" rel="nofollow" href="${pageContext.request.contextPath}/${studyId}" title="Go Back to ${studyId}"  >
+      <span class="icon icon-functional" data-icon="["/>Go Back to ${studyId}
+    </a>
+
+  </h4>
+
+</div>
