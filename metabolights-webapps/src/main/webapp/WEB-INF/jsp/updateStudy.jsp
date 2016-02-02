@@ -85,12 +85,19 @@
 	}
 
 	$(function() {
+		var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+		var d = new Date("${releaseDate}");
+		var prevDate = "" + d.getDate()+"-"+ monthNames[d.getMonth()]+"-"+ d.getFullYear();
+
 		$( "#datepicker" ).datepicker( {
 	        changeMonth: true,
 	        changeYear: true,
 	        showOtherMonths: true,
 	        buttonText: 'Choose Date',
-	        dateFormat: 'dd-M-yy'
+	        dateFormat: 'dd-M-yy',
+			setDate: prevDate,
+			defaultDate: prevDate
+
 			<sec:authorize access="!hasRole('ROLE_SUPER_USER')">
 				,minDate: '+7',
 				maxDate: '+1y'
