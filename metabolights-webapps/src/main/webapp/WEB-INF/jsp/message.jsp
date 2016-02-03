@@ -37,12 +37,43 @@
 </div>
 
 
+<script type="text/javascript">
+  var oneSecond = 1000;
+  var initTime =  5; // initial time before countdown
+  var numSecs = 10; // number of seconds for countdown
+  var dots = "";
+
+  $( window ).load(function() {
+    for (i = 0; i < numSecs; i++) {
+      dots += " .";
+    };
+    $("#countdown").text(dots);
+    $("#countdown").fadeIn(initTime * oneSecond);
+    setTimeout(initCntDown, initTime * oneSecond);
+  });
+
+  function initCntDown(){
+    setTimeout(goBack, numSecs * oneSecond);
+    setInterval(cntDown,oneSecond);
+  }
+
+  function cntDown() {
+    $("#countdown").text(
+            $("#countdown").text().replace(" .","")
+    );
+  }
+
+  function goBack() {
+    window.location = "${pageContext.request.contextPath}/${studyId}";
+  }
+</script>
 
 <div class="grid_24 alpha omega">
 
   <h4 class="well">
     <a class="noLine" rel="nofollow" href="${pageContext.request.contextPath}/${studyId}" title="Go Back to ${studyId}"  >
       <span class="icon icon-functional" data-icon="["/>Go Back to ${studyId}
+      <span id="countdown" style="display: none;"/>
     </a>
 
   </h4>
