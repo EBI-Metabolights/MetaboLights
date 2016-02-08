@@ -853,12 +853,12 @@ public class StudyController extends BasicController{
 
 
         for (Map.Entry<String, String> entry : metabolites.entrySet()) {
-			if(entry.getValue() != null && !entry.getValue().isEmpty())
+			if (entry.getValue() != null && !entry.getValue().isEmpty())
             	mapCompound(entry.getKey(), studyIdentifier, entry.getValue());
-
         }
 
         return response;
+
     }
 
 

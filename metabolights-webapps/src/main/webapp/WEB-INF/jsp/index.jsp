@@ -39,41 +39,40 @@
 <%--});--%>
 
 <%--</script>--%>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" />
+
 <br/>
-<div class="grid_24">
-    <div class="grid_6 alpha lp20">
-        <h2><spring:message code="title.serviceName" /></h2>
-        <p><spring:message code="msg.metabolightsAbout1" />&nbsp;<spring:message code="msg.metabolightsAbout" /></p>
-    </div>
+<div class="container-fluid">
+    <div class ="row">
+        <div class="col-md-3 col">
+            <h2><spring:message code="title.serviceName" /></h2>
+            <p><spring:message code="msg.metabolightsAbout1" />&nbsp;<spring:message code="msg.metabolightsAbout" /></p>
+        </div>
+        <div class="col-md-5 col">
+            <h2><spring:message code="title.download" /></h2>
+            <p>
+                <a class="icon icon-generic bigfont" data-icon="T" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip"></a>
+                <spring:message code="msg.metabolightsAbout12" />
+            </p>
+            <br/>&nbsp;
+            <p>
+                <a class="icon icon-functional bigfont" data-icon="A" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/"></a>
+                <spring:message code="msg.metabolightsAbout7" />
+            </p>
+        </div>
 
-
-    <div class="grid_10">
-        <h2><spring:message code="title.download" /></h2>
-        <p>
-            <a class="icon icon-generic bigfont" data-icon="T" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip"></a>
-            <spring:message code="msg.metabolightsAbout12" />
-        </p>
-        <br/>&nbsp;
-        <p>
-            <a class="icon icon-functional bigfont" data-icon="A" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/"></a>
-            <spring:message code="msg.metabolightsAbout7" />
-        </p>
-    </div>
-
-    <div class="grid_7">
-        <a class="twitter-timeline"  href="https://twitter.com/MetaboLights" data-widget-id="642268788906422272">Tweets by @MetaboLights</a>
-        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+        <div class="col-md-4 col">
+            <a class="twitter-timeline"  href="https://twitter.com/MetaboLights" data-widget-id="642268788906422272">Tweets by @MetaboLights</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+        </div>
     </div>
 </div>
 <br/>
 
-<br/><br/>
-
-
-<div class="grid_24">
+<div class="container">
     <%--<h2><spring:message code="title.submit"/> </h2>--%>
     <br/><br/><br/>
-    <div class='grid_8 prefix_3 postfix_2'>
+    <div class='col-md-6'>
         <a href="submittoqueue">
             <div class="bigbutton maincolorI">
                 <span class="bigfont"><spring:message code="label.submitNewStudy"/></span><br/>
@@ -81,7 +80,7 @@
             </div>
         </a>
     </div>
-    <div class='grid_8 prefix_2 postfix_2'>
+    <div class='col-md-6'>
         <a href="mysubmissions?status=PRIVATE">
             <div class="bigbutton seccolorI">
 
@@ -94,3 +93,33 @@
 </div>
 
 
+<c:if test="${not empty param.message}">
+    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <p class="modal-title text-center" id="messageModalLabel">MetaboLights message</p>
+                </div>
+                <div class="modal-body">
+                    <p><b><c:out value="${param.message}"/></b></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</c:if>
+
+
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://raw.githubusercontent.com/flatlogic/bootstrap-tabcollapse/master/bootstrap-tabcollapse.js"></script>
+
+<script>
+    $(function() {
+        $('#messageModal').modal('show');
+    });
+</script>

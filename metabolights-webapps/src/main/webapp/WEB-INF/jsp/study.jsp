@@ -155,20 +155,17 @@
 
                 <div class="btn-group" role="group">
                     <c:if test="${fn:length(study.assays) eq 1}">
-                        <button type="button" class="btn btn-default dropdown-toggle quicklinks" data-assayid="1" data-destination="assay<c:if test="${fn:length(study.assays) gt 0}">${assay.assayNumber}</c:if>">
+                        <button type="button" class="btn btn-default dropdown-toggle quicklinks" data-assayid="1" data-destination="assay<c:if test="${fn:length(study.assays) gt 0}">${assay.assayNumber}</c:if>" <c:if test="${(empty study.assays[0].metaboliteAssignment) and ( empty study.assays[0].metaboliteAssignment.metaboliteAssignmentFileName) }">disabled</c:if> >
                             <i class="ml--icons fa fa-fire pull-left"></i> View Metabolites
                             <span class="icon icon-conceList of study filesptual" data-icon="b"></span><spring:message code="label.assays"/><c:if test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if>
                         </button>
                     </c:if>
                     <c:if test="${fn:length(study.assays) gt 1}">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ml--icons fa fa-fire pull-left"></i> View Metabolites
-                            <span class="caret"></span>
-                        </button>
                         <ul class="dropdown-menu">
                             <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
                                 <li>
                                     <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
+                                        <c:set var="mafExist" value="true"/>
                                         <a class="quicklinks" data-assayid="<c:if test="${fn:length(study.assays) gt 0}">${assay.assayNumber}</c:if>" data-destination="assay<c:if test="${fn:length(study.assays) gt 0}">${assay.assayNumber}</c:if>" >
                                             <span class="icon icon-conceList of study filesptual" data-icon="b"></span><spring:message code="label.assays"/><c:if test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if>
                                         </a>
@@ -176,6 +173,11 @@
                                 </li>
                             </c:forEach>
                         </ul>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" <c:if test="${mafExist ne true}">disabled</c:if>>
+                            <i class="ml--icons fa fa-fire pull-left"></i> View Metabolites
+                            <span class="caret"></span>
+                        </button>
+
                     </c:if>
 
 
@@ -663,7 +665,7 @@
                                 <c:set var="token" value="?token=${study.obfuscationCode}"/>
                             </c:if>
 
-                            <form id="selFilesForm" action="/metabolights/${study.studyIdentifier}/files/downloadSelFiles" method="post">
+                            <form id="selFilesForm" action="${pageContext.request.contextPath}/${study.studyIdentifier}/files/downloadSelFiles" method="post">
                                 <h5 class="well">
                                     <!--  Request FTP folder -->
                                     <c:if test="${(study.studyStatus == 'SUBMITTED') and !hasPrivateFtpFolder }">
@@ -706,21 +708,54 @@
                                 <div id="noAspera" class="noAspera"></div>
 
                                 <h4><spring:message code="label.fileListTableExplanation"/></h4>
-                                <div class="">
                                     <div class="input-group">
                                         <input class="inputDiscrete form-control" id="fileSelector" type="text" placeholder="<spring:message code='label.fileList.Input.placeholder'/>">
                                           <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button">?</button>
+                                              <button type="button" class="btn btn-primary ml--btngrpoup" data-toggle="modal" data-target=".bs-example-modal-lg">?</button>
                                           </span>
                                     </div><!-- /input-group -->
+
+
+                                <!--
+                                    Help modal content
+                                -->
+
+                                <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title">Help</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>
+                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus consequuntur corporis cupiditate eum itaque maiores numquam omnis repellendus tempora voluptates. Adipisci atque consequatur dolores fugiat laborum nesciunt odio praesentium sapiente!
+                                                </p>
+                                                <p>
+                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. At atque fugiat id labore libero minima qui recusandae temporibus vel voluptatibus! Ab architecto at consequuntur doloribus eius error facere impedit, inventore iure nemo nesciunt omnis perferendis quae quasi quod ratione repellendus ullam vero voluptates voluptatum. Architecto doloribus expedita nam possimus qui repellendus voluptatibus!  eum inventore ipsa itaque molestias, non, quia quibusdam rem repellat sapiente tenetur ut voluptate. Animi aspernatur consequatur eos expedita facilis fugit iste itaque, magni, minus officia ratione reiciendis suscipit ut. Assumenda, beatae consequatur debitis deleniti dicta distinctio eligendi eos et exercitationem fugiat illum incidunt inventore ipsam iste iure laboriosam magni maxime molestiae natus officiis perferendis provident quae quas quisquam, recusandae reiciendis repudiandae saepe temporibus ut velit?  Commodi corporis cupiditate dolores et expedita labore magni nesciunt obcaecati quasi qui? Fugiat labore mollitia nobis officia, qui quos tempore voluptas! Beatae consequuntur, culpa ducimus earum et excepturi illo illum ipsum libero, minus officia possimus praesentium quis saepe sapiente, sequi tempora? Amet expedita, quaerat! Alias architecto assumenda beatae commodi corporis culpa dolores eum facere facilis inventore iste laudantium maiores, non odit pariatur reprehenderit saepe sapiente sit soluta tempora? Ab accusamus, aspernatur at delectus, doloremque ducimus ea eligendi error excepturi exercitationem fuga in ipsam iste magnam modi necessitatibus nihil nobis nulla possimus praesentium repellendus similique tempora. Deserunt doloribus enim et neque similique.
+                                                </p>
+                                                <p>Assumenda commodi dolores ipsa iure maiores necessitatibus omnis sunt tempore unde vel! A accusantium asperiores, assumenda consequatur corporis dignissimos dolores ducimus enim error excepturi facere id maxime molestias optio quibusdam quod rem repudiandae sit sunt tempora temporibus ut vel voluptatem. Animi doloribus ducimus enim incidunt modi, molestias nemo nisi qui similique totam. Atque aut et eum exercitationem odio rerum vero! Amet assumenda aut autem consequatur consequuntur deserunt dignissimos dolor, doloribus dolorum ea explicabo incidunt ipsum labore laborum laudantium magni molestias nobis obcaecati omnis optio perspiciatis porro praesentium quaerat quibusdam quisquam quo ratione reiciendis reprehenderit repudiandae tempora vero vitae voluptas voluptate? Architecto atque beatae culpa doloremque esse</p>
+                                                <p>Alias eum in magni odit quibusdam quo tempora ullam. Blanditiis fugiat ipsa porro? Cum cupiditate doloremque porro rem vel! Aliquam, animi beatae consectetur debitis dolore eos facere fuga fugit ipsum iste labore laboriosam magni maiores maxime mollitia nemo non odit omnis optio possimus quasi qui reiciendis repudiandae sequi tenetur ullam vel voluptatem. Aliquam aut enim eos esse et labore libero neque repellendus soluta veritatis! Ab accusantium ad adipisci atque consequuntur culpa cupiditate deserunt dignissimos ducimus earum error et exercitationem facere facilis fugit ipsum labore laboriosam nam natus necessitatibus nostrum, numquam obcaecati officiis omnis optio, pariatur perferendis porro possimus provident quae quas quo ratione, reiciendis repellat vel velit vero! Accusantium aperiam architecto, at consequuntur corporis cum doloremque eaque eius error est eum ex explicabo fuga inventore ipsa itaque iusto mollitia nemo nulla odit perferendis quasi quia quidem quisquam quos reprehenderit saepe sapiente sit suscipit temporibus veniam voluptas voluptate voluptatibus! Ab accusamus accusantium aspernatur beatae consequatur doloremque dolores itaque, laboriosam maiores maxime molestias nam nobis, odio placeat quaerat quasi quo recusandae repudiandae rerum sed tempora tenetur voluptates!</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal-dialog -->
                                 </div>
+
+
                                 <c:if test="${!study.publicStudy}">
                                     <input type="hidden" name="token" value="${study.obfuscationCode}">
                                 </c:if>
                                 <table id="files" class="filesTable table table-striped table-bordered" style="width: 100%;">
                                     <thead>
                                     <tr>
-                                        <th>Select</th>
+                                        <th>
+                                                <label>
+                                                    <input type="checkbox" name="checkAll" id="checkAll">&emsp;Select all
+                                                </label>
+                                        </th>
                                         <th>File</th>
                                     </tr>
                                     </thead>
@@ -728,7 +763,7 @@
                                     <c:forEach var="file" items="${files}">
                                         <%--<c:if test="${!file.directory}">--%>
                                         <tr>
-                                            <td><input type="checkbox" name="file" value="${file.name}"/></td>
+                                            <td><input type="checkbox" class="ml--file" name="file" value="${file.name}"/></td>
                                             <td>
                                                 <a rel="nofollow" href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/${file.name}${token}">${file.name}</a>
                                             </td>
@@ -737,6 +772,18 @@
                                     </c:forEach>
                                     </tbody>
                                 </table>
+
+                                <script>
+                                    $("#checkAll").click(function () {
+                                        if ($("#checkAll").is(':checked')) {
+                                            $(".ml--file").prop("checked", true);
+                                        } else {
+                                            $(".ml--file").prop("checked", false);
+                                        }
+                                    });
+                                </script>
+
+
 
 
                                 <div style="position: relative; width: 100%;">
@@ -887,11 +934,11 @@
                                         <c:if test="${empty ftpFiles}">&emsp;&emsp;[EMPTY]</c:if>
 
                                         <c:if test="${!empty ftpFiles}">
-                                            <form id="selFtpFilesForm" action="${study.studyIdentifier}/files/moveFilesfromFtpFolder" method="post">
+                                            <form id="selFtpFilesForm" action="${pageContext.request.contextPath}/${study.studyIdentifier}/files/moveFilesfromFtpFolder" method="post">
 
                                                 <!-- <p><input class="inputDiscrete resizable" id="ftpFileSelector" class="" type="text" placeholder="<spring:message code='label.ftpFileList.Input.placeholder'/>"></p> -->
 
-                                                <table id="privFtpFiles" class="ftpFiles">
+                                                <table id="privFtpFiles" class="ftpFiles table table-striped table-bordered">
                                                     <tr>
                                                         <th>Select</th>
                                                         <th>File</th>
@@ -927,9 +974,6 @@
                                             </form>
                                         </c:if>
                                     </div>
-
-
-
                                 </div>
                             </c:if>
                             <!-- private FTP files -->
@@ -941,6 +985,7 @@
             </div>
         </div>
     </div>
+    <div id="chebiInfo"></div>
 </div>
 
 <div class="modal fade" id="shareStudy" role="dialog">
@@ -976,6 +1021,7 @@
 
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/dataTables.conditionalPaging.js"></script>
 
 <script type="text/javascript" charset="utf-8">
 
@@ -1016,6 +1062,75 @@
                 wrapperDiv.html(data);
                 $('.maf').addClass("table table-striped table-bordered")
                 $('.maf').DataTable();
+
+                var chebiInfoDiv = new Biojs.ChEBICompound({target: 'chebiInfo',width:'400px', height:'300px',proxyUrl:undefined, chebiDetailsUrl: 'http://www.ebi.ac.uk/webservices/chebi/2.0/test/getCompleteEntity?chebiId='});
+                $('#chebiInfo').hide();
+
+
+                $("a.showLink").click(function(event) {
+                    var clickedId = event.target.id;
+                    var idClickedSplit = clickedId.split("_");
+                    /*id of the link is made up by 3 parts:
+                     part 1: name of the div (eg.: syn) this is used to distinguish the show more
+                     link of synonyms from the show more link in other divs
+                     part 2: "link" to distinguish the link for show more link from other
+                     ordinary links
+                     part 3: the order of the result item to distinguish the show more button
+                     in the result list is click. In case of filters of species or compounds
+                     the order is always 0
+                     */
+                    var idPrefixClicked = idClickedSplit[0];
+                    /*var itemClicked = idClickedSplit[1];*/
+                    var orderOfItemClicked = idClickedSplit[2];
+                    var idOfHiddenText = "#"+idPrefixClicked+"_"+orderOfItemClicked;
+                    var jqClickedId= "#"+clickedId;
+                    if ($(idOfHiddenText).is(":hidden")){
+                        $(jqClickedId).text("Show less");
+                    }else{
+                        $(jqClickedId).text("Show more");
+                    }
+                    $(idOfHiddenText).slideToggle();
+                });
+                var metLinkTimer = 0; // 0 is a safe "no timer" value
+
+
+                function loadMetabolite(e) {
+                    // Clear this as flag there's no timer outstanding
+                    metLinkTimer = 0;
+                    var metlink;
+                    metlink = $(e.target);
+                    var metaboliteId = metlink.attr('identifier');
+                    // If its a chebi id
+                    if (metaboliteId.indexOf("CHEBI:")==0){
+                        //var mouseX = metlink.left + metlink.offsetParent.offsetLeft + metlink.offsetWidth + 80;
+                        //var mouseY = metlink.top + metlink.offsetParent.offsetTop + metlink.offsetParent.offsetParent.offsetTop;
+                        var offset = metlink.offset();
+                        var mouseX = offset.left + metlink.outerWidth() + 20;
+                        var mouseY = offset.top;
+                        chebiId = metaboliteId;
+                        $('#chebiInfo img:last-child').remove;
+                        $('#chebiInfo').css({'top':mouseY,'left':mouseX,'float':'left','position':'absolute','z-index':10});
+                        $('#chebiInfo').fadeIn('slow');
+                        chebiInfoDiv.setId(chebiId);
+                    }
+                }
+
+
+                $('.metLink').on('mouseenter', function(e) {
+                    // I'm assuming you don't want to stomp on an existing timer
+                    if (!metLinkTimer) {
+                        metLinkTimer = setTimeout(function(){loadMetabolite(e);}, 500); // Or whatever value you want
+                    }
+                }).on('mouseleave', function() {
+                    // Cancel the timer if it hasn't already fired
+                    if (metLinkTimer) {
+                        clearTimeout(metLinkTimer);
+                        metLinkTimer = 0;
+                    }
+                    $('#chebiInfo').fadeOut('slow');
+                });
+
+
             });
         }
 
@@ -1026,7 +1141,8 @@
         $('.dataTable').DataTable();
 
         $('.protocols-table').DataTable({
-            "ordering": false
+            "ordering": false,
+            conditionalPaging: true
         });
 
 
@@ -1074,6 +1190,7 @@
 <script>
     $(document).ready(function () {
 
+
         var asperaLoaded = false;
 
         $(function () {
@@ -1093,8 +1210,6 @@
                 var downloadButton = $('<a id="downloadButton">Aspera: Download Study</a>');
 
                 $('#asperaDownloadWrapper').append(downloadButton);
-
-
 
                 function downloadButtonClick(e) {
                     $('#transferDiv').show();

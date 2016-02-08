@@ -146,6 +146,10 @@ body{
     border: 1px solid #f1f1f4;
 }
 
+.ml--btngrpoup{
+    margin-top: 3px;
+}
+
 /*
     Metabolights study beta page CSS
 */
