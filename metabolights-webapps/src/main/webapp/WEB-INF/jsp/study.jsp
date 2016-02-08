@@ -406,6 +406,14 @@
                         <!-- TAB: Validations-->
                         <div id="tabs-validations" class="tab">
                             <c:if test="${not empty study.validations.entries}">
+                                <!-- Send report to submitter via email -->
+                                <sec:authorize access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
+                                    <div class="specs well">
+                                        <a class="noLine" rel="nofollow" href="${pageContext.request.contextPath}/${study.studyIdentifier}/validations/statusReportByMail" title="<spring:message code="label.sendValidationsStatusReport"/>">
+                                            <span class="icon icon-generic" data-icon="E"/><spring:message code="label.sendValidationsStatusReport"/></a>
+                                    </div>
+                                </sec:authorize>
+
                                 <div class="specs well">
                                     Validations marked with (*) are specially approved by the MetaboLights Curators
                                 </div>
@@ -809,81 +817,6 @@
                                 </div>
                             </form>
 
-                            <script type="text/javascript">
-                                function confirmDeleteFiles(element){
-
-                                    var dialog = $("#confirmaction");
-
-                                    // Fill dialog
-                                    ///var targetUrl = $(element).attr("href");
-                                    var text = $(element).attr("confirmationText");
-
-                                    dialog.text(text);
-
-                                    $(dialog).dialog({
-                                        //           autoOpen: false,
-                                        modal: true,
-                                        buttons : {
-                                            "Confirm" : function() {
-                                                ///window.location.href = targetUrl;
-
-                                                var frm = element.form;
-                                                // change action for deleting files
-                                                frm.action = "${study.studyIdentifier}/files/deleteSelFiles";
-                                                frm.method ="post";
-                                                frm.submit();
-
-                                                // change action back to download files (default)
-                                                frm.reset();
-                                                frm.action = "${study.studyIdentifier}/files/downloadSelFiles";
-                                                frm.method ="post";
-
-                                            },
-                                            "Cancel" : function() {
-                                                $(this).dialog("close");
-                                            }
-                                        }
-                                    });
-
-                                    //       $(dialog).dialog("open");
-
-                                    return false;
-                                }
-
-                                function confirmDeleteFtpFiles(element){
-                                    var dialog = $("#confirmaction");
-
-                                    // Fill dialog
-                                    var text = $(element).attr("confirmationText");
-
-                                    dialog.text(text);
-
-                                    $(dialog).dialog({
-                                        modal: true,
-                                        buttons : {
-                                            "Confirm" : function() {
-
-                                                var frm = element.form;
-                                                // change action for deleting files
-                                                frm.action = "${study.studyIdentifier}/files/deleteSelFtpFiles";
-                                                frm.method ="post";
-                                                frm.submit();
-
-                                                // change action back to move files (default)
-                                                frm.reset();
-                                                frm.action = "${study.studyIdentifier}/files/moveFilesfromFtpFolder";
-                                                frm.method ="post";
-                                            },
-                                            "Cancel" : function() {
-                                                $(this).dialog("close");
-                                            }
-                                        }
-                                    });
-
-                                    return false;
-                                }
-                            </script>
-
                             <div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -911,9 +844,6 @@
                                         frm.action = $(e.relatedTarget).data('delete');
                                         frm.method ="post";
                                         frm.submit();
-
-                                        alert();
-
 
                                         // change action back to download files (default)
                                         frm.reset();
@@ -962,7 +892,7 @@
                                                                    onclick="form.submit();" />
                                                         </div>
                                                         <div style="float: right; padding: 10px;">
-                                                            <input data-delete="${study.studyIdentifier}/files/deleteSelFtpFiles" data-download="${study.studyIdentifier}/files/moveFilesfromFtpFolder" data-title="Confirmation" data-info="This will delete all selected files from the system, no way back!." data-toggle="modal" data-target="#confirm-delete-modal" id="deleteFtpSelFilesBtn" name="deleteFtpSelFilesBtn" type="button" class="submit cancel" value="<spring:message code="label.deleteFtpSelFiles"/>"/>
+                                                            <input data-delete="${pageContext.request.contextPath}/${study.studyIdentifier}/files/deleteSelFtpFiles" data-move="$${pageContext.request.contextPath}/{study.studyIdentifier}/files/moveFilesfromFtpFolder" data-title="Confirmation" data-info="This will delete all selected files from your private FTP folder, no way back!." data-toggle="modal" data-target="#confirm-ftp-delete-modal" id="deleteFtpSelFilesBtn" name="deleteFtpSelFilesBtn" type="button" class="submit cancel" value="<spring:message code="label.deleteFtpSelFiles"/>"/>
                                                         </div>
                                                     </sec:authorize>
                                                 </div>
@@ -974,6 +904,48 @@
                                             </form>
                                         </c:if>
                                     </div>
+<<<<<<< HEAD
+=======
+
+                                    <div class="modal fade" id="confirm-ftp-delete-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <div id="modal-title"></div>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div id="modal-info"></div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                    <a class="btn btn-ok btn-danger" onclick="">Delete</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <script>
+                                        $('#confirm-ftp-delete-modal').on('show.bs.modal', function(e) {
+                                            $(this).find('#modal-title').html($(e.relatedTarget).data('title'));
+                                            $(this).find('#modal-info').html($(e.relatedTarget).data('info'));
+
+                                            $(this).find('.btn-ok').click(function() {
+                                                var frm = document.getElementById('selFtpFilesForm');
+                                                frm.action = $(e.relatedTarget).data('delete');
+                                                frm.method ="post";
+                                                frm.submit();
+
+                                                // change action back to download files (default)
+                                                frm.reset();
+                                                frm.action = $(e.relatedTarget).data('move');
+                                                frm.method ="post";
+                                            });
+                                        });
+                                    </script>
+
+
+
+>>>>>>> bcf37fcb047a02919506353c3874391cc359ae85
                                 </div>
                             </c:if>
                             <!-- private FTP files -->

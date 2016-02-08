@@ -40,6 +40,7 @@ import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.*;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
@@ -628,7 +629,6 @@ public class StudyController extends BasicController{
 		return obfuscationCode;
 	}
 
-	private static String FTP_PATH = "/prod/";
 	/**
 	 * Create a private FTP folder for a Study, so the user can upload big files using ftp.
 	 *
@@ -645,9 +645,13 @@ public class StudyController extends BasicController{
 			throws DAOException, IOException, IsaTabException {
 
 		String privateFTPServer = PropertiesUtil.getProperty("privateFTPServer");	// ftp-private.ebi.ac.uk
+		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");
 		String privateFTPUser = PropertiesUtil.getProperty("privateFTPUser");		// mtblight
 		String privateFTPPass = PropertiesUtil.getProperty("privateFTPPass");		// gs4qYabh
 		String linkFTPUploadDoc = PropertiesUtil.getProperty("linkFTPUploadDoc");	// ...
+		// get the version of the app currently in use from the last part of the path
+		String[] ftp_paths = privateFTPRoot.split("/");
+		String ftp_path = "/"+ftp_paths[ftp_paths.length - 1]+"/";
 
 		User user = getUser();
 		logger.info("User {} has requested a private FTP folder for the study {}", user.getUserName(),studyIdentifier);
@@ -673,10 +677,10 @@ public class StudyController extends BasicController{
 				.append('\t').append("server: ")
 				.append("<b>").append(privateFTPServer).append("</b>").append('\n')
 				.append('\t').append("remote folder: ")
-				.append("<b>").append(FTP_PATH).append(ftpFolder).append("</b>").append('\n')
+				.append("<b>").append(ftp_path).append(ftpFolder).append("</b>").append('\n')
 				.append('\n')
 				.append("Please, note that the remote folder needs to be entirely typed, as the folder is not browsable. So use ")
-				.append("\"").append("<b>").append("cd ").append(FTP_PATH).append(ftpFolder).append("</b>").append("\"").append(" to access your private folder.")
+				.append("\"").append("<b>").append("cd ").append(ftp_path).append(ftpFolder).append("</b>").append("\"").append(" to access your private folder.")
 				.append(" More extensive instructions can be found here: ").append(linkFTPUploadDoc)
 				.append('\n').append('\n')
 				.append("We would be grateful for any feedback on the upload procedure and any issues you may find.")
@@ -997,5 +1001,43 @@ public class StudyController extends BasicController{
         return metabolites;
 
     }
+
+	/**
+	 * Send a mail to the submitter with a Validations Status Report
+	 * with all the current validations results,
+	 * ordered by status, so the submitter can find what is failing to pass
+	 * and accordingly update the study.
+	 *
+	 * @param studyIdentifier
+	 * @return
+	 * @throws DAOException
+	 * @throws IsaTabException
+	 * @author jrmacias
+	 * @date 20160125
+     */
+	@PreAuthorize("hasRole('ROLE_SUPER_USER') or hasRole('ROLE_SUBMITTER')")
+	@RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/validations/statusReportByMail")
+	@ResponseBody
+	public RestResponse<String> sendValidationsStatusMail(@PathVariable("studyIdentifier") String studyIdentifier)
+			throws DAOException, IsaTabException{
+
+		User user = getUser();
+		logger.info("User {} has requested a validations status report to be sent by mail for the study {}", user.getUserName(),studyIdentifier);
+
+		// get the validations status report
+		Study study = getStudyDAO().getStudy(studyIdentifier, user.getApiToken());
+
+		// compose the response
+		RestResponse<String> restResponse = new RestResponse<>();
+		restResponse.setContent("Validations Status Report for Study.");
+		restResponse.setMessage("Your requested Validations Status Report is being created. It will be emailed to the study's submitter shortly.");
+
+		logger.info("Sending Validations status report to user {} by email {} .", user.getUserName(), user.getEmail());
+		emailService.sendValidationStatus(study);
+
+
+		return restResponse;
+
+	}
 
 }

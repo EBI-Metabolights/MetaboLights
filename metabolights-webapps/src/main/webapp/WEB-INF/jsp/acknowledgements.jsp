@@ -33,6 +33,8 @@
     <li><a href="http://www.massbank.jp/">MassBank, public repository of mass spectral data.</a></li>
     <li><a href="http://www.bml-nmr.org/">Birmingham Metabolite Library, NMR spectra collection.</a></li>
     <li><a href="http://www.bmrb.wisc.edu/metabolomics/">Biological Magnetic Resonance Data Bank</a></li>
+    <li><a href="http://www.wikipathways.org/index.php/WikiPathways">WikiPathways</a></li>
+    <li><a href="http://www.metaboanalyst.ca/">MetaboAnalyst - a comprehensive tool suite for metabolomic data analysis</a></li>
     <li><a href="https://www.pivotaltracker.com/">PivotalTracker: Online project management tool</a></li>
 </ul>
 
@@ -42,5 +44,10 @@
 <h3>MetaboLights would especially like to thank the following people:</h3>
 <ul id="ackn">
     <li><a href="http://isatab.sourceforge.net/support.html">The ISA team at Oxford e-Research Centre</a></li>
+    <ul>
+        <li><a href="http://www.oerc.ox.ac.uk/people/philippe-rocca-serra">Particularly Dr Philippe Rocca-Serra</a></li>
+    </ul>
     <li><a href="http://www.ipb-halle.de/en/research/stress-and-developmental-biology/research-groups/bioinformatics-mass-spectrometry/">Dr. Steffen Neumann at IPB-Halle</a></li>
+    <li><a href="https://uofa.ualberta.ca/biological-sciences/faculty-and-staff/academic-staff/david-wishart">Dr. David Wishart at University of Alberta</a></li>
+    <li><a href="http://www.mcgill.ca/parasitology/faculty/xia">Dr. Jeff Xia at McGill University</a></li>
 </ul>

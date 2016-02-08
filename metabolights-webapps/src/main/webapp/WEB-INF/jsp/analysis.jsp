@@ -29,7 +29,19 @@ We are currently developing this section
 <H3>LipidHome</H3>
 
 <div class="grid_24">
-  <a href="/metabolights/lipidhome"/>LipidHome</a> is a database of theoretical lipid structures derived from a seed set of lipid sub classes and some lipid chemical space constraints agreed upon with experts in the field. Lipids are organised according to a combination of the LIPID MAPS ontology and the recent publication by the LipidomicNet consortium <a href="http://www.ncbi.nlm.nih.gov/pubmed/23667450"/>(Liebisch G, Vizcaíno JA, Koefeler H, Troztmueller M, Griffiths WJ, Schmitz G, Spener F, Wakelam MJO (2012) Short notation for lipid structures derived from mass spectrometry. J Lipid Res In press.)</a>
+  <a href="/metabolights/lipidhome"/>LipidHome</a> is a database of theoretical lipid structures derived from a seed set of lipid sub classes and some lipid chemical space constraints agreed upon with experts in the field. Lipids are organised according to a combination of the LIPID MAPS ontology and the recent publication by the LipidomicNet consortium.
+  <br>
+  <ul>
+    <li>
+      <a href="http://www.ncbi.nlm.nih.gov/pubmed/19098281"/>Fahy, E., Subramaniam, S., Murphy, R. C., Nishijima, M., Raetz, C. R. H., Shimizu, T., et al. (2009). Update of the LIPID MAPS comprehensive classification system for lipids. Journal of Lipid Research, 50 Suppl, S9–14.</a>
+     </li>
+    <li>
+      <a href="http://www.ncbi.nlm.nih.gov/pubmed/23667450"/>Foster, J. M., Moreno, P., Fabregat, A., Hermjakob, H., Steinbeck, C., Apweiler, R., et al. (2013). LipidHome: a database of theoretical lipids optimized for high throughput mass spectrometry lipidomics. PLoS ONE, 8(5), e61951.</a>
+    </li>
+    <li>
+      <a href="http://www.ncbi.nlm.nih.gov/pubmed/23549332"/>Liebisch G, Vizcaíno JA, Koefeler H, Troztmueller M, Griffiths WJ, Schmitz G, Spener F, Wakelam MJO (2013). Shorthand notation for lipid structures derived from mass spectrometry. J Lipid Res, 54(6):1523-30.</a>
+    </li>
+  </ul>
 
 </div>
 <%--

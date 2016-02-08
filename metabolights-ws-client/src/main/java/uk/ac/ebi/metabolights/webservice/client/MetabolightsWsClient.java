@@ -881,4 +881,20 @@ public class MetabolightsWsClient {
         return null;
     }
 
+    /**
+     * Send a report to the submitter with the whole validations status by email
+     *
+     * @param studyId
+     * @return
+     * @author: jrmacias
+     * @date: 20160129
+     */
+    public RestResponse<String> sendValitationReportByEmail(String studyId) {
+        logger.info("Request WS for sending the Validations Status report for the study {} to the submitter by email.", studyId);
+
+        String response = makeGetRequest(STUDY_PATH + studyId +
+                "/validations/statusReportByMail");
+
+        return deserializeJSONString(response, String.class);
+    }
 }

@@ -53,12 +53,23 @@ public abstract class AbstractController {
 		mav.addObject("errorMainMessage", ex.getMessage());
 		return mav;
 	}
+
+
 	public ModelAndView printMessage(String title, Collection<String> message, Exception e){
+		return printMessage(title, message, e,null);
+	}
+
+	public ModelAndView printMessage(String title, Collection<String> message, String studyId){
+		return printMessage(title, message, null, studyId);
+	}
+
+	public ModelAndView printMessage(String title, Collection<String> message, Exception e, String studyId){
 
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("message");
 		mav.addObject("title",title);
 		mav.addObject("message", message);
 		mav.addObject("exception", e);
+		mav.addObject("studyId", studyId);
 
 		return mav;
 
@@ -66,7 +77,7 @@ public abstract class AbstractController {
 
 	public ModelAndView printMessage(String title, Collection<String> message){
 
-		return printMessage(title,message,null);
+		return printMessage(title,message,null,null);
 
 	}
 	public ModelAndView printMessage(RestResponse<ArrayListOfStrings> restResponse){

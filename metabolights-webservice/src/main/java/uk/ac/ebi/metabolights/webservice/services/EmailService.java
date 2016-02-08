@@ -37,6 +37,9 @@ import uk.ac.ebi.metabolights.repository.model.AppRole;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.User;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
 import uk.ac.ebi.metabolights.webservice.utils.TextUtils;
 
 import javax.mail.internet.AddressException;
@@ -44,9 +47,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.net.InetAddress;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Uses a central Spring interface for sending emails (the MailSender interface).
@@ -295,7 +296,7 @@ public class EmailService {
 				model.put("body", HTMLbody);
 				model.put("technicalInfo", HTMLtechnicalInfo);
 				String text = VelocityEngineUtils.mergeTemplateIntoString(
-						velocityEngine, "email_template/htmlemail.vm", model);
+						velocityEngine, "email_template/htmlemail.vm", "UTF-8", model);
 				message.setText(text, true);
 			}
 		};
@@ -398,4 +399,113 @@ public class EmailService {
 
 		sendSimpleEmail(to, subject, body);
 	}
+
+	/**
+	 * Send a report to the submitter with the whole validations status by email
+	 *
+	 * @param study
+	 * @author jrmacias
+	 * @date 20160125
+     */
+	public void sendValidationStatus(Study study) {
+
+		String from = curationEmailAddress;
+		String submitterEmail = getSubmitterEmail(study);
+//		String[] to = new String[]{curationEmailAddress};
+		String[] to = new String[]{submitterEmail, curationEmailAddress};
+		String subject = PropertyLookUpService.getMessage("mail.validations.status.subject", study.getStudyIdentifier());
+
+		Validations validations = study.getValidations();
+		Status valStatus = validations.getStatus();
+		Collection<Validation> vals = validations.getEntries();
+
+		sendValidationsEmail(from, to, subject,
+				study,
+				getValidations(vals, Status.RED),
+				getValidations(vals, Status.AMBER),
+				getValidations(vals, Status.GREEN));
+	}
+
+	/**
+	 *
+	 * @param study
+	 * @return
+	 * @author jrmacias
+	 * @date 20160126
+     */
+	private String getSubmitterEmail(Study study) {
+		for (User user : study.getUsers()){
+			if (user.getRole() == AppRole.ROLE_SUBMITTER)
+				return user.getEmail();
+		}
+		return null;
+	}
+
+	/**
+	 * Send email with the Validations Status Report using Velocity template
+	 *
+	 * @param from
+	 * @param to
+	 * @param subject
+	 * @param study
+	 * @param failingVals
+	 * @param incompleteVals
+     * @param passingVals
+	 * @author jrmacias
+	 * @date 20160126
+     */
+	private void sendValidationsEmail(final String from, final String[] to, final String subject,
+									  final Study study,
+									  final Collection<Validation> failingVals,
+									  final Collection<Validation> incompleteVals,
+									  final Collection<Validation> passingVals) {
+
+		MimeMessagePreparator preparator = new MimeMessagePreparator() {
+			public void prepare(MimeMessage mimeMessage) throws Exception {
+
+				MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+				message.setTo(to);
+				message.setFrom(from);
+				message.setSubject(subject);
+
+				Map model = new HashMap();
+				model.put("study", study);
+				model.put("failingVals", failingVals);
+				model.put("incompleteVals", incompleteVals);
+				model.put("passingVals", passingVals);
+
+				String text = VelocityEngineUtils.mergeTemplateIntoString(
+						velocityEngine, "email_template/validationsEmail.vm", "UTF-8", model);
+				message.setText(text, true);
+			}
+		};
+
+		try {
+			this.mailSender.send(preparator);
+		} catch (Exception e) {
+
+			logger.error("Couldn't sent email: \n Subject: \n {}\n\n Study:\n{}",subject,study.getStudyIdentifier(), e );
+		}
+	}
+
+	/**
+	 * Get a list of validations for the given status
+	 *
+	 * @param validations
+	 * @param status
+     * @return
+	 * @author jrmacias
+	 * @date 20160126
+     */
+	private Collection<Validation> getValidations(Collection<Validation> validations, Status status) {
+
+		LinkedList<Validation> rslt = new LinkedList<>();
+
+		for (Validation validation : validations){
+			if (validation.getStatus().equals(status))
+				rslt.add(validation);
+		}
+		return rslt;
+	}
+
 }
