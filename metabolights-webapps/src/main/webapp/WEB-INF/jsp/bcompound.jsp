@@ -70,7 +70,7 @@
                                 <a href="http://www.ebi.ac.uk/chebi/searchId.do?chebiId=${compound.mc.chebiId}">${compound.chebiEntity.chebiAsciiName}
                                     - (${compound.mc.chebiId})</a>
                             </p>
-
+                            <p><a href="${pageContext.request.contextPath}/beta/${compound.mc.accession}" class="icon icon-generic" data-icon="&lt;">BETA</a></p>
                             <p><a href="${pageContext.request.contextPath}/referencespectraupload?cid=${compound.mc.accession}"
                                   class="icon icon-functional" data-icon="_">Upload Reference Spectra</a></p>
                         </div>
@@ -138,8 +138,7 @@
                                         <c:if test="${not empty compound.chebiEntity.definition}">
 
 
-                                            <h6 class="text-muted"><i><spring:message
-                                                    code="ref.compound.tab.characteristics.definition"/></i></h6>
+                                            <h6 class="text-muted"><i><spring:message code="ref.compound.tab.characteristics.definition"/></i></h6>
                                             <div id="app">
                                             <p>${compound.chebiEntity.definition}</p>
 
@@ -649,77 +648,80 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.10/vue.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.17/vue-resource.js"></script>
 <script>
-
-    var vm = new Vue({
-        //http: {
-        //    headers: {
-        //     'user_token' : '6996ca30-672c-4cda-9a0e-d113d640776f'
-        //    }
-        //},
-        el: '#app',
-        data: {
-            metabolight: 'MTBLC15355',
-            inchikey: "",
-            inchicode: "",
-            formula: "",
-            molweight: "",
-            exactmass: "",
-            synonyms: [],
-            chemicalproperties: {
-                inchikey: "${compound.chebiEntity.inchiKey}"
+    window.onload = function () {
+        var vm = new Vue({
+            //http: {
+            //    headers: {
+            //     'user_token' : '6996ca30-672c-4cda-9a0e-d113d640776f'
+            //    }
+            //},
+            el: '#app',
+            data: {
+                metabolight: 'MTBLC15355',
+                inchikey: "",
+                inchicode: "",
+                formula: "",
+                molweight: "",
+                exactmass: "",
+                synonyms: [],
+                chemicalproperties: {
+                    inchikey: "${compound.chebiEntity.inchiKey}"
+                },
+                externalids: [],
+                kegg: []
             },
-            externalids: [],
-            kegg: []
-        },
-        methods: {
-            loadMTBLCCP: function(){
-                this.$http.get('http://cts.fiehnlab.ucdavis.edu/service/compound/'+this.chemicalproperties.inchikey, function (data, status, request) {
-                    this.synonyms = this.getNames(data.synonyms)
-                    this.inchikey = data.inchikey
-                    this.inchicode = data.inchicode
-                    this.molweight = data.molweight
-                    this.exactmass = data.exactmass
-                    this.formula = data.formula
-                    this.extractIds(data.externalIds)
+            methods: {
+                loadMTBLCCP: function(){
+                    this.$http.get('http://cts.fiehnlab.ucdavis.edu/service/compound/'+this.chemicalproperties.inchikey, function (data, status, request) {
+                        this.synonyms = this.getNames(data.synonyms)
+                        this.inchikey = data.inchikey
+                        this.inchicode = data.inchicode
+                        this.molweight = data.molweight
+                        this.exactmass = data.exactmass
+                        this.formula = data.formula
+                        this.extractIds(data.externalIds)
 
-                    this.synonyms
+                        this.synonyms
 
-                }).error(function (data, status, request) {
-                    alert('Cannot fetch Compound details');
-                });
-            },
-            extractIds: function(eids , ex){
-                var tempArray = {};
-                var arrayLength = eids.length;
-                for (var i = 0; i < arrayLength; i++) {
-                    if (tempArray[eids[i].name]){
-                        tempArray[eids[i].name].push(" <span><a href='" + eids[i].url + "'>" + eids[i].value + "</a></span> ");
-                    }else{
-                        tempArray[eids[i].name] = [" <span><a href='" + eids[i].url + "'>" + eids[i].value + "</a></span> "];
+                    }).error(function (data, status, request) {
+                        alert('Cannot fetch Compound details');
+                    });
+                },
+                extractIds: function(eids , ex){
+                    var tempArray = {};
+                    var arrayLength = eids.length;
+                    for (var i = 0; i < arrayLength; i++) {
+                        if (tempArray[eids[i].name]){
+                            tempArray[eids[i].name].push(" <span><a href='" + eids[i].url + "'>" + eids[i].value + "</a></span> ");
+                        }else{
+                            tempArray[eids[i].name] = [" <span><a href='" + eids[i].url + "'>" + eids[i].value + "</a></span> "];
+                        }
                     }
-                }
-                this.externalids = tempArray;
-                var result = eids.filter(function( obj ) {
-                    return obj.name == 'KEGG';
-                });
-                this.kegg = result;
-            },
-            getNames: function(data) {
-                synonymns = [];
-                for (obj in data) {
-                    var tempSyn= data[obj].name;
-                    if( synonymns.indexOf(tempSyn)<0){
-                        synonymns.push(tempSyn);
+                    this.externalids = tempArray;
+                    var result = eids.filter(function( obj ) {
+                        return obj.name == 'KEGG';
+                    });
+                    this.kegg = result;
+                },
+                getNames: function(data) {
+                    synonymns = [];
+                    for (obj in data) {
+                        var tempSyn= data[obj].name;
+                        if( synonymns.indexOf(tempSyn)<0){
+                            synonymns.push(tempSyn);
+                        }
                     }
+                    return synonymns;
                 }
-                return synonymns;
+            },
+
+            ready: function() {
+                this.loadMTBLCCP();
             }
-        },
+        })
+    }
 
-        ready: function() {
-            this.loadMTBLCCP();
-        }
-    })
+
 </script>
 
 

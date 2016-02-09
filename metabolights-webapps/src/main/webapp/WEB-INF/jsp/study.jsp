@@ -126,6 +126,8 @@
                     <a data-toggle="modal" data-target="#shareStudy"><i class="fa fa-link"></i>&nbsp;
                         <spring:message code="label.study.share"/>
                     </a>
+                    &nbsp;|&nbsp;
+                    <a href="${pageContext.request.contextPath}/beta/${study.studyIdentifier}" class="icon icon-generic" data-icon="&lt;">BETA</a>
                 </div>
             </div>
 
@@ -207,12 +209,12 @@
                     <c:if test="${not empty study.assays}">
                         <c:if test="${fn:length(study.assays) eq 1}">
                             <li role="presentation">
-                                <a class="assay--tab" href="#assay" aria-controls="assay${assay.assayNumber}" data-assayid="1" role="tab" data-toggle="tab">
-                                    <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
+                                <a class="assay--tab" href="#assay" aria-controls="assay" data-assayid="1" role="tab" data-toggle="tab">
+                                    <c:if test="${(not empty study.assays[0].metaboliteAssignment) and (not empty study.assays[0].metaboliteAssignment.metaboliteAssignmentFileName) }">
                                         <c:set var="metabolitesExist" value="true"/>
-                                        <span class="icon icon-conceptual" data-icon="b"></span>
+                                        <span id="study-metabolitesicon" class="icon icon-conceptual" data-icon="b"></span>
                                     </c:if>
-                                    <spring:message code="label.assays"/> <c:if test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if>
+                                    <spring:message code="label.assays"/>
                                 </a>
                             </li>
                         </c:if>
@@ -904,8 +906,6 @@
                                             </form>
                                         </c:if>
                                     </div>
-<<<<<<< HEAD
-=======
 
                                     <div class="modal fade" id="confirm-ftp-delete-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
@@ -945,7 +945,6 @@
 
 
 
->>>>>>> bcf37fcb047a02919506353c3874391cc359ae85
                                 </div>
                             </c:if>
                             <!-- private FTP files -->

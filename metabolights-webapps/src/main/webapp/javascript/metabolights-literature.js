@@ -36,7 +36,7 @@ var literature = (function() {
 
     function init(){
         uri = {
-            'metabolights' : '../citations?compoundId='+ compound
+            'metabolights' : '../metabolights/citations?compoundId='+ compound
         };
     }
 

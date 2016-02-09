@@ -59,7 +59,7 @@ public class CompoundController extends AbstractController {
 
 		logger.info("requested compound " + mtblc);
 
-		String view =  "compound";
+		String view =  "bcompound";
 
         ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(view);
 

@@ -157,13 +157,11 @@
 
                 var output = vm.$data.validationsComplete;
                 output['entries'] = vm.$data.changedValidations;
-<<<<<<< HEAD
+
                 vm.$http.post('${pageContext.request.contextPath}/webservice/study/${study.studyIdentifier}/overridevalidations', JSON.stringify(output));
 
                 $('#validations-modal').modal('show');
 
-
-=======
 
                 vm.$http.post('http://localhost:8080/metabolights/webservice/study/${study.studyIdentifier}/overridevalidations',
                          JSON.stringify(output))
@@ -182,7 +180,6 @@
                         }
                     }
                 });
->>>>>>> bcf37fcb047a02919506353c3874391cc359ae85
             }
         }
 
