@@ -278,9 +278,10 @@
                                                             <c:forEach var="xref" items="${item.value}">
                                                                 <c:choose>
                                                                     <c:when test="${xref.crossReference.db.id eq 2}">
-                                                                        <h5><span><a href='${xref.crossReference.accession}' class="ml--studyid">${xref.crossReference.accession}</a>
-                                                                            :<b class="ml--studytitle ${xref.crossReference.accession}--title"></b></span>
-                                                                            <small><span class="ml--studydescription ${xref.crossReference.accession}--description"></span></small>
+                                                                        <h5><span><b><a href='${xref.crossReference.accession}' class="ml--studyid">${xref.crossReference.accession}</a></b>
+                                                                            : <b class="ml--studytitle ${xref.crossReference.accession}--title"></b></span>
+                                                                            <a data-studyid="${xref.crossReference.accession}" data-toggle="modal" data-target="#study-details-modal">more...</a>
+                                                                            <span class="${xref.crossReference.accession}--description hidden"></span>
                                                                         </h5>
                                                                     </c:when>
                                                                     <c:otherwise>
@@ -414,6 +415,28 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="study-details-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>Study Details</div>
+            </div>
+            <div class="modal-body">
+                <div id="modal-info">
+                    <h3 id="study--title"></h3><hr>
+                    <p><label>Study Description:</label></p>
+                    <p id="study--description"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary ml--button" id="study--link" target="_blank" href="">View Study</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <%--End of content --%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -655,6 +678,21 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.10/vue.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.17/vue-resource.js"></script>
+
+
+<script>
+    $('#study-details-modal').on('show.bs.modal', function(e) {
+        var studyid = $(e.relatedTarget).data('studyid');
+        var title = $("."+studyid+"--title").text();
+        var description = $("."+studyid+"--description").text();
+        console.log(title);
+        console.log(description);
+        $(this).find('#study--title').text(title);
+        $(this).find('#study--link').attr("href","../metabolights/"+studyid);
+        $(this).find('#study--description').text(description);
+    });
+</script>
+
 <script>
     function loadStudyData(){
         $('.ml--studyid').each(function(i, obj) {
