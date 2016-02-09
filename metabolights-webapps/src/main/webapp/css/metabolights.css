@@ -317,6 +317,18 @@ a:link.hyperlinks{
     display: inline;
 }
 
+.ml--studytitle{
+}
+
+.ml--bordertop{
+    margin-top: 10px;
+    border-top: 1px solid #CDCDCD;
+}
+
+.ml--studydescription{
+    display: block;
+}
+
 .dropdown-submenu {
     position: relative;
 }

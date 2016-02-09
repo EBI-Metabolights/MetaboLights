@@ -61,10 +61,6 @@
                                 </div>
 
                             </div>
-
-
-
-
                             <br>
                             <p>
                                 <a href="http://www.ebi.ac.uk/chebi/searchId.do?chebiId=${compound.mc.chebiId}">${compound.chebiEntity.chebiAsciiName}
@@ -269,25 +265,35 @@
 
                                     <c:if test="${compound.mc.hasSpecies}">
                                         <div role="tabpanel" class="tab-pane" id="biology">
-                                            <table class="table table-bordered">
-                                                <c:forEach var="item" items="${compound.species}">
-                                                    <tr>
-                                                        <td>${item.key.species} </td>
-                                                        <td>
+                                            <br>
+                                            <div class="col-md-12">
+                                            <ul class="list-group">
+
+                                                    <c:forEach var="item" items="${compound.species}">
+                                                        <li class="list-group-item row">
+                                                            <div class="col-md-3">
+                                                                <h5>${item.key.species}</h5>
+                                                            </div>
+                                                            <div class="col-md-9">
                                                             <c:forEach var="xref" items="${item.value}">
                                                                 <c:choose>
                                                                     <c:when test="${xref.crossReference.db.id eq 2}">
-                                                                        <a href='${xref.crossReference.accession}'>${xref.crossReference.accession}</a>
+                                                                        <h5><span><a href='${xref.crossReference.accession}' class="ml--studyid">${xref.crossReference.accession}</a>
+                                                                            :<b class="ml--studytitle ${xref.crossReference.accession}--title"></b></span>
+                                                                            <small><span class="ml--studydescription ${xref.crossReference.accession}--description"></span></small>
+                                                                        </h5>
                                                                     </c:when>
                                                                     <c:otherwise>
-                                                                        <a href='http://www.ebi.ac.uk/chebi/searchId.do?chebiId=${xref.crossReference.accession}'>${xref.crossReference.accession}</a>
+                                                                <h5><span><a href='http://www.ebi.ac.uk/chebi/searchId.do?chebiId=${xref.crossReference.accession}'>${xref.crossReference.accession}</a></span></h5>
                                                                     </c:otherwise>
                                                                 </c:choose>
                                                             </c:forEach>
-                                                        </td>
-                                                    </tr>
-                                                </c:forEach>
-                                            </table>
+                                                            </div>
+                                                        </li>
+                                                    </c:forEach>
+                                            </ul>
+                                            </div>
+
                                         </div>
                                     </c:if>
 
@@ -582,6 +588,8 @@
                 pathways.displayPathwayData("${compound.mc.chebiId}", 'pathwayContainer');
                 pathwaysretrieved = true;
             }
+        } else if (target == '#biology') {
+            loadStudyData();
         } else if (target == '#nmrspectra') {
             initializeNMRSpeckTackle();
         } else if (target == '#msspectra') {
@@ -648,7 +656,32 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.10/vue.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.17/vue-resource.js"></script>
 <script>
+    function loadStudyData(){
+        $('.ml--studyid').each(function(i, obj) {
+            LoadStudyDetails(obj.text)
+        });
+    }
+
+    function LoadStudyDetails(id){
+        $.ajax({
+            type: 'GET',
+            url: "../metabolights/webservice/study/"+ id +"/lite",
+            success: function (data) {
+                var studyDetails  = data['content'];
+                $("."+id+"--title").text(studyDetails['title']);
+                $("."+id+"--description").text(studyDetails['description']);
+            },
+            error: function (xhr, status, errorThrown) {
+                console.log('STATUS ' + status);
+                console.log('ERROR THROWN ' + errorThrown);
+                done();
+            }
+        });
+    }
+
+
     window.onload = function () {
+
         var vm = new Vue({
             //http: {
             //    headers: {
