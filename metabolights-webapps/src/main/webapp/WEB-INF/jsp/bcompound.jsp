@@ -279,8 +279,7 @@
                                                                 <c:choose>
                                                                     <c:when test="${xref.crossReference.db.id eq 2}">
                                                                         <h5><span><b><a href='${xref.crossReference.accession}' class="ml--studyid">${xref.crossReference.accession}</a></b>
-                                                                            : <b class="ml--studytitle ${xref.crossReference.accession}--title"></b></span>
-                                                                            <a data-studyid="${xref.crossReference.accession}" data-toggle="modal" data-target="#study-details-modal">more...</a>
+                                                                            <b class="ml--studytitle ${xref.crossReference.accession}--title"></b></span>
                                                                             <span class="${xref.crossReference.accession}--description hidden"></span>
                                                                         </h5>
                                                                     </c:when>
@@ -603,16 +602,37 @@
 
     var pathwaysretrieved = false;
     var dDisplayed = false;
+    var studyDataRetrieved = false;
 
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-        var target = $(e.target).attr("href") // activated tab
+    $( document ).ready(function() {
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            var target = $(e.target).attr("href") // activated tab
+            loadData(target);
+        });
+
+        var url = document.location.toString();
+        if (url.match('#')) {
+            $('.nav-tabs a[href=#'+url.split('#')[1]+']').tab('show') ;
+            loadData(url.split('#')[1]);
+        }
+
+        $('.nav-tabs a').on('shown.bs.tab', function (e) {
+            window.location.hash = e.target.hash;
+        })
+
+    });
+    
+    function loadData(target){
         if (target == '#pathways') {
-            if (!pathwaysretrieved) {
+            if (!studyDataRetrieved) {
                 pathways.displayPathwayData("${compound.mc.chebiId}", 'pathwayContainer');
-                pathwaysretrieved = true;
+                studyDataRetrieved = true;
             }
         } else if (target == '#biology') {
-            loadStudyData();
+            if (!pathwaysretrieved) {
+                loadStudyData();
+                pathwaysretrieved = true;
+            }
         } else if (target == '#nmrspectra') {
             initializeNMRSpeckTackle();
         } else if (target == '#msspectra') {
@@ -628,7 +648,34 @@
                 dDisplayed = true;
             }
         }
-    });
+    }
+
+
+
+    function loadStudyData() {
+        $('.ml--studyid').each(function (i, obj) {
+            LoadStudyDetails(obj.text)
+        });
+    }
+
+    function LoadStudyDetails(id) {
+        $.ajax({
+            type: 'GET',
+            async: false,
+            cache: false,
+            url: "../metabolights/webservice/study/" + id + "/lite",
+            success: function (data) {
+                var studyDetails = data['content'];
+                $("." + id + "--title").html(" " + studyDetails['title'] + "<a data-target='#study-details-modal' data-toggle='modal' data-studyid='" +id+ "'> <small>more...</small></a>" );
+                $("." + id + "--description").text(studyDetails['description']);
+            },
+            error: function (xhr, status, errorThrown) {
+                console.log('STATUS ' + status);
+                console.log('ERROR THROWN ' + errorThrown);
+                done();
+            }
+        });
+    }
 
 
 </script>
@@ -685,8 +732,8 @@
         var studyid = $(e.relatedTarget).data('studyid');
         var title = $("."+studyid+"--title").text();
         var description = $("."+studyid+"--description").text();
-        console.log(title);
-        console.log(description);
+        //console.log(title);
+        //console.log(description);
         $(this).find('#study--title').text(title);
         $(this).find('#study--link').attr("href","../metabolights/"+studyid);
         $(this).find('#study--description').text(description);
@@ -694,28 +741,6 @@
 </script>
 
 <script>
-    function loadStudyData(){
-        $('.ml--studyid').each(function(i, obj) {
-            LoadStudyDetails(obj.text)
-        });
-    }
-
-    function LoadStudyDetails(id){
-        $.ajax({
-            type: 'GET',
-            url: "../metabolights/webservice/study/"+ id +"/lite",
-            success: function (data) {
-                var studyDetails  = data['content'];
-                $("."+id+"--title").text(studyDetails['title']);
-                $("."+id+"--description").text(studyDetails['description']);
-            },
-            error: function (xhr, status, errorThrown) {
-                console.log('STATUS ' + status);
-                console.log('ERROR THROWN ' + errorThrown);
-                done();
-            }
-        });
-    }
 
 
     window.onload = function () {
@@ -791,6 +816,8 @@
             }
         })
     }
+
+
 
 
 </script>

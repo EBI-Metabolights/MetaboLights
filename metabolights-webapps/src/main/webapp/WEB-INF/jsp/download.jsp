@@ -41,5 +41,9 @@
 
 <p/><spring:message code="msg.metaboLightsAbout16" />&nbsp;<spring:message code="msg.metabolightsAbout8" /></p>
 
+<p>MetaboLights data is available to download from the EBI FTP site. MetaboLights exports can be downloaded using the following links.</p>
+<p><a href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/eb-eye/eb-eye_metabolights_complete.xml" target="_blank">MetaboLights - Complete </a>&emsp;|&emsp;<a href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/eb-eye/eb-eye_metabolights.xml" target="_blank">MetaboLights</a></p>
+
+
 <a class="noLine" href="<spring:message code="url.isatools"/>"><img src="img/softwaresuitelogo2.png" alt="ISAtools"/></a>
 <p><spring:message code="msg.metabolightsAbout6" /></p>
