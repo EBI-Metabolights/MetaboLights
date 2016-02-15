@@ -296,6 +296,7 @@
 
                                     <c:if test="${compound.mc.hasPathways}">
                                         <div role="tabpanel" class="tab-pane" id="pathways">
+                                            <br>
                                             <!-- Pathways Container -->
                                             <div id="pathwayContainer" height="100%" width="100%">
                                                 <p class="text-center"><br><br><br><img src="${pageContext.request.contextPath}/img/beta_loading.gif"></p>
@@ -344,17 +345,22 @@
                                         <div role="tabpanel" class="tab-pane" id="msspectra">
 
                                             <br>
-                                            <div class="panel panel-default">
-                                                <div class="panel-body">
-                                                    <p><a href="http://splash.fiehnlab.ucdavis.edu/">Splash - The Spectral Hash Identifier</a> <span class="pull-right" id="splash-container"></span></p>
+                                            <div class="col-md-12">
+                                                <!-- MS Spectra -->
+                                                <label for="msSpectraList">&emsp;Select spectra</label>
+                                                <select multiple class="form-control" id="msSpectraList"></select>
+                                                <div id="MSSpeckTackle" class="grid_24" style="height: 500px"></div>
+                                                <div class="col-md-12 well">
+                                                    <div id="msInfo" class="grid_23 specs"></div>
+                                                </div>
+                                                <br>
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <p><a href="http://splash.fiehnlab.ucdavis.edu/">Splash - The Spectral Hash Identifier</a> <span class="pull-right" id="splash-container"></span></p>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <!-- MS Spectra -->
-
-                                            <select multiple class="form-control" id="msSpectraList"></select>
-
-                                            <div id="MSSpeckTackle" class="grid_24" style="height: 500px"></div>
-                                            <div id="msInfo" class="grid_23 specs"></div>
+                                            <br>
                                             <script>
                                                 var msInfo = [
                                                     <c:set var="count" value="0" scope="page"/>
@@ -387,6 +393,7 @@
                                     </c:if>
                                     <c:if test="${compound.mc.hasReactions}">
                                         <div role="tabpanel" class="tab-pane" id="reactions">
+                                            <br>
                                             <div id="reactions-content">
                                                 <p class="text-center"><br><br><br><img src="${pageContext.request.contextPath}/img/beta_loading.gif"></p>
                                             </div>
@@ -609,7 +616,8 @@
 
         var url = document.location.toString();
         if (url.match('#')) {
-            $('.nav-tabs a[href=#'+url.split('#')[1]+']').tab('show') ;
+            $('.nav-tabs a[href=#'+url.split('#')[1]+']').tab('show');
+            window.scrollTo(0, 0);
             loadData(url.split('#')[1]);
         }
 
