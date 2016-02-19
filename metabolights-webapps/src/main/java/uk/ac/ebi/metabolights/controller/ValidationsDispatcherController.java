@@ -44,12 +44,14 @@ public class ValidationsDispatcherController  extends AbstractController{
     private static final String URL_4_VALIDATIONS = "validations";
 
     /**
-     * Create a private FTP folder for a Study, so the user can upload big files using ftp.
-     * Only Submiters (ROLE_SUBMITTER) and Curators (ROLE_SUPER_USER) should be accessing this
+     * Send a mail to the submitter with a Validations Status Report
+     * with all the current validations results,
+     * ordered by status, so the submitter can find what is failing to pass
+     * and accordingly update the study.
      *
      * @param studyId the ID of the study
      * @author: jrmacias
-     * @date: 20151105
+     * @date: 20160216
      */
     @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_VALIDATIONS + "/statusReportByMail")
     public ModelAndView sendValitationReportByEmail(@PathVariable("studyId") String studyId) {
@@ -59,6 +61,7 @@ public class ValidationsDispatcherController  extends AbstractController{
         // Using the WebService-client to do the job
         MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
         String rslt = wsClient.sendValitationReportByEmail(studyId).getMessage();
+        Exception err = wsClient.sendValitationReportByEmail(studyId).getErr();
 
         // parse WS response for user feedback
         List<String> msg = new LinkedList<>();
@@ -67,6 +70,6 @@ public class ValidationsDispatcherController  extends AbstractController{
             msg.add(line);
         }
 
-        return printMessage("Sending the Validations Status report for Study...", msg);
+        return printMessage("Sending the Validations Status report for Study...", msg, err, studyId);
     }
 }
