@@ -110,7 +110,7 @@ public class FileDispatcherController extends AbstractController {
             msg.add(line);
         }
 
-        return printMessage("Deleting files from study...", msg);
+        return printMessage("Deleting files from study...", msg, studyId);
     }
 
 	@RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/downloadSelFiles",
@@ -437,7 +437,7 @@ public class FileDispatcherController extends AbstractController {
             msg.add(line);
         }
 
-        return printMessage("Creating private FTP folder for Study...", msg);
+        return printMessage("Creating private FTP folder for Study...", msg, null, studyId);
     }
 
     /**
@@ -466,7 +466,7 @@ public class FileDispatcherController extends AbstractController {
         for (String line:str){
             msg.add(line);
         }
-        return printMessage("Moving files from private FTP folder...", msg);
+        return printMessage("Moving files from private FTP folder...", msg, null, studyId);
     }
 
     /**
@@ -513,6 +513,6 @@ public class FileDispatcherController extends AbstractController {
             msg.add(line);
         }
 
-        return printMessage("Deleting files from private FTP folder...", msg);
+        return printMessage("Deleting files from private FTP folder...", msg, null, studyId);
     }
 }

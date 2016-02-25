@@ -25,7 +25,7 @@ public class BetaController extends AbstractController {
     public ModelAndView showCompound(@PathVariable("compoundId") String mtblc, HttpServletRequest request) {
 
         logger.info("requested compound " + mtblc);
-        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("bcompound");
+        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("compound");
         RestResponse<Compound> response = EntryController.getMetabolightsWsClient().getCompound(mtblc);
 
         Compound compound = response.getContent();
@@ -39,6 +39,7 @@ public class BetaController extends AbstractController {
         mav.addObject("compound", webCompound);
         mav.addObject("pageTitle", mtblc + " - " + webCompound.getMc().getName());
         return mav;
+
     }
 
 }

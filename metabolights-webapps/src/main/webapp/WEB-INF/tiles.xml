@@ -66,7 +66,7 @@
 	</definition>
 
     <definition name="bcompound" extends="default">
-        <put-attribute name="title" value="Beta Compound page" />
+        <put-attribute name="title" value="Compound page" />
         <put-attribute name="body" value="/WEB-INF/jsp/bcompound.jsp" />
     </definition>
 

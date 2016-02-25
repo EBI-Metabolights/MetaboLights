@@ -126,6 +126,8 @@
                     <a data-toggle="modal" data-target="#shareStudy"><i class="fa fa-link"></i>&nbsp;
                         <spring:message code="label.study.share"/>
                     </a>
+                    &nbsp;|&nbsp;
+                    <a href="${pageContext.request.contextPath}/beta/${study.studyIdentifier}" class="icon icon-generic" data-icon="&lt;">BETA</a>
                 </div>
             </div>
 
@@ -155,20 +157,17 @@
 
                 <div class="btn-group" role="group">
                     <c:if test="${fn:length(study.assays) eq 1}">
-                        <button type="button" class="btn btn-default dropdown-toggle quicklinks" data-assayid="1" data-destination="assay<c:if test="${fn:length(study.assays) gt 0}">${assay.assayNumber}</c:if>">
+                        <button type="button" class="btn btn-default dropdown-toggle quicklinks" data-assayid="1" data-destination="assay<c:if test="${fn:length(study.assays) gt 0}">${assay.assayNumber}</c:if>" <c:if test="${(empty study.assays[0].metaboliteAssignment) and ( empty study.assays[0].metaboliteAssignment.metaboliteAssignmentFileName) }">disabled</c:if> >
                             <i class="ml--icons fa fa-fire pull-left"></i> View Metabolites
                             <span class="icon icon-conceList of study filesptual" data-icon="b"></span><spring:message code="label.assays"/><c:if test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if>
                         </button>
                     </c:if>
                     <c:if test="${fn:length(study.assays) gt 1}">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ml--icons fa fa-fire pull-left"></i> View Metabolites
-                            <span class="caret"></span>
-                        </button>
                         <ul class="dropdown-menu">
                             <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
                                 <li>
                                     <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
+                                        <c:set var="mafExist" value="true"/>
                                         <a class="quicklinks" data-assayid="<c:if test="${fn:length(study.assays) gt 0}">${assay.assayNumber}</c:if>" data-destination="assay<c:if test="${fn:length(study.assays) gt 0}">${assay.assayNumber}</c:if>" >
                                             <span class="icon icon-conceList of study filesptual" data-icon="b"></span><spring:message code="label.assays"/><c:if test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if>
                                         </a>
@@ -176,6 +175,11 @@
                                 </li>
                             </c:forEach>
                         </ul>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" <c:if test="${mafExist ne true}">disabled</c:if>>
+                            <i class="ml--icons fa fa-fire pull-left"></i> View Metabolites
+                            <span class="caret"></span>
+                        </button>
+
                     </c:if>
 
 
@@ -205,12 +209,12 @@
                     <c:if test="${not empty study.assays}">
                         <c:if test="${fn:length(study.assays) eq 1}">
                             <li role="presentation">
-                                <a class="assay--tab" href="#assay" aria-controls="assay${assay.assayNumber}" data-assayid="1" role="tab" data-toggle="tab">
-                                    <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
+                                <a class="assay--tab" href="#assay" aria-controls="assay" data-assayid="1" role="tab" data-toggle="tab">
+                                    <c:if test="${(not empty study.assays[0].metaboliteAssignment) and (not empty study.assays[0].metaboliteAssignment.metaboliteAssignmentFileName) }">
                                         <c:set var="metabolitesExist" value="true"/>
-                                        <span class="icon icon-conceptual" data-icon="b"></span>
+                                        <span id="study-metabolitesicon" class="icon icon-conceptual" data-icon="b"></span>
                                     </c:if>
-                                    <spring:message code="label.assays"/> <c:if test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if>
+                                    <spring:message code="label.assays"/>
                                 </a>
                             </li>
                         </c:if>
@@ -474,6 +478,7 @@
                         </div>
                     </div>
 
+
                     <c:if test="${fn:length(study.assays) eq 1}">
                         <c:if test="${not empty study.assays}">
                             <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
@@ -670,7 +675,7 @@
                                 <c:set var="token" value="?token=${study.obfuscationCode}"/>
                             </c:if>
 
-                            <form id="selFilesForm" action="/metabolights/${study.studyIdentifier}/files/downloadSelFiles" method="post">
+                            <form id="selFilesForm" action="${pageContext.request.contextPath}/${study.studyIdentifier}/files/downloadSelFiles" method="post">
                                 <h5 class="well">
                                     <!--  Request FTP folder -->
                                     <c:if test="${(study.studyStatus == 'SUBMITTED') and !hasPrivateFtpFolder }">
@@ -713,21 +718,53 @@
                                 <div id="noAspera" class="noAspera"></div>
 
                                 <h4><spring:message code="label.fileListTableExplanation"/></h4>
-                                <div class="">
                                     <div class="input-group">
                                         <input class="inputDiscrete form-control" id="fileSelector" type="text" placeholder="<spring:message code='label.fileList.Input.placeholder'/>">
                                           <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button">?</button>
+                                              <button type="button" class="btn btn-primary ml--btngrpoup" data-toggle="modal" data-target=".bs-example-modal-lg">?</button>
                                           </span>
                                     </div><!-- /input-group -->
+
+
+                                <!--
+                                    Help modal content
+                                -->
+
+                                <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title">Help</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>
+                                                    <spring:message code='label.fileList.Input.placeholder'/><br>
+                                                    Example:
+                                                    <br>
+                                                    > Type <b>.txt</b> and then press <b>Enter or CMD</b> to select all files with .txt extension<br>
+                                                    > Type <b>!.txt</b> and then press <b>Enter or CMD</b> to deselect all files with .txt extension
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal-dialog -->
                                 </div>
+
+
                                 <c:if test="${!study.publicStudy}">
                                     <input type="hidden" name="token" value="${study.obfuscationCode}">
                                 </c:if>
                                 <table id="files" class="filesTable table table-striped table-bordered" style="width: 100%;">
                                     <thead>
                                     <tr>
-                                        <th>Select</th>
+                                        <th>
+                                                <label>
+                                                    <input type="checkbox" name="checkAll" id="checkAll">&emsp;Select all
+                                                </label>
+                                        </th>
                                         <th>File</th>
                                     </tr>
                                     </thead>
@@ -735,7 +772,7 @@
                                     <c:forEach var="file" items="${files}">
                                         <%--<c:if test="${!file.directory}">--%>
                                         <tr>
-                                            <td><input type="checkbox" name="file" value="${file.name}"/></td>
+                                            <td><input type="checkbox" class="ml--file" name="file" value="${file.name}"/></td>
                                             <td>
                                                 <a rel="nofollow" href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/${file.name}${token}">${file.name}</a>
                                             </td>
@@ -744,6 +781,18 @@
                                     </c:forEach>
                                     </tbody>
                                 </table>
+
+                                <script>
+                                    $("#checkAll").click(function () {
+                                        if ($("#checkAll").is(':checked')) {
+                                            $(".ml--file").prop("checked", true);
+                                        } else {
+                                            $(".ml--file").prop("checked", false);
+                                        }
+                                    });
+                                </script>
+
+
 
 
                                 <div style="position: relative; width: 100%;">
@@ -820,7 +869,7 @@
 
                                                 <!-- <p><input class="inputDiscrete resizable" id="ftpFileSelector" class="" type="text" placeholder="<spring:message code='label.ftpFileList.Input.placeholder'/>"></p> -->
 
-                                                <table id="privFtpFiles" class="ftpFiles">
+                                                <table id="privFtpFiles" class="ftpFiles table table-striped table-bordered">
                                                     <tr>
                                                         <th>Select</th>
                                                         <th>File</th>
@@ -906,6 +955,7 @@
             </div>
         </div>
     </div>
+    <div id="chebiInfo"></div>
 </div>
 
 <div class="modal fade" id="shareStudy" role="dialog">
@@ -941,6 +991,7 @@
 
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/dataTables.conditionalPaging.js"></script>
 
 <script type="text/javascript" charset="utf-8">
 
@@ -981,6 +1032,75 @@
                 wrapperDiv.html(data);
                 $('.maf').addClass("table table-striped table-bordered")
                 $('.maf').DataTable();
+
+                var chebiInfoDiv = new Biojs.ChEBICompound({target: 'chebiInfo',width:'400px', height:'300px',proxyUrl:undefined, chebiDetailsUrl: 'http://www.ebi.ac.uk/webservices/chebi/2.0/test/getCompleteEntity?chebiId='});
+                $('#chebiInfo').hide();
+
+
+                $("a.showLink").click(function(event) {
+                    var clickedId = event.target.id;
+                    var idClickedSplit = clickedId.split("_");
+                    /*id of the link is made up by 3 parts:
+                     part 1: name of the div (eg.: syn) this is used to distinguish the show more
+                     link of synonyms from the show more link in other divs
+                     part 2: "link" to distinguish the link for show more link from other
+                     ordinary links
+                     part 3: the order of the result item to distinguish the show more button
+                     in the result list is click. In case of filters of species or compounds
+                     the order is always 0
+                     */
+                    var idPrefixClicked = idClickedSplit[0];
+                    /*var itemClicked = idClickedSplit[1];*/
+                    var orderOfItemClicked = idClickedSplit[2];
+                    var idOfHiddenText = "#"+idPrefixClicked+"_"+orderOfItemClicked;
+                    var jqClickedId= "#"+clickedId;
+                    if ($(idOfHiddenText).is(":hidden")){
+                        $(jqClickedId).text("Show less");
+                    }else{
+                        $(jqClickedId).text("Show more");
+                    }
+                    $(idOfHiddenText).slideToggle();
+                });
+                var metLinkTimer = 0; // 0 is a safe "no timer" value
+
+
+                function loadMetabolite(e) {
+                    // Clear this as flag there's no timer outstanding
+                    metLinkTimer = 0;
+                    var metlink;
+                    metlink = $(e.target);
+                    var metaboliteId = metlink.attr('identifier');
+                    // If its a chebi id
+                    if (metaboliteId.indexOf("CHEBI:")==0){
+                        //var mouseX = metlink.left + metlink.offsetParent.offsetLeft + metlink.offsetWidth + 80;
+                        //var mouseY = metlink.top + metlink.offsetParent.offsetTop + metlink.offsetParent.offsetParent.offsetTop;
+                        var offset = metlink.offset();
+                        var mouseX = offset.left + metlink.outerWidth() + 20;
+                        var mouseY = offset.top;
+                        chebiId = metaboliteId;
+                        $('#chebiInfo img:last-child').remove;
+                        $('#chebiInfo').css({'top':mouseY,'left':mouseX,'float':'left','position':'absolute','z-index':10});
+                        $('#chebiInfo').fadeIn('slow');
+                        chebiInfoDiv.setId(chebiId);
+                    }
+                }
+
+
+                $('.metLink').on('mouseenter', function(e) {
+                    // I'm assuming you don't want to stomp on an existing timer
+                    if (!metLinkTimer) {
+                        metLinkTimer = setTimeout(function(){loadMetabolite(e);}, 500); // Or whatever value you want
+                    }
+                }).on('mouseleave', function() {
+                    // Cancel the timer if it hasn't already fired
+                    if (metLinkTimer) {
+                        clearTimeout(metLinkTimer);
+                        metLinkTimer = 0;
+                    }
+                    $('#chebiInfo').fadeOut('slow');
+                });
+
+
             });
         }
 
@@ -991,7 +1111,8 @@
         $('.dataTable').DataTable();
 
         $('.protocols-table').DataTable({
-            "ordering": false
+            "ordering": false,
+            conditionalPaging: true
         });
 
 
@@ -1039,6 +1160,7 @@
 <script>
     $(document).ready(function () {
 
+
         var asperaLoaded = false;
 
         $(function () {
@@ -1058,8 +1180,6 @@
                 var downloadButton = $('<a id="downloadButton">Aspera: Download Study</a>');
 
                 $('#asperaDownloadWrapper').append(downloadButton);
-
-
 
                 function downloadButtonClick(e) {
                     $('#transferDiv').show();
