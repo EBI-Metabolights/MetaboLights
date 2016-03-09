@@ -172,8 +172,10 @@ public class StudyDAO {
 
         } catch (IsaTabException e) {
             studyToFill.setValidations(new Validations()); // this is to remove any validations loaded from database
-            StudyValidationUtilities.AddValidationFromException(studyToFill, "Study metadata load","We could NOT load the isatab files: " + e.getMessage() + ", " +
-                    e.getClass().getName());
+//            StudyValidationUtilities.AddValidationFromException(studyToFill, "Study metadata load","We could NOT either find or load the isatab files: " + e.getMessage() + ", " +
+//                    e.getClass().getName());
+            StudyValidationUtilities.AddValidationFromException(studyToFill, "Study metadata load","We could NOT either find or load all the ISA-Tab files." +
+                    " Make sure if you have provided all the required ISA-Tab files, that have successfully passed ISAcreator validation.");
 
         }
 

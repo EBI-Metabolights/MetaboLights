@@ -407,10 +407,13 @@ public class EmailService {
 	 * @author jrmacias
 	 * @date 20160125
      */
-	public void sendValidationStatus(Study study) {
+	public Exception sendValidationStatus(Study study) {
 
+		Exception ex = null;
 		String from = curationEmailAddress;
 		String submitterEmail = getSubmitterEmail(study);
+		if(submitterEmail.isEmpty())
+			ex = new Exception("Could not find any valid Submitter email address.");
 //		String[] to = new String[]{curationEmailAddress};
 		String[] to = new String[]{submitterEmail, curationEmailAddress};
 		String subject = PropertyLookUpService.getMessage("mail.validations.status.subject", study.getStudyIdentifier());
@@ -419,11 +422,14 @@ public class EmailService {
 		Status valStatus = validations.getStatus();
 		Collection<Validation> vals = validations.getEntries();
 
+		logger.info("Sending Validations status report to submitter email {} .", submitterEmail);
 		sendValidationsEmail(from, to, subject,
 				study,
 				getValidations(vals, Status.RED),
 				getValidations(vals, Status.AMBER),
 				getValidations(vals, Status.GREEN));
+
+		return ex;
 	}
 
 	/**
@@ -432,13 +438,13 @@ public class EmailService {
 	 * @return
 	 * @author jrmacias
 	 * @date 20160126
-     */
+	 */
 	private String getSubmitterEmail(Study study) {
 		for (User user : study.getUsers()){
 			if (user.getRole() == AppRole.ROLE_SUBMITTER)
 				return user.getEmail();
 		}
-		return null;
+		return "";
 	}
 
 	/**
