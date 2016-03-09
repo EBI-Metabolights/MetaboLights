@@ -349,6 +349,14 @@ a:link.hyperlinks{
     border-radius: 0 6px 6px 6px;
 }
 
+#metExploreContainer{
+    min-height: 500px;
+}
+
+#metExploreContainer iframe{
+    position: absolute !important;
+}
+
 .dropdown-submenu:hover>.dropdown-menu {
     display: block;
 }

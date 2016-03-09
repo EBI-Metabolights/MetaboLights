@@ -766,7 +766,7 @@
             },
             methods: {
                 loadMTBLCCP: function(){
-                    this.$http.get('http://cts.fiehnlab.ucdavis.edu/service/compound/'+this.chemicalproperties.inchikey, function (data, status, request) {
+                    this.$http.get('https://crossorigin.me/http://cts.fiehnlab.ucdavis.edu/service/compound/'+this.chemicalproperties.inchikey, function (data, status, request) {
                         this.synonyms = this.getNames(data.synonyms)
                         this.inchikey = data.inchikey
                         this.inchicode = data.inchicode
@@ -774,8 +774,6 @@
                         this.exactmass = data.exactmass
                         this.formula = data.formula
                         this.extractIds(data.externalIds)
-
-                        this.synonyms
 
                     }).error(function (data, status, request) {
                         alert('Cannot fetch Compound details');

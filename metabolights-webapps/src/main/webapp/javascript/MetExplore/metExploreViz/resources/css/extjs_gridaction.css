@@ -1,0 +1,552 @@
+.x-form-checkbox-default {
+    display: inline-block;
+}
+
+.msgClsCustomLoadMask{
+  background:    url(../images/logo_menu/metxplore_gif_speedx2_200px.gif) no-repeat center center ;
+  border: 0px;
+  height: 100%;
+  width: 100%;
+  background-size: 100px;
+  background-position: 50% 45%;;
+}
+
+.msgClsCustomLoadMask .x-mask-msg-inner{
+  position:relative;
+  height: 100%;
+  width: 100%;
+  border: 0px;
+  font: normal 20px helvetica,arial,verdana,sans-serif;
+  background-color: transparent;
+  top:55%;
+  background-image:none;
+}
+
+.x-mask-msg {
+
+  height: 100%;
+  width: 100%;
+  margin: auto;
+  position:relative;
+  border: 0px;
+  font: normal 20px helvetica,arial,verdana,sans-serif;
+  background-color: rgba(208, 208, 208, 0);;
+  top:55%;
+  background-image:none;
+}
+
+.loadButton{
+    padding: 5px;
+    margin: 5px;
+    background:#5FA2DD;
+}
+.loadButton span{
+    color:#FFFFFF ;
+}
+.loadButton.x-btn-focus{
+    padding: 5px;
+    margin: 5px;
+    background:#5FA2DD;
+}
+.loadButton.x-btn-focus span {
+    color:#FFFFFF ;
+}
+
+.loadButton:hover {
+    background:#eee;
+}
+.loadButton:hover span {
+    color:#606060 !important;
+}
+.loadButton.x-btn-menu-active span {
+    color:#606060 !important;
+}
+
+.msgClsCustomLoadMask > .x-mask-msg-text{
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  position:relative;
+  font: normal 20px helvetica,arial,verdana,sans-serif;
+  top:55%;
+  background-image:none;
+}
+
+.msgClsLaunchMask{
+  background:    url(../icons/logoViz.png) no-repeat center center ;
+  border: 0px;
+  height: 100%;
+  width: 100%;
+  background-size: 150px;
+  background-position: 50% 45%;;
+}
+
+.msgClsLaunchMask .x-mask-msg-inner{
+  position:relative;
+  height: 100%;
+  width: 100%;
+  border: 0px;
+  font: normal 20px helvetica,arial,verdana,sans-serif;
+  background-color: transparent;
+  top:55%;
+  background-image:none;
+}
+
+.msgClsLaunchMask > .x-mask-msg-text{
+  text-align: center;
+  width: 100%;
+  position:relative;
+  font: normal 20px helvetica,arial,verdana,sans-serif;
+  top:55%;
+  background-image:none;
+}
+
+#presentationViz {
+  line-height:100px;
+  display: inline-block;
+  text-align: center;
+  vertical-align:middle;
+}
+
+#presentationLogoViz {
+  display: inline-block;
+  text-align: center;
+  vertical-align:middle;
+}
+
+#presentationPanelViz {
+  vertical-align:middle;
+  display: inline-block;
+  text-align: center;
+}
+
+#presentationLogoViz img{
+  vertical-align:middle;
+  height: 100%;
+}
+
+/* */
+.x-grid-scroller {overflow-y: scroll;} 
+        /* style rows on mouseover */
+        .x-grid-row-over .x-grid-cell-inner {
+            font-weight: bold;
+        }
+        .x-grid-row-selected  .x-grid-cell-inner {
+            background-color: #d8e0f0;
+        }
+        .x-grid-row-del  .x-grid-cell-inner {
+            background-color: #ffa;
+            font-weight: bold;
+        }
+
+        /* shared styles for the ActionColumn icons */
+        .x-action-col-cell img {
+            height: 16px;
+            width: 16px;
+            cursor: pointer;
+        }
+        /* custom icon for the "buy" ActionColumn icon */
+        .x-action-col-cell img.buy-col {
+            background-image: url(../shared/icons/fam/accept.png);
+        }
+        /* custom icon for the "alert" ActionColumn icon */
+        .x-action-col-cell img.alert-col {
+            background-image: url(../shared/icons/fam/error.png);
+        }
+
+        .x-ie6 .x-action-col-cell img.buy-col {
+            background-image: url(../shared/icons/fam/accept.gif);
+        }
+        .x-ie6.x-action-col-cell img.alert-col {
+            background-image: url(../shared/icons/fam/error.gif);
+        }
+
+        .x-ie6 .x-action-col-cell img {
+            position:relative;
+            top:-1px;
+        }
+.col-match { 
+     
+    color: #090; 
+    background-color: #FFFF99;
+}
+p {
+    margin:5px;
+}
+.settings {
+     background-image: url(../icons/settings.svg);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+.nav {
+    background-image:url(../icons/folder_go.png);
+}
+.info {
+    background-image:url(../icons/information.png);
+}
+.cart {
+    background-image:url(../icons/cart.png);
+}
+.del {
+     background-image: url(../icons/delete.svg);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+.logoViz {
+     background-image: url(../icons/metexplore-logo.svg);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+.cancel {
+     background-image: url(../icons/cancel.svg);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+.add {
+        background-image: url(../icons/add.svg);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+.save {
+       background-image: url(../icons/save.svg);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+
+.link {
+       background-image: url(../icons/link.svg);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+
+.importToRsx {
+       background-image: url(../icons/importToRsx.png);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+
+.handcursor {
+       background-image: url(../icons/handcursor.svg);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+
+.unlink {
+       background-image: url(../icons/unlink.svg);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+
+.highlightCompartments {
+       background-image: url(../icons/highlightCompartments.png);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+
+.removeHighlightCompartments {
+       background-image: url(../icons/removeHighlightCompartments.png);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+
+.copyNetwork {
+      background-image: url(../icons/copy-network.svg);!important;
+      background-size: 100% 100%;
+      background-position: 0% 0%;
+      background-repeat: no-repeat;
+}
+
+.saveNetwork {
+      background-image: url(../icons/save-network.png);!important;
+      background-size: 100% 100%;
+      background-position: 0% 0%;
+      background-repeat: no-repeat;
+}
+.zoomin {
+      background-image: url(../icons/zoomin.svg);
+      background-size: 100% 100%;
+      background-position: 0% 0%;
+      background-repeat: no-repeat;
+}
+.zoomout {
+      background-image: url(../icons/zoomout.svg);
+      background-size: 100% 100%;
+      background-position: 0% 0%;
+      background-repeat: no-repeat;
+}
+/*Icons were downloaded on http://icomoon.io/app/*/
+.hierarchicalDrawing {
+    background-image: url(../icons/hierarchicDrawing.svg);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+.makeAcyclic {
+    background-image: url(../icons/makeAcyclic.svg);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+.springDrawing {
+    background-image: url(../icons/springDrawing.svg);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+.labels{
+    background-image: url(../icons/labels.svg);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+.highlightSubnetwork{
+    background-image: url(../icons/highlight.svg);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+
+.delete-sideCompounds {
+    background-image: url(../icons/delete.svg);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat; 
+}
+.duplicate-sideCompounds{
+    background-image: url(../icons/duplicateSideCompounds.svg);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat; 
+}
+
+.removeMetabolites {
+    background-image: url(../icons/removeMetabolites.svg);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+.subnetwork {
+    background-image: url(../icons/subnetwork.svg);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+.refresh {
+    background-image: url(../icons/refresh.svg);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+
+.exportSvg {
+    background-image: url(../icons/exportSvg.png);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+.exportPng {
+    background-image: url(../icons/exportPng.png);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+.exportJpg {
+    background-image: url(../icons/exportJpg.png);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+.exportDot {
+    background-image: url(../icons/exportDot.png);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+
+.exportGml {
+    background-image: url(../icons/exportGml.png);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+
+.metabolitesLinkedByType {
+    background-image: url(../icons/metabolitesLinkedByType.png);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+
+.metabolitesUnlinkedByType {
+    background-image: url(../icons/metabolitesUnlinkedByType.png);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+
+.metabolite {
+    background-image: url(../icons/metabolite.svg);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+
+.search {
+    background-image: url(../icons/search.png);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+ }
+
+.adn {
+    background-image: url(../icons/adn.svg);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+
+.upload-icon {
+    background: url(../icons/save.gif) no-repeat 0 0 !important;
+}
+
+.render {
+    background-image:url(../icons/folder_wrench.png);
+}
+.sideCompound {
+    background-image:url(../icons/chimie.png);
+}
+.importData {
+    background-image: url(../icons/importData.svg);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+
+
+.cytoscapeWebStart {
+	background-image: url(../icons/CytoscapeLogo.png);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}	
+.colorMapped {
+	background-color:#FFFFF0;
+	color:#CC3300;
+}	
+.colorTransparent {
+	background-color:#FFFFF0;
+}
+
+.open {
+    background-image: url(../icons/open2.svg);
+    background-size: 100% 100%;
+  	background-position: 0% 0%;
+    background-repeat: no-repeat;
+}
+
+.load {
+    background-image: url(../icons/save.svg);
+    background-size: 100% 100%;
+  	background-position: 0% 0%;
+    background-repeat: no-repeat;
+}
+
+.download {
+    background-image: url(../icons/download.svg);
+    background-size: 100% 100%;
+  	background-position: 0% 0%;
+    background-repeat: no-repeat;
+}
+
+.error {
+    background-image: url(../icons/error.svg);
+    background-size: 100% 100%;
+  	background-position: 0% 0%;
+    background-repeat: no-repeat;
+}
+
+
+.x-grid-center-icon{
+   display:block;
+   margin:0 auto;
+   text-align:center;
+   cursor:hand;
+}
+
+
+
+/*Completude of pathways :*/
+.veryLowCompletude
+{
+	color: #FF0000;
+}
+
+.lowCompletude
+{
+	color: #FF8000;
+}
+
+.mediumCompletude
+{
+	color: #AEB404;
+}
+
+.highCompletude
+{
+	color: #088A08;
+}
+
+.statistics {
+  background-image: url(../icons/statistics.svg);
+  background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+
+.summaryVotes {
+  background-image: url(../icons/summaryVotes.svg);
+  background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+
+.equation {
+  background-image: url(../icons/equation.png);
+  background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+
+.x-tip {
+
+  width: auto !important;
+
+ }
+
+.x-tip-body {
+
+  width: auto !important;
+
+}
+
+.x-tip-body span {
+
+  width: auto !important;
+
+} 
+
+.font12 {
+	font-size: 12pt;
+}

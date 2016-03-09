@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:cml="http://www.xml-cml.org/schema" width="189.282" height="180" x="0" y="0" font-family="sans-serif" stroke="rgb(0,0,0)" stroke-width="1" >
+<line x1="114.6" y1="100.0" x2="80.0" y2="80.0"/>
+<line x1="117.6" y1="100.0" x2="117.6" y2="129.6"/>
+<line x1="111.6" y1="100.0" x2="111.6" y2="129.6"/>
+<line x1="114.6" y1="100.0" x2="140.3" y2="85.2"/>
+<line x1="80.0" y1="80.0" x2="50.4" y2="80.0"/>
+<line x1="80.0" y1="80.0" x2="65.2" y2="105.6"/>
+<line x1="80.0" y1="80.0" x2="80.0" y2="50.4"/>
+<text x="24.400000" y="84.800000" fill="rgb(30,239,30)"  stroke="rgb(30,239,30)" stroke-width="1" font-size="16" >Cl</text>
+<text x="44.400000" y="119.441016" fill="rgb(30,239,30)"  stroke="rgb(30,239,30)" stroke-width="1" font-size="16" >Cl</text>
+<text x="74.000000" y="48.320000" fill="rgb(30,239,30)"  stroke="rgb(30,239,30)" stroke-width="1" font-size="16" >Cl</text>
+<text x="108.641016" y="144.800000" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >O</text>
+<text x="144.482032" y="73.600000" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="32" >-</text>
+<text x="143.282032" y="88.320000" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >O</text>
+<text font-size="18.000000" fill ="black" font-family="sans-serif"
+x="140.000000" y="20.000000" ></text>
+<title> - OBDepict</title>
+</svg>

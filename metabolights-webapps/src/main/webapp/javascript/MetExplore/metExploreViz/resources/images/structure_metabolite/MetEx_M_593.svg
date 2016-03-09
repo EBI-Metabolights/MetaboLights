@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:cml="http://www.xml-cml.org/schema" width="251.172" height="236.762" x="0" y="0" font-family="sans-serif" stroke="rgb(0,0,0)" stroke-width="1" >
+<line x1="91.5" y1="86.4" x2="52.4" y2="78.0"/>
+<line x1="91.5" y1="86.4" x2="103.8" y2="124.4"/>
+<line x1="52.4" y1="78.0" x2="43.2" y2="49.9"/>
+<line x1="103.8" y1="124.4" x2="80.3" y2="156.8"/>
+<line x1="106.1" y1="133.5" x2="89.7" y2="156.1"/>
+<line x1="80.3" y1="156.8" x2="97.7" y2="180.7"/>
+<line x1="113.7" y1="185.9" x2="141.9" y2="176.8"/>
+<line x1="141.9" y1="176.8" x2="141.9" y2="136.8"/>
+<line x1="141.9" y1="136.8" x2="103.8" y2="124.4"/>
+<line x1="211.2" y1="136.8" x2="176.5" y2="116.8"/>
+<line x1="176.5" y1="116.8" x2="141.9" y2="136.8"/>
+<line x1="174.9" y1="126.0" x2="150.7" y2="140.0"/>
+<line x1="141.9" y1="176.8" x2="176.5" y2="196.8"/>
+<line x1="150.7" y1="173.5" x2="174.9" y2="187.5"/>
+<line x1="176.5" y1="196.8" x2="211.2" y2="176.8"/>
+<line x1="211.2" y1="176.8" x2="211.2" y2="136.8"/>
+<line x1="204.0" y1="170.8" x2="204.0" y2="142.8"/>
+<text x="35.200000" y="33.600000" fill="rgb(12,12,255)"  stroke="rgb(12,12,255)" stroke-width="1" font-size="16" >+</text>
+<text x="16.400000" y="48.320000" fill="rgb(12,12,255)"  stroke="rgb(12,12,255)" stroke-width="1" font-size="16" >H</text>
+<text x="28.400000" y="56.000000" fill="rgb(12,12,255)"  stroke="rgb(12,12,255)" stroke-width="1" font-size="13" >3</text>
+<text x="34.900000" y="48.320000" fill="rgb(12,12,255)"  stroke="rgb(12,12,255)" stroke-width="1" font-size="16" >N</text>
+<text x="88.247264" y="193.922348" fill="rgb(12,12,255)"  stroke="rgb(12,12,255)" stroke-width="1" font-size="16" >HN</text>
+<text font-size="18.000000" fill ="black" font-family="sans-serif"
+x="140.000000" y="20.000000" ></text>
+<title> - OBDepict</title>
+</svg>

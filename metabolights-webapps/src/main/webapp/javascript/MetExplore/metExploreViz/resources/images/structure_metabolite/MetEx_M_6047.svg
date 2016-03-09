@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:cml="http://www.xml-cml.org/schema" width="245.477" height="192.361" x="0" y="0" font-family="sans-serif" stroke="rgb(0,0,0)" stroke-width="1" >
+<line x1="136.2" y1="92.4" x2="101.6" y2="72.4"/>
+<line x1="123.5" y1="59.2" x2="123.9" y2="59.9"/>
+<line x1="119.9" y1="60.9" x2="120.7" y2="62.3"/>
+<line x1="116.2" y1="62.5" x2="117.4" y2="64.6"/>
+<line x1="112.5" y1="64.2" x2="114.1" y2="66.9"/>
+<line x1="108.9" y1="65.8" x2="110.9" y2="69.3"/>
+<line x1="105.2" y1="67.5" x2="107.6" y2="71.6"/>
+<line x1="101.5" y1="69.1" x2="104.3" y2="74.0"/>
+<line x1="78.0" y1="40.0" x2="40.0" y2="52.4"/>
+<line x1="40.0" y1="52.4" x2="40.0" y2="92.4"/>
+<line x1="40.0" y1="92.4" x2="68.2" y2="101.5"/>
+<line x1="84.2" y1="96.3" x2="101.6" y2="72.4"/>
+<line x1="101.6" y1="72.4" x2="78.0" y2="40.0"/>
+<line x1="170.8" y1="152.4" x2="136.2" y2="132.4"/>
+<line x1="169.2" y1="143.1" x2="145.0" y2="129.1"/>
+<line x1="136.2" y1="132.4" x2="136.2" y2="92.4"/>
+<line x1="136.2" y1="92.4" x2="170.8" y2="72.4"/>
+<line x1="145.0" y1="95.6" x2="169.2" y2="81.6"/>
+<line x1="170.8" y1="72.4" x2="196.5" y2="87.2"/>
+<line x1="205.5" y1="102.8" x2="205.5" y2="132.4"/>
+<line x1="198.3" y1="104.8" x2="198.3" y2="126.4"/>
+<line x1="205.5" y1="132.4" x2="170.8" y2="152.4"/>
+<text x="200.676719" y="85.960680" fill="rgb(12,12,255)"  stroke="rgb(12,12,255)" stroke-width="1" font-size="16" >+</text>
+<text x="199.476719" y="100.680680" fill="rgb(12,12,255)"  stroke="rgb(12,12,255)" stroke-width="1" font-size="16" >NH</text>
+<text x="72.042261" y="109.521360" fill="rgb(12,12,255)"  stroke="rgb(12,12,255)" stroke-width="1" font-size="16" >NH</text>
+<text x="130.194687" y="60.680680" fill="rgb(191,191,191)"  stroke="rgb(191,191,191)" stroke-width="1" font-size="16" >H</text>
+<text font-size="18.000000" fill ="black" font-family="sans-serif"
+x="140.000000" y="20.000000" ></text>
+<title> - OBDepict</title>
+</svg>

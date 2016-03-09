@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:cml="http://www.xml-cml.org/schema" width="314.641" height="293.205" x="0" y="0" font-family="sans-serif" stroke="rgb(0,0,0)" stroke-width="1" >
+<line x1="180.0" y1="109.3" x2="220.0" y2="109.3"/>
+<line x1="180.0" y1="109.3" x2="165.2" y2="83.6"/>
+<line x1="180.0" y1="178.6" x2="220.0" y2="178.6"/>
+<line x1="180.0" y1="178.6" x2="165.2" y2="204.2"/>
+<line x1="100.0" y1="109.3" x2="120.0" y2="143.9"/>
+<line x1="120.0" y1="74.6" x2="149.6" y2="74.6"/>
+<line x1="220.0" y1="109.3" x2="240.0" y2="143.9"/>
+<line x1="217.4" y1="107.8" x2="232.2" y2="82.1"/>
+<line x1="222.6" y1="110.8" x2="237.4" y2="85.1"/>
+<polygon points="220.000000 205.364065 224.000000 178.564065 216.000000 178.564065 " />
+<line x1="220.0" y1="178.6" x2="240.0" y2="143.9"/>
+<line x1="220.0" y1="178.6" x2="245.6" y2="193.4"/>
+<polygon points="263.209481 157.323048 242.000000 140.458947 238.000000 147.387150 " />
+<line x1="240.0" y1="143.9" x2="265.6" y2="129.1"/>
+<line x1="122.6" y1="145.4" x2="107.8" y2="171.1"/>
+<line x1="117.4" y1="142.4" x2="102.6" y2="168.1"/>
+<line x1="120.0" y1="143.9" x2="149.6" y2="143.9"/>
+<line x1="120.0" y1="183.6" x2="120.0" y2="202.8"/>
+<line x1="90.4" y1="213.2" x2="109.6" y2="213.2"/>
+<line x1="117.0" y1="242.8" x2="117.0" y2="223.6"/>
+<line x1="123.0" y1="242.8" x2="123.0" y2="223.6"/>
+<line x1="149.6" y1="213.2" x2="130.4" y2="213.2"/>
+<line x1="40.0" y1="74.6" x2="60.0" y2="109.3"/>
+<line x1="60.0" y1="109.3" x2="100.0" y2="109.3"/>
+<line x1="66.0" y1="102.1" x2="94.0" y2="102.1"/>
+<line x1="100.0" y1="109.3" x2="120.0" y2="74.6"/>
+<line x1="120.0" y1="74.6" x2="100.0" y2="40.0"/>
+<line x1="110.8" y1="73.0" x2="96.8" y2="48.8"/>
+<line x1="100.0" y1="40.0" x2="60.0" y2="40.0"/>
+<line x1="60.0" y1="40.0" x2="40.0" y2="74.6"/>
+<line x1="63.2" y1="48.8" x2="49.2" y2="73.0"/>
+<text x="154.000000" y="82.961016" fill="rgb(12,12,255)"  stroke="rgb(12,12,255)" stroke-width="1" font-size="16" >NH</text>
+<text x="234.000000" y="82.961016" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >O</text>
+<text x="248.641016" y="203.364065" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >OH</text>
+<text x="268.641016" y="132.243048" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >OH</text>
+<text x="96.400000" y="183.364065" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >O</text>
+<text x="155.200000" y="137.523048" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="32" >-</text>
+<text x="154.000000" y="152.243048" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >O</text>
+<text x="115.200000" y="166.805081" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="32" >-</text>
+<text x="114.000000" y="181.525081" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >O</text>
+<text x="75.200000" y="206.805081" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="32" >-</text>
+<text x="76.400000" y="221.525081" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >O</text>
+<text x="114.000000" y="258.005081" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >O</text>
+<text x="154.000000" y="218.005081" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >O</text>
+<text x="114.000000" y="218.005081" fill="rgb(255,127,0)"  stroke="rgb(255,127,0)" stroke-width="1" font-size="16" >P</text>
+<text x="214.000000" y="223.364065" fill="rgb(191,191,191)"  stroke="rgb(191,191,191)" stroke-width="1" font-size="16" >H</text>
+<text x="268.641016" y="168.723048" fill="rgb(191,191,191)"  stroke="rgb(191,191,191)" stroke-width="1" font-size="16" >H</text>
+<text font-size="18.000000" fill ="black" font-family="sans-serif"
+x="140.000000" y="20.000000" ></text>
+<title> - OBDepict</title>
+</svg>

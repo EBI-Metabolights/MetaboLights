@@ -35,11 +35,13 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/ChEBICompound.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css"  type="text/css" />
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/css/bootstrap-select.min.css">
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.js" charset="utf-8"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.ChEBICompound.js" charset="utf-8"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/jquery.linkify-1.0-min.js" charset="utf-8"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/chebicompoundpopup.js" charset="utf-8"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/MetExplore/metExploreViz/metexploreviz.js" charset="utf-8"></script>
 
 
 
@@ -256,6 +258,42 @@
                                 <%@include file="validations.jsp" %>
                             </a>
                         </li>
+                    </c:if>
+
+                    <c:if test="${not empty study.assays}">
+                        <c:if test="${fn:length(study.assays) eq 1}">
+                                    <c:if test="${(not empty study.assays[0].metaboliteAssignment) and (not empty study.assays[0].metaboliteAssignment.metaboliteAssignmentFileName) }">
+                                        <c:set var="metabolitesExist" value="true"/>
+                                        <li role="presentation">
+                                        <a class="assay--tab" href="#metpathways" aria-controls="metpathways" data-assayid="1" role="tab" data-toggle="tab">
+                                            Pathways
+                                        </a>
+                                        </li>
+                                    </c:if>
+                        </c:if>
+                        <c:if test="${fn:length(study.assays) gt 1}">
+                            <li class="dropdown">
+                                <ul class="dropdown-menu">
+                                    <c:set var="metabolitesExist" value="false"/>
+                                    <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
+                                        <li>
+                                            <a class="assay--tab" href="#metpathways${assay.assayNumber}" aria-controls="metpathways${assay.assayNumber}" data-assayid="${assay.assayNumber}" role="tab" data-toggle="tab">
+                                                <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
+                                                    <c:set var="metabolitesExist" value="true"/>
+                                                    Pathways <c:if test="${fn:length(study.assays) gt 1}">(Assay&nbsp;${assay.assayNumber})</c:if>
+                                                </c:if>
+                                            </a>
+                                        </li>
+                                    </c:forEach>
+                                </ul>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <c:if test="${metabolitesExist eq true}">
+                                        Pathways &nbsp;<span class="caret"></span>
+                                    </c:if>
+
+                                </a>
+                            </li>
+                        </c:if>
                     </c:if>
                 </ul>
 
@@ -478,7 +516,6 @@
                         </div>
                     </div>
 
-
                     <c:if test="${fn:length(study.assays) eq 1}">
                         <c:if test="${not empty study.assays}">
                             <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
@@ -660,6 +697,60 @@
                                     </div>
 
 
+                                </div>
+                            </c:forEach>
+                        </c:if>
+                    </c:if>
+
+
+                    <c:if test="${fn:length(study.assays) eq 1}">
+                        <c:if test="${not empty study.assays}">
+                            <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
+                                <div role="tabpanel" class="tab-pane" id="metpathways">
+
+                                    <div class="col-md-12">
+                                        <h3 class="well">Pathways - Assay&nbsp;<c:if test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if></h3>
+
+                                        <div class="well col-md-12">
+                                            <div class="">
+                                                <label>&emsp;&emsp;Select Pathway(s)</label><br>
+                                                <div class="col-xs-11">
+                                                    <div class="form-group">
+                                                        <select class="selectpicker form-control" id="metPathwaysSelect" multiple data-live-search="true">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group">
+                                                        <a class="btn btn-success ml--button form-control" id="loadPathways" role="button">Load</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-12">
+                                            <div id="metExploreContainer">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </c:forEach>
+                        </c:if>
+                    </c:if>
+
+                    <c:if test="${fn:length(study.assays) gt 1}">
+                        <c:if test="${not empty study.assays}">
+                            <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
+                                <div role="tabpanel" class="tab-pane" id="metpathways${assay.assayNumber}">
+                                    <h3>Pathways - Assay&nbsp;<c:if test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if></h3>
+                                    <div class="col-md-12">
+                                        <div id="metExploreContainer"></div>
+                                    </div>
                                 </div>
                             </c:forEach>
                         </c:if>
@@ -993,9 +1084,44 @@
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/dataTables.conditionalPaging.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/js/bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/js/i18n/defaults-*.min.js"></script>
+
 <script type="text/javascript" charset="utf-8">
 
     $(document).ready(function() {
+
+
+
+        function showPleaseWait() {
+            var modalLoading = '<div class="modal" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false role="dialog">\
+                <div class="modal-dialog waiting--dialog">\
+                    <div class="modal-content">\
+                        <div class="modal-header">\
+                            <h4 class="modal-title">Loading pathways</h4>\
+                        </div>\
+                        <div class="modal-body">\
+                            <div class="progress">\
+                              <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar"\
+                              aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%; height: 40px">\
+                              </div>\
+                            </div>\
+                        </div>\
+                    </div>\
+                </div>\
+            </div>';
+            $(document.body).append(modalLoading);
+            $("#pleaseWaitDialog").modal("show");
+        }
+
+        /**
+         * Hides "Please wait" overlay. See function showPleaseWait().
+         */
+        function hidePleaseWait() {
+            $("#pleaseWaitDialog").modal("hide");
+        }
+
+
         $('#transferDiv').toggle();
 
         jQuery(function ($) {
@@ -1019,6 +1145,103 @@
             id = $(this).attr("data-assayid");
             getMAFFile(id);
         });
+
+
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            var target = $(e.target).attr("href") // activated tab
+            loadData(target);
+        });
+
+        $('.selectpicker').selectpicker({
+            style: 'btn-info'
+        });
+
+        function loadData(target){
+            if (target == '#metpathways') {
+                loadPathwaysDropdown();
+            }
+        }
+
+
+        function loadPathwaysDropdown(){
+            MetExploreViz.initFrame("metExploreContainer");
+            getMetExploreMappingData();
+        }
+
+        function getMetExploreMappingData(){
+            var url = "/metabolights/webservice/study/${study.studyIdentifier}/getMetExploreMappingData";
+            $.ajax({
+                url : url,
+                type : 'GET',
+                dataType:'json',
+                success : function(data) {
+                    var metExploreDataJSONObj = JSON.parse(data.content);
+                    //console.log(metExploreDataJSONObj)
+                    var select = document.getElementById("metPathwaysSelect");
+                    for(var key in metExploreDataJSONObj.pathwayList){
+                        var pathway = metExploreDataJSONObj.pathwayList[key]
+                        if(pathway.mappedMetabolite > 0){
+                            //console.log(pathway);
+                            var option = document.createElement("option");
+                            option.text = pathway.name + "(" + pathway.mappedMetabolite + ")";
+                            option.value = pathway.mysqlId;
+                            select.appendChild(option);
+                        }
+                    }
+                    $('.selectpicker').selectpicker('refresh');
+
+                },
+                error : function(request,error)
+                {
+                    alert("Request: "+JSON.stringify(request));
+                }
+            });
+        }
+
+        $('#loadPathways').on('click', function(){
+            //alert();
+            showPleaseWait();
+            loadPathways($('.selectpicker').selectpicker('val'));
+            hidePleaseWait();
+        });
+
+        function loadPathways(ids){
+            MetExploreViz.onloadMetExploreViz(function(){
+                var url = "http://metexplore.toulouse.inra.fr:8080/metExploreWebService/mapping/graphresult/38285/filteredbypathway?pathwayidlist=("+ids.toString()+")";
+                $.ajax({
+                    url : url,
+                    type : 'GET',
+                    async: false,
+                    dataType:'json',
+                    success : function(data) {
+                        loadPathwayData(JSON.stringify(data))
+                    },
+                    error : function(request,error)
+                    {
+                        alert("Request: "+ JSON.stringify(request));
+                    }
+                });
+
+            });
+        }
+
+
+        function loadPathwayData(myJsonString){
+
+            metExploreViz.GraphPanel.refreshPanel(myJsonString, function(){
+                metExploreViz.onloadSession(function(){
+                    var mapJSON = metExploreViz.GraphUtils.parseWebServiceMapping(myJsonString);
+                    //Load mapping
+                    metExploreViz.GraphMapping.loadDataFromJSON(mapJSON);
+                    //Highlight
+                    metExploreViz.GraphMapping.mapNodes("Global Mapping");
+                    // //Color nodes
+                    //metExploreViz.GraphMapping.graphMappingContinuousData("mapping_D-Galactose", "conditionName1");
+                });
+            });
+
+        }
+
 
         function getMAFFile(id){
             wrapperDiv = $('#mafTableWrapper'+id);

@@ -1,0 +1,69 @@
+<html>
+<head>
+    <title>MetExplore</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="./graph.js"></script>
+    <script type="text/javascript" src="../jquery/js/jquery-latest.js"></script>
+    <script>
+    var graph=new Graph();
+    graph.addEdge("n1","n2");
+    graph.addEdge("n2","n3");
+	console.log("Graph: ")
+	console.log(graph);
+	console.log("Graph leafs "+graph.getLeafs());
+	console.log(graph.getLeafs());
+	console.log("Graph is acyclic [true] "+graph.isAcyclic());//should be true
+	graph.addEdge("n3","n1");
+	console.log("Graph is acyclic [false] "+graph.isAcyclic());//should be false
+	console.log("n3 out degree is [1] "+graph.nodeOutDegree(graph.nodes["n3"]));
+	graph.removeEdge(graph.edges[2]);
+	console.log("Graph contains [2] "+graph.edges.length+" edges");
+	console.log("n3 out degree is [0] "+graph.nodeOutDegree(graph.nodes["n3"]));
+	graph.addEdge("n3","n4");
+	console.log("Graph is acyclic [true] "+graph.isAcyclic());//should be true
+	graph.addEdge("n3","n1");
+	console.log("The minimla FAS is of size [1] "+graph.getMinimalFAS().length);//should be 1
+	console.log("minimla FAS is");
+	console.log(graph.getMinimalFAS());//should contain only edge n3 n1
+	console.log("The graph contains [2] "+graph.getStronglyConnectedComponents().length+" strongly connected components");//should be 2
+	graph.addEdge("n3","n5");
+	//console.log(graph);
+	console.log("Node n3 out degree is [3] "+graph.nodeOutDegree(graph.nodes["n3"]));//should be 3
+	console.log(graph);
+	console.log("Node n3 has the following targets [n1,n4,n5]");
+	console.log(graph.getOutNodesFrom(graph.nodes["n3"]));
+	console.log("Graph copy is ");
+	var graphCopy=graph.copy();
+	console.log(graphCopy);
+	var dag=graph.extractDAG();
+	console.log("Extracted DAG from this graph contains [4] "+dag.edges.length+" edges");//should be 4
+	console.log("DAG is ");
+	console.log(dag);//should contain (n1,n2),(n2,n3),(n3,n5),(n3,n4)
+	var arr=new Array();
+	arr.push(dag.nodes["n2"]);
+	arr.push(dag.nodes["n3"]);
+	arr.push(dag.nodes["n1"]);
+	//console.log(arr);
+	console.log("Sorted degrees in graph for nodes n2, n3 and n1 [n2,n1,n3]")
+	console.log(graph.quickDegreeSort(arr));
+	dag.addEdge("n1","n5");
+	console.log("Node n5 in degree is [2] "+graph.nodeInDegree(dag.nodes["n5"]));//should be 3
+	//console.log("Layer assignment [3]"+dag.minWidthLayerAssignment(1,1));
+	dag.addEdge("n6", "n2");
+	dag.addEdge("n7", "n2");
+	dag.addEdge("n7", "n4");
+	dag.addEdge("n6", "n8");
+	dag.layerAssignment();
+	console.log(dag);
+	dag.vertexOrdering();
+	console.log(dag);
+
+
+    // dag.vertexPromotion();
+    // console.log(dag);
+    // dag.shiftLayers();
+    // console.log(dag);
+    </script>
+</head>
+<body></body>
+</html>
