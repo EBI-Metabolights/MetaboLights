@@ -1,7 +1,7 @@
 #!/bin/bash
 
-studyfolder="/nfs/public/rw/homes/tc_cm01/metabolights/prod/studies/stage/private"
-sql_script="/net/isilonP/public/rw/homes/tc_cm01/metabolights/scripts/db_update_size_prod.sql"
+studyfolder="/nfs/www-prod/web_hx2/cm/metabolights/prod/studies/stage/private"
+sql_script="/nfs/www-prod/web_hx2/cm/metabolights/scripts/db_update_size_prod.sql"
 
 source /homes/oracle/ora11setup.sh
 
@@ -19,7 +19,7 @@ size=""
 
 for value in $(find . -maxdepth 1 -type d -mtime 3 -exec du -s {}/ \;)
 
-do  
+do
 if [ $sum -eq 0 ]; then
    size=${value}
    echo size $size
@@ -28,7 +28,7 @@ else
     study=$(echo $value | awk -F'/' '{print $2}')
     echo size $size study $study
     sum=$[$sum-1]
-    
+
     #do database querying and update here
     echo "UPDATE STUDIES SET STUDYSIZE = '"${size}"' WHERE ACC = '"${study}"';" >> $sql_script
 fi
@@ -37,4 +37,4 @@ done
 echo "commit;" >> $sql_script
 echo "exit;" >> $sql_script
 
-sqlplus USER/PASSWD@DB @${sql_script}
+sqlplus user/pass@database @${sql_script}

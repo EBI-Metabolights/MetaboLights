@@ -17,6 +17,7 @@
 # 20130321  : Ken Haug - Email users a week before the study goes live (and each day until it goes live!)
 # 20130815  : Ken Haug - Make sure we only loop through MTBLS records, not error messages in the queue folder
 # 20150914  : Ken Haug - New folder stucture, only sync public data directly with public ftp site
+# 20160309  : Ken Haug - Maintenance of MetExplore mapping files
 #
 ##########################################################################
 
@@ -27,19 +28,20 @@ source /homes/oracle/ora11setup.sh
 #  Configurable Options Follow  #
 #################################
 
-EMAILTO=metabolights-dev@ebi.ac.uk
+EMAILTO=metabolights-dev@ebi.ac.uk,metabolights-curation@ebi.ac.uk
 PROPS_FILE=/nfs/production/panda/metabolights/source/metabolights/metabolights-webapps/src/main/scripts/hibernate.properties
-SCRIPT_LOC=/nfs/public/rw/homes/tc_cm01/metabolights/scripts
-#PRIVATE_LOC=/nfs/metabolights/cheminf/prod/studies
-PRIVATE_LOC=/net/isilonP/public/rw/homes/tc_cm01/metabolights/prod/studies/stage/private
+SCRIPT_LOC=/nfs/www-prod/web_hx2/cm/metabolights/scripts
+#SCRIPT_LOC=/nfs/public/rw/homes/tc_cm01/metabolights/scripts
+#PRIVATE_LOC=/net/isilonP/public/rw/homes/tc_cm01/metabolights/prod/studies/stage/private
+PRIVATE_LOC=/nfs/www-prod/web_hx2/cm/metabolights/prod/studies/stage/private
 PUBLIC_FTP_LOC=/ebi/ftp/pub/databases/metabolights/studies/public
-NUM_DAYS=5
+NUM_DAYS=2
 
 #################################
 #  End of Configurable Options  #
 #################################
 
-SHELL_LOG_FILE=/nfs/public/rw/homes/tc_cm01/metabolights/scripts/maintainPublicV3.log.`date +"%Y-%m-%d %H:%M:%S"` 
+SHELL_LOG_FILE=$SCRIPT_LOC/maintainPublicV3.log 
 DB_CONNECTION=`grep hibernate.connection.username ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`  
 DB_CONNECTION=$DB_CONNECTION'/'`grep hibernate.connection.password ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f2 -d=`  
 DB_CONNECTION=$DB_CONNECTION'@'`grep hibernate.connection.url ${PROPS_FILE} | grep -v '!' | grep -v '#' |cut -f6 -d:`
@@ -48,11 +50,12 @@ SQL_BASIC_STR="whenever sqlerror exit failure;\n set feedback off head off pages
 # Get private studies that have passed the release date
 GET_STUDIES_SQL="${SQL_BASIC_STR} select acc from studies where status = 3 AND ((trunc(releasedate)>=trunc(sysdate-${NUM_DAYS})) or (trunc(updatedate) >=trunc(sysdate-${NUM_DAYS})));"
 
+rm $SHELL_LOG_FILE
 Info ------------------------------------------------------------------------------------------ 
 Info Settings:
 Info '  Using properties file:             '$PROPS_FILE 
 Info '  Shell script log file:             '$SHELL_LOG_FILE
-Info '  Queue folder:                      '$QUEUE_LOCATION
+Info '  Number of days to sync:            '$NUM_DAYS
 Info ------------------------------------------------------------------------------------------
 
 Info "Testing required parameters"
@@ -67,6 +70,8 @@ PUBLIC_STUDIES=`echo -e ${GET_STUDIES_SQL} | sqlplus -s ${DB_CONNECTION} | grep 
  
 for studies in $PUBLIC_STUDIES
 do
+  Info "Removing MetExplore json mapping file"
+  rm metexplore_mapping.json
   Info "Study ${studies} is now being synced to the public ftp folder"
   mkdir -p ${PUBLIC_FTP_LOC}/${studies}
   rsync -av ${PRIVATE_LOC}/${studies}/ ${PUBLIC_FTP_LOC}/${studies}
