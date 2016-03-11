@@ -128,8 +128,8 @@
                     <a data-toggle="modal" data-target="#shareStudy"><i class="fa fa-link"></i>&nbsp;
                         <spring:message code="label.study.share"/>
                     </a>
-                    &nbsp;|&nbsp;
-                    <a href="${pageContext.request.contextPath}/beta/${study.studyIdentifier}" class="icon icon-generic" data-icon="&lt;">BETA</a>
+                    <%-- &nbsp;|&nbsp;
+                    <a href="${pageContext.request.contextPath}/beta/${study.studyIdentifier}" class="icon icon-generic" data-icon="&lt;">BETA</a> --%>
                 </div>
             </div>
 
@@ -259,7 +259,7 @@
                             </a>
                         </li>
                     </c:if>
-
+                    <%--
                     <c:if test="${not empty study.assays}">
                         <c:if test="${fn:length(study.assays) eq 1}">
                                     <c:if test="${(not empty study.assays[0].metaboliteAssignment) and (not empty study.assays[0].metaboliteAssignment.metaboliteAssignmentFileName) }">
@@ -295,6 +295,7 @@
                             </li>
                         </c:if>
                     </c:if>
+                    --%>
                 </ul>
 
                 <!-- Tab panes -->
