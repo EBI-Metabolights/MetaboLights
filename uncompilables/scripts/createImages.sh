@@ -1,5 +1,7 @@
 #/bin/bash
 
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/net/isilonP/public/rw/homes/tc_cm01/metabolights/software/libs/lib
+
 # This script is to generate png's of raw MS files using Risa
 
 PATHTOSTUDY="/ebi/ftp/pub/databases/metabolights/studies/public/$1"

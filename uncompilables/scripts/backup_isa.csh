@@ -1,11 +1,9 @@
-#!/bin/tcsh
+#!/bin/csh
 source /homes/oracle/ora11setup.csh
 cd /ebi/production/panda/metabolights/backup/
 set today=`date +%d`
 set count=`date +%H`
 
-exp <USERNAME>/<USERPWD>@<DATABASE> buffer=52428800 compress=y consistent=y file=mtapro-$today-$count.dmp log=$today-$count.log owner=<USERNAME>
-gzip mtapro-$today-$count.dmp
-tar -cvf lucene-prod-$today-$count.tar /nfs/public/rw/homes/tc_cm01/metabolights/prod/isatab/lucene/bii/*
-gzip lucene-prod-$today-$count.tar
+exp user/pass@database buffer=52428800 compress=y consistent=y file=mtaprovm-$today-$count.dmp log=$today-$count.log owner=ISATAB
+gzip mtaprovm-$today-$count.dmp
 find /ebi/production/panda/metabolights/backup/* -mtime +14 -exec rm  {} \;
