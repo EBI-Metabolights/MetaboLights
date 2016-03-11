@@ -3,6 +3,8 @@ package uk.ac.ebi.metabolights.repository.dao.filesystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.utils.FileUtil;
+import uk.ac.ebi.metabolights.webservice.client.MetExploreWsClient;
+
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -15,7 +17,7 @@ public class MetExploreDAO {
 
     private final static Logger logger = LoggerFactory.getLogger(MzTabDAO.class.getName());
 
-    public String getMetExploreJSONData(String MetExploreJSONFileName){
+    public String getMetExploreJSONData(String MetExploreJSONFileName, String studyid){
 
         String metExploreJSONData = "";
 
@@ -32,27 +34,34 @@ public class MetExploreDAO {
             }
 
             logger.info(" MetExploreJSON File Name - Found: " + MetExploreJSONFileName);
+
+        }else{
+
+            return generateMetExploreJSONFile(studyid, MetExploreJSONFileName);
+
+
         }
 
         return metExploreJSONData;
     }
 
+    private String generateMetExploreJSONFile(String studyid, String MetExploreJSONFileName){
 
-    private File[] findMetExploreJSON(String folderName){
+        MetExploreWsClient meWsClient = new MetExploreWsClient();
 
-        File dir = new File(folderName);      //Folder that holds the MAF files
+        String mapping = meWsClient.getPathwayMappings(studyid);
 
-        File[] matches = dir.listFiles(
-                new FilenameFilter(){
-                    public boolean accept(File dir, String name){
-                        return name.startsWith("m_") && name.endsWith(".tsv");
-                    }
+        try {
 
-                }
+            FileUtil.String2File(mapping, MetExploreJSONFileName, false);
 
-        );
+        } catch (IOException e) {
 
-        return matches;
+            e.printStackTrace();
+
+        }
+
+        return mapping;
 
     }
 

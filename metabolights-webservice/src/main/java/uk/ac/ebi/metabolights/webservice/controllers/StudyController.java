@@ -931,7 +931,7 @@ public class StudyController extends BasicController{
 
         MetExploreDAO metexploredao = new MetExploreDAO();
 
-        String MetExplorePathwaysMAppingData = metexploredao.getMetExploreJSONData(MetExploreJSONFileName);
+        String MetExplorePathwaysMAppingData = metexploredao.getMetExploreJSONData(MetExploreJSONFileName, studyIdentifier);
 
         response.setContent(MetExplorePathwaysMAppingData);
 
@@ -946,7 +946,7 @@ public class StudyController extends BasicController{
      * Update Metabolites and Metabolights study mappings
      *
      * @param   studyIdentifier
-     * @author  CS76z
+     * @author  CS76
      * @date    20160108
      */
 

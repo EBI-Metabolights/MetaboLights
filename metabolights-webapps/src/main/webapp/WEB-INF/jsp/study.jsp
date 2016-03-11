@@ -726,16 +726,44 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+
+                                            <div class="col-md-12">
+                                                <div class="col-md-12">
+                                                    <div id="metExploreContainer">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
                                         </div>
                                     </div>
 
 
 
+
                                     <div class="col-md-12">
-                                        <div class="col-md-12">
-                                            <div id="metExploreContainer">
+                                            <div id="metPathwaysMappingDataContainer">
+                                                <div class="">
+                                                    <br>
+                                                    <div class="well">
+                                                        <h4>MetExplore Pathways Mapping</h4>
+                                                    </div>
+                                                    <table class="table" id="metExploreTable">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Name</th>
+                                                            <th>DB Identifier</th>
+                                                            <th>Mapped Metabolite(s)</th>
+                                                            <th>p value</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="metPathwaysMappingDataTable" >
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
-                                        </div>
                                     </div>
 
                                 </div>
@@ -1168,14 +1196,17 @@
             getMetExploreMappingData();
         }
 
+        var metExploreDataJSONObj;
+
         function getMetExploreMappingData(){
+            showPleaseWait();
             var url = "/metabolights/webservice/study/${study.studyIdentifier}/getMetExploreMappingData";
             $.ajax({
                 url : url,
                 type : 'GET',
                 dataType:'json',
                 success : function(data) {
-                    var metExploreDataJSONObj = JSON.parse(data.content);
+                    metExploreDataJSONObj = JSON.parse(data.content);
                     //console.log(metExploreDataJSONObj)
                     var select = document.getElementById("metPathwaysSelect");
                     for(var key in metExploreDataJSONObj.pathwayList){
@@ -1186,9 +1217,18 @@
                             option.text = pathway.name + "(" + pathway.mappedMetabolite + ")";
                             option.value = pathway.mysqlId;
                             select.appendChild(option);
+
+                            $('#metPathwaysMappingDataTable').append('<tr><td>' + pathway.name + '</td><td>' + pathway.dbIdentifier + ' (' + pathway.numberOfMetabolite + ')</td><td>' + pathway.mappedMetabolite + '</td><td></td></tr>');
+
                         }
                     }
+
+                    $('#metExploreTable').DataTable({
+                        "order": [[ 2, "desc" ]]
+                    });
                     $('.selectpicker').selectpicker('refresh');
+
+                    hidePleaseWait();
 
                 },
                 error : function(request,error)
@@ -1197,6 +1237,7 @@
                 }
             });
         }
+
 
         $('#loadPathways').on('click', function(){
             //alert();
