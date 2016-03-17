@@ -35,10 +35,18 @@
     <div class="grid_18 omega">
         <%--<form:input path="orcid"  maxlength="20" />--%>
         <%--<span class="error"><form:errors path="orcid" /></span>--%>
-        <span class="thorOrcIdSpan"></span>
-        <input type="text" id="orcId" name="orcId" class="thorOrcIdIdentifier"/>
-        <form:errors path="orcId" /></span>
+        <%--<input type="text" id="orcId" name="orcId" class="thorOrcIdIdentifier"/>--%>
 
+            <c:choose>
+                <c:when test="${empty metabolightsUser.orcId}">
+                    <span class="thorOrcIdSpan"></span>
+                    <form:input type="text" path="orcId" class="thorOrcIdIdentifier"/>
+                </c:when>
+                <c:otherwise>
+                    <form:input type="text" path="orcId"/>
+                </c:otherwise>
+            </c:choose>
+            <span class="error"><form:errors path="orcId"/></span>
     </div>
 </div>
 
