@@ -455,8 +455,15 @@
                                     </div>
                                 </sec:authorize>
 
+                                <sec:authorize access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
+                                    <div class="specs well">
+                                        <spring:message code="label.experimentMsgPublic"/>
+                                    </div>
+                                </sec:authorize>
+
+
                                 <div class="specs well">
-                                    Validations marked with (*) are specially approved by the MetaboLights Curators
+                                    <spring:message code="msg.curatorsOverride"/>
                                 </div>
                                 <c:choose>
                                     <c:when test="${curator}">
