@@ -64,7 +64,7 @@
 		<p><spring:message code="label.orcid" />:</p>
 	</div>
 	<div class="grid_18 omega">
-		${user.orcid}
+		${user.orcId}
 	</div>
 </div>
 <div class="grid_24">

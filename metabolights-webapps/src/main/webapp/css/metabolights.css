@@ -395,3 +395,8 @@ a:link.hyperlinks{
 a:link.btn-ok{
     color: #fff !important;
 }
+
+.thorOrcIdSpan img{
+    height: 15px;
+    width: 15px;
+}
