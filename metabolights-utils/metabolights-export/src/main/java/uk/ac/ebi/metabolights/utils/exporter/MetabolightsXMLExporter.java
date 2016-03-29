@@ -770,8 +770,12 @@ public class MetabolightsXMLExporter {
 
                 //Add the metabolites from the the xrefs loop to the additional_fields sub-tree
                 for (String met : metaboliteList) {
-                    if (met.length() <= 8191)    //Lucene cannot index more than 8191 in any given field
+                    if (met.length() <= 8191) {   //Lucene cannot index more than 8191 in any given field
                         additionalField.appendChild(createChildElement(FIELD, "metabolite_name", met));
+                    } else {
+                        System.out.println("Metabolite name to long, ignoring ");
+                    }
+
                 }
 
                 //Add the complete study to the entry section
