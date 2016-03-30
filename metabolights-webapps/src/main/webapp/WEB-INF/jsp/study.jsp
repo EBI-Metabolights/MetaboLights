@@ -34,6 +34,7 @@
 <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/ChEBICompound.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css"  type="text/css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/css/bootstrap-tour.css"  type="text/css" />
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/css/bootstrap-select.min.css">
 
@@ -108,7 +109,7 @@
     <div class="study--wrapper col-md-12">
 
         <h2 class="study--title">
-            <span class="study--id">${study.studyIdentifier}:</span>&nbsp;
+            <span class="study--id" id="mStudyId">${study.studyIdentifier}:</span>&nbsp;
             ${study.title}
         </h2>
 
@@ -149,8 +150,12 @@
                                                                             value="${study.updateDate}"/></strong>
                     </c:if>
                 </p>
-                <p class="text-right"><i class="fa fa-bookmark"></i>&nbsp;<spring:message
-                        code="ref.msg.status"/>:&nbsp;${study.studyStatus.descriptiveName}</p>
+                <p class="text-right" id="mStudyStatus"><i class="fa fa-bookmark"></i>&nbsp;<spring:message
+                        code="ref.msg.status"/>:&nbsp;${study.studyStatus.descriptiveName}
+                &emsp;
+
+                    <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="bottom" id="tourButton" title="Study Tour"><i class="fa fa-compass"></i></button>
+                </p>
             </div>
         </div>
 
@@ -259,7 +264,6 @@
                             </a>
                         </li>
                     </c:if>
-                    <%--
                     <c:if test="${not empty study.assays}">
                         <c:if test="${fn:length(study.assays) eq 1}">
                                     <c:if test="${(not empty study.assays[0].metaboliteAssignment) and (not empty study.assays[0].metaboliteAssignment.metaboliteAssignmentFileName) }">
@@ -295,7 +299,7 @@
                             </li>
                         </c:if>
                     </c:if>
-                    --%>
+
                 </ul>
 
                 <!-- Tab panes -->
@@ -1115,6 +1119,38 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/js/bootstrap-select.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/js/i18n/defaults-*.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/js/bootstrap-tour.js"></script>
+
+<script type="text/javascript">
+    // Instance the tour
+    var tour = new Tour({
+        steps: [
+            {
+                element: "#mStudyId",
+                title: "Title of my step",
+                content: "Content of my step",
+                placement: "bottom"
+            },
+            {
+                element: "#mStudyStatus",
+                title: "Title of my step",
+                content: "Content of my step",
+                placement: "bottom"
+            }
+        ]
+
+    });
+
+    $('#tourButton').click(function(e){
+        tour.init(true);
+        tour.start(true);
+        // it's also good practice to preventDefault on the click event
+        // to avoid the click triggering whatever is within href:
+        e.preventDefault();
+    });
+
+
+</script>
 
 <script type="text/javascript" charset="utf-8">
 
