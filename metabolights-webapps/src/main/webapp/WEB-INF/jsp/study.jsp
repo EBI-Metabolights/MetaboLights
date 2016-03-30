@@ -116,11 +116,11 @@
         <div class="study--infopanel">
 
             <div class="col-md-5 no--padding">
-                <p><i class="fa fa-user"></i>&nbsp;
+                <p><i class="fa fa-user"></i>&nbsp;<spring:message code="label.subm"/>:
                     <c:forEach var="contact" items="${study.contacts}" varStatus="loopStatus">
                         <c:if test="${loopStatus.index ne 0}">, </c:if>
                             <span id="aff" <c:if test="${not empty contact.affiliation}">title="${contact.affiliation}"</c:if>>
-                                ${contact.firstName}&nbsp;${contact.lastName}
+                                 <strong>${contact.firstName}&nbsp;${contact.lastName}</strong>
                             </span>
                     </c:forEach>
                 </p>
@@ -459,8 +459,15 @@
                                     </div>
                                 </sec:authorize>
 
+                                <sec:authorize access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
+                                    <div class="specs well">
+                                        <spring:message code="label.experimentMsgPublic"/>
+                                    </div>
+                                </sec:authorize>
+
+
                                 <div class="specs well">
-                                    Validations marked with (*) are specially approved by the MetaboLights Curators
+                                    <spring:message code="msg.curatorsOverride"/>
                                 </div>
                                 <c:choose>
                                     <c:when test="${curator}">

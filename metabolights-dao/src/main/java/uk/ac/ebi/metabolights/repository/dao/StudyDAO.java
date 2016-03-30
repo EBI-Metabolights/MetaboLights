@@ -368,11 +368,13 @@ public class StudyDAO {
         // Change the status
         // Change to inCuration, based on the study validation.
         if (newStatus == LiteStudy.StudyStatus.INCURATION) {
-            if (!user.isCurator() && study.getValidations().getStatus() != Status.GREEN) {
+//            if (!user.isCurator() && study.getValidations().getStatus() != Status.GREEN) {
+        if (!user.isCurator() && !study.getValidations().isPassedMinimumRequirement()) {
                 logger.warn("The study is not valid and you don't have enough privileges to change the status to inCuration");
                 throw new DAOException("The study is not valid and you don't have enough privileges to change the status to inCuration");
             }
         }
+
         study.setStudyStatus(newStatus);
         logger.info("status changed: " + newStatus);
 

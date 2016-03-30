@@ -734,8 +734,14 @@
                     </sec:authorize>
                 </h5>
 
+                <sec:authorize access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
+                    <div class="specs">
+                        <spring:message code="label.experimentMsgPublic"/>
+                    </div>
+                </sec:authorize>
+
                 <div class="specs">
-                Validations marked with (*) are specially approved by the MetaboLights Curators
+                    <spring:message code="msg.curatorsOverride"/>
                 </div>
                 <c:choose>
                     <c:when test="${curator}">
