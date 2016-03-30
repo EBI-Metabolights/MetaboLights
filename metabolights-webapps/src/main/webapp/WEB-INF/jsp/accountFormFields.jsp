@@ -25,34 +25,34 @@
 ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 --%>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="http://ves-ebi-36.ebi.ac.uk:8080/ThorWeb/resources/js/datasubmission/ebithor-submission.0.6.1.js"></script>
-<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<%--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>--%>
+<%--<script src="http://ves-ebi-36.ebi.ac.uk:8080/ThorWeb/resources/js/datasubmission/ebithor-submission.0.6.1.js"></script>--%>
+<%--<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">--%>
 
 
 <div class="grid_24">
     <div class="grid_6 alpha"><spring:message code="label.orcid"/>:</div>
     <div class="grid_18 omega">
-        <%--<form:input path="orcid"  maxlength="20" />--%>
-        <%--<span class="error"><form:errors path="orcid" /></span>--%>
-        <%--<input type="text" id="orcId" name="orcId" class="thorOrcIdIdentifier"/>--%>
+        <form:input path="orcId"  maxlength="20" />
+        <span class="error"><form:errors path="orcId" /></span>
 
-            <c:choose>
-                <c:when test="${empty metabolightsUser.orcId}">
-                    <span class="thorOrcIdSpan"></span>
-                    <form:input type="text" path="orcId" class="thorOrcIdIdentifier"/>
-                </c:when>
-                <c:otherwise>
-                    <form:input type="text" path="orcId"/>
-                </c:otherwise>
-            </c:choose>
-            <span class="error"><form:errors path="orcId"/></span>
+            <%--<c:choose>--%>
+                <%--<c:when test="${empty metabolightsUser.orcId}">--%>
+                    <%--<span class="thorOrcIdSpan"></span>--%>
+                    <%--<form:input type="text" path="orcId" class="thorOrcIdIdentifier"/>--%>
+                <%--</c:when>--%>
+                <%--<c:otherwise>--%>
+                    <%--<form:input type="text" path="orcId"/>--%>
+                <%--</c:otherwise>--%>
+            <%--</c:choose>--%>
+            <%--<span class="error"><form:errors path="orcId"/></span>--%>
     </div>
 </div>
 
 <div class="grid_24">
     <div class="grid_6 alpha"><spring:message code="label.firstName"/>*:</div>
-    <div class="grid_18 omega"><form:input path="firstName" maxlength="255" size="40" class="thorGivenNameTxt"/>
+    <%--<div class="grid_18 omega"><form:input path="firstName" maxlength="255" size="40" class="thorGivenNameTxt"/>--%>
+    <div class="grid_18 omega"><form:input path="firstName" maxlength="255" size="40"/>
         <span class="error"><form:errors path="firstName"/></span>
     </div>
 </div>
@@ -60,7 +60,8 @@
 <div class="grid_24">
     <div class="grid_6 alpha"><spring:message code="label.lastName"/>*:</div>
     <div class="grid_18 omega">
-        <form:input path="lastName" maxlength="255" size="40" class="thorFamilyNameTxt"/>
+        <%--<form:input path="lastName" maxlength="255" size="40" class="thorFamilyNameTxt"/>--%>
+            <form:input path="lastName" maxlength="255" size="40"/>
         <span class="error"><form:errors path="lastName"/></span>
     </div>
 </div>
