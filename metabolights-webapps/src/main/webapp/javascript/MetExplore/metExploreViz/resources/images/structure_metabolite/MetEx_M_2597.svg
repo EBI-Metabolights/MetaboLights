@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:cml="http://www.xml-cml.org/schema" width="120" height="149.282" x="0" y="0" font-family="sans-serif" stroke="rgb(0,0,0)" stroke-width="1" >
+<line x1="60.0" y1="74.6" x2="45.2" y2="100.3"/>
+<line x1="60.0" y1="74.6" x2="74.8" y2="100.3"/>
+<line x1="80.0" y1="40.0" x2="60.0" y2="74.6"/>
+<line x1="60.0" y1="74.6" x2="45.2" y2="49.0"/>
+<line x1="50.4" y1="40.0" x2="80.0" y2="40.0"/>
+<text x="24.400000" y="114.082032" fill="rgb(30,239,30)"  stroke="rgb(30,239,30)" stroke-width="1" font-size="16" >Cl</text>
+<text x="74.000000" y="114.082032" fill="rgb(30,239,30)"  stroke="rgb(30,239,30)" stroke-width="1" font-size="16" >Cl</text>
+<text x="36.400000" y="48.320000" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >O</text>
+<text font-size="18.000000" fill ="black" font-family="sans-serif"
+x="140.000000" y="20.000000" ></text>
+<title> - OBDepict</title>
+</svg>

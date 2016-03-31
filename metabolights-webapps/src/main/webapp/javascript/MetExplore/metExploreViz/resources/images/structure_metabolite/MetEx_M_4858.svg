@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:cml="http://www.xml-cml.org/schema" width="223.923" height="200" x="0" y="0" font-family="sans-serif" stroke="rgb(0,0,0)" stroke-width="1" >
+<line x1="118.3" y1="45.2" x2="143.9" y2="60.0"/>
+<line x1="158.7" y1="125.6" x2="143.9" y2="100.0"/>
+<line x1="143.9" y1="60.0" x2="143.9" y2="100.0"/>
+<line x1="109.3" y1="120.0" x2="109.3" y2="149.6"/>
+<line x1="109.3" y1="120.0" x2="143.9" y2="100.0"/>
+<line x1="107.8" y1="122.6" x2="82.1" y2="107.8"/>
+<line x1="110.8" y1="117.4" x2="85.1" y2="102.6"/>
+<polygon points="170.723048 100.000000 143.923048 96.000000 143.923048 104.000000 " />
+<line x1="65.6" y1="105.2" x2="49.0" y2="114.8"/>
+<text x="85.682032" y="48.320000" fill="rgb(102,102,102)"  stroke="rgb(102,102,102)" stroke-width="1" font-size="16" >H</text>
+<text x="97.682032" y="56.000000" fill="rgb(102,102,102)"  stroke="rgb(102,102,102)" stroke-width="1" font-size="13" >3</text>
+<text x="104.182032" y="48.320000" fill="rgb(102,102,102)"  stroke="rgb(102,102,102)" stroke-width="1" font-size="16" >C</text>
+<text x="157.923048" y="139.441016" fill="rgb(102,102,102)"  stroke="rgb(102,102,102)" stroke-width="1" font-size="16" >CH</text>
+<text x="181.923048" y="144.241016" fill="rgb(102,102,102)"  stroke="rgb(102,102,102)" stroke-width="1" font-size="13" >3</text>
+<text x="68.641016" y="108.320000" fill="rgb(12,12,255)"  stroke="rgb(12,12,255)" stroke-width="1" font-size="16" >N</text>
+<text x="24.400000" y="124.800000" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >HO</text>
+<text x="103.282032" y="164.800000" fill="rgb(191,191,191)"  stroke="rgb(191,191,191)" stroke-width="1" font-size="16" >H</text>
+<text x="177.923048" y="104.800000" fill="rgb(191,191,191)"  stroke="rgb(191,191,191)" stroke-width="1" font-size="16" >H</text>
+<text font-size="18.000000" fill ="black" font-family="sans-serif"
+x="140.000000" y="20.000000" ></text>
+<title> - OBDepict</title>
+</svg>

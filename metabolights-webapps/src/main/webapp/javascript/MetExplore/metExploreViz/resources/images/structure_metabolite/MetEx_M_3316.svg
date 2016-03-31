@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:cml="http://www.xml-cml.org/schema" width="180.38" height="232.718" x="0" y="0" font-family="sans-serif" stroke="rgb(0,0,0)" stroke-width="1" >
+<line x1="131.0" y1="49.5" x2="104.4" y2="62.4"/>
+<line x1="79.9" y1="45.8" x2="104.4" y2="62.4"/>
+<line x1="51.5" y1="181.9" x2="60.7" y2="153.7"/>
+<line x1="57.2" y1="183.8" x2="66.4" y2="155.6"/>
+<line x1="104.4" y1="62.4" x2="101.6" y2="102.3"/>
+<line x1="136.2" y1="122.3" x2="101.6" y2="102.3"/>
+<line x1="101.6" y1="102.3" x2="101.6" y2="142.3"/>
+<line x1="101.6" y1="142.3" x2="136.2" y2="122.3"/>
+<line x1="63.5" y1="90.0" x2="40.0" y2="122.3"/>
+<line x1="40.0" y1="122.3" x2="63.5" y2="154.7"/>
+<line x1="63.5" y1="154.7" x2="101.6" y2="142.3"/>
+<line x1="101.6" y1="102.3" x2="63.5" y2="90.0"/>
+<text x="134.379602" y="53.253883" fill="rgb(102,102,102)"  stroke="rgb(102,102,102)" stroke-width="1" font-size="16" >CH</text>
+<text x="158.379602" y="60.933883" fill="rgb(102,102,102)"  stroke="rgb(102,102,102)" stroke-width="1" font-size="13" >3</text>
+<text x="47.673475" y="48.320000" fill="rgb(102,102,102)"  stroke="rgb(102,102,102)" stroke-width="1" font-size="16" >H</text>
+<text x="59.673475" y="56.000000" fill="rgb(102,102,102)"  stroke="rgb(102,102,102)" stroke-width="1" font-size="13" >3</text>
+<text x="66.173475" y="48.320000" fill="rgb(102,102,102)"  stroke="rgb(102,102,102)" stroke-width="1" font-size="16" >C</text>
+<text x="27.550730" y="197.517544" fill="rgb(102,102,102)"  stroke="rgb(102,102,102)" stroke-width="1" font-size="16" >H</text>
+<text x="39.550730" y="202.317544" fill="rgb(102,102,102)"  stroke="rgb(102,102,102)" stroke-width="1" font-size="13" >2</text>
+<text x="46.050730" y="197.517544" fill="rgb(102,102,102)"  stroke="rgb(102,102,102)" stroke-width="1" font-size="16" >C</text>
+<text font-size="18.000000" fill ="black" font-family="sans-serif"
+x="140.000000" y="20.000000" ></text>
+<title> - OBDepict</title>
+</svg>

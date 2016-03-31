@@ -1,0 +1,1 @@
+var ColorMapping=function(a,b){this.name=a;this.value=b};ColorMapping.prototype={getName:function(){return this.name},setName:function(a){this.name=a},getValue:function(){return this.value},setValue:function(a){this.value=a}};
