@@ -1,0 +1,181 @@
+<html>
+<head
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/dataTables.bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+
+
+
+</head>
+
+<body style="margin: 25px 50px 75px;">
+<H2>MetaboLights email</H2>
+<P>
+    Currently, your submitted study
+    <span style="font-weight: bold;">${study.studyIdentifier}</span>
+    fails our current curation requirements. These need to be addressed by the submitter before the curation process can progress. Please make the appropriate corrections and resubmit the study. Extended details enclosed.
+</P>
+</P>
+Kind Regards, <br>
+<h3><img src="http://www.ebi.ac.uk/metabolights/img/MetaboLightsLogo.png"> The MetaboLights Team</h3>
+
+<hr style="border: 1px dashed grey;" />
+<div style="color:grey">
+    <H2>Validations Status Report</H2>
+    #if (${study.validations.status} == 'GREEN')
+        <h3>Overall Status: <span style="color: green">PASSES</span></h3>
+    #elseif (${study.validations.status} == 'AMBER')
+        <h3>Overall Status: <span style="color: darkorange">INCOMPLETE</span></h3>
+    #elseif (${study.validations.status} == 'RED')
+        <h3>Overall Status: <span style="color: red">FAILS</span></h3>
+    #end
+</div>
+
+
+<div>
+    <spring:message code="label.experimentMsgPublic"/>
+</div>
+
+
+<div class="specs well">
+    <spring:message code="label.curatorsOverride"/>
+</div>
+
+    <table class="dataTable table table-striped table-bordered ">
+        <thead class='text_header'>
+            <tr>
+                <th>Condition</th>
+                <th>Status</th>
+                <th>Description</th>
+                <th>Requirement</th>
+                <th>Group</th>
+                <th>Message</th>
+            </tr>
+            </thead>
+        <tbody>
+            #foreach($validation in ${failingVals})
+                <tr>
+                    #if (${validation.passedRequirement})
+                        #if (${validation.overriden})
+                            <td><span style="color: green" class="iconTick ok override">&#x002714;  *</span></td>
+                        #else
+                            <td><span style="color: green" class="iconTick ok">&#x002714;</span></td>
+                        #end
+                    #else
+                        #if (${validation.type} == "MANDATORY")
+                            #if (${validation.overriden})
+                                <td><span style="color: red" class="iconCross wrong mandatory">&#x002718; *</span></td>
+                            #else
+                                <td><span style="color: red" class="iconCross wrong mandatory">&#x002718;</span></td>
+                            #end
+                        #elseif (${validation.type} == "OPTIONAL")
+                            #if (${validation.overriden})
+                                <td><span style="color: darkorange" class="iconCrossNeutral wrong optional">&#x002714; *</span></td>
+                            #else
+                                <td><span style="color: darkorange" class="iconCrossNeutral wrong optional">&#x002714;</span></span></td>
+                            #end
+                        #end
+                    #end
+
+                    #if (${validation.status} == 'GREEN')
+                        <td>PASSES</td>
+                    #elseif (${validation.status} == 'AMBER')
+                        <td>INCOMPLETE</td>
+                    #elseif (${validation.status} == 'RED')
+                        <td>FAILS</td>
+                    #end
+
+                    <td>${validation.description}</td>
+                    <td>${validation.type}</td>
+                    <td>${validation.group}</td>
+                    <td>${validation.message}</td>
+                </tr>
+            #end
+
+            #foreach($validation in ${incompleteVals})
+            <tr>
+                #if (${validation.passedRequirement})
+                    #if (${validation.overriden})
+                        <td><span style="color: green" class="iconTick ok override">&#x002714;  *</span></td>
+                    #else
+                        <td><span style="color: green" class="iconTick ok">&#x002714;</span></td>
+                    #end
+                #else
+                    #if (${validation.type} == "MANDATORY")
+                        #if (${validation.overriden})
+                            <td><span style="color: red" class="iconCross wrong mandatory">&#x002718; *</span></td>
+                        #else
+                            <td><span style="color: red" class="iconCross wrong mandatory">&#x002718;</span></td>
+                        #end
+                    #elseif (${validation.type} == "OPTIONAL")
+                        #if (${validation.overriden})
+                            <td><span style="color: darkorange" class="iconCrossNeutral wrong optional">&#x002714; *</span></td>
+                        #else
+                            <td><span style="color: darkorange" class="iconCrossNeutral wrong optional">&#x002714;</span></span></td>
+                        #end
+                    #end
+                #end
+
+                #if (${validation.status} == 'GREEN')
+                    <td>PASSES</td>
+                #elseif (${validation.status} == 'AMBER')
+                    <td>INCOMPLETE</td>
+                #elseif (${validation.status} == 'RED')
+                    <td>FAILS</td>
+                #end
+
+                <td>${validation.description}</td>
+                <td>${validation.type}</td>
+                <td>${validation.group}</td>
+                <td>${validation.message}</td>
+            </tr>
+            #end
+
+            #foreach($validation in ${passingVals})
+            <tr>
+                #if (${validation.passedRequirement})
+                    #if (${validation.overriden})
+                        <td><span style="color: green" class="iconTick ok override">&#x002714;  *</span></td>
+                    #else
+                        <td><span style="color: green" class="iconTick ok">&#x002714;</span></td>
+                    #end
+                #else
+                    #if (${validation.type} == "MANDATORY")
+                        #if (${validation.overriden})
+                            <td><span style="color: red" class="iconCross wrong mandatory">&#x002718; *</span></td>
+                        #else
+                            <td><span style="color: red" class="iconCross wrong mandatory">&#x002718;</span></td>
+                        #end
+                    #elseif (${validation.type} == "OPTIONAL")
+                        #if (${validation.overriden})
+                            <td><span style="color: darkorange" class="iconCrossNeutral wrong optional">&#x002714; *</span></td>
+                        #else
+                            <td><span style="color: darkorange" class="iconCrossNeutral wrong optional">&#x002714;</span></span></td>
+                        #end
+                    #end
+                #end
+
+                #if (${validation.status} == 'GREEN')
+                    <td>PASSES</td>
+                #elseif (${validation.status} == 'AMBER')
+                    <td>INCOMPLETE</td>
+                #elseif (${validation.status} == 'RED')
+                    <td>FAILS</td>
+                #end
+
+                <td>${validation.description}</td>
+                <td>${validation.type}</td>
+                <td>${validation.group}</td>
+                <td>${validation.message}</td>
+            </tr>
+            #end
+
+
+        </tbody>
+    </table>
+
+</body>
+
+</html>
