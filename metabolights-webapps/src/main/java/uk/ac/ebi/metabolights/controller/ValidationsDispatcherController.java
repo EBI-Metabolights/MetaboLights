@@ -26,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 
 import java.util.LinkedList;
@@ -60,16 +61,15 @@ public class ValidationsDispatcherController  extends AbstractController{
 
         // Using the WebService-client to do the job
         MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
-        String rslt = wsClient.sendValitationReportByEmail(studyId).getMessage();
-        Exception err = wsClient.sendValitationReportByEmail(studyId).getErr();
+        RestResponse<String> rslt = wsClient.sendValitationReportByEmail(studyId);
 
         // parse WS response for user feedback
         List<String> msg = new LinkedList<>();
-        String[] str = rslt.split("\\|");
+        String[] str = rslt.getMessage().split("\\|");
         for (String line:str){
             msg.add(line);
         }
 
-        return printMessage("Sending the Validations Status report for Study...", msg, err, studyId);
+        return printMessage("Sending the Validations Status report for Study...", msg, rslt.getErr(), studyId);
     }
 }
