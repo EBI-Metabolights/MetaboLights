@@ -480,6 +480,11 @@ public class EmailService {
 				model.put("incompleteVals", incompleteVals);
 				model.put("passingVals", passingVals);
 
+				model.put("mailBody", PropertyLookUpService.getMessage("mail.validations.status.body",study.getStudyIdentifier(),study.getTitle(), study.getValidations().getStatus().name()));
+
+				model.put("msgExperimentPublic", PropertyLookUpService.getMessage("mail.validations.status.experimentMsgPublic"));
+				model.put("msgCuratorsOverride", PropertyLookUpService.getMessage("mail.validations.status.curatorsOverride"));
+
 				String text = VelocityEngineUtils.mergeTemplateIntoString(
 						velocityEngine, "email_template/validationsEmail.vm", "UTF-8", model);
 				message.setText(text, true);
