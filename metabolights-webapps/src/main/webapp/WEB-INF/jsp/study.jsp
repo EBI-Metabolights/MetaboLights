@@ -451,13 +451,16 @@
                         <!-- TAB: Validations-->
                         <div id="tabs-validations" class="tab">
                             <c:if test="${not empty study.validations.entries}">
-                                <!-- Send report to submitter via email -->
-                                <sec:authorize access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
-                                    <div class="specs well">
-                                        <a class="noLine" rel="nofollow" href="${pageContext.request.contextPath}/${study.studyIdentifier}/validations/statusReportByMail" title="<spring:message code="label.sendValidationsStatusReport"/>">
-                                            <span class="icon icon-generic" data-icon="E"/><spring:message code="label.sendValidationsStatusReport"/></a>
-                                    </div>
-                                </sec:authorize>
+                                <!-- if Study fails any validations (status 1:RED, 2:AMBER, 3:GREEN)... -->
+                                <c:if test="${study.validations.status.status ne 3 }">
+                                    <!-- ...allow to send report to submitter via email -->
+                                    <sec:authorize access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
+                                        <div class="specs well">
+                                            <a class="noLine" rel="nofollow" href="${pageContext.request.contextPath}/${study.studyIdentifier}/validations/statusReportByMail" title="<spring:message code="label.sendValidationsStatusReport"/>">
+                                                <span class="icon icon-generic" data-icon="E"/><spring:message code="label.sendValidationsStatusReport"/></a>
+                                        </div>
+                                    </sec:authorize>
+                                </c:if>
 
                                 <sec:authorize access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
                                     <div class="specs well">
