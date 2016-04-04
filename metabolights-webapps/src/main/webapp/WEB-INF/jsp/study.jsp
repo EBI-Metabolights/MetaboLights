@@ -264,7 +264,7 @@
                             </a>
                         </li>
                     </c:if>
-                    <c:if test="${not empty study.assays}">
+                    <%-- <c:if test="${not empty study.assays}">
                         <c:if test="${fn:length(study.assays) eq 1}">
                                     <c:if test="${(not empty study.assays[0].metaboliteAssignment) and (not empty study.assays[0].metaboliteAssignment.metaboliteAssignmentFileName) }">
                                         <c:set var="metabolitesExist" value="true"/>
@@ -298,7 +298,7 @@
                                 </a>
                             </li>
                         </c:if>
-                    </c:if>
+                    </c:if> --%>
 
                 </ul>
 
