@@ -86,8 +86,8 @@ public class StatisticsController extends AbstractController {
         JSONObject barChartValues = new JSONObject();
         JSONObject lineChartValues = new JSONObject();
 
-        JSONArray array1 = getDataArray(MLStats.PageCategory.STATNUMBER.getValue());
-        JSONArray array2 = getDataArray(MLStats.PageCategory.STATSIZE.getValue());
+        JSONArray array1 = getDataArray(MLStats.PageCategory.STATNUMBER.getValue(),false);
+        JSONArray array2 = getDataArray(MLStats.PageCategory.STATSIZE.getValue(),true);
 
 
         try {
@@ -108,7 +108,7 @@ public class StatisticsController extends AbstractController {
 
     }
 
-    private JSONArray getDataArray(String pageCategory) {
+    private JSONArray getDataArray(String pageCategory, boolean convert) {
 
         JSONArray array = new JSONArray();
         List<MLStats> list = metaboLightsStatsService.getByPageCategory(pageCategory);
@@ -119,7 +119,13 @@ public class StatisticsController extends AbstractController {
                 Date date = formatter.parse(mlStats.getDisplayName());
                 internalArray.put(date.getTime());
 
-                internalArray.put(java.lang.Integer.parseInt(mlStats.getDisplayValue()));
+                if(convert){
+                    int size = java.lang.Integer.parseInt(mlStats.getDisplayValue());
+                    internalArray.put(size/1048576);
+                }
+                else{
+                    internalArray.put(java.lang.Integer.parseInt(mlStats.getDisplayValue()));
+                }
 
             } catch (ParseException e) {
                 e.printStackTrace();
