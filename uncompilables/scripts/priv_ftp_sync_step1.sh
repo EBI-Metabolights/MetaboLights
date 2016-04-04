@@ -49,16 +49,16 @@ find $FS_FOLDER/$VER -type f -name '.DELETEME-*' | while read -r file; do
     FILENAME=$(basename "$file")
     FILENAME=${FILENAME#$DEL_PATTERN}
     FILE=${file#$FS_FOLDER/$VER/}
-    SUBDIR=$(dirname "$FILE")
+    SUBDIR=$(dirname $FILE)
 
     echo Found $FILE
-    echo   Checking if "$FTP_FOLDER/$VER/$SUBDIR/$FILENAME" exists
-    if [ -f "$FTP_FOLDER/$VER/$SUBDIR/$FILENAME" ]; then
-      echo Deleting "$FTP_FOLDER/$VER/$SUBDIR/$FILENAME"
-      rm "$FTP_FOLDER/$VER/$SUBDIR/$FILENAME"
+    echo   Checking if $FTP_FOLDER/$VER/$SUBDIR/$FILENAME exists
+    if [ -f $FTP_FOLDER/$VER/$SUBDIR/$FILENAME ]; then
+      echo Deleting $FTP_FOLDER/$VER/$SUBDIR/$FILENAME
+      rm $FTP_FOLDER/$VER/$SUBDIR/$FILENAME
+      echo Deleting $file
+      rm $file
     fi
-    echo Deleting "$file"
-    rm "$file"
 done
 echo done
 echo
@@ -67,20 +67,22 @@ echo
 # remove the hidden folders
 echo Removing hidden folders in $FS_FOLDER/$VER
 find $FS_FOLDER/$VER -type d -name '.DELETEME-*' | while read -r file; do
+
+echo $file
+echo
     DIR=$(dirname "$file")
     FILENAME=$(basename "$file")
     FILENAME=${FILENAME#$DEL_PATTERN}
     FILE=${file#$FS_FOLDER/$VER/}
-    SUBDIR=$(dirname "$FILE")
+    SUBDIR=$(dirname $FILE)
 
-    echo Found "$file"
-    echo Checking if "$FTP_FOLDER/$VER/$SUBDIR/$FILENAME" exists
-    if [ -d "$FTP_FOLDER/$VER/$SUBDIR/$FILENAME" ]; then
-      echo Deleting "$FTP_FOLDER/$VER/$SUBDIR/$FILENAME"
-      rm -r "$FTP_FOLDER/$VER/$SUBDIR/$FILENAME"
+    echo Checking if $FTP_FOLDER/$VER/$SUBDIR/$FILENAME exists
+    if [ -d $FTP_FOLDER/$VER/$SUBDIR/$FILENAME ]; then
+      echo Deleting $FTP_FOLDER/$VER/$SUBDIR/$FILENAME
+      rm -r $FTP_FOLDER/$VER/$SUBDIR/$FILENAME
+      echo Deleting $file
+      rm -r $file
     fi
-    echo Deleting "$file"
-    rm -r "$file"
 done
 echo done
 echo

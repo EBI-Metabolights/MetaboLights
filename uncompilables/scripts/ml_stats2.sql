@@ -61,12 +61,6 @@ where
   having count(s.acc) >=4
   order by 3 desc;
 
-
--- Section for growth stats
-insert into ml_stats(page_section, str_name, str_value, sort_order)  
-select 'Stats_size', to_char(submissiondate,'YYYY-MM'), sum(studysize),'0' from studies
-group by to_char(submissiondate,'YYYY-MM') order by to_char(submissiondate,'YYYY-MM') asc;
-
 --Force a different sort order, most submissions first
 update ml_stats set sort_order = rownum where page_section = 'Topsubmitters';
 
