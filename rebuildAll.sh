@@ -47,6 +47,6 @@ echo "    scp metabolights-webservice/target/metabolights-webservice-*.war ebi-0
 echo ""
 echo "    TEST"
 echo ""
-echo "    scp metabolights-webapps/target/metabolights-webapp-*.war ebi-003:/nfs/public/rw/homes/tc_cm01/metabolights/deploy/metabolights-webapp-test.war "
-echo "    scp metabolights-webservice/target/metabolights-webservice-*.war ebi-003:/nfs/public/rw/homes/tc_cm01/metabolights/deploy/metabolights-webservice-test.war "
+echo "    scp metabolights-webapps/target/metabolights-webapp-*.war ebi-003:/nfs/www-prod/web_hx2/cm/metabolights/deploy/metabolights-webapp-test.war "
+echo "    scp metabolights-webservice/target/metabolights-webservice-*.war ebi-003:/nfs/www-prod/web_hx2/cm/metabolights/deploy/metabolights-webservice-test.war "
 echo "    ------------------- "
