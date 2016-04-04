@@ -13,9 +13,7 @@
 <body style="margin: 25px 50px 75px;">
 <H2>MetaboLights email</H2>
 <P>
-    Currently, your submitted study
-    <span style="font-weight: bold;">${study.studyIdentifier}</span>
-    fails our current curation requirements. These need to be addressed by the submitter before the curation process can progress. Please make the appropriate corrections and resubmit the study. Extended details enclosed.
+    ${mailBody}
 </P>
 </P>
 Kind Regards, <br>
@@ -34,13 +32,13 @@ Kind Regards, <br>
 </div>
 
 
-<div>
-    <spring:message code="label.experimentMsgPublic"/>
+<div class="specs well">
+    ${msgExperimentPublic}
 </div>
 
 
 <div class="specs well">
-    <spring:message code="label.curatorsOverride"/>
+    ${msgCuratorsOverride}
 </div>
 
     <table class="dataTable table table-striped table-bordered ">
