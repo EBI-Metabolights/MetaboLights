@@ -63,8 +63,8 @@ where
 
 
 -- Section for growth stats
-insert into ml_stats(page_section, str_name, str_value, sort_order)  
-select 'Stats_size', to_char(submissiondate,'YYYY-MM'), sum(studysize),'0' from studies
+insert into ml_stats(page_section, str_name, str_value, sort_order)
+select 'Stats_size', to_char(submissiondate,'YYYY-MM'), sum(sum(studysize)) over (order by to_char(submissiondate,'YYYY-MM')),'0' from studies
 group by to_char(submissiondate,'YYYY-MM') order by to_char(submissiondate,'YYYY-MM') asc;
 
 insert into ml_stats(page_section, str_name, str_value, sort_order)  
