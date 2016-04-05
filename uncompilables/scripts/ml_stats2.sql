@@ -82,6 +82,21 @@ update ml_stats set sort_order = 999 where sort_order is null;
 update metabolights_parameters set value = (select listagg(acc,',')  WITHIN GROUP (order by acc) from  (select acc, releasedate from studies where status = 0 order by 2 desc) where rownum <= 10)
 where name = 'GALLERY_ITEMS';
 
+--insert static values for months that had no data submission
+insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_size','2012-06','15839452','0');
+insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_size','2012-07','15839452','0');
+insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_size','2012-12','26829660','0');
+insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_size','2013-12','306277328','0');
+insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_size','2014-01','306277328','0');
+insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_size','2014-04','517913000','0');
+
+insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_number','2012-06','6','0');
+insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_number','2012-07','6','0');
+insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_number','2012-12','12','0');
+insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_number','2013-12','41','0');
+insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_number','2014-01','41','0');
+insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_number','2014-04','50','0');
+
 commit;
 
 purge recyclebin;

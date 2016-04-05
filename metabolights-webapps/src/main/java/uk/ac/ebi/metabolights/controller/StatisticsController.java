@@ -22,31 +22,40 @@
 package uk.ac.ebi.metabolights.controller;
 
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.xmlsoap.schemas.soap.encoding.Integer;
 import uk.ac.ebi.metabolights.model.MLStats;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.MetaboLightsStatsService;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Controller for login and related actions.
- * @author Pablo
  *
+ * @author Pablo
  */
 @Controller
-public class StatisticsController extends AbstractController{
+public class StatisticsController extends AbstractController {
 
     @Autowired
     private MetaboLightsStatsService metaboLightsStatsService;
 
-	@RequestMapping({"/statistics","/stats"})
-	public ModelAndView showStatistics() {
+    @RequestMapping({"/statistics", "/stats"})
+    public ModelAndView showStatistics() {
 
-		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav ("statistics"); //name of jsp page must be same as this
+        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("statistics"); //name of jsp page must be same as this
 
         //General stats, number of....
         List<MLStats> dataList = metaboLightsStatsService.getByPageCategory(MLStats.PageCategory.DATA.getValue());
@@ -59,12 +68,71 @@ public class StatisticsController extends AbstractController{
         //General info
         List<MLStats> infoList = metaboLightsStatsService.getByPageCategory(MLStats.PageCategory.INFO.getValue());
 
-        mav.addObject("dataList",dataList);
-        mav.addObject("identifierList",idList);
-        mav.addObject("submittersList",subList);
-        mav.addObject("topSubList",topSubList);
-        mav.addObject("infoList",infoList);
 
-		return mav;
+        mav.addObject("dataList", dataList);
+        mav.addObject("identifierList", idList);
+        mav.addObject("submittersList", subList);
+        mav.addObject("topSubList", topSubList);
+        mav.addObject("infoList", infoList);
+        mav.addObject("statsJson",constructJSONForStatsGraph());
+
+        return mav;
+    }
+
+
+    private JSONArray constructJSONForStatsGraph() {
+        JSONArray statsArray = new JSONArray();
+
+        JSONObject barChartValues = new JSONObject();
+        JSONObject lineChartValues = new JSONObject();
+
+        JSONArray array1 = getDataArray(MLStats.PageCategory.STATNUMBER.getValue(),false);
+        JSONArray array2 = getDataArray(MLStats.PageCategory.STATSIZE.getValue(),true);
+
+
+        try {
+            barChartValues.put("key", "Study size");
+            barChartValues.put("bar", true);
+            barChartValues.put("values",array2);
+
+            lineChartValues.put("key", "Number of studies");
+            lineChartValues.put("values",array1);
+
+            statsArray.put(barChartValues);
+            statsArray.put(lineChartValues);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return statsArray;
+
+    }
+
+    private JSONArray getDataArray(String pageCategory, boolean convert) {
+
+        JSONArray array = new JSONArray();
+        List<MLStats> list = metaboLightsStatsService.getByPageCategory(pageCategory);
+        for (MLStats mlStats : list) {
+            JSONArray internalArray = new JSONArray();
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM");                   //yyyy-MM-dd HH:mm:ss
+            try {
+                Date date = formatter.parse(mlStats.getDisplayName());
+                internalArray.put(date.getTime());
+
+                if(convert){
+                    long size = java.lang.Long.parseLong(mlStats.getDisplayValue());
+                    internalArray.put(size/1048576);  //1073741824
+                }
+                else{
+                    internalArray.put(java.lang.Long.parseLong(mlStats.getDisplayValue()));
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            array.put(internalArray);
+        }
+        return array;
     }
 }
