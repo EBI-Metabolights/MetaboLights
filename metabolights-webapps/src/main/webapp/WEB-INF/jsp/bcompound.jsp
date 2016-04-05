@@ -66,7 +66,7 @@
                                 <a href="http://www.ebi.ac.uk/chebi/searchId.do?chebiId=${compound.mc.chebiId}">${compound.chebiEntity.chebiAsciiName}
                                     - (${compound.mc.chebiId})</a>
                             </p>
-                            <p><a href="${pageContext.request.contextPath}/beta/${compound.mc.accession}" class="icon icon-generic" data-icon="&lt;">BETA</a></p>
+                            <p><a href="${pageContext.request.contextPath}/beta/${compound.mc.accession}" class="icon icon-generic" data-icon="&lt;">OLD</a></p>
                             <p><a href="${pageContext.request.contextPath}/referencespectraupload?cid=${compound.mc.accession}"
                                   class="icon icon-functional" data-icon="_">Upload Reference Spectra</a></p>
                         </div>
@@ -774,8 +774,6 @@
                         this.exactmass = data.exactmass
                         this.formula = data.formula
                         this.extractIds(data.externalIds)
-
-                        this.synonyms
 
                     }).error(function (data, status, request) {
                         alert('Cannot fetch Compound details');

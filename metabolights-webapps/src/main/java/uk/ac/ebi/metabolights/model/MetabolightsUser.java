@@ -134,7 +134,7 @@ public class MetabolightsUser implements Serializable{
     private String apiToken;
 
 	@Column(name="ORCID")
-	private String orcid;
+	private String orcId;
 
 
 	//_______________________________________________
@@ -297,12 +297,12 @@ public class MetabolightsUser implements Serializable{
         this.apiToken = apiToken;
     }
 
-	public String getOrcid() {
-		return orcid;
+	public String getOrcId() {
+		return orcId;
 	}
 
-	public void setOrcid(String orcid) {
-		this.orcid = orcid;
+	public void setOrcId(String orcid) {
+		this.orcId = orcid;
 	}
 
 	public String getFullName(){

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:cml="http://www.xml-cml.org/schema" width="243.923" height="189.282" x="0" y="0" font-family="sans-serif" stroke="rgb(0,0,0)" stroke-width="1" >
+<polygon points="100 80 116.864 58.7905 109.936 54.7905 " />
+<line x1="134.6" y1="100.0" x2="169.3" y2="80.0"/>
+<line x1="134.6" y1="100.0" x2="100.0" y2="80.0"/>
+<line x1="170.8" y1="77.4" x2="196.4" y2="92.2"/>
+<line x1="167.8" y1="82.6" x2="193.4" y2="97.4"/>
+<line x1="169.3" y1="80.0" x2="169.3" y2="50.4"/>
+<line x1="80.0" y1="114.6" x2="100.0" y2="80.0"/>
+<line x1="82.6" y1="113.1" x2="97.4" y2="138.8"/>
+<line x1="77.4" y1="116.1" x2="92.2" y2="141.8"/>
+<line x1="80.0" y1="114.6" x2="50.4" y2="114.6"/>
+<line x1="100.0" y1="80.0" x2="74.4" y2="65.2"/>
+<text x="114.000000" y="53.678984" fill="rgb(102,102,102)"  stroke="rgb(102,102,102)" stroke-width="1" font-size="16" >CH</text>
+<text x="138.000000" y="61.358984" fill="rgb(102,102,102)"  stroke="rgb(102,102,102)" stroke-width="1" font-size="13" >3</text>
+<text x="197.923048" y="104.800000" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >O</text>
+<text x="164.482032" y="33.600000" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="32" >-</text>
+<text x="163.282032" y="48.320000" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >O</text>
+<text x="94.000000" y="154.082032" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >O</text>
+<text x="35.200000" y="133.841016" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="32" >-</text>
+<text x="36.400000" y="119.441016" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >O</text>
+<text x="49.758984" y="68.320000" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >HO</text>
+<text font-size="18.000000" fill ="black" font-family="sans-serif"
+x="140.000000" y="20.000000" ></text>
+<title> - OBDepict</title>
+</svg>

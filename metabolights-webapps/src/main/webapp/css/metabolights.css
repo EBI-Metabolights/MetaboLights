@@ -349,6 +349,14 @@ a:link.hyperlinks{
     border-radius: 0 6px 6px 6px;
 }
 
+#metExploreContainer{
+    min-height: 500px;
+}
+
+#metExploreContainer iframe{
+    position: absolute !important;
+}
+
 .dropdown-submenu:hover>.dropdown-menu {
     display: block;
 }
@@ -386,4 +394,9 @@ a:link.hyperlinks{
 
 a:link.btn-ok{
     color: #fff !important;
+}
+
+.thorOrcIdSpan img{
+    height: 15px;
+    width: 15px;
 }

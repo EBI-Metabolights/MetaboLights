@@ -1,6 +1,0 @@
-MAILTO=metabolights-dev
-# Crontab for mtbl on ebi-003
-# most jobs moved to tc_cm01 user!
-
-# Backup mtapro
-0 2 * * * /homes/mtbl/scripts/init_backup.csh

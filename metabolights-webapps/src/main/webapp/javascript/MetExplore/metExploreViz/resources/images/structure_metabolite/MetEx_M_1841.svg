@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:cml="http://www.xml-cml.org/schema" width="229.122" height="235.42" x="0" y="0" font-family="sans-serif" stroke="rgb(0,0,0)" stroke-width="1" >
+<line x1="142.8" y1="90.4" x2="151.1" y2="129.5"/>
+<line x1="142.8" y1="90.4" x2="104.7" y2="78.0"/>
+<line x1="121.4" y1="156.3" x2="151.1" y2="129.5"/>
+<line x1="124.3" y1="155.7" x2="130.4" y2="184.6"/>
+<line x1="118.4" y1="156.9" x2="124.6" y2="185.9"/>
+<line x1="151.1" y1="129.5" x2="179.2" y2="138.7"/>
+<line x1="92.4" y1="40.0" x2="104.7" y2="78.0"/>
+<line x1="87.4" y1="47.9" x2="96.0" y2="74.6"/>
+<line x1="104.7" y1="78.0" x2="80.8" y2="95.4"/>
+<line x1="63.9" y1="95.4" x2="40.0" y2="78.0"/>
+<line x1="40.0" y1="78.0" x2="49.1" y2="49.9"/>
+<line x1="48.7" y1="74.6" x2="55.4" y2="54.0"/>
+<line x1="62.8" y1="40.0" x2="92.4" y2="40.0"/>
+<text x="183.122348" y="146.689524" fill="rgb(12,12,255)"  stroke="rgb(12,12,255)" stroke-width="1" font-size="16" >NH</text>
+<text x="207.122348" y="151.489524" fill="rgb(12,12,255)"  stroke="rgb(12,12,255)" stroke-width="1" font-size="13" >2</text>
+<text x="48.760680" y="48.320000" fill="rgb(12,12,255)"  stroke="rgb(12,12,255)" stroke-width="1" font-size="16" >N</text>
+<text x="66.360680" y="106.353671" fill="rgb(12,12,255)"  stroke="rgb(12,12,255)" stroke-width="1" font-size="16" >NH</text>
+<text x="123.670762" y="200.219973" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >O</text>
+<text font-size="18.000000" fill ="black" font-family="sans-serif"
+x="140.000000" y="20.000000" ></text>
+<title> - OBDepict</title>
+</svg>

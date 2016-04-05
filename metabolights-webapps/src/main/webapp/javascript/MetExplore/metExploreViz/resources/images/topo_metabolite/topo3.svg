@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg3066"
+   height="17"
+   width="32"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="topo3.svg">
+  <defs
+     id="defs11" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="640"
+     inkscape:window-height="480"
+     id="namedview9"
+     showgrid="false"
+     inkscape:zoom="7.375"
+     inkscape:cx="16"
+     inkscape:cy="16"
+     inkscape:window-x="1870"
+     inkscape:window-y="98"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg3066" />
+  <metadata
+     id="metadata3071">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     transform="translate(0,-7.2711864)">
+    <rect
+       id="rect3004"
+       ry="2.5522001"
+       height="9.7938004"
+       width="10.08"
+       y="10.657"
+       x="11.054"
+       style="fill:#0055d4" />
+    <path
+       id="path3006"
+       d="m 13.689,14.767 a 5.1044,2.3782 0 1 1 7e-6,-0.0042 h -5.1044 z"
+       transform="matrix(0.90377576,0,0,0.92327635,-2.8104804,-3.7329618)"
+       inkscape:connector-curvature="0"
+       style="fill:#2ca02c" />
+    <path
+       id="path3006-1"
+       d="m 13.689,14.767 a 5.1044,2.3782 0 1 1 7e-6,-0.0042 h -5.1044 z"
+       transform="matrix(0.90377576,0,0,0.92327635,-2.8104806,1.9973498)"
+       inkscape:connector-curvature="0"
+       style="fill:#2ca02c" />
+    <path
+       id="path3006-7"
+       d="m 13.689,14.767 a 5.1044,2.3782 0 1 1 7e-6,-0.0042 h -5.1044 z"
+       transform="matrix(0.90377576,0,0,0.92327635,-2.8104807,7.9954326)"
+       inkscape:connector-curvature="0"
+       style="fill:#2ca02c" />
+  </g>
+</svg>

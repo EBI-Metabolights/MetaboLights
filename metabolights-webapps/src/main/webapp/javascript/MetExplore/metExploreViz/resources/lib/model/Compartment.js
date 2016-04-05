@@ -1,0 +1,1 @@
+var Compartment=function(b,a){this.id=b;this.identifier=a;this.name=a;this.color=""};Compartment.prototype={getIdentifier:function(){return this.identifier},getName:function(){return this.name},getColor:function(){return this.color},setColor:function(a){return this.color=a}};
