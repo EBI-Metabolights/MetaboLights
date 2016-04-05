@@ -120,14 +120,14 @@ public class StatisticsController extends AbstractController {
                 internalArray.put(date.getTime());
 
                 if(convert){
-                    int size = java.lang.Integer.parseInt(mlStats.getDisplayValue());
-                    internalArray.put(size/1048576);
+                    long size = java.lang.Long.parseLong(mlStats.getDisplayValue());
+                    internalArray.put(size/1048576);  //1073741824
                 }
                 else{
-                    internalArray.put(java.lang.Integer.parseInt(mlStats.getDisplayValue()));
+                    internalArray.put(java.lang.Long.parseLong(mlStats.getDisplayValue()));
                 }
 
-            } catch (ParseException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 

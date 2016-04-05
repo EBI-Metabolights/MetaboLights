@@ -184,6 +184,7 @@
         }).showMaxMin(false);
 
         chart.y1Axis.axisLabel('Size in GB').axisLabelDistance(5);
+        chart.y2Axis.axisLabel('Number of studies').axisLabelDistance(3);
         chart.y2Axis.tickFormat(function(d) { return d3.format(',f')(d) });       //.axisLabel('Size in MB')
         chart.bars.forceY([0]).padData(false);
 
