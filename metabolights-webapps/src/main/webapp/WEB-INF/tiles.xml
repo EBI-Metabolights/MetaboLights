@@ -250,7 +250,7 @@
     </definition>
 
     <definition name="analysis" extends="default">
-        <put-attribute name="title" value="MetaboAnalyst" />
+        <put-attribute name="title" value="Analysis Tools" />
         <put-attribute name="body" value="/WEB-INF/jsp/analysis.jsp" />
     </definition>
     <definition name="importmetabolites" extends="default">
