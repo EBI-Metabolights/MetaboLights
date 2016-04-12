@@ -369,4 +369,7 @@ public class CompoundController extends BasicController {
         //Creating a list object for DataItems
         return cmpd.getChebiEntity().getCitations();
     }
+
+
+
 }

@@ -7,7 +7,6 @@ import uk.ac.ebi.metabolights.webservice.client.MetExploreWsClient;
 
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 
 /**
