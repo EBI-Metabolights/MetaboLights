@@ -34,7 +34,6 @@ import org.xmlsoap.schemas.soap.encoding.Integer;
 import uk.ac.ebi.metabolights.model.MLStats;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.MetaboLightsStatsService;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

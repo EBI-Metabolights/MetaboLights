@@ -199,5 +199,16 @@ nav#breadcrumb{
     cursor: pointer;
 }
 
+#snippetDiv{
+    height: 500px;
+    width: 100%;
 
+}
 
+.no-padding{
+    padding: 0;
+}
+
+.zoom-dialog{
+    width: 450px !important;
+}
