@@ -27,7 +27,9 @@
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/nv.d3.css" type="text/css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <script src="${pageContext.request.contextPath}/javascript/nv.d3.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
 
 
 <style>
@@ -50,104 +52,98 @@
 
 </style>
 
-<h2><spring:message code="msg.statistics"/></h2>
-</p>
-</p>
-
-    <c:choose>
-        <c:when test="${not empty dataList}">
-            <p>
-            <H4><spring:message code="msg.statistics.data"/></H4>
-            <c:forEach var="dataEntries" items="${dataList}">
-                <div class="grid_8">
-                    ${dataEntries.displayName}
+<div id="content" class="grid_24">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h2><spring:message code="msg.statistics"/></h2>
+                <hr>
+                <div class="col-md-12">
+                    <h3 class="well"><spring:message code="msg.statistics.graph"/></h3>
+                    <div id="chart1" class='with-3d-shadow with-transitions well'>
+                        <svg> </svg>
+                    </div>
                 </div>
-                <div class="grid_8">
-                    <b>${dataEntries.displayValue}</b>
-                </div>
-                </br>
-            </c:forEach>
-            </p>
-        </c:when>
-    </c:choose>
-
-    <c:choose>
-        <c:when test="${not empty identifierList}">
-            <p>
-            <H4><spring:message code="msg.statistics.compounds"/></H4>
-            <c:forEach var="idEntries" items="${identifierList}">
-                <div class="grid_8">
-                    ${idEntries.displayName}
-                </div>
-                <div class="grid_8">
-                    <b>${idEntries.displayValue}</b>
-                </div>
-                </br>
-            </c:forEach>
-            </p>
-        </c:when>
-    </c:choose>
-
-    <c:choose>
-        <c:when test="${not empty submittersList}">
-            <p>
-            <H4><spring:message code="msg.statistics.users"/></H4>
-            <c:forEach var="submitters" items="${submittersList}">
-                <div class="grid_8">
-                    ${submitters.displayName}
-                </div>
-                <div class="grid_8">
-                    <b>${submitters.displayValue}</b>
-                </div>
-                </br>
-            </c:forEach>
-            </p>
-        </c:when>
-    </c:choose>
-
-    <c:choose>
-        <c:when test="${not empty topSubList}">
-            <p>
-            <H4><spring:message code="msg.statistics.topSub"/></H4>
-            <c:forEach var="topsubmitters" items="${topSubList}">
-                <div class="grid_8">
-                        ${topsubmitters.displayName}
-                </div>
-                <div class="grid_8">
-                    <b>${topsubmitters.displayValue}</b>
-                </div>
-                </br>
-            </c:forEach>
-            </p>
-        </c:when>
-    </c:choose>
+                <div class="clearfix">&nbsp;</div>
+                <hr>
+                <div class="col-md-6">
 
 
-<p>
-<H4><spring:message code="msg.statistics.graph"/></H4>
-<div id="chart1" class='with-3d-shadow with-transitions'>
-    <svg> </svg>
+                    <c:choose>
+                        <c:when test="${not empty dataList}">
+                            <div>
+                            <h4  class="well"><spring:message code="msg.statistics.data"/></h4>
+                            <table class="table table-bordered table-striped mltable">
+                                <tbody>
+                                    <c:forEach var="dataEntries" items="${dataList}">
+                                        <tr>
+                                            <th scope="row">${dataEntries.displayName}</th>
+                                            <td>${dataEntries.displayValue}</td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                            </div>
+                        </c:when>
+                    </c:choose>
+
+                    <c:choose>
+                        <c:when test="${not empty submittersList}">
+                            <h4 class="well"><spring:message code="msg.statistics.users"/></h4>
+                            <table class="table table-bordered table-striped mltable">
+                                <tbody>
+                                <c:forEach var="submitters" items="${submittersList}">
+                                    <tr>
+                                        <th scope="row">${submitters.displayName}</th>
+                                        <td>${submitters.displayValue}</td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </c:when>
+                    </c:choose>
+
+                </div>
+                <div class="col-md-6">
+                    <c:choose>
+                        <c:when test="${not empty topSubList}">
+                            <h4 class="well"><spring:message code="msg.statistics.topSub"/></h4>
+                            <table class="table table-bordered table-striped mltable">
+                                <tbody>
+                                <c:forEach var="topsubmitters" items="${topSubList}">
+                                    <tr>
+                                        <th scope="row">${topsubmitters.displayName}</th>
+                                        <td>${topsubmitters.displayValue}</td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </c:when>
+                    </c:choose>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+                <hr>
+                <div class="col-md-12">
+                    <c:choose>
+                        <c:when test="${not empty infoList}">
+                            <h4 class="well"><spring:message code="msg.statistics.info"/></h4>
+                            <table class="table table-bordered table-striped mltable">
+                                <c:forEach var="info" items="${infoList}">
+                                        <tr>
+                                            <th scope="row">${info.displayName}</th>
+                                            <td>${info.displayValue}</td>
+                                        </tr>
+                                </c:forEach>
+                            </table>
+                        </c:when>
+                    </c:choose>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-</p>
-
-
-<c:choose>
-    <c:when test="${not empty infoList}">
-        <p>
-        <H4><spring:message code="msg.statistics.info"/></H4>
-        <c:forEach var="info" items="${infoList}">
-            <div class="grid_8">
-                    ${info.displayName}
-            </div>
-            <div class="grid_8">
-                <b>${info.displayValue}</b>
-            </div>
-            </br>
-        </c:forEach>
-        </p>
-    </c:when>
-</c:choose>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 <script>
 
