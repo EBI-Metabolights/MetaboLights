@@ -54,7 +54,7 @@ nav#breadcrumb{
     min-height: 80vh;
     width: 100%;
     display: flex;
-    align-items: center;
+    padding-top: 100px;
     justify-content: center;
 }
 
@@ -164,11 +164,12 @@ nav#breadcrumb{
 }
 
 .label-spaced {
-    margin-right:2px;
+    margin-right:0px;
     margin-bottom:5px !important;
     display:inline-block;
     text-shadow: none;
     padding-left: 0;
+    padding-right: 2px;
 }
 
 .btn-group{
@@ -211,4 +212,27 @@ nav#breadcrumb{
 
 .zoom-dialog{
     width: 450px !important;
+}
+
+.grey {
+    background-color: #f1f1f4 !important;
+}
+
+.spectakle-container{
+    height: 500px;
+    border-right: 1px solid #f1f1f4;
+    border-left: 1px solid #f1f1f4;
+}
+
+.specs {
+    padding: 0 5px;
+    margin-bottom: 0px;
+}
+
+#loading{
+    position: absolute;
+    background-color: rgba(255,255,255, 0.9);
+    width: calc(100% - 70px);
+    height: calc(100% - 70px);
+    z-index: 10000;
 }

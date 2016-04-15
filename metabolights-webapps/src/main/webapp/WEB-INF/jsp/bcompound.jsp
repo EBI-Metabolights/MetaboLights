@@ -471,6 +471,7 @@
         loadSpectralist("#nmrSpectraList", nmrInfo);
     }
     function loadSpectralist(listSelector, spectraList) {
+
         // Get the SELECT ELEMENT
         var list = $(listSelector)[0];
         // Loop through the spectraList...
@@ -529,6 +530,7 @@
     function loadSpectraAndInfo(spectra, infoDiv) {
         loadSPLASH(spectra[0]['url']);
         loadSpectra(spectra);
+
         if (spectra.length == 1) {
             loadSpectraInfo(spectra[0], infoDiv);
             $(infoDiv).show();
@@ -567,6 +569,7 @@
 //        {
         // Take the first one to knoe the type
         var spectrum = spectra[0];
+
         if (spectrum.type == "NMR") {
             data = NMRarray;
         } else {
@@ -574,13 +577,18 @@
         }
         /* Remove all the spectra */
         data.remove();
+
         var urls = new Array();
         // Loop through the spectra to create a list of urls
         for (index = 0; index < spectra.length; ++index) {
             urls.push(spectra[index].url);
         }
+        console.log(urls)
+        alert();
+
         data.add(urls);
     }
+
     function loadSpectrum(spectrum) {
         if (spectrum.type == "NMR") {
             data = NMRarray;
