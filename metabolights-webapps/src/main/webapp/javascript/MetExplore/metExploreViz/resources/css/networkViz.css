@@ -1,0 +1,116 @@
+circle.metabolite{
+		stroke:#cccccc;
+}   
+rect.reaction{
+		stroke:black;
+}    
+text.metabolite{
+	fill:black;
+	font:10px sans-serif;
+	text-anchor:middle;
+}
+text.reaction{
+	fill:black;
+	font:10px sans-serif;
+	text-anchor:middle;
+}
+
+.absolute{
+	position: absolute;
+}
+
+.D3viz{
+  position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: all;
+    -moz-user-select: -moz-none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+.D3vizExemple{
+  position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: all;
+    -moz-user-select: -moz-none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+.full-spectrum .sp-palette {
+	max-width: 200px;
+}
+.brush{
+	fill: #99BCE8;
+	fill-opacity: 0.1;
+	stroke: #99BCE8;
+	shape-rendering: crispEdges;
+}
+.hide{
+	fill-opacity: 0;
+	opacity: 0;
+  display: none;
+}
+/*
+.tooltip {   
+  pointer-events: none; 
+}
+
+.tooltip rect{  
+  fill: white;
+  stroke: #154B7D;
+  stroke-width:2px;
+}
+
+.tooltip-text{   
+  text-align: center;           
+  width: auto;                  
+  height: 28px;             
+  font: 12px sans-serif;   
+  pointer-events: none; 
+  fill : #154B7D;
+}
+*/
+
+.tooltip2 {
+  border-radius: 15px 50px;
+  background: #8AC007;
+  padding: 20px; 
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  border: 2px solid #154B7D;
+  background: #fff;
+  opacity: 1;
+  color:  #154B7D;
+  font-size: 15px;
+  z-index: 120;
+}
+
+.tooltip2 img{
+  width: 200px;
+  height: 200px;
+}
+
+.link{
+      background-repeat: initial;
+}
+
+.comparePanel .x-panel-header {
+    padding-top:5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+}
+
+.comparedPanel .x-panel-header {
+    padding-top:0px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+}

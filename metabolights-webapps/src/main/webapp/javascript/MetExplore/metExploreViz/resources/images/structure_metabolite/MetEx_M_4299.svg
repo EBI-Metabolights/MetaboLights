@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:cml="http://www.xml-cml.org/schema" width="214.641" height="189.282" x="0" y="0" font-family="sans-serif" stroke="rgb(0,0,0)" stroke-width="1" >
+<line x1="54.6" y1="114.6" x2="74.6" y2="80.0"/>
+<line x1="54.6" y1="114.6" x2="69.4" y2="140.3"/>
+<line x1="134.6" y1="114.6" x2="114.6" y2="80.0"/>
+<line x1="134.6" y1="114.6" x2="164.2" y2="114.6"/>
+<line x1="74.2" y1="54.4" x2="75.0" y2="54.4"/>
+<line x1="73.8" y1="58.4" x2="75.4" y2="58.4"/>
+<line x1="73.4" y1="62.4" x2="75.8" y2="62.4"/>
+<line x1="73.0" y1="66.4" x2="76.2" y2="66.4"/>
+<line x1="72.6" y1="70.4" x2="76.6" y2="70.4"/>
+<line x1="72.2" y1="74.4" x2="77.0" y2="74.4"/>
+<line x1="71.8" y1="78.4" x2="77.4" y2="78.4"/>
+<line x1="74.6" y1="80.0" x2="114.6" y2="80.0"/>
+<line x1="74.6" y1="80.0" x2="49.0" y2="65.2"/>
+<polygon points="137.850497 66.600000 112.641016 76.535898 116.641016 83.464102 " />
+<line x1="114.6" y1="80.0" x2="114.6" y2="50.4"/>
+<text x="68.641016" y="154.082032" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >OH</text>
+<text x="168.641016" y="122.961016" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >OH</text>
+<text x="24.400000" y="68.320000" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >HO</text>
+<text x="108.641016" y="48.320000" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >OH</text>
+<text x="68.641016" y="48.320000" fill="rgb(191,191,191)"  stroke="rgb(191,191,191)" stroke-width="1" font-size="16" >H</text>
+<text x="143.282032" y="68.320000" fill="rgb(191,191,191)"  stroke="rgb(191,191,191)" stroke-width="1" font-size="16" >H</text>
+<text font-size="18.000000" fill ="black" font-family="sans-serif"
+x="140.000000" y="20.000000" ></text>
+<title> - OBDepict</title>
+</svg>

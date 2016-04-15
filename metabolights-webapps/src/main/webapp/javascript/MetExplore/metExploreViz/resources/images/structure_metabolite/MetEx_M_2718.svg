@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:cml="http://www.xml-cml.org/schema" width="305.477" height="160" x="0" y="0" font-family="sans-serif" stroke="rgb(0,0,0)" stroke-width="1" >
+<line x1="100.0" y1="80.0" x2="60.0" y2="80.0"/>
+<line x1="230.8" y1="60.0" x2="256.5" y2="45.2"/>
+<line x1="230.8" y1="100.0" x2="256.5" y2="114.8"/>
+<line x1="60.0" y1="80.0" x2="45.2" y2="54.4"/>
+<line x1="62.6" y1="81.5" x2="47.8" y2="107.1"/>
+<line x1="57.4" y1="78.5" x2="42.6" y2="104.1"/>
+<line x1="100.0" y1="80.0" x2="117.4" y2="103.9"/>
+<line x1="133.4" y1="109.1" x2="161.6" y2="100.0"/>
+<line x1="161.6" y1="100.0" x2="161.6" y2="60.0"/>
+<line x1="154.4" y1="94.0" x2="154.4" y2="66.0"/>
+<line x1="161.6" y1="60.0" x2="123.5" y2="47.6"/>
+<line x1="123.5" y1="47.6" x2="100.0" y2="80.0"/>
+<line x1="125.8" y1="56.7" x2="109.4" y2="79.4"/>
+<line x1="196.2" y1="40.0" x2="161.6" y2="60.0"/>
+<line x1="161.6" y1="100.0" x2="196.2" y2="120.0"/>
+<line x1="196.2" y1="120.0" x2="230.8" y2="100.0"/>
+<line x1="197.8" y1="110.8" x2="222.0" y2="96.8"/>
+<line x1="230.8" y1="100.0" x2="230.8" y2="60.0"/>
+<line x1="230.8" y1="60.0" x2="196.2" y2="40.0"/>
+<line x1="222.0" y1="63.2" x2="197.8" y2="49.2"/>
+<text x="107.911410" y="117.160680" fill="rgb(12,12,255)"  stroke="rgb(12,12,255)" stroke-width="1" font-size="16" >HN</text>
+<text x="259.476719" y="48.320000" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >OH</text>
+<text x="259.476719" y="124.800000" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >OH</text>
+<text x="24.400000" y="53.678984" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >HO</text>
+<text x="36.400000" y="119.441016" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >O</text>
+<text font-size="18.000000" fill ="black" font-family="sans-serif"
+x="140.000000" y="20.000000" ></text>
+<title> - OBDepict</title>
+</svg>

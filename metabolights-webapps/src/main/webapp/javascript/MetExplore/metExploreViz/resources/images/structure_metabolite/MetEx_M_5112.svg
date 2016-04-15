@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:cml="http://www.xml-cml.org/schema" width="120" height="114.641" x="0" y="0" font-family="sans-serif" stroke="rgb(0,0,0)" stroke-width="1" >
+<line x1="80.0" y1="40.0" x2="60.0" y2="74.6"/>
+<line x1="70.8" y1="41.6" x2="56.8" y2="65.8"/>
+<line x1="60.0" y1="74.6" x2="40.0" y2="40.0"/>
+<line x1="40.0" y1="40.0" x2="80.0" y2="40.0"/>
+<text font-size="18.000000" fill ="black" font-family="sans-serif"
+x="140.000000" y="20.000000" ></text>
+<title> - OBDepict</title>
+</svg>

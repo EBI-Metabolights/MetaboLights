@@ -146,6 +146,10 @@ body{
     border: 1px solid #f1f1f4;
 }
 
+.ml--btngrpoup{
+    margin-top: 3px;
+}
+
 /*
     Metabolights study beta page CSS
 */
@@ -196,7 +200,7 @@ body{
     width: calc(100% - 20px);
     margin: 15px 10px 5px 10px;
 
-    border-top: 3px solid #C58A4D;
+    border-top: 3px solid #C4C4C4;
     border-bottom: 1px solid #DBDCDE;
 
     padding: 20px 10px 10px 10px;
@@ -313,6 +317,24 @@ a:link.hyperlinks{
     display: inline;
 }
 
+.ml--studytitle{
+    display: block;
+    margin-top: 10px;
+}
+
+.ml--bordertop{
+    margin-top: 10px;
+    border-top: 1px solid #CDCDCD;
+}
+
+.ml--studydescription{
+    display: block;
+}
+
+.ml--button{
+    color: #fff !important;
+}
+
 .dropdown-submenu {
     position: relative;
 }
@@ -325,6 +347,14 @@ a:link.hyperlinks{
     -webkit-border-radius: 0 6px 6px 6px;
     -moz-border-radius: 0 6px 6px;
     border-radius: 0 6px 6px 6px;
+}
+
+#metExploreContainer{
+    min-height: 500px;
+}
+
+#metExploreContainer iframe{
+    position: absolute !important;
 }
 
 .dropdown-submenu:hover>.dropdown-menu {
@@ -364,4 +394,9 @@ a:link.hyperlinks{
 
 a:link.btn-ok{
     color: #fff !important;
+}
+
+.thorOrcIdSpan img{
+    height: 15px;
+    width: 15px;
 }

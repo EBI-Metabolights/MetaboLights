@@ -1,9 +1,12 @@
 package uk.ac.ebi.metabolights.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import uk.ac.ebi.cdb.webservice.WSCitationImpl;
 import uk.ac.ebi.metabolights.model.WebCompound;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.service.AppContext;
@@ -18,6 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("beta")
 public class BetaController extends AbstractController {
 
+    private static Logger logger = LoggerFactory.getLogger(CompoundController.class);
+
     public static final String METABOLIGHTS_COMPOUND_ID_REG_EXP = "(?:MTBLC|compoundId).+";
 
 
@@ -25,20 +30,15 @@ public class BetaController extends AbstractController {
     public ModelAndView showCompound(@PathVariable("compoundId") String mtblc, HttpServletRequest request) {
 
         logger.info("requested compound " + mtblc);
-        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("bcompound");
-        RestResponse<Compound> response = EntryController.getMetabolightsWsClient().getCompound(mtblc);
 
-        Compound compound = response.getContent();
+        String view =  "betacompound";
 
-        if (compound == null)
-            return printMessage("Couldn't get the requested compound: "+ mtblc, response.getErr().getMessage());
+        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(view);
 
-        WebCompound webCompound = new WebCompound(compound);
+        mav.addObject("compoundId", mtblc);
 
-
-        mav.addObject("compound", webCompound);
-        mav.addObject("pageTitle", mtblc + " - " + webCompound.getMc().getName());
         return mav;
+
     }
 
 }

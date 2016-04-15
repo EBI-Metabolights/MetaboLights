@@ -1,0 +1,238 @@
+
+/*
+*
+* MetaboLights Compound Page CSS
+*
+*/
+
+div#content {
+    padding-bottom: 5px;
+}
+
+nav#breadcrumb{
+    padding-left: 20px;
+}
+
+.wrapper{
+    min-height: 80vh;
+    margin: 0 10px 12px 10px;
+    padding: 0 0px;
+}
+
+
+.banner{
+    background-color: #333;
+    height: 50px;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+}
+
+.banner h2{
+    text-transform:capitalize;
+    font-weight: 300;
+    margin: 0;
+    padding: 0;
+}
+
+.banner .met-id{
+    font-weight: 400;
+    text-shadow: none;
+    border-radius: 0;
+    letter-spacing: 1px;
+    font-size: 1.3em;
+    margin-left: auto;
+    color: #999;
+}
+
+
+/* Loading screen */
+
+#loading {
+    position: absolute;
+    min-height: 80vh;
+    width: 100%;
+    display: flex;
+    padding-top: 100px;
+    justify-content: center;
+}
+
+#loading span{
+    font-weight: lighter;
+    font-size: 20px;
+    color: #999;
+    letter-spacing: 1px;
+}
+
+#loading img{
+    height: 50px;
+}
+
+.mltable th {
+    background-color: transparent !important;
+}
+
+.mltable {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.mltable td {
+    overflow-x: hidden;
+}
+
+.met-content{
+    padding-top: 10px;
+}
+
+.met-img .nav-tabs { border-bottom: 2px solid #DDD;background-color: #f1f1f4  }
+.met-img .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover { border-width: 0; }
+.met-img .nav-tabs > li > a { border: none; color: #666; }
+.met-img .nav-tabs > li.active > a, .nav-tabs > li > a:hover { border: none; color: #4285F4 !important; background: transparent; }
+.met-img .nav-tabs > li > a::after { content: ""; background: #4285F4; height: 2px; position: absolute; width: 100%; left: 0px; bottom: -1px; transition: all 250ms ease 0s; transform: scale(0); }
+.met-img .nav-tabs > li.active > a::after, .nav-tabs > li:hover > a::after { transform: scale(1); }
+.met-img .tab-nav > li > a::after { background: #21527d none repeat scroll 0% 0%; color: #fff; }
+.met-img .tab-pane { padding: 5px 0; }
+.met-img .tab-content{ padding: 5px;}
+.met-img .card {background: #FFF none repeat scroll 0% 0%; margin-bottom: 30px; }
+
+
+.met-content .nav-tabs { border-bottom: 2px solid #DDD; background-color: #f1f1f4 }
+.met-content .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover { border-width: 0; }
+.met-content .nav-tabs > li > a { border: none; color: #666; }
+.met-content .nav-tabs > li.active > a, .nav-tabs > li > a:hover { border: none; color: #4285F4 !important; background: transparent; }
+.met-content .nav-tabs > li > a::after { content: ""; background: #4285F4; height: 2px; position: absolute; width: 100%; left: 0px; bottom: -1px; transition: all 250ms ease 0s; transform: scale(0); }
+.met-content .nav-tabs > li.active > a::after, .nav-tabs > li:hover > a::after { transform: scale(1); }
+.met-content .tab-nav > li > a::after { background: #21527d none repeat scroll 0% 0%; color: #fff; }
+.met-content .tab-pane { padding: 0 0; }
+.met-content .tab-content{ padding:20px; min-height: 400px; }
+.met-content .card {background: #FFF none repeat scroll 0% 0%; margin-bottom: 30px; }
+
+#description{
+    border-radius: 0;
+    padding: 10px 15px 20px 20px;
+}
+
+#description label{
+    font-weight: 200;
+    font-size: 0.9em;
+    margin: 0;
+    margin-bottom: 5px;
+    padding: 0;
+}
+
+
+#description h4{
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+}
+
+.met-panel{
+    border: 1px solid #f1f1f4;
+    padding: 0;
+}
+
+.ml_vntc{
+    border: none;
+    padding-top: 0;;
+}
+
+.ml_mtc{
+    min-height: 80vh;
+}
+
+.abs{
+    overflow: auto;
+}
+
+.ml_tr{
+    border-bottom: 1px solid #f1f1f4;
+    padding: 5px 0;
+}
+
+.ml_tr_th{
+    border-bottom: 1px solid #f1f1f4;
+    padding: 5px 0;
+    background-color: #f1f1f4;
+}
+
+.ml_trc{
+    padding: 5px 15px;
+    overflow: auto;
+}
+
+.label-spaced {
+    margin-right:0px;
+    margin-bottom:5px !important;
+    display:inline-block;
+    text-shadow: none;
+    padding-left: 0;
+    padding-right: 2px;
+}
+
+.btn-group{
+    border-radius: 0;
+}
+
+* {
+    border-radius: 0 !important;
+}
+
+#zoom {
+    position: absolute;
+    float:right;
+    display:inline-block;
+    padding:2px 5px;
+    background:transparent;
+    position: absolute;
+    right: 15px;
+    top: 300px;
+}
+
+#zoom:hover {
+    float:right;
+    display:inline-block;
+    padding:2px 5px;
+    background:transparent;
+    color:#fff;
+    cursor: pointer;
+}
+
+#snippetDiv{
+    height: 500px;
+    width: 100%;
+
+}
+
+.no-padding{
+    padding: 0;
+}
+
+.zoom-dialog{
+    width: 450px !important;
+}
+
+.grey {
+    background-color: #f1f1f4 !important;
+}
+
+.spectakle-container{
+    height: 500px;
+    border-right: 1px solid #f1f1f4;
+    border-left: 1px solid #f1f1f4;
+}
+
+.specs {
+    padding: 0 5px;
+    margin-bottom: 0px;
+}
+
+#loading{
+    position: absolute;
+    background-color: rgba(255,255,255, 0.9);
+    width: calc(100% - 70px);
+    height: calc(100% - 70px);
+    z-index: 10000;
+}

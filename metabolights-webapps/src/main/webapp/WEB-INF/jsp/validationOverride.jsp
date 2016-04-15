@@ -70,6 +70,23 @@
         </table>
         </div>
 </template>
+
+<div class="modal fade" id="validations-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div> Validations </div>
+            </div>
+            <div class="modal-body">
+                <div><h4 class="lead text-center">Overriden validations saved successfully</h4></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="location.reload();">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.10/vue.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.17/vue-resource.js"></script>
 
@@ -133,7 +150,7 @@
     )
 
     Vue.component('save-override-button', {
-        template: '<button @click="saveOverride" class="submit">Save override</button>',
+        template: '<button @click="saveOverride" class="submit btn btn-success">Save override</button>',
         props: ['validationsChanged', 'validationsOriginal'],
         methods: {
             saveOverride: function (event) {
@@ -141,23 +158,29 @@
                 var output = vm.$data.validationsComplete;
                 output['entries'] = vm.$data.changedValidations;
 
-                vm.$http.post('http://localhost:8080/metabolights/webservice/study/${study.studyIdentifier}/overridevalidations',
-                         JSON.stringify(output))
-                        .success(function() {
-                    console.log('Indexing..');
-                            vm.$http.get('http://localhost:8080/metabolights/webservice/index/${study.studyIdentifier}');
-                });
+             //   vm.$http.post('${pageContext.request.contextPath}/webservice/study/${study.studyIdentifier}/overridevalidations', JSON.stringify(output));
 
-                var dialog = $("#curatorOverrideSuccessAlert");
-                dialog.text("Click refresh to see changes");
-                $(dialog).dialog({
-                    modal: true,
-                    buttons: {
-                        "OK": function () {
-                            $(this).dialog("close");
-                        }
-                    }
-                });
+                vm.$http.post('${pageContext.request.contextPath}/webservice/study/${study.studyIdentifier}/overridevalidations',
+                        JSON.stringify(output))
+                        .success(function() {
+                            console.log('Indexing..');
+                            vm.$http.get('${pageContext.request.contextPath}/webservice/index/${study.studyIdentifier}');
+                        });
+
+                $('#validations-modal').modal('show');
+
+
+//
+//                var dialog = $("#curatorOverrideSuccessAlert");
+//                dialog.text("Click refresh to see changes");
+//                $(dialog).dialog({
+//                    modal: true,
+//                    buttons: {
+//                        "OK": function () {
+//                            $(this).dialog("close");
+//                        }
+//                    }
+//                });
             }
         }
 

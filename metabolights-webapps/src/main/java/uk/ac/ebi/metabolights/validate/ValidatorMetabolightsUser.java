@@ -83,9 +83,9 @@ public class ValidatorMetabolightsUser implements Validator {
 		}
 
 
-		if (!user.getOrcid().equals("")) {
+		if (!user.getOrcId().equals("")) {
 
-			String validation = validateORCID(user.getOrcid());
+			String validation = validateORCID(user.getOrcId());
 
 			if (validation != null) {
 				e.rejectValue("orcid", null,validation);

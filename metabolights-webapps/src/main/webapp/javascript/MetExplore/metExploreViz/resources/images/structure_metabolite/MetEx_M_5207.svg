@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:cml="http://www.xml-cml.org/schema" width="300" height="223.923" x="0" y="0" font-family="sans-serif" stroke="rgb(0,0,0)" stroke-width="1" >
+<line x1="254.8" y1="123.6" x2="240.0" y2="149.3"/>
+<line x1="140.0" y1="114.6" x2="120.0" y2="80.0"/>
+<line x1="140.0" y1="114.6" x2="169.6" y2="114.6"/>
+<line x1="120.0" y1="80.0" x2="90.4" y2="80.0"/>
+<line x1="200.0" y1="149.3" x2="240.0" y2="149.3"/>
+<line x1="200.0" y1="149.3" x2="185.2" y2="123.6"/>
+<line x1="242.6" y1="147.8" x2="257.4" y2="173.4"/>
+<line x1="237.4" y1="150.8" x2="252.2" y2="176.4"/>
+<line x1="80.0" y1="50.4" x2="80.0" y2="69.6"/>
+<line x1="50.4" y1="77.0" x2="69.6" y2="77.0"/>
+<line x1="50.4" y1="83.0" x2="69.6" y2="83.0"/>
+<line x1="77.0" y1="109.6" x2="77.0" y2="90.4"/>
+<line x1="83.0" y1="109.6" x2="83.0" y2="90.4"/>
+<text x="254.000000" y="122.961016" fill="rgb(102,102,102)"  stroke="rgb(102,102,102)" stroke-width="1" font-size="16" >CH</text>
+<text x="278.000000" y="130.641016" fill="rgb(102,102,102)"  stroke="rgb(102,102,102)" stroke-width="1" font-size="13" >3</text>
+<text x="254.000000" y="188.723048" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >O</text>
+<text x="74.000000" y="48.320000" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >OH</text>
+<text x="36.400000" y="84.800000" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >O</text>
+<text x="74.000000" y="124.800000" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >O</text>
+<text x="174.000000" y="122.961016" fill="rgb(178,178,0)"  stroke="rgb(178,178,0)" stroke-width="1" font-size="16" >S</text>
+<text x="74.000000" y="88.320000" fill="rgb(178,178,0)"  stroke="rgb(178,178,0)" stroke-width="1" font-size="16" >S</text>
+<text font-size="18.000000" fill ="black" font-family="sans-serif"
+x="140.000000" y="20.000000" ></text>
+<title> - OBDepict</title>
+</svg>

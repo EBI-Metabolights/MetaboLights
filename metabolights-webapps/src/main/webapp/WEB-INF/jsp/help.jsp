@@ -40,6 +40,24 @@
         <br/>
         <br/>
     </p>
+
+    <p>
+        Please use our FTP links, if you are unable to access the above online Google documents, due to any firewall restrictions.
+        <br/>
+        <br/>
+
+        <a href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/MetaboLights%20Tutorial%20-%200%20-%20Thank%20You%20and%20Overview.pdf"/><strong>Overview</strong></a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <a href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/MetaboLights%20Tutorial%20-%201%20-%20Download%20and%20setup%20ISAcreator.pdf"/><strong>Download&nbsp;and&nbsp;setup&nbsp;ISAcreator</strong></a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <a href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/MetaboLights%20Tutorial%20-%202A%20-%20NMR%20Assay.pdf"/><strong>Setup&nbsp;and&nbsp;create&nbsp;NMR&nbsp;study</strong></a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <a href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/MetaboLights%20Tutorial%20-%202B%20-%20GC%20MS%20Assay.pdf"/><strong>Setup&nbsp;and&nbsp;create&nbsp;GC/MS&nbsp;study</strong></a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <a href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/MetaboLights%20Tutorial%20-%202C%20-%20LCMS%20Assay.pdf"/><strong>Setup&nbsp;and&nbsp;create&nbsp;LC/MS&nbsp;study</strong></a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <a href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/MetaboLights%20Tutorial%20-%203%20-%20Login%20and%20submit%20to%20MetaboLights.pdf"/><strong>Submit&nbsp;your&nbsp;study&nbsp;to&nbsp;MetaboLights</strong></a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <a href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/MetaboLights%20Tutorial%20-%204%20-%20MetaboLights%20automatic%20validation.pdf"/><strong>Curation&nbsp;status&nbsp;and&nbsp;automatic&nbsp;validations</strong></a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        <a href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/MetaboLights%20Tutorial%20-%20FAQ.pdf"/><strong>Frequently&nbsp;asked&nbsp;questions&nbsp;(FAQ)</strong></a>&nbsp;&nbsp;&nbsp;
+
+        <br/>
+        <br/>
+    </p>
     <p/>
     <p/>
     <p><spring:message code="msg.trainOnline" /></p>

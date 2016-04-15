@@ -78,6 +78,8 @@
 <h2><spring:message code="msg.upload" /></h2>
 <p><spring:message code="msg.upload.desc"/></p>
 <p><spring:message code="msg.upload.desc3"/></p>
+<p><spring:message code="label.experimentMsgPublic"/></p>
+
 
 <c:if test="${not empty queueditems}">
 	<spring:message code="msg.upload.queueditems" />
@@ -119,7 +121,6 @@
 	<div class="grid_17 omega">
 		<input type="text" name="pickdate" id="datepicker" readonly="readonly" size="12"/>
         <input type="image" src="img/ebi-icons/16px/calendar.png" onclick="return toggleDate()" />
-        &nbsp;<span class="ui-state-highlight ui-corner-all"><spring:message code="label.experimentMsgPublic" /></span>
     </div>
     <div class="grid_6 alpha prefix_1"><spring:message code="msg.confirmValidation" /></div>
     <div class="grid_17 omega">

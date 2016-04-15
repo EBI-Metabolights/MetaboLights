@@ -36,6 +36,7 @@ import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
 import uk.ac.ebi.metabolights.referencelayer.model.Species;
 import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.MetExploreDAO;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
@@ -115,6 +116,15 @@ public class StudyController extends BasicController{
 
 		return getStudy(studyIdentifier, true, null);
 
+	}
+
+	@RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/lite")
+	@ResponseBody
+	public RestResponse<Study> getLiteStudyById(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException {
+
+		logger.info("Requesting full study " + studyIdentifier + " to the webservice");
+
+		return getLiteStudy(studyIdentifier);
 	}
 
     private Entity getChebiEntity(String chebiId) throws ChebiWebServiceFault_Exception {
@@ -385,6 +395,42 @@ public class StudyController extends BasicController{
 		emailService.sendStatusChanged(study);
 
 		return study.getStudyStatus();
+	}
+
+	private RestResponse getLiteStudy(String studyIdentifier) throws DAOException {
+
+		RestResponse response = new StudyRestResponse();
+
+		studyDAO= getStudyDAO();
+
+		try {
+
+			Study study = null;
+			study = studyDAO.getStudy(studyIdentifier);
+
+			if (study.isPublicStudy()){
+				Map<String, String> liteStudyMap = new HashMap<String, String>();
+				liteStudyMap.put("title", study.getTitle());
+				liteStudyMap.put("description", study.getDescription());
+				response.setContent(liteStudyMap);
+			}else{
+				response.setMessage("Study is not public");
+				logger.error("Can't get the study requested " + studyIdentifier + ". Study is not public");
+			}
+
+			if(study==null){
+				response.setMessage("Study not found");
+				logger.error("Can't get the study requested " + studyIdentifier);
+			}
+
+		} catch (Exception e) {
+			logger.error("Can't get the study requested " + studyIdentifier, e);
+			response.setMessage("Can't get the study requested.");
+			response.setErr(e);
+		}
+
+		return  response;
+
 	}
 
 
@@ -837,6 +883,65 @@ public class StudyController extends BasicController{
 		return response;
 	}
 
+	/**
+	 * Returns list of  Metabolites identified in the given Metabolights Study - MTBLSX
+	 *
+	 * @param   studyIdentifier
+	 * @return  ChebiIds Array
+	 * @author  CS76
+	 * @date    20160108
+	 */
+
+	@RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/getMetabolitesInchi")
+	@ResponseBody
+	public RestResponse<Study> getMetabolitesInchi(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException {
+
+		logger.info("Requesting " + studyIdentifier + "metabolite mapping update");
+
+		RestResponse response = new RestResponse();
+
+		List<String> metabolites = getMetabolitesINCHIFromMAF(studyIdentifier);
+
+		response.setContent(metabolites);
+
+		return response;
+	}
+
+
+
+
+	/**
+	 * Returns list of  Metabolites identified in the given Metabolights Study - MTBLSX
+	 *
+	 * @param   studyIdentifier
+	 * @return  ChebiIds Array
+	 * @author  CS76
+	 * @date    20160108
+	 */
+
+	@RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/getMetExploreMappingData")
+	@ResponseBody
+	public RestResponse getMetExploreMappingData(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException {
+
+		logger.info("Requesting " + studyIdentifier + "MetExplore Mapping Data");
+
+		RestResponse response = new RestResponse();
+
+        String MetExploreJSONFileName = PropertiesUtil.getProperty("studiesLocation") + studyIdentifier + File.separator + "metexplore_mapping.json";
+
+        MetExploreDAO metexploredao = new MetExploreDAO();
+
+        String MetExplorePathwaysMAppingData = metexploredao.getMetExploreJSONData(MetExploreJSONFileName, studyIdentifier);
+
+        response.setContent(MetExplorePathwaysMAppingData);
+
+		// response.setContent(studyIdentifier);
+
+		return response;
+	}
+
+
+
     /**
      * Update Metabolites and Metabolights study mappings
      *
@@ -857,12 +962,12 @@ public class StudyController extends BasicController{
 
 
         for (Map.Entry<String, String> entry : metabolites.entrySet()) {
-			if(entry.getValue() != null && !entry.getValue().isEmpty())
+			if (entry.getValue() != null && !entry.getValue().isEmpty())
             	mapCompound(entry.getKey(), studyIdentifier, entry.getValue());
-
         }
 
         return response;
+
     }
 
 
@@ -957,6 +1062,51 @@ public class StudyController extends BasicController{
         }
 
     }
+
+	private List<String> getMetabolitesINCHIFromMAF(String studyIdentifier){
+
+		List<String> metabolites = new ArrayList<String>();
+
+		try {
+
+			studyDAO= getStudyDAO();
+
+			Study study = studyDAO.getStudy(studyIdentifier.toUpperCase(), getUser().getApiToken(), true);
+
+			if(study==null) {
+
+				logger.error("Can't get the study requested " + studyIdentifier);
+
+			} else {
+
+				for (Assay assay: study.getAssays()){
+
+					for (MetaboliteAssignmentLine mal : assay.getMetaboliteAssignment().getMetaboliteAssignmentLines()){
+
+						String databaseIdentifier = mal.getDatabaseIdentifier();
+
+						String inchi = mal.getInchi();
+
+						if (databaseIdentifier != null && !databaseIdentifier.isEmpty() && databaseIdentifier != "unknown"){
+
+							if (inchi != null && !inchi.isEmpty())
+
+								metabolites.add(inchi);
+
+						}
+					}
+				}
+			}
+
+		} catch (DAOException e) {
+
+			e.printStackTrace();
+
+		}
+
+		return metabolites;
+
+	}
 
 
 

@@ -1,0 +1,228 @@
+.titles {
+	font-size: 12pt;
+	font-weight: bold;
+}
+
+.head-votes {
+	font-size: 12pt;
+	font-weight: bold;
+	margin-bottom: 10;
+	margin-top: 3; 
+}
+
+.objectExists {
+	background: #8bca86;
+	background-image: url(../images/valid.png) !important;
+	background-size: 20px 20px;
+	background-position: 5px 5px;
+	background-repeat: no-repeat;
+	padding: 8 5 5 30 !important;
+	border: 1;
+	border-radius: 20;
+	font-weight: normal;
+	text-decoration: none;
+	color: black;
+	height: 30px;
+}
+
+.objectHasErrors {
+	background: #f9d874;
+	background-image: url(../images/warning.png) !important;
+	background-size: 20px 20px;
+	background-position: 5px 5px;
+	background-repeat: no-repeat;
+	padding: 8 5 5 30 !important;
+	border: 1;
+	border-radius: 20;
+	font-weight: normal;
+	text-decoration: none;
+	color: black;
+	height: 30px;
+}
+
+.objectNotExists {
+	background: #ca8686;
+	background-image: url(../images/error.png) !important;
+	background-size: 20px 20px;
+	background-position: 5px 5px;
+	background-repeat: no-repeat;
+	padding: 8 5 5 30 !important;
+	border: 1;
+	border-radius: 20;
+	font-weight: normal;
+	text-decoration: none;
+	color: black;
+	height: 30px;
+}
+
+.objectNoIdea {
+	background: #CEF6F5;
+	background-image: url(../images/question.png) !important;
+	background-size: 20px 20px;
+	background-position: 5px 5px;
+	background-repeat: no-repeat;
+	padding: 8 5 5 30 !important;
+	border: 1;
+	border-radius: 20;
+	font-weight: normal;
+	text-decoration: none;
+	color: black;
+	height: 30px;
+}
+
+.titleVote, .titleVoteNb
+{
+	font-size: 14pt;
+}
+
+.titleVote
+{
+	font-weight: normal;
+}
+
+.yesVote, .yesVoteNb
+{
+	font-size: 12pt;
+	color: black;
+	margin-left: 30;
+}
+
+.yesVotePanel .x-panel-body
+{
+	background-color: #8bca86;
+	background-image: url(../images/valid.png) !important;
+	background-size: 20px 20px;
+	background-position: 5px 5px;
+	background-repeat: no-repeat;
+	padding: 5;
+}
+
+.yesVoteDetail .x-grid-cell {
+	background-color: #8bca86;
+}
+
+.detailsVotes .x-grid-cell {
+	font-size: 12pt;
+	padding-top: 3px;
+}
+
+.detailsVotes .imgDetailsVotes {
+	padding-top: 0px !important;
+}
+
+.detailsVotes .x-grid-cell img {
+	margin-left: -3px;
+}
+
+.yesVote
+{
+	font-weight: normal;
+}
+
+.yesnoVote, .yesnoVoteNb
+{
+	font-size: 12pt;
+	color: black;
+	margin-left: 30;
+}
+
+.yesnoVotePanel .x-panel-body
+{
+	background-color: #f9d874;
+	background-image: url(../images/warning.png) !important;
+	background-size: 20px 20px;
+	background-position: 5px 5px;
+	background-repeat: no-repeat;
+	padding: 5;
+}
+
+.yesnoVoteDetail .x-grid-cell {
+	background-color: #f9d874;
+}
+
+.yesnoVote
+{
+	font-weight: normal;
+}
+
+.noVotePanel .x-panel-body
+{
+	background-color: #ca8686;
+	background-image: url(../images/error.png) !important;
+	background-size: 20px 20px;
+	background-position: 5px 5px;
+	background-repeat: no-repeat;
+	padding: 5;
+}
+
+.noVoteDetail .x-grid-cell {
+	background-color: #ca8686;
+}
+
+.noVote, .noVoteNb
+{
+	font-size: 12pt;
+	color: black;
+	margin-left: 30;
+}
+
+.noVote
+{
+	font-weight: normal;
+}
+
+.votesYes
+{
+	background-color: #8bca86;
+	//width: 60%;
+	display: inline-block;
+	text-align: center;
+}
+
+.votesYesNo
+{
+	background-color: #f9d874;
+	//width: 10%;
+	display: inline-block;
+	text-align: center;
+}
+
+.votesNo
+{
+	background-color: #ca8686;
+	//width: 30%;
+	display: inline-block;
+	text-align: center;
+}
+
+.hasVote
+{
+	color: #088A08 !important;
+	text-align: center;
+}
+
+.hasNoVote
+{
+	color: #FE2E2E !important;
+	text-align: center;
+}
+
+.titleNb
+{
+	font-weight: bold;
+}
+
+.eqTitle
+{
+	font-weight: bold;
+	margin-top: 20px;
+}
+
+.arrowEq
+{
+	font-size: 14pt;
+}
+
+.boldText {
+	font-weight: bold;
+}

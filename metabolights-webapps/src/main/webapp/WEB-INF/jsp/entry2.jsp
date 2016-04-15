@@ -262,7 +262,7 @@
             <span class="icon icon-functional" data-icon="b"/><spring:message code="label.viewAllFiles"/>
         </a>
         &nbsp;|&nbsp;
-        <a href="${pageContext.request.contextPath}/beta/${study.studyIdentifier}" class="icon icon-generic" data-icon="&lt;">BETA</a>
+        <a href="${pageContext.request.contextPath}/${study.studyIdentifier}" class="icon icon-generic" data-icon="&lt;">LIVE</a>
         &nbsp;|&nbsp;
         <%@include file="entryActions.jsp" %>
         <c:if test="${!(study.publicStudy)}">
@@ -725,17 +725,27 @@
         <!-- TAB: Validations-->
         <div id="tabs-validations" class="tab">
             <c:if test="${not empty study.validations.entries}">
-                <!-- Send report to submitter via email -->
-                <h5>
-                    <sec:authorize access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
-                        &nbsp;
-                        <a class="noLine" rel="nofollow" href="${pageContext.request.contextPath}/${study.studyIdentifier}/validations/statusReportByMail" title="<spring:message code="label.sendValidationsStatusReport"/>">
-                            <span class="icon icon-generic" data-icon="E"/><spring:message code="label.sendValidationsStatusReport"/></a>
-                    </sec:authorize>
-                </h5>
+
+                <!-- if Study fails any validations (status 1:RED, 2:AMBER, 3:GREEN)... -->
+                <c:if test="${study.validations.status.status ne 3 }">
+                    <!-- ...allow to send report to submitter via email -->
+                    <h5>
+                        <sec:authorize access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
+                            &nbsp;
+                            <a class="noLine" rel="nofollow" href="${pageContext.request.contextPath}/${study.studyIdentifier}/validations/statusReportByMail" title="<spring:message code="label.sendValidationsStatusReport"/>">
+                                <span class="icon icon-generic" data-icon="E"/><spring:message code="label.sendValidationsStatusReport"/></a>
+                        </sec:authorize>
+                    </h5>
+                </c:if>
+
+                <sec:authorize access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
+                    <div class="specs">
+                        <spring:message code="label.experimentMsgPublic"/>
+                    </div>
+                </sec:authorize>
 
                 <div class="specs">
-                Validations marked with (*) are specially approved by the MetaboLights Curators
+                    <spring:message code="msg.curatorsOverride"/>
                 </div>
                 <c:choose>
                     <c:when test="${curator}">

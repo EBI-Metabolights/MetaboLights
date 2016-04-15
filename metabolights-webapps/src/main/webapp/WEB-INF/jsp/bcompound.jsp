@@ -16,8 +16,8 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.js" charset="utf-8"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.Rheaction.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/wiki-pathways.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/JSmol.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/splash.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/3Dmol-min.js"></script>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet"  href="${pageContext.request.contextPath}/cssrl/biojs.Rheaction.css" type="text/css"/>
@@ -48,7 +48,7 @@
                                 </ul>
 
                                 <!-- Tab panes -->
-                                <div class="tab-content">
+                                <div class="tab-content" id="displayMol">
                                     <div role="tabpanel" class="tab-pane active" id="2d">
                                         <%--<h5>Structure</h5><br>--%>
                                         <img src="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=${compound.mc.chebiId}&dimensions=600&transbg=true"
@@ -56,21 +56,17 @@
 
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="3d">
-                                        <div id="appdiv"></div>
+                                        <div id="3dDisplay" style="position: relative;"></div>
                                     </div>
                                 </div>
 
                             </div>
-
-
-
-
                             <br>
                             <p>
                                 <a href="http://www.ebi.ac.uk/chebi/searchId.do?chebiId=${compound.mc.chebiId}">${compound.chebiEntity.chebiAsciiName}
                                     - (${compound.mc.chebiId})</a>
                             </p>
-
+                            <p><%-- <a href="${pageContext.request.contextPath}/old/${compound.mc.accession}" class="icon icon-functional" data-icon="*">OLD</a>&emsp; --%><a href="${pageContext.request.contextPath}/beta/${compound.mc.accession}" class="icon icon-functional" data-icon=")">BETA</a></p>
                             <p><a href="${pageContext.request.contextPath}/referencespectraupload?cid=${compound.mc.accession}"
                                   class="icon icon-functional" data-icon="_">Upload Reference Spectra</a></p>
                         </div>
@@ -138,13 +134,9 @@
                                         <c:if test="${not empty compound.chebiEntity.definition}">
 
 
-                                            <h6 class="text-muted"><i><spring:message
-                                                    code="ref.compound.tab.characteristics.definition"/></i></h6>
+                                            <h6 class="text-muted"><i><spring:message code="ref.compound.tab.characteristics.definition"/></i></h6>
                                             <div id="app">
-                                            <p>${compound.chebiEntity.definition}</p>
-
-
-                                                <br>
+                                            <p>${compound.chebiEntity.definition}</p><br>
                                             <div class="tabbable">
                                                 <ul class="nav nav-pills nav-stacked col-md-2 ml_vnb">
                                                     <li class="active"><a href="#a" data-toggle="tab">Chemical Properties</a></li>
@@ -270,30 +262,41 @@
 
                                     <c:if test="${compound.mc.hasSpecies}">
                                         <div role="tabpanel" class="tab-pane" id="biology">
-                                            <table class="table table-bordered">
-                                                <c:forEach var="item" items="${compound.species}">
-                                                    <tr>
-                                                        <td>${item.key.species} </td>
-                                                        <td>
+                                            <br>
+                                            <div class="col-md-12">
+                                            <ul class="list-group">
+
+                                                    <c:forEach var="item" items="${compound.species}">
+                                                        <li class="list-group-item row">
+                                                            <div class="col-md-3">
+                                                                <h5>${item.key.species}</h5>
+                                                            </div>
+                                                            <div class="col-md-9">
                                                             <c:forEach var="xref" items="${item.value}">
                                                                 <c:choose>
                                                                     <c:when test="${xref.crossReference.db.id eq 2}">
-                                                                        <a href='${xref.crossReference.accession}'>${xref.crossReference.accession}</a>
+                                                                        <h5><span><b><a href='${xref.crossReference.accession}' class="ml--studyid">${xref.crossReference.accession}</a></b>
+                                                                            <b class="ml--studytitle ${xref.crossReference.accession}--title"></b></span>
+                                                                            <span class="${xref.crossReference.accession}--description hidden"></span>
+                                                                        </h5>
                                                                     </c:when>
                                                                     <c:otherwise>
-                                                                        <a href='http://www.ebi.ac.uk/chebi/searchId.do?chebiId=${xref.crossReference.accession}'>${xref.crossReference.accession}</a>
+                                                                <h5><span><a href='http://www.ebi.ac.uk/chebi/searchId.do?chebiId=${xref.crossReference.accession}'>${xref.crossReference.accession}</a></span></h5>
                                                                     </c:otherwise>
                                                                 </c:choose>
                                                             </c:forEach>
-                                                        </td>
-                                                    </tr>
-                                                </c:forEach>
-                                            </table>
+                                                            </div>
+                                                        </li>
+                                                    </c:forEach>
+                                            </ul>
+                                            </div>
+
                                         </div>
                                     </c:if>
 
                                     <c:if test="${compound.mc.hasPathways}">
                                         <div role="tabpanel" class="tab-pane" id="pathways">
+                                            <br>
                                             <!-- Pathways Container -->
                                             <div id="pathwayContainer" height="100%" width="100%">
                                                 <p class="text-center"><br><br><br><img src="${pageContext.request.contextPath}/img/beta_loading.gif"></p>
@@ -342,17 +345,22 @@
                                         <div role="tabpanel" class="tab-pane" id="msspectra">
 
                                             <br>
-                                            <div class="panel panel-default">
-                                                <div class="panel-body">
-                                                    <p><a href="http://splash.fiehnlab.ucdavis.edu/">Splash - The Spectral Hash Identifier</a> <span class="pull-right" id="splash-container"></span></p>
+                                            <div class="col-md-12">
+                                                <!-- MS Spectra -->
+                                                <label for="msSpectraList">&emsp;Select spectra</label>
+                                                <select multiple class="form-control" id="msSpectraList"></select>
+                                                <div id="MSSpeckTackle" class="grid_24" style="height: 500px"></div>
+                                                <div class="col-md-12 well">
+                                                    <div id="msInfo" class="grid_23 specs"></div>
+                                                </div>
+                                                <br>
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <p><a href="http://splash.fiehnlab.ucdavis.edu/">Splash - The Spectral Hash Identifier</a> <span class="pull-right" id="splash-container"></span></p>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <!-- MS Spectra -->
-
-                                            <select multiple class="form-control" id="msSpectraList"></select>
-
-                                            <div id="MSSpeckTackle" class="grid_24" style="height: 500px"></div>
-                                            <div id="msInfo" class="grid_23 specs"></div>
+                                            <br>
                                             <script>
                                                 var msInfo = [
                                                     <c:set var="count" value="0" scope="page"/>
@@ -385,6 +393,7 @@
                                     </c:if>
                                     <c:if test="${compound.mc.hasReactions}">
                                         <div role="tabpanel" class="tab-pane" id="reactions">
+                                            <br>
                                             <div id="reactions-content">
                                                 <p class="text-center"><br><br><br><img src="${pageContext.request.contextPath}/img/beta_loading.gif"></p>
                                             </div>
@@ -409,6 +418,28 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="study-details-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>Study Details</div>
+            </div>
+            <div class="modal-body">
+                <div id="modal-info">
+                    <h3 id="study--title"></h3><hr>
+                    <p><label>Study Description:</label></p>
+                    <p id="study--description"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary ml--button" id="study--link" target="_blank" href="">View Study</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <%--End of content --%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -440,6 +471,7 @@
         loadSpectralist("#nmrSpectraList", nmrInfo);
     }
     function loadSpectralist(listSelector, spectraList) {
+
         // Get the SELECT ELEMENT
         var list = $(listSelector)[0];
         // Loop through the spectraList...
@@ -498,6 +530,7 @@
     function loadSpectraAndInfo(spectra, infoDiv) {
         loadSPLASH(spectra[0]['url']);
         loadSpectra(spectra);
+
         if (spectra.length == 1) {
             loadSpectraInfo(spectra[0], infoDiv);
             $(infoDiv).show();
@@ -536,6 +569,7 @@
 //        {
         // Take the first one to knoe the type
         var spectrum = spectra[0];
+
         if (spectrum.type == "NMR") {
             data = NMRarray;
         } else {
@@ -543,13 +577,18 @@
         }
         /* Remove all the spectra */
         data.remove();
+
         var urls = new Array();
         // Loop through the spectra to create a list of urls
         for (index = 0; index < spectra.length; ++index) {
             urls.push(spectra[index].url);
         }
+        console.log(urls)
+        alert();
+
         data.add(urls);
     }
+
     function loadSpectrum(spectrum) {
         if (spectrum.type == "NMR") {
             data = NMRarray;
@@ -575,12 +614,36 @@
 
     var pathwaysretrieved = false;
     var dDisplayed = false;
+    var studyDataRetrieved = false;
 
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-        var target = $(e.target).attr("href") // activated tab
+    $( document ).ready(function() {
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            var target = $(e.target).attr("href") // activated tab
+            loadData(target);
+        });
+
+        var url = document.location.toString();
+        if (url.match('#')) {
+            $('.nav-tabs a[href=#'+url.split('#')[1]+']').tab('show');
+            window.scrollTo(0, 0);
+            loadData(url.split('#')[1]);
+        }
+
+        $('.nav-tabs a').on('shown.bs.tab', function (e) {
+            window.location.hash = e.target.hash;
+        })
+
+    });
+
+    function loadData(target){
         if (target == '#pathways') {
-            if (!pathwaysretrieved) {
+            if (!studyDataRetrieved) {
                 pathways.displayPathwayData("${compound.mc.chebiId}", 'pathwayContainer');
+                studyDataRetrieved = true;
+            }
+        } else if (target == '#biology') {
+            if (!pathwaysretrieved) {
+                loadStudyData();
                 pathwaysretrieved = true;
             }
         } else if (target == '#nmrspectra') {
@@ -593,133 +656,174 @@
             $('#literature-content').html( literature.getLiterature("${compound.mc.accession}"));
         } else if (target == '#3d') {
             if(!dDisplayed){
-                $("#appdiv").html(Jmol.getAppletHtml("jmolApplet0", Info));
-                javascript:Jmol.loadFile(jmolApplet0,'$'+'${compound.chebiEntity.smiles}');
+                display3DMol();
                 dDisplayed = true;
             }
         }
-    });
-
-
-</script>
-
-    <script type="text/javascript">
-
-    Jmol._isAsync = false;
-
-    // last update 2/18/2014 2:10:06 PM
-
-    var jmolApplet0; // set up in HTML table, below
-
-    // logic is set by indicating order of USE -- default is HTML5 for this test page, though
-
-    var s = document.location.search;
-
-    // Developers: The _debugCode flag is checked in j2s/core/core.z.js,
-    // and, if TRUE, skips loading the core methods, forcing those
-    // to be read from their individual directories. Set this
-    // true if you want to do some code debugging by inserting
-    // System.out.println, document.title, or alert commands
-    // anywhere in the Java or Jmol code.
-
-
-    var Info = {
-        width: '100%',
-        height: 300,
-        debug: false,
-        color: "0xFFFFFF",
-        use: "HTML5",   // JAVA HTML5 WEBGL are all options
-        j2sPath: "${pageContext.request.contextPath}/javascript/j2s", // this needs to point to where the j2s directory is.
-        jarPath: "${pageContext.request.contextPath}/javascript/java",// this needs to point to where the java directory is.
-        jarFile: "JmolAppletSigned.jar",
-        isSigned: true,
-
-        serverURL: "http://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php",
-
-        disableJ2SLoadMonitor: true,
-        disableInitialConsole: true,
-        allowJavaScript: true,
-        addSelectionOptions: false
-        //console: "none", // default will be jmolApplet0_infodiv, but you can designate another div here or "none"
     }
 
-    var lastPrompt=0;
+
+    var width = document.getElementById('displayMol').offsetWidth - 20;
+    var height = document.getElementById('displayMol').offsetHeight;
+    $("#3dDisplay").width(width).height(height);
+    var viewer = $3Dmol.createViewer($("#3dDisplay"));
+    viewer.setBackgroundColor('white');
+
+    function display3DMol(){
+        var inchikey = '${compound.chebiEntity.inchiKey}';
+
+        var xmlhttp;
+        var url ="http://cactus.nci.nih.gov/chemical/structure/"+inchikey+"/sdf";
+        if (window.XMLHttpRequest)
+        {// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp=new XMLHttpRequest();
+        }
+        else
+        {// code for IE6, IE5
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange=function()
+        {
+            if (xmlhttp.readyState==4 && xmlhttp.status==200)
+            {
+                var mol = xmlhttp.responseText;
+                viewer.clear();
+                viewer.addAsOneMolecule(mol, "sdf");
+                viewer.setStyle({},{stick: {radius:0.2}});
+                viewer.zoomTo();
+                viewer.render();
+            }
+        }
+        xmlhttp.open("GET",url,true);
+        xmlhttp.send();
+
+    }
+
+
+
+    function loadStudyData() {
+        $('.ml--studyid').each(function (i, obj) {
+            LoadStudyDetails(obj.text)
+        });
+    }
+
+    function LoadStudyDetails(id) {
+        $.ajax({
+            type: 'GET',
+            async: false,
+            cache: false,
+            url: "../metabolights/webservice/study/" + id + "/lite",
+            success: function (data) {
+                var studyDetails = data['content'];
+                $("." + id + "--title").html(" " + studyDetails['title'] + "<a data-target='#study-details-modal' data-toggle='modal' data-studyid='" +id+ "'> <small>more...</small></a>" );
+                $("." + id + "--description").text(studyDetails['description']);
+            },
+            error: function (xhr, status, errorThrown) {
+                console.log('STATUS ' + status);
+                console.log('ERROR THROWN ' + errorThrown);
+                done();
+            }
+        });
+    }
+
+
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.10/vue.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.17/vue-resource.js"></script>
+
+
+<script>
+    $('#study-details-modal').on('show.bs.modal', function(e) {
+        var studyid = $(e.relatedTarget).data('studyid');
+        var title = $("."+studyid+"--title").text();
+        var description = $("."+studyid+"--description").text();
+        //console.log(title);
+        //console.log(description);
+        $(this).find('#study--title').text(title);
+        $(this).find('#study--link').attr("href","../metabolights/"+studyid);
+        $(this).find('#study--description').text(description);
+    });
+</script>
+
 <script>
 
-    var vm = new Vue({
-        //http: {
-        //    headers: {
-        //     'user_token' : '6996ca30-672c-4cda-9a0e-d113d640776f'
-        //    }
-        //},
-        el: '#app',
-        data: {
-            metabolight: 'MTBLC15355',
-            inchikey: "",
-            inchicode: "",
-            formula: "",
-            molweight: "",
-            exactmass: "",
-            synonyms: [],
-            chemicalproperties: {
-                inchikey: "${compound.chebiEntity.inchiKey}"
-            },
-            externalids: [],
-            kegg: []
-        },
-        methods: {
-            loadMTBLCCP: function(){
-                this.$http.get('http://cts.fiehnlab.ucdavis.edu/service/compound/'+this.chemicalproperties.inchikey, function (data, status, request) {
-                    this.synonyms = this.getNames(data.synonyms)
-                    this.inchikey = data.inchikey
-                    this.inchicode = data.inchicode
-                    this.molweight = data.molweight
-                    this.exactmass = data.exactmass
-                    this.formula = data.formula
-                    this.extractIds(data.externalIds)
 
-                    this.synonyms
+    window.onload = function () {
 
-                }).error(function (data, status, request) {
-                    alert('Cannot fetch Compound details');
-                });
+        var vm = new Vue({
+            //http: {
+            //    headers: {
+            //     'user_token' : '6996ca30-672c-4cda-9a0e-d113d640776f'
+            //    }
+            //},
+            el: '#app',
+            data: {
+                metabolight: 'MTBLC15355',
+                inchikey: "",
+                inchicode: "",
+                formula: "",
+                molweight: "",
+                exactmass: "",
+                synonyms: [],
+                chemicalproperties: {
+                    inchikey: "${compound.chebiEntity.inchiKey}"
+                },
+                externalids: [],
+                kegg: []
             },
-            extractIds: function(eids , ex){
-                var tempArray = {};
-                var arrayLength = eids.length;
-                for (var i = 0; i < arrayLength; i++) {
-                    if (tempArray[eids[i].name]){
-                        tempArray[eids[i].name].push(" <span><a href='" + eids[i].url + "'>" + eids[i].value + "</a></span> ");
-                    }else{
-                        tempArray[eids[i].name] = [" <span><a href='" + eids[i].url + "'>" + eids[i].value + "</a></span> "];
+            methods: {
+                loadMTBLCCP: function(){
+                    this.$http.get('https://crossorigin.me/http://cts.fiehnlab.ucdavis.edu/service/compound/'+this.chemicalproperties.inchikey, function (data, status, request) {
+                        this.synonyms = this.getNames(data.synonyms)
+                        this.inchikey = data.inchikey
+                        this.inchicode = data.inchicode
+                        this.molweight = data.molweight
+                        this.exactmass = data.exactmass
+                        this.formula = data.formula
+                        this.extractIds(data.externalIds)
+
+                    }).error(function (data, status, request) {
+                        alert('Cannot fetch Compound details');
+                    });
+                },
+                extractIds: function(eids , ex){
+                    var tempArray = {};
+                    var arrayLength = eids.length;
+                    for (var i = 0; i < arrayLength; i++) {
+                        if (tempArray[eids[i].name]){
+                            tempArray[eids[i].name].push(" <span><a href='" + eids[i].url + "'>" + eids[i].value + "</a></span> ");
+                        }else{
+                            tempArray[eids[i].name] = [" <span><a href='" + eids[i].url + "'>" + eids[i].value + "</a></span> "];
+                        }
                     }
+                    this.externalids = tempArray;
+                    var result = eids.filter(function( obj ) {
+                        return obj.name == 'KEGG';
+                    });
+                    this.kegg = result;
+                },
+                getNames: function(data) {
+                    synonymns = [];
+                    for (obj in data) {
+                        var tempSyn= data[obj].name;
+                        if( synonymns.indexOf(tempSyn)<0){
+                            synonymns.push(tempSyn);
+                        }
+                    }
+                    return synonymns;
                 }
-                this.externalids = tempArray;
-                var result = eids.filter(function( obj ) {
-                    return obj.name == 'KEGG';
-                });
-                this.kegg = result;
             },
-            getNames: function(data) {
-                synonymns = [];
-                for (obj in data) {
-                    var tempSyn= data[obj].name;
-                    if( synonymns.indexOf(tempSyn)<0){
-                        synonymns.push(tempSyn);
-                    }
-                }
-                return synonymns;
+
+            ready: function() {
+                this.loadMTBLCCP();
             }
-        },
+        })
+    }
 
-        ready: function() {
-            this.loadMTBLCCP();
-        }
-    })
+
+
+
 </script>
 
 

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:cml="http://www.xml-cml.org/schema" width="288.574" height="201.89" x="0" y="0" font-family="sans-serif" stroke="rgb(0,0,0)" stroke-width="1" >
+<line x1="90.4" y1="129.5" x2="73.0" y2="153.5"/>
+<line x1="141.8" y1="88.6" x2="179.9" y2="76.3"/>
+<line x1="143.7" y1="94.3" x2="181.7" y2="82.0"/>
+<line x1="180.8" y1="79.1" x2="210.5" y2="105.9"/>
+<line x1="180.8" y1="79.1" x2="187.0" y2="50.2"/>
+<line x1="213.5" y1="106.5" x2="207.3" y2="135.5"/>
+<line x1="207.6" y1="105.3" x2="201.4" y2="134.2"/>
+<line x1="210.5" y1="105.9" x2="238.7" y2="96.7"/>
+<line x1="77.1" y1="94.3" x2="49.0" y2="85.2"/>
+<line x1="79.0" y1="88.6" x2="50.8" y2="79.5"/>
+<line x1="130.4" y1="129.5" x2="90.4" y2="129.5"/>
+<line x1="124.4" y1="122.3" x2="96.4" y2="122.3"/>
+<line x1="90.4" y1="129.5" x2="78.0" y2="91.5"/>
+<line x1="78.0" y1="91.5" x2="102.0" y2="74.1"/>
+<line x1="118.8" y1="74.1" x2="142.8" y2="91.5"/>
+<line x1="142.8" y1="91.5" x2="130.4" y2="129.5"/>
+<text x="51.291530" y="166.689524" fill="rgb(30,239,30)"  stroke="rgb(30,239,30)" stroke-width="1" font-size="16" >Cl</text>
+<text x="183.122348" y="48.320000" fill="rgb(30,239,30)"  stroke="rgb(30,239,30)" stroke-width="1" font-size="16" >Cl</text>
+<text x="198.615206" y="149.817032" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >O</text>
+<text x="243.773935" y="87.130449" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="32" >-</text>
+<text x="242.573935" y="101.850449" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >O</text>
+<text x="36.400000" y="87.445904" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >O</text>
+<text x="104.402940" y="76.295174" fill="rgb(255,12,12)"  stroke="rgb(255,12,12)" stroke-width="1" font-size="16" >O</text>
+<text font-size="18.000000" fill ="black" font-family="sans-serif"
+x="140.000000" y="20.000000" ></text>
+<title> - OBDepict</title>
+</svg>

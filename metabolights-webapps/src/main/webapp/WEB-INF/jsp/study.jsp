@@ -34,12 +34,15 @@
 <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/ChEBICompound.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css"  type="text/css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/css/bootstrap-tour.css"  type="text/css" />
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/css/bootstrap-select.min.css">
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.js" charset="utf-8"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.ChEBICompound.js" charset="utf-8"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/jquery.linkify-1.0-min.js" charset="utf-8"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/chebicompoundpopup.js" charset="utf-8"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/MetExplore/metExploreViz/metexploreviz.js" charset="utf-8"></script>
 
 
 
@@ -106,18 +109,18 @@
     <div class="study--wrapper col-md-12">
 
         <h2 class="study--title">
-            <span class="study--id">${study.studyIdentifier}:</span>&nbsp;
+            <span class="study--id" id="mStudyId">${study.studyIdentifier}:</span>&nbsp;
             ${study.title}
         </h2>
 
         <div class="study--infopanel">
 
             <div class="col-md-5 no--padding">
-                <p><i class="fa fa-user"></i>&nbsp;
+                <p><i class="fa fa-user"></i>&nbsp;<spring:message code="label.subm"/>:
                     <c:forEach var="contact" items="${study.contacts}" varStatus="loopStatus">
                         <c:if test="${loopStatus.index ne 0}">, </c:if>
                             <span id="aff" <c:if test="${not empty contact.affiliation}">title="${contact.affiliation}"</c:if>>
-                                ${contact.firstName}&nbsp;${contact.lastName}
+                                 <strong>${contact.firstName}&nbsp;${contact.lastName}</strong>
                             </span>
                     </c:forEach>
                 </p>
@@ -126,6 +129,8 @@
                     <a data-toggle="modal" data-target="#shareStudy"><i class="fa fa-link"></i>&nbsp;
                         <spring:message code="label.study.share"/>
                     </a>
+                    <%-- &nbsp;|&nbsp;
+                    <a href="${pageContext.request.contextPath}/beta/${study.studyIdentifier}" class="icon icon-generic" data-icon="&lt;">BETA</a> --%>
                 </div>
             </div>
 
@@ -145,8 +150,12 @@
                                                                             value="${study.updateDate}"/></strong>
                     </c:if>
                 </p>
-                <p class="text-right"><i class="fa fa-bookmark"></i>&nbsp;<spring:message
-                        code="ref.msg.status"/>:&nbsp;${study.studyStatus.descriptiveName}</p>
+                <p class="text-right" id="mStudyStatus"><i class="fa fa-bookmark"></i>&nbsp;<spring:message
+                        code="ref.msg.status"/>:&nbsp;${study.studyStatus.descriptiveName}
+                &emsp;
+
+                    <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="bottom" id="tourButton" title="Study Tour"><i class="fa fa-compass"></i></button>
+                </p>
             </div>
         </div>
 
@@ -155,20 +164,17 @@
 
                 <div class="btn-group" role="group">
                     <c:if test="${fn:length(study.assays) eq 1}">
-                        <button type="button" class="btn btn-default dropdown-toggle quicklinks" data-assayid="1" data-destination="assay<c:if test="${fn:length(study.assays) gt 0}">${assay.assayNumber}</c:if>">
+                        <button type="button" class="btn btn-default dropdown-toggle quicklinks" data-assayid="1" data-destination="assay<c:if test="${fn:length(study.assays) gt 0}">${assay.assayNumber}</c:if>" <c:if test="${(empty study.assays[0].metaboliteAssignment) and ( empty study.assays[0].metaboliteAssignment.metaboliteAssignmentFileName) }">disabled</c:if> >
                             <i class="ml--icons fa fa-fire pull-left"></i> View Metabolites
                             <span class="icon icon-conceList of study filesptual" data-icon="b"></span><spring:message code="label.assays"/><c:if test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if>
                         </button>
                     </c:if>
                     <c:if test="${fn:length(study.assays) gt 1}">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ml--icons fa fa-fire pull-left"></i> View Metabolites
-                            <span class="caret"></span>
-                        </button>
                         <ul class="dropdown-menu">
                             <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
                                 <li>
                                     <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
+                                        <c:set var="mafExist" value="true"/>
                                         <a class="quicklinks" data-assayid="<c:if test="${fn:length(study.assays) gt 0}">${assay.assayNumber}</c:if>" data-destination="assay<c:if test="${fn:length(study.assays) gt 0}">${assay.assayNumber}</c:if>" >
                                             <span class="icon icon-conceList of study filesptual" data-icon="b"></span><spring:message code="label.assays"/><c:if test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if>
                                         </a>
@@ -176,6 +182,11 @@
                                 </li>
                             </c:forEach>
                         </ul>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" <c:if test="${mafExist ne true}">disabled</c:if>>
+                            <i class="ml--icons fa fa-fire pull-left"></i> View Metabolites
+                            <span class="caret"></span>
+                        </button>
+
                     </c:if>
 
 
@@ -205,12 +216,12 @@
                     <c:if test="${not empty study.assays}">
                         <c:if test="${fn:length(study.assays) eq 1}">
                             <li role="presentation">
-                                <a class="assay--tab" href="#assay" aria-controls="assay${assay.assayNumber}" data-assayid="1" role="tab" data-toggle="tab">
-                                    <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
+                                <a class="assay--tab" href="#assay" aria-controls="assay" data-assayid="1" role="tab" data-toggle="tab">
+                                    <c:if test="${(not empty study.assays[0].metaboliteAssignment) and (not empty study.assays[0].metaboliteAssignment.metaboliteAssignmentFileName) }">
                                         <c:set var="metabolitesExist" value="true"/>
-                                        <span class="icon icon-conceptual" data-icon="b"></span>
+                                        <span id="study-metabolitesicon" class="icon icon-conceptual" data-icon="b"></span>
                                     </c:if>
-                                    <spring:message code="label.assays"/> <c:if test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if>
+                                    <spring:message code="label.assays"/>
                                 </a>
                             </li>
                         </c:if>
@@ -253,6 +264,42 @@
                             </a>
                         </li>
                     </c:if>
+                    <c:if test="${not empty study.assays}">
+                        <c:if test="${fn:length(study.assays) eq 1}">
+                                    <c:if test="${(not empty study.assays[0].metaboliteAssignment) and (not empty study.assays[0].metaboliteAssignment.metaboliteAssignmentFileName) }">
+                                        <c:set var="metabolitesExist" value="true"/>
+                                        <li role="presentation">
+                                        <a class="assay--tab" href="#metpathways" aria-controls="metpathways" data-assayid="1" role="tab" data-toggle="tab">
+                                            Pathways
+                                        </a>
+                                        </li>
+                                    </c:if>
+                        </c:if>
+                        <c:if test="${fn:length(study.assays) gt 1}">
+                            <li class="dropdown">
+                                <ul class="dropdown-menu">
+                                    <c:set var="metabolitesExist" value="false"/>
+                                    <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
+                                        <li>
+                                            <a class="assay--tab" href="#metpathways${assay.assayNumber}" aria-controls="metpathways${assay.assayNumber}" data-assayid="${assay.assayNumber}" role="tab" data-toggle="tab">
+                                                <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
+                                                    <c:set var="metabolitesExist" value="true"/>
+                                                    Pathways <c:if test="${fn:length(study.assays) gt 1}">(Assay&nbsp;${assay.assayNumber})</c:if>
+                                                </c:if>
+                                            </a>
+                                        </li>
+                                    </c:forEach>
+                                </ul>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <c:if test="${metabolitesExist eq true}">
+                                        Pathways &nbsp;<span class="caret"></span>
+                                    </c:if>
+
+                                </a>
+                            </li>
+                        </c:if>
+                    </c:if>
+
                 </ul>
 
                 <!-- Tab panes -->
@@ -404,16 +451,26 @@
                         <!-- TAB: Validations-->
                         <div id="tabs-validations" class="tab">
                             <c:if test="${not empty study.validations.entries}">
-                                <!-- Send report to submitter via email -->
+                                <!-- if Study fails any validations (status 1:RED, 2:AMBER, 3:GREEN)... -->
+                                <c:if test="${study.validations.status.status ne 3 }">
+                                    <!-- ...allow to send report to submitter via email -->
+                                    <sec:authorize access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
+                                        <div class="specs well">
+                                            <a class="noLine" rel="nofollow" href="${pageContext.request.contextPath}/${study.studyIdentifier}/validations/statusReportByMail" title="<spring:message code="label.sendValidationsStatusReport"/>">
+                                                <span class="icon icon-generic" data-icon="E"/><spring:message code="label.sendValidationsStatusReport"/></a>
+                                        </div>
+                                    </sec:authorize>
+                                </c:if>
+
                                 <sec:authorize access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
                                     <div class="specs well">
-                                        <a class="noLine" rel="nofollow" href="${pageContext.request.contextPath}/${study.studyIdentifier}/validations/statusReportByMail" title="<spring:message code="label.sendValidationsStatusReport"/>">
-                                            <span class="icon icon-generic" data-icon="E"/><spring:message code="label.sendValidationsStatusReport"/></a>
+                                        <spring:message code="label.experimentMsgPublic"/>
                                     </div>
                                 </sec:authorize>
 
+
                                 <div class="specs well">
-                                    Validations marked with (*) are specially approved by the MetaboLights Curators
+                                    <spring:message code="msg.curatorsOverride"/>
                                 </div>
                                 <c:choose>
                                     <c:when test="${curator}">
@@ -661,6 +718,88 @@
                     </c:if>
 
 
+                    <c:if test="${fn:length(study.assays) eq 1}">
+                        <c:if test="${not empty study.assays}">
+                            <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
+                                <div role="tabpanel" class="tab-pane" id="metpathways">
+
+                                    <div class="col-md-12">
+                                        <h3 class="well">Pathways - Assay&nbsp;<c:if test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if></h3>
+
+                                        <div class="well col-md-12">
+                                            <div class="">
+                                                <label>&emsp;&emsp;Select Pathway(s)</label><br>
+                                                <div class="col-xs-11">
+                                                    <div class="form-group">
+                                                        <select class="selectpicker form-control" id="metPathwaysSelect" multiple data-live-search="true">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group">
+                                                        <a class="btn btn-success ml--button form-control" id="loadPathways" role="button">Load</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-12">
+                                                <div class="col-md-12">
+                                                    <div id="metExploreContainer">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <div class="col-md-12">
+                                            <div id="metPathwaysMappingDataContainer">
+                                                <div class="">
+                                                    <br>
+                                                    <div class="well">
+                                                        <h4>MetExplore Pathways Mapping</h4>
+                                                    </div>
+                                                    <table class="table" id="metExploreTable">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Name</th>
+                                                            <th>DB Identifier</th>
+                                                            <th>Mapped Metabolite(s)</th>
+                                                            <th>p value</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="metPathwaysMappingDataTable" >
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                    </div>
+
+                                </div>
+                            </c:forEach>
+                        </c:if>
+                    </c:if>
+
+                    <c:if test="${fn:length(study.assays) gt 1}">
+                        <c:if test="${not empty study.assays}">
+                            <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
+                                <div role="tabpanel" class="tab-pane" id="metpathways${assay.assayNumber}">
+                                    <h3>Pathways - Assay&nbsp;<c:if test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if></h3>
+                                    <div class="col-md-12">
+                                        <div id="metExploreContainer"></div>
+                                    </div>
+                                </div>
+                            </c:forEach>
+                        </c:if>
+                    </c:if>
+
+
 
                     <div role="tabpanel" class="tab-pane" id="files">
                         <c:if test="${not empty files}">
@@ -670,7 +809,7 @@
                                 <c:set var="token" value="?token=${study.obfuscationCode}"/>
                             </c:if>
 
-                            <form id="selFilesForm" action="/metabolights/${study.studyIdentifier}/files/downloadSelFiles" method="post">
+                            <form id="selFilesForm" action="${pageContext.request.contextPath}/${study.studyIdentifier}/files/downloadSelFiles" method="post">
                                 <h5 class="well">
                                     <!--  Request FTP folder -->
                                     <c:if test="${(study.studyStatus == 'SUBMITTED') and !hasPrivateFtpFolder }">
@@ -713,21 +852,53 @@
                                 <div id="noAspera" class="noAspera"></div>
 
                                 <h4><spring:message code="label.fileListTableExplanation"/></h4>
-                                <div class="">
                                     <div class="input-group">
                                         <input class="inputDiscrete form-control" id="fileSelector" type="text" placeholder="<spring:message code='label.fileList.Input.placeholder'/>">
                                           <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button">?</button>
+                                              <button type="button" class="btn btn-primary ml--btngrpoup" data-toggle="modal" data-target=".bs-example-modal-lg">?</button>
                                           </span>
                                     </div><!-- /input-group -->
+
+
+                                <!--
+                                    Help modal content
+                                -->
+
+                                <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title">Help</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>
+                                                    <spring:message code='label.fileList.Input.placeholder'/><br>
+                                                    Example:
+                                                    <br>
+                                                    > Type <b>.txt</b> and then press <b>Enter or CMD</b> to select all files with .txt extension<br>
+                                                    > Type <b>!.txt</b> and then press <b>Enter or CMD</b> to deselect all files with .txt extension
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal-dialog -->
                                 </div>
+
+
                                 <c:if test="${!study.publicStudy}">
                                     <input type="hidden" name="token" value="${study.obfuscationCode}">
                                 </c:if>
                                 <table id="files" class="filesTable table table-striped table-bordered" style="width: 100%;">
                                     <thead>
                                     <tr>
-                                        <th>Select</th>
+                                        <th>
+                                                <label>
+                                                    <input type="checkbox" name="checkAll" id="checkAll">&emsp;Select all
+                                                </label>
+                                        </th>
                                         <th>File</th>
                                     </tr>
                                     </thead>
@@ -735,7 +906,7 @@
                                     <c:forEach var="file" items="${files}">
                                         <%--<c:if test="${!file.directory}">--%>
                                         <tr>
-                                            <td><input type="checkbox" name="file" value="${file.name}"/></td>
+                                            <td><input type="checkbox" class="ml--file" name="file" value="${file.name}"/></td>
                                             <td>
                                                 <a rel="nofollow" href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/${file.name}${token}">${file.name}</a>
                                             </td>
@@ -744,6 +915,18 @@
                                     </c:forEach>
                                     </tbody>
                                 </table>
+
+                                <script>
+                                    $("#checkAll").click(function () {
+                                        if ($("#checkAll").is(':checked')) {
+                                            $(".ml--file").prop("checked", true);
+                                        } else {
+                                            $(".ml--file").prop("checked", false);
+                                        }
+                                    });
+                                </script>
+
+
 
 
                                 <div style="position: relative; width: 100%;">
@@ -820,7 +1003,7 @@
 
                                                 <!-- <p><input class="inputDiscrete resizable" id="ftpFileSelector" class="" type="text" placeholder="<spring:message code='label.ftpFileList.Input.placeholder'/>"></p> -->
 
-                                                <table id="privFtpFiles" class="ftpFiles">
+                                                <table id="privFtpFiles" class="ftpFiles table table-striped table-bordered">
                                                     <tr>
                                                         <th>Select</th>
                                                         <th>File</th>
@@ -906,6 +1089,7 @@
             </div>
         </div>
     </div>
+    <div id="chebiInfo"></div>
 </div>
 
 <div class="modal fade" id="shareStudy" role="dialog">
@@ -941,10 +1125,78 @@
 
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/dataTables.conditionalPaging.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/js/bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/js/i18n/defaults-*.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/js/bootstrap-tour.js"></script>
+
+<script type="text/javascript">
+    // Instance the tour
+    var tour = new Tour({
+        steps: [
+            {
+                element: "#mStudyId",
+                title: "Title of my step",
+                content: "Content of my step",
+                placement: "bottom"
+            },
+            {
+                element: "#mStudyStatus",
+                title: "Title of my step",
+                content: "Content of my step",
+                placement: "bottom"
+            }
+        ]
+
+    });
+
+    $('#tourButton').click(function(e){
+        tour.init(true);
+        tour.start(true);
+        // it's also good practice to preventDefault on the click event
+        // to avoid the click triggering whatever is within href:
+        e.preventDefault();
+    });
+
+
+</script>
 
 <script type="text/javascript" charset="utf-8">
 
     $(document).ready(function() {
+
+
+
+        function showPleaseWait() {
+            var modalLoading = '<div class="modal" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false role="dialog">\
+                <div class="modal-dialog waiting--dialog">\
+                    <div class="modal-content">\
+                        <div class="modal-header">\
+                            <h4 class="modal-title">Loading pathways</h4>\
+                        </div>\
+                        <div class="modal-body">\
+                            <div class="progress">\
+                              <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar"\
+                              aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%; height: 40px">\
+                              </div>\
+                            </div>\
+                        </div>\
+                    </div>\
+                </div>\
+            </div>';
+            $(document.body).append(modalLoading);
+            $("#pleaseWaitDialog").modal("show");
+        }
+
+        /**
+         * Hides "Please wait" overlay. See function showPleaseWait().
+         */
+        function hidePleaseWait() {
+            $("#pleaseWaitDialog").modal("hide");
+        }
+
+
         $('#transferDiv').toggle();
 
         jQuery(function ($) {
@@ -969,6 +1221,116 @@
             getMAFFile(id);
         });
 
+
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            var target = $(e.target).attr("href") // activated tab
+            loadData(target);
+        });
+
+        $('.selectpicker').selectpicker({
+            style: 'btn-info'
+        });
+
+        function loadData(target){
+            if (target == '#metpathways') {
+                loadPathwaysDropdown();
+            }
+        }
+
+
+        function loadPathwaysDropdown(){
+            MetExploreViz.initFrame("metExploreContainer");
+            getMetExploreMappingData();
+        }
+
+        var metExploreDataJSONObj;
+
+        function getMetExploreMappingData(){
+            showPleaseWait();
+            var url = "/metabolights/webservice/study/${study.studyIdentifier}/getMetExploreMappingData";
+            $.ajax({
+                url : url,
+                type : 'GET',
+                dataType:'json',
+                success : function(data) {
+                    metExploreDataJSONObj = JSON.parse(data.content);
+                    //console.log(metExploreDataJSONObj)
+                    var select = document.getElementById("metPathwaysSelect");
+                    for(var key in metExploreDataJSONObj.pathwayList){
+                        var pathway = metExploreDataJSONObj.pathwayList[key]
+                        if(pathway.mappedMetabolite > 0){
+                            //console.log(pathway);
+                            var option = document.createElement("option");
+                            option.text = pathway.name + "(" + pathway.mappedMetabolite + ")";
+                            option.value = pathway.mysqlId;
+                            select.appendChild(option);
+
+                            $('#metPathwaysMappingDataTable').append('<tr><td>' + pathway.name + '</td><td>' + pathway.dbIdentifier + ' (' + pathway.numberOfMetabolite + ')</td><td>' + pathway.mappedMetabolite + '</td><td></td></tr>');
+
+                        }
+                    }
+
+                    $('#metExploreTable').DataTable({
+                        "order": [[ 2, "desc" ]]
+                    });
+                    $('.selectpicker').selectpicker('refresh');
+
+                    hidePleaseWait();
+
+                },
+                error : function(request,error)
+                {
+                    alert("Request: "+JSON.stringify(request));
+                }
+            });
+        }
+
+
+        $('#loadPathways').on('click', function(){
+            //alert();
+            showPleaseWait();
+            loadPathways($('.selectpicker').selectpicker('val'));
+            hidePleaseWait();
+        });
+
+        function loadPathways(ids){
+            MetExploreViz.onloadMetExploreViz(function(){
+                var url = "http://metexplore.toulouse.inra.fr:8080/metExploreWebService/mapping/graphresult/38285/filteredbypathway?pathwayidlist=("+ids.toString()+")";
+                $.ajax({
+                    url : url,
+                    type : 'GET',
+                    async: false,
+                    dataType:'json',
+                    success : function(data) {
+                        loadPathwayData(JSON.stringify(data))
+                    },
+                    error : function(request,error)
+                    {
+                        alert("Request: "+ JSON.stringify(request));
+                    }
+                });
+
+            });
+        }
+
+
+        function loadPathwayData(myJsonString){
+
+            metExploreViz.GraphPanel.refreshPanel(myJsonString, function(){
+                metExploreViz.onloadSession(function(){
+                    var mapJSON = metExploreViz.GraphUtils.parseWebServiceMapping(myJsonString);
+                    //Load mapping
+                    metExploreViz.GraphMapping.loadDataFromJSON(mapJSON);
+                    //Highlight
+                    metExploreViz.GraphMapping.mapNodes("Global Mapping");
+                    // //Color nodes
+                    //metExploreViz.GraphMapping.graphMappingContinuousData("mapping_D-Galactose", "conditionName1");
+                });
+            });
+
+        }
+
+
         function getMAFFile(id){
             wrapperDiv = $('#mafTableWrapper'+id);
             assayid = id;
@@ -981,6 +1343,75 @@
                 wrapperDiv.html(data);
                 $('.maf').addClass("table table-striped table-bordered")
                 $('.maf').DataTable();
+
+                var chebiInfoDiv = new Biojs.ChEBICompound({target: 'chebiInfo',width:'400px', height:'300px',proxyUrl:undefined, chebiDetailsUrl: 'http://www.ebi.ac.uk/webservices/chebi/2.0/test/getCompleteEntity?chebiId='});
+                $('#chebiInfo').hide();
+
+
+                $("a.showLink").click(function(event) {
+                    var clickedId = event.target.id;
+                    var idClickedSplit = clickedId.split("_");
+                    /*id of the link is made up by 3 parts:
+                     part 1: name of the div (eg.: syn) this is used to distinguish the show more
+                     link of synonyms from the show more link in other divs
+                     part 2: "link" to distinguish the link for show more link from other
+                     ordinary links
+                     part 3: the order of the result item to distinguish the show more button
+                     in the result list is click. In case of filters of species or compounds
+                     the order is always 0
+                     */
+                    var idPrefixClicked = idClickedSplit[0];
+                    /*var itemClicked = idClickedSplit[1];*/
+                    var orderOfItemClicked = idClickedSplit[2];
+                    var idOfHiddenText = "#"+idPrefixClicked+"_"+orderOfItemClicked;
+                    var jqClickedId= "#"+clickedId;
+                    if ($(idOfHiddenText).is(":hidden")){
+                        $(jqClickedId).text("Show less");
+                    }else{
+                        $(jqClickedId).text("Show more");
+                    }
+                    $(idOfHiddenText).slideToggle();
+                });
+                var metLinkTimer = 0; // 0 is a safe "no timer" value
+
+
+                function loadMetabolite(e) {
+                    // Clear this as flag there's no timer outstanding
+                    metLinkTimer = 0;
+                    var metlink;
+                    metlink = $(e.target);
+                    var metaboliteId = metlink.attr('identifier');
+                    // If its a chebi id
+                    if (metaboliteId.indexOf("CHEBI:")==0){
+                        //var mouseX = metlink.left + metlink.offsetParent.offsetLeft + metlink.offsetWidth + 80;
+                        //var mouseY = metlink.top + metlink.offsetParent.offsetTop + metlink.offsetParent.offsetParent.offsetTop;
+                        var offset = metlink.offset();
+                        var mouseX = offset.left + metlink.outerWidth() + 20;
+                        var mouseY = offset.top;
+                        chebiId = metaboliteId;
+                        $('#chebiInfo img:last-child').remove;
+                        $('#chebiInfo').css({'top':mouseY,'left':mouseX,'float':'left','position':'absolute','z-index':10});
+                        $('#chebiInfo').fadeIn('slow');
+                        chebiInfoDiv.setId(chebiId);
+                    }
+                }
+
+
+                $('.metLink').on('mouseenter', function(e) {
+                    // I'm assuming you don't want to stomp on an existing timer
+                    if (!metLinkTimer) {
+                        metLinkTimer = setTimeout(function(){loadMetabolite(e);}, 500); // Or whatever value you want
+                    }
+                }).on('mouseleave', function() {
+                    // Cancel the timer if it hasn't already fired
+                    if (metLinkTimer) {
+                        clearTimeout(metLinkTimer);
+                        metLinkTimer = 0;
+                    }
+                    $('#chebiInfo').fadeOut('slow');
+                });
+
+
             });
         }
 
@@ -991,7 +1422,8 @@
         $('.dataTable').DataTable();
 
         $('.protocols-table').DataTable({
-            "ordering": false
+            "ordering": false,
+            conditionalPaging: true
         });
 
 
@@ -1039,6 +1471,7 @@
 <script>
     $(document).ready(function () {
 
+
         var asperaLoaded = false;
 
         $(function () {
@@ -1058,8 +1491,6 @@
                 var downloadButton = $('<a id="downloadButton">Aspera: Download Study</a>');
 
                 $('#asperaDownloadWrapper').append(downloadButton);
-
-
 
                 function downloadButtonClick(e) {
                     $('#transferDiv').show();
