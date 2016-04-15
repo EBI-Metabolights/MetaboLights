@@ -45,23 +45,23 @@ We are currently developing this section
 
 </div>
 
-<%--<H3>MetaboAnalyst</H3>--%>
-<%--<p>--%>
-  <%--<a href="/metabolights/metaboanalyst"/>MetaboAnalyst</a> is a user-friendly, comprehensive web-based analytical pipeline for high-throughput metabolomics studies. Our version of MetaboAnalyst 3.0 is coupled with EBI's in-house R Cloud to faciliate--%>
-<%--compute intensive data analysis.</p>--%>
-<%--<div class="grid_24">--%>
-  <%--<ul>--%>
-    <%--<li>--%>
-      <%--<a href="http://www.ncbi.nlm.nih.gov/pubmed/25897128"/>Xia, J., Sinelnikov, I., Han, B., and Wishart, D.S. (2015). MetaboAnalyst 3.0 - making metabolomics more meaningful . Nucl. Acids Res. (DOI: 10.1093/nar/gkv380). </a>--%>
-    <%--</li>--%>
-    <%--<li>--%>
-      <%--<a href="http://www.ncbi.nlm.nih.gov/pubmed/22553367"/>Xia, J., Mandal, R., Sinelnikov, I., Broadhurst, D., and Wishart, D.S. (2012). MetaboAnalyst 2.0 - a comprehensive server for metabolomic data analysis . Nucl. Acids Res. 40, W127-W133.--%>
-    <%--</li>--%>
-    <%--<li>--%>
-      <%--<a href="http://www.ncbi.nlm.nih.gov/pubmed/19429898"/>Xia, J., Psychogios, N., Young, N. and Wishart, D.S. (2009). MetaboAnalyst: a web server for metabolomic data analysis and interpretation. Nucl. Acids Res. 37, W652-660</li>--%>
-  <%--</ul>--%>
+<H3>MetaboAnalyst</H3>
+<p>
+  <a href="/metabolights/metaboanalyst"/>MetaboAnalyst</a> is a user-friendly, comprehensive web-based analytical pipeline for high-throughput metabolomics studies. Our version of MetaboAnalyst 3.0 is coupled with EBI's in-house R Cloud to faciliate
+compute intensive data analysis.</p>
+<div class="grid_24">
+  <ul>
+    <li>
+      <a href="http://www.ncbi.nlm.nih.gov/pubmed/25897128"/>Xia, J., Sinelnikov, I., Han, B., and Wishart, D.S. (2015). MetaboAnalyst 3.0 - making metabolomics more meaningful . Nucl. Acids Res. (DOI: 10.1093/nar/gkv380). </a>
+    </li>
+    <li>
+      <a href="http://www.ncbi.nlm.nih.gov/pubmed/22553367"/>Xia, J., Mandal, R., Sinelnikov, I., Broadhurst, D., and Wishart, D.S. (2012). MetaboAnalyst 2.0 - a comprehensive server for metabolomic data analysis . Nucl. Acids Res. 40, W127-W133.
+    </li>
+    <li>
+      <a href="http://www.ncbi.nlm.nih.gov/pubmed/19429898"/>Xia, J., Psychogios, N., Young, N. and Wishart, D.S. (2009). MetaboAnalyst: a web server for metabolomic data analysis and interpretation. Nucl. Acids Res. 37, W652-660</li>
+  </ul>
 
-<%--</div>--%>
+</div>
 
 <%--
     <iframe>/metaboanalyst3</iframe>
