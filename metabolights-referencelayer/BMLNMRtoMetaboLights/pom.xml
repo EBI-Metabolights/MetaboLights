@@ -35,6 +35,14 @@
         <version>0.5</version>
     </parent>
 
+<repositories>
+    <repository>
+      <id>chebi-repo2</id>
+      <name>ChEBI Internal Repository</name>
+      <url>scp://prod.ebi.ac.uk/ebi/sp/pro1/chebi/maven2_repo</url>
+    </repository>
+</repositories>
+
 
     <build>
         <plugins>
@@ -120,8 +128,8 @@
             <version>1.2</version>
         </dependency>
         <dependency>
-            <groupId>bmrb.starlib</groupId>
-            <artifactId>starlib</artifactId>
+            <groupId>bmrb.starlibj</groupId>
+            <artifactId>bmrb.starlibj</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>
