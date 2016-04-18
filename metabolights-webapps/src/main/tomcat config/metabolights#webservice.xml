@@ -50,6 +50,7 @@
     <ResourceLink  name="mailServer" global="mailServer" type="java.lang.String"/>
     <ResourceLink  name="EBIHost" global="EBIHost" type="java.lang.String"/>
     <ResourceLink  name="curationEmailAddress" global="curationEmailAddress" type="java.lang.String"/>
+    <ResourceLink  name="BccPivotalEmailAddress" global="BccPivotalEmailAddress" type="java.lang.String"/>
 
     <!-- This is where the new web app looks for the users upload directory (LABS) -->
     <ResourceLink  name="userSpace" global="userSpace" type="java.lang.String"/>
