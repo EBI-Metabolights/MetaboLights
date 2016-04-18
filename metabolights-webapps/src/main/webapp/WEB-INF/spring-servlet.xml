@@ -113,6 +113,7 @@
     <jee:jndi-lookup id="mailServer"		        jndi-name="java:comp/env/mailServer"/>
     <jee:jndi-lookup id="EBIHost"		            jndi-name="java:comp/env/EBIHost"/>
     <jee:jndi-lookup id="curationEmailAddress"		jndi-name="java:comp/env/curationEmailAddress"/>
+    <jee:jndi-lookup id="BccPivotalEmailAddress"    jndi-name="java:comp/env/BccPivotalEmailAddress"/>
     <jee:jndi-lookup id="userSpace" jndi-name="java:comp/env/userSpace"/>
 
 
