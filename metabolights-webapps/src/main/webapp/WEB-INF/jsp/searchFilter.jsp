@@ -73,6 +73,7 @@ facets[].facet.lines[].FacetLine.checked
 		<h3><spring:message code="label.searchFilter"/></h3>
 
 		<c:forEach var="facet" items="${facets}">
+			<c:if test="${facet.name ne 'factors.name' && facet.name ne 'users.fullName' &&  facet.name ne 'descriptors.description'}">
 
 			<c:if test="${fn:length(facet.lines) gt 1}">
 				<c:set var="caption">
@@ -128,6 +129,7 @@ facets[].facet.lines[].FacetLine.checked
 						<script>fillAutocomplete('autocomplete_${facet.name}', availableTags);</script>
 					</c:if>
 				</ul>
+			</c:if>
 			</c:if>
 		</c:forEach>
 
