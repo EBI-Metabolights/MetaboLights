@@ -631,7 +631,6 @@
                                     <h3>Assay&nbsp;<c:if test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if></h3>
                                     <div class="specs well">
                                         <h5><spring:message code="label.assayName"/>:<b> <a href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/${assay.fileName}"><span class="icon icon-fileformats" data-icon="v">${assay.fileName}</span></a></b></h5>
-                                        <h5><spring:message code="label.measurement"/>: <b>${assay.measurement}</b></h5>
                                         <h5><spring:message code="label.technology"/>:  <b>${assay.technology}
                                             <c:if test="${fn:contains(assay.technology,'NMR')}">
                                                 <span aria-hidden="true" class="icon2-NMRLogo"></span>
