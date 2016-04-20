@@ -339,25 +339,25 @@ public class ElasticSearchService implements SearchService <Entity> {
 					.endObject();
 
 					// Users
-					startObject("users")
-						.startObject(PROPERTIES);
-							addObject("userName", "type", "string", "index", "not_analyzed");
-							addObject("fullName", "type", "string", "index", "not_analyzed");
-						endObject()
-					.endObject();
+//					startObject("users")
+//						.startObject(PROPERTIES);
+//							addObject("userName", "type", "string", "index", "not_analyzed");
+//							addObject("fullName", "type", "string", "index", "not_analyzed");
+//						endObject()
+//					.endObject();
 
 					// Factors
-					startObject("factors")
-						.startObject(PROPERTIES);
-							addObject("name", "type", "string", "index", "not_analyzed");
-						endObject()
-					.endObject();
+//					startObject("factors")
+//						.startObject(PROPERTIES);
+//							addObject("name", "type", "string", "index", "not_analyzed");
+//						endObject()
+//					.endObject();
 
-					startObject("descriptors")
-						.startObject(PROPERTIES);
-							addObject("description", "type", "string", "index", "not_analyzed");
-						endObject()
-					.endObject();
+//					startObject("descriptors")
+//						.startObject(PROPERTIES);
+//							addObject("description", "type", "string", "index", "not_analyzed");
+//						endObject()
+//					.endObject();
 
 					// Validations details
 					startObject("validations")
