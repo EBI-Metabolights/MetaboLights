@@ -471,6 +471,8 @@
 
                                 <div class="specs well">
                                     <spring:message code="msg.curatorsOverride"/>
+                                    <br>
+                                    <spring:message code="msg.validationsDescription"/>
                                 </div>
                                 <c:choose>
                                     <c:when test="${curator}">
