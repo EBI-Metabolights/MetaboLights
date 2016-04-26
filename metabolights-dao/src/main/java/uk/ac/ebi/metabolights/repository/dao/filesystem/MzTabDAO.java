@@ -129,10 +129,12 @@ public class MzTabDAO {
                     databaseIdentifier = fileData.get(MetaboliteAssignment.fieldNames.identifier.toString());     //Version 1 name for the column
 
                 if (databaseIdentifier.contains("|")){   //The submitter has submitted more than one metabolite per row, this is a supported feature of mzTab
-
-                    for (String eachMetabolite : databaseIdentifier.split("\\|")){   //We need to split the metabolite into separate lines.
+                    String[] databaseIdentifiers = databaseIdentifier.split("\\|");
+                    for (int i = 0; i < databaseIdentifiers.length; i++) {
                         MetaboliteAssignmentLine newAssignmentLine = setCommonMetaboliteLineValues(fileData, maxColumnNumber);
-                        newAssignmentLine.setDatabaseIdentifier(eachMetabolite);    //Update the identified metabolite
+                        newAssignmentLine.setDatabaseIdentifier(databaseIdentifiers[i]);    //Update the identified metabolite
+                        newAssignmentLine.setInchi(getValue(fileData.get(MetaboliteAssignment.fieldNames.inchi.toString()),i));      // split and setInchi
+                        newAssignmentLine.setSmiles(getValue(fileData.get(MetaboliteAssignment.fieldNames.smiles.toString()),i));   // split and setInchi
                         metaboliteAssignmentLines.add(newAssignmentLine);   //Add the row with only one metabolite reported
                     }
 
@@ -153,6 +155,12 @@ public class MzTabDAO {
 
         return metaboliteAssignmentLines;
 
+    }
+
+    private String getValue(String columnEntry, int index){
+        if(columnEntry.isEmpty()) return "";
+        String[] values = columnEntry.split("\\|");
+        return values[index];
     }
 
 

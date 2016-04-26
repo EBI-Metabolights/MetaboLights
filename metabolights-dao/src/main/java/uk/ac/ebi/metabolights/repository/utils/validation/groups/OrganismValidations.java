@@ -39,6 +39,10 @@ public class OrganismValidations implements IValidationProcess{
                     validation.setMessage("Organism name is not valid");
                     validation.setPassedRequirement(false);
                 }
+                if (organism.getOrganismName().equalsIgnoreCase("human")) {
+                    validation.setMessage("Organism name is invalid. Please provide us with the NCBI Homo Sapiens ontology annotation");
+                    validation.setPassedRequirement(false);
+                }
             }
 
         } else {

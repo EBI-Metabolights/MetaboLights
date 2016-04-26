@@ -470,6 +470,8 @@
 
                                 <div class="specs well">
                                     <spring:message code="msg.curatorsOverride"/>
+                                    <br>
+                                    <spring:message code="msg.validationsDescription"/>
                                 </div>
                                 <c:choose>
                                     <c:when test="${curator}">
@@ -630,7 +632,6 @@
                                     <h3>Assay&nbsp;<c:if test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if></h3>
                                     <div class="specs well">
                                         <h5><spring:message code="label.assayName"/>:<b> <a href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/${assay.fileName}"><span class="icon icon-fileformats" data-icon="v">${assay.fileName}</span></a></b></h5>
-                                        <h5><spring:message code="label.measurement"/>: <b>${assay.measurement}</b></h5>
                                         <h5><spring:message code="label.technology"/>:  <b>${assay.technology}
                                             <c:if test="${fn:contains(assay.technology,'NMR')}">
                                                 <span aria-hidden="true" class="icon2-NMRLogo"></span>
@@ -1103,7 +1104,7 @@
                 <h5><spring:message code="title.study.paper.link"/></h5>
                 <p><spring:message code="label.study.paper.link"/></p>
                 <p><input class="form-control" type="text" value="${fullContextPath}/${study.studyIdentifier}" readonly/></p>
-                <c:if test="${study.studyStatus == 'INREVIEW'}">
+                <c:if test="${(study.studyStatus == 'INREVIEW') || curator}">
                     <h5><spring:message code="title.study.private.link"/></h5>
                     <p><spring:message code="label.study.private.link"/></p>
                     <p><input class="inputDiscrete resizable" type="text" value="${fullContextPath}/reviewer${study.obfuscationCode}" readonly/></p>

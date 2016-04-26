@@ -156,11 +156,11 @@
                                                                     <div class="col-md-10 ml_trc"><b>Value</b></div>
                                                                 </div>
                                                                 <div class="col-md-12 ml_tr">
-                                                                    <div class="col-md-2 ml_trc">Inchikey</div>
+                                                                    <div class="col-md-2 ml_trc">InChIKey</div>
                                                                     <div class="col-md-10 ml_trc">{{ inchikey }}</div>
                                                                 </div>
                                                                 <div class="col-md-12 ml_tr">
-                                                                    <div class="col-md-2 ml_trc">Inchi</div>
+                                                                    <div class="col-md-2 ml_trc">InChI</div>
                                                                     <div class="col-md-10 ml_trc">{{ inchicode }}</div>
                                                                 </div>
                                                                 <div class="col-md-12 ml_tr">
