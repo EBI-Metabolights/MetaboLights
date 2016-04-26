@@ -152,9 +152,8 @@
                 </p>
                 <p class="text-right" id="mStudyStatus"><i class="fa fa-bookmark"></i>&nbsp;<spring:message
                         code="ref.msg.status"/>:&nbsp;${study.studyStatus.descriptiveName}
-                &emsp;
-
-                    <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="bottom" id="tourButton" title="Study Tour"><i class="fa fa-compass"></i></button>
+                    <%-- &emsp;
+                    <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="bottom" id="tourButton" title="Study Tour"><i class="fa fa-compass"></i></button>--%>
                 </p>
             </div>
         </div>
