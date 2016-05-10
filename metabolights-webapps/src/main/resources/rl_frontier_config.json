@@ -92,8 +92,8 @@
                     "href": "/metabolights/search?freeTextQuery%3Dalanine"
                 },
                 {
-                    "title": "human",
-                    "href": "/metabolights/search?freeTextQuery%3Dhuman"
+                    "title": "Homo sapiens",
+                    "href": "/metabolights/search?freeTextQuery%3DHomo sapiens"
                 },
                 {
                     "title": "urine",

@@ -26,6 +26,24 @@
 We are currently developing this section
 <p/>
 
+<H3>MetaboAnalyst</H3>
+<p>
+  <a href="/metabolights/metaboanalyst"/>MetaboAnalyst</a> is a user-friendly, comprehensive web-based analytical pipeline for high-throughput metabolomics studies. Our version of MetaboAnalyst 3.0 is coupled with EBI's in-house R Cloud to faciliate
+  compute intensive data analysis.</p>
+<div class="grid_24">
+  <ul>
+    <li>
+      <a href="http://www.ncbi.nlm.nih.gov/pubmed/25897128"/>Xia, J., Sinelnikov, I., Han, B., and Wishart, D.S. (2015). MetaboAnalyst 3.0 - making metabolomics more meaningful . Nucl. Acids Res. (DOI: 10.1093/nar/gkv380). </a>
+    </li>
+    <li>
+      <a href="http://www.ncbi.nlm.nih.gov/pubmed/22553367"/>Xia, J., Mandal, R., Sinelnikov, I., Broadhurst, D., and Wishart, D.S. (2012). MetaboAnalyst 2.0 - a comprehensive server for metabolomic data analysis . Nucl. Acids Res. 40, W127-W133.
+    </li>
+    <li>
+      <a href="http://www.ncbi.nlm.nih.gov/pubmed/19429898"/>Xia, J., Psychogios, N., Young, N. and Wishart, D.S. (2009). MetaboAnalyst: a web server for metabolomic data analysis and interpretation. Nucl. Acids Res. 37, W652-660</li>
+  </ul>
+
+</div>
+
 <H3>LipidHome</H3>
 <p>
   <a href="/metabolights/lipidhome"/>LipidHome</a> is a database of theoretical lipid structures derived from a seed set of lipid sub classes and some lipid chemical space constraints agreed upon with experts in the field. Lipids are organised according to a combination of the LIPID MAPS ontology and the recent publication by the LipidomicNet consortium.
@@ -45,23 +63,6 @@ We are currently developing this section
 
 </div>
 
-<H3>MetaboAnalyst</H3>
-<p>
-  <a href="/metabolights/metaboanalyst"/>MetaboAnalyst</a> is a user-friendly, comprehensive web-based analytical pipeline for high-throughput metabolomics studies. Our version of MetaboAnalyst 3.0 is coupled with EBI's in-house R Cloud to faciliate
-compute intensive data analysis.</p>
-<div class="grid_24">
-  <ul>
-    <li>
-      <a href="http://www.ncbi.nlm.nih.gov/pubmed/25897128"/>Xia, J., Sinelnikov, I., Han, B., and Wishart, D.S. (2015). MetaboAnalyst 3.0 - making metabolomics more meaningful . Nucl. Acids Res. (DOI: 10.1093/nar/gkv380). </a>
-    </li>
-    <li>
-      <a href="http://www.ncbi.nlm.nih.gov/pubmed/22553367"/>Xia, J., Mandal, R., Sinelnikov, I., Broadhurst, D., and Wishart, D.S. (2012). MetaboAnalyst 2.0 - a comprehensive server for metabolomic data analysis . Nucl. Acids Res. 40, W127-W133.
-    </li>
-    <li>
-      <a href="http://www.ncbi.nlm.nih.gov/pubmed/19429898"/>Xia, J., Psychogios, N., Young, N. and Wishart, D.S. (2009). MetaboAnalyst: a web server for metabolomic data analysis and interpretation. Nucl. Acids Res. 37, W652-660</li>
-  </ul>
-
-</div>
 
 <%--
     <iframe>/metaboanalyst3</iframe>

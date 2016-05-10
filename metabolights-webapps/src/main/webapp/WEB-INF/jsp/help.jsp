@@ -24,7 +24,7 @@
 <h2><spring:message code="msg.metabolightsAbout14"/></h2>
 
     <p>
-        Please note that these links will take you to our online Google Documents.
+        Please note that these links will take you to our online Google Documents (PDF versions available below).
         <br/>
         <br/>
 
