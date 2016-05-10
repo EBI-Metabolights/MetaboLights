@@ -83,7 +83,7 @@
                             </h2>
                                 <span class="met-id pull-right">
                                     <div class="btn-group" role="group" aria-label="">
-                                        <button type="button" class="btn btn-default btn-xs" onclick="downloadJSONFile()"><i class="fa fa-save"></i> JSON</button>
+                                        <a target="_blank" href="${pageContext.request.contextPath}/webservice/beta/compound/MTBLC15354" class="btn btn-default btn-xs"><i class="fa fa-save"></i> JSON</a>
                                         <!-- <div class="btn-group" role="group">
                                             <button type="button" class="btn btn-default btn-xs" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share"></i> Share</button>
                                             <ul class="dropdown-menu">
@@ -597,10 +597,12 @@
 
     vm.$watch('selectedReactomePathway', function () {
         if (vm.selectedReactomePathway != ""){
+
+            var w = document.getElementById("diagramHolder").offsetWidth;
             var diagram = Reactome.Diagram.create({
-                "proxyPrefix" : "/reactome",
+                "proxyPrefix" : "https://crossorigin.me/http://www.ebi.ac.uk/chebi/proxyserver",
                 "placeHolder" : "diagramHolder",
-                "width" : 900,
+                "width" : w,
                 "height" : 500
             });
             //Initialising it to the "Metabolism of nucleotides" pathway
