@@ -158,9 +158,28 @@ nav#breadcrumb{
     background-color: #f1f1f4;
 }
 
+.ml_trh{
+    background-color: #F7F7F7;
+}
+
 .ml_trc{
     padding: 5px 15px;
     overflow: auto;
+}
+
+.ml_sp_tr{
+    background-color: #FCFCFC;
+    padding: 2px 0;
+}
+
+.ml_sp_trc{
+    padding: 2px 15px;
+    overflow: auto;
+}
+
+.ml_sp_title{
+    background-color: #FCFCFC;
+    padding: 20px 20px;
 }
 
 .label-spaced {

@@ -159,52 +159,60 @@
                                                 <div class="col-md-12 ml_trc"><b><h4>Identification</h4></b></div>
                                             </div>
                                             <div class="col-md-12 ml_tr">
-                                                <div class="col-md-3 ml_trc">MetaboLights Identifier</div>
+                                                <div class="col-md-3 ml_trc ml_trh">MetaboLights Identifier</div>
                                                 <div class="col-md-9 ml_trc">
                                                     <p v-for="iupac in mtblc.iupacNames" class="label-spaced">{{ mtblc.id }}</p>
                                                 </div>
                                             </div>
                                             <div class="col-md-12 ml_tr">
-                                                <div class="col-md-3 ml_trc">IUPAC Names</div>
+                                                <div class="col-md-3 ml_trc ml_trh">IUPAC Names</div>
                                                 <div class="col-md-9 ml_trc">
                                                     <p v-for="iupac in mtblc.iupacNames" class="label-spaced">{{ iupac }},</p>
                                                 </div>
                                             </div>
                                             <div class="col-md-12 ml_tr">
-                                                <div class="col-md-3 ml_trc">Inchikey</div>
-                                                <div class="col-md-9 ml_trc">{{ mtblc.inchiKey }}</div>
+                                                <div class="col-md-3 ml_trc ml_trh">InChIKey</div>
+                                                <div class="col-md-9 ml_trc">{{ mtblc.inchiKey }}
+                                                    <button class="btn btn-xs pull-right" data-clipboard-text="{{ mtblc.inchiKey }}">
+                                                        <i class="fa fa-clipboard" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
                                             </div>
                                             <div class="col-md-12 ml_tr">
-                                                <div class="col-md-3 ml_trc">Inchi</div>
-                                                <div class="col-md-9 ml_trc">{{ mtblc.inchi }}</div>
+                                                <div class="col-md-3 ml_trc ml_trh">InChI</div>
+                                                <div class="col-md-9 ml_trc">{{ mtblc.inchi }}
+                                                    <button class="btn btn-xs pull-right" data-clipboard-text="{{ mtblc.inchi }}">
+                                                        <i class="fa fa-clipboard" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
                                             </div>
                                             <div class="col-md-12 ml_tr">
-                                                <div class="col-md-3 ml_trc">Smiles</div>
+                                                <div class="col-md-3 ml_trc ml_trh">SMILES</div>
                                                 <div class="col-md-9 ml_trc">{{ mtblc.smiles }}</div>
                                             </div>
                                             <div class="col-md-12 ml_tr">
-                                                <div class="col-md-3 ml_trc">Molecular Formula</div>
+                                                <div class="col-md-3 ml_trc ml_trh">Molecular Formula</div>
                                                 <div class="col-md-9 ml_trc">{{ mtblc.formula }}</div>
                                             </div>
                                             <div class="col-md-12 ml_tr">
-                                                <div class="col-md-3 ml_trc">Average Mass</div>
+                                                <div class="col-md-3 ml_trc ml_trh">Average Mass</div>
                                                 <div class="col-md-9 ml_trc">{{ mtblc.averagemass }}</div>
                                             </div>
                                             <div class="col-md-12 ml_tr">
-                                                <div class="col-md-3 ml_trc">Exact Mass</div>
+                                                <div class="col-md-3 ml_trc ml_trh">Exact Mass</div>
                                                 <div class="col-md-9 ml_trc">{{ mtblc.exactmass }}</div>
                                             </div>
                                             <div class="col-md-12 ml_tr">
-                                                <div class="col-md-3 ml_trc">Molecular Weight</div>
+                                                <div class="col-md-3 ml_trc ml_trh">Molecular Weight</div>
                                                 <div class="col-md-9 ml_trc">{{ mtblc.molweight }}</div>
                                             </div>
                                             <div class="col-md-12 ml_tr">
-                                                <div class="col-md-3 ml_trc">Charge</div>
+                                                <div class="col-md-3 ml_trc ml_trh">Charge</div>
                                                 <div class="col-md-9 ml_trc">{{ mtblc.charge }}</div>
                                             </div>
 
                                             <div class="col-md-12 ml_tr">
-                                                <div class="col-md-3 ml_trc">Synonymns</div>
+                                                <div class="col-md-3 ml_trc ml_trh">Synonymns</div>
                                                 <div class="col-md-9 ml_trc">
                                                     <p v-for="synonym in mtblc.synonyms" class="label-spaced">{{ synonym }},</p>
                                                 </div>
@@ -215,7 +223,7 @@
                                                 <div class="col-md-12 ml_trc"><b><h4>External Links</h4></b></div>
                                             </div>
                                             <div class="col-md-12 ml_tr" v-for="id in mtblc.externalIds">
-                                                <div class="col-md-3 ml_trc">{{ $key }}</div>
+                                                <div class="col-md-3 ml_trc ml_trh">{{ $key }}</div>
                                                 <div class="col-md-9 ml_trc">{{{ id }}}</div>
                                             </div>
                                         </div>
@@ -245,13 +253,13 @@
                                             <!-- Nav tabs -->
                                             <ul class="nav nav-tabs" role="tablist">
                                                 <li v-if="mtblc.pathways.WikiPathways" role="presentation" class="active"><a href="#wiki" aria-controls="wiki" role="tab" data-toggle="tab">WikiPathways</a></li>
-                                                <li v-if="mtblc.pathways.KEGGPathways.length > 0" role="presentation"><a href="#kegg" aria-controls="settings" role="tab" data-toggle="tab">KEGG Pathways</a></li>
+                                                <li v-if="mtblc.pathways.KEGGPathways.length > 0" role="presentation"><a href="#kegg" aria-controls="kegg" role="tab" data-toggle="tab">KEGG Pathways</a></li>
+                                                <li v-if="mtblc.pathways.ReactomePathways" role="presentation"><a href="#reactome" aria-controls="reactome" role="tab" data-toggle="tab">Reactome Pathways</a></li>
                                             </ul>
 
                                             <!-- Tab panes -->
                                             <div class="tab-content">
                                                 <div role="tabpanel" class="tab-pane active" id="wiki">
-
                                                     <div class="form-group">
                                                         <label>Select Species</label>
                                                         <select class="selectpicker form-control" v-model="selectedSpecies"  data-live-search="true">
@@ -267,9 +275,8 @@
                                                         </select>
                                                     </div>
                                                     <div v-if="selectedPathway && selectedSpecies" class="well no-padding">
-                                                        <iframe src ="http://www.wikipathways.org/wpi/PathwayWidget.php?id={{selectedPathway}}" frameborder="0" width="98%" height="500px" seamless="seamless" scrolling="no"></iframe>
+                                                        <iframe src="http://www.wikipathways.org/wpi/PathwayWidget.php?id={{selectedPathway}}" frameborder="0" width="98%" height="500px" seamless="seamless" scrolling="no"></iframe>
                                                     </div>
-
                                                 </div>
                                                 <div role="tabpanel" class="tab-pane" id="kegg">
                                                     <select class="form-control" v-model="selectedKEGGPathway" data-live-search="true">
@@ -284,6 +291,29 @@
                                                         </div>
                                                     </div>
                                                     <div class="clearfix"></div>
+                                                </div>
+                                                <div role="tabpanel" class="tab-pane" id="reactome">
+                                                    <div class="form-group">
+                                                        <label>Select Species</label>
+                                                        <select class="selectpicker form-control" v-model="selectedReactomeSpecies"  data-live-search="true">
+                                                            <option value="" >Select Species</option>
+                                                            <option v-for="(key,value) in mtblc.pathways.ReactomePathways" value="{{key}}" >{{ key }}</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Select Pathways</label>
+                                                        <select class="form-control" v-model="selectedReactomePathway" data-live-search="true">
+                                                            <option value="" selected>Select Pathway</option>
+                                                            <option v-for="pathway in selectedReactomePathways"  value="{{pathway.reactomeId}}">{{ pathway.name }}</option>
+                                                        </select>
+                                                    </div>
+                                                    <div v-if="selectedReactomePathway">
+                                                        <hr>
+                                                        <div class="col-md-12 well">
+                                                            <div id="diagramHolder"></div>
+                                                            <div class="clearfix"></div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="clearfix"></div>
                                             </div>
@@ -330,12 +360,15 @@
                                                         <!-- MS Spectra -->
                                                         <div id="NMRSpeckTackle" class="spectakle-container"></div>
                                                         <div class="col-md-12 well">
-                                                            <div id="nmrInfo" class="grid_23 specs">
+                                                            <div id="nmrInfo" class="specs">
                                                                 <div v-for="spectra in selectedNMRSpectra">
-                                                                    <h5>{{spectra.name}}</h5>
-                                                                    <p>
-                                                                        <span v-for="attribute in spectra.attributes"><b>{{ attribute.attributeName }}</b>: {{ attribute.attributeValue }}<br></span>
-                                                                    </p>
+                                                                        <h4 class="ml_sp_title">{{spectra.name}}</h4>
+                                                                        <span class="col-md-12 ml_sp_tr" v-for="attribute in spectra.attributes">
+                                                                            <div >
+                                                                                <div class="col-md-3 ml_sp_trc"><b>{{ attribute.attributeName }}</b></div>
+                                                                                <div class="col-md-9 ml_sp_trc">{{ attribute.attributeValue }}</div>
+                                                                            </div>
+                                                                        </span>
                                                                     <hr>
                                                                 </div>
                                                             </div>
@@ -361,10 +394,13 @@
                                                         <div class="col-md-12 well">
                                                             <div id="msInfo" class="grid_23 specs">
                                                                 <div v-for="spectra in selectedMSSpectra">
-                                                                    <h5>{{spectra.name}}</h5>
-                                                                    <p>
-                                                                        <span v-for="attribute in spectra.attributes"><b>{{ attribute.attributeName }}</b>: {{ attribute.attributeValue }}<br></span>
-                                                                    </p>
+                                                                    <h4 class="ml_sp_title">{{spectra.name}}</h4>
+                                                                    <span class="col-md-12 ml_sp_tr" v-for="attribute in spectra.attributes">
+                                                                        <div >
+                                                                            <div class="col-md-3 ml_sp_trc"><b>{{ attribute.attributeName }}</b></div>
+                                                                            <div class="col-md-9 ml_sp_trc">{{ attribute.attributeValue }}</div>
+                                                                        </div>
+                                                                    </span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -384,12 +420,20 @@
                                     </div>
 
                                     <div role="tabpanel" class="tab-pane" id="citations">
-                                        <h4><a href="http://europepmc.org/">Europe PubMed Central results</a></h4>
-                                        <div class="well" v-for="citation in mtblc.citations">
-                                            <h4><b>Title: </b>{{ citation.title }}</h4>
-                                            <h6><b>Author: </b>{{ citation.author }}</h6>
-                                            <p><small><b>Abstract: </b>{{ citation.abstract }}</small></p>
-                                            <p><b>DOI: </b>{{ citation.doi }}</p>
+                                        <h4><b><a href="http://europepmc.org/">Europe PubMed Central results</a></b></h4>
+                                        <div v-for="citation in mtblc.citations">
+                                            <div class="panel panel-default" id="panel1">
+                                                <div class="panel-heading" data-toggle="collapse" data-target="#citation{{$index}}">
+                                                    <h4>{{ citation.title }}</h4>
+                                                </div>
+                                                <div class="panel-collapse collapse" id="citation{{$index}}">
+                                                    <div class="panel-body">
+                                                    <h6><b>Author: </b>{{ citation.author }}</h6>
+                                                    <p><small><b>Abstract: </b>{{ citation.abstract }}</small></p><hr>
+                                                    <p><b>DOI: </b>{{ citation.doi }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -409,10 +453,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.17/vue-resource.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
 <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.js" charset="utf-8"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.Rheaction.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/st.min.js" charset="utf-8"></script>
+
+<script type="text/javascript" language="javascript" src="http://www.reactome.org/DiagramJs/diagram/diagram.nocache.js"></script>
 
 <script src="https://wzrd.in/bundle/biojs-vis-keggviewer@1.1.2"></script>
 
@@ -426,6 +474,8 @@
         mtblc: {},
         selectedSpecies : "",
         selectedPathway: "",
+        selectedReactomeSpecies : "",
+        selectedReactomePathway: "",
         selectedKEGGPathway: "",
         selectedMS: [],
         selectedNMR: [],
@@ -448,6 +498,13 @@
                 var tempPathways = [];
                 if(this.selectedSpecies != ""){
                     tempPathways = this.mtblc.pathways.WikiPathways[this.selectedSpecies];
+                }
+                return tempPathways;
+            },
+            selectedReactomePathways: function () {
+                var tempPathways = [];
+                if(this.selectedReactomeSpecies != ""){
+                    tempPathways = this.mtblc.pathways.ReactomePathways[this.selectedReactomeSpecies];
                 }
                 return tempPathways;
             },
@@ -501,6 +558,19 @@
                 this.mtblc['imageUrlLarge'] = "http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=" + this.mtblc['chebiId'] + "&dimensions=1000&transbg=true";
                 this.load3DMolecule();
                 this.loading = false;
+                var clipboard = new Clipboard('.btn');
+                clipboard.on('success', function(e) {
+                    console.info('Action:', e.action);
+                    console.info('Text:', e.text);
+                    console.info('Trigger:', e.trigger);
+                    alert("Copied!");
+                    e.clearSelection();
+                });
+
+                clipboard.on('error', function(e) {
+                    console.error('Action:', e.action);
+                    console.error('Trigger:', e.trigger);
+                });
             }).error(function (data, status, request) {
                 console.log(data);
                 console.log(status);
@@ -523,6 +593,39 @@
 
     vm.$watch('selectedSpecies', function () {
         vm.selectedPathway = "";
+    })
+
+    vm.$watch('selectedReactomePathway', function () {
+        if (vm.selectedReactomePathway != ""){
+            var diagram = Reactome.Diagram.create({
+                "proxyPrefix" : "/reactome",
+                "placeHolder" : "diagramHolder",
+                "width" : 900,
+                "height" : 500
+            });
+            //Initialising it to the "Metabolism of nucleotides" pathway
+            diagram.loadDiagram("R-HSA-15869");
+            //Adding different listeners
+            diagram.onDiagramLoaded(function (loaded) {
+                console.info("Loaded ", loaded);
+                diagram.selectItem("R-HSA-111804");
+                diagram.flagItems("TXN");
+            });
+            diagram.onObjectHovered(function (hovered){
+                console.info("Hovered ", hovered);
+            });
+
+            diagram.onObjectSelected(function (selected){
+                console.info("Selected ", selected);
+            });
+
+        }
+    })
+
+
+
+    vm.$watch('selectedReactomeSpecies', function () {
+        vm.selectedReactomePathway = "";
     })
 
     vm.$watch('selectedMS', function () {
