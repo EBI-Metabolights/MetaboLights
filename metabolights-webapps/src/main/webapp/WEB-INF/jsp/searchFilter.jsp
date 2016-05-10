@@ -82,12 +82,16 @@ facets[].facet.lines[].FacetLine.checked
 						<c:when test="${facet.name=='assays.technology'}"><spring:message code="label.technology"/></c:when>
 						<c:when test="${facet.name=='studyStatus'}"><spring:message code="label.facetStatus"/></c:when>
 						<c:when test="${facet.name=='organism.organismName'}"><spring:message code="label.organism"/></c:when>
-						<c:when test="${facet.name=='users.fullName'}"><spring:message code="label.subm"/></c:when>
-						<c:when test="${facet.name=='factors.name'}"><spring:message code="label.factor"/></c:when>
-						<c:when test="${facet.name=='descriptors.description'}"><spring:message code="label.descriptors"/></c:when>
+						<%--<c:when test="${facet.name=='users.fullName'}"><spring:message code="label.subm"/></c:when>--%>
+						<%--<c:when test="${facet.name=='factors.name'}"><spring:message code="label.factor"/></c:when>--%>
+						<%--<c:when test="${facet.name=='descriptors.description'}"><spring:message code="label.descriptors"/></c:when>--%>
 						<c:when test="${facet.name=='organism.organismPart'}"><spring:message code="label.organismPart"/></c:when>
 						<c:when test="${facet.name=='validations.status'}"><spring:message code="label.validationsStatus"/></c:when>
 						<c:when test="${facet.name=='validations.entries.statusExt'}"><spring:message code="label.validationsEntriesStatusExt"/></c:when>
+						<c:when test="${facet.name=='compound.hasPathways'}"><spring:message code="label.FilterPathways"/></c:when>
+						<c:when test="${facet.name=='compound.hasReactions'}"><spring:message code="label.FilterReactions"/></c:when>
+						<c:when test="${facet.name=='compound.hasNMR'}"><spring:message code="label.FilterNMR"/></c:when>
+						<c:when test="${facet.name=='compound.hasMS'}"><spring:message code="label.FilterMS"/></c:when>
 						<c:otherwise>${facet.name}</c:otherwise>
 					</c:choose>
 				</c:set>

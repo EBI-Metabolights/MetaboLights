@@ -60,12 +60,16 @@ public class WSSearchController extends AbstractController {
     // Facets
     public static final String OBJECT_TYPE = "ObjectType";
     public static final String ASSAYS_TECHNOLOGY = "assays.technology";
+    public static final String PATHWAY_DATA = "compound.hasPathways";
+    public static final String REACTION_DATA = "compound.hasReactions";
+    public static final String NMR_DATA = "compound.hasNMR";
+    public static final String MS_DATA = "compound.hasMS";
     public static final String STUDY_STATUS = "studyStatus";
     public static final String ORGANISM_ORGANISM_NAME = "organism.organismName";
     public static final String ORGANISM_ORGANISM_PART = "organism.organismPart";
     public static final String USERS_FULL_NAME = "users.fullName";
-    public static final String FACTORS_NAME = "factors.name";
-    public static final String DESCRIPTORS_DESCRIPTION = "descriptors.description";
+//    public static final String FACTORS_NAME = "factors.name";
+//    public static final String DESCRIPTORS_DESCRIPTION = "descriptors.description";
     public static final String VALIDATIONS_STATUS = "validations.status";
     public static final String VALIDATIONS_ENTRIES_STATUS = "validations.entries.statusExt";
 
@@ -288,14 +292,19 @@ public class WSSearchController extends AbstractController {
         addFacet(STUDY_STATUS, emptyQuery);
         addFacet(ORGANISM_ORGANISM_NAME, emptyQuery);
         addFacet(ORGANISM_ORGANISM_PART, emptyQuery);
-        addFacet(USERS_FULL_NAME, emptyQuery);
+        addFacet(PATHWAY_DATA, emptyQuery);
+        addFacet(REACTION_DATA, emptyQuery);
+        addFacet(NMR_DATA, emptyQuery);
+        addFacet(MS_DATA, emptyQuery);
 
 //		<c:if test="${not empty usersFullName}">
 //				,"lines":[{"value":"${usersFullName}","checked":true}]
 //			</c:if>
-
-        addFacet(FACTORS_NAME, emptyQuery);
-        addFacet(DESCRIPTORS_DESCRIPTION, emptyQuery);
+//
+//        commented out temporarily
+//        addFacet(USERS_FULL_NAME, emptyQuery);
+//        addFacet(FACTORS_NAME, emptyQuery);
+//        addFacet(DESCRIPTORS_DESCRIPTION, emptyQuery);
         addFacet(VALIDATIONS_STATUS, emptyQuery);
         addFacet(VALIDATIONS_ENTRIES_STATUS, emptyQuery);
 
