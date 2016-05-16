@@ -10,8 +10,8 @@
 div.compound {
     display: table-cell;
     text-align: center;
-    background-color: #333;
     padding: 0.5ex 0.5em;
+    color: #333;
 }
 
 .stoichCoef {
@@ -58,5 +58,5 @@ div.compound {
 }
 
 .coefName a{
-    color: white;
+    color: #333;
 }

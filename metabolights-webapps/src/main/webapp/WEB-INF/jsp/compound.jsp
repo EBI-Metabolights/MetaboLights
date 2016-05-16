@@ -3,7 +3,8 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/st.css" type="text/css"/>
@@ -30,7 +31,6 @@
                                     <div role="tabpanel" class="tab-pane active" id="2d">
                                         <%--<h5>Structure</h5><br>--%>
                                         <img :src="mtblc.imageUrl" class="metabolite-image"/>
-
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="3d">
                                         <div id="3dDisplay" style="position: relative;"></div>
@@ -70,18 +70,27 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="text-center">
-                                &nbsp;
+                                <span class="right">
+                                        <div class="btn-group" role="group" aria-label="">
+                                            <a target="_blank" class="btn btn-default btn-xs ml--clipboard" data-clipboard-text="{{ mtblc.structure }}">MOL</a>
+                                            <a target="_blank" class="btn btn-default btn-xs ml--clipboard" data-clipboard-text="{{ mtblc.smiles }}">SMILES</a>
+                                            <a target="_blank" class="btn btn-default btn-xs ml--clipboard" data-clipboard-text="{{ mtblc.inchiKey }}">InChIKey</a>
+                                        </div>
+                                </span>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-9">
                         <div class="banner">
-                            <h2>{{ mtblc['name'] }}
-                            </h2>
-                                <span class="met-id pull-right">
+                            <h2>{{ mtblc['name'] }}</h2>
+                        </div>
+                        <div class="mini--banner col-md-12">
+                                <span class="left text-muted ml--identifier">
+                                   {{ mtblc.id }}
+                                </span>
+                                <span class="right">
                                     <div class="btn-group" role="group" aria-label="">
                                         <a target="_blank" href="${pageContext.request.contextPath}/webservice/beta/compound/MTBLC15354" class="btn btn-default btn-xs"><i class="fa fa-save"></i> JSON</a>
                                         <!-- <div class="btn-group" role="group">
@@ -96,7 +105,9 @@
                                         <a target="_blank" href="${pageContext.request.contextPath}/contact" class="btn btn-default btn-xs"><i class="fa fa-question"></i> Help</a>
                                     </div>
                                 </span>
+
                         </div>
+
                         <div class="modal fade" id="discussionModal" tabindex="-1" role="dialog" aria-labelledby="discussionModal">
                             <div class="modal-dialog disqus-dialog" role="document">
                                 <div class="modal-content">
@@ -136,7 +147,7 @@
                                     <li v-if="mtblc.species" role="presentation"><a href="#biology" aria-controls="biology" role="tab" data-toggle="tab">Biology</a></li>
                                     <li v-if="mtblc.pathways" role="presentation"><a href="#pathways" aria-controls="pathways" role="tab" data-toggle="tab">Pathways</a></li>
                                     <li v-if="mtblc.spectra" role="presentation"><a href="#spectra" aria-controls="spectra" role="tab" data-toggle="tab">Spectra</a></li>
-                                    <li v-if="mtblc.reactions.length > 0" role="presentation"><a href="#reaction" aria-controls="spectra" role="tab" data-toggle="tab">Reaction</a></li>
+                                    <li v-if="mtblc.reactions.length > 0" role="presentation"><a href="#reactions" aria-controls="reactions" role="tab" data-toggle="tab">Reaction</a></li>
                                     <li v-if="mtblc.citations" role="presentation"><a href="#citations" aria-controls="citations" role="tab" data-toggle="tab">Literature</a></li>
                                 </ul>
 
@@ -171,26 +182,6 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-12 ml_tr">
-                                                <div class="col-md-3 ml_trc ml_trh">InChIKey</div>
-                                                <div class="col-md-9 ml_trc">{{ mtblc.inchiKey }}
-                                                    <button class="btn btn-xs pull-right" data-clipboard-text="{{ mtblc.inchiKey }}">
-                                                        <i class="fa fa-clipboard" aria-hidden="true"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 ml_tr">
-                                                <div class="col-md-3 ml_trc ml_trh">InChI</div>
-                                                <div class="col-md-9 ml_trc">{{ mtblc.inchi }}
-                                                    <button class="btn btn-xs pull-right" data-clipboard-text="{{ mtblc.inchi }}">
-                                                        <i class="fa fa-clipboard" aria-hidden="true"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 ml_tr">
-                                                <div class="col-md-3 ml_trc ml_trh">SMILES</div>
-                                                <div class="col-md-9 ml_trc">{{ mtblc.smiles }}</div>
-                                            </div>
-                                            <div class="col-md-12 ml_tr">
                                                 <div class="col-md-3 ml_trc ml_trh">Molecular Formula</div>
                                                 <div class="col-md-9 ml_trc">{{ mtblc.formula }}</div>
                                             </div>
@@ -210,11 +201,32 @@
                                                 <div class="col-md-3 ml_trc ml_trh">Charge</div>
                                                 <div class="col-md-9 ml_trc">{{ mtblc.charge }}</div>
                                             </div>
-
+                                            <div class="col-md-12 ml_tr">
+                                                <div class="col-md-3 ml_trc ml_trh">InChI</div>
+                                                <div class="col-md-9 ml_trc">{{ mtblc.inchi }}
+                                                    <button id="InChI" data-placement="left" class="btn btn-xs pull-right ml--clipboard" data-clipboard-text="{{ mtblc.inchi }}">
+                                                        <i class="fa fa-clipboard" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 ml_tr">
+                                                <div class="col-md-3 ml_trc ml_trh">InChIKey</div>
+                                                <div class="col-md-9 ml_trc" data-toggle="tooltip" data-placement="top" title="Default tooltip" >{{ mtblc.inchiKey }}
+                                                    <button id="InChIKey" class="btn btn-xs pull-right ml--clipboard" data-clipboard-text="{{ mtblc.inchiKey }}">
+                                                        <i class="fa fa-clipboard" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 ml_tr">
+                                                <div class="col-md-3 ml_trc ml_trh">SMILES</div>
+                                                <div class="col-md-9 ml_trc">{{ mtblc.smiles }}</div>
+                                            </div>
                                             <div class="col-md-12 ml_tr">
                                                 <div class="col-md-3 ml_trc ml_trh">Synonymns</div>
                                                 <div class="col-md-9 ml_trc">
-                                                    <p v-for="synonym in mtblc.synonyms" class="label-spaced">{{ synonym }},</p>
+                                                    <div id="ml--synonyms">
+                                                        <p v-for="synonym in mtblc.synonyms" class="ml--syn">{{ synonym }}</p>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="clearfix"></div><div class="clearfix"></div>
@@ -263,18 +275,16 @@
                                                     <div class="form-group">
                                                         <label>Select Species</label>
                                                         <select class="selectpicker form-control" v-model="selectedSpecies"  data-live-search="true">
-                                                            <option value="" >Select Species</option>
                                                             <option v-for="(key,value) in mtblc.pathways.WikiPathways" value="{{key}}" >{{ key }}</option>
                                                         </select>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Select Pathways</label>
                                                         <select class="form-control" v-model="selectedPathway" data-live-search="true">
-                                                            <option value="" selected>Select Pathway</option>
                                                             <option v-for="pathway in selectedPathways"  value="{{pathway.id}}">{{ pathway.name }}</option>
                                                         </select>
                                                     </div>
-                                                    <div v-if="selectedPathway && selectedSpecies" class="well no-padding">
+                                                    <div v-if="selectedPathway" class="well no-padding">
                                                         <iframe src="http://www.wikipathways.org/wpi/PathwayWidget.php?id={{selectedPathway}}" frameborder="0" width="98%" height="500px" seamless="seamless" scrolling="no"></iframe>
                                                     </div>
                                                 </div>
@@ -284,11 +294,10 @@
                                                         <option v-for="pathway in mtblc.pathways.KEGGPathways" value="{{ pathway.KO_PATHWAY }}" >{{ pathway.name }}</option>
                                                     </select>
                                                     <div v-if="selectedKEGGPathway">
-                                                        <hr>
-                                                        <div class="col-md-12 well">
-                                                            <div id='snippetDiv'></div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
+                                                        <br>
+                                                        <span class='zoom' id="kegg--img">
+                                                            <img src="http://www.kegg.jp/kegg/pathway/ko/{{selectedKEGGPathway}}.png" class="img-responsive">
+                                                        </span>
                                                     </div>
                                                     <div class="clearfix"></div>
                                                 </div>
@@ -296,7 +305,6 @@
                                                     <div class="form-group">
                                                         <label>Select Species</label>
                                                         <select class="selectpicker form-control" v-model="selectedReactomeSpecies"  data-live-search="true">
-                                                            <option value="" >Select Species</option>
                                                             <option v-for="(key,value) in mtblc.pathways.ReactomePathways" value="{{key}}" >{{ key }}</option>
                                                         </select>
                                                     </div>
@@ -322,16 +330,15 @@
 
                                     </div>
 
-                                    <div role="tabpanel" class="tab-pane" id="reaction">
+                                    <div role="tabpanel" class="tab-pane" id="reactions">
                                         <label>Select Reaction</label>
-                                        <select class="form-control selectpicker" v-model="selectedReaction" data-live-search="true">
-                                            <option value="" selected>Select Reaction</option>
-                                            <option v-for="reaction in mtblc.reactions" value="{{ reaction.id }}" >{{ reaction.name }}</option>
+                                        <select id="reactionsSelect" class="form-control selectpicker" v-model="selectedReaction" data-live-search="true">
+                                            <option v-for="reaction in mtblc.reactions" value="{{ reaction.id }}">{{ reaction.name }}</option>
                                         </select>
 
                                         <div v-if="selectedReaction">
                                             <br>
-                                            <div class="ml_trc grey"><b><h4>{{ selectedReactionData.name }}</h4></b></div>
+                                            <!-- <div class="ml_trc grey"><b><h4>{{ selectedReactionData.name }}</h4></b></div> -->
                                             <div class="col-md-12" id="BioJSReaction"></div>
                                             <div class="clearfix">&nbsp;</div>
                                         </div>
@@ -349,7 +356,7 @@
                                             <div role="tabpanel" class="tab-pane active" id="nmr">
                                                 <div class="form-group">
                                                     <label>Select NMR spectra</label>
-                                                    <select v-model="selectedNMR" class="form-control" size=5 multiple>
+                                                    <select v-model="selectedNMR" class="form-control selectFirst" size=5 multiple>
                                                         <option v-for="spectra in nmrSpectra">
                                                             {{ spectra.name }}
                                                         </option>
@@ -361,7 +368,7 @@
                                                         <div id="NMRSpeckTackle" class="spectakle-container"></div>
                                                         <div class="col-md-12 well">
                                                             <div id="nmrInfo" class="specs">
-                                                                <div v-for="spectra in selectedNMRSpectra">
+                                                                <div v-for="spectra in selectedNMRSpectra" class="col-md-12 ind--spec">
                                                                         <h4 class="ml_sp_title">{{spectra.name}}</h4>
                                                                         <span class="col-md-12 ml_sp_tr" v-for="attribute in spectra.attributes">
                                                                             <div >
@@ -381,7 +388,7 @@
                                             <div role="tabpanel" class="tab-pane" id="ms">
                                                 <div class="form-group">
                                                     <label>Select MS spectra</label>
-                                                    <select v-model="selectedMS" class="form-control" size=5 multiple>
+                                                    <select v-model="selectedMS" class="form-control selectFirst" size=5 multiple>
                                                         <option v-for="spectra in msSpectra">
                                                             {{ spectra.name }}
                                                         </option>
@@ -392,22 +399,19 @@
                                                         <!-- MS Spectra -->
                                                         <div id="MSSpeckTackle" class="spectakle-container"></div>
                                                         <div class="col-md-12 well">
-                                                            <div id="msInfo" class="grid_23 specs">
-                                                                <div v-for="spectra in selectedMSSpectra">
+                                                            <div id="msInfo" class="specs">
+                                                                <div v-for="spectra in selectedMSSpectra" class="col-md-12 ind--spec">
                                                                     <h4 class="ml_sp_title">{{spectra.name}}</h4>
                                                                     <span class="col-md-12 ml_sp_tr" v-for="attribute in spectra.attributes">
-                                                                        <div >
+                                                                        <div>
                                                                             <div class="col-md-3 ml_sp_trc"><b>{{ attribute.attributeName }}</b></div>
                                                                             <div class="col-md-9 ml_sp_trc">{{ attribute.attributeValue }}</div>
                                                                         </div>
                                                                     </span>
+                                                                    <h5 class="ml_sp_title">
+                                                                        <a href="http://splash.fiehnlab.ucdavis.edu/">Splash - The Spectral Hash Identifier</a> <span class="pull-right" id="splash-container"></span>
+                                                                    </h5>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                        <br>
-                                                        <div class="panel panel-default">
-                                                            <div class="panel-body">
-                                                                <p><a href="http://splash.fiehnlab.ucdavis.edu/">Splash - The Spectral Hash Identifier</a> <span class="pull-right" id="splash-container"></span></p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -453,12 +457,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.17/vue-resource.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
 
+<script src="${pageContext.request.contextPath}/javascript/Notifier.js"></script>
+<script src="${pageContext.request.contextPath}/javascript/jquery.zoom.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
 
 <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.js" charset="utf-8"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.Rheaction.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/st.min.js" charset="utf-8"></script>
+
 
 <script type="text/javascript" language="javascript" src="http://www.reactome.org/DiagramJs/diagram/diagram.nocache.js"></script>
 
@@ -468,6 +477,52 @@
 <script id="dsq-count-scr" src="//metabolights.disqus.com/count.js" async></script>
 
 <script>
+
+    jQuery.noConflict();
+
+    $('a').click(function(e) {
+        e.preventDefault();
+        hash = "#"+link.attr("href");
+    });
+
+    $( document ).ready(function() {
+
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            var target = $(e.target).attr("href") // activated tab
+            loadData(target);
+        });
+
+        var url = document.location.toString();
+        if (url.match('#')) {
+            $('.nav-tabs a[href=#'+url.split('#')[1]+']').tab('show');
+            loadData(url.split('#')[1]);
+        }
+
+        $('.nav-tabs a').on('shown.bs.tab', function (e) {
+            window.location.hash = e.target.hash;
+        });
+
+    });
+
+
+    function loadData(target){
+        if (target == '#pathways') {
+            for (firstWikiPathway in vm.mtblc.pathways.WikiPathways) break;
+            data.selectedSpecies = firstWikiPathway;
+        }else if (target == '#reactome') {
+            for (firstReactomePathway in vm.mtblc.pathways.ReactomePathways ) break;
+            data.selectedReactomeSpecies = firstReactomePathway;
+        } else if (target == '#kegg') {
+            data.selectedKEGGPathway =  vm.mtblc.pathways.KEGGPathways[0].KO_PATHWAY;
+        } else if (target == '#spectra') {
+            data.selectedNMR = [vm.nmrSpectra[0].name];
+        } else if (target == '#ms') {
+            data.selectedMS = [vm.msSpectra[0].name];
+        } else if (target == '#reactions') {
+            data.selectedReaction = data.mtblc.reactions[0].id;
+        }
+    }
+
 
     var data = {
         compound: '${compoundId}',
@@ -487,7 +542,8 @@
         MSData: {},
         NMRchart: null,
         NMRarray: {},
-        loading: false
+        loading: false,
+        synonymsCount: 0
     }
 
     var vm = new Vue({
@@ -558,19 +614,26 @@
                 this.mtblc['imageUrlLarge'] = "http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=" + this.mtblc['chebiId'] + "&dimensions=1000&transbg=true";
                 this.load3DMolecule();
                 this.loading = false;
-                var clipboard = new Clipboard('.btn');
+                var clipboard = new Clipboard('.ml--clipboard');
                 clipboard.on('success', function(e) {
-                    console.info('Action:', e.action);
-                    console.info('Text:', e.text);
-                    console.info('Trigger:', e.trigger);
-                    alert("Copied!");
-                    e.clearSelection();
+                    Notifier.success("Successful", e.trigger.id + " Copied to clipboard!");
                 });
 
                 clipboard.on('error', function(e) {
                     console.error('Action:', e.action);
                     console.error('Trigger:', e.trigger);
                 });
+
+                var syn_h = this.mtblc.synonyms.length*38
+
+                $("#ml--synonyms").click(function () {
+                    $(this).animate({
+                        height: ($(this).height() == 150) ?  syn_h : 150
+                    }, 200);
+                });
+
+                //$(".selectFirst option:first").attr("selected", "selected");
+
             }).error(function (data, status, request) {
                 console.log(data);
                 console.log(status);
@@ -580,22 +643,12 @@
         }
     });
 
-    var biojsviskegg = require("biojs-vis-keggviewer");
-
-    vm.$watch('selectedKEGGPathway', function () {
-        var rootDiv = document.getElementById('snippetDiv');
-        rootDiv.innerHTML = "";
-        var proxy = function(url){
-            return 'https://cors-anywhere.herokuapp.com/'+url;
-        };
-        biojsviskegg.pathway(this.selectedKEGGPathway).proxy(proxy).target(rootDiv).init();
-    })
-
     vm.$watch('selectedSpecies', function () {
-        vm.selectedPathway = "";
+        vm.selectedPathway = vm.selectedPathways[0].id;
     })
 
     vm.$watch('selectedReactomePathway', function () {
+
         if (vm.selectedReactomePathway != ""){
 
             var w = document.getElementById("diagramHolder").offsetWidth;
@@ -622,23 +675,21 @@
             });
 
         }
-    })
 
+    })
 
 
     vm.$watch('selectedReactomeSpecies', function () {
-        vm.selectedReactomePathway = "";
+        vm.selectedReactomePathway = vm.selectedReactomePathways[0].reactomeId;
     })
 
     vm.$watch('selectedMS', function () {
-        this.initializeMSSpeckTackle();
 
+        this.initializeMSSpeckTackle();
         this.selectedMSSpectra = vm.mtblc.spectra.filter(function(spec){
             return vm.selectedMS.indexOf(spec.name) > -1 ? true : false;
         });
-
         this.MSData.remove();
-
         this.MSData.add(this.selectedMSSpectra.map(function(spec){
             return spec.url;
         }));
@@ -657,6 +708,10 @@
     })
 
 
+    vm.$watch('selectedKEGGPathway', function () {
+    })
+
+
     vm.$watch('selectedReaction', function(){
 
         vm.selectedReactionData = vm.mtblc.reactions.filter(function(reaction){
@@ -671,6 +726,5 @@
         });
 
     });
-
 
 </script>
