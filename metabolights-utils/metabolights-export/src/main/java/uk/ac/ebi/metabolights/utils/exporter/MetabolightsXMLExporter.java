@@ -793,7 +793,7 @@ public class MetabolightsXMLExporter {
         tidyStr = tidyStr.replaceAll("http://","").replaceFirst("dx.", "");
         tidyStr = tidyStr.replaceAll("doi.org/","");
         tidyStr = tidyStr.replaceAll("doi:","");
-        //tidyStr = tidyStr.replaceAll("na","");
+        tidyStr = tidyStr.replaceAll("na","");
         tidyStr = tidyStr.replaceAll("n/a","");
 
         return tidyStr.trim();
