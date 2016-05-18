@@ -121,11 +121,29 @@
     </dependencies>
     <repositories>
         <repository>
+            <id>chebi-repo-snapshot</id>
+            <name>ChEBI Repository</name>
+            <url>http://www.ebi.ac.uk/~biobabel/maven2_repo</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
             <id>sonatype-snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
+        </repository>
+        <repository>
+            <id>oerc</id>
+            <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/repositories/releases/</url>
+        </repository>
+        <repository>
+            <id>codehaus-mule-repo</id>
+            <name>codehaus-mule-repo</name>
+            <url>https://repository-master.mulesoft.org/nexus/content/groups/public/</url>
+            <layout>default</layout>
         </repository>
     </repositories>
 </project>

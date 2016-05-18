@@ -143,7 +143,7 @@
                         <div class="met-content">
                             <div class="card">
                                 <ul class="nav nav-tabs" role="tablist">
-                                    <li role="presentation" class="active"><a href="#chemistry" aria-controls="chemistry" role="tab" data-toggle="tab">Chemistry</a></li>
+                                    <li v-if="mtblc.name" role="presentation" class="active"><a href="#chemistry" aria-controls="chemistry" role="tab" data-toggle="tab">Chemistry</a></li>
                                     <li v-if="mtblc.species" role="presentation"><a href="#biology" aria-controls="biology" role="tab" data-toggle="tab">Biology</a></li>
                                     <li v-if="mtblc.pathways" role="presentation"><a href="#pathways" aria-controls="pathways" role="tab" data-toggle="tab">Pathways</a></li>
                                     <li v-if="mtblc.spectra" role="presentation"><a href="#spectra" aria-controls="spectra" role="tab" data-toggle="tab">Spectra</a></li>
@@ -425,6 +425,7 @@
 
                                     <div role="tabpanel" class="tab-pane" id="citations">
                                         <h4><b><a href="http://europepmc.org/">Europe PubMed Central results</a></b></h4>
+                                        <hr>
                                         <div v-for="citation in mtblc.citations">
                                             <div class="panel panel-default" id="panel1">
                                                 <div class="panel-heading" data-toggle="collapse" data-target="#citation{{$index}}">
@@ -458,7 +459,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
 
 <script src="${pageContext.request.contextPath}/javascript/Notifier.js"></script>
-<script src="${pageContext.request.contextPath}/javascript/jquery.zoom.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
 
@@ -480,22 +480,19 @@
 
     jQuery.noConflict();
 
-    $('a').click(function(e) {
-        e.preventDefault();
-        hash = "#"+link.attr("href");
-    });
-
     $( document ).ready(function() {
 
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-            var target = $(e.target).attr("href") // activated tab
+            var target = $(e.target).attr("href")
             loadData(target);
         });
 
         var url = document.location.toString();
         if (url.match('#')) {
             $('.nav-tabs a[href=#'+url.split('#')[1]+']').tab('show');
-            loadData(url.split('#')[1]);
+            loadData("#" +url.split('#')[1]);
+        }else{
+            window.location.href = document.location.toString() + "#chemistry";
         }
 
         $('.nav-tabs a').on('shown.bs.tab', function (e) {
@@ -509,6 +506,8 @@
         if (target == '#pathways') {
             for (firstWikiPathway in vm.mtblc.pathways.WikiPathways) break;
             data.selectedSpecies = firstWikiPathway;
+        }else if (target == '#chemistry') {
+            console.log("chemistry")
         }else if (target == '#reactome') {
             for (firstReactomePathway in vm.mtblc.pathways.ReactomePathways ) break;
             data.selectedReactomeSpecies = firstReactomePathway;

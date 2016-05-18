@@ -23,31 +23,122 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
 
-<h2>Acknowledgements</h2>
-</p>
-</p>
-<h3>MetaboLights use the following software components:</h3>
-<ul id="ackn">
-    <li><a href="http://www.jetbrains.com/idea/">The MetaboLights developers use IntelliJIDEA for all software development</a></li>
-    <li><a href="http://sbw.kgi.edu/sbwWiki/sbw/autolayout">The SBW AutoLayout module from the Sauro Lab, University of Washington</a></li>
-    <li><a href="http://www.massbank.jp/">MassBank, public repository of mass spectral data.</a></li>
-    <li><a href="http://www.bml-nmr.org/">Birmingham Metabolite Library, NMR spectra collection.</a></li>
-    <li><a href="http://www.bmrb.wisc.edu/metabolomics/">Biological Magnetic Resonance Data Bank</a></li>
-    <li><a href="http://www.wikipathways.org/index.php/WikiPathways">WikiPathways</a></li>
-    <li><a href="http://www.metaboanalyst.ca/">MetaboAnalyst - a comprehensive tool suite for metabolomic data analysis</a></li>
-    <li><a href="https://www.pivotaltracker.com/">PivotalTracker: Online project management tool</a></li>
-</ul>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
 
-</p>
-</p>
+<div class="container">
+    <h2 class="text-center">Acknowledgements</h2>
+    <h4 class="text-center">MetaboLights use the following resources/services and software components</h4>
+    <div>&nbsp;</div>
+    <div class="col-md-12">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="col-md-2">
+                <a href="http://www.bml-nmr.org/" target="_blank"><img src="${pageContext.request.contextPath}/img/acknowledgements/logo3.png" class="img-responsive"></a>
+            </div>
+            <div class="col-md-2">
+                <a href="http://www.bmrb.wisc.edu/metabolomics/" target="_blank"><img src="${pageContext.request.contextPath}/img/acknowledgements/logo1.png" class="img-responsive"></a>
+            </div>
+            <div class="col-md-2">
+                <a href="http://www.massbank.jp/" target="_blank"><img src="${pageContext.request.contextPath}/img/acknowledgements/logo2.png" class="img-responsive"></a>
+            </div>
+            <div class="col-md-2">
+                <a href="http://www.metaboanalyst.ca/" target="_blank"><img src="${pageContext.request.contextPath}/img/acknowledgements/logo4.png" class="img-responsive"></a>
+            </div>
+            <div class="col-md-2">
+                <a href="http://www.reactome.org/" target="_blank"><img src="${pageContext.request.contextPath}/img/acknowledgements/logo5.png" class="img-responsive"></a>
+            </div>
 
-<h3>MetaboLights would especially like to thank the following people:</h3>
-<ul id="ackn">
-    <li><a href="http://isatab.sourceforge.net/support.html">The ISA team at Oxford e-Research Centre</a></li>
-    <ul>
-        <li><a href="http://www.oerc.ox.ac.uk/people/philippe-rocca-serra">Particularly Dr Philippe Rocca-Serra</a></li>
-    </ul>
-    <li><a href="http://www.ipb-halle.de/en/research/stress-and-developmental-biology/research-groups/bioinformatics-mass-spectrometry/">Dr. Steffen Neumann at IPB-Halle</a></li>
-    <li><a href="https://uofa.ualberta.ca/biological-sciences/faculty-and-staff/academic-staff/david-wishart">Dr. David Wishart at University of Alberta</a></li>
-    <li><a href="http://www.mcgill.ca/parasitology/faculty/xia">Dr. Jeff Xia at McGill University</a></li>
-</ul>
+            <div class="col-md-2">
+                <a href="http://3dmol.csb.pitt.edu/" target="_blank"><img src="${pageContext.request.contextPath}/img/acknowledgements/logo6.png" class="img-responsive"></a>
+            </div>
+
+            <div class="col-md-2">
+                <a href="https://bitbucket.org/sbeisken/specktackle/wiki/Home" target="_blank"><img src="${pageContext.request.contextPath}/img/acknowledgements/logo7.png" class="img-responsive"></a>
+            </div>
+
+            <div class="col-md-2">
+                <a href="http://wikipathways.org/" target="_blank"><img src="${pageContext.request.contextPath}/img/acknowledgements/logo8.png" class="img-responsive"></a>
+            </div>
+
+            <div class="col-md-2">
+                <a href="http://europepmc.org/" target="_blank"><img src="${pageContext.request.contextPath}/img/acknowledgements/logo19.png" class="img-responsive"></a>
+            </div>
+
+            <div class="col-md-2">
+                <a href="http://www.genome.jp/kegg/pathway.html" target="_blank"><img src="${pageContext.request.contextPath}/img/acknowledgements/logo20.png" class="img-responsive"></a>
+            </div>
+
+            <div class="col-md-2">
+                <a href="http://www.ebi.ac.uk/chebi/" target="_blank"><img src="${pageContext.request.contextPath}/img/acknowledgements/logo21.png" class="img-responsive"></a>
+            </div>
+
+            <div class="col-md-2">
+                <a href="cts.fiehnlab.ucdavis.edu" target="_blank"><img src="${pageContext.request.contextPath}/img/acknowledgements/logo22.png" class="img-responsive"></a>
+            </div>
+
+            <div class="col-md-2">
+                <a href="https://cactus.nci.nih.gov/chemical/structure" target="_blank"><img src="${pageContext.request.contextPath}/img/acknowledgements/logo23.png" class="img-responsive"></a>
+            </div>
+
+            <div class="col-md-2">
+                <a href="https://www.jetbrains.com/idea/" target="_blank"><img src="${pageContext.request.contextPath}/img/acknowledgements/logo9.png" class="img-responsive"></a>
+            </div>
+
+            <div class="col-md-2">
+                <a href="http://sbw.kgi.edu/sbwWiki/sbw/autolayout" target="_blank"><img src="${pageContext.request.contextPath}/img/acknowledgements/logo10.png" class="img-responsive"></a>
+            </div>
+
+            <div class="col-md-2">
+                <a href="http://pivotaltracker.com/" target="_blank"><img src="${pageContext.request.contextPath}/img/acknowledgements/logo11.png" class="img-responsive"></a>
+            </div>
+
+            <div class="col-md-2">
+                <a href="https://clipboardjs.com/" target="_blank"><img src="${pageContext.request.contextPath}/img/acknowledgements/logo12.png" class="img-responsive"></a>
+            </div>
+
+            <div class="col-md-2">
+                <a href="http://fontawesome.io/" target="_blank"><img src="${pageContext.request.contextPath}/img/acknowledgements/logo13.png" class="img-responsive"></a>
+            </div>
+
+            <div class="col-md-2">
+                <a href="https://disqus.com/" target="_blank"><img src="${pageContext.request.contextPath}/img/acknowledgements/logo14.png" class="img-responsive"></a>
+            </div>
+
+            <div class="col-md-2">
+                <a href="https://vuejs.org/" target="_blank"><img src="${pageContext.request.contextPath}/img/acknowledgements/logo15.png" class="img-responsive"></a>
+            </div>
+
+            <div class="col-md-2">
+                <a href="https://jquery.com/" target="_blank"><img src="${pageContext.request.contextPath}/img/acknowledgements/logo16.png" class="img-responsive"></a>
+            </div>
+
+            <div class="col-md-2">
+                <a href="http://getbootstrap.com/" target="_blank"><img src="${pageContext.request.contextPath}/img/acknowledgements/logo17.png" class="img-responsive"></a>
+            </div>
+            <div class="col-md-2">
+                <a href="http://github.com/" target="_blank"><img src="${pageContext.request.contextPath}/img/acknowledgements/logo18.png" class="img-responsive"></a>
+            </div>
+
+        </div>
+    </div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div class="col-md-10 col-md-offset-1">
+        <div class="well">
+            <h4>MetaboLights would especially like to thank the following people</h4>
+            <ul id="ackn">
+                <li><a href="http://isatab.sourceforge.net/support.html">The ISA team at Oxford e-Research Centre</a></li>
+                <ul>
+                    <li><a href="http://www.oerc.ox.ac.uk/people/philippe-rocca-serra">Particularly Dr Philippe Rocca-Serra</a></li>
+                </ul>
+                <li><a href="http://www.ipb-halle.de/en/research/stress-and-developmental-biology/research-groups/bioinformatics-mass-spectrometry/">Dr. Steffen Neumann at IPB-Halle</a></li>
+                <li><a href="https://uofa.ualberta.ca/biological-sciences/faculty-and-staff/academic-staff/david-wishart">Dr. David Wishart at University of Alberta</a></li>
+                <li><a href="http://www.mcgill.ca/parasitology/faculty/xia">Dr. Jeff Xia at McGill University</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+

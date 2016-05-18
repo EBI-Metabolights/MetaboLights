@@ -38,6 +38,38 @@ public class MetCompoundDAO {
         }
 
         return metCompoundData;
+
+    }
+
+    public String getSpectra(String compoundId, String spectraId){
+
+        String spectraJSON = "";
+
+        String spectraPath = getSpectraFilePath(compoundId, spectraId);
+
+        if (checkFileExists(spectraPath)){
+
+            try {
+
+                spectraJSON = FileUtil.file2String(spectraPath);
+
+            } catch (IOException e) {
+
+                e.printStackTrace();
+
+            }
+
+            logger.info(" MetCompound Spectra JSON File Name - Found: " + spectraPath);
+        }
+
+        return spectraJSON;
+
+    }
+
+    private String getSpectraFilePath(String compoundId, String spectraId){
+
+         return referenceFolderLocation + File.separator + compoundId.toUpperCase() + File.separator + compoundId + "_spectra" + File.separator + spectraId + File.separator + spectraId + ".json";
+
     }
 
 
