@@ -12,6 +12,18 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/biojs.Rheaction.css" type="text/css"/>
 <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/jmvillaveces/biojs-vis-keggviewer/master/dependencies/css/bootstrap-slider.css">
 
+<noscript>
+    <style type="text/css">
+        .wrapper {display:none;}
+    </style>
+    <div class="container">
+        <div>&nbsp;</div>
+        <div class="noscriptmsg well">
+            You don't have javascript enabled.  Please enable scripts and refresh the page
+        </div>
+    </div>
+</noscript>
+
 <div id="content" class="grid_24">
     <div class="container-fluid">
         <div class="row">

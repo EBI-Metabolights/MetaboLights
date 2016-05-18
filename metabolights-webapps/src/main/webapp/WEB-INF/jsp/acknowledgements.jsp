@@ -74,7 +74,7 @@
             </div>
 
             <div class="col-md-2">
-                <a href="cts.fiehnlab.ucdavis.edu" target="_blank"><img src="${pageContext.request.contextPath}/img/acknowledgements/logo22.png" class="img-responsive"></a>
+                <a href="http://cts.fiehnlab.ucdavis.edu" target="_blank"><img src="${pageContext.request.contextPath}/img/acknowledgements/logo22.png" class="img-responsive"></a>
             </div>
 
             <div class="col-md-2">
