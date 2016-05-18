@@ -19,7 +19,7 @@
     <div class="container">
         <div>&nbsp;</div>
         <div class="noscriptmsg well">
-            You don't have javascript enabled.  Please enable scripts and refresh the page
+            You don't have javascript enabled.  Please enable javascript and refresh the page !
         </div>
     </div>
 </noscript>
@@ -446,8 +446,11 @@
                                                 <div class="panel-collapse collapse" id="citation{{$index}}">
                                                     <div class="panel-body">
                                                     <h6><b>Author: </b>{{ citation.author }}</h6>
-                                                    <p><small><b>Abstract: </b>{{ citation.abstract }}</small></p><hr>
-                                                    <p><b>DOI: </b>{{ citation.doi }}</p>
+                                                    <p><small><b>Abstract: </b>{{ citation.abstract }}</small></p>
+                                                        <div v-if="citation.doi != 'NA'">
+                                                            <hr>
+                                                            <p><b>DOI: </b> <a href="http://dx.doi.org/{{citation.doi}}" target="_blank">{{ citation.doi }}</a></p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
