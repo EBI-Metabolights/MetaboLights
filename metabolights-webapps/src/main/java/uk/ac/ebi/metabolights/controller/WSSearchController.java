@@ -60,6 +60,7 @@ public class WSSearchController extends AbstractController {
     // Facets
     public static final String OBJECT_TYPE = "ObjectType";
     public static final String ASSAYS_TECHNOLOGY = "assays.technology";
+    public static final String SPECIES_DATA = "compound.hasSpecies";
     public static final String PATHWAY_DATA = "compound.hasPathways";
     public static final String REACTION_DATA = "compound.hasReactions";
     public static final String NMR_DATA = "compound.hasNMR";
@@ -292,6 +293,7 @@ public class WSSearchController extends AbstractController {
         addFacet(STUDY_STATUS, emptyQuery);
         addFacet(ORGANISM_ORGANISM_NAME, emptyQuery);
         addFacet(ORGANISM_ORGANISM_PART, emptyQuery);
+        addFacet(SPECIES_DATA, emptyQuery);
         addFacet(PATHWAY_DATA, emptyQuery);
         addFacet(REACTION_DATA, emptyQuery);
         addFacet(NMR_DATA, emptyQuery);
