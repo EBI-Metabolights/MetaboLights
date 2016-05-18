@@ -116,7 +116,7 @@
         <div class="study--infopanel">
 
             <div class="col-md-5 no--padding">
-                <p><i class="fa fa-user"></i>&nbsp;<spring:message code="label.subm"/>:
+                <p><i class="fa fa-user"></i>&nbsp;<spring:message code="ref.msg.CitationAuthors"/>:
                     <c:forEach var="contact" items="${study.contacts}" varStatus="loopStatus">
                         <c:if test="${loopStatus.index ne 0}">, </c:if>
                             <span id="aff" <c:if test="${not empty contact.affiliation}">title="${contact.affiliation}"</c:if>>
