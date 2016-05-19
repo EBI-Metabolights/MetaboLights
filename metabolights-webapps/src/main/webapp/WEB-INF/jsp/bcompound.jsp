@@ -25,11 +25,25 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/st.css" type="text/css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
 
+
+<noscript>
+    <style type="text/css">
+        .ml--wrapper {display:none;}
+    </style>
+    <div class="container">
+        <div>&nbsp;</div>
+        <div class="noscriptmsg well">
+            You don't have javascript enabled.  Please enable javascript and refresh the page !
+        </div>
+    </div>
+</noscript>
+
 <%--  Place holder for the compound --%>
 <div id="content" class="grid_24">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12">
+            <div class="ml--wrapper">
+                <div class="col-md-12">
                 <div class="metabolite-title">
                     <h2>${fn:toUpperCase(fn:substring(compound.mc.name, 0, 1))}${fn:substring(compound.mc.name, 1,fn:length(compound.mc.name))}</h2>
 
@@ -415,6 +429,7 @@
                     </div>
                 </div>
             </div>
+            </div>
         </div>
     </div>
 </div>
@@ -528,7 +543,8 @@
         loadSpectraInfo(spectrum, infoDiv);
     }
     function loadSpectraAndInfo(spectra, infoDiv) {
-        loadSPLASH(spectra[0]['url']);
+        MLSpectraURL = "http://wwwdev.ebi.ac.uk/metabolights/webservice/beta/spectra/${compound.mc.accession}/" + spectra[0]['name'];
+        loadSPLASH(MLSpectraURL);
         loadSpectra(spectra);
 
         if (spectra.length == 1) {
@@ -545,7 +561,8 @@
             type: 'GET',
             url: spectraURl,
             success: function (data) {
-                spectralCoordinates = data;
+                document.getElementById('splash-container').innerHTML = "";
+                spectralCoordinates = JSON.parse(data);
                 var ions = [];
                 for (x in spectralCoordinates['peaks']) {
                     var coord = spectralCoordinates['peaks'][x];
@@ -553,7 +570,6 @@
                 }
                 var SPLASH_JSON = '{ "ions" : [' + ions + '], "type" : "MS" }';
                 generateSplash(JSON.parse(SPLASH_JSON));
-
             },
             error: function (xhr, status, errorThrown) {
                 console.log('STATUS ' + status);
@@ -583,9 +599,6 @@
         for (index = 0; index < spectra.length; ++index) {
             urls.push(spectra[index].url);
         }
-        console.log(urls)
-        alert();
-
         data.add(urls);
     }
 
