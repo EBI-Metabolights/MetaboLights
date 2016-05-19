@@ -1,3 +1,4 @@
+
 <div class="btn-group" data-toggle="buttons-checkbox">
     <c:forEach var="facet" items="${facets}">
         <c:if test="${facet.name eq 'compound.hasSpecies'}">

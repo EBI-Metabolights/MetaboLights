@@ -1,3 +1,4 @@
+
 <c:set var="caption" value="Compound features"/>
 <h4>${caption}</h4>
 <c:forEach var="facet" items="${facets}">
