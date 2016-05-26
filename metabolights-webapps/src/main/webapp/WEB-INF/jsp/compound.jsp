@@ -156,11 +156,11 @@
                             <div class="card">
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li v-if="mtblc.name" role="presentation" class="active"><a href="#chemistry" aria-controls="chemistry" role="tab" data-toggle="tab">Chemistry</a></li>
-                                    <li v-if="mtblc.species" role="presentation"><a href="#biology" aria-controls="biology" role="tab" data-toggle="tab">Biology</a></li>
-                                    <li v-if="mtblc.pathways" role="presentation"><a href="#pathways" aria-controls="pathways" role="tab" data-toggle="tab">Pathways</a></li>
-                                    <li v-if="mtblc.spectra" role="presentation"><a href="#spectra" aria-controls="spectra" role="tab" data-toggle="tab">Spectra</a></li>
-                                    <li v-if="mtblc.reactions.length > 0" role="presentation"><a href="#reactions" aria-controls="reactions" role="tab" data-toggle="tab">Reaction</a></li>
-                                    <li v-if="mtblc.citations" role="presentation"><a href="#citations" aria-controls="citations" role="tab" data-toggle="tab">Literature</a></li>
+                                    <li v-if="mtblc.flags.hasSpecies == 'true'" role="presentation"><a href="#biology" aria-controls="biology" role="tab" data-toggle="tab">Biology</a></li>
+                                    <li v-if="mtblc.flags.hasPathways == 'true'" role="presentation"><a href="#pathways" aria-controls="pathways" role="tab" data-toggle="tab">Pathways</a></li>
+                                    <li v-if="mtblc.flags.hasMS == 'true' || mtblc.flags.hasNMR == 'true'" role="presentation"><a href="#spectra" aria-controls="spectra" role="tab" data-toggle="tab">Spectra</a></li>
+                                    <li v-if="mtblc.flags.hasReactions == 'true'" role="presentation"><a href="#reactions" aria-controls="reactions" role="tab" data-toggle="tab">Reaction</a></li>
+                                    <li v-if="mtblc.flags.hasLiterature == 'true'" role="presentation"><a href="#citations" aria-controls="citations" role="tab" data-toggle="tab">Literature</a></li>
                                 </ul>
 
                                 <!-- Tab panes -->
@@ -174,6 +174,8 @@
                                             <h4>
                                                 {{ mtblc.definition }}
                                             </h4>
+
+                                            {{mtblc.flags.hasSpecies}}
                                         </div>
                                         <div class="met-panel col-md-12">
 
@@ -359,8 +361,8 @@
                                     <div role="tabpanel" class="tab-pane" id="spectra">
 
                                         <ul class="nav nav-tabs" role="tablist">
-                                            <li role="presentation" class="active"><a href="#nmr" aria-controls="nmr" role="tab" data-toggle="tab">NMR Spectra</a></li>
-                                            <li role="presentation"><a href="#ms" aria-controls="ms" role="tab" data-toggle="tab">MS Spectra</a></li>
+                                            <li v-if="mtblc.flags.hasNMR == 'true'" role="presentation" class="active"><a href="#nmr" aria-controls="nmr" role="tab" data-toggle="tab">NMR Spectra</a></li>
+                                            <li v-if="mtblc.flags.hasMS == 'true'" role="presentation"><a href="#ms" aria-controls="ms" role="tab" data-toggle="tab">MS Spectra</a></li>
                                         </ul>
 
                                         <!-- Tab panes -->
@@ -420,8 +422,10 @@
                                                                             <div class="col-md-9 ml_sp_trc">{{ attribute.attributeValue }}</div>
                                                                         </div>
                                                                     </span>
+                                                                    <hr>
                                                                     <h5 class="ml_sp_title">
-                                                                        <a href="http://splash.fiehnlab.ucdavis.edu/">Splash - The Spectral Hash Identifier</a> <span class="pull-right" id="splash-container"></span>
+                                                                        <a href="http://splash.fiehnlab.ucdavis.edu/">Splash - The Spectral Hash Identifier</a> <span class="pull-right" id="splash-container">{{ spectra.splash.splash }}</span>
+
                                                                     </h5>
                                                                 </div>
                                                             </div>
@@ -522,7 +526,7 @@
             for (firstWikiPathway in vm.mtblc.pathways.WikiPathways) break;
             data.selectedSpecies = firstWikiPathway;
         }else if (target == '#chemistry') {
-            console.log("chemistry")
+            //console.log("chemistry")
         }else if (target == '#reactome') {
             for (firstReactomePathway in vm.mtblc.pathways.ReactomePathways ) break;
             data.selectedReactomeSpecies = firstReactomePathway;
@@ -579,14 +583,10 @@
                 return tempPathways;
             },
             nmrSpectra: function () {
-                return this.mtblc.spectra.filter(function(spec){
-                    return spec.type == "NMR" ? true : false;
-                });
+                return this.mtblc.spectra['NMR']
             },
             msSpectra: function () {
-                return this.mtblc.spectra.filter(function(spec){
-                    return spec.type == "MS" ? true : false;
-                });
+                return this.mtblc.spectra['MS']
             }
         },
         methods: {
@@ -700,7 +700,7 @@
     vm.$watch('selectedMS', function () {
 
         this.initializeMSSpeckTackle();
-        this.selectedMSSpectra = vm.mtblc.spectra.filter(function(spec){
+        this.selectedMSSpectra = vm.mtblc.spectra.MS.filter(function(spec){
             return vm.selectedMS.indexOf(spec.name) > -1 ? true : false;
         });
         this.MSData.remove();
@@ -712,7 +712,7 @@
 
     vm.$watch('selectedNMR', function () {
         this.initializeNMRSpeckTackle();
-        this.selectedNMRSpectra = vm.mtblc.spectra.filter(function(spec){
+        this.selectedNMRSpectra = vm.mtblc.spectra.NMR.filter(function(spec){
             return vm.selectedNMR.indexOf(spec.name) > -1 ? true : false;
         });
         this.NMRarray.remove();
