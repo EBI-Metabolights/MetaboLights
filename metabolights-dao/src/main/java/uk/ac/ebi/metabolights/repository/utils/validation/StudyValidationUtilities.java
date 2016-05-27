@@ -7,6 +7,8 @@ import uk.ac.ebi.metabolights.repository.model.studyvalidator.*;
 import uk.ac.ebi.metabolights.repository.utils.ClobJsonUtils;
 import uk.ac.ebi.metabolights.repository.utils.validation.groups.*;
 
+import java.io.File;
+
 /**
  * Created by kalai on 18/09/15.
  */
@@ -15,10 +17,10 @@ public class StudyValidationUtilities {
     private final static Logger logger = LoggerFactory.getLogger(StudyValidationUtilities.class.getName());
     private static Validations validationsFromDB = new Validations();
 
-    public static void validate(Study study) {
+    public static void validate(Study study, File studiesFolder) {
         if (!hasInvalidIsaTab(study)) {
             validationsFromDB = study.getValidations();
-            validateStudy(study);
+            validateStudy(study,studiesFolder);
             checkForOverriding(validationsFromDB, study.getValidations());
         }
         Status status = Utilities.checkOverallStatus(study.getValidations().getEntries());
@@ -37,7 +39,7 @@ public class StudyValidationUtilities {
     }
 
 
-    private static void validateStudy(Study study) {
+    private static void validateStudy(Study study,File studiesFolder) {
         study.setValidations(new Validations());
         try {
             invokeValidationProcess(new StudyValidations(), study);
@@ -47,7 +49,7 @@ public class StudyValidationUtilities {
             invokeValidationProcess(new OrganismValidations(), study);
             invokeValidationProcess(new FactorValidations(), study);
             invokeValidationProcess(new AssayValidations(), study);
-            invokeValidationProcess(new MafValidations(), study);
+            invokeValidationProcess(new MafValidations(studiesFolder), study);
             invokeValidationProcess(new IsatabValidations(), study);
 
         } catch (Exception e) {
