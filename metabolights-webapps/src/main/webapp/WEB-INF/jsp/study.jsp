@@ -98,8 +98,27 @@
 
 <%--<c:set var="readOnly" value="${!fn:contains(servletPath,study.studyIdentifier)}"/>--%>
 
-<ol class="progtrckr" data-progtrckr-steps="${fn:length(studyStatuses)}">
-    <c:forEach var="status" items="${studyStatuses}"><%--
+<ol class="progtrckr" data-progtrckr-steps="${(fn:length(studyStatuses))-1}">
+
+    <%--<c:if test="${status.description eq 'Submitted'}">--%>
+    <%--</c:if>--%>
+    <%--<c:if test="${status.description eq 'Dormant'}">--%>
+    <%--</c:if>--%>
+        <%--<c:choose>--%>
+        <%--<c:when test="${status eq study.studyStatus}">--%>
+        <%--<li class="progtrckr-done" title="${status.description}">${status.descriptiveName}</li>--%>
+        <%--</c:when>--%>
+        <%--<c:otherwise>--%>
+        <%--...--%>
+        <%--</c:otherwise>--%>
+        <%--</c:choose>--%>
+
+    <c:forEach begin="0" end="1" var="status" items="${studyStatuses}"><%--
+        --%><c:if test="${status eq study.studyStatus}"><%--
+        --%><li class="progtrckr-done" title="${status.description}">${status.descriptiveName}</li><%--
+        --%></c:if><%--
+        --%></c:forEach><%--
+        --%><c:forEach begin="2" end="4" var="status" items="${studyStatuses}"><%--
         --%><c:if test="${status gt study.studyStatus}"><%--
             --%>
         <li class="progtrckr-todo" title="${status.description}">${status.descriptiveName}</li><%--
