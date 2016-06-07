@@ -262,6 +262,8 @@ public class EntryController extends AbstractController {
 
 		mav.addObject("study", study);
 
+		mav.addObject("liteStudy", wsClient.searchStudy(study.getStudyIdentifier()));
+
 		mav.addObject("studyStatuses", LiteStudy.StudyStatus.values());
 
 		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();

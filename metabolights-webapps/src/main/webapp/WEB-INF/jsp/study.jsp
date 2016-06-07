@@ -1,11 +1,11 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@page contentType="text/html;charset=UTF-8"%>
-<%@page pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@page contentType="text/html;charset=UTF-8" %>
+<%@page pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 
 <%--
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
@@ -27,52 +27,58 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/dataTables.bootstrap.min.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/dataTables.bootstrap.min.css"/>
 <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/ChEBICompound.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css"  type="text/css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/css/bootstrap-tour.css"  type="text/css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/ChEBICompound.css" type="text/css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/css/bootstrap-tour.css"
+      type="text/css"/>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/css/bootstrap-select.min.css">
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/css/bootstrap-select.min.css">
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.js" charset="utf-8"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.ChEBICompound.js" charset="utf-8"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/jquery.linkify-1.0-min.js" charset="utf-8"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/chebicompoundpopup.js" charset="utf-8"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/MetExplore/metExploreViz/metexploreviz.js" charset="utf-8"></script>
-
+<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.ChEBICompound.js"
+        charset="utf-8"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/jquery.linkify-1.0-min.js"
+        charset="utf-8"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/chebicompoundpopup.js"
+        charset="utf-8"></script>
+<script type="text/javascript"
+        src="${pageContext.request.contextPath}/javascript/MetExplore/metExploreViz/metexploreviz.js"
+        charset="utf-8"></script>
 
 
 <script language="javascript" type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
 
-        $("a#viewFiles").click(function(e) {
+        $("a#viewFiles").click(function (e) {
             e.preventDefault();
 
             // setter
-            $("#tabs").tabs( "option", "active", -2 );
+            $("#tabs").tabs("option", "active", -2);
             $("#tabs-files").effect("highlight", {color: '#E2BD97'}, 1700);
         });
 
-        $("input#fileSelector").bind("keypress keyup", function(e) {
+        $("input#fileSelector").bind("keypress keyup", function (e) {
 
             var code = e.keyCode || e.which;
 
-            if (code == 13){
+            if (code == 13) {
 
                 var value = e.target.value;
 
                 var checked = true;
 
-                if(value[0] == "!"){
+                if (value[0] == "!") {
                     checked = false;
                     value = value.substr(1);
                 }
 
-                if (value != ""){
+                if (value != "") {
                     $("input[name='file'][value*='" + value + "']").attr("checked", checked)
                 }
 
@@ -95,10 +101,12 @@
 <ol class="progtrckr" data-progtrckr-steps="${fn:length(studyStatuses)}">
     <c:forEach var="status" items="${studyStatuses}"><%--
         --%><c:if test="${status gt study.studyStatus}"><%--
-            --%><li class="progtrckr-todo" title="${status.description}">${status.descriptiveName}</li><%--
+            --%>
+        <li class="progtrckr-todo" title="${status.description}">${status.descriptiveName}</li><%--
         --%></c:if><%--
         --%><c:if test="${status le study.studyStatus}"><%--
-            --%><li class="progtrckr-done" title="${status.description}">${status.descriptiveName}</li><%--
+            --%>
+        <li class="progtrckr-done" title="${status.description}">${status.descriptiveName}</li><%--
         --%></c:if><%--
     --%></c:forEach>
 </ol>
@@ -119,7 +127,8 @@
                 <p><i class="fa fa-user"></i>&nbsp;<spring:message code="ref.msg.CitationAuthors"/>:
                     <c:forEach var="contact" items="${study.contacts}" varStatus="loopStatus">
                         <c:if test="${loopStatus.index ne 0}">, </c:if>
-                            <span id="aff" <c:if test="${not empty contact.affiliation}">title="${contact.affiliation}"</c:if>>
+                            <span id="aff"
+                                  <c:if test="${not empty contact.affiliation}">title="${contact.affiliation}"</c:if>>
                                  <strong>${contact.firstName}&nbsp;${contact.lastName}</strong>
                             </span>
                     </c:forEach>
@@ -146,11 +155,18 @@
                             code="label.releaseDate"/>: <strong><fmt:formatDate pattern="dd-MMM-yyyy"
                                                                                 value="${study.studyPublicReleaseDate}"/></strong>
                     </c:if><c:if test="${not empty study.updateDate}">, <spring:message code="label.updateDate"/>:
-                        <strong title="${study.updateDate}"><fmt:formatDate pattern="dd-MMM-yyyy"
-                                                                            value="${study.updateDate}"/></strong>
-                    </c:if>
+                    <strong title="${study.updateDate}"><fmt:formatDate pattern="dd-MMM-yyyy"
+                                                                        value="${study.updateDate}"/></strong>
+                </c:if>
                 </p>
-                <p class="text-right" id="mStudyStatus"><i class="fa fa-bookmark"></i>&nbsp;<spring:message
+                <p class="text-right" id="mStudyStatus">
+                    <i class="fa fa-user">&nbsp;</i><spring:message code="label.subm"/>:&nbsp;
+                    <c:forEach var="owner" items="${liteStudy.users}">
+                        <a href="mailto:${owner.userName}?subject=<spring:message code="msg.emailStudyLinkSubject"/>&nbsp;${liteStudy.studyIdentifier}">${owner.fullName}</a>
+                    </c:forEach>
+                    &nbsp;|&nbsp;
+
+                    <i class="fa fa-bookmark"></i>&nbsp;<spring:message
                         code="ref.msg.status"/>:&nbsp;${study.studyStatus.descriptiveName}
                     <%-- &emsp;
                     <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="bottom" id="tourButton" title="Study Tour"><i class="fa fa-compass"></i></button>--%>
@@ -163,9 +179,13 @@
 
                 <div class="btn-group" role="group">
                     <c:if test="${fn:length(study.assays) eq 1}">
-                        <button type="button" class="btn btn-default dropdown-toggle quicklinks" data-assayid="1" data-destination="assay<c:if test="${fn:length(study.assays) gt 0}">${assay.assayNumber}</c:if>" <c:if test="${(empty study.assays[0].metaboliteAssignment) and ( empty study.assays[0].metaboliteAssignment.metaboliteAssignmentFileName) }">disabled</c:if> >
+                        <button type="button" class="btn btn-default dropdown-toggle quicklinks" data-assayid="1"
+                                data-destination="assay<c:if test="${fn:length(study.assays) gt 0}">${assay.assayNumber}</c:if>"
+                                <c:if test="${(empty study.assays[0].metaboliteAssignment) and ( empty study.assays[0].metaboliteAssignment.metaboliteAssignmentFileName) }">disabled</c:if> >
                             <i class="ml--icons fa fa-fire pull-left"></i> View Metabolites
-                            <span class="icon icon-conceList of study filesptual" data-icon="b"></span><spring:message code="label.assays"/><c:if test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if>
+                            <span class="icon icon-conceList of study filesptual" data-icon="b"></span><spring:message
+                                code="label.assays"/><c:if
+                                test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if>
                         </button>
                     </c:if>
                     <c:if test="${fn:length(study.assays) gt 1}">
@@ -174,14 +194,20 @@
                                 <li>
                                     <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
                                         <c:set var="mafExist" value="true"/>
-                                        <a class="quicklinks" data-assayid="<c:if test="${fn:length(study.assays) gt 0}">${assay.assayNumber}</c:if>" data-destination="assay<c:if test="${fn:length(study.assays) gt 0}">${assay.assayNumber}</c:if>" >
-                                            <span class="icon icon-conceList of study filesptual" data-icon="b"></span><spring:message code="label.assays"/><c:if test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if>
+                                        <a class="quicklinks"
+                                           data-assayid="<c:if test="${fn:length(study.assays) gt 0}">${assay.assayNumber}</c:if>"
+                                           data-destination="assay<c:if test="${fn:length(study.assays) gt 0}">${assay.assayNumber}</c:if>">
+                                            <span class="icon icon-conceList of study filesptual"
+                                                  data-icon="b"></span><spring:message code="label.assays"/><c:if
+                                                test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if>
                                         </a>
                                     </c:if>
                                 </li>
                             </c:forEach>
                         </ul>
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" <c:if test="${mafExist ne true}">disabled</c:if>>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false"
+                                <c:if test="${mafExist ne true}">disabled</c:if>>
                             <i class="ml--icons fa fa-fire pull-left"></i> View Metabolites
                             <span class="caret"></span>
                         </button>
@@ -190,7 +216,9 @@
 
 
                 </div>
-                <button type="button" class="btn btn-default quicklinks files--tab" data-destination="files"><i class="ml--icons fa fa-download pull-left"></i> Download Study files</button>
+                <button type="button" class="btn btn-default quicklinks files--tab" data-destination="files"><i
+                        class="ml--icons fa fa-download pull-left"></i> Download Study files
+                </button>
 
             </div>
 
@@ -204,21 +232,27 @@
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs responsive" id="study--tab" role="tablist">
                     <c:if test="${study.factors != null}">
-                        <li role="presentation" class="active"><a href="#description" aria-controls="description" role="tab" data-toggle="tab"><spring:message code="label.studyDesign"/></a></li>
+                        <li role="presentation" class="active"><a href="#description" aria-controls="description"
+                                                                  role="tab" data-toggle="tab"><spring:message
+                                code="label.studyDesign"/></a></li>
                     </c:if>
                     <c:if test="${not empty study.protocols}">
-                        <li role="presentation"><a href="#protocols" aria-controls="protocols" role="tab" data-toggle="tab"><spring:message code="label.protocols"/></a></li>
+                        <li role="presentation"><a href="#protocols" aria-controls="protocols" role="tab"
+                                                   data-toggle="tab"><spring:message code="label.protocols"/></a></li>
                     </c:if>
                     <c:if test="${not empty study.sampleTable}">
-                        <li role="presentation"><a href="#sample" aria-controls="sample" role="tab" data-toggle="tab"><spring:message code="label.sample"/></a></li>
+                        <li role="presentation"><a href="#sample" aria-controls="sample" role="tab"
+                                                   data-toggle="tab"><spring:message code="label.sample"/></a></li>
                     </c:if>
                     <c:if test="${not empty study.assays}">
                         <c:if test="${fn:length(study.assays) eq 1}">
                             <li role="presentation">
-                                <a class="assay--tab" href="#assay" aria-controls="assay" data-assayid="1" role="tab" data-toggle="tab">
+                                <a class="assay--tab" href="#assay" aria-controls="assay" data-assayid="1" role="tab"
+                                   data-toggle="tab">
                                     <c:if test="${(not empty study.assays[0].metaboliteAssignment) and (not empty study.assays[0].metaboliteAssignment.metaboliteAssignmentFileName) }">
                                         <c:set var="metabolitesExist" value="true"/>
-                                        <span id="study-metabolitesicon" class="icon icon-conceptual" data-icon="b"></span>
+                                        <span id="study-metabolitesicon" class="icon icon-conceptual"
+                                              data-icon="b"></span>
                                     </c:if>
                                     <spring:message code="label.assays"/>
                                 </a>
@@ -230,19 +264,23 @@
                                     <c:set var="metabolitesExist" value="false"/>
                                     <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
                                         <li>
-                                            <a class="assay--tab" href="#assay${assay.assayNumber}" aria-controls="assay${assay.assayNumber}" data-assayid="${assay.assayNumber}" role="tab" data-toggle="tab">
+                                            <a class="assay--tab" href="#assay${assay.assayNumber}"
+                                               aria-controls="assay${assay.assayNumber}"
+                                               data-assayid="${assay.assayNumber}" role="tab" data-toggle="tab">
                                                 <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
                                                     <c:set var="metabolitesExist" value="true"/>
                                                     <span class="icon icon-conceptual" data-icon="b"></span>
                                                 </c:if>
-                                                <spring:message code="label.assays"/> <c:if test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if>
+                                                <spring:message code="label.assays"/> <c:if
+                                                    test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if>
                                             </a>
                                         </li>
                                     </c:forEach>
                                 </ul>
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                     <c:if test="${metabolitesExist eq true}">
-                                        <span id="study-metabolitesicon" class="icon icon-conceptual" data-icon="b"></span>
+                                        <span id="study-metabolitesicon" class="icon icon-conceptual"
+                                              data-icon="b"></span>
                                     </c:if>
                                     <spring:message code="label.assays"/>&nbsp;<span class="caret"></span>
                                 </a>
@@ -250,12 +288,14 @@
                         </c:if>
                     </c:if>
                     <c:if test="${not empty files}">
-                        <li role="presentation"><a href="#files" class="files--tab" aria-controls="files" role="tab" data-toggle="tab"><spring:message code="label.Files"/></a></li>
+                        <li role="presentation"><a href="#files" class="files--tab" aria-controls="files" role="tab"
+                                                   data-toggle="tab"><spring:message code="label.Files"/></a></li>
                     </c:if>
 
                     <c:if test="${not empty study.validations}">
                         <li role="presentation">
-                            <a id="valid-tab" href="#validations" aria-controls="validations" role="tab" data-toggle="tab">
+                            <a id="valid-tab" href="#validations" aria-controls="validations" role="tab"
+                               data-toggle="tab">
                                 <spring:message code="label.studyvalidation"/>&nbsp;
                                 <c:set var="validationstatus" value="${study.validations.status}"/>
                                 <c:set var="validationoverridden" value="${study.validations.overriden}"/>
@@ -265,14 +305,15 @@
                     </c:if>
                     <c:if test="${not empty study.assays}">
                         <c:if test="${fn:length(study.assays) eq 1}">
-                                    <c:if test="${(not empty study.assays[0].metaboliteAssignment) and (not empty study.assays[0].metaboliteAssignment.metaboliteAssignmentFileName) }">
-                                        <c:set var="metabolitesExist" value="true"/>
-                                        <li role="presentation">
-                                        <a class="assay--tab" href="#metpathways" aria-controls="metpathways" data-assayid="1" role="tab" data-toggle="tab">
-                                            Pathways
-                                        </a>
-                                        </li>
-                                    </c:if>
+                            <c:if test="${(not empty study.assays[0].metaboliteAssignment) and (not empty study.assays[0].metaboliteAssignment.metaboliteAssignmentFileName) }">
+                                <c:set var="metabolitesExist" value="true"/>
+                                <li role="presentation">
+                                    <a class="assay--tab" href="#metpathways" aria-controls="metpathways"
+                                       data-assayid="1" role="tab" data-toggle="tab">
+                                        Pathways
+                                    </a>
+                                </li>
+                            </c:if>
                         </c:if>
                         <c:if test="${fn:length(study.assays) gt 1}">
                             <li class="dropdown">
@@ -280,10 +321,13 @@
                                     <c:set var="metabolitesExist" value="false"/>
                                     <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
                                         <li>
-                                            <a class="assay--tab" href="#metpathways${assay.assayNumber}" aria-controls="metpathways${assay.assayNumber}" data-assayid="${assay.assayNumber}" role="tab" data-toggle="tab">
+                                            <a class="assay--tab" href="#metpathways${assay.assayNumber}"
+                                               aria-controls="metpathways${assay.assayNumber}"
+                                               data-assayid="${assay.assayNumber}" role="tab" data-toggle="tab">
                                                 <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
                                                     <c:set var="metabolitesExist" value="true"/>
-                                                    Pathways <c:if test="${fn:length(study.assays) gt 1}">(Assay&nbsp;${assay.assayNumber})</c:if>
+                                                    Pathways <c:if
+                                                        test="${fn:length(study.assays) gt 1}">(Assay&nbsp;${assay.assayNumber})</c:if>
                                                 </c:if>
                                             </a>
                                         </li>
@@ -307,142 +351,156 @@
                     <div role="tabpanel" class="tab-pane active" id="description">
                         <!-- TAB1: INFO-->
                         <c:if test="${study.factors != null}">
-                                <c:if test="${not empty study.organism}">
-                                    <div class="col-md-12">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span>&nbsp; <spring:message code="label.organisms"/></div>
-                                            <div class="panel-body">
-                                                <c:forEach var="org" items="${study.organism}" >
-                                                    <p>${org.organismName}</p>
-                                                </c:forEach>
-                                            </div>
+                            <c:if test="${not empty study.organism}">
+                                <div class="col-md-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading"><span class="glyphicon glyphicon-globe"
+                                                                         aria-hidden="true"></span>&nbsp;
+                                            <spring:message code="label.organisms"/></div>
+                                        <div class="panel-body">
+                                            <c:forEach var="org" items="${study.organism}">
+                                                <p>${org.organismName}</p>
+                                            </c:forEach>
                                         </div>
                                     </div>
+                                </div>
 
 
-
-                                </c:if>
-                                <c:if test="${not empty study.descriptors}">
-                                    <div class="col-md-12">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading"><span class="glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp; <spring:message code="label.studyDesign"/></div>
-                                            <div class="panel-body">
-                                                <c:forEach var="design" items="${study.descriptors}" >
-                                                    <p>${design.description}</p>
-                                                </c:forEach>
-                                            </div>
+                            </c:if>
+                            <c:if test="${not empty study.descriptors}">
+                                <div class="col-md-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading"><span class="glyphicon glyphicon-list"
+                                                                         aria-hidden="true"></span>&nbsp;
+                                            <spring:message code="label.studyDesign"/></div>
+                                        <div class="panel-body">
+                                            <c:forEach var="design" items="${study.descriptors}">
+                                                <p>${design.description}</p>
+                                            </c:forEach>
                                         </div>
                                     </div>
-                                </c:if>
+                                </div>
+                            </c:if>
 
-                                <c:if test="${not empty study.publications}">
-                                   <div class="col-md-12">
-                                       <div class="panel panel-default">
-                                           <div class="panel-heading"><span class="glyphicon glyphicon-book" aria-hidden="true"></span>&nbsp;<spring:message code="label.publications"/></div>
-                                           <div class="panel-body">
-                                               <c:forEach var="pub" items="${study.publications}" varStatus="loopPublications">
-                                               <div class="panel panel-default">
-                                                   <div class="panel-body">
-                                                       [${loopPublications.index+1}]&nbsp;
-                                                       <c:set var="DOIValue" value="${pub.doi}"/>
-                                                       <c:choose>
-                                                           <c:when test="${not empty pub.pubmedId}">
-                                                               <a href="http://europepmc.org/abstract/MED/${pub.pubmedId}" target="_blank">${pub.title}</a>
-                                                           </c:when>
-                                                           <c:when test="${not empty pub.doi}">
-                                                               <c:if test="${fn:contains(DOIValue, 'DOI')}">
-                                                                   <c:set var="DOIValue" value="${fn:replace(DOIValue, 'DOI:','')}"/>
-                                                               </c:if>
-                                                               <c:if test="${fn:contains(DOIValue, 'dx.doi')}">
-                                                                   <a target="_blank" href="${DOIValue}">${pub.title}</a>
-                                                               </c:if>
-                                                               <c:if test="${not fn:contains(DOIValue, 'dx.doi')}">
-                                                                   <a target="_blank" href="http://dx.doi.org/${DOIValue}">${pub.title}</a>
-                                                               </c:if>
-                                                           </c:when>
-                                                           <c:otherwise>${pub.title}</c:otherwise>
-                                                       </c:choose>
-                                                        </div>
+                            <c:if test="${not empty study.publications}">
+                                <div class="col-md-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading"><span class="glyphicon glyphicon-book"
+                                                                         aria-hidden="true"></span>&nbsp;<spring:message
+                                                code="label.publications"/></div>
+                                        <div class="panel-body">
+                                            <c:forEach var="pub" items="${study.publications}"
+                                                       varStatus="loopPublications">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        [${loopPublications.index+1}]&nbsp;
+                                                        <c:set var="DOIValue" value="${pub.doi}"/>
+                                                        <c:choose>
+                                                            <c:when test="${not empty pub.pubmedId}">
+                                                                <a href="http://europepmc.org/abstract/MED/${pub.pubmedId}"
+                                                                   target="_blank">${pub.title}</a>
+                                                            </c:when>
+                                                            <c:when test="${not empty pub.doi}">
+                                                                <c:if test="${fn:contains(DOIValue, 'DOI')}">
+                                                                    <c:set var="DOIValue"
+                                                                           value="${fn:replace(DOIValue, 'DOI:','')}"/>
+                                                                </c:if>
+                                                                <c:if test="${fn:contains(DOIValue, 'dx.doi')}">
+                                                                    <a target="_blank"
+                                                                       href="${DOIValue}">${pub.title}</a>
+                                                                </c:if>
+                                                                <c:if test="${not fn:contains(DOIValue, 'dx.doi')}">
+                                                                    <a target="_blank"
+                                                                       href="http://dx.doi.org/${DOIValue}">${pub.title}</a>
+                                                                </c:if>
+                                                            </c:when>
+                                                            <c:otherwise>${pub.title}</c:otherwise>
+                                                        </c:choose>
                                                     </div>
-                                               </c:forEach>
-                                           </div>
-                                       </div>
-                                   </div>
-                                </c:if>
-                                <c:if test="${not empty study.factors}">
-                                   <div class="col-md-12">
-                                       <div class="panel panel-default">
-                                           <div class="panel-heading"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>&nbsp; <spring:message code="label.experimentalFactors"/></div>
-                                           <div class="panel-body">
-                                               <c:forEach var="fv" items="${study.factors}">
-                                                   <p>${fv.name}</p>
-                                               </c:forEach>
-                                           </div>
-                                       </div>
-                                   </div>
-                                </c:if>
+                                                </div>
+                                            </c:forEach>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:if>
+                            <c:if test="${not empty study.factors}">
+                                <div class="col-md-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading"><span class="glyphicon glyphicon-tags"
+                                                                         aria-hidden="true"></span>&nbsp;
+                                            <spring:message code="label.experimentalFactors"/></div>
+                                        <div class="panel-body">
+                                            <c:forEach var="fv" items="${study.factors}">
+                                                <p>${fv.name}</p>
+                                            </c:forEach>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:if>
                         </c:if>
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="protocols">
                         <c:if test="${not empty study.protocols}">
-                                <table class="table table-striped table-bordered protocols-table">
-                                    <thead class='text_header'>
-                                    <tr>
-                                        <th>Protocol</th>
-                                        <th>Description</th>
-                                    </tr>
-                                    </thead>
+                            <table class="table table-striped table-bordered protocols-table">
+                                <thead class='text_header'>
+                                <tr>
+                                    <th>Protocol</th>
+                                    <th>Description</th>
+                                </tr>
+                                </thead>
 
-                                    <tbody>
-                                    <c:forEach var="protocol" items="${study.protocols}">
-                                        <c:choose>
-                                            <c:when test="${not empty protocol.description}">
-                                                <tr>
-                                                    <td class="tableitem">${protocol.name}</td>
-                                                    <td id="protocoldesc" class="tableitem">${protocol.description}</td>
-                                                </tr>
-                                            </c:when>
-                                        </c:choose>
-                                    </c:forEach>
-                                    </tbody>
-                                </table>
+                                <tbody>
+                                <c:forEach var="protocol" items="${study.protocols}">
+                                    <c:choose>
+                                        <c:when test="${not empty protocol.description}">
+                                            <tr>
+                                                <td class="tableitem">${protocol.name}</td>
+                                                <td id="protocoldesc" class="tableitem">${protocol.description}</td>
+                                            </tr>
+                                        </c:when>
+                                    </c:choose>
+                                </c:forEach>
+                                </tbody>
+                            </table>
                         </c:if>
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="sample">
                         <c:if test="${not empty study.sampleTable}">
-                                <table class="dataTable table table-striped table-bordered">
-                                    <thead class='text_header'>
+                            <table class="dataTable table table-striped table-bordered">
+                                <thead class='text_header'>
+                                <tr>
+                                    <c:forEach var="fieldSet" items="${study.sampleTable.fields}">
+                                        <c:set var="headerTitle" value="${fieldSet.value.description}"/>
+                                        <c:if test="${not empty fieldSet.value.fieldType}">
+                                            <c:set var="headerTitle"
+                                                   value="${headerTitle} - Type: ${fieldSet.value.fieldType}"/>
+                                        </c:if>
+                                        <th title="${headerTitle}">${fieldSet.value.cleanHeader}</th>
+                                    </c:forEach>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach var="row" items="${study.sampleTable.iterator}">
                                     <tr>
-                                        <c:forEach var="fieldSet" items="${study.sampleTable.fields}">
-                                            <c:set var="headerTitle" value="${fieldSet.value.description}"/>
-                                            <c:if test="${not empty fieldSet.value.fieldType}">
-                                                <c:set var="headerTitle" value="${headerTitle} - Type: ${fieldSet.value.fieldType}"/>
+                                        <c:forEach var="cell" items="${row.iterator}">
+
+                                            <c:set var="cellvalue" value="${cell.value}" scope="page"/>
+
+                                            <c:if test="${cell.field.header eq 'Sample Name'}">
+                                                <c:if test="${fn:startsWith(cellvalue, 'SAMEA')}">
+                                                    <c:set var="cellvalue"
+                                                           value="<a href='http://www.ebi.ac.uk/biosamples/sample/${cellvalue}'>${cellvalue}</a>"/>
+                                                </c:if>
                                             </c:if>
-                                            <th title="${headerTitle}">${fieldSet.value.cleanHeader}</th>
+                                            <td>${cellvalue}</td>
                                         </c:forEach>
                                     </tr>
-                                    </thead>
-                                    <tbody>
-                                    <c:forEach var="row" items="${study.sampleTable.iterator}">
-                                        <tr>
-                                            <c:forEach var="cell" items="${row.iterator}">
 
-                                                <c:set var="cellvalue" value="${cell.value}" scope="page"/>
-
-                                                <c:if test="${cell.field.header eq 'Sample Name'}">
-                                                    <c:if test="${fn:startsWith(cellvalue, 'SAMEA')}">
-                                                        <c:set var="cellvalue" value="<a href='http://www.ebi.ac.uk/biosamples/sample/${cellvalue}'>${cellvalue}</a>"/>
-                                                    </c:if>
-                                                </c:if>
-                                                <td>${cellvalue}</td>
-                                            </c:forEach>
-                                        </tr>
-
-                                    </c:forEach>
-                                    </tbody>
-                                </table>
+                                </c:forEach>
+                                </tbody>
+                            </table>
                         </c:if>
                     </div>
 
@@ -455,8 +513,11 @@
                                     <!-- ...allow to send report to submitter via email -->
                                     <sec:authorize access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
                                         <div class="specs well">
-                                            <a class="noLine" rel="nofollow" href="${pageContext.request.contextPath}/${study.studyIdentifier}/validations/statusReportByMail" title="<spring:message code="label.sendValidationsStatusReport"/>">
-                                                <span class="icon icon-generic" data-icon="E"/><spring:message code="label.sendValidationsStatusReport"/></a>
+                                            <a class="noLine" rel="nofollow"
+                                               href="${pageContext.request.contextPath}/${study.studyIdentifier}/validations/statusReportByMail"
+                                               title="<spring:message code="label.sendValidationsStatusReport"/>">
+                                                <span class="icon icon-generic" data-icon="E"/><spring:message
+                                                    code="label.sendValidationsStatusReport"/></a>
                                         </div>
                                     </sec:authorize>
                                 </c:if>
@@ -475,7 +536,7 @@
                                 </div>
                                 <c:choose>
                                     <c:when test="${curator}">
-                                        <%@include file="validationOverride.jsp"%>
+                                        <%@include file="validationOverride.jsp" %>
                                     </c:when>
                                     <c:otherwise>
                                         <c:set var="validations" value="${study.validations.entries}"/>
@@ -496,8 +557,10 @@
                                                     <tr>
                                                         <td>
                                                             <c:set var="validationType" value="${validation.type}"/>
-                                                            <c:set var="validationOverridden" value="${validation.overriden}"/>
-                                                            <c:set var="validationPassedRequirement" value="${validation.passedRequirement}"/>
+                                                            <c:set var="validationOverridden"
+                                                                   value="${validation.overriden}"/>
+                                                            <c:set var="validationPassedRequirement"
+                                                                   value="${validation.passedRequirement}"/>
                                                             <%@include file="validation.jsp" %>
                                                         </td>
 
@@ -536,11 +599,15 @@
                         <c:if test="${not empty study.assays}">
                             <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
                                 <div role="tabpanel" class="tab-pane" id="assay">
-                                    <h3>Assay&nbsp;<c:if test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if></h3>
+                                    <h3>Assay&nbsp;<c:if
+                                            test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if></h3>
                                     <div class="specs well">
-                                        <h5><spring:message code="label.assayName"/>:<b> <a href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/${assay.fileName}"><span class="icon icon-fileformats" data-icon="v">${assay.fileName}</span></a></b></h5>
+                                        <h5><spring:message code="label.assayName"/>:<b> <a
+                                                href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/${assay.fileName}"><span
+                                                class="icon icon-fileformats" data-icon="v">${assay.fileName}</span></a></b>
+                                        </h5>
                                         <h5><spring:message code="label.measurement"/>: <b>${assay.measurement}</b></h5>
-                                        <h5><spring:message code="label.technology"/>:  <b>${assay.technology}
+                                        <h5><spring:message code="label.technology"/>: <b>${assay.technology}
                                             <c:if test="${fn:contains(assay.technology,'NMR')}">
                                                 <span aria-hidden="true" class="icon2-NMRLogo"></span>
                                             </c:if>
@@ -562,13 +629,19 @@
                                                     aria-expanded="false"
                                                     aria-controls="collapseExample"
                                                 >
-                                                    <span class="icon icon-conceptual" data-icon="b"></span><spring:message code="label.mafFileFound"/>
+                                                    <span class="icon icon-conceptual"
+                                                          data-icon="b"></span><spring:message
+                                                        code="label.mafFileFound"/>
                                                 </h4>
                                             </div>
 
                                             <div class="panel-body">
-                                                <div id="mafTableWrapper${assay.assayNumber}" data-studyid="${study.studyIdentifier}" data-assayid="${assay.assayNumber}">
-                                                    <p class="text-center"><span><img src="${pageContext.request.contextPath}/img/beta_loading.gif"></span></p>
+                                                <div id="mafTableWrapper${assay.assayNumber}"
+                                                     data-studyid="${study.studyIdentifier}"
+                                                     data-assayid="${assay.assayNumber}">
+                                                    <p class="text-center"><span><img
+                                                            src="${pageContext.request.contextPath}/img/beta_loading.gif"></span>
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -578,17 +651,20 @@
 
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
-                                            <h4><span class="icon icon-functional" data-icon="A"></span><spring:message code="label.data"/></h4>
+                                            <h4><span class="icon icon-functional" data-icon="A"></span><spring:message
+                                                    code="label.data"/></h4>
                                         </div>
 
                                         <div class="panel-body">
                                             <div>
                                                 <c:if test="${not empty assay.assayTable}">
                                                     <div class="custom--wrapper">
-                                                        <table class="assayTable  table table-striped table-bordered" cellpadding="0" cellspacing="0" border="0">
+                                                        <table class="assayTable  table table-striped table-bordered"
+                                                               cellpadding="0" cellspacing="0" border="0">
                                                             <thead class='text_header'>
                                                             <tr>
-                                                                <c:forEach var="fieldSet" items="${assay.assayTable.fields}">
+                                                                <c:forEach var="fieldSet"
+                                                                           items="${assay.assayTable.fields}">
                                                                     <th title="${fieldSet.value.description}">${fieldSet.value.cleanHeader}</th>
                                                                 </c:forEach>
                                                             </tr>
@@ -598,11 +674,13 @@
                                                                 <tr>
                                                                     <c:forEach var="cell" items="${row.iterator}">
 
-                                                                        <c:set var="cellvalue" value="${cell.value}" scope="page"/>
+                                                                        <c:set var="cellvalue" value="${cell.value}"
+                                                                               scope="page"/>
 
                                                                         <c:if test="${cell.field.header eq 'Sample Name'}">
                                                                             <c:if test="${fn:startsWith(cellvalue, 'SAMEA')}">
-                                                                                <c:set var="cellvalue" value="<a href='http://www.ebi.ac.uk/biosamples/sample/${cell.value}'>${cell.value}</a>"/>
+                                                                                <c:set var="cellvalue"
+                                                                                       value="<a href='http://www.ebi.ac.uk/biosamples/sample/${cell.value}'>${cell.value}</a>"/>
                                                                             </c:if>
                                                                         </c:if>
                                                                         <td>${cellvalue}</td>
@@ -629,10 +707,14 @@
                         <c:if test="${not empty study.assays}">
                             <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
                                 <div role="tabpanel" class="tab-pane" id="assay${assay.assayNumber}">
-                                    <h3>Assay&nbsp;<c:if test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if></h3>
+                                    <h3>Assay&nbsp;<c:if
+                                            test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if></h3>
                                     <div class="specs well">
-                                        <h5><spring:message code="label.assayName"/>:<b> <a href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/${assay.fileName}"><span class="icon icon-fileformats" data-icon="v">${assay.fileName}</span></a></b></h5>
-                                        <h5><spring:message code="label.technology"/>:  <b>${assay.technology}
+                                        <h5><spring:message code="label.assayName"/>:<b> <a
+                                                href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/${assay.fileName}"><span
+                                                class="icon icon-fileformats" data-icon="v">${assay.fileName}</span></a></b>
+                                        </h5>
+                                        <h5><spring:message code="label.technology"/>: <b>${assay.technology}
                                             <c:if test="${fn:contains(assay.technology,'NMR')}">
                                                 <span aria-hidden="true" class="icon2-NMRLogo"></span>
                                             </c:if>
@@ -654,13 +736,18 @@
                                                     aria-expanded="false"
                                                     aria-controls="collapseExample"
                                                 >
-                                                    <span class="icon icon-conceptual" data-icon="b"></span><spring:message code="label.mafFileFound"/>
+                                                    <span class="icon icon-conceptual"
+                                                          data-icon="b"></span><spring:message
+                                                        code="label.mafFileFound"/>
                                                 </h4>
                                             </div>
 
                                             <div class="panel-body">
-                                                <div id="mafTableWrapper${assay.assayNumber}" data-studyid="${study.studyIdentifier}" data-assayid="${assay.assayNumber}">
-                                                    <p class="text-center"><span><img src="/metabolights/img/beta_loading.gif"></span></p>
+                                                <div id="mafTableWrapper${assay.assayNumber}"
+                                                     data-studyid="${study.studyIdentifier}"
+                                                     data-assayid="${assay.assayNumber}">
+                                                    <p class="text-center"><span><img
+                                                            src="/metabolights/img/beta_loading.gif"></span></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -670,17 +757,20 @@
 
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
-                                            <h4><span class="icon icon-functional" data-icon="A"></span><spring:message code="label.data"/></h4>
+                                            <h4><span class="icon icon-functional" data-icon="A"></span><spring:message
+                                                    code="label.data"/></h4>
                                         </div>
 
                                         <div class="panel-body">
                                             <div>
                                                 <c:if test="${not empty assay.assayTable}">
                                                     <div class="custom--wrapper">
-                                                        <table class="assayTable  table table-striped table-bordered" cellpadding="0" cellspacing="0" border="0">
+                                                        <table class="assayTable  table table-striped table-bordered"
+                                                               cellpadding="0" cellspacing="0" border="0">
                                                             <thead class='text_header'>
                                                             <tr>
-                                                                <c:forEach var="fieldSet" items="${assay.assayTable.fields}">
+                                                                <c:forEach var="fieldSet"
+                                                                           items="${assay.assayTable.fields}">
                                                                     <th title="${fieldSet.value.description}">${fieldSet.value.cleanHeader}</th>
                                                                 </c:forEach>
                                                             </tr>
@@ -690,11 +780,13 @@
                                                                 <tr>
                                                                     <c:forEach var="cell" items="${row.iterator}">
 
-                                                                        <c:set var="cellvalue" value="${cell.value}" scope="page"/>
+                                                                        <c:set var="cellvalue" value="${cell.value}"
+                                                                               scope="page"/>
 
                                                                         <c:if test="${cell.field.header eq 'Sample Name'}">
                                                                             <c:if test="${fn:startsWith(cellvalue, 'SAMEA')}">
-                                                                                <c:set var="cellvalue" value="<a href='http://www.ebi.ac.uk/biosamples/sample/${cell.value}'>${cell.value}</a>"/>
+                                                                                <c:set var="cellvalue"
+                                                                                       value="<a href='http://www.ebi.ac.uk/biosamples/sample/${cell.value}'>${cell.value}</a>"/>
                                                                             </c:if>
                                                                         </c:if>
                                                                         <td>${cellvalue}</td>
@@ -724,20 +816,23 @@
                                 <div role="tabpanel" class="tab-pane" id="metpathways">
 
                                     <div class="col-md-12">
-                                        <h3 class="well">Pathways - Assay&nbsp;<c:if test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if></h3>
+                                        <h3 class="well">Pathways - Assay&nbsp;<c:if
+                                                test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if></h3>
 
                                         <div class="well col-md-12">
                                             <div class="">
                                                 <label>&emsp;&emsp;Select Pathway(s)</label><br>
                                                 <div class="col-xs-11">
                                                     <div class="form-group">
-                                                        <select class="selectpicker form-control" id="metPathwaysSelect" multiple data-live-search="true">
+                                                        <select class="selectpicker form-control" id="metPathwaysSelect"
+                                                                multiple data-live-search="true">
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1">
                                                     <div class="form-group">
-                                                        <a class="btn btn-success ml--button form-control" id="loadPathways" role="button">Load</a>
+                                                        <a class="btn btn-success ml--button form-control"
+                                                           id="loadPathways" role="button">Load</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -755,30 +850,28 @@
                                     </div>
 
 
-
-
                                     <div class="col-md-12">
-                                            <div id="metPathwaysMappingDataContainer">
-                                                <div class="">
-                                                    <br>
-                                                    <div class="well">
-                                                        <h4>MetExplore Pathways Mapping</h4>
-                                                    </div>
-                                                    <table class="table" id="metExploreTable">
-                                                        <thead>
-                                                        <tr>
-                                                            <th>Name</th>
-                                                            <th>DB Identifier</th>
-                                                            <th>Mapped Metabolite(s)</th>
-                                                            <th>p value</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody id="metPathwaysMappingDataTable" >
-
-                                                        </tbody>
-                                                    </table>
+                                        <div id="metPathwaysMappingDataContainer">
+                                            <div class="">
+                                                <br>
+                                                <div class="well">
+                                                    <h4>MetExplore Pathways Mapping</h4>
                                                 </div>
+                                                <table class="table" id="metExploreTable">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>DB Identifier</th>
+                                                        <th>Mapped Metabolite(s)</th>
+                                                        <th>p value</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody id="metPathwaysMappingDataTable">
+
+                                                    </tbody>
+                                                </table>
                                             </div>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -790,7 +883,8 @@
                         <c:if test="${not empty study.assays}">
                             <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
                                 <div role="tabpanel" class="tab-pane" id="metpathways${assay.assayNumber}">
-                                    <h3>Pathways - Assay&nbsp;<c:if test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if></h3>
+                                    <h3>Pathways - Assay&nbsp;<c:if
+                                            test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if></h3>
                                     <div class="col-md-12">
                                         <div id="metExploreContainer"></div>
                                     </div>
@@ -798,7 +892,6 @@
                             </c:forEach>
                         </c:if>
                     </c:if>
-
 
 
                     <div role="tabpanel" class="tab-pane" id="files">
@@ -809,31 +902,45 @@
                                 <c:set var="token" value="?token=${study.obfuscationCode}"/>
                             </c:if>
 
-                            <form id="selFilesForm" action="${pageContext.request.contextPath}/${study.studyIdentifier}/files/downloadSelFiles" method="post">
+                            <form id="selFilesForm"
+                                  action="${pageContext.request.contextPath}/${study.studyIdentifier}/files/downloadSelFiles"
+                                  method="post">
                                 <h5 class="well">
                                     <!--  Request FTP folder -->
                                     <c:if test="${(study.studyStatus == 'SUBMITTED') and !hasPrivateFtpFolder }">
                                         <sec:authorize access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
                                             &nbsp;
-                                            <a class="noLine" rel="nofollow" href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/requestFtpFolder" title="<spring:message code="label.requestFtpFolder"/>">
-                                                <span class="icon icon-functional" data-icon="D"/><spring:message code="label.requestFtpFolder"/>
+                                            <a class="noLine" rel="nofollow"
+                                               href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/requestFtpFolder"
+                                               title="<spring:message code="label.requestFtpFolder"/>">
+                                                <span class="icon icon-functional" data-icon="D"/><spring:message
+                                                    code="label.requestFtpFolder"/>
                                             </a>
                                         </sec:authorize>
                                         &nbsp;|&nbsp;
                                     </c:if>
                                     <!--  Request FTP folder -->
-                                    <a class="noLine" rel="nofollow" href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/${study.studyIdentifier}${token}" title="<spring:message code="label.downloadstudy"/>">
-                                        <span class="icon icon-functional" data-icon="="/><spring:message code="label.downloadstudy"/>
+                                    <a class="noLine" rel="nofollow"
+                                       href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/${study.studyIdentifier}${token}"
+                                       title="<spring:message code="label.downloadstudy"/>">
+                                        <span class="icon icon-functional" data-icon="="/><spring:message
+                                            code="label.downloadstudy"/>
                                     </a>
                                     &nbsp;|&nbsp;
-                                    <a class="noLine" rel="nofollow" href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/metadata${token}" title="<spring:message code="label.downloadstudyMetadata"/>">
-                                        <span class="icon icon-functional" data-icon="="><spring:message code="label.downloadstudyMetadata"/>
+                                    <a class="noLine" rel="nofollow"
+                                       href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/metadata${token}"
+                                       title="<spring:message code="label.downloadstudyMetadata"/>">
+                                        <span class="icon icon-functional" data-icon="="><spring:message
+                                                code="label.downloadstudyMetadata"/>
                                     </a>
                                     &nbsp;
                                     <c:if test="${study.publicStudy}">
                                         |&nbsp;
-                                        <a class="noLine" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/${study.studyIdentifier}" title="<spring:message code="label.viewAllFiles"/>">
-                                            <span class="icon icon-generic" data-icon="x"/><spring:message code="label.viewAllFiles"/>
+                                        <a class="noLine"
+                                           href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/${study.studyIdentifier}"
+                                           title="<spring:message code="label.viewAllFiles"/>">
+                                            <span class="icon icon-generic" data-icon="x"/><spring:message
+                                                code="label.viewAllFiles"/>
                                         </a>
                                     </c:if>
                                     &nbsp;
@@ -847,28 +954,35 @@
                                 <br/>
 
                                 <div id="transferDiv" class="transferDiv well">
-                                    <h5>Aspera Download Details:</h5><hr>
+                                    <h5>Aspera Download Details:</h5>
+                                    <hr>
                                 </div>
                                 <div id="noAspera" class="noAspera"></div>
 
                                 <h4><spring:message code="label.fileListTableExplanation"/></h4>
-                                    <div class="input-group">
-                                        <input class="inputDiscrete form-control" id="fileSelector" type="text" placeholder="<spring:message code='label.fileList.Input.placeholder'/>">
+                                <div class="input-group">
+                                    <input class="inputDiscrete form-control" id="fileSelector" type="text"
+                                           placeholder="<spring:message code='label.fileList.Input.placeholder'/>">
                                           <span class="input-group-btn">
-                                              <button type="button" class="btn btn-primary ml--btngrpoup" data-toggle="modal" data-target=".bs-example-modal-lg">?</button>
+                                              <button type="button" class="btn btn-primary ml--btngrpoup"
+                                                      data-toggle="modal" data-target=".bs-example-modal-lg">?
+                                              </button>
                                           </span>
-                                    </div><!-- /input-group -->
+                                </div><!-- /input-group -->
 
 
                                 <!--
                                     Help modal content
                                 -->
 
-                                <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                                <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog"
+                                     aria-labelledby="myLargeModalLabel">
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close"><span aria-hidden="true">&times;</span>
+                                                </button>
                                                 <h4 class="modal-title">Help</h4>
                                             </div>
                                             <div class="modal-body">
@@ -876,12 +990,16 @@
                                                     <spring:message code='label.fileList.Input.placeholder'/><br>
                                                     Example:
                                                     <br>
-                                                    > Type <b>.txt</b> and then press <b>Enter or CMD</b> to select all files with .txt extension<br>
-                                                    > Type <b>!.txt</b> and then press <b>Enter or CMD</b> to deselect all files with .txt extension
+                                                    > Type <b>.txt</b> and then press <b>Enter or CMD</b> to select all
+                                                    files with .txt extension<br>
+                                                    > Type <b>!.txt</b> and then press <b>Enter or CMD</b> to deselect
+                                                    all files with .txt extension
                                                 </p>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                    Close
+                                                </button>
                                             </div>
                                         </div><!-- /.modal-content -->
                                     </div><!-- /.modal-dialog -->
@@ -891,13 +1009,14 @@
                                 <c:if test="${!study.publicStudy}">
                                     <input type="hidden" name="token" value="${study.obfuscationCode}">
                                 </c:if>
-                                <table id="files" class="filesTable table table-striped table-bordered" style="width: 100%;">
+                                <table id="files" class="filesTable table table-striped table-bordered"
+                                       style="width: 100%;">
                                     <thead>
                                     <tr>
                                         <th>
-                                                <label>
-                                                    <input type="checkbox" name="checkAll" id="checkAll">&emsp;Select all
-                                                </label>
+                                            <label>
+                                                <input type="checkbox" name="checkAll" id="checkAll">&emsp;Select all
+                                            </label>
                                         </th>
                                         <th>File</th>
                                     </tr>
@@ -906,9 +1025,11 @@
                                     <c:forEach var="file" items="${files}">
                                         <%--<c:if test="${!file.directory}">--%>
                                         <tr>
-                                            <td><input type="checkbox" class="ml--file" name="file" value="${file.name}"/></td>
+                                            <td><input type="checkbox" class="ml--file" name="file"
+                                                       value="${file.name}"/></td>
                                             <td>
-                                                <a rel="nofollow" href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/${file.name}${token}">${file.name}</a>
+                                                <a rel="nofollow"
+                                                   href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/${file.name}${token}">${file.name}</a>
                                             </td>
                                         </tr>
                                         <%--</c:if>--%>
@@ -927,32 +1048,40 @@
                                 </script>
 
 
-
-
                                 <div style="position: relative; width: 100%;">
                                     <div style="float: left; padding: 10px;">
-                                        <input name="btnSubmit" type="submit" class="submit" value="<spring:message code="label.downloadSelectedFiles"/>"/>
+                                        <input name="btnSubmit" type="submit" class="submit"
+                                               value="<spring:message code="label.downloadSelectedFiles"/>"/>
                                         <c:if test="${study.publicStudy}">
                                             <span id="aspDMF"></span>
                                         </c:if>
                                     </div>
                                     <sec:authorize ifAnyGranted="ROLE_SUPER_USER">
                                         <div style="float: right; padding: 10px;">
-                                            <input data-delete="${pageContext.request.contextPath}/${study.studyIdentifier}/files/deleteSelFiles" data-download="${pageContext.request.contextPath}/${study.studyIdentifier}/files/downloadSelFiles" data-title="Confirmation" data-info="This will delete all selected files from the system, no way back!." data-toggle="modal" data-target="#confirm-delete-modal" id="deleteSelFiles" name="deleteSelFiles" type="button" class="submit cancel" value="<spring:message code="label.deleteSelectedFiles"/>"/>
+                                            <input data-delete="${pageContext.request.contextPath}/${study.studyIdentifier}/files/deleteSelFiles"
+                                                   data-download="${pageContext.request.contextPath}/${study.studyIdentifier}/files/downloadSelFiles"
+                                                   data-title="Confirmation"
+                                                   data-info="This will delete all selected files from the system, no way back!."
+                                                   data-toggle="modal" data-target="#confirm-delete-modal"
+                                                   id="deleteSelFiles" name="deleteSelFiles" type="button"
+                                                   class="submit cancel"
+                                                   value="<spring:message code="label.deleteSelectedFiles"/>"/>
                                         </div>
                                     </sec:authorize>
                                 </div>
 
                                     <%--Show instructions--%>
                                 <div class="ui-state-highlight ui-corner-all">
-                                    <p><strong>Info:</strong><spring:message code="label.fileListTableInstructions"/></p>
+                                    <p><strong>Info:</strong><spring:message code="label.fileListTableInstructions"/>
+                                    </p>
                                     <sec:authorize ifAnyGranted="ROLE_SUPER_USER">
                                         <p><spring:message code="label.fileListTableDelInstructions"/></p>
                                     </sec:authorize>
                                 </div>
                             </form>
 
-                            <div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog"
+                                 aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -962,7 +1091,8 @@
                                             <div id="modal-info"></div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel
+                                            </button>
                                             <a class="btn btn-ok btn-danger" onclick="">Delete</a>
                                         </div>
                                     </div>
@@ -970,20 +1100,20 @@
                             </div>
 
                             <script>
-                                $('#confirm-delete-modal').on('show.bs.modal', function(e) {
+                                $('#confirm-delete-modal').on('show.bs.modal', function (e) {
                                     $(this).find('#modal-title').html($(e.relatedTarget).data('title'));
                                     $(this).find('#modal-info').html($(e.relatedTarget).data('info'));
 
-                                    $(this).find('.btn-ok').click(function() {
+                                    $(this).find('.btn-ok').click(function () {
                                         var frm = document.getElementById('selFilesForm');
                                         frm.action = $(e.relatedTarget).data('delete');
-                                        frm.method ="post";
+                                        frm.method = "post";
                                         frm.submit();
 
                                         // change action back to download files (default)
                                         frm.reset();
                                         frm.action = $(e.relatedTarget).data('download');
-                                        frm.method ="post";
+                                        frm.method = "post";
                                     });
                                 });
                             </script>
@@ -993,17 +1123,21 @@
                             <!-- private FTP files -->
                             <c:if test="${(study.studyStatus == 'SUBMITTED') and hasPrivateFtpFolder }">
                                 <div class="accordion">
-                                    <h5 class="ftpFolder"><span class="icon icon-generic" data-icon="D"/></span>&nbsp;<spring:message code="label.priavteFtpFolder"/></h5>
+                                    <h5 class="ftpFolder"><span class="icon icon-generic" data-icon="D"/></span>
+                                        &nbsp;<spring:message code="label.priavteFtpFolder"/></h5>
                                     <div>
                                         <h5><spring:message code="label.ftpFileListTableExplanation"/></h5>
                                         <c:if test="${empty ftpFiles}">&emsp;&emsp;[EMPTY]</c:if>
 
                                         <c:if test="${!empty ftpFiles}">
-                                            <form id="selFtpFilesForm" action="${pageContext.request.contextPath}/${study.studyIdentifier}/files/moveFilesfromFtpFolder" method="post">
+                                            <form id="selFtpFilesForm"
+                                                  action="${pageContext.request.contextPath}/${study.studyIdentifier}/files/moveFilesfromFtpFolder"
+                                                  method="post">
 
                                                 <!-- <p><input class="inputDiscrete resizable" id="ftpFileSelector" class="" type="text" placeholder="<spring:message code='label.ftpFileList.Input.placeholder'/>"></p> -->
 
-                                                <table id="privFtpFiles" class="ftpFiles table table-striped table-bordered">
+                                                <table id="privFtpFiles"
+                                                       class="ftpFiles table table-striped table-bordered">
                                                     <tr>
                                                         <th>Select</th>
                                                         <th>File</th>
@@ -1011,7 +1145,8 @@
                                                     <tbody>
                                                     <c:forEach var="ftpFile" items="${ftpFiles}">
                                                         <tr>
-                                                            <td><input type="checkbox" class="asperaMultipleFiles" name="ftpFile" value="${ftpFile.name}"/></td>
+                                                            <td><input type="checkbox" class="asperaMultipleFiles"
+                                                                       name="ftpFile" value="${ftpFile.name}"/></td>
                                                             <td>
                                                                     ${ftpFile.name}
                                                             </td>
@@ -1021,26 +1156,39 @@
                                                 </table>
 
                                                 <div style="position: relative; width: 100%;">
-                                                    <sec:authorize access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
+                                                    <sec:authorize
+                                                            access="hasAnyRole('ROLE_SUPER_USER', 'ROLE_SUBMITTER')">
                                                         <div style="float: left; padding: 10px;">
-                                                            <input name="moveFtpSelFilesBtn" type="button" class="submit" value="<spring:message code="label.moveSelectedFiles"/>"
-                                                                   onclick="form.submit();" />
+                                                            <input name="moveFtpSelFilesBtn" type="button"
+                                                                   class="submit"
+                                                                   value="<spring:message code="label.moveSelectedFiles"/>"
+                                                                   onclick="form.submit();"/>
                                                         </div>
                                                         <div style="float: right; padding: 10px;">
-                                                            <input data-delete="${pageContext.request.contextPath}/${study.studyIdentifier}/files/deleteSelFtpFiles" data-move="$${pageContext.request.contextPath}/{study.studyIdentifier}/files/moveFilesfromFtpFolder" data-title="Confirmation" data-info="This will delete all selected files from your private FTP folder, no way back!." data-toggle="modal" data-target="#confirm-ftp-delete-modal" id="deleteFtpSelFilesBtn" name="deleteFtpSelFilesBtn" type="button" class="submit cancel" value="<spring:message code="label.deleteFtpSelFiles"/>"/>
+                                                            <input data-delete="${pageContext.request.contextPath}/${study.studyIdentifier}/files/deleteSelFtpFiles"
+                                                                   data-move="$${pageContext.request.contextPath}/{study.studyIdentifier}/files/moveFilesfromFtpFolder"
+                                                                   data-title="Confirmation"
+                                                                   data-info="This will delete all selected files from your private FTP folder, no way back!."
+                                                                   data-toggle="modal"
+                                                                   data-target="#confirm-ftp-delete-modal"
+                                                                   id="deleteFtpSelFilesBtn" name="deleteFtpSelFilesBtn"
+                                                                   type="button" class="submit cancel"
+                                                                   value="<spring:message code="label.deleteFtpSelFiles"/>"/>
                                                         </div>
                                                     </sec:authorize>
                                                 </div>
 
                                                     <%--Show instructions--%>
                                                 <div class="ui-state-highlight ui-corner-all">
-                                                    <p><strong>Info:</strong><spring:message code="label.moveFileListTableInstructions"/></p>
+                                                    <p><strong>Info:</strong><spring:message
+                                                            code="label.moveFileListTableInstructions"/></p>
                                                 </div>
                                             </form>
                                         </c:if>
                                     </div>
 
-                                    <div class="modal fade" id="confirm-ftp-delete-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="confirm-ftp-delete-modal" tabindex="-1" role="dialog"
+                                         aria-labelledby="myModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -1050,7 +1198,9 @@
                                                     <div id="modal-info"></div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                        Cancel
+                                                    </button>
                                                     <a class="btn btn-ok btn-danger" onclick="">Delete</a>
                                                 </div>
                                             </div>
@@ -1058,24 +1208,23 @@
                                     </div>
 
                                     <script>
-                                        $('#confirm-ftp-delete-modal').on('show.bs.modal', function(e) {
+                                        $('#confirm-ftp-delete-modal').on('show.bs.modal', function (e) {
                                             $(this).find('#modal-title').html($(e.relatedTarget).data('title'));
                                             $(this).find('#modal-info').html($(e.relatedTarget).data('info'));
 
-                                            $(this).find('.btn-ok').click(function() {
+                                            $(this).find('.btn-ok').click(function () {
                                                 var frm = document.getElementById('selFtpFilesForm');
                                                 frm.action = $(e.relatedTarget).data('delete');
-                                                frm.method ="post";
+                                                frm.method = "post";
                                                 frm.submit();
 
                                                 // change action back to download files (default)
                                                 frm.reset();
                                                 frm.action = $(e.relatedTarget).data('move');
-                                                frm.method ="post";
+                                                frm.method = "post";
                                             });
                                         });
                                     </script>
-
 
 
                                 </div>
@@ -1103,11 +1252,13 @@
             <div class="modal-body">
                 <h5><spring:message code="title.study.paper.link"/></h5>
                 <p><spring:message code="label.study.paper.link"/></p>
-                <p><input class="form-control" type="text" value="${fullContextPath}/${study.studyIdentifier}" readonly/></p>
+                <p><input class="form-control" type="text" value="${fullContextPath}/${study.studyIdentifier}"
+                          readonly/></p>
                 <c:if test="${(study.studyStatus == 'INREVIEW') || curator}">
                     <h5><spring:message code="title.study.private.link"/></h5>
                     <p><spring:message code="label.study.private.link"/></p>
-                    <p><input class="inputDiscrete resizable" type="text" value="${fullContextPath}/reviewer${study.obfuscationCode}" readonly/></p>
+                    <p><input class="inputDiscrete resizable" type="text"
+                              value="${fullContextPath}/reviewer${study.obfuscationCode}" readonly/></p>
                 </c:if>
             </div>
             <div class="modal-footer">
@@ -1125,7 +1276,8 @@
 
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/dataTables.conditionalPaging.js"></script>
+<script type="text/javascript"
+        src="${pageContext.request.contextPath}/javascript/dataTables.conditionalPaging.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/js/bootstrap-select.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/js/i18n/defaults-*.min.js"></script>
@@ -1151,7 +1303,7 @@
 
     });
 
-    $('#tourButton').click(function(e){
+    $('#tourButton').click(function (e) {
         tour.init(true);
         tour.start(true);
         // it's also good practice to preventDefault on the click event
@@ -1164,8 +1316,7 @@
 
 <script type="text/javascript" charset="utf-8">
 
-    $(document).ready(function() {
-
+    $(document).ready(function () {
 
 
         function showPleaseWait() {
@@ -1216,7 +1367,7 @@
             });
         });
 
-        $('.assay--tab').on('click', function(e){
+        $('.assay--tab').on('click', function (e) {
             id = $(this).attr("data-assayid");
             getMAFFile(id);
         });
@@ -1231,34 +1382,34 @@
             style: 'btn-info'
         });
 
-        function loadData(target){
+        function loadData(target) {
             if (target == '#metpathways') {
                 loadPathwaysDropdown();
             }
         }
 
 
-        function loadPathwaysDropdown(){
+        function loadPathwaysDropdown() {
             MetExploreViz.initFrame("metExploreContainer");
             getMetExploreMappingData();
         }
 
         var metExploreDataJSONObj;
 
-        function getMetExploreMappingData(){
+        function getMetExploreMappingData() {
             showPleaseWait();
             var url = "/metabolights/webservice/study/${study.studyIdentifier}/getMetExploreMappingData";
             $.ajax({
-                url : url,
-                type : 'GET',
-                dataType:'json',
-                success : function(data) {
+                url: url,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
                     metExploreDataJSONObj = JSON.parse(data.content);
                     //console.log(metExploreDataJSONObj)
                     var select = document.getElementById("metPathwaysSelect");
-                    for(var key in metExploreDataJSONObj.pathwayList){
+                    for (var key in metExploreDataJSONObj.pathwayList) {
                         var pathway = metExploreDataJSONObj.pathwayList[key]
-                        if(pathway.mappedMetabolite > 0){
+                        if (pathway.mappedMetabolite > 0) {
                             //console.log(pathway);
                             var option = document.createElement("option");
                             option.text = pathway.name + "(" + pathway.mappedMetabolite + ")";
@@ -1271,42 +1422,40 @@
                     }
 
                     $('#metExploreTable').DataTable({
-                        "order": [[ 2, "desc" ]]
+                        "order": [[2, "desc"]]
                     });
                     $('.selectpicker').selectpicker('refresh');
 
                     hidePleaseWait();
 
                 },
-                error : function(request,error)
-                {
-                    alert("Request: "+JSON.stringify(request));
+                error: function (request, error) {
+                    alert("Request: " + JSON.stringify(request));
                 }
             });
         }
 
 
-        $('#loadPathways').on('click', function(){
+        $('#loadPathways').on('click', function () {
             //alert();
             showPleaseWait();
             loadPathways($('.selectpicker').selectpicker('val'));
             hidePleaseWait();
         });
 
-        function loadPathways(ids){
-            MetExploreViz.onloadMetExploreViz(function(){
-                var url = "http://metexplore.toulouse.inra.fr:8080/metExploreWebService/mapping/graphresult/38285/filteredbypathway?pathwayidlist=("+ids.toString()+")";
+        function loadPathways(ids) {
+            MetExploreViz.onloadMetExploreViz(function () {
+                var url = "http://metexplore.toulouse.inra.fr:8080/metExploreWebService/mapping/graphresult/38285/filteredbypathway?pathwayidlist=(" + ids.toString() + ")";
                 $.ajax({
-                    url : url,
-                    type : 'GET',
+                    url: url,
+                    type: 'GET',
                     async: false,
-                    dataType:'json',
-                    success : function(data) {
+                    dataType: 'json',
+                    success: function (data) {
                         loadPathwayData(JSON.stringify(data))
                     },
-                    error : function(request,error)
-                    {
-                        alert("Request: "+ JSON.stringify(request));
+                    error: function (request, error) {
+                        alert("Request: " + JSON.stringify(request));
                     }
                 });
 
@@ -1314,10 +1463,10 @@
         }
 
 
-        function loadPathwayData(myJsonString){
+        function loadPathwayData(myJsonString) {
 
-            metExploreViz.GraphPanel.refreshPanel(myJsonString, function(){
-                metExploreViz.onloadSession(function(){
+            metExploreViz.GraphPanel.refreshPanel(myJsonString, function () {
+                metExploreViz.onloadSession(function () {
                     var mapJSON = metExploreViz.GraphUtils.parseWebServiceMapping(myJsonString);
                     //Load mapping
                     metExploreViz.GraphMapping.loadDataFromJSON(mapJSON);
@@ -1331,24 +1480,30 @@
         }
 
 
-        function getMAFFile(id){
-            wrapperDiv = $('#mafTableWrapper'+id);
+        function getMAFFile(id) {
+            wrapperDiv = $('#mafTableWrapper' + id);
             assayid = id;
             studyid = wrapperDiv.attr("data-studyid");
-            var mafUrl = "/metabolights/"+ studyid +"/assay/"+ assayid + "/maf";
+            var mafUrl = "/metabolights/" + studyid + "/assay/" + assayid + "/maf";
             $.ajax({
                 url: mafUrl,
                 dataType: "html",
-            }).done(function(data) {
+            }).done(function (data) {
                 wrapperDiv.html(data);
                 $('.maf').addClass("table table-striped table-bordered")
                 $('.maf').DataTable();
 
-                var chebiInfoDiv = new Biojs.ChEBICompound({target: 'chebiInfo',width:'400px', height:'300px',proxyUrl:undefined, chebiDetailsUrl: 'http://www.ebi.ac.uk/webservices/chebi/2.0/test/getCompleteEntity?chebiId='});
+                var chebiInfoDiv = new Biojs.ChEBICompound({
+                    target: 'chebiInfo',
+                    width: '400px',
+                    height: '300px',
+                    proxyUrl: undefined,
+                    chebiDetailsUrl: 'http://www.ebi.ac.uk/webservices/chebi/2.0/test/getCompleteEntity?chebiId='
+                });
                 $('#chebiInfo').hide();
 
 
-                $("a.showLink").click(function(event) {
+                $("a.showLink").click(function (event) {
                     var clickedId = event.target.id;
                     var idClickedSplit = clickedId.split("_");
                     /*id of the link is made up by 3 parts:
@@ -1363,11 +1518,11 @@
                     var idPrefixClicked = idClickedSplit[0];
                     /*var itemClicked = idClickedSplit[1];*/
                     var orderOfItemClicked = idClickedSplit[2];
-                    var idOfHiddenText = "#"+idPrefixClicked+"_"+orderOfItemClicked;
-                    var jqClickedId= "#"+clickedId;
-                    if ($(idOfHiddenText).is(":hidden")){
+                    var idOfHiddenText = "#" + idPrefixClicked + "_" + orderOfItemClicked;
+                    var jqClickedId = "#" + clickedId;
+                    if ($(idOfHiddenText).is(":hidden")) {
                         $(jqClickedId).text("Show less");
-                    }else{
+                    } else {
                         $(jqClickedId).text("Show more");
                     }
                     $(idOfHiddenText).slideToggle();
@@ -1382,7 +1537,7 @@
                     metlink = $(e.target);
                     var metaboliteId = metlink.attr('identifier');
                     // If its a chebi id
-                    if (metaboliteId.indexOf("CHEBI:")==0){
+                    if (metaboliteId.indexOf("CHEBI:") == 0) {
                         //var mouseX = metlink.left + metlink.offsetParent.offsetLeft + metlink.offsetWidth + 80;
                         //var mouseY = metlink.top + metlink.offsetParent.offsetTop + metlink.offsetParent.offsetParent.offsetTop;
                         var offset = metlink.offset();
@@ -1390,19 +1545,27 @@
                         var mouseY = offset.top;
                         chebiId = metaboliteId;
                         $('#chebiInfo img:last-child').remove;
-                        $('#chebiInfo').css({'top':mouseY,'left':mouseX,'float':'left','position':'absolute','z-index':10});
+                        $('#chebiInfo').css({
+                            'top': mouseY,
+                            'left': mouseX,
+                            'float': 'left',
+                            'position': 'absolute',
+                            'z-index': 10
+                        });
                         $('#chebiInfo').fadeIn('slow');
                         chebiInfoDiv.setId(chebiId);
                     }
                 }
 
 
-                $('.metLink').on('mouseenter', function(e) {
+                $('.metLink').on('mouseenter', function (e) {
                     // I'm assuming you don't want to stomp on an existing timer
                     if (!metLinkTimer) {
-                        metLinkTimer = setTimeout(function(){loadMetabolite(e);}, 500); // Or whatever value you want
+                        metLinkTimer = setTimeout(function () {
+                            loadMetabolite(e);
+                        }, 500); // Or whatever value you want
                     }
-                }).on('mouseleave', function() {
+                }).on('mouseleave', function () {
                     // Cancel the timer if it hasn't already fired
                     if (metLinkTimer) {
                         clearTimeout(metLinkTimer);
@@ -1427,14 +1590,12 @@
         });
 
 
-
-
-        $('.quicklinks').click(function(e){
+        $('.quicklinks').click(function (e) {
             e.preventDefault();
-            link =  $(this).attr('data-destination');
+            link = $(this).attr('data-destination');
 
-            if ($(this).attr("data-assayid")){
-                id= $(this).attr("data-assayid");
+            if ($(this).attr("data-assayid")) {
+                id = $(this).attr("data-assayid");
                 getMAFFile(id);
             }
 
@@ -1446,7 +1607,7 @@
             });
         })
 
-        function activaTab(tab){
+        function activaTab(tab) {
             $('.nav-tabs a[href="#' + tab + '"]').tab('show');
         };
 
@@ -1475,59 +1636,71 @@
         var asperaLoaded = false;
 
         $(function () {
-            $('.files--tab').on('click', function(e){
-                if(!asperaLoaded) {
+            $('.files--tab').on('click', function (e) {
+                if (!asperaLoaded) {
                     loadAspera();
                 }
             });
 
         });
 
-        function loadAspera(){
+        function loadAspera() {
             <c:if test="${study.publicStudy}">
             // If the new tab is NMR...
 
-                // Adds an input element download button that uses Aspera
-                var downloadButton = $('<a id="downloadButton">Aspera: Download Study</a>');
+            // Adds an input element download button that uses Aspera
+            var downloadButton = $('<a id="downloadButton">Aspera: Download Study</a>');
 
-                $('#asperaDownloadWrapper').append(downloadButton);
+            $('#asperaDownloadWrapper').append(downloadButton);
 
-                function downloadButtonClick(e) {
-                    $('#transferDiv').show();
-                    var fc = new METABOLIGHTS.FileControl( { sessionId: 'metabolights-download',
-                        transferContainer: '#transferDiv',
-                        messageContainer: '#noAspera',
-                        id: '0' });
+            function downloadButtonClick(e) {
+                $('#transferDiv').show();
+                var fc = new METABOLIGHTS.FileControl({
+                    sessionId: 'metabolights-download',
+                    transferContainer: '#transferDiv',
+                    messageContainer: '#noAspera',
+                    id: '0'
+                });
 
-                    source = "studies/public/${study.studyIdentifier}";
-                    fc.asperaWeb.showSelectFolderDialog( { success: function(dataTransferObj) { if (dataTransferObj.dataTransfer.files[0]) fc.download(source, dataTransferObj.dataTransfer.files[0].name); } });
-                };
-                downloadButton.on("click", downloadButtonClick);
-
-                var asperaMultipleFilesDownloadButton = $('<input type="button" value="Aspera: Download Selected Files" class="submit"/>')
-                $('#aspDMF').append(asperaMultipleFilesDownloadButton)
-
-
-                function asperaDownloadSelectedFiles(e){
-                    var fc = new METABOLIGHTS.FileControl( { sessionId: 'metabolights-download',
-                        transferContainer: '#transferDiv',
-                        messageContainer: '#noAspera',
-                        id: '0' });
-
-                    var selectedFilesArray = []
-                    $("input:checkbox[name=file]:checked").each(function(){
-                        selectedFilesArray.push('studies/public/${study.studyIdentifier}/' + $(this).val());
-                    });
-                    if(selectedFilesArray.length == 0){
-                        alert('Please Select Files to download');
-                    }else{
-                        source = selectedFilesArray;
-                        fc.asperaWeb.showSelectFolderDialog( { success: function(dataTransferObj) { if (dataTransferObj.dataTransfer.files[0]) fc.download(source, dataTransferObj.dataTransfer.files[0].name); } });
+                source = "studies/public/${study.studyIdentifier}";
+                fc.asperaWeb.showSelectFolderDialog({
+                    success: function (dataTransferObj) {
+                        if (dataTransferObj.dataTransfer.files[0]) fc.download(source, dataTransferObj.dataTransfer.files[0].name);
                     }
-                    e.preventDefault();
-                };
-                asperaMultipleFilesDownloadButton.on("click", asperaDownloadSelectedFiles )
-                asperaLoaded = true;
+                });
+            };
+            downloadButton.on("click", downloadButtonClick);
+
+            var asperaMultipleFilesDownloadButton = $('<input type="button" value="Aspera: Download Selected Files" class="submit"/>')
+            $('#aspDMF').append(asperaMultipleFilesDownloadButton)
+
+
+            function asperaDownloadSelectedFiles(e) {
+                var fc = new METABOLIGHTS.FileControl({
+                    sessionId: 'metabolights-download',
+                    transferContainer: '#transferDiv',
+                    messageContainer: '#noAspera',
+                    id: '0'
+                });
+
+                var selectedFilesArray = []
+                $("input:checkbox[name=file]:checked").each(function () {
+                    selectedFilesArray.push('studies/public/${study.studyIdentifier}/' + $(this).val());
+                });
+                if (selectedFilesArray.length == 0) {
+                    alert('Please Select Files to download');
+                } else {
+                    source = selectedFilesArray;
+                    fc.asperaWeb.showSelectFolderDialog({
+                        success: function (dataTransferObj) {
+                            if (dataTransferObj.dataTransfer.files[0]) fc.download(source, dataTransferObj.dataTransfer.files[0].name);
+                        }
+                    });
+                }
+                e.preventDefault();
+            };
+            asperaMultipleFilesDownloadButton.on("click", asperaDownloadSelectedFiles)
+            asperaLoaded = true;
             </c:if>
         }
     });

@@ -182,7 +182,7 @@ public class StudyDAO {
         // Add Backups
         studyToFill.setBackups(FileAuditUtil.getBackupsCollection(studyFolder));
 
-        StudyValidationUtilities.validate(studyToFill);
+        StudyValidationUtilities.validate(studyToFill,studiesFolder);
         logger.warn(ClobJsonUtils.parseToJSONString(studyToFill.getValidations()));
 
 

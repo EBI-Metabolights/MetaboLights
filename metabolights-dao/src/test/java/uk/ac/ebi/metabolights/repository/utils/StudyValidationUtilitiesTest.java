@@ -7,6 +7,7 @@ import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
 import uk.ac.ebi.metabolights.repository.utils.validation.StudyValidationUtilities;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -33,7 +34,7 @@ public class StudyValidationUtilitiesTest extends TestCase {
         publicationCollection.add(publication);
         study.setPublications(publicationCollection);
 
-        StudyValidationUtilities.validate(study);
+        StudyValidationUtilities.validate(study,new File(""));
         assertEquals(true, study.getValidations().getEntries().size() > 0);
         assertEquals(true, study.getValidations().getStatus().equals(Status.RED));
 
