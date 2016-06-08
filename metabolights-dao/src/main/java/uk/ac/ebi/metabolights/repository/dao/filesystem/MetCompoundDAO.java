@@ -16,6 +16,8 @@ public class MetCompoundDAO {
 
     private final static String referenceFolderLocation = "/net/isilonP/public/rw/homes/tc_cm01/metabolights/reference";
 
+    private final static String ftpCompoundsFolderLocation = "/nfs/ftp/pub/databases/metabolights/compounds";
+
     public String getCompoundData(String compoundid){
 
         String metCompoundData = "";
@@ -63,6 +65,31 @@ public class MetCompoundDAO {
         }
 
         return spectraJSON;
+
+    }
+
+    public String getCompoundsReport(){
+
+        String reportJSON = "";
+
+        String reportJSONPath = ftpCompoundsFolderLocation + File.separator + "MetabolitesReport.json";
+
+        if (checkFileExists(reportJSONPath)){
+
+            try {
+
+                reportJSONPath = FileUtil.file2String(reportJSONPath);
+
+            } catch (IOException e) {
+
+                e.printStackTrace();
+
+            }
+
+            logger.info(" MetCompound Spectra JSON File Name - Found: " + reportJSONPath);
+        }
+
+        return reportJSONPath;
 
     }
 

@@ -47,4 +47,14 @@ public class BetaWSController extends BasicController {
 
     }
 
+    @RequestMapping(value = "/compoundReport")
+    @ResponseBody
+    public String getCompoundsReport() throws DAOException {
+
+        MetCompoundDAO metCompoundDAO = new MetCompoundDAO();
+
+        return metCompoundDAO.getCompoundsReport();
+
+    }
+
 }

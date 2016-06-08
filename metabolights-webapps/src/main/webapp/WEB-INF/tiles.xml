@@ -189,6 +189,11 @@
         <put-attribute name="body" value="/WEB-INF/jsp/tools.jsp" />
     </definition>
 
+    <definition name="compoundsDashboard" extends="default">
+        <put-attribute name="title" value="Compounds Dashboard" />
+        <put-attribute name="body" value="/WEB-INF/jsp/compoundsDashboard.jsp" />
+    </definition>
+
     <definition name="users" extends="default">
         <put-attribute name="title" value="User admin" />
         <put-attribute name="body" value="/WEB-INF/jsp/users.jsp" />

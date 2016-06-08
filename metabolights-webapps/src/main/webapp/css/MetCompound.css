@@ -306,3 +306,108 @@ nav#breadcrumb{
 .ml--clipboard{
     background-color: transparent;
 }
+
+
+.title{
+    background-color: #f1f1f4;
+    border-bottom: 1px solid #f1f1f4;
+    padding: 20px;
+    margin-bottom: 10px;
+    font-weight: lighter;
+}
+
+.board{
+    background-color: #fff;
+}
+
+.board-icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height:110px;
+    background-color: #CCCCCC;
+}
+
+.board-content{
+    display: flex;
+    height: 110px;
+    justify-content: center;
+    background-color: #f1f1f4;
+    flex-direction: column;
+    border: 1px dotted #fff;
+}
+
+.board-content2{
+    display: flex;
+    height: 110px;
+    justify-content: center;
+    align-items: center;
+    background-color: #f1f1f4;
+    flex-direction: column;
+    border: 1px dotted #fff;
+}
+
+.board-content .label{
+    text-shadow: none;
+}
+
+.board-content2 .label{
+    text-shadow: none;
+}
+
+.category{
+    font-weight: lighter;
+    margin-bottom: 0;
+}
+
+.number{
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.number1{
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#heatMap{
+    background-color: #f1f1f4;
+    padding: 15px;
+}
+
+#compoundDetails{
+    background-color: #f1f1f4;
+    padding: 15px;
+    min-height: 500px;
+}
+
+.compoundCube{
+    height: 12px;
+    width: 12px;
+    float: left;
+    margin: 2px;
+}
+
+.heat5{
+    background-color: green;
+}
+
+.heat5{
+    background-color: green;
+}
+
+.heat5{
+    background-color: green;
+}
+
+.heat5{
+    background-color: green;
+}
+
+.heat5{
+    background-color: green;
+}
+
+.heat0{
+    background-color: red;
+}
