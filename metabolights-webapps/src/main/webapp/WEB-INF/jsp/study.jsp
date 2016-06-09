@@ -541,7 +541,7 @@
                                     <c:otherwise>
                                         <c:set var="validations" value="${study.validations.entries}"/>
                                         <c:if test="${not empty study.validations.entries}">
-                                            <table class="dataTable table table-striped table-bordered">
+                                            <table class="validationsTable table table-striped table-bordered">
                                                 <thead class='text_header'>
                                                 <tr>
                                                     <th>Condition</th>
@@ -1601,6 +1601,10 @@
         }
 
         $('.assayTable').DataTable();
+
+        $('.validationsTable').DataTable({
+            "bPaginate": false
+        });
 
         $('.assayTable').wrap('<div class="scrollStyle" />');
 
