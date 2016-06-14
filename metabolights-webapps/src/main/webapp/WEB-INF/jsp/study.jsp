@@ -560,7 +560,7 @@
                                     <c:otherwise>
                                         <c:set var="validations" value="${study.validations.entries}"/>
                                         <c:if test="${not empty study.validations.entries}">
-                                            <table class="dataTable table table-striped table-bordered">
+                                            <table class="validationsTable table table-striped table-bordered">
                                                 <thead class='text_header'>
                                                 <tr>
                                                     <th>Condition</th>
@@ -1425,18 +1425,23 @@
                 success: function (data) {
                     metExploreDataJSONObj = JSON.parse(data.content);
                     //console.log(metExploreDataJSONObj)
+                    var selectedValue;
                     var select = document.getElementById("metPathwaysSelect");
                     for (var key in metExploreDataJSONObj.pathwayList) {
                         var pathway = metExploreDataJSONObj.pathwayList[key]
                         if (pathway.mappedMetabolite > 0) {
-                            //console.log(pathway);
-                            var option = document.createElement("option");
-                            option.text = pathway.name + "(" + pathway.mappedMetabolite + ")";
-                            option.value = pathway.mysqlId;
-                            select.appendChild(option);
+                            if (pathway.name.search("Transport")==-1 && pathway.name.search("Exchange")==-1){
+                                //console.log(pathway);
+                                var option = document.createElement("option");
+                                option.text = pathway.name + "(" + pathway.mappedMetabolite + ")";
+                                option.value = pathway.mysqlId;
+                                if (!selectedValue){
+                                    selectedValue = pathway.mysqlId;
+                                }
+                                select.appendChild(option);
 
-                            $('#metPathwaysMappingDataTable').append('<tr><td>' + pathway.name + '</td><td>' + pathway.dbIdentifier + ' (' + pathway.numberOfMetabolite + ')</td><td>' + pathway.mappedMetabolite + '</td><td></td></tr>');
-
+                                $('#metPathwaysMappingDataTable').append('<tr><td>' + pathway.name + '</td><td>' + pathway.dbIdentifier + ' (' + pathway.numberOfMetabolite + ')</td><td>' + pathway.mappedMetabolite + '</td><td></td></tr>');
+                            }
                         }
                     }
 
@@ -1444,7 +1449,8 @@
                         "order": [[2, "desc"]]
                     });
                     $('.selectpicker').selectpicker('refresh');
-
+                    $('.selectpicker').selectpicker('val', selectedValue);
+                    loadPathways(selectedValue);
                     hidePleaseWait();
 
                 },
@@ -1458,6 +1464,7 @@
         $('#loadPathways').on('click', function () {
             //alert();
             showPleaseWait();
+            //console.log($('.selectpicker').selectpicker('val'));
             loadPathways($('.selectpicker').selectpicker('val'));
             hidePleaseWait();
         });
@@ -1484,16 +1491,31 @@
 
         function loadPathwayData(myJsonString) {
 
-            metExploreViz.GraphPanel.refreshPanel(myJsonString, function () {
-                metExploreViz.onloadSession(function () {
-                    var mapJSON = metExploreViz.GraphUtils.parseWebServiceMapping(myJsonString);
-                    //Load mapping
-                    metExploreViz.GraphMapping.loadDataFromJSON(mapJSON);
-                    //Highlight
-                    metExploreViz.GraphMapping.mapNodes("Global Mapping");
-                    // //Color nodes
-                    //metExploreViz.GraphMapping.graphMappingContinuousData("mapping_D-Galactose", "conditionName1");
-                });
+
+            MetExploreViz.onloadMetExploreViz(function(){
+
+                metExploreViz.GraphPanel.refreshPanel(myJsonString,
+                        function(){
+                            metExploreViz.onloadSession(function(){
+
+                                //Load mapping from the webservice
+                                var mapJSON = metExploreViz.GraphUtils.parseWebServiceMapping(myJsonString);
+                                metExploreViz.GraphMapping.loadDataFromJSON(mapJSON);
+
+                                //Load mapping from Metabolight file
+                                //metExploreViz.GraphMapping.loadDataTSV("../../files/mappingoninchi.tsv");
+
+                                // //Color nodes
+                                metExploreViz.GraphMapping.graphMappingContinuousData("mappingoninchi.tsv", "S-10", "red", "#8AB146"
+                                        ,
+                                        function(){
+                                            var sideCompounds = ["M_adp_m", "M_adp_c", "M_amp_c", "M_amp_m", "M_amp_r", "M_amp_x", "M_atp_x", "M_atp_r", "M_atp_m", "M_atp_c", "M_hco3_c", "M_hco3_m", "M_co2_c", "M_co2_x", "M_co2_m", "M_ppi_c", "M_ppi_x", "M_ppi_r", "M_ppi_m", "M_fad_m", "M_fadh2_m", "M_gtp_c", "M_h2o2_x", "M_pi_m", "M_pi_c", "M_nad_x", "M_nad_c", "M_nad_m", "M_nadh_x", "M_nadh_m", "M_nadh_c", "M_nadp_m", "M_nadp_r", "M_nadp_x", "M_nadph_x", "M_nadph_r", "M_nadph_m", "M_o2_x", "M_o2_r", "M_o2_m", "M_h_r", "M_h_x", "M_h_l", "M_h_m", "M_h_c", "M_h_e", "M_so4_l", "M_h2o_x", "M_h2o_l", "M_h2o_m", "M_h2o_r", "M_h2o_e", "M_h2o_c"];
+                                            metExploreViz.GraphNode.loadSideCompounds(sideCompounds);
+                                            metExploreViz.GraphNetwork.duplicateSideCompounds();
+                                        }
+                                );
+                            });
+                        });
             });
 
         }
@@ -1598,6 +1620,10 @@
         }
 
         $('.assayTable').DataTable();
+
+        $('.validationsTable').DataTable({
+            "bPaginate": false
+        });
 
         $('.assayTable').wrap('<div class="scrollStyle" />');
 

@@ -367,7 +367,7 @@
 
                                         <!-- Tab panes -->
                                         <div class="tab-content">
-                                            <div role="tabpanel" class="tab-pane active" id="nmr">
+                                            <div role="tabpanel" class="tab-pane"  v-bind:class="{ 'active': mtblc.flags.hasNMR == 'true' }" id="nmr">
                                                 <div class="form-group">
                                                     <label>Select NMR spectra</label>
                                                     <select v-model="selectedNMR" class="form-control selectFirst" size=5 multiple>
@@ -399,7 +399,7 @@
                                                 </div>
                                                 <div class="clearfix"></div>
                                             </div>
-                                            <div role="tabpanel" class="tab-pane" id="ms">
+                                            <div role="tabpanel" class="tab-pane" v-bind:class="{ 'active': mtblc.flags.hasMS == 'true'  }" id="ms">
                                                 <div class="form-group">
                                                     <label>Select MS spectra</label>
                                                     <select v-model="selectedMS" class="form-control selectFirst" size=5 multiple>
@@ -499,48 +499,61 @@
 
     jQuery.noConflict();
 
-    $( document ).ready(function() {
 
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-            var target = $(e.target).attr("href")
-            loadData(target);
-        });
 
-        var url = document.location.toString();
-        if (url.match('#')) {
-            $('.nav-tabs a[href=#'+url.split('#')[1]+']').tab('show');
-            loadData("#" +url.split('#')[1]);
-        }else{
-            window.location.href = document.location.toString() + "#chemistry";
+    $(document).ready(function() {
+        if(location.hash) {
+            $('a[href=' + location.hash + ']').tab('show');
         }
-
-        $('.nav-tabs a').on('shown.bs.tab', function (e) {
-            window.location.hash = e.target.hash;
+        $(document.body).on("click", "a[data-toggle]", function(event) {
+            location.hash = this.getAttribute("href");
         });
-
+    });
+    $(window).on('popstate', function() {
+        var anchor = location.hash || $("a[data-toggle=tab]").first().attr("href");
+        $('a[href=' + anchor + ']').tab('show');
+        getHash();
     });
 
 
-    function loadData(target){
-        if (target == '#pathways') {
-            for (firstWikiPathway in vm.mtblc.pathways.WikiPathways) break;
-            data.selectedSpecies = firstWikiPathway;
-        }else if (target == '#chemistry') {
-            //console.log("chemistry")
-        }else if (target == '#reactome') {
-            for (firstReactomePathway in vm.mtblc.pathways.ReactomePathways ) break;
-            data.selectedReactomeSpecies = firstReactomePathway;
-        } else if (target == '#kegg') {
-            data.selectedKEGGPathway =  vm.mtblc.pathways.KEGGPathways[0].KO_PATHWAY;
-        } else if (target == '#spectra') {
-            data.selectedNMR = [vm.nmrSpectra[0].name];
-        } else if (target == '#ms') {
-            data.selectedMS = [vm.msSpectra[0].name];
-        } else if (target == '#reactions') {
-            data.selectedReaction = data.mtblc.reactions[0].id;
+    $( document ).ready(function() {
+        var url = document.location.toString();
+        if (url.match('#')) {
+            getHash();
+        }
+    });
+
+    function getHash(){
+        var url = document.location.toString();
+        if (url.match('#')) {
+            loadData(url.split('#')[1]);
         }
     }
 
+
+    function loadData(target){
+        if (target == 'pathways') {
+            for (firstWikiPathway in vm.mtblc.pathways.WikiPathways) break;
+            data.selectedSpecies = firstWikiPathway;
+        }else if (target == 'chemistry') {
+            //console.log("chemistry")
+        }else if (target == 'reactome') {
+            for (firstReactomePathway in vm.mtblc.pathways.ReactomePathways ) break;
+            data.selectedReactomeSpecies = firstReactomePathway;
+        } else if (target == 'kegg') {
+            data.selectedKEGGPathway =  vm.mtblc.pathways.KEGGPathways[0].KO_PATHWAY;
+        } else if (target == 'spectra') {
+            try {
+                data.selectedNMR = [vm.nmrSpectra[0].name];
+            }catch (err){
+                data.selectedMS = [vm.msSpectra[0].name];
+            }
+        } else if (target == 'ms') {
+            data.selectedMS = [vm.msSpectra[0].name];
+        } else if (target == 'reactions') {
+            data.selectedReaction = data.mtblc.reactions[0].id;
+        }
+    }
 
     var data = {
         compound: '${compoundId}',

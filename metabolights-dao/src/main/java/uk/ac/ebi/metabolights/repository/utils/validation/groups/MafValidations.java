@@ -70,6 +70,9 @@ public class MafValidations implements IValidationProcess {
                     mafIndex_assaysWithMaf_map.put(new Integer(mafIndex), assay);
                 }
             }
+            else{
+                assaysWithNoMaf.add(assay);
+            }
         }
     }
 

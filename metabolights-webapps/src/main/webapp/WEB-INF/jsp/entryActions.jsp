@@ -56,7 +56,7 @@
                                     <li><a href="updatestatus?study=${study.studyIdentifier}&newStatus=INREVIEW" confirmationText="Is the study ready to be reviewed?" onclick="return confirmAction(this);">in review</a></li>
                                 </c:if>
                                 <c:if test="${curator && (study.studyStatus != 'PUBLIC')}">
-                                    <li><a href="updatestatus?study=${study.studyIdentifier}&newStatus=PUBLIC" confirmationText="This will make the study Publcly available to anyone. Are yo sure?" onclick="return confirmAction(this);">public</a></li>
+                                    <li><a href="updatestatus?study=${study.studyIdentifier}&newStatus=PUBLIC" confirmationText="This will make the study Publcly available to anyone. Are you sure?" onclick="return confirmAction(this);">public</a></li>
                                 </c:if>
                             </ul>
                         </li>
