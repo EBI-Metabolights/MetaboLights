@@ -676,23 +676,26 @@
 
     vm.$watch('selectedReactomePathway', function () {
 
+        //alert(vm.selectedReactomePathway);
+
         if (vm.selectedReactomePathway != ""){
 
             var w = document.getElementById("diagramHolder").offsetWidth;
             var diagram = Reactome.Diagram.create({
-                "proxyPrefix" : "https://crossorigin.me/http://www.ebi.ac.uk/chebi/proxyserver",
+                "proxyPrefix" : "/metabolights/RheaAndReactomeProxy?url=http://www.reactome.org/",
                 "placeHolder" : "diagramHolder",
                 "width" : w,
                 "height" : 500
             });
             //Initialising it to the "Metabolism of nucleotides" pathway
-            diagram.loadDiagram("R-HSA-15869");
+            diagram.loadDiagram(vm.selectedReactomePathway);
             //Adding different listeners
             diagram.onDiagramLoaded(function (loaded) {
                 console.info("Loaded ", loaded);
-                diagram.selectItem("R-HSA-111804");
+                //diagram.selectItem("R-HSA-111804");
                 diagram.flagItems("TXN");
             });
+
             diagram.onObjectHovered(function (hovered){
                 console.info("Hovered ", hovered);
             });

@@ -863,7 +863,7 @@
                                                         <th>Name</th>
                                                         <th>DB Identifier</th>
                                                         <th>Mapped Metabolite(s)</th>
-                                                        <th>p value</th>
+                                                       <!-- <th>p value</th> -->
                                                     </tr>
                                                     </thead>
                                                     <tbody id="metPathwaysMappingDataTable">
@@ -1421,7 +1421,7 @@
                                 }
                                 select.appendChild(option);
 
-                                $('#metPathwaysMappingDataTable').append('<tr><td>' + pathway.name + '</td><td>' + pathway.dbIdentifier + ' (' + pathway.numberOfMetabolite + ')</td><td>' + pathway.mappedMetabolite + '</td><td></td></tr>');
+                                $('#metPathwaysMappingDataTable').append('<tr><td>' + pathway.name + '</td><td>' + pathway.dbIdentifier + ' (' + pathway.numberOfMetabolite + ')</td><td>' + pathway.mappedMetabolite + '</td></tr>');
                             }
                         }
                     }
