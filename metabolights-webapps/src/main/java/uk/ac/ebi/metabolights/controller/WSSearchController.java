@@ -69,8 +69,8 @@ public class WSSearchController extends AbstractController {
     public static final String ORGANISM_ORGANISM_NAME = "organism.organismName";
     public static final String ORGANISM_ORGANISM_PART = "organism.organismPart";
     public static final String USERS_FULL_NAME = "users.fullName";
-//    public static final String FACTORS_NAME = "factors.name";
-//    public static final String DESCRIPTORS_DESCRIPTION = "descriptors.description";
+    public static final String FACTORS_NAME = "factors.name";
+    public static final String DESCRIPTORS_DESCRIPTION = "descriptors.description";
     public static final String VALIDATIONS_STATUS = "validations.status";
     public static final String VALIDATIONS_ENTRIES_STATUS = "validations.entries.statusExt";
 
@@ -304,9 +304,9 @@ public class WSSearchController extends AbstractController {
 //			</c:if>
 //
 //        commented out temporarily
-//        addFacet(USERS_FULL_NAME, emptyQuery);
-//        addFacet(FACTORS_NAME, emptyQuery);
-//        addFacet(DESCRIPTORS_DESCRIPTION, emptyQuery);
+        addFacet(USERS_FULL_NAME, emptyQuery);
+        addFacet(FACTORS_NAME, emptyQuery);
+        addFacet(DESCRIPTORS_DESCRIPTION, emptyQuery);
         addFacet(VALIDATIONS_STATUS, emptyQuery);
         addFacet(VALIDATIONS_ENTRIES_STATUS, emptyQuery);
 

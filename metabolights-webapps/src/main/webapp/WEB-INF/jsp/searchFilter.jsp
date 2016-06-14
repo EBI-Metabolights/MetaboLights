@@ -65,21 +65,21 @@ facets[].facet.lines[].FacetLine.checked
     }
     ;
 
-    $('body').on('click', '.input', function (e) {
-        if (!$(this).hasClass('active')) {
-            $(this).addClass('active');
-            $(this).attr("checked", "checked");
-            $(this).blur();
-            document.getElementById("filterForm").submit();
-        }
-        else {
-            $(this).removeClass('active');
-            $(this).blur();
-            $(this).removeAttr('checked');
-            $(this).attr("disabled", "disabled");
-            document.getElementById("filterForm").submit();
-        }
-    });
+//    $('body').on('click', '.input', function (e) {
+//        if (!$(this).hasClass('active')) {
+//            $(this).addClass('active');
+//            $(this).attr("checked", "checked");
+//            $(this).blur();
+//            document.getElementById("filterForm").submit();
+//        }
+//        else {
+//            $(this).removeClass('active');
+//            $(this).blur();
+//            $(this).removeAttr('checked');
+//            $(this).attr("disabled", "disabled");
+//            document.getElementById("filterForm").submit();
+//        }
+//    });
 
 
 </script>
@@ -90,20 +90,31 @@ facets[].facet.lines[].FacetLine.checked
 
 
     <c:forEach var="facet" items="${facets}">
+
         <c:if test="${facet.name ne 'factors.name'
-				&& facet.name ne 'users.fullName'
-				&&  facet.name ne 'descriptors.description'
-				&&  facet.name ne 'compound.hasSpecies'
-					&&  facet.name ne 'compound.hasPathways'
-					&&  facet.name ne 'compound.hasReactions'
-					&&  facet.name ne 'compound.hasNMR'
-					&&  facet.name ne 'compound.hasMS'
-				}">
-            <%--&&  facet.name ne 'compound.hasSpecies'--%>
-            <%--&&  facet.name ne 'compound.hasPathways'--%>
-            <%--&&  facet.name ne 'compound.hasReactions'--%>
-            <%--&&  facet.name ne 'compound.hasNMR'--%>
-            <%--&&  facet.name ne 'compound.hasMS'--%>
+        && facet.name ne 'users.fullName'
+        &&  facet.name ne 'descriptors.description'
+        &&  facet.name ne 'compound.hasSpecies'
+        &&  facet.name ne 'compound.hasPathways'
+        &&  facet.name ne 'compound.hasReactions'
+        &&  facet.name ne 'compound.hasNMR'
+        &&  facet.name ne 'compound.hasMS'
+        }">
+
+        <%--<c:if test="${facet.name ne 'factors.name'--%>
+				<%--&& facet.name ne 'users.fullName'--%>
+				<%--&&  facet.name ne 'descriptors.description'--%>
+				<%--&&  facet.name ne 'compound.hasSpecies'--%>
+					<%--&&  facet.name ne 'compound.hasPathways'--%>
+					<%--&&  facet.name ne 'compound.hasReactions'--%>
+					<%--&&  facet.name ne 'compound.hasNMR'--%>
+					<%--&&  facet.name ne 'compound.hasMS'--%>
+				<%--}">--%>
+            <%--&lt;%&ndash;&&  facet.name ne 'compound.hasSpecies'&ndash;%&gt;--%>
+            <%--&lt;%&ndash;&&  facet.name ne 'compound.hasPathways'&ndash;%&gt;--%>
+            <%--&lt;%&ndash;&&  facet.name ne 'compound.hasReactions'&ndash;%&gt;--%>
+            <%--&lt;%&ndash;&&  facet.name ne 'compound.hasNMR'&ndash;%&gt;--%>
+            <%--&lt;%&ndash;&&  facet.name ne 'compound.hasMS'&ndash;%&gt;--%>
 
 
             <c:if test="${fn:length(facet.lines) gt 1}">
@@ -124,14 +135,14 @@ facets[].facet.lines[].FacetLine.checked
                                 code="label.validationsStatus"/></c:when>
                         <c:when test="${facet.name=='validations.entries.statusExt'}"><spring:message
                                 code="label.validationsEntriesStatusExt"/></c:when>
-                        <c:when test="${facet.name=='compound.hasSpecies'}"><spring:message code="label.FilterSpecies"/></c:when>
-                        <c:when test="${facet.name=='compound.hasPathways'}"><spring:message
-                        code="label.FilterPathways"/></c:when>
-                        <c:when test="${facet.name=='compound.hasReactions'}"><spring:message
-                        code="label.FilterReactions"/></c:when>
-                        <c:when test="${facet.name=='compound.hasNMR'}"><spring:message
-                        code="label.FilterNMR"/></c:when>
-                        <c:when test="${facet.name=='compound.hasMS'}"><spring:message code="label.FilterMS"/></c:when>
+                        <%--<c:when test="${facet.name=='compound.hasSpecies'}"><spring:message code="label.FilterSpecies"/></c:when>--%>
+                        <%--<c:when test="${facet.name=='compound.hasPathways'}"><spring:message--%>
+                        <%--code="label.FilterPathways"/></c:when>--%>
+                        <%--<c:when test="${facet.name=='compound.hasReactions'}"><spring:message--%>
+                        <%--code="label.FilterReactions"/></c:when>--%>
+                        <%--<c:when test="${facet.name=='compound.hasNMR'}"><spring:message--%>
+                        <%--code="label.FilterNMR"/></c:when>--%>
+                        <%--<c:when test="${facet.name=='compound.hasMS'}"><spring:message code="label.FilterMS"/></c:when>--%>
                         <c:otherwise>${facet.name}</c:otherwise>
                     </c:choose>
                 </c:set>
