@@ -92,8 +92,7 @@
     </div>
 </div>
 
-
-<c:if test="${not empty param.message}">
+<c:if test="${not empty param.message || not empty message}">
     <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -102,7 +101,12 @@
                     <p class="modal-title text-center" id="messageModalLabel">MetaboLights message</p>
                 </div>
                 <div class="modal-body">
-                    <p><b><c:out value="${param.message}"/></b></p>
+                    <c:if test="${not empty param.message}">
+                        <p><b><c:out value="${param.message}"/></b></p>
+                    </c:if>
+                    <c:if test="${not empty message}">
+                        <p><b><c:out value="${message}"/></b></p>
+                    </c:if>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">OK</button>
@@ -111,9 +115,6 @@
         </div>
     </div>
 </c:if>
-
-
-
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="https://raw.githubusercontent.com/flatlogic/bootstrap-tabcollapse/master/bootstrap-tabcollapse.js"></script>

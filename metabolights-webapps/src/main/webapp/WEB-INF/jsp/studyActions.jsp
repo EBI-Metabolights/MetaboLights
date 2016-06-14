@@ -58,7 +58,7 @@
                             <li><a data-href="${pageContext.request.contextPath}/updatestatus?study=${study.studyIdentifier}&newStatus=INREVIEW" data-title="Confirmation" data-info="Is the study ready to be reviewed?" data-toggle="modal" data-target="#confirm-modal" data-class="btn-danger" data-value="Change-status">In review</a></li>
                         </c:if>
                         <c:if test="${curator && (study.studyStatus != 'PUBLIC')}">
-                            <li><a data-href="${pageContext.request.contextPath}/updatestatus?study=${study.studyIdentifier}&newStatus=PUBLIC" data-title="Confirmation" data-info="This will make the study Publicly available to anyone. Are yo sure?" data-toggle="modal" data-target="#confirm-modal" data-class="btn-danger" data-value="Make study public">Public</a></li>
+                            <li><a data-href="${pageContext.request.contextPath}/updatestatus?study=${study.studyIdentifier}&newStatus=PUBLIC" data-title="Confirmation" data-info="This will make the study Publicly available to anyone. Are you sure?" data-toggle="modal" data-target="#confirm-modal" data-class="btn-danger" data-value="Make study public">Public</a></li>
                         </c:if>
                     </ul>
                 </li>

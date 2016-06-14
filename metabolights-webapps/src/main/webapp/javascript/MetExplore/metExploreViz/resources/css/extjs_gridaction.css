@@ -206,6 +206,18 @@ p {
   background-position: 0% 0%;
   background-repeat: no-repeat;
 }
+.blackWhite {
+     background-image: url(../icons/blackWhite.png);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+.invertColor {
+     background-image: url(../icons/invertColor.svg);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
 .add {
         background-image: url(../icons/add.svg);
     background-size: 100% 100%;
@@ -270,6 +282,18 @@ p {
 
 .saveNetwork {
       background-image: url(../icons/save-network.png);!important;
+      background-size: 100% 100%;
+      background-position: 0% 0%;
+      background-repeat: no-repeat;
+}
+.makeClusters {
+      background-image: url(../icons/makeClusters.png);!important;
+      background-size: 100% 100%;
+      background-position: 0% 0%;
+      background-repeat: no-repeat;
+}
+.unmakeClusters {
+      background-image: url(../icons/unmakeClusters.png);!important;
       background-size: 100% 100%;
       background-position: 0% 0%;
       background-repeat: no-repeat;
@@ -356,6 +380,12 @@ p {
   background-position: 0% 0%;
   background-repeat: no-repeat;
 }
+.list {
+    background-image: url(../icons/list.png);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
 .exportPng {
     background-image: url(../icons/exportPng.png);
     background-size: 100% 100%;
@@ -436,7 +466,13 @@ p {
 
 
 .cytoscapeWebStart {
-	background-image: url(../icons/CytoscapeLogo.png);
+  background-image: url(../icons/CytoscapeLogo.png);
+    background-size: 100% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+} 
+.color {
+	background-image: url(../icons/color.png);
     background-size: 100% 100%;
   background-position: 0% 0%;
   background-repeat: no-repeat;

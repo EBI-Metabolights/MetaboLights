@@ -52,10 +52,19 @@ text.reaction{
 	shape-rendering: crispEdges;
 }
 .hide{
-	fill-opacity: 0;
-	opacity: 0;
+  fill-opacity: 0;
+  opacity: 0;
   display: none;
 }
+.invertColorViz{
+  -webkit-filter : invert(100%);
+  filter : invert(100%);
+}
+.blackWhiteViz{
+  -webkit-filter : grayscale(100%);
+  filter : grayscale(100%);
+}
+
 /*
 .tooltip {   
   pointer-events: none; 
@@ -77,10 +86,10 @@ text.reaction{
 }
 */
 
-.tooltip2 {
+/*.tooltip2 {
   border-radius: 15px 50px;
   background: #8AC007;
-  padding: 20px; 
+  padding: 5px; 
   position: absolute;
   top: 5%;
   right: 5%;
@@ -93,9 +102,9 @@ text.reaction{
 }
 
 .tooltip2 img{
-  width: 200px;
-  height: 200px;
-}
+  width: 50px;
+  height: 50px;
+}*/
 
 .link{
       background-repeat: initial;
@@ -113,4 +122,79 @@ text.reaction{
     padding-right: 5px;
     padding-bottom: 5px;
     padding-left: 15px;
+}
+
+/*.menuBarViz {
+  background-color: rgba(0, 0, 0, 0);
+  padding: 5px; 
+  position: absolute;
+  top: 70px;
+  right: 0%;
+  width: 300px;
+  height: 50px;
+  color:  #154B7D;
+  font-size: 15px;
+  z-index: 120;
+}
+
+.menuBarViz img{
+  background-color: rgba(0, 0, 0, 0);
+  width: 40px;
+  height: 40px;
+  padding: 7px; 
+}
+
+.menuBarViz span:hover{
+    background: #7FB5E4;
+}
+
+.menuBarViz span.active{
+    background: #5FA2DD;
+}
+
+.menuBarViz span {
+    margin: 0px 5px 0px 0px;
+    background-color: rgba(255, 255, 255, 0.4);
+    display: block;
+    float: left;
+    cursor: pointer;
+    width: 40px;
+    width: 40px;
+    border-radius: 20px;
+}*/
+
+.tooltip2 {
+  position: absolute;
+  padding: 20px; 
+  top: 100px;
+  right: 0%;
+  width: 300px;
+  bottom: 100px;
+  border-style: solid;
+  border-width: 0px 0px 0px 5px;
+  border-color: #5FA2DD;
+  background: #fff;
+  opacity: 1;
+  color:  #154B7D;
+  font-size: 15px;
+  z-index: 120; 
+  word-wrap: break-word;
+}
+
+.tooltip2 img{
+  width: 200px;
+  height: 200px;
+  text-align:center;
+}
+
+.option {
+    height: 30px;
+    width: 100%;
+    position: relative;
+    margin : 0px 10px 20px 10px;
+}
+
+.textLegend {
+    float:left;
+    margin : 5px 5px 5px 15px;
 }

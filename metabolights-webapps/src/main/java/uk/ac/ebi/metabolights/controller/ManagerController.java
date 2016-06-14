@@ -94,6 +94,17 @@ public class ManagerController extends AbstractController{
 
 	}
 
+	@RequestMapping(value = "/compoundsDashboard")
+	public ModelAndView showCompoundsDashboard(HttpServletRequest request) {
+
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("compoundsDashboard");
+
+		mav.addObject("pageTitle", "Compounds Dashboard" );
+
+		return mav;
+
+	}
+
 	@RequestMapping({"/config"})
 	public ModelAndView config() {
 

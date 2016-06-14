@@ -168,5 +168,10 @@
             <id>JBoss Public Maven Repository Group</id>
             <url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
         </repository>
+        <repository>
+            <id>biojava-legacy-repo</id>
+            <name>BioJava's Git based legacy maven repo</name>
+            <url>https://github.com/biojava/maven-repo/raw/master/</url>
+        </repository>
     </repositories>
 </project>
