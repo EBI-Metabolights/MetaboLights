@@ -304,45 +304,16 @@
                         </li>
                     </c:if>
                     <c:if test="${not empty study.assays}">
-                        <c:if test="${fn:length(study.assays) eq 1}">
-                            <c:if test="${(not empty study.assays[0].metaboliteAssignment) and (not empty study.assays[0].metaboliteAssignment.metaboliteAssignmentFileName) }">
-                                <c:set var="metabolitesExist" value="true"/>
-                                <li role="presentation">
-                                    <a class="assay--tab" href="#metpathways" aria-controls="metpathways"
-                                       data-assayid="1" role="tab" data-toggle="tab">
-                                        Pathways
-                                    </a>
-                                </li>
-                            </c:if>
-                        </c:if>
-                        <c:if test="${fn:length(study.assays) gt 1}">
-                            <li class="dropdown">
-                                <ul class="dropdown-menu">
-                                    <c:set var="metabolitesExist" value="false"/>
-                                    <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
-                                        <li>
-                                            <a class="assay--tab" href="#metpathways${assay.assayNumber}"
-                                               aria-controls="metpathways${assay.assayNumber}"
-                                               data-assayid="${assay.assayNumber}" role="tab" data-toggle="tab">
-                                                <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
-                                                    <c:set var="metabolitesExist" value="true"/>
-                                                    Pathways <c:if
-                                                        test="${fn:length(study.assays) gt 1}">(Assay&nbsp;${assay.assayNumber})</c:if>
-                                                </c:if>
-                                            </a>
-                                        </li>
-                                    </c:forEach>
-                                </ul>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <c:if test="${metabolitesExist eq true}">
-                                        Pathways &nbsp;<span class="caret"></span>
-                                    </c:if>
-
+                        <c:if test="${(not empty study.assays[0].metaboliteAssignment) and (not empty study.assays[0].metaboliteAssignment.metaboliteAssignmentFileName) }">
+                            <c:set var="metabolitesExist" value="true"/>
+                            <li role="presentation">
+                                <a class="assay--tab" href="#metpathways" aria-controls="metpathways"
+                                   data-assayid="1" role="tab" data-toggle="tab">
+                                    Pathways
                                 </a>
                             </li>
                         </c:if>
                     </c:if>
-
                 </ul>
 
                 <!-- Tab panes -->
