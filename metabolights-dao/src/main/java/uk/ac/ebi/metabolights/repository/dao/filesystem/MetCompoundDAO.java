@@ -95,7 +95,7 @@ public class MetCompoundDAO {
 
     private String getSpectraFilePath(String compoundId, String spectraId){
 
-         return referenceFolderLocation + File.separator + compoundId.toUpperCase() + File.separator + compoundId + "_spectra" + File.separator + spectraId + File.separator + spectraId + ".json";
+         return referenceFolderLocation + File.separator + compoundId.toUpperCase() + File.separator + compoundId + "_spectrum" + File.separator + spectraId + File.separator + spectraId + ".json";
 
     }
 
