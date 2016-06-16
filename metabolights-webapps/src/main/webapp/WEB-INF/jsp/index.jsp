@@ -104,9 +104,6 @@
                     <c:if test="${not empty param.message}">
                         <p><b><c:out value="${param.message}"/></b></p>
                     </c:if>
-                    <c:if test="${not empty message}">
-                        <p><b><c:out value="${message}"/></b></p>
-                    </c:if>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">OK</button>

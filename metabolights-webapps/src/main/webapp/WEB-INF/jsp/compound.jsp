@@ -104,7 +104,7 @@
                                 </span>
                                 <span class="right">
                                     <div class="btn-group" role="group" aria-label="">
-                                        <a target="_blank" href="${pageContext.request.contextPath}/webservice/beta/compound/MTBLC15354" class="btn btn-default btn-xs"><i class="fa fa-save"></i> JSON</a>
+                                        <a target="_blank" href="${pageContext.request.contextPath}/webservice/beta/compound/{{ mtblc.id }}" class="btn btn-default btn-xs"><i class="fa fa-save"></i> JSON</a>
                                         <!-- <div class="btn-group" role="group">
                                             <button type="button" class="btn btn-default btn-xs" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share"></i> Share</button>
                                             <ul class="dropdown-menu">
@@ -367,7 +367,7 @@
 
                                         <!-- Tab panes -->
                                         <div class="tab-content">
-                                            <div role="tabpanel" class="tab-pane"  v-bind:class="{ 'active': mtblc.flags.hasNMR == 'true' }" id="nmr">
+                                            <div role="tabpanel" class="tab-pane"  v-bind:class="{ 'active' : mtblc.flags.hasNMR == 'true' }" id="nmr">
                                                 <div class="form-group">
                                                     <label>Select NMR spectra</label>
                                                     <select v-model="selectedNMR" class="form-control selectFirst" size=5 multiple>
@@ -399,7 +399,7 @@
                                                 </div>
                                                 <div class="clearfix"></div>
                                             </div>
-                                            <div role="tabpanel" class="tab-pane" v-bind:class="{ 'active': mtblc.flags.hasMS == 'true'  }" id="ms">
+                                            <div role="tabpanel" class="tab-pane" v-bind:class="{ 'active': mtblc.flags.hasMS == 'true' && mtblc.flags.hasNMR == 'false' }" id="ms">
                                                 <div class="form-group">
                                                     <label>Select MS spectra</label>
                                                     <select v-model="selectedMS" class="form-control selectFirst" size=5 multiple>
