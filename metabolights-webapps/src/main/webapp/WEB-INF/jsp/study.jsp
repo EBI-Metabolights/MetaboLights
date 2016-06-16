@@ -100,37 +100,29 @@
 
 <ol class="progtrckr" data-progtrckr-steps="${(fn:length(studyStatuses))-1}">
 
-<%--<c:if test="${status.description eq 'Submitted'}">--%>
-<%--</c:if>--%>
-<%--<c:if test="${status.description eq 'Dormant'}">--%>
-<%--</c:if>--%>
-<%--<c:choose>--%>
-<%--<c:when test="${status eq study.studyStatus}">--%>
-<%--<li class="progtrckr-done" title="${status.description}">${status.descriptiveName}</li>--%>
-<%--</c:when>--%>
-<%--<c:otherwise>--%>
-<%--...--%>
-<%--</c:otherwise>--%>
-<%--</c:choose>--%>
-
-<c:set var="statusInitial" value="${studyStatuses[0]}"/>
-<c:forEach var="status" items="${studyStatuses}">
-    <c:if test="${status.descriptiveName eq 'Dormant'}">
-        <c:set var="statusInitial" value="${studyStatuses[1]}"/>
-    </c:if></c:forEach><%--
-        --%><li class="progtrckr-done" title="${statusInitial.description}">${statusInitial.descriptiveName}</li><%--
-        --%><c:forEach begin="2" end="4" var="status" items="${studyStatuses}"><%--
+        <c:set var="statusInitial" value="${studyStatuses[0]}"/>
+<li class="progtrckr-done" title="${statusInitial.description}">${statusInitial.descriptiveName}</li><%--
+         --%><c:choose>
+        <c:when test="${study.studyStatus eq studyStatuses[4]}"><%--
+        --%><c:forEach begin="1" end="3" var="status" items="${studyStatuses}"><%--
+            --%><li class="progtrckr-todo" title="${status.description}">${status.descriptiveName}</li><%--
+         --%></c:forEach><%--
+        --%></ol>
+        </c:when>
+        <c:otherwise><%--
+        --%><c:forEach begin="1" end="3" var="status" items="${studyStatuses}"><%--
         --%><c:if test="${status gt study.studyStatus}"><%--
             --%>
-    <li class="progtrckr-todo" title="${status.description}">${status.descriptiveName}</li><%--
+            <li class="progtrckr-todo" title="${status.description}">${status.descriptiveName}</li><%--
         --%></c:if><%--
         --%><c:if test="${status le study.studyStatus}"><%--
             --%>
-    <li class="progtrckr-done" title="${status.description}">${status.descriptiveName}</li><%--
+            <li class="progtrckr-done" title="${status.description}">${status.descriptiveName}</li><%--
         --%></c:if><%--
         --%></c:forEach><%--
-        --%></ol>
-
+        --%></ol><%--
+        --%></c:otherwise><%--
+        --%></c:choose>
 
     <div class="container-fluid">
 
@@ -186,8 +178,18 @@
     </c:forEach>
     &nbsp;|&nbsp;
 
-    <i class="fa fa-bookmark"></i>&nbsp;<spring:message
-            code="ref.msg.status"/>:&nbsp;${study.studyStatus.descriptiveName}
+        <c:choose>
+            <c:when test="${study.studyStatus.descriptiveName eq 'Dormant'}">
+                <i class="fa fa-bookmark"></i>&nbsp;<spring:message
+                    code="ref.msg.status"/>:&nbsp;<span class="label label-pill label-danger" style="font-family: sans-serif;font-size: 18px;font-weight: lighter">${study.studyStatus.descriptiveName}</span>
+            </c:when>
+            <c:otherwise>
+                <i class="fa fa-bookmark"></i>&nbsp;<spring:message
+                    code="ref.msg.status"/>:&nbsp;${study.studyStatus.descriptiveName}
+            </c:otherwise>
+        </c:choose>
+
+
     <%-- &emsp;
     <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="bottom" id="tourButton" title="Study Tour"><i class="fa fa-compass"></i></button>--%>
     </p>
