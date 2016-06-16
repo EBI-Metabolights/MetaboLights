@@ -1,0 +1,4 @@
+MAILTO=metabolights-dev
+#Backup elastic lucene indexes
+0 7 * * * /nfs/www-prod/web_hx2/cm/metabolights/scripts/backup_elastic.csh
+
