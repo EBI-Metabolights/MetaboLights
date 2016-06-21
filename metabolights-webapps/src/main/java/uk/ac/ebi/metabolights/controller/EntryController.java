@@ -172,7 +172,7 @@ public class EntryController extends AbstractController {
 	public ModelAndView showAltReviewerEntry(@PathVariable("obfuscationCode") String obfuscationCode) {
 
 
-		return getWSEntryMAV(null, obfuscationCode, "entry2");
+		return getWSEntryMAV(null, obfuscationCode, "study");
 
 	}
 
@@ -205,7 +205,7 @@ public class EntryController extends AbstractController {
 
 	@RequestMapping(value = { "beta/" + ALTERNATIVE_ENTRY_PREFIX + "{metabolightsId:" + METABOLIGHTS_ID_REG_EXP +"}"})
 	public ModelAndView showStudyBetaPage(@PathVariable("metabolightsId") String mtblsId, HttpServletRequest request) {
-		return getWSEntryMAV(mtblsId, null, "entry2");
+		return getWSEntryMAV(mtblsId, null, "study");
 	}
 
 

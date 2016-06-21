@@ -888,15 +888,27 @@
                                                     code="label.requestFtpFolder"/>
                                             </a>
                                         </sec:authorize>
-                                        &nbsp;|&nbsp;
                                     </c:if>
                                     <!--  Request FTP folder -->
-                                    <a class="noLine" rel="nofollow"
-                                       href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/${study.studyIdentifier}${token}"
-                                       title="<spring:message code="label.downloadstudy"/>">
-                                        <span class="icon icon-functional" data-icon="="/><spring:message
-                                            code="label.downloadstudy"/>
-                                    </a>
+                                    <c:if test="${study.studySize <= 1024000 }">
+                                        &nbsp;|&nbsp;
+                                        <a class="noLine" rel="nofollow"
+                                           href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/${study.studyIdentifier}${token}"
+                                           title="<spring:message code="label.downloadstudy"/>">
+                                            <span class="icon icon-functional" data-icon="="/><spring:message
+                                                code="label.downloadstudy"/>
+                                        </a>
+                                    </c:if>
+
+                                    <c:if test="${study.publicStudy}">
+                                        &nbsp;|&nbsp;
+                                        <a class="noLine"
+                                           href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/${study.studyIdentifier}"
+                                           title="<spring:message code="label.viewAllFiles"/>">
+                                            <span class="icon icon-generic" data-icon="x"/><spring:message
+                                                code="label.viewAllFiles"/>
+                                        </a>
+                                    </c:if>
                                     &nbsp;|&nbsp;
                                     <a class="noLine" rel="nofollow"
                                        href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/metadata${token}"
@@ -906,17 +918,6 @@
                                     </a>
                                     &nbsp;
                                     <c:if test="${study.publicStudy}">
-                                        |&nbsp;
-                                        <a class="noLine"
-                                           href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/${study.studyIdentifier}"
-                                           title="<spring:message code="label.viewAllFiles"/>">
-                                            <span class="icon icon-generic" data-icon="x"/><spring:message
-                                                code="label.viewAllFiles"/>
-                                        </a>
-                                    </c:if>
-                                    &nbsp;
-                                    <c:if test="${study.publicStudy}">
-                                        |&nbsp;
                                         <span id="asperaDownloadWrapper"></span>
                                     </c:if>
 
@@ -1646,9 +1647,9 @@
             // If the new tab is NMR...
 
             // Adds an input element download button that uses Aspera
-            var downloadButton = $('<a id="downloadButton">Aspera: Download Study</a>');
+            var downloadButton = $('<a class="pull-left" id="downloadButton"><span class="icon icon-functional" data-icon="="/> Download whole study (FAST)</a>');
 
-            $('#asperaDownloadWrapper').append(downloadButton);
+            $('#asperaDownloadWrapper').prepend(downloadButton);
 
             function downloadButtonClick(e) {
                 $('#transferDiv').show();

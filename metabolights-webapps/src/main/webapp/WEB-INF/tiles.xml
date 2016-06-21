@@ -238,12 +238,6 @@
         <put-attribute name="title" value="MetaboLights Strategic Advisory Board"/>
         <put-attribute name="body" value="/WEB-INF/jsp/advisoryboard.jsp"/>
     </definition>
-
-    <definition name="entry2" extends="default">
-        <put-attribute name="title" value="Study" />
-        <put-attribute name="body" value="/WEB-INF/jsp/entry2.jsp" />
-    </definition>
-
     <definition name="study" extends="default">
         <put-attribute name="title" value="Study" />
         <put-attribute name="body" value="/WEB-INF/jsp/study.jsp" />

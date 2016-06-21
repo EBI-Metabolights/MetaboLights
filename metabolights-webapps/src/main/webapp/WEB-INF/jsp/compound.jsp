@@ -298,6 +298,14 @@
                                                             <option v-for="pathway in selectedPathways"  value="{{pathway.id}}">{{ pathway.name }}</option>
                                                         </select>
                                                     </div>
+                                                    <div v-if="selectedWPSpeciesStudyMap.length > 0">
+                                                        <div class="alert alert-info" role="alert">
+                                                            This metabolite has been identified in the following MetaboLights studies.
+                                                            <span v-for="map in selectedWPSpeciesStudyMap">
+                                                                <a href="http://www.ebi.ac.uk/metabolights/{{ map.SpeciesAccession }}" target="_blank">{{ map.SpeciesAccession }}</a>&nbsp;
+                                                            </span>
+                                                        </div>
+                                                    </div>
                                                     <div v-if="selectedPathway" class="well no-padding">
                                                         <iframe src="http://www.wikipathways.org/wpi/PathwayWidget.php?id={{selectedPathway}}" frameborder="0" width="98%" height="500px" seamless="seamless" scrolling="no"></iframe>
                                                     </div>
@@ -310,7 +318,7 @@
                                                     <div v-if="selectedKEGGPathway">
                                                         <br>
                                                         <span class='zoom' id="kegg--img">
-                                                            <img src="http://www.kegg.jp/kegg/pathway/ko/{{selectedKEGGPathway}}.png" class="img-responsive">
+                                                            <img src='http://www.kegg.jp/kegg/pathway/ko/{{selectedKEGGPathway}}.png' class="img-responsive">
                                                         </span>
                                                     </div>
                                                     <div class="clearfix"></div>
@@ -499,62 +507,6 @@
 
     jQuery.noConflict();
 
-
-
-    $(document).ready(function() {
-        if(location.hash) {
-            $('a[href=' + location.hash + ']').tab('show');
-        }
-        $(document.body).on("click", "a[data-toggle]", function(event) {
-            location.hash = this.getAttribute("href");
-        });
-    });
-    $(window).on('popstate', function() {
-        var anchor = location.hash || $("a[data-toggle=tab]").first().attr("href");
-        $('a[href=' + anchor + ']').tab('show');
-        getHash();
-    });
-
-
-    $( document ).ready(function() {
-        var url = document.location.toString();
-        if (url.match('#')) {
-            getHash();
-        }
-    });
-
-    function getHash(){
-        var url = document.location.toString();
-        if (url.match('#')) {
-            loadData(url.split('#')[1]);
-        }
-    }
-
-
-    function loadData(target){
-        if (target == 'pathways') {
-            for (firstWikiPathway in vm.mtblc.pathways.WikiPathways) break;
-            data.selectedSpecies = firstWikiPathway;
-        }else if (target == 'chemistry') {
-            //console.log("chemistry")
-        }else if (target == 'reactome') {
-            for (firstReactomePathway in vm.mtblc.pathways.ReactomePathways ) break;
-            data.selectedReactomeSpecies = firstReactomePathway;
-        } else if (target == 'kegg') {
-            data.selectedKEGGPathway =  vm.mtblc.pathways.KEGGPathways[0].KO_PATHWAY;
-        } else if (target == 'spectra') {
-            try {
-                data.selectedNMR = [vm.nmrSpectra[0].name];
-            }catch (err){
-                data.selectedMS = [vm.msSpectra[0].name];
-            }
-        } else if (target == 'ms') {
-            data.selectedMS = [vm.msSpectra[0].name];
-        } else if (target == 'reactions') {
-            data.selectedReaction = data.mtblc.reactions[0].id;
-        }
-    }
-
     var data = {
         compound: '${compoundId}',
         mtblc: {},
@@ -574,7 +526,10 @@
         NMRchart: null,
         NMRarray: {},
         loading: false,
-        synonymsCount: 0
+        synonymsCount: 0,
+        msSpectra: [],
+        nmrSpectra: [],
+        selectedWPSpeciesStudyMap: []
     }
 
     var vm = new Vue({
@@ -659,12 +614,17 @@
                     }, 200);
                 });
 
+                var url = document.location.toString();
+                if (url.match('#')) {
+                    getHash();
+                }
+
                 //$(".selectFirst option:first").attr("selected", "selected");
 
             }).error(function (data, status, request) {
                 console.log(data);
                 console.log(status);
-                console.log(status);
+                console.log(request);
             });
 
         }
@@ -672,6 +632,17 @@
 
     vm.$watch('selectedSpecies', function () {
         vm.selectedPathway = vm.selectedPathways[0].id;
+        var selectedSpeciesLC = vm.selectedSpecies.toLowerCase();
+        console.log(vm.mtblc.species)
+        vm.selectedWPSpeciesStudyMap = []
+        if(vm.mtblc.species[selectedSpeciesLC] != undefined){
+            vm.selectedWPSpeciesStudyMap = vm.mtblc.species[selectedSpeciesLC].filter(function(species){
+                return species.SpeciesAccession.indexOf('MTBLS')  > -1 ? true : false;
+            });
+        }else{
+            vm.selectedWPSpeciesStudyMap = []
+        }
+
     })
 
     vm.$watch('selectedReactomePathway', function () {
@@ -720,8 +691,9 @@
             return vm.selectedMS.indexOf(spec.name) > -1 ? true : false;
         });
         this.MSData.remove();
+
         this.MSData.add(this.selectedMSSpectra.map(function(spec){
-            return spec.url;
+            return "http://localhost:8080" + spec.url;
         }));
 
     })
@@ -756,5 +728,59 @@
         });
 
     });
+
+    $(document).ready(function() {
+        if(location.hash) {
+            $('a[href=' + location.hash + ']').tab('show');
+        }
+        $(document.body).on("click", "a[data-toggle]", function(event) {
+            location.hash = this.getAttribute("href");
+        });
+    });
+    $(window).on('popstate', function() {
+        var anchor = location.hash || $("a[data-toggle=tab]").first().attr("href");
+        $('a[href=' + anchor + ']').tab('show');
+        getHash();
+    });
+
+
+    function getHash(){
+        var url = document.location.toString();
+        if (url.match('#')) {
+            loadData(url.split('#')[1]);
+        }
+    }
+
+
+    function loadData(target){
+        if (target == 'pathways') {
+            for (firstWikiPathway in vm.mtblc.pathways.WikiPathways) break;
+            data.selectedSpecies = firstWikiPathway;
+        }else if (target == 'chemistry') {
+            //console.log("chemistry")
+        }else if (target == 'reactome') {
+            for (firstReactomePathway in vm.mtblc.pathways.ReactomePathways ) break;
+            data.selectedReactomeSpecies = firstReactomePathway;
+        } else if (target == 'kegg') {
+            data.selectedKEGGPathway =  vm.mtblc.pathways.KEGGPathways[0].KO_PATHWAY;
+        } else if (target == 'spectra') {
+            try {
+                if(typeof vm.nmrSpectra != 'undefined') {
+                    data.selectedNMR = [vm.nmrSpectra[0].name];
+                }
+            }catch (err){
+                if(typeof vm.msSpectra != 'undefined') {
+                    data.selectedMS = [vm.msSpectra[0].name];
+                }
+            }
+        } else if (target == 'ms') {
+            if(typeof vm.msSpectra != 'undefined') {
+                console.log(vm.msSpectra)
+                data.selectedMS = [vm.msSpectra[0].name];
+            }
+        } else if (target == 'reactions') {
+            data.selectedReaction = data.mtblc.reactions[0].id;
+        }
+    }
 
 </script>
