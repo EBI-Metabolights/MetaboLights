@@ -44,6 +44,10 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+
 <script>
 
     function showWait(){
@@ -66,79 +70,90 @@
             autoOpen: false
         });
 
-
     });
 
     function disableSubmission() {
+
         document.body.style.cursor = "wait";
         $('.ui-dialog-titlebar').hide();
         $( "#hourglass" ).dialog( "open" );
+
     }
 
 </script>
 
 <c:choose>
     <c:when test="${not empty successfulUpload}">
-        <h2>${ compoundId }</h2>
-        <h3>Reference Spectra Upload Page</h3>
-        <p>Compound Reference Spectra uploaded successfully. Thank you for your submission!</p>
-        <script>
-            window.setTimeout(function(){
-                window.location.href = "${ compoundId }";
-            }, 10000);
-        </script>
+        <div class="container">
+            <div class="clear-fix">&nbsp;</div>
+            <div class="clear-fix">&nbsp;</div>
+            <div class="col-md-6 col-md-offset-3">
+                <div class="alert alert-success" role="alert">
+                    <h2>${ param.cid }</h2>
+                    <p>Reference Spectra uploaded successfully. Thank you for your submission!</p>
+                    <br>
+                </div>
+                <script>
+                    window.setTimeout(function(){
+                        window.location.href = "${ compoundId }";
+                    }, 10000);
+                </script>
+            </div>
+        </div>
     </c:when>
     <c:otherwise>
-        <h2>${ param.cid }</h2>
-        <h3>Reference Spectra Upload Page</h3>
-        <form method="post" action="submitCompoundSpectra" enctype="multipart/form-data" name="uf" onsubmit="disableSubmission()">
-            <hr/>&nbsp;<br/>
-            <div class="grid_6 alpha prefix_1"><spring:message code="label.spectraFile" />:</div>
-            <div class="grid_17 omega">
-                <input type="file" name="file" />
-            </div>
-            <input type="hidden" name="compoundid" value="${ param.cid }" >
-            <c:set var="currentUserId">
-                <sec:authorize ifAnyGranted="ROLE_SUBMITTER">
-                    <sec:authentication property="principal.userId"/>
-                </sec:authorize>
-            </c:set>
+        <div class="container">
+            <div class="clear-fix">&nbsp;</div>
+            <div class="clear-fix">&nbsp;</div>
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">${ param.cid }: Upload Reference Spectra </h3>
+                    </div>
+                    <div class="panel-body">
+                        <form method="post" action="submitCompoundSpectra" enctype="multipart/form-data" name="uf" onsubmit="disableSubmission()">
 
-            <c:if test="${not empty users}">
-                <br/>&nbsp;<br/>
-                <div class="grid_6 alpha prefix_1"><spring:message code="label.onBehalf"/>:</div>
-                <div class="grid_17 omega">
-                    <select name="owner">
-                        <c:forEach var="user" items="${users}">
-                            <c:if test="${user.userId == currentUserId}">
-                                <option value="${user.userName}" SELECTED="true">${user.firstName}&nbsp;${user.lastName}</option>
+                            <div class="form-group">
+                                <label><spring:message code="label.spectraFile" />:</label>
+                                <input type="file" name="file" />
+                            </div>
+                            <input type="hidden" name="compoundid" value="${ param.cid }" >
+                            <c:set var="currentUserId">
+                                <sec:authorize ifAnyGranted="ROLE_SUBMITTER">
+                                    <sec:authentication property="principal.userId"/>
+                                </sec:authorize>
+                            </c:set>
+
+                            <c:if test="${not empty users}">
+                                <div class="form-group">
+                                    <label><spring:message code="label.onBehalf"/>:</label>
+                                    <select class="form-control" name="owner">
+                                        <c:forEach var="user" items="${users}">
+                                            <c:if test="${user.userId == currentUserId}">
+                                                <option value="${user.userName}" SELECTED="true">${user.firstName}&nbsp;${user.lastName}</option>
+                                            </c:if>
+                                            <c:if test="${not (user.userId == currentUserId)}">
+                                                <option value="${user.userName}">${user.firstName}&nbsp;${user.lastName}</option>
+                                            </c:if>
+                                        </c:forEach>
+                                    </select>
+                                </div>
                             </c:if>
-                            <c:if test="${not (user.userId == currentUserId)}">
-                                <option value="${user.userName}">${user.firstName}&nbsp;${user.lastName}</option>
-                            </c:if>
-                        </c:forEach>
-                    </select>
+                            <div class="form-group">
+                                <div id="hideableButtons">
+                                    <input name="submit" type="submit" class="from-control submit btn btn-primary" value="Upload Spectra">
+                                </div>
+                                <div id="hourglass">
+                                    <img src="img/wait.gif" alt="Please wait"/>&nbsp;<b><spring:message code="msg.pleaseWaitForUpload"/></b>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </c:if>
-
-            <div id="hideableButtons" class="grid_17 prefix_7 alpha omega">
-                &nbsp;<br/>
-                <input name="submit" type="submit" class="submit" value="<spring:message code="label.upload"/>">
-                <input name="cancel" type="button" class="submit cancel" value="<spring:message code="label.cancel"/>" onclick="location.href='index'">
             </div>
-
-            <div id="hourglass">
-                <img src="img/wait.gif" alt="Please wait"/>&nbsp;<b><spring:message code="msg.pleaseWaitForUpload"/></b>
-            </div>
-            <br>
-            <hr/>
-        </form>
+        </div>
     </c:otherwise>
 </c:choose>
-
-
-
-
 
 <c:if test="${not empty message}">
     <div class="error">
