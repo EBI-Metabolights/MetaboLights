@@ -117,9 +117,6 @@ public class IsaTab2MetaboLightsConverter {
             studyToFill.setStudyIdentifier(isaStudy.getStudyId());
         }
         studyToFill.setTitle(isaStudy.getStudyTitle());
-        if(studyToFill.getTitle().equals("This study will be deleted unless metadata is supplied")){
-            studyToFill.setStudyStatus(LiteStudy.StudyStatus.DORMANT);
-        }
         studyToFill.setDescription(isaStudy.getStudyDesc());
         studyToFill.setStudyLocation(studyFolder);
 
