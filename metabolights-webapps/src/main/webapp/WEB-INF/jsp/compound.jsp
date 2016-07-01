@@ -577,9 +577,14 @@
                 this.MSchart.load(this.MSData);
             },
             initializeNMRSpeckTackle: function() {
+                if ($("#NMRSpeckTackle").width() < 1 ){
+                    this.NMRchart = null;
+                    return
+                }
                 if (this.NMRchart != null) return;
                 this.NMRchart = st.chart.nmr().xlabel("ppm").legend(true).margins([20, 100, 60, 0]).labels(true);
                 this.NMRchart.render("#NMRSpeckTackle");
+
                 this.NMRarray = st.data.array().xlimits(["xMin", "xMax"]).ylimits(["yMin", "yMax"]).y("data");
                 this.NMRchart.load(this.NMRarray);
             },
@@ -633,7 +638,6 @@
     vm.$watch('selectedSpecies', function () {
         vm.selectedPathway = vm.selectedPathways[0].id;
         var selectedSpeciesLC = vm.selectedSpecies.toLowerCase();
-        console.log(vm.mtblc.species)
         vm.selectedWPSpeciesStudyMap = []
         if(vm.mtblc.species[selectedSpeciesLC] != undefined){
             vm.selectedWPSpeciesStudyMap = vm.mtblc.species[selectedSpeciesLC].filter(function(species){
@@ -693,7 +697,7 @@
         this.MSData.remove();
 
         this.MSData.add(this.selectedMSSpectra.map(function(spec){
-            return "http://localhost:8080" + spec.url;
+            return spec.url;
         }));
 
     })
@@ -708,11 +712,6 @@
             return spec.url;
         }));
     })
-
-
-    vm.$watch('selectedKEGGPathway', function () {
-    })
-
 
     vm.$watch('selectedReaction', function(){
 
@@ -731,10 +730,11 @@
 
     $(document).ready(function() {
         if(location.hash) {
-            $('a[href=' + location.hash + ']').tab('show');
+            $('.nav-tabs a[href="' + location.hash + '"]').tab('show');
         }
         $(document.body).on("click", "a[data-toggle]", function(event) {
             location.hash = this.getAttribute("href");
+            getHash();
         });
     });
     $(window).on('popstate', function() {
@@ -775,7 +775,6 @@
             }
         } else if (target == 'ms') {
             if(typeof vm.msSpectra != 'undefined') {
-                console.log(vm.msSpectra)
                 data.selectedMS = [vm.msSpectra[0].name];
             }
         } else if (target == 'reactions') {

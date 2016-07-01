@@ -115,7 +115,7 @@
 
                             <div class="form-group">
                                 <label><spring:message code="label.spectraFile" />:</label>
-                                <input type="file" name="file" />
+                                <input type="file" name="file" id="fileInput" />
                             </div>
                             <input type="hidden" name="compoundid" value="${ param.cid }" >
                             <c:set var="currentUserId">
@@ -141,7 +141,7 @@
                             </c:if>
                             <div class="form-group">
                                 <div id="hideableButtons">
-                                    <input name="submit" type="submit" class="from-control submit btn btn-primary" value="Upload Spectra">
+                                    <input name="submit" type="submit" id="uploadFileBtn" class="from-control submit btn btn-primary" value="Upload Spectra">
                                 </div>
                                 <div id="hourglass">
                                     <img src="img/wait.gif" alt="Please wait"/>&nbsp;<b><spring:message code="msg.pleaseWaitForUpload"/></b>
@@ -152,6 +152,17 @@
                 </div>
             </div>
         </div>
+        <script>
+            $(function() {
+                document.getElementById("uploadFileBtn").disabled = true;
+                $("#fileInput").change(function() {
+                    var fileName = $(this).val();
+                    if(fileName != "") {
+                        document.getElementById("uploadFileBtn").disabled = false;
+                    } //show the button
+                });
+            });
+        </script>
     </c:otherwise>
 </c:choose>
 
