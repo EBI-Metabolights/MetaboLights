@@ -666,6 +666,27 @@ public class StudyController extends BasicController{
 	 * @author jrmacias
 	 * @date 20151112
 	 */
+	private String getSubmitterEmail(String studyId, User user)
+			throws DAOException, IsaTabException {
+
+        Study study = getStudyDAO().getStudy(studyId, user.getApiToken());
+        if (study.getUsers().size() == 0) {
+            return "";
+        }
+
+        return study.getUsers().get(0).getEmail();
+    }
+
+	/**
+	 * Get the obfuscation code of the study
+	 *
+	 * @param studyId
+	 * @param user
+	 * @return
+	 * @throws DAOException
+	 * @author jrmacias
+	 * @date 20151112
+	 */
 	private String getObfuscationCode(String studyId, User user)
 			throws DAOException, IsaTabException {
 
@@ -731,7 +752,7 @@ public class StudyController extends BasicController{
 				.append('\n').append('\n')
 				.append("We would be grateful for any feedback on the upload procedure and any issues you may find.")
 				.append('\n');
-		emailService.sendCreatedFTPFolderEmail(user.getEmail(), subject, body.toString());
+		emailService.sendCreatedFTPFolderEmail(user.getEmail(),getSubmitterEmail(studyIdentifier,user), subject, body.toString());
 		logger.info("Private FTP folder details sent to user: {}, by email: {} .", user.getUserName(), user.getEmail());
 
 		return restResponse;

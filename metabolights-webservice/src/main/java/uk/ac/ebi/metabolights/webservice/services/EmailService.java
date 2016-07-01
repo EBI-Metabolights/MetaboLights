@@ -412,9 +412,13 @@ public class EmailService {
 	 * @author jrmacias
 	 * @date 20151102
 	 */
-	public void sendCreatedFTPFolderEmail(String userEmail, String subject, String body) {
+	public void sendCreatedFTPFolderEmail(String userEmail, String submitterMail, String subject, String body) {
 		String[] to = {userEmail, curationEmailAddress};
-
+		if(!submitterMail.isEmpty()){
+			String[] toAll = {userEmail, curationEmailAddress, submitterMail};
+			sendSimpleEmail(toAll, subject, body);
+			return;
+		}
 		sendSimpleEmail(to, subject, body);
 	}
 
