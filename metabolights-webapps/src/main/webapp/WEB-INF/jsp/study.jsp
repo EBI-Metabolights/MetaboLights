@@ -803,7 +803,6 @@
                     </c:if>
 
 
-                    <c:if test="${fn:length(study.assays) eq 1}">
                         <c:if test="${not empty study.assays}">
                             <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
                                 <div role="tabpanel" class="tab-pane" id="metpathways">
@@ -860,7 +859,6 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody id="metPathwaysMappingDataTable">
-
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -870,21 +868,6 @@
                                 </div>
                             </c:forEach>
                         </c:if>
-                    </c:if>
-
-                    <c:if test="${fn:length(study.assays) gt 1}">
-                        <c:if test="${not empty study.assays}">
-                            <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
-                                <div role="tabpanel" class="tab-pane" id="metpathways${assay.assayNumber}">
-                                    <h3>Pathways - Assay&nbsp;<c:if
-                                            test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if></h3>
-                                    <div class="col-md-12">
-                                        <div id="metExploreContainer"></div>
-                                    </div>
-                                </div>
-                            </c:forEach>
-                        </c:if>
-                    </c:if>
 
 
                     <div role="tabpanel" class="tab-pane" id="files">
