@@ -46,6 +46,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.net.InetAddress;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -173,8 +174,10 @@ public class EmailService {
 		String[] to = getRecipientsFromStudy(newStudy);
 		String[] bcc = {bccPivotalEmailAddress};
 		String subject = PropertyLookUpService.getMessage("mail.submittedStudy.subject", newStudy.getStudyIdentifier());
-		String body = PropertyLookUpService.getMessage("mail.submittedStudy.body", new String[]{fileName,  newStudy.getStudyIdentifier(), newStudy.getStudyPublicReleaseDate().toString(), prodURL});
-
+		//String body = PropertyLookUpService.getMessage("mail.submittedStudy.body", new String[]{fileName,  newStudy.getStudyIdentifier(), newStudy.getStudyPublicReleaseDate().toString(), prodURL});
+		String text = VelocityEngineUtils.mergeTemplateIntoString(
+				velocityEngine, "email_template/studySubmissionConfirmationEmail.vm", "UTF-8", new HashMap());
+		String body = MessageFormat.format(text,  new String[]{fileName,  newStudy.getStudyIdentifier(), newStudy.getStudyPublicReleaseDate().toString(), prodURL});
 		sendSimpleEmailWithBcc(from, to, bcc, subject, body);
 
 	}

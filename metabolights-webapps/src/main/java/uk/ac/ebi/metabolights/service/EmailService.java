@@ -43,6 +43,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -311,9 +312,11 @@ public class EmailService {
 		String[] to = {userEmail, curationEmailAddress};
 		String[] bcc = {pivotalAutomatedsubmittoqueueEmailAddress};
 		String subject = PropertyLookup.getMessage("mail.submittedStudy.subject", ID);
-		String body = PropertyLookup.getMessage("mail.submittedStudy.body", new String[]{fileName,  ID, publicReleaseDate.toString(), prodURL});
-
-		sendSimpleEmailWithBcc(from, to, bcc, subject, body);
+		//String body = PropertyLookup.getMessage("mail.submittedStudy.body", new String[]{fileName,  ID, publicReleaseDate.toString(), prodURL});
+		String text = VelocityEngineUtils.mergeTemplateIntoString(
+				velocityEngine, "email_template/studySubmissionConfirmationEmail.vm", "UTF-8", new HashMap());
+		String body = MessageFormat.format(text,  new String[]{fileName,  ID, publicReleaseDate.toString(), prodURL});
+    	sendSimpleEmailWithBcc(from, to, bcc, subject, body);
 
 	}
 
