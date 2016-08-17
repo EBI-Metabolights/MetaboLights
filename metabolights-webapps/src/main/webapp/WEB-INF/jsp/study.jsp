@@ -459,7 +459,7 @@
                         </c:if>
                     </div>
 
-                    <div role="tabpanel" class="tab-pane" id="sample">
+                    <div role="tabpanel" class="tab-pane ml--oh" id="sample">
                         <c:if test="${not empty study.sampleTable}">
                             <table class="dataTable table table-striped table-bordered">
                                 <thead class='text_header'>

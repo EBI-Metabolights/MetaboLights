@@ -404,3 +404,6 @@ a:link.btn-ok{
 .mini--banner{
 
 }
+
+.ml--oh{overflow: auto;
+    overflow-y: hidden;}
