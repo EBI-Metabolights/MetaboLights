@@ -91,6 +91,11 @@
 
         });
 
+        var hash = $.trim( window.location.hash );
+
+        if (hash) $('.nav-tabs a[href$="'+hash+'"]').trigger('click');
+
+
     });
 
 </script>
