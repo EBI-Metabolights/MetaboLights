@@ -43,6 +43,14 @@
         <org.spring.security.version>3.2.5.RELEASE</org.spring.security.version>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>chebi-repo2</id>
+            <name>ChEBI Internal Repository</name>
+            <url>scp://prod.ebi.ac.uk/ebi/sp/pro1/chebi/maven2_repo</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <!--Other metabolights dependencies-->
         <dependency>
@@ -110,9 +118,19 @@
             <version>${org.spring.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${org.spring.version}</version>
+        </dependency>
+        <dependency>
             <groupId>antlr</groupId>
             <artifactId>antlr</artifactId>
             <version>2.7.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20090211</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -220,6 +238,35 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- Chemspider webservices dependencies-->
+        <dependency>
+            <groupId>uk.ac.ebi.metabolights</groupId>
+            <artifactId>chemspider_webservices</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.axis2</groupId>
+            <artifactId>axis2-kernel</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.axis2</groupId>
+            <artifactId>axis2-adb</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.axis2</groupId>
+            <artifactId>axis2-transport-local</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.axis2</groupId>
+            <artifactId>axis2-transport-http</artifactId>
+            <version>1.6.1</version>
+            <scope>runtime</scope>
+        </dependency>
+
+
 
 
         <!--Tomcat  stuff-->
@@ -259,6 +306,17 @@
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
             <version>2.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.univocity</groupId>
+            <artifactId>univocity-parsers</artifactId>
+            <version>2.2.0</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.3.5</version>
         </dependency>
     </dependencies>
 

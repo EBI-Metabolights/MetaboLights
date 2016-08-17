@@ -67,6 +67,7 @@
     <!--JNDI variable from tomcat context files-->
     <jee:jndi-lookup id="isatabConfigurationLocation" jndi-name="java:comp/env/isatabConfigurationLocation" />
     <jee:jndi-lookup id="studiesLocation" jndi-name="java:comp/env/studiesLocation" />
+    <jee:jndi-lookup id="curatedMetaboliteListLocation" jndi-name="java:comp/env/curatedMetaboliteListLocation" />
     <jee:jndi-lookup id="uploadDirectory" jndi-name="java:comp/env/uploadDirectory" />
 
     <!-- Private FTP Directory -->
@@ -78,6 +79,7 @@
 
 
     <jee:jndi-lookup id="ondemand" jndi-name="java:comp/env/ondemand" />
+    <jee:jndi-lookup id="chemspiderSecurityToken" jndi-name="java:comp/env/chemspiderSecurityToken"/>
 
     <!-- Email service settings-->
     <jee:jndi-lookup id="mailServer" jndi-name="java:comp/env/mailServer"/>
