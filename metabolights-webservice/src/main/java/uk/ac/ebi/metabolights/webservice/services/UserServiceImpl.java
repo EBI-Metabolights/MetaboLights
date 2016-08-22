@@ -97,6 +97,7 @@ public class UserServiceImpl implements UserService{
 
 	}
 
+
 	public User authenticateUser(String email, String password){
 		User user = getUserById(email, true);
 
