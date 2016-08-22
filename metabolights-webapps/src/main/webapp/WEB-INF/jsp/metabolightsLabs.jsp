@@ -27,7 +27,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-<app-root>Loading...</app-root>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
+<app-root>Loading</app-root>
 <script type="text/javascript" src="inline.js"></script><script type="text/javascript" src="polyfills.bundle.js"></script><script type="text/javascript" src="main.bundle.js"></script></body>
 
 <script>

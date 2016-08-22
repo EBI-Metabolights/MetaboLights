@@ -410,4 +410,12 @@ a:link.btn-ok{
 }
 
 .ml--oh{overflow: auto;
-    overflow-y: hidden;}
+    overflow-y: hidden;
+}
+
+.navbar-default {
+    background-color: #F1F1F4;
+    border-color: #F1F1F4;
+    border-radius: 0;
+    margin-top: -10px;
+}
