@@ -327,6 +327,10 @@ a:link.hyperlinks{
     border-top: 1px solid #CDCDCD;
 }
 
+.ml--noborder{
+    border-bottom: 1px solid #D1D1D1 !important;
+}
+
 .ml--studydescription{
     display: block;
 }
@@ -399,4 +403,37 @@ a:link.btn-ok{
 .thorOrcIdSpan img{
     height: 15px;
     width: 15px;
+}
+
+.mini--banner{
+
+}
+
+.ml--oh{overflow: auto;
+    overflow-y: hidden;
+}
+
+.navbar-default {
+    background-color: #F1F1F4;
+    border-color: #F1F1F4;
+    border-radius: 0;
+    margin-top: -10px;
+}
+
+.scrollToTop{
+    padding: 15px 20px;
+    text-align:center;
+    background: rgba(255,255,255, 0.7);
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+    position:fixed;
+    bottom:50px;
+    right:50px;
+    border-radius: 4px;
+    border: 1px solid #F5F5F5;
+    display:none;
+}
+.scrollToTop:hover{
+    text-decoration:none;
 }

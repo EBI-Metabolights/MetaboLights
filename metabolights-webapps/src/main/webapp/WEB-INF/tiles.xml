@@ -67,12 +67,17 @@
 
     <definition name="compound" extends="default">
         <put-attribute name="title" value="Compound page" />
-        <put-attribute name="body" value="/WEB-INF/jsp/bcompound.jsp" />
+        <put-attribute name="body" value="/WEB-INF/jsp/compound.jsp" />
     </definition>
 
     <definition name="betacompound" extends="default">
         <put-attribute name="title" value="MetaboLights Compound Page" />
-        <put-attribute name="body" value="/WEB-INF/jsp/compound.jsp" />
+        <put-attribute name="body" value="/WEB-INF/jsp/bcompound.jsp" />
+    </definition>
+
+    <definition name="workbench" extends="default">
+        <put-attribute name="title" value="MetaboLights Labs" />
+        <put-attribute name="body" value="/WEB-INF/jsp/metabolightsLabs.jsp" />
     </definition>
 
     <definition name="referencespectraupload" extends="default">
@@ -189,6 +194,11 @@
         <put-attribute name="body" value="/WEB-INF/jsp/tools.jsp" />
     </definition>
 
+    <definition name="compoundsDashboard" extends="default">
+        <put-attribute name="title" value="Compounds Dashboard" />
+        <put-attribute name="body" value="/WEB-INF/jsp/compoundsDashboard.jsp" />
+    </definition>
+
     <definition name="users" extends="default">
         <put-attribute name="title" value="User admin" />
         <put-attribute name="body" value="/WEB-INF/jsp/users.jsp" />
@@ -233,12 +243,6 @@
         <put-attribute name="title" value="MetaboLights Strategic Advisory Board"/>
         <put-attribute name="body" value="/WEB-INF/jsp/advisoryboard.jsp"/>
     </definition>
-
-    <definition name="entry2" extends="default">
-        <put-attribute name="title" value="Study" />
-        <put-attribute name="body" value="/WEB-INF/jsp/entry2.jsp" />
-    </definition>
-
     <definition name="study" extends="default">
         <put-attribute name="title" value="Study" />
         <put-attribute name="body" value="/WEB-INF/jsp/study.jsp" />

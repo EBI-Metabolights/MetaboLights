@@ -16,6 +16,8 @@ public class MetCompoundDAO {
 
     private final static String referenceFolderLocation = "/net/isilonP/public/rw/homes/tc_cm01/metabolights/reference";
 
+    private final static String ftpCompoundsFolderLocation = "/nfs/ftp/pub/databases/metabolights/compounds";
+
     public String getCompoundData(String compoundid){
 
         String metCompoundData = "";
@@ -38,6 +40,63 @@ public class MetCompoundDAO {
         }
 
         return metCompoundData;
+
+    }
+
+    public String getSpectra(String compoundId, String spectraId){
+
+        String spectraJSON = "";
+
+        String spectraPath = getSpectraFilePath(compoundId, spectraId);
+
+        if (checkFileExists(spectraPath)){
+
+            try {
+
+                spectraJSON = FileUtil.file2String(spectraPath);
+
+            } catch (IOException e) {
+
+                e.printStackTrace();
+
+            }
+
+            logger.info(" MetCompound Spectra JSON File Name - Found: " + spectraPath);
+        }
+
+        return spectraJSON;
+
+    }
+
+    public String getCompoundsReport(){
+
+        String reportJSON = "";
+
+        String reportJSONPath = ftpCompoundsFolderLocation + File.separator + "MetabolitesReport.json";
+
+        if (checkFileExists(reportJSONPath)){
+
+            try {
+
+                reportJSONPath = FileUtil.file2String(reportJSONPath);
+
+            } catch (IOException e) {
+
+                e.printStackTrace();
+
+            }
+
+            logger.info(" MetCompound Spectra JSON File Name - Found: " + reportJSONPath);
+        }
+
+        return reportJSONPath;
+
+    }
+
+    private String getSpectraFilePath(String compoundId, String spectraId){
+
+         return referenceFolderLocation + File.separator + compoundId.toUpperCase() + File.separator + compoundId + "_spectrum" + File.separator + spectraId + File.separator + spectraId + ".json";
+
     }
 
 

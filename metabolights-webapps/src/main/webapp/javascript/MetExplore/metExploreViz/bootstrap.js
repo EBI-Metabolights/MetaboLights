@@ -1,3 +1,23 @@
+/* 
+This file is part of MetExploreViz 
+ 
+Copyright (c) 2016 INRA 
+ 
+Contact: http://metexplore.toulouse.inra.fr/metexploreViz/doc/contact 
+ 
+GNU General Public License Usage 
+This file may be used under the terms of the GNU General Public License version 3.0 as 
+published by the Free Software Foundation and appearing in the file LICENSE included in the 
+packaging of this file. 
+ 
+Please review the following information to ensure the GNU General Public License version 3.0 
+requirements will be met: http://www.gnu.org/copyleft/gpl.html. 
+ 
+If you are unsure which license is appropriate for your use, please contact us 
+at http://metexplore.toulouse.inra.fr/metexploreViz/doc/contact 
+ 
+Version: 1 Build date: 2016-04-13 9:34:37 
+*/ 
 var Ext=Ext||{};Ext.manifest=Ext.manifest||"app.json";Ext=Ext||{};
 Ext.Boot=Ext.Boot||function(e){function l(a){if(a.$isRequest)return a;a=a.url?a:{url:a};var m=a.url;w(a,{urls:m.charAt?[m]:m,charset:a.charset||b.config.charset});w(this,a)}function t(a){if(a.$isEntry)return a;var m=a.charset||b.config.charset,d=Ext.manifest,d=d&&d.loader,h=void 0!==a.cache?a.cache:d&&d.cache,c;b.config.disableCaching&&(void 0===h&&(h=!b.config.disableCaching),!1===h?c=+new Date:!0!==h&&(c=h),c&&(d=d&&d.cacheParam||b.config.disableCachingParam,c=d+"\x3d"+c));w(a,{charset:m,buster:c,
 requests:[]});w(this,a)}var n=document,r=[],u={disableCaching:/[?&](?:cache|disableCacheBuster)\b/i.test(location.search)||!/http[s]?\:/i.test(location.href)||/(^|[ ;])ext-cache=1/.test(n.cookie)?!1:!0,disableCachingParam:"_dc",loadDelay:!1,preserveScripts:!0,charset:"UTF-8"},z=/\.css(?:\?|$)/i,s=n.createElement("a"),v="undefined"!==typeof window,x={browser:v,node:!v&&"function"===typeof require,phantom:window&&(window._phantom||window.callPhantom)||/PhantomJS/.test(window.navigator.userAgent)},k=

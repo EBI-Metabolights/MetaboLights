@@ -338,39 +338,39 @@ public class ElasticSearchService implements SearchService <Entity> {
 						endObject()
 					.endObject();
 
-					// Users
-					startObject("users")
-						.startObject(PROPERTIES);
-							addObject("userName", "type", "string", "index", "not_analyzed");
-							addObject("fullName", "type", "string", "index", "not_analyzed");
-						endObject()
+			// Users
+			startObject("users")
+					.startObject(PROPERTIES);
+			addObject("userName", "type", "string", "index", "not_analyzed");
+			addObject("fullName", "type", "string", "index", "not_analyzed");
+			endObject()
 					.endObject();
 
-					// Factors
-					startObject("factors")
-						.startObject(PROPERTIES);
-							addObject("name", "type", "string", "index", "not_analyzed");
-						endObject()
+			// Factors
+			startObject("factors")
+					.startObject(PROPERTIES);
+			addObject("name", "type", "string", "index", "not_analyzed");
+			endObject()
 					.endObject();
 
-					startObject("descriptors")
-						.startObject(PROPERTIES);
-							addObject("description", "type", "string", "index", "not_analyzed");
-						endObject()
+			startObject("descriptors")
+					.startObject(PROPERTIES);
+			addObject("description", "type", "string", "index", "not_analyzed");
+			endObject()
 					.endObject();
 
-					// Validations details
-					startObject("validations")
-						.startObject(PROPERTIES)
-							.startObject("entries")
-								.startObject(PROPERTIES);
-									addObject("statusExt", "type", "string", "index", "not_analyzed" );
-								endObject();
-							endObject();
-						endObject()
+			// Validations details
+			startObject("validations")
+					.startObject(PROPERTIES)
+					.startObject("entries")
+					.startObject(PROPERTIES);
+			addObject("statusExt", "type", "string", "index", "not_analyzed" );
+			endObject();
+			endObject();
+			endObject()
 					.endObject()
-				.endObject() // End of Study Properties
-			.endObject(); // End of study
+					.endObject() // End of Study Properties
+					.endObject(); // End of study
 
 			mapping.endObject();
 
@@ -489,7 +489,7 @@ public class ElasticSearchService implements SearchService <Entity> {
 			// Get index status
 			status.add("Index status:");
 			status.add( "Does index exists? " + doesIndexExists());
-			
+
 			MappingMetaData mapping = getMapping(STUDY_TYPE_NAME);
 			status.add( "Does study mapping exists? " + (mapping != null));
 			if (mapping != null) {
@@ -838,7 +838,8 @@ public class ElasticSearchService implements SearchService <Entity> {
 		if (query.getUser() == null || !query.getUser().isAdmin()) {
 
 			// ... only public studies are accesible.
-			filter = FilterBuilders.termFilter(STATUS_FIELD, Study.StudyStatus.PUBLIC.name());
+
+					filter = FilterBuilders.termFilter(STATUS_FIELD, Study.StudyStatus.PUBLIC.name());
 
 			// If user not null...
 			if (query.getUser() != null) {

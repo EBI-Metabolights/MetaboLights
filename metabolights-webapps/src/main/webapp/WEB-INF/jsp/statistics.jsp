@@ -112,7 +112,10 @@
                                 <tbody>
                                 <c:forEach var="topsubmitters" items="${topSubList}">
                                     <tr>
-                                        <th scope="row">${topsubmitters.displayName}</th>
+                                        <%--<th scope="row">${topsubmitters.displayName}</th>--%>
+                                        <th scope="row">
+                                            <a href="search?users.fullName=${topsubmitters.displayName}">${topsubmitters.displayName}</a>
+                                        </th>
                                         <td>${topsubmitters.displayValue}</td>
                                     </tr>
                                 </c:forEach>

@@ -43,6 +43,7 @@ function generateSplash(spectra) {
                 document.getElementById('splash-container').innerHTML = splashKey;
             },
             error: function (xhr, status, errorThrown) {
+                document.getElementById('splash-container').innerHTML = "";
                 console.log('XHR ' + JSON.stringify(xhr));
                 console.log('STATUS ' + status);
                 console.log('ERROR THROWN ' + errorThrown);

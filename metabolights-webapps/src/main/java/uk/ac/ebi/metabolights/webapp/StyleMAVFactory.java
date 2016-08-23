@@ -26,8 +26,10 @@ import java.io.FileReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.ModelAndView;
+import org.xmlsoap.schemas.soap.encoding.Boolean;
 
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -56,7 +58,9 @@ public class StyleMAVFactory {
     // Returned html elements
 	private String header;
 	private String localheader;
-	private String footer;	
+	private String footer;
+
+    private @Value("#{staticHeaderFooter}") boolean staticHeaderFooter;
 	
 
 	/**
@@ -171,18 +175,25 @@ public class StyleMAVFactory {
 	    return response;
 		
 	}
+
 	public ModelAndView getFrontierMav(String name) {
-		
+
 		// Get the global header, local header and footer if not already gotten.
-		if (header== null) header = getHeader();
-		if (localheader== null) localheader = getHtmlPost(localHeaderURL, getJsonConfigS());
-		if (footer == null) footer = getFooter();
+
+        if (!staticHeaderFooter) {
+            if (header == null) header = getHeader();
+            if (localheader == null) localheader = getHtmlPost(localHeaderURL, getJsonConfigS());
+            if (footer == null) footer = getFooter();
+        }else{
+            if (header == null) header = "<div id=\"global-masthead\" class=\"masthead grid_24\"><!--This has to be one line and no newline characters--><a href=\"//www.ebi.ac.uk/\" title=\"Go to the EMBL-EBI homepage\"><img src=\"//www.ebi.ac.uk/web_guidelines/images/logos/EMBL-EBI/EMBL_EBI_Logo_white.png\" alt=\"EMBL European Bioinformatics Institute\"></a><nav><ul id=\"global-nav\"><!-- set active class as appropriate --><li id=\"services\" class=\" first active\"><a href=\"//www.ebi.ac.uk/services\" title=\"Services\">Services</a></li><li id=\"research\" class=\"\"><a href=\"//www.ebi.ac.uk/research\" title=\"Research\">Research</a></li><li id=\"training\" class=\"\"><a href=\"//www.ebi.ac.uk/training\" title=\"Training\">Training</a></li><li id=\"industry\" class=\"\"><a href=\"//www.ebi.ac.uk/industry\" title=\"Industry\">Industry</a></li><li id=\"about\" class=\" last\"><a href=\"//www.ebi.ac.uk/about\" title=\"About us\">About us</a></li></ul></nav></div>";
+            if (localheader == null) localheader = "<div id=\"local-masthead\" class=\"masthead grid_24 nomenu\"><!-- local-title --><!-- NB: for additional title style patterns, see http://frontier.ebi.ac.uk/web/style/patterns --><div class=\"grid_12 alpha logo-title\" id=\"local-title\"><a href=\"index\" title=\"Back to MetaboLights homepage\"><img src=\"/metabolights/img/MetaboLightsLogo.png\" alt=\"MetaboLights\" width=\"64\" height=\"64\"></a><span><h1><a href=\"index\" title=\"Back to MetaboLights homepage\">MetaboLights</a></h1></span></div><!-- /local-title --><!-- local-search --><!-- NB: if you do not have a local-search, delete the following div, and drop the class=\"grid_12 alpha\" class from local-title above --><div class=\"grid_12 omega\"><form id=\"local-search\" name=\"local-search\" action=\"/metabolights/search\" method=\"post\"><fieldset><div class=\"left\"><label><input type=\"text\" name=\"freeTextQuery\" id=\"local-searchbox\"></label><!-- Include some example searchterms - keep them short and few! --><span class=\"examples\">Examples: <a href=\"/metabolights/search?freeTextQuery=alanine\">alanine</a>, <a href=\"/metabolights/search?freeTextQuery=Homo sapiens\">Homo sapiens</a>, <a href=\"/metabolights/search?freeTextQuery=urine\">urine</a>, <a href=\"/metabolights/search?freeTextQuery=MTBLS1\">MTBLS1</a></span></div><div class=\"right\"><input type=\"submit\" name=\"submit\" value=\"Search\" class=\"submit\"></div></fieldset></form></div><!-- /local-search --><!-- local-nav --><nav><ul class=\"grid_24\" id=\"local-nav\"><li class=\" first\"><a href=\"/metabolights/index\" title=\"Home page\">Home</a></li><li class=\"\"><a href=\"/metabolights/studies\" title=\"Browse all Studies/Experiments\">Browse Studies</a></li><li class=\"\"><a href=\"/metabolights/reference\" title=\"Browse all metabolites\">Browse Compounds</a></li><li class=\"\"><a href=\"/metabolights/species\" title=\"Browse all species\">Browse Species</a></li><li class=\"\"><a href=\"/metabolights/analysis\" title=\"Analysis tools\">Analysis</a></li><li class=\"\"><a href=\"/metabolights/download\" title=\"Download\">Download</a></li><li class=\"\"><a href=\"help\" title=\"Help\">Help</a></li><li class=\"\"><a href=\"/metabolights/contact\" title=\"Please give us feedback\">Give us feedback</a></li><li class=\" last\"><a href=\"/metabolights/about\" title=\"About MetaboLights\">About</a></li><!-- If you need to include functional (as opposed to purely navigational) links in your local menu, add them here, and give them a class of \"functional\". Remember: you'll need a class of \"last\" for whichever one will show up last... For example: --><li class=\"functional last\"><a href=\"/metabolights/login\" class=\"icon icon-functional\" data-icon=\"l\" title=\"Log in to MetaboLights\">Login</a></li><li class=\"functional\"><a href=\"/metabolights/presubmit\" class=\"icon icon-functional\" data-icon=\"_\" title=\"Submit data to MetaboLights\">Submit Study</a></li></ul></nav><!-- /local-nav --></div>";
+            if (footer == null) footer = "<div id=\"global-footer\" class=\"grid_24\"><nav id=\"global-nav-expanded\"><div class=\"grid_4 alpha\"><h3 class=\"embl-ebi\"><a href=\"//www.ebi.ac.uk/\" title=\"EMBL-EBI\">EMBL-EBI</a></h3></div><div class=\"grid_4\"><h3 class=\"services\"><a href=\"//www.ebi.ac.uk/services\">Services</a></h3></div><div class=\"grid_4\"><h3 class=\"research\"><a href=\"//www.ebi.ac.uk/research\">Research</a></h3></div><div class=\"grid_4\"><h3 class=\"training\"><a href=\"//www.ebi.ac.uk/training\">Training</a></h3></div><div class=\"grid_4\"><h3 class=\"industry\"><a href=\"//www.ebi.ac.uk/industry\">Industry</a></h3></div><div class=\"grid_4 omega\"><h3 class=\"about\"><a href=\"//www.ebi.ac.uk/about\">About us</a></h3></div></nav><section id=\"ebi-footer-meta\"><p class=\"address\">EMBL-EBI, Wellcome Trust Genome Campus, Hinxton, Cambridgeshire, CB10 1SD, UK &nbsp; &nbsp; +44 (0)1223 49 44 44</p><p class=\"legal\">Copyright &copy; EMBL-EBI 2016 | EBI is an Outstation of the <a href=\"http://www.embl.org\">European Molecular Biology Laboratory</a> | <a href=\"/about/privacy\">Privacy</a> | <a href=\"/about/cookies\">Cookies</a> | <a href=\"/about/terms-of-use\">Terms of use</a></p></section></div><script defer=\"defer\" src=\"//www.ebi.ac.uk/web_guidelines/js/cookiebanner.js\"></script><script defer=\"defer\" src=\"//www.ebi.ac.uk/web_guidelines/js/foot.js\"></script>";
+        }
 	
 		ModelAndView mav = new ModelAndView (name);
 		mav.addObject("frontierheader", header);
 		mav.addObject("localfrontierheader", localheader);
 		mav.addObject("frontierfooter", footer);
-		
 		
 		return mav;
 	}

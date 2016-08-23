@@ -113,6 +113,8 @@
     <jee:jndi-lookup id="mailServer"		        jndi-name="java:comp/env/mailServer"/>
     <jee:jndi-lookup id="EBIHost"		            jndi-name="java:comp/env/EBIHost"/>
     <jee:jndi-lookup id="curationEmailAddress"		jndi-name="java:comp/env/curationEmailAddress"/>
+    <jee:jndi-lookup id="BccPivotalEmailAddress"    jndi-name="java:comp/env/BccPivotalEmailAddress"/>
+    <jee:jndi-lookup id="staticHeaderFooter"    jndi-name="java:comp/env/staticHeaderFooter"/>
     <jee:jndi-lookup id="userSpace" jndi-name="java:comp/env/userSpace"/>
 
 
@@ -181,10 +183,13 @@
         <sec:intercept-url pattern="/mysubmissions" access="isAuthenticated()" />
         <sec:intercept-url pattern="/privatefiles" access="isAuthenticated()" />
         <sec:intercept-url pattern="/updateAccount" access="isAuthenticated()" />
+
+        <sec:intercept-url pattern="/workbench" access="isAuthenticated()" />
 		<sec:intercept-url pattern="/reindex" access="hasRole('ROLE_SUPER_USER')" />
         <sec:intercept-url pattern="/reindexall" access="hasRole('ROLE_SUPER_USER')" />
 		<sec:intercept-url pattern="/config" access="hasRole('ROLE_SUPER_USER')" />
         <sec:intercept-url pattern="/tools" access="hasRole('ROLE_SUPER_USER')" />
+        <sec:intercept-url pattern="/compoundsDashboard" access="hasRole('ROLE_SUPER_USER')" />
 		<!--<sec:intercept-url pattern="/togglequeue" access="hasRole('ROLE_SUPER_USER')" />-->
         <!--<sec:intercept-url pattern="/queuestatus" access="hasRole('ROLE_SUPER_USER')" />-->
 		<sec:intercept-url pattern="/users" access="hasRole('ROLE_SUPER_USER')" />

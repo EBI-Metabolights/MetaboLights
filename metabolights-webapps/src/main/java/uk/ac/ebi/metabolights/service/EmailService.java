@@ -43,6 +43,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -60,6 +61,7 @@ public class EmailService {
 
     private @Value("#{EBIHost}") String prodURL;
     private @Value("#{curationEmailAddress}") String curationEmailAddress;
+	private @Value("#{BccPivotalEmailAddress}") String pivotalAutomatedsubmittoqueueEmailAddress;
 
     //Have to qualify these as the test Spring servlet is defining the same beans
     @Qualifier("mailSender")
@@ -227,20 +229,30 @@ public class EmailService {
 
 
 	private void sendHTMLEmail(SimpleMailMessage msg){
-		sendHTMLEmail(msg.getFrom(),msg.getTo(),msg.getSubject(),msg.getText(),"");
+		sendHTMLEmail(msg.getFrom(),msg.getTo(), msg.getBcc() == null ? new String[0] : msg.getBcc(),msg.getSubject(),msg.getText(),"");
 	}
 
 	public void sendSimpleEmail (String from, String[] to, String subject, String body) {
+        //mailSender.send(msg);
+		sendHTMLEmail(getBasicMailMessage(from, to, subject, body));
+	}
+
+	public void sendSimpleEmailWithBcc (String from, String[] to, String[] bcc, String subject, String body) {
+
+		SimpleMailMessage msg = getBasicMailMessage(from, to, subject, body);
+		msg.setBcc(bcc);
+		//mailSender.send(msg);
+		sendHTMLEmail(msg);
+	}
+
+	private SimpleMailMessage getBasicMailMessage(String from, String[] to, String subject, String body){
 
 		SimpleMailMessage msg = new SimpleMailMessage();
-
 		msg.setFrom(from);
 		msg.setTo(to);
 		msg.setSubject(subject);
 		msg.setText(body);
-
-		//mailSender.send(msg);
-		sendHTMLEmail(msg);
+		return msg;
 	}
 
 	public void sendSimpleEmail ( String[] to, String subject, String body) {
@@ -298,10 +310,13 @@ public class EmailService {
 	public void sendQueuedStudySubmitted(String userEmail, String fileName, Date publicReleaseDate, String ID){
 		String from = PropertyLookup.getMessage("mail.noreplyaddress");
 		String[] to = {userEmail, curationEmailAddress};
+		String[] bcc = {pivotalAutomatedsubmittoqueueEmailAddress};
 		String subject = PropertyLookup.getMessage("mail.submittedStudy.subject", ID);
-		String body = PropertyLookup.getMessage("mail.submittedStudy.body", new String[]{fileName,  ID, publicReleaseDate.toString(), prodURL});
-
-		sendSimpleEmail(from, to, subject, body);
+		//String body = PropertyLookup.getMessage("mail.submittedStudy.body", new String[]{fileName,  ID, publicReleaseDate.toString(), prodURL});
+		String text = VelocityEngineUtils.mergeTemplateIntoString(
+				velocityEngine, "email_template/studySubmissionConfirmationEmail.vm", "UTF-8", new HashMap());
+		String body = MessageFormat.format(text,  new String[]{fileName,  ID, publicReleaseDate.toString(), prodURL});
+    	sendSimpleEmailWithBcc(from, to, bcc, subject, body);
 
 	}
 
@@ -373,7 +388,7 @@ public class EmailService {
 //
 //	}
 
-	private void sendHTMLEmail(final String from, final String[] to, final String subject,  final String body,  final String technicalInfo) {
+	private void sendHTMLEmail(final String from, final String[] to, final String[] bcc, final String subject,  final String body,  final String technicalInfo) {
 
 		final String HTMLbody = body.replace("\n", "<BR/>");
 		final String HTMLtechnicalInfo = technicalInfo.replace("\n", "<BR/>");
@@ -385,6 +400,9 @@ public class EmailService {
 				MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 				message.setTo(to);
 				message.setFrom(from); // could be parameterized...
+				if(bcc.length !=0){
+					message.setBcc(bcc);
+				}
 				message.setSubject(subject);
 				Map model = new HashMap();
 				model.put("body", HTMLbody);

@@ -22,6 +22,9 @@ public class BetaWSController extends BasicController {
     public static final String METABOLIGHTS_COMPOUND_ID_REG_EXP = "(?:MTBLC|mtblc).+";
     public static final String COMPOUND_VAR = "compoundId";
     public static final String COMPOUND_MAPPING = "/compound/{" + COMPOUND_VAR + ":" + METABOLIGHTS_COMPOUND_ID_REG_EXP + "}";
+    public static final String SPECTRA_VAR = "spectraId";
+    public static final String SPECTRA_MAPPING = "/spectra/{" + COMPOUND_VAR + ":" + METABOLIGHTS_COMPOUND_ID_REG_EXP + "}/{" +  SPECTRA_VAR + "}";
+
 
     @RequestMapping(value = COMPOUND_MAPPING)
     @ResponseBody
@@ -33,5 +36,25 @@ public class BetaWSController extends BasicController {
 
     }
 
+
+    @RequestMapping(value = SPECTRA_MAPPING)
+    @ResponseBody
+    public String getSpectra(@PathVariable(COMPOUND_VAR) String compoundId, @PathVariable(SPECTRA_VAR) String spectraId) throws DAOException {
+
+        MetCompoundDAO metCompoundDAO = new MetCompoundDAO();
+
+        return metCompoundDAO.getSpectra(compoundId, spectraId);
+
+    }
+
+    @RequestMapping(value = "/compoundReport")
+    @ResponseBody
+    public String getCompoundsReport() throws DAOException {
+
+        MetCompoundDAO metCompoundDAO = new MetCompoundDAO();
+
+        return metCompoundDAO.getCompoundsReport();
+
+    }
 
 }

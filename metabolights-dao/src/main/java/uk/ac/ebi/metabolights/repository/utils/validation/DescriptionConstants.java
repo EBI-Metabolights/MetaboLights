@@ -69,4 +69,5 @@ public class DescriptionConstants {
     //FILES
     public static final String MAF_FILE = "Metabolite Identification file";
     public static final String MAF_FILE_ASSAY_CROSSCHECK = "Metabolites reported in Assays";
+    public static final String MAF_FILE_CONTENT = "Metabolite Identification File (MAF) content";
 }

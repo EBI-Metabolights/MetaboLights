@@ -7,6 +7,7 @@ import uk.ac.ebi.metabolights.repository.model.studyvalidator.*;
 import uk.ac.ebi.metabolights.repository.utils.validation.DescriptionConstants;
 import uk.ac.ebi.metabolights.repository.utils.validation.Utilities;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -16,6 +17,11 @@ public class MafValidations implements IValidationProcess {
 
     private static List<Assay> assaysWithNoMaf;
     private static Map<Integer, Assay> mafIndex_assaysWithMaf_map;
+    private static File studiesLocation;
+
+    public MafValidations(File studiesLocation) {
+        this.studiesLocation = studiesLocation;
+    }
 
     @Override
     public String getAbout() {
@@ -41,7 +47,13 @@ public class MafValidations implements IValidationProcess {
                 Validation maf_file_validation = mafPhysicalFilesValidation(study);
                 mafValidations.add(maf_file_validation);
                 if (maf_file_validation.getPassedRequirement()) {
-                    mafValidations.add(correctMafFormatValidation(study));
+//                    mafValidations.add(correctMafFormatValidation(study));
+                    Validation correctMafFormatValidation = correctMafFormatValidation(study);
+                    mafValidations.add(correctMafFormatValidation);
+                    if (correctMafFormatValidation.getPassedRequirement()) {
+                        Validation mafContentValidation = mafContentValidation(study);
+                        mafValidations.add(mafContentValidation);
+                    }
                 }
             }
         }
@@ -57,6 +69,9 @@ public class MafValidations implements IValidationProcess {
                 } else {
                     mafIndex_assaysWithMaf_map.put(new Integer(mafIndex), assay);
                 }
+            }
+            else{
+                assaysWithNoMaf.add(assay);
             }
         }
     }
@@ -209,6 +224,73 @@ public class MafValidations implements IValidationProcess {
     private static String getIncorrectMafErrMsg(Map<Integer, Assay> mafIndex_assaysWithIncorrectMaf_map) {
         String message = "The following Metabolite Assignment File(s) (MAF(s)) has wrong format: ";
         for (Map.Entry<Integer, Assay> entry : mafIndex_assaysWithIncorrectMaf_map.entrySet()) {
+            int index = entry.getKey().intValue();
+            String maf_file_name = entry.getValue().getAssayTable().getData().get(0).get(index);
+            message += maf_file_name + " (Assay " + entry.getValue().getAssayNumber() + ");";
+        }
+        return message;
+    }
+
+    public static Validation mafContentValidation(Study study) {
+        Validation maf_file_content_validation = new Validation(DescriptionConstants.MAF_FILE_CONTENT, Requirement.MANDATORY, Group.FILES);
+        maf_file_content_validation.setId(ValidationIdentifier.MAF_FILE_CONTENT.getID());
+        Map<Integer, Assay> mafIndex_assaysWithEmptytMaf_map = getEmptyMafFileNames(mafIndex_assaysWithMaf_map, study.getStudyIdentifier());
+        if (mafIndex_assaysWithEmptytMaf_map.size() > 0) {
+            maf_file_content_validation.setPassedRequirement(false);
+            maf_file_content_validation.setMessage(getNoContentMafErrMsg(mafIndex_assaysWithEmptytMaf_map));
+        }
+        return maf_file_content_validation;
+    }
+
+    private static Map<Integer, Assay> getEmptyMafFileNames(Map<Integer, Assay> mafIndex_assaysWithMaf_map, String studyID) {
+        Map<Integer, Assay> mafIndex_assaysWithEmptytMaf_map = new LinkedHashMap<>();
+
+        for (Map.Entry<Integer, Assay> entry : mafIndex_assaysWithMaf_map.entrySet()) {
+            int index = entry.getKey().intValue();
+            String maf_file_name = entry.getValue().getAssayTable().getData().get(0).get(index);
+            if (!maf_file_name.isEmpty()) {
+                if (maf_file_name.startsWith("m_")) {
+                    BufferedReader TSVFile =
+                            null;
+                    try {
+                        String mafFile = studiesLocation + File.separator + studyID + File.separator + maf_file_name;
+                        ;
+                        TSVFile = new BufferedReader(new FileReader(mafFile));
+
+
+                        String dataRow = TSVFile.readLine(); // Read first line.
+                        int count = 0;
+                        if (dataRow != null) {
+                            while (dataRow != null) {
+                                count++;
+                                if (count >= 2) {
+                                    break;
+                                }
+                                dataRow = TSVFile.readLine();
+                            }
+                            if (count < 2) {
+                                mafIndex_assaysWithEmptytMaf_map.put(entry.getKey(), entry.getValue());
+                            }
+                        } else {
+                            mafIndex_assaysWithEmptytMaf_map.put(entry.getKey(), entry.getValue());
+                        }
+
+
+                        TSVFile.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        return mafIndex_assaysWithEmptytMaf_map;
+    }
+
+    private static String getNoContentMafErrMsg(Map<Integer, Assay> mafIndex_assaysWithEmptytMaf_map) {
+        String message = "The following Metabolite Assignment File(s) (MAF(s)) is/are empty: ";
+        for (Map.Entry<Integer, Assay> entry : mafIndex_assaysWithEmptytMaf_map.entrySet()) {
             int index = entry.getKey().intValue();
             String maf_file_name = entry.getValue().getAssayTable().getData().get(0).get(index);
             message += maf_file_name + " (Assay " + entry.getValue().getAssayNumber() + ");";

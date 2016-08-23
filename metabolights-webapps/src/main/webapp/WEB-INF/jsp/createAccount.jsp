@@ -26,8 +26,13 @@
 <form:form name="accountForm" action="createNewAccount" method="post" commandName="metabolightsUser">
 
     <div class="grid_24">
-       	<h2><spring:message	code="msg.newAccount" /></h2>
-    </div>
+       	<h2 class="strapline"><spring:message	code="msg.newAccount" /></h2>
+		<div class="specs well">
+			<h6><spring:message	code="msg.newAccount.submittersOnly"/> </h6>
+		</div>
+
+	</div>
+
 	
 	<div class="grid_24">
 		<div class="grid_6 alpha"><spring:message code="label.email" />*:</div>

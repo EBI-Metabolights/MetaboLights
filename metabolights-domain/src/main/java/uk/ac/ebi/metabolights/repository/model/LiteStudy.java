@@ -58,7 +58,8 @@ public class LiteStudy extends Entity {
         SUBMITTED("Submitted", "The study is private to you only. You are able to make any changes, including deletion of the study. This submission will have to pass our initial automated validation checks before we can start our curation."),
         INCURATION("In curation", "At this stage you cannot make any changes. Be advised that further information may be required, and we may contact you to obtain this"),
         INREVIEW("In review", "Approved by our curation team. Ready to be shared with journals and reviewers."),
-        PUBLIC("Public", "Anyone can view and download you study. It is searchable and will be exported to other search engines, such as http://metabolomexchange.org/");
+        PUBLIC("Public", "Anyone can view and download you study. It is searchable and will be exported to other search engines, such as http://metabolomexchange.org/"),
+        DORMANT("Dormant","Deletion has been requested for this study, or the study has been abandoned by the submitter");
         private final String descriptiveName;
 
         public String getDescription() {

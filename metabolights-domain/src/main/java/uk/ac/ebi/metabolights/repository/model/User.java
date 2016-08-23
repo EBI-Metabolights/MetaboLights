@@ -88,6 +88,10 @@ public class User {
 
 	private String orcid;
 
+	private String mobilePhoneNumber;
+
+	private String officePhoneNumber;
+
 	private Set<LiteStudy> studies = new HashSet<LiteStudy>();
 
 	//_______________________________________________
@@ -236,6 +240,23 @@ public class User {
 	public void setOrcid(String orcid) {
 		this.orcid = orcid;
 	}
+
+	public String getMobilePhoneNumber() {
+		return mobilePhoneNumber;
+	}
+
+	public void setMobilePhoneNumber(String mobilePhoneNumber) {
+		this.mobilePhoneNumber = mobilePhoneNumber;
+	}
+
+	public String getOfficePhoneNumber() {
+		return officePhoneNumber;
+	}
+
+	public void setOfficePhoneNumber(String officePhoneNumber) {
+		this.officePhoneNumber = officePhoneNumber;
+	}
+
 
 	@JsonIgnore
 	public Set<LiteStudy> getStudies() {

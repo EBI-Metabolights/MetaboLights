@@ -23,62 +23,100 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
 
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+
 <sec:authorize ifAnyGranted="ROLE_SUBMITTER">
-<h2>Hi <sec:authentication property="principal.firstName" />, <spring:message code="msg.useroptions" /></h2>
-<p></p>
-<div class='grid_6 alpha prefix_1'>
-    <a href="<spring:url value="mysubmissions"/>">
-    <div class="bigbutton maincolorI">
-         <span class="bigfont"><spring:message code="menu.myStudiesCap" /></span><br/>
-    </div>
-    </a>
-</div>
-
-<div class='grid_6 prefix_2'>
-     <a href="<spring:url value="myAccount"/>">
-     <div class="bigbutton seccolorI">
-         <span class="bigfont"><spring:message code="menu.myAccountCaps" /></span><br/>
-     </div>
-     </a>
-</div>
-
-<div class='grid_6 prefix_2 omega'>
-    <a href="<spring:url value="/j_spring_security_logout"/>">
-    <div class="bigbutton maincolorI">
-         <span class="bigfont"><spring:message code="menu.logoutCaps" /></span><br/>
-    </div>
-    </a>
-</div>
-<p></p>
-<p></p>
-
-</sec:authorize>
-  
-<sec:authorize ifAnyGranted="ROLE_SUPER_USER">
-<h2><spring:message code="msg.useroptionscurator" /></h2>
-	
-<div class='grid_6 alpha prefix_1'>
-    <a href="<spring:url value="config"/>">
-    <div class="bigbutton seccolorI">
-         <span class="bigfont"><spring:message code="menu.configCaps" /></span><br/>
-    </div>
-    </a>
-</div>
-
-<div class='grid_6 prefix_2'>
-    <a href="<spring:url value="users"/>">
-    <div class="bigbutton maincolorI">
-         <span class="bigfont"><spring:message code="menu.usersCaps" /></span><br/>
-    </div>
-    </a>
-</div>
-
-    <div class='grid_6 prefix_2 omega'>
-        <a href="<spring:url value="tools"/>">
-            <div class="bigbutton seccolorI">
-                <span class="bigfont"><spring:message code="menu.toolsCaps" /></span><br/>
+    <div class="container">
+        <br><br>
+        <div class="panel panel-info">
+            <div class="panel-heading">Hi <sec:authentication property="principal.firstName" />, <spring:message code="msg.useroptions" /></div>
+            <div class="panel-body">
+                <div class="clearfix">&nbsp;</div>
+                <div class="col-md-12">
+                    <%--<div class="col-md-3">
+                        <div class="form-group">
+                            <a href="<spring:url value="workbench"/>" class="btn btn-default btn-md form-control ml--noborder">
+                                <i class="fa fa-tachometer" aria-hidden="true"></i>&nbsp;
+                                <spring:message code="menu.myWorkbenchCap" />
+                            </a>
+                        </div>
+                    </div>--%>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <a href="<spring:url value="mysubmissions"/>" class="btn btn-default btn-md form-control ml--noborder">
+                                <i class="fa fa-list-alt" aria-hidden="true"></i>&nbsp;
+                                <spring:message code="menu.myStudiesCap" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <a href="<spring:url value="myAccount"/>" class="btn btn-default btn-md form-control ml--noborder">
+                                <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;
+                                <spring:message code="menu.myAccountCaps" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <a href="<spring:url value="/j_spring_security_logout"/>" class="btn btn-default btn-md form-control ml--noborder">
+                                <i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;
+                                <spring:message code="menu.logoutCaps" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
             </div>
-        </a>
+        </div>
     </div>
-
+</sec:authorize>
+<br><br>
+<sec:authorize ifAnyGranted="ROLE_SUPER_USER">
+    <div class="container">
+        <div class="panel panel-success">
+            <div class="panel-heading"><spring:message code="msg.useroptionscurator" /></div>
+            <div class="panel-body">
+                <div class="clearfix">&nbsp;</div>
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <a href="<spring:url value="config"/>" class="btn btn-default btn-md form-control ml--noborder">
+                                <i class="fa fa-cog" aria-hidden="true"></i>&nbsp;
+                                <spring:message code="menu.configCaps" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <a href="<spring:url value="users"/>" class="btn btn-default btn-md form-control ml--noborder">
+                                <i class="fa fa-users" aria-hidden="true"></i>&nbsp;
+                                <spring:message code="menu.usersCaps" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <a href="<spring:url value="tools"/>" class="btn btn-default btn-md form-control ml--noborder">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;
+                                <spring:message code="menu.toolsCaps" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <a href="<spring:url value="compoundsDashboard"/>" class="btn btn-default btn-md form-control ml--noborder">
+                                <i class="fa fa-dashboard" aria-hidden="true"></i>&nbsp;
+                                <spring:message code="menu.compoundsDashboard" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+            </div>
+        </div>
+    </div>
 </sec:authorize>

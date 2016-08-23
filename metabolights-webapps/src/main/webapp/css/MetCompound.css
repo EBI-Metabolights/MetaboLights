@@ -42,8 +42,30 @@ nav#breadcrumb{
     border-radius: 0;
     letter-spacing: 1px;
     font-size: 1.3em;
-    margin-left: auto;
+    margin-right: auto;
     color: #999;
+
+}
+
+.mini--banner{
+    display: flex;
+    padding: 10px 20px;
+    background-color: #E0E0E0;
+    margin-bottom: 5px;
+    border-bottom: 5px solid #fff;
+}
+
+.mini--banner .left {
+    -webkit-align-self: flex-start;
+    align-self: flex-start;
+}
+
+.mini--banner .right {
+    margin-left: auto;
+}
+
+.ml--identifier{
+    color: #6085F4 !important;
 }
 
 
@@ -83,7 +105,7 @@ nav#breadcrumb{
 }
 
 .met-content{
-    padding-top: 10px;
+    padding-top: 20px;
 }
 
 .met-img .nav-tabs { border-bottom: 2px solid #DDD;background-color: #f1f1f4  }
@@ -95,10 +117,10 @@ nav#breadcrumb{
 .met-img .tab-nav > li > a::after { background: #21527d none repeat scroll 0% 0%; color: #fff; }
 .met-img .tab-pane { padding: 5px 0; }
 .met-img .tab-content{ padding: 5px;}
-.met-img .card {background: #FFF none repeat scroll 0% 0%; margin-bottom: 30px; }
+.met-img .card {background: #FFF none repeat scroll 0% 0%; margin-bottom: 10px; }
 
 
-.met-content .nav-tabs { border-bottom: 2px solid #DDD; background-color: #f1f1f4 }
+.met-content .nav-tabs {  border-bottom: 2px solid #DDD; background-color: #f1f1f4 }
 .met-content .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover { border-width: 0; }
 .met-content .nav-tabs > li > a { border: none; color: #666; }
 .met-content .nav-tabs > li.active > a, .nav-tabs > li > a:hover { border: none; color: #4285F4 !important; background: transparent; }
@@ -158,9 +180,28 @@ nav#breadcrumb{
     background-color: #f1f1f4;
 }
 
+.ml_trh{
+    background-color: #F7F7F7;
+}
+
 .ml_trc{
     padding: 5px 15px;
     overflow: auto;
+}
+
+.ml_sp_tr{
+    background-color: #FCFCFC;
+    padding: 2px 0;
+}
+
+.ml_sp_trc{
+    padding: 2px 15px;
+    overflow: auto;
+}
+
+.ml_sp_title{
+    background-color: #FCFCFC;
+    padding: 20px 20px;
 }
 
 .label-spaced {
@@ -226,7 +267,19 @@ nav#breadcrumb{
 
 .specs {
     padding: 0 5px;
-    margin-bottom: 0px;
+    margin-bottom: 20px;
+}
+
+.ind--spec{
+    padding: 10px;
+    background-color: #F1F1F4;
+    margin-bottom: 10px;
+    border: 1px dotted #CECECE;
+}
+
+#BioJSReaction{
+    border: 1px solid #EDEDED;
+    padding-top: 20px;
 }
 
 #loading{
@@ -235,4 +288,131 @@ nav#breadcrumb{
     width: calc(100% - 70px);
     height: calc(100% - 70px);
     z-index: 10000;
+}
+
+#ml--synonyms{
+    height: 150px;
+    display:block;
+}
+
+.ml--syn{
+    line-height: 20px;
+    border-bottom: 2px dotted #F1F1F4;
+    padding: 3px 10px;
+    margin-top: 0;
+    text-transform: capitalize;
+}
+
+.ml--clipboard{
+    background-color: transparent;
+}
+
+
+.title{
+    background-color: #f1f1f4;
+    border-bottom: 1px solid #f1f1f4;
+    padding: 20px;
+    margin-bottom: 10px;
+    font-weight: lighter;
+}
+
+.board{
+    background-color: #fff;
+}
+
+.board-icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height:110px;
+    background-color: #CCCCCC;
+}
+
+.board-content{
+    display: flex;
+    height: 110px;
+    justify-content: center;
+    background-color: #f1f1f4;
+    flex-direction: column;
+    border: 1px dotted #fff;
+}
+
+.board-content2{
+    display: flex;
+    height: 110px;
+    justify-content: center;
+    align-items: center;
+    background-color: #f1f1f4;
+    flex-direction: column;
+    border: 1px dotted #fff;
+}
+
+.board-content .label{
+    text-shadow: none;
+}
+
+.board-content2 .label{
+    text-shadow: none;
+}
+
+.category{
+    font-weight: lighter;
+    margin-bottom: 0;
+}
+
+.number{
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.number1{
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#heatMap{
+    background-color: #f1f1f4;
+    padding: 15px;
+}
+
+#compoundDetails{
+    background-color: #f1f1f4;
+    padding: 15px;
+    min-height: 500px;
+}
+
+.compoundCube{
+    height: 12px;
+    width: 12px;
+    float: left;
+    margin: 2px;
+}
+
+.heat5{
+    background-color: green;
+}
+
+.heat5{
+    background-color: green;
+}
+
+.heat5{
+    background-color: green;
+}
+
+.heat5{
+    background-color: green;
+}
+
+.heat5{
+    background-color: green;
+}
+
+.heat0{
+    background-color: red;
+}
+
+.disabled-button{
+    pointer-events: none;
+    opacity: 0.4;
 }

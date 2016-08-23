@@ -35,7 +35,8 @@ public enum ValidationIdentifier {
     SAMPLES(101),
     SAMPLES_EMPTY_COLUMNS(102),
     ASSAY_SAMPLE_NAMEMATCH(103),
-    ISATAB_INVESTIGATION(121);
+    ISATAB_INVESTIGATION(121),
+    MAF_FILE_CONTENT(122);
 
     private final int id;
 
