@@ -36,15 +36,15 @@
             <div class="panel-body">
                 <div class="clearfix">&nbsp;</div>
                 <div class="col-md-12">
-                    <div class="col-md-3">
+                    <%--<div class="col-md-3">
                         <div class="form-group">
                             <a href="<spring:url value="workbench"/>" class="btn btn-default btn-md form-control ml--noborder">
                                 <i class="fa fa-tachometer" aria-hidden="true"></i>&nbsp;
                                 <spring:message code="menu.myWorkbenchCap" />
                             </a>
                         </div>
-                    </div>
-                    <div class="col-md-3">
+                    </div>--%>
+                    <div class="col-md-4">
                         <div class="form-group">
                             <a href="<spring:url value="mysubmissions"/>" class="btn btn-default btn-md form-control ml--noborder">
                                 <i class="fa fa-list-alt" aria-hidden="true"></i>&nbsp;
@@ -52,7 +52,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <a href="<spring:url value="myAccount"/>" class="btn btn-default btn-md form-control ml--noborder">
                                 <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;
@@ -60,7 +60,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <a href="<spring:url value="/j_spring_security_logout"/>" class="btn btn-default btn-md form-control ml--noborder">
                                 <i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;
