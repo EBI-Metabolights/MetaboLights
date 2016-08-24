@@ -437,3 +437,32 @@ a:link.btn-ok{
 .scrollToTop:hover{
     text-decoration:none;
 }
+
+.description{
+    padding-left: 5px;
+}
+
+.heading{
+    padding-left: 0px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #F1F1F4;
+}
+
+.ml--form{
+    margin-left: 15px;
+}
+
+.ml-btn{
+    margin-bottom: 20px;
+    margin-left: 15px;
+}
+
+.ml-row{
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+.ml-row .col-md-8{
+    margin-top: 6px;
+    padding-left: 20px;
+}
