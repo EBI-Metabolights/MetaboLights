@@ -29,11 +29,13 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
 
 <div class="container-fluid">
-	<div class="col-md-12">
-		<div class="row">
-			<h4><spring:message code="label.contact" /></h4><br>
-			<div class="col-md-6 row">
-				<div class="well ml--form">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+			<div class="ml--loginContainer">
+				<div class="ml-loginpanelhead">
+					<h4><spring:message code="label.contact" /></h4>
+				</div>
+				<div class="ml-loginpanelbody">
 					<form:form name="emailForm" action="contactUsAlert" method="post" commandName="contactValidation">
 						<div class="form-group">
 							<label><spring:message code="label.firstName" /> *</label>

@@ -635,6 +635,7 @@
 
                                             <div class="panel-body">
                                                 <div id="mafTableWrapper${assay.assayNumber}"
+                                                     data-obfuscationCode="${obfuscationCode}"
                                                      data-studyid="${study.studyIdentifier}"
                                                      data-assayid="${assay.assayNumber}">
                                                     <p class="text-center"><span><img
@@ -1504,9 +1505,16 @@
             wrapperDiv = $('#mafTableWrapper' + id);
             assayid = id;
             studyid = wrapperDiv.attr("data-studyid");
-            var mafUrl = "/metabolights/" + studyid + "/assay/" + assayid + "/maf";
+            var obfuscationCode = null;
+            obfuscationCode = wrapperDiv.attr("data-obfuscationCode");
+            var mafUrl = "";
+            if (obfuscationCode != null){
+                mafUrl  = "/metabolights/" + obfuscationCode + "/assay/" + assayid + "/maf";
+            }else{
+                mafUrl = "/metabolights/" + studyid + "/assay/" + assayid + "/maf";
+            }
             $.ajax({
-                url: mafUrl,
+                url: mafUrl,s
                 dataType: "html",
             }).done(function (data) {
                 wrapperDiv.html(data);

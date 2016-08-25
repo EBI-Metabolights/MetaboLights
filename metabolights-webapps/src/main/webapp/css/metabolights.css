@@ -466,3 +466,20 @@ a:link.btn-ok{
     margin-top: 6px;
     padding-left: 20px;
 }
+
+.ml--loginContainer{
+    border: 1px solid #F1F1F4;
+    background-color: #F1F1F4;
+    margin: 20px 0;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+.ml-loginpanelhead{
+    padding: 10px 20px 10px 20px;
+    border-bottom: 1px solid #D9D9D9;
+}
+
+.ml-loginpanelbody{
+    padding: 25px 20px 10px 20px;
+}

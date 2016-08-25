@@ -23,51 +23,60 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
 
-<form:form name="accountForm" action="createNewAccount" method="post" commandName="metabolightsUser">
 
-    <div class="grid_24">
-       	<h2 class="strapline"><spring:message	code="msg.newAccount" /></h2>
-		<div class="specs well">
-			<h6><spring:message	code="msg.newAccount.submittersOnly"/> </h6>
+
+<link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-3">
+			&nbsp;
 		</div>
+		<div class="col-md-6">
+			<div class="ml--loginContainer">
+				<div class="ml-loginpanelhead">
+					<h3>Create an account</h3>
+					<p><spring:message	code="msg.newAccount.submittersOnly"/></p>
+				</div>
+				<div class="ml-loginpanelbody">
+					<div class="row">
+						<c:if test="${not empty fromsubmit}">
+							<p><strong><spring:message code="msg.submHeader"/></strong></p>
+						</c:if>
 
-	</div>
+						<form:form name="accountForm" action="createNewAccount" method="post" commandName="metabolightsUser">
+							<div class="form-group">
+								<label><spring:message code="label.email" />*</label>
+								<form:input class="form-control" path="email" maxlength="255" size="40" />
+								<span class="error">
+									<form:errors path="email" />
+									<form:errors path="userName" />
+									<c:if test="${not empty duplicateEmailAddress}"><c:out value="${duplicateEmailAddress}" /></c:if>
+								</span>
+							</div>
+							<jsp:include page="accountFormFields.jsp" />
 
-	
-	<div class="grid_24">
-		<div class="grid_6 alpha"><spring:message code="label.email" />*:</div>
-		<div class="grid_18 omega">
-			<form:input path="email" maxlength="255" size="40" />
-			<span class="error">
-				<form:errors path="email" />
-				<form:errors path="userName" />
-				<c:if test="${not empty duplicateEmailAddress}"><c:out value="${duplicateEmailAddress}" /></c:if>
-			</span>
-        </div>
-	</div>
+						<div class="form-group">
+							<label class="checkbox-inline"><input type="checkbox" id="TandC"/><small><a href="http://www.ebi.ac.uk/Information/termsofuse.html"><spring:message code="msg.T&CAcceptance" /></a></small></label><br>
+							<span class="error" id="TandCerror"/>
+						</div>
 
-	<jsp:include page="accountFormFields.jsp" />
-	<p/>
-	<div class="grid_24">
-		<div class="grid_6 alpha"><a href="http://www.ebi.ac.uk/Information/termsofuse.html"><spring:message code="msg.T&CAcceptance" /></a></div>
-		<div class="grid_18 omega">
-			<input type="checkbox" id="TandC"/>
-			<span class="error" id="TandCerror"/>
+						<div class="form-group">
+								<input name="submit" type="submit" class="submit" value="<spring:message code="label.create"/>">
+								<input name="cancel" type="button" class="submit cancel" value="<spring:message code="label.cancel"/>" onclick="location.href='index'">
+						</div>
+						</form:form>
+					</div>
+				</div>
+			</div>
+			<small><strong><spring:message code="msg.starRequired"/></strong></small>
 		</div>
 	</div>
-	
-	<div class="grid_24">
-		<div class="grid_18 prefix_6 alpha omega">
-			<input name="submit" type="submit" class="submit" value="<spring:message code="label.create"/>">		
-			<input name="cancel" type="button" class="submit cancel" value="<spring:message code="label.cancel"/>" onclick="location.href='index'">
-         </div>
-	</div>
+</div>
 
-	<div class="grid_24">
-		<br/>
-		<strong><spring:message code="msg.starRequired"/></strong>
-		<br/>
-</form:form>
 
 
 <script>
