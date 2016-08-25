@@ -1509,13 +1509,13 @@
             obfuscationCode = wrapperDiv.attr("data-obfuscationCode");
             var mafUrl = "";
             if (obfuscationCode != null){
-                mafUrl  = "/metabolights/" + obfuscationCode + "/assay/" + assayid + "/maf";
+                mafUrl  = "/metabolights/reviewer" + obfuscationCode + "/assay/" + assayid + "/maf";
             }else{
                 mafUrl = "/metabolights/" + studyid + "/assay/" + assayid + "/maf";
             }
             $.ajax({
-                url: mafUrl,s
-                dataType: "html",
+                url: mafUrl,
+                dataType: "html"
             }).done(function (data) {
                 wrapperDiv.html(data);
                 $('.maf').addClass("table table-striped table-bordered")
