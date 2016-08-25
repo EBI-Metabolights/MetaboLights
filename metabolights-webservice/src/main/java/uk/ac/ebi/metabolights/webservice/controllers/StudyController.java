@@ -486,7 +486,7 @@ public class StudyController extends BasicController{
 
 		// Get the study....
 		// TODO: optimize this, since we are loading the whole study to get the MAF file name of one of the assay, and maf file can be loaded having only the maf
-		RestResponse<Study> response = getStudy(studyIdentifier, false, null);
+		RestResponse<Study> response = getStudy(studyIdentifier, true, null);
 
 		// Get the assay based on the index
 		Assay assay = response.getContent().getAssays().get(Integer.parseInt(assayIndex)-1);
@@ -516,12 +516,39 @@ public class StudyController extends BasicController{
 
 		logger.info("Requesting maf file of the assay " + assayIndex + " by obfuscationcode " + obfuscationCode + " to the webservice");
 
-		studyDAO = getStudyDAO();
+		//studyDAO = getStudyDAO();
 
-		String studyIdentifier = studyDAO.getStudyIdByObfuscationCode(obfuscationCode);
+		//String studyIdentifier = studyDAO.getStudyIdByObfuscationCode(obfuscationCode);
 
 
-		return getMetabolites(studyIdentifier, assayIndex);
+		//return getMetabolites(studyIdentifier, assayIndex);
+
+		// Get the study....
+		// TODO: optimize this, since we are loading the whole study to get the MAF file name of one of the assay, and maf file can be loaded having only the maf
+		RestResponse<Study> response = getStudy(null, true, obfuscationCode);
+
+		// Get the assay based on the index
+		Assay assay = response.getContent().getAssays().get(Integer.parseInt(assayIndex)-1);
+
+		MzTabDAO mzTabDAO = new MzTabDAO();
+		MetaboliteAssignment metaboliteAssignment = new MetaboliteAssignment();
+
+
+		String filePath = assay.getMetaboliteAssignment().getMetaboliteAssignmentFileName();
+
+		if (filePath != null && !filePath.isEmpty()) {
+			if (checkFileExists(filePath)) {
+				logger.info("MAF file found, starting to read data from " + filePath);
+				metaboliteAssignment = mzTabDAO.mapMetaboliteAssignmentFile(filePath);
+			} else {
+				logger.error("MAF file " + filePath + " does not exist!");
+				metaboliteAssignment.setMetaboliteAssignmentFileName("ERROR: " + filePath + " does not exist!");
+			}
+		}
+
+		return new RestResponse<MetaboliteAssignment>(metaboliteAssignment);
+
+
 
 	}
 
