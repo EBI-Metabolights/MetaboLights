@@ -1509,6 +1509,7 @@
             obfuscationCode = wrapperDiv.attr("data-obfuscationCode");
             var mafUrl = "";
             if (obfuscationCode != null && obfuscationCode != ""){
+
                 mafUrl  = "/metabolights/reviewer" + obfuscationCode + "/assay/" + assayid + "/maf";
             }else{
                 mafUrl = "/metabolights/" + studyid + "/assay/" + assayid + "/maf";
