@@ -262,7 +262,7 @@ public class EntryController extends AbstractController {
 
 		mav.addObject("study", study);
 
-		if (obfuscationCode != null) {
+		if (obfuscationCode != null && obfuscationCode != "undefined" ) {
 			mav.addObject("obfuscationCode", obfuscationCode);
 		}
 

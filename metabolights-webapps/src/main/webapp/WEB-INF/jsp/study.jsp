@@ -1508,7 +1508,8 @@
             var obfuscationCode = null;
             obfuscationCode = wrapperDiv.attr("data-obfuscationCode");
             var mafUrl = "";
-            if (obfuscationCode != null && obfuscationCode != ""){
+            console.log(obfuscationCode);
+            if (obfuscationCode !== undefined || obfuscationCode != "" || obfuscationCode === "undefined"){
 
                 mafUrl  = "/metabolights/reviewer" + obfuscationCode + "/assay/" + assayid + "/maf";
             }else{
