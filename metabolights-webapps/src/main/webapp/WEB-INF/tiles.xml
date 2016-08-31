@@ -75,7 +75,7 @@
         <put-attribute name="body" value="/WEB-INF/jsp/bcompound.jsp" />
     </definition>
 
-    <definition name="metabolightslabs" extends="default">
+    <definition name="workbench" extends="default">
         <put-attribute name="title" value="MetaboLights Labs" />
         <put-attribute name="body" value="/WEB-INF/jsp/metabolightsLabs.jsp" />
     </definition>

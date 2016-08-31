@@ -486,8 +486,11 @@ public class StudyController extends BasicController{
 
 		// Get the study....
 		// TODO: optimize this, since we are loading the whole study to get the MAF file name of one of the assay, and maf file can be loaded having only the maf
-		RestResponse<Study> response = getStudy(studyIdentifier, false, null);
+		RestResponse<Study> response = getStudy(studyIdentifier, true, null);
+        return new RestResponse<MetaboliteAssignment>(getMAFContentFrom(response,assayIndex));
+	}
 
+	private MetaboliteAssignment getMAFContentFrom(RestResponse<Study> response, String assayIndex){
 		// Get the assay based on the index
 		Assay assay = response.getContent().getAssays().get(Integer.parseInt(assayIndex)-1);
 
@@ -506,8 +509,7 @@ public class StudyController extends BasicController{
 				metaboliteAssignment.setMetaboliteAssignmentFileName("ERROR: " + filePath + " does not exist!");
 			}
 		}
-
-		return new RestResponse<MetaboliteAssignment>(metaboliteAssignment);
+		return metaboliteAssignment;
 	}
 
 	@RequestMapping("obfuscationcode/{obfuscationcode}/assay/{assayIndex}/maf")
@@ -515,14 +517,10 @@ public class StudyController extends BasicController{
 	public RestResponse<MetaboliteAssignment> getMetabolitesByObfuscationCode(@PathVariable("obfuscationcode") String obfuscationCode, @PathVariable("assayIndex") String assayIndex) throws DAOException, IsaTabException {
 
 		logger.info("Requesting maf file of the assay " + assayIndex + " by obfuscationcode " + obfuscationCode + " to the webservice");
-
-		studyDAO = getStudyDAO();
-
-		String studyIdentifier = studyDAO.getStudyIdByObfuscationCode(obfuscationCode);
-
-
-		return getMetabolites(studyIdentifier, assayIndex);
-
+        // Get the study....
+		// TODO: optimize this, since we are loading the whole study to get the MAF file name of one of the assay, and maf file can be loaded having only the maf
+		RestResponse<Study> response = getStudy(null, true, obfuscationCode);
+		return new RestResponse<MetaboliteAssignment>(getMAFContentFrom(response,assayIndex));
 	}
 
 

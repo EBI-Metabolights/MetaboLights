@@ -23,20 +23,17 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/MetCompound.css" type="text/css"/>
-<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+<base href="${pageContext.request.contextPath}/metabolightslabs/">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
+<app-root>Loading</app-root>
+<script type="text/javascript" src="inline.js"></script><script type="text/javascript" src="polyfills.bundle.js"></script><script type="text/javascript" src="main.bundle.js"></script></body>
 
-    <div class="container-fluid" id="app">
-        <div class="col-md-12">
-            <h2 class="text-center title"><b>MetaboLights Labs</b></h2>
-        </div>
-    </div>
 <script>
-
     window.onload = function(){
         document.getElementById('local-nav').style.display = 'none';
         document.getElementById('breadcrumb').style.display = 'none';
     };
-
 </script>

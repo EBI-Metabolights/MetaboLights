@@ -30,69 +30,92 @@
 
 <sec:authorize ifAnyGranted="ROLE_SUBMITTER">
     <div class="container">
-        <div class="panel panel-default">
+        <br><br>
+        <div class="panel panel-info">
             <div class="panel-heading">Hi <sec:authentication property="principal.firstName" />, <spring:message code="msg.useroptions" /></div>
             <div class="panel-body">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <a href="<spring:url value="mysubmissions"/>" class="btn btn-default btn-lg col-md-12">
-                            <spring:message code="menu.myStudiesCap" />
-                        </a>
+                <div class="clearfix">&nbsp;</div>
+                <div class="col-md-12">
+                    <%--<div class="col-md-3">
+                        <div class="form-group">
+                            <a href="<spring:url value="workbench"/>" class="btn btn-default btn-md form-control ml--noborder">
+                                <i class="fa fa-tachometer" aria-hidden="true"></i>&nbsp;
+                                <spring:message code="menu.myWorkbenchCap" />
+                            </a>
+                        </div>
+                    </div>--%>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <a href="<spring:url value="mysubmissions"/>" class="btn btn-default btn-md form-control ml--noborder">
+                                <i class="fa fa-list-alt" aria-hidden="true"></i>&nbsp;
+                                <spring:message code="menu.myStudiesCap" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <a href="<spring:url value="myAccount"/>" class="btn btn-default btn-md form-control ml--noborder">
+                                <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;
+                                <spring:message code="menu.myAccountCaps" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <a href="<spring:url value="/j_spring_security_logout"/>" class="btn btn-default btn-md form-control ml--noborder">
+                                <i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;
+                                <spring:message code="menu.logoutCaps" />
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <a href="<spring:url value="myAccount"/>" class="btn btn-default btn-lg col-md-12">
-                            <spring:message code="menu.myAccountCaps" />
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <a href="<spring:url value="/j_spring_security_logout"/>" class="btn btn-default btn-lg col-md-12">
-                            <spring:message code="menu.logoutCaps" />
-                        </a>
-                    </div>
-                </div>
+                <div class="clearfix">&nbsp;</div>
             </div>
         </div>
     </div>
 </sec:authorize>
-
+<br><br>
 <sec:authorize ifAnyGranted="ROLE_SUPER_USER">
     <div class="container">
-        <div class="panel panel-default">
+        <div class="panel panel-success">
             <div class="panel-heading"><spring:message code="msg.useroptionscurator" /></div>
             <div class="panel-body">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <a href="<spring:url value="config"/>" class="btn btn-default btn-lg col-md-12">
-                            <spring:message code="menu.configCaps" />
-                        </a>
+                <div class="clearfix">&nbsp;</div>
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <a href="<spring:url value="config"/>" class="btn btn-default btn-md form-control ml--noborder">
+                                <i class="fa fa-cog" aria-hidden="true"></i>&nbsp;
+                                <spring:message code="menu.configCaps" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <a href="<spring:url value="users"/>" class="btn btn-default btn-md form-control ml--noborder">
+                                <i class="fa fa-users" aria-hidden="true"></i>&nbsp;
+                                <spring:message code="menu.usersCaps" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <a href="<spring:url value="tools"/>" class="btn btn-default btn-md form-control ml--noborder">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;
+                                <spring:message code="menu.toolsCaps" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <a href="<spring:url value="compoundsDashboard"/>" class="btn btn-default btn-md form-control ml--noborder">
+                                <i class="fa fa-dashboard" aria-hidden="true"></i>&nbsp;
+                                <spring:message code="menu.compoundsDashboard" />
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <a href="<spring:url value="users"/>" class="btn btn-default btn-lg col-md-12">
-                            <spring:message code="menu.usersCaps" />
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <a href="<spring:url value="tools"/>" class="btn btn-default btn-lg col-md-12">
-                            <spring:message code="menu.toolsCaps" />
-                        </a>
-                    </div>
-                </div>
-                <div>&nbsp;</div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <a href="<spring:url value="compoundsDashboard"/>" class="btn btn-default btn-lg col-md-12"">
-                            <spring:message code="menu.compoundsDashboard" />
-                        </a>
-                    </div>
-                </div>
+                <div class="clearfix">&nbsp;</div>
             </div>
         </div>
     </div>

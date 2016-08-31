@@ -411,3 +411,8 @@ nav#breadcrumb{
 .heat0{
     background-color: red;
 }
+
+.disabled-button{
+    pointer-events: none;
+    opacity: 0.4;
+}

@@ -91,6 +91,11 @@
 
         });
 
+        var hash = $.trim( window.location.hash );
+
+        if (hash) $('.nav-tabs a[href$="'+hash+'"]').trigger('click');
+
+
     });
 
 </script>
@@ -459,7 +464,7 @@
                         </c:if>
                     </div>
 
-                    <div role="tabpanel" class="tab-pane" id="sample">
+                    <div role="tabpanel" class="tab-pane ml--oh" id="sample">
                         <c:if test="${not empty study.sampleTable}">
                             <table class="dataTable table table-striped table-bordered">
                                 <thead class='text_header'>
@@ -630,6 +635,7 @@
 
                                             <div class="panel-body">
                                                 <div id="mafTableWrapper${assay.assayNumber}"
+                                                     data-obfuscationCode="${obfuscationCode}"
                                                      data-studyid="${study.studyIdentifier}"
                                                      data-assayid="${assay.assayNumber}">
                                                     <p class="text-center"><span><img
@@ -803,7 +809,6 @@
                     </c:if>
 
 
-                    <c:if test="${fn:length(study.assays) eq 1}">
                         <c:if test="${not empty study.assays}">
                             <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
                                 <div role="tabpanel" class="tab-pane" id="metpathways">
@@ -860,7 +865,6 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody id="metPathwaysMappingDataTable">
-
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -870,21 +874,6 @@
                                 </div>
                             </c:forEach>
                         </c:if>
-                    </c:if>
-
-                    <c:if test="${fn:length(study.assays) gt 1}">
-                        <c:if test="${not empty study.assays}">
-                            <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
-                                <div role="tabpanel" class="tab-pane" id="metpathways${assay.assayNumber}">
-                                    <h3>Pathways - Assay&nbsp;<c:if
-                                            test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if></h3>
-                                    <div class="col-md-12">
-                                        <div id="metExploreContainer"></div>
-                                    </div>
-                                </div>
-                            </c:forEach>
-                        </c:if>
-                    </c:if>
 
 
                     <div role="tabpanel" class="tab-pane" id="files">
@@ -1233,6 +1222,7 @@
         </div>
     </div>
     <div id="chebiInfo"></div>
+    <a href="#" class="scrollToTop"><i class="fa fa-arrow-up"></i></a>
 </div>
 
 <div class="modal fade" id="shareStudy" role="dialog">
@@ -1311,6 +1301,21 @@
 <script type="text/javascript" charset="utf-8">
 
     $(document).ready(function () {
+
+        //Check to see if the window is top if not then display button
+        $(window).scroll(function(){
+            if ($(this).scrollTop() > 100) {
+                $('.scrollToTop').fadeIn();
+            } else {
+                $('.scrollToTop').fadeOut();
+            }
+        });
+
+        //Click event to scroll to top
+        $('.scrollToTop').click(function(){
+            $('html, body').animate({scrollTop : 0},800);
+            return false;
+        });
 
 
         function showPleaseWait() {
@@ -1500,7 +1505,14 @@
             wrapperDiv = $('#mafTableWrapper' + id);
             assayid = id;
             studyid = wrapperDiv.attr("data-studyid");
-            var mafUrl = "/metabolights/" + studyid + "/assay/" + assayid + "/maf";
+            var obfuscationCode = null;
+            obfuscationCode = wrapperDiv.attr("data-obfuscationCode");
+            var mafUrl = "";
+            if (obfuscationCode){
+                mafUrl  = "/metabolights/reviewer" + obfuscationCode + "/assay/" + assayid + "/maf";
+            }else{
+                mafUrl = "/metabolights/" + studyid + "/assay/" + assayid + "/maf";
+            }
             $.ajax({
                 url: mafUrl,
                 dataType: "html",
