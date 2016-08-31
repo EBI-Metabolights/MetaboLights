@@ -1508,9 +1508,7 @@
             var obfuscationCode = null;
             obfuscationCode = wrapperDiv.attr("data-obfuscationCode");
             var mafUrl = "";
-            console.log(obfuscationCode);
-            if (obfuscationCode !== undefined || obfuscationCode != "" || obfuscationCode === "undefined"){
-
+            if (obfuscationCode){
                 mafUrl  = "/metabolights/reviewer" + obfuscationCode + "/assay/" + assayid + "/maf";
             }else{
                 mafUrl = "/metabolights/" + studyid + "/assay/" + assayid + "/maf";
