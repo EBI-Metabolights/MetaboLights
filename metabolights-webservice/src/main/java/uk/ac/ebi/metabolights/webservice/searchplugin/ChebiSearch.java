@@ -97,16 +97,6 @@ public class ChebiSearch {
         }
     }
 
-//    private String extractFormula(String[] nameMatch, String compoundName) {
-//        String formula = nameMatch[CuratedMetabolitesFileColumnIdentifier.MOLECULAR_FORMULA.getID()];
-//        if (formula.contains("|")) {
-//            String[] formulas = formula.split("\\|");
-//            return formulas[getMatchingIndex(extractCompoundName(nameMatch), compoundName)];
-//
-//        } else {
-//            return formula;
-//        }
-//    }
 
     private String extractFormula(String[] matchingRow, String termToMatch, int indexToSearch) {
         String formula = matchingRow[CuratedMetabolitesFileColumnIdentifier.MOLECULAR_FORMULA.getID()];
@@ -119,15 +109,6 @@ public class ChebiSearch {
         }
     }
 
-//    private String[] extractCompoundName(String[] nameMatch) {
-//        String compoundName = nameMatch[CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()];
-//        if (compoundName.contains("|")) {
-//            return compoundName.split("\\|");
-//        } else {
-//            return new String[]{compoundName};
-//        }
-//    }
-
     private String[] extractSearchTerms(String[] matchingRow, int searchIndex) {
         String searchTerm = matchingRow[searchIndex];
         if (searchTerm.contains("|")) {
@@ -136,15 +117,6 @@ public class ChebiSearch {
             return new String[]{searchTerm};
         }
     }
-
-//    private String[] extractCompoundInChi(String[] inchiMatch) {
-//        String compoundName = inchiMatch[CuratedMetabolitesFileColumnIdentifier.INCHI.getID()];
-//        if (compoundName.contains("|")) {
-//            return compoundName.split("\\|");
-//        } else {
-//            return new String[]{compoundName};
-//        }
-//    }
 
     private int getMatchingIndex(String[] availableTerms, String termToMatch) {
         for (int i = 0; i < availableTerms.length; i++) {
@@ -171,16 +143,6 @@ public class ChebiSearch {
             System.err.println(e.getMessage());
             return false;
         }
-    }
-
-    private String getChEBIIDOfExactInChIMatch(List<LiteEntity> entities, String compoundName) {
-        for (int i = 0; i < entities.size(); i++) {
-            LiteEntity liteEntity = entities.get(i);
-            if (liteEntity.getChebiAsciiName().equalsIgnoreCase(compoundName)) {
-                return liteEntity.getChebiId();
-            }
-        }
-        return "";
     }
 
     public void searchAndFillBySMILES(String compoundSMILES, String[] smilesMatch, CompoundSearchResult compoundSearchResult) {

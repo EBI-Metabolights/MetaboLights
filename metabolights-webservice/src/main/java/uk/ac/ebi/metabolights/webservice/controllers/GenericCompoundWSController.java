@@ -3,9 +3,7 @@ package uk.ac.ebi.metabolights.webservice.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.webservice.searchplugin.*;
 
@@ -29,6 +27,8 @@ public class GenericCompoundWSController {
     private ChebiSearch chebiWS = new ChebiSearch();
     private PubChemSearch pubchemSearch = new PubChemSearch();
     private ChemSpiderSearch chemSpiderSearch = new ChemSpiderSearch();
+
+    //TODO handle smiles and inchi with blackslash characters by post
 
 
     @RequestMapping(value = COMPOUND_NAME_MAPPING + "/{compoundName}")
@@ -58,9 +58,9 @@ public class GenericCompoundWSController {
     }
 
 
-    @RequestMapping(value = COMPOUND_INCHI_MAPPING + "/{compoundInChI}")
+    @RequestMapping(value = COMPOUND_INCHI_MAPPING, method= RequestMethod.POST)
     @ResponseBody
-    public RestResponse<CompoundSearchResult> getCompoundByInChI(@PathVariable("compoundInChI") String compoundInChI) {
+    public RestResponse<CompoundSearchResult> getCompoundByInChI(@RequestBody String compoundInChI) {
         CompoundSearchResult compoundSearchResult = new CompoundSearchResult();
         RestResponse<CompoundSearchResult> response = new RestResponse();
 
@@ -83,9 +83,9 @@ public class GenericCompoundWSController {
         return response;
     }
 
-    @RequestMapping(value = COMPOUND_SMILES_MAPPING + "/{compoundSMILES}")
+    @RequestMapping(value = COMPOUND_SMILES_MAPPING, method= RequestMethod.POST)
     @ResponseBody
-    public RestResponse<CompoundSearchResult> getCompoundBySMILES(@PathVariable("compoundSMILES") String compoundSMILES) {
+    public RestResponse<CompoundSearchResult> getCompoundBySMILES( @RequestBody String compoundSMILES) {
         CompoundSearchResult compoundSearchResult = new CompoundSearchResult();
         RestResponse<CompoundSearchResult> response = new RestResponse();
 

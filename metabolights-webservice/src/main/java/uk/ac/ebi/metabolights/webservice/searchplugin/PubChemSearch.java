@@ -171,6 +171,7 @@ public class PubChemSearch {
         }
     }
 
+
     public boolean searchAndFillByInChI(String inchi, CompoundSearchResult compoundSearchResult) {
         String searchURL = pubchemUrl + "inchi/cids/JSON";
         String pubchemCID = getAnyMatchingCID(searchURL, "POST", inchi);
@@ -181,9 +182,18 @@ public class PubChemSearch {
 
     public boolean searchAndFillBySMILES(String smiles, CompoundSearchResult compoundSearchResult) {
         String searchURL = pubchemUrl + "smiles/" + smiles + "/cids/json";
-        String pubchemCID = getAnyMatchingCID(searchURL, "GET", "");
+        String pubchemCID = sendAppropriateRequest(searchURL, smiles);
         if (pubchemCID.isEmpty()) return false;
         fetchAndFillFullInfo(pubchemCID, compoundSearchResult);
         return compoundSearchResult.isComplete();
+    }
+
+    private String sendAppropriateRequest(String searchURL, String content) {
+        if (!content.contains("/")) {
+            return getAnyMatchingCID(searchURL, "GET", "");
+        } else {
+            String newSearchURL = pubchemUrl + "smiles/cids/json";
+            return getAnyMatchingCID(newSearchURL, "POST", content);
+        }
     }
 }
