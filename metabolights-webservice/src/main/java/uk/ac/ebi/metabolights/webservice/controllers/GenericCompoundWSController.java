@@ -46,28 +46,28 @@ public class GenericCompoundWSController {
         CompoundSearchResult compoundSearchResult = new CompoundSearchResult();
         RestResponse<CompoundSearchResult> response = new RestResponse();
 
-       // String[] nameMatch = curatedMetaboliteTable.getMatchingRow(CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID(),compoundName);
-//        if (nameMatchedInCuratedList(nameMatch)) {
-//            chebiWS.searchAndFill(compoundName, nameMatch, compoundSearchResult);
-//            response.setContent(compoundSearchResult);
-//            return response;
-//        }
-//        else if (chebiWS.searchAndFill(compoundName,compoundSearchResult)){
-//            response.setContent(compoundSearchResult);
-//            return response;
-//        }
-     //   pubchemSearch.searchAndFill(compoundName,compoundSearchResult);
-        chemSpiderSearch.searchAndFill(compoundName,compoundSearchResult);
-
+        String[] nameMatch = curatedMetaboliteTable.getMatchingRow(CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID(), compoundName);
+        if (nameMatchedInCuratedList(nameMatch)) {
+            chebiWS.searchAndFill(compoundName, nameMatch, compoundSearchResult);
+            response.setContent(compoundSearchResult);
+            return response;
+        } else if (chebiWS.searchAndFill(compoundName, compoundSearchResult)) {
+            response.setContent(compoundSearchResult);
+            return response;
+        } else if (chemSpiderSearch.searchAndFill(compoundName, compoundSearchResult)) {
+            response.setContent(compoundSearchResult);
+            return response;
+        } else if(pubchemSearch.searchAndFill(compoundName, compoundSearchResult)){
+            response.setContent(compoundSearchResult);
+            return response;
+        }
         response.setContent(compoundSearchResult);
         return response;
+
     }
 
     private boolean nameMatchedInCuratedList(String[] nameMatch) {
         return nameMatch.length == 0 ? false : true;
     }
-
-
-
 
 }

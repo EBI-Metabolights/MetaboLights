@@ -13,7 +13,7 @@ import java.util.List;
 public class ChebiSearch {
 
 
-    private ChebiWebServiceClient chebiWS =  GenericCompoundWSClients.getChebiWS();
+    private ChebiWebServiceClient chebiWS = GenericCompoundWSClients.getChebiWS();
 
     public ChebiWebServiceClient getChebiWS() {
         return chebiWS;
@@ -45,15 +45,15 @@ public class ChebiSearch {
 
     public boolean searchAndFill(String compoundName, CompoundSearchResult compoundSearchResult) {
         try {
-            LiteEntityList entities = getChebiLiteEntity(compoundName, SearchCategory.ALL_NAMES);
+            LiteEntityList entities = getChebiLiteEntityList(compoundName, SearchCategory.CHEBI_NAME);
             List<LiteEntity> resultList = entities.getListElement();
             if (!resultList.isEmpty()) {
-                LiteEntity liteEntity = resultList.get(0);
-                String chebiID = liteEntity.getChebiId();
-                fillWithChebiCompleteEntity(chebiID, compoundSearchResult);
-                return true;
+                String matchingChebiID = getChEBIIDOfExactNameMatch(resultList, compoundName);
+                if (!matchingChebiID.isEmpty()) {
+                    fillWithChebiCompleteEntity(matchingChebiID, compoundSearchResult);
+                    return true;
+                }
             }
-
         } catch (ChebiWebServiceFault_Exception e) {
             System.err.println(e.getMessage());
             return false;
@@ -69,13 +69,22 @@ public class ChebiSearch {
         return getChebiWS().getCompleteEntity(chebiId);
     }
 
-    private LiteEntityList getChebiLiteEntity(String name, SearchCategory category) throws ChebiWebServiceFault_Exception {
+    private LiteEntityList getChebiLiteEntityList(String name, SearchCategory category) throws ChebiWebServiceFault_Exception {
         return getChebiWS().getLiteEntity(name,
                 category,
-                1,
+                200,
                 StarsCategory.ALL);
     }
 
+    private String getChEBIIDOfExactNameMatch(List<LiteEntity> entities, String compoundName) {
+        for (int i = 0; i < entities.size(); i++) {
+            LiteEntity liteEntity = entities.get(i);
+            if (liteEntity.getChebiAsciiName().equalsIgnoreCase(compoundName)) {
+                return liteEntity.getChebiId();
+            }
+        }
+        return "";
+    }
 
 
     private String extractChebiID(String[] nameMatch, String compoundName) {

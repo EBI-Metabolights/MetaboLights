@@ -17,10 +17,11 @@ public class ChemSpiderSearch {
     private final String ChemSpiderToken = PropertiesUtil.getProperty("chemspiderSecurityToken");
 
 
-    public void searchAndFill(String name, CompoundSearchResult compoundSearchResult) {
+    public boolean searchAndFill(String name, CompoundSearchResult compoundSearchResult) {
         int[] id = getChemSpiderID(name);
-        if (id.length == 0) return;
+        if (id.length == 0) return false;
         getExtendedCompoundInfoArrayAndFill(id, compoundSearchResult);
+        return compoundSearchResult.isComplete();
 
     }
 

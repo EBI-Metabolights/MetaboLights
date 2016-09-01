@@ -27,10 +27,11 @@ public class PubChemSearch {
 
     //  https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/206/xrefs/registryID/json
 
-    public void searchAndFill(String name, CompoundSearchResult compoundSearchResult) {
+    public boolean searchAndFill(String name, CompoundSearchResult compoundSearchResult) {
         String pubchemCID = getAnyMatchingCID(name);
-        if (pubchemCID.isEmpty()) return;
+        if (pubchemCID.isEmpty()) return false;
         fetchAndFillFullInfo(pubchemCID, compoundSearchResult);
+        return compoundSearchResult.isComplete();
     }
 
     private String getAnyMatchingCID(String name) {
