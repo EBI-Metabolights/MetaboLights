@@ -30,8 +30,6 @@ public class GenericCompoundWSController {
     private PubChemSearch pubchemSearch = new PubChemSearch();
     private ChemSpiderSearch chemSpiderSearch = new ChemSpiderSearch();
 
-    // TODO create mappings for inchi and smiles
-
 
     @RequestMapping(value = COMPOUND_NAME_MAPPING + "/{compoundName}")
     @ResponseBody
@@ -40,7 +38,7 @@ public class GenericCompoundWSController {
         RestResponse<CompoundSearchResult> response = new RestResponse();
 
         String[] nameMatch = curatedMetaboliteTable.getMatchingRow(CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID(), compoundName);
-        if (nameMatchedInCuratedList(nameMatch)) {
+        if (thereIsAMatchInCuratedList(nameMatch)) {
             chebiWS.searchAndFillByName(compoundName, nameMatch, compoundSearchResult);
             response.setContent(compoundSearchResult);
             return response;
@@ -67,8 +65,8 @@ public class GenericCompoundWSController {
         RestResponse<CompoundSearchResult> response = new RestResponse();
 
         String[] inchiMatch = curatedMetaboliteTable.getMatchingRow(CuratedMetabolitesFileColumnIdentifier.INCHI.getID(), compoundInChI);
-        if (nameMatchedInCuratedList(inchiMatch)) {
-            chebiWS.searchAndFillByName(compoundInChI, inchiMatch, compoundSearchResult);
+        if (thereIsAMatchInCuratedList(inchiMatch)) {
+            chebiWS.searchAndFillByInChI(compoundInChI, inchiMatch, compoundSearchResult);
             response.setContent(compoundSearchResult);
             return response;
         } else if (chebiWS.searchAndFillByInChI(compoundInChI, compoundSearchResult)) {
@@ -90,12 +88,29 @@ public class GenericCompoundWSController {
     public RestResponse<CompoundSearchResult> getCompoundBySMILES(@PathVariable("compoundSMILES") String compoundSMILES) {
         CompoundSearchResult compoundSearchResult = new CompoundSearchResult();
         RestResponse<CompoundSearchResult> response = new RestResponse();
+
+        String[] smilesMatch = curatedMetaboliteTable.getMatchingRow(CuratedMetabolitesFileColumnIdentifier.SMILES.getID(), compoundSMILES);
+        if (thereIsAMatchInCuratedList(smilesMatch)) {
+            chebiWS.searchAndFillBySMILES(compoundSMILES, smilesMatch, compoundSearchResult);
+            response.setContent(compoundSearchResult);
+            return response;
+        } else if (chebiWS.searchAndFillBySMILES(compoundSMILES, compoundSearchResult)) {
+            response.setContent(compoundSearchResult);
+            return response;
+        } else if (chemSpiderSearch.searchAndFill(compoundSMILES, compoundSearchResult)) {
+            response.setContent(compoundSearchResult);
+            return response;
+        } else if (pubchemSearch.searchAndFillBySMILES(compoundSMILES, compoundSearchResult)) {
+            response.setContent(compoundSearchResult);
+            return response;
+        }
+
         response.setContent(compoundSearchResult);
         return response;
 
     }
 
-    private boolean nameMatchedInCuratedList(String[] nameMatch) {
+    private boolean thereIsAMatchInCuratedList(String[] nameMatch) {
         return nameMatch.length > 0;
     }
 
