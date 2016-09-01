@@ -6,15 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
-import uk.ac.ebi.chebi.webapps.chebiWS.model.*;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.webservice.searchplugin.*;
-
-import javax.xml.namespace.QName;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.List;
 
 /**
  * Created by kalai on 01/08/2016.
@@ -42,22 +35,22 @@ public class GenericCompoundWSController {
 
     @RequestMapping(value = COMPOUND_NAME_MAPPING + "/{compoundName}")
     @ResponseBody
-    public RestResponse<CompoundSearchResult> getCompound(@PathVariable("compoundName") String compoundName) {
+    public RestResponse<CompoundSearchResult> getCompoundByName(@PathVariable("compoundName") String compoundName) {
         CompoundSearchResult compoundSearchResult = new CompoundSearchResult();
         RestResponse<CompoundSearchResult> response = new RestResponse();
 
         String[] nameMatch = curatedMetaboliteTable.getMatchingRow(CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID(), compoundName);
         if (nameMatchedInCuratedList(nameMatch)) {
-            chebiWS.searchAndFill(compoundName, nameMatch, compoundSearchResult);
+            chebiWS.searchAndFillByName(compoundName, nameMatch, compoundSearchResult);
             response.setContent(compoundSearchResult);
             return response;
-        } else if (chebiWS.searchAndFill(compoundName, compoundSearchResult)) {
+        } else if (chebiWS.searchAndFillByName(compoundName, compoundSearchResult)) {
             response.setContent(compoundSearchResult);
             return response;
         } else if (chemSpiderSearch.searchAndFill(compoundName, compoundSearchResult)) {
             response.setContent(compoundSearchResult);
             return response;
-        } else if(pubchemSearch.searchAndFill(compoundName, compoundSearchResult)){
+        } else if (pubchemSearch.searchAndFillByName(compoundName, compoundSearchResult)) {
             response.setContent(compoundSearchResult);
             return response;
         }
@@ -66,8 +59,44 @@ public class GenericCompoundWSController {
 
     }
 
+
+    @RequestMapping(value = COMPOUND_INCHI_MAPPING + "/{compoundInChI}")
+    @ResponseBody
+    public RestResponse<CompoundSearchResult> getCompoundByInChI(@PathVariable("compoundInChI") String compoundInChI) {
+        CompoundSearchResult compoundSearchResult = new CompoundSearchResult();
+        RestResponse<CompoundSearchResult> response = new RestResponse();
+
+        String[] inchiMatch = curatedMetaboliteTable.getMatchingRow(CuratedMetabolitesFileColumnIdentifier.INCHI.getID(), compoundInChI);
+        if (nameMatchedInCuratedList(inchiMatch)) {
+            chebiWS.searchAndFillByName(compoundInChI, inchiMatch, compoundSearchResult);
+            response.setContent(compoundSearchResult);
+            return response;
+        } else if (chebiWS.searchAndFillByInChI(compoundInChI, compoundSearchResult)) {
+            response.setContent(compoundSearchResult);
+            return response;
+        } else if (chemSpiderSearch.searchAndFill(compoundInChI, compoundSearchResult)) {
+            response.setContent(compoundSearchResult);
+            return response;
+        } else if (pubchemSearch.searchAndFillByInChI(compoundInChI, compoundSearchResult)) {
+            response.setContent(compoundSearchResult);
+            return response;
+        }
+        response.setContent(compoundSearchResult);
+        return response;
+    }
+
+    @RequestMapping(value = COMPOUND_SMILES_MAPPING + "/{compoundSMILES}")
+    @ResponseBody
+    public RestResponse<CompoundSearchResult> getCompoundBySMILES(@PathVariable("compoundSMILES") String compoundSMILES) {
+        CompoundSearchResult compoundSearchResult = new CompoundSearchResult();
+        RestResponse<CompoundSearchResult> response = new RestResponse();
+        response.setContent(compoundSearchResult);
+        return response;
+
+    }
+
     private boolean nameMatchedInCuratedList(String[] nameMatch) {
-        return nameMatch.length == 0 ? false : true;
+        return nameMatch.length > 0;
     }
 
 }

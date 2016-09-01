@@ -17,8 +17,8 @@ public class ChemSpiderSearch {
     private final String ChemSpiderToken = PropertiesUtil.getProperty("chemspiderSecurityToken");
 
 
-    public boolean searchAndFill(String name, CompoundSearchResult compoundSearchResult) {
-        int[] id = getChemSpiderID(name);
+    public boolean searchAndFill(String searchTerm, CompoundSearchResult compoundSearchResult) {
+        int[] id = getChemSpiderID(searchTerm);
         if (id.length == 0) return false;
         getExtendedCompoundInfoArrayAndFill(id, compoundSearchResult);
         return compoundSearchResult.isComplete();
