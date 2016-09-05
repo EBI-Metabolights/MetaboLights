@@ -63,8 +63,6 @@ $(function() {
 </script>
 
 <script type="text/javascript">
-
-
     function toggleQueue(instance) {
       $.ajax({
         url: "togglequeue",
@@ -109,10 +107,15 @@ $(function() {
     }
 </script>
 
-	
-	<h2>Configuration page</h2>
-	
+<link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
 
+<div class="container-fluid">
+    <div class="col-md-12">
+        <h3 class="heading">Configuration page</h3>
+	
 	<div id="tabs">
 		<ul>
             <li hash="validations"><a class="noLine" href="#valTab">Validations</a></li>
@@ -389,4 +392,5 @@ $(function() {
         </div>
 
 	</div>
-
+</div>
+</div>
