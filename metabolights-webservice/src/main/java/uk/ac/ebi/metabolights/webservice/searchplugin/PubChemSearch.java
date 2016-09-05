@@ -9,16 +9,32 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.Callable;
 
 
 /**
  * Created by kalai on 04/08/2016.
  */
-public class PubChemSearch {
+public class PubChemSearch implements Serializable, Cloneable, Callable<Collection<CompoundSearchResult>> {
 
     private String pubchemUrl = GenericCompoundWSClients.getPubChemWSURL();
+    private List<CompoundSearchResult> compoundSearchResults = new ArrayList<CompoundSearchResult>();
+    private SearchTermCategory searchTermCategory;
+    private String searchTerm;
+
+    public PubChemSearch() {
+    }
+
+    public PubChemSearch(String searchterm, SearchTermCategory searchTermCategory) {
+        this.searchTerm = searchterm;
+        this.searchTermCategory = searchTermCategory;
+    }
 
     //    to get cid by name
 
@@ -28,32 +44,52 @@ public class PubChemSearch {
 
     //  https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/206/xrefs/registryID/json
 
-    public boolean searchAndFillByName(String name, CompoundSearchResult compoundSearchResult) {
+    public List<CompoundSearchResult> searchAndFillByName(String name) {
         String searchURL = pubchemUrl + "name/" + name + "/cids/json";
-        String pubchemCID = getAnyMatchingCID(searchURL, "GET", "");
-        if (pubchemCID.isEmpty()) return false;
-        fetchAndFillFullInfo(pubchemCID, compoundSearchResult);
-        return compoundSearchResult.isComplete();
+        List<String> pubchemCIDs = getAllMatchingCIDs(searchURL, "GET", "");
+        if (pubchemCIDs.isEmpty()) return this.compoundSearchResults;
+        fetchAndFillFullInfo(pubchemCIDs);
+        return this.compoundSearchResults;
     }
 
-    private String getAnyMatchingCID(String searchURL, String method, String postBody) {
-        String pubchemResponse = excuteRequest(searchURL, "GET", "");
-        if (pubchemResponse == null) return "";
-        Integer pubchemCID;
+
+//    private String getAnyMatchingCID(String searchURL, String method, String postBody) {
+//        String pubchemResponse = excuteRequest(searchURL, "GET", "");
+//        if (pubchemResponse == null) return "";
+//        Integer pubchemCID;
+//        try {
+//            JSONObject myObject = new JSONObject(pubchemResponse);
+//            JSONObject myObject2 = myObject.getJSONObject("IdentifierList");
+//            JSONArray array1 = (JSONArray) myObject2.get("CID");
+//            pubchemCID = (Integer) array1.get(0);
+//            return pubchemCID.toString();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return "";
+//    }
+
+    private List<String> getAllMatchingCIDs(String searchURL, String method, String postBody) {
+        String pubchemResponse = executeRequest(searchURL, method, postBody);
+        if (pubchemResponse == null) return new ArrayList<>();
+        List<String> pubchemCIDs = new ArrayList<>();
         try {
             JSONObject myObject = new JSONObject(pubchemResponse);
             JSONObject myObject2 = myObject.getJSONObject("IdentifierList");
             JSONArray array1 = (JSONArray) myObject2.get("CID");
-            pubchemCID = (Integer) array1.get(0);
-            return pubchemCID.toString();
-
+            for (int i = 0; i < array1.length(); i++) {
+                Integer id = (Integer) array1.get(i);
+                pubchemCIDs.add(id.toString());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "";
+        return pubchemCIDs;
     }
 
-    private void fetchAndFillFullInfo(String pubchemID, CompoundSearchResult compoundSearchResult) {
+    private CompoundSearchResult fetchAndFillFullInfo(String pubchemID) {
+        CompoundSearchResult compoundSearchResult = new CompoundSearchResult();
         JSONObject result = getMetaData(pubchemID);
         if (result != null) {
             fillFullInfo(compoundSearchResult, result);
@@ -62,11 +98,18 @@ public class PubChemSearch {
                 compoundSearchResult.setChebiId(chebiID);
             }
         }
+        return compoundSearchResult;
+    }
+
+    private void fetchAndFillFullInfo(List<String> pubchemCIDs) {
+        for (String pubchemID : pubchemCIDs) {
+            this.compoundSearchResults.add(fetchAndFillFullInfo(pubchemID));
+        }
     }
 
     private JSONObject getMetaData(String pubchemID) {
         String searchURL = pubchemUrl + "cid/" + pubchemID + "/property/MolecularFormula,CanonicalSMILES,inchi,molecularformula,iupacname/json";
-        String pubchemResponse = excuteRequest(searchURL, "GET", "");
+        String pubchemResponse = executeRequest(searchURL, "GET", "");
         if (pubchemResponse == null) return null;
         try {
             JSONObject result = new JSONObject(pubchemResponse);
@@ -79,7 +122,7 @@ public class PubChemSearch {
 
     private String getChebiID(String pubchemID) {
         String searchURL = pubchemUrl + "cid/" + pubchemID + "/xrefs/registryID/json";
-        String pubchemResponse = excuteRequest(searchURL, "GET", "");
+        String pubchemResponse = executeRequest(searchURL, "GET", "");
         if (pubchemResponse == null) return "";
         try {
             JSONObject result = new JSONObject(pubchemResponse);
@@ -125,7 +168,7 @@ public class PubChemSearch {
     }
 
 
-    private String excuteRequest(String requestURL, String method, String postBody) {
+    private String executeRequest(String requestURL, String method, String postBody) {
         HttpURLConnection connection = null;
         try {
             //Create connection
@@ -148,7 +191,7 @@ public class PubChemSearch {
             }
 
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                throw new RuntimeException("MetaboLights Java WS client: " + connection.getURL().toString() + "(" + "GET" + ") request failed : HTTP error code : "
+                throw new RuntimeException("MetaboLights Java WS client: " + connection.getURL().toString() + "(" + method + ") request failed : HTTP error code : "
                         + connection.getResponseCode());
             }
 
@@ -172,28 +215,41 @@ public class PubChemSearch {
     }
 
 
-    public boolean searchAndFillByInChI(String inchi, CompoundSearchResult compoundSearchResult) {
+    public List<CompoundSearchResult> searchAndFillByInChI(String inchi) {
         String searchURL = pubchemUrl + "inchi/cids/JSON";
-        String pubchemCID = getAnyMatchingCID(searchURL, "POST", inchi);
-        if (pubchemCID.isEmpty()) return false;
-        fetchAndFillFullInfo(pubchemCID, compoundSearchResult);
-        return compoundSearchResult.isComplete();
+        List<String> pubchemCIDs = getAllMatchingCIDs(searchURL, "POST", inchi);
+        if (pubchemCIDs.isEmpty()) return this.compoundSearchResults;
+        fetchAndFillFullInfo(pubchemCIDs);
+        return this.compoundSearchResults;
     }
 
-    public boolean searchAndFillBySMILES(String smiles, CompoundSearchResult compoundSearchResult) {
+    public List<CompoundSearchResult> searchAndFillBySMILES(String smiles) {
         String searchURL = pubchemUrl + "smiles/" + smiles + "/cids/json";
-        String pubchemCID = sendAppropriateRequest(searchURL, smiles);
-        if (pubchemCID.isEmpty()) return false;
-        fetchAndFillFullInfo(pubchemCID, compoundSearchResult);
-        return compoundSearchResult.isComplete();
+        List<String> pubchemCIDs = sendAppropriateRequest(searchURL, smiles);
+        if (pubchemCIDs.isEmpty()) return this.compoundSearchResults;
+        fetchAndFillFullInfo(pubchemCIDs);
+        return this.compoundSearchResults;
     }
 
-    private String sendAppropriateRequest(String searchURL, String content) {
+    private List<String> sendAppropriateRequest(String searchURL, String content) {
         if (!content.contains("/")) {
-            return getAnyMatchingCID(searchURL, "GET", "");
+            return getAllMatchingCIDs(searchURL, "GET", "");
         } else {
             String newSearchURL = pubchemUrl + "smiles/cids/json";
-            return getAnyMatchingCID(newSearchURL, "POST", content);
+            return getAllMatchingCIDs(newSearchURL, "POST", content);
         }
     }
+
+    @Override
+    public Collection<CompoundSearchResult> call() throws Exception {
+        if (this.searchTermCategory.equals(SearchTermCategory.INCHI)) {
+            searchAndFillByInChI(this.searchTerm);
+        } else if (this.searchTermCategory.equals(SearchTermCategory.NAME)) {
+            searchAndFillByName(this.searchTerm);
+        } else if (this.searchTermCategory.equals(SearchTermCategory.SMILES)) {
+            searchAndFillBySMILES(this.searchTerm);
+        }
+        return this.compoundSearchResults;
+    }
+
 }

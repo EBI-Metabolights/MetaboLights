@@ -4,13 +4,38 @@ import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.ChebiWebServiceFault_Exception;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 /**
  * Created by kalai on 28/07/2016.
  */
-public class ChebiSearch {
+public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSearchResult> {
+
+    private CompoundSearchResult compoundSearchResult = new CompoundSearchResult();
+    private SearchTermCategory searchTermCategory;
+    private String[] rowMatchedFromCuratedFile;
+    private String searchTerm;
+    private boolean searchFromScratch = false;
+
+    public ChebiSearch(SearchTermCategory searchTermCategory, String searchTerm) {
+        this.searchTermCategory = searchTermCategory;
+        this.searchTerm = searchTerm;
+        this.searchFromScratch = true;
+    }
+
+
+    public ChebiSearch(SearchTermCategory searchTermCategory, String searchTerm, String[] rowMatchedFromCuratedFile) {
+        this.searchTermCategory = searchTermCategory;
+        this.rowMatchedFromCuratedFile = rowMatchedFromCuratedFile;
+        this.searchTerm = searchTerm;
+    }
+
+    public ChebiSearch(){
+
+    }
 
 
     private ChebiWebServiceClient chebiWS = GenericCompoundWSClients.getChebiWS();
@@ -20,12 +45,13 @@ public class ChebiSearch {
     }
 
 
-    public void searchAndFillByName(String compoundName, String[] nameMatch, CompoundSearchResult compoundSearchResult) {
+    public CompoundSearchResult searchAndFillByName(String compoundName, String[] nameMatch, CompoundSearchResult compoundSearchResult) {
         String chebiID = extractChebiID(nameMatch, compoundName, CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID());
         fillWithChebiCompleteEntity(chebiID, compoundSearchResult);
         if (compoundSearchResult.getFormula() == null) {
             compoundSearchResult.setFormula(extractFormula(nameMatch, compoundName, CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()));
         }
+        return compoundSearchResult;
     }
 
     private void fillWithChebiCompleteEntity(String chebiID, CompoundSearchResult compoundSearchResult) {
@@ -43,7 +69,7 @@ public class ChebiSearch {
         }
     }
 
-    public boolean searchAndFillByName(String compoundName, CompoundSearchResult compoundSearchResult) {
+    public CompoundSearchResult searchAndFillByName(String compoundName, CompoundSearchResult compoundSearchResult) {
         try {
             LiteEntityList entities = getChebiLiteEntityList(compoundName, SearchCategory.CHEBI_NAME);
             List<LiteEntity> resultList = entities.getListElement();
@@ -51,14 +77,12 @@ public class ChebiSearch {
                 String matchingChebiID = getChEBIIDOfExactNameMatch(resultList, compoundName);
                 if (!matchingChebiID.isEmpty()) {
                     fillWithChebiCompleteEntity(matchingChebiID, compoundSearchResult);
-                    return true;
                 }
             }
         } catch (ChebiWebServiceFault_Exception e) {
             System.err.println(e.getMessage());
-            return false;
         }
-        return false;
+        return compoundSearchResult;
     }
 
     private boolean thisChebiResultisValid(List<DataItem> result) {
@@ -91,7 +115,7 @@ public class ChebiSearch {
         String chebiID = matchingRow[CuratedMetabolitesFileColumnIdentifier.CHEBI_ID.getID()];
         if (chebiID.contains("|")) {
             String[] chebiIDS = chebiID.split("\\|");
-            return chebiIDS[getMatchingIndex(extractSearchTerms(matchingRow,indexToSearch), termToMatch)];
+            return chebiIDS[getMatchingIndex(extractSearchTerms(matchingRow, indexToSearch), termToMatch)];
         } else {
             return chebiID;
         }
@@ -102,7 +126,7 @@ public class ChebiSearch {
         String formula = matchingRow[CuratedMetabolitesFileColumnIdentifier.MOLECULAR_FORMULA.getID()];
         if (formula.contains("|")) {
             String[] formulas = formula.split("\\|");
-            return formulas[getMatchingIndex(extractSearchTerms(matchingRow,indexToSearch), termToMatch)];
+            return formulas[getMatchingIndex(extractSearchTerms(matchingRow, indexToSearch), termToMatch)];
 
         } else {
             return formula;
@@ -131,14 +155,14 @@ public class ChebiSearch {
         String chebiID = extractChebiID(inchiMatch, compoundInChI, CuratedMetabolitesFileColumnIdentifier.INCHI.getID());
         fillWithChebiCompleteEntity(chebiID, compoundSearchResult);
         if (compoundSearchResult.getFormula() == null) {
-            compoundSearchResult.setFormula(extractFormula(inchiMatch, compoundInChI,CuratedMetabolitesFileColumnIdentifier.INCHI.getID() ));
+            compoundSearchResult.setFormula(extractFormula(inchiMatch, compoundInChI, CuratedMetabolitesFileColumnIdentifier.INCHI.getID()));
         }
     }
 
     public boolean searchAndFillByInChI(String compoundInChI, CompoundSearchResult compoundSearchResult) {
         try {
             LiteEntityList entities = getChebiLiteEntityList(compoundInChI, SearchCategory.INCHI_INCHI_KEY);
-            return fillSearchResults(entities,compoundSearchResult);
+            return fillSearchResults(entities, compoundSearchResult);
         } catch (ChebiWebServiceFault_Exception e) {
             System.err.println(e.getMessage());
             return false;
@@ -156,14 +180,14 @@ public class ChebiSearch {
     public boolean searchAndFillBySMILES(String compoundSMILES, CompoundSearchResult compoundSearchResult) {
         try {
             LiteEntityList entities = getChebiLiteEntityList(compoundSMILES, SearchCategory.SMILES);
-            return fillSearchResults(entities,compoundSearchResult);
+            return fillSearchResults(entities, compoundSearchResult);
         } catch (ChebiWebServiceFault_Exception e) {
             System.err.println(e.getMessage());
             return false;
         }
     }
 
-    private boolean fillSearchResults(LiteEntityList entities,CompoundSearchResult compoundSearchResult ){
+    private boolean fillSearchResults(LiteEntityList entities, CompoundSearchResult compoundSearchResult) {
         List<LiteEntity> resultList = entities.getListElement();
         if (!resultList.isEmpty()) {
             String matchingChebiID = resultList.get(0).getChebiId();
@@ -176,5 +200,38 @@ public class ChebiSearch {
     }
 
 
+    @Override
+    public CompoundSearchResult call() throws Exception {
+        if (this.searchTermCategory.equals(SearchTermCategory.INCHI)) {
+            doInChISearch();
+        } else if (this.searchTermCategory.equals(SearchTermCategory.NAME)) {
+            doNameSearch();
+        } else if (this.searchTermCategory.equals(SearchTermCategory.SMILES)) {
+            doSMILESSearch();
+        }
+        return this.compoundSearchResult;
+    }
 
+    private void doNameSearch(){
+        if (searchFromScratch) {
+            searchAndFillByName(this.searchTerm, this.compoundSearchResult);
+        } else {
+            searchAndFillByName(this.searchTerm, this.rowMatchedFromCuratedFile, compoundSearchResult);
+        }
+    }
+    private void doInChISearch(){
+        if (searchFromScratch) {
+            searchAndFillByInChI(this.searchTerm, this.compoundSearchResult);
+        } else {
+            searchAndFillByInChI(this.searchTerm, this.rowMatchedFromCuratedFile, compoundSearchResult);
+        }
+    }
+
+    private void doSMILESSearch(){
+        if (searchFromScratch) {
+            searchAndFillBySMILES(this.searchTerm, this.compoundSearchResult);
+        } else {
+            searchAndFillBySMILES(this.searchTerm, this.rowMatchedFromCuratedFile, compoundSearchResult);
+        }
+    }
 }

@@ -1,35 +1,44 @@
 package uk.ac.ebi.metabolights.webservice.searchplugin;
 
-import com.chemspider.www.InChIStub;
 import com.chemspider.www.MassSpecAPIStub;
 import com.chemspider.www.SearchStub;
-import org.apache.log4j.Level;
 import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.Callable;
 
 /**
  * Created by kalai on 05/08/2016.
  */
-public class ChemSpiderSearch {
+public class ChemSpiderSearch implements Serializable, Cloneable, Callable<Collection<CompoundSearchResult>> {
 
     private final String ChemSpiderToken = PropertiesUtil.getProperty("chemspiderSecurityToken");
+    private List<CompoundSearchResult> compoundSearchResults = new ArrayList<CompoundSearchResult>();
+    private String searchTerm;
+
+    public ChemSpiderSearch() {
+
+    }
+
+    public ChemSpiderSearch(String searchTerm) {
+        this.searchTerm = searchTerm;
+    }
 
 
-    public boolean searchAndFill(String searchTerm, CompoundSearchResult compoundSearchResult) {
+    public List<CompoundSearchResult> searchAndFill(String searchTerm) {
         int[] id = getChemSpiderID(searchTerm);
-        if (id.length == 0) return false;
-        getExtendedCompoundInfoArrayAndFill(id, compoundSearchResult);
-        return compoundSearchResult.isComplete();
-
+        if (id.length == 0) return compoundSearchResults;
+        getExtendedCompoundInfoArrayAndFill(id);
+        return compoundSearchResults;
     }
 
     private int[] getChemSpiderID(String name) {
         int[] matchingIDs = get_Search_SimpleSearch_Results(name, this.ChemSpiderToken);
         if (matchingIDs.length == 0) return new int[0];
-        int id = matchingIDs[0];
-        return new int[]{id};
+        return matchingIDs;
     }
 
     /**
@@ -63,7 +72,7 @@ public class ChemSpiderSearch {
      * @param csids: integer array containing the CSIDs of compounds for which information will be returned
      * @return: a Map> containing the results array for each CSID (with Properties CSID, MF, SMILES, InChIKey, AverageMass, MolecularWeight, MonoisotopicMass, NominalMass, ALogP, XLogP, CommonName)
      */
-    private void getExtendedCompoundInfoArrayAndFill(int[] csids, CompoundSearchResult compoundSearchResult) {
+    private void getExtendedCompoundInfoArrayAndFill(int[] csids) {
         try {
             final MassSpecAPIStub thisMassSpecAPIStub = new MassSpecAPIStub();
             MassSpecAPIStub.ArrayOfInt inputCSIDsArrayofInt = new MassSpecAPIStub.ArrayOfInt();
@@ -73,18 +82,32 @@ public class ChemSpiderSearch {
             extendedCompoundInfoArrayInput.setToken(this.ChemSpiderToken);
             final MassSpecAPIStub.GetExtendedCompoundInfoArrayResponse thisGetExtendedCompoundInfoArrayResponse = thisMassSpecAPIStub.getExtendedCompoundInfoArray(extendedCompoundInfoArrayInput);
             MassSpecAPIStub.ExtendedCompoundInfo[] extendedCompoundInfoOutput = thisGetExtendedCompoundInfoArrayResponse.getGetExtendedCompoundInfoArrayResult().getExtendedCompoundInfo();
-            String smiles = extendedCompoundInfoOutput[0].getSMILES();
-            String inchi = extendedCompoundInfoOutput[0].getInChI();
-            String commonName = extendedCompoundInfoOutput[0].getCommonName();
-            String molFormula = extendedCompoundInfoOutput[0].getMF();
-            compoundSearchResult.setName(commonName);
-            compoundSearchResult.setSmiles(smiles);
-            compoundSearchResult.setInchi(inchi);
-            compoundSearchResult.setFormula(molFormula);
+            for (int i = 0; i < extendedCompoundInfoOutput.length; i++) {
+                this.compoundSearchResults.add(getResult(extendedCompoundInfoOutput, i));
+            }
+
         } catch (Exception e) {
         }
 
     }
 
+    private CompoundSearchResult getResult(MassSpecAPIStub.ExtendedCompoundInfo[] extendedCompoundInfoOutput, int index) {
+        CompoundSearchResult compoundSearchResult = new CompoundSearchResult();
+        String smiles = extendedCompoundInfoOutput[index].getSMILES();
+        String inchi = extendedCompoundInfoOutput[index].getInChI();
+        String commonName = extendedCompoundInfoOutput[index].getCommonName();
+        String molFormula = extendedCompoundInfoOutput[index].getMF();
+        compoundSearchResult.setName(commonName);
+        compoundSearchResult.setSmiles(smiles);
+        compoundSearchResult.setInchi(inchi);
+        compoundSearchResult.setFormula(molFormula);
+        return compoundSearchResult;
+
+    }
+
+    @Override
+    public List<CompoundSearchResult> call() throws Exception {
+        return searchAndFill(this.searchTerm);
+    }
 }
 
