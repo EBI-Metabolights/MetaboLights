@@ -1030,15 +1030,7 @@
                                     });
                                 </script>
 
-                                <script>
-                                    $("#ftpCheckAll").click(function () {
-                                        if ($("#ftpCheckAll").is(':checked')) {
-                                            $(".ml--ftpfile").prop("checked", true);
-                                        } else {
-                                            $(".ml--ftpfile").prop("checked", false);
-                                        }
-                                    });
-                                </script>
+
 
 
                                 <div style="position: relative; width: 100%;">
@@ -1227,6 +1219,16 @@
                             </c:if>
                             <!-- private FTP files -->
                         </c:if>
+
+                        <script>
+                            $("#ftpCheckAll").click(function () {
+                                if ($("#ftpCheckAll").is(':checked')) {
+                                    $(".ml--ftpfile").prop("checked", true);
+                                } else {
+                                    $(".ml--ftpfile").prop("checked", false);
+                                }
+                            });
+                        </script>
                     </div>
 
                 </div>
