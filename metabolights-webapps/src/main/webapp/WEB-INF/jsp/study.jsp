@@ -1141,7 +1141,7 @@
                                                     <tbody>
                                                     <c:forEach var="ftpFile" items="${ftpFiles}">
                                                         <tr>
-                                                            <td><input type="checkbox" class="asperaMultipleFiles ml--ftpfile"
+                                                            <td><input type="checkbox" class="ml--ftpfile"
                                                                        name="ftpFile" value="${ftpFile.name}"/></td>
                                                             <td>
                                                                     ${ftpFile.name}
