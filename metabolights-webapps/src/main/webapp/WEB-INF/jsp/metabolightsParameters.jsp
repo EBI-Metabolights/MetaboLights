@@ -32,34 +32,45 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<h3><spring:message code="metaboLights.parameters"/></h3>
 
+<link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
 
-<div class="grid_23 title alpha">
-    <div class="grid_4">
-        <spring:message code="metaboLights.parameters.name"/>
-    </div>
-    <div class="grid_4">
-        <spring:message code="metaboLights.parameters.value"/>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="col-md-12">
+            <h3 class="heading"><spring:message code="metaboLights.parameters"/></h3>
+            <div class="row">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                <spring:message code="metaboLights.parameters.name"/>
+                            </th>
+                            <th>
+                                <spring:message code="metaboLights.parameters.value"/>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <form name="parametersForm" action="parameters" method="post">
+                            <c:forEach var="parameters" items="${mtblparamteres}">
+                                <tr>
+                                    <td>
+                                        <a href="updateParameters?paramname=${parameters.parameterName}&paramvalue=${parameters.parameterValue}">${parameters.parameterName}</a>
+                                    </td>
+                                    <td>
+                                            ${parameters.parameterValue}
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </form>
+                    </tbody>
+                </table>
+            </div>
+            <a href="addParameters"><spring:message code="metaboLights.parameters.add"/></a>
+        </div>
     </div>
 </div>
-
-<form name="parametersForm" action="parameters" method="post">
-
-    <div class="grid_23 refLayerBox">
-        <c:forEach var="parameters" items="${mtblparamteres}">
-
-            <div class="grid_4">
-                <a href="updateParameters?paramname=${parameters.parameterName}&paramvalue=${parameters.parameterValue}">${parameters.parameterName}</a>
-            </div>
-
-            <div class="grid_8">
-                ${parameters.parameterValue}
-            </div>
-            <br/>
-
-        </c:forEach>
-        <br/>
-        <a href="addParameters"><spring:message code="metaboLights.parameters.add"/></a>
-    </div>
-</form>

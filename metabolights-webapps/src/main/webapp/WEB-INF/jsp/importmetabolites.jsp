@@ -42,14 +42,28 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
 
-<h2><spring:message code="msg.importmetabolites.title"/></h2>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
 
-    <p>This page will allow you to import compound from chebi scanning, from a given compound, all the tree down to it's leaves. It will do a HAS_ROLE and for each entry returned will follow the IS_A, IS_TAUTOMER_OF, IS_CONJUGATE_ACID_OF and IS_CONJUGATE_BASE_OF.
-    </p>
-
-    <form action="importmetabolitesrun">
-        <input name="chebiId" value="CHEBI:25212"><br>
-        Update species information for existing metabolites?<input name="updateSpecies" CHECKED type="checkbox" value="true"><br>
-        <input type="submit">
-
-    </form>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <h3 class="heading"><spring:message code="msg.importmetabolites.title"/></h3>
+        <div class="well">
+            <p>This page allows you to import metabolites from ChEBI into MetaboLights. The ChEBI Ontology tree is traversed starting from the give node (usually the HAS_ROLE:Metabolite-CHEBI:25212). It will check for a HAS_ROLE flag and traverses all the IS_A, IS_TAUTOMER_OF, IS_CONJUGATE_ACID_OF and IS_CONJUGATE_BASE_OF entries of given node.</p>
+        </div>
+        <div class="col-md-4">
+            <form action="importmetabolitesrun">
+                <div class="form-group">
+                    <label>CHEBI Class (Metabolite - CHEBI:25212)</label>
+                    <input name="chebiId" class="form-control" value="CHEBI:25212">
+                </div>
+                <div class="form-group">
+                    <label><input name="updateSpecies" CHECKED type="checkbox" value="true"> Update species information for existing metabolites?</label>
+                </div>
+                <input class="btn btn-primary" type="submit">
+            </form>
+        </div>
+    </div>
+</div>

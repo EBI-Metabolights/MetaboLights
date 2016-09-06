@@ -467,6 +467,26 @@ $(function() {
                             </div>
                         </div>
                         <div class="col-md-12">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h4>Additional Information</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <p>Please follow the below steps to reset the elastic search parameters</p>
+
+                                    <p>More details (Go to the elasticsearch bin of the test/dev/prod servers) <i><a href=" https://www.ebi.ac.uk/seqdb/confluence/display/STEINBECK/New+MetaboLights+configuration+%282015-09%29+New+architecture+in+the+new+filesystem" target="_blank">here</a></i></p>
+                                    <ul>
+                                        <li>Delete all indexes from web page (study, compound)</li>
+                                        <li>Restart the elasticsearch server. Make sure no process is running after stop.</li>
+                                        <li>Reapply the study mappings from the WebApp</li>
+                                        <li>Reindex the studies</li>
+                                        <li>Reindex the compounds</li>
+                                        <li>Check elastic log files for any errors</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
                             <h3>Index Status  - <button class="btn btn-info" data-toggle="collapse" href="#collapseIndexStatusDetials" >Show details</button></h3>
                             <br>
                             <div class="well collapse" id="collapseIndexStatusDetials">
