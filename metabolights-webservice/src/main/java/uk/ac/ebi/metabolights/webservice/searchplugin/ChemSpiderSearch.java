@@ -92,7 +92,7 @@ public class ChemSpiderSearch implements Serializable, Cloneable, Callable<Colle
     }
 
     private CompoundSearchResult getResult(MassSpecAPIStub.ExtendedCompoundInfo[] extendedCompoundInfoOutput, int index) {
-        CompoundSearchResult compoundSearchResult = new CompoundSearchResult();
+        CompoundSearchResult compoundSearchResult = new CompoundSearchResult(SearchResource.CHEMSPIDER);
         String smiles = extendedCompoundInfoOutput[index].getSMILES();
         String inchi = extendedCompoundInfoOutput[index].getInChI();
         String commonName = extendedCompoundInfoOutput[index].getCommonName();

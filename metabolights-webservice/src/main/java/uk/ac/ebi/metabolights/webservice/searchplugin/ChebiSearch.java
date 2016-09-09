@@ -14,7 +14,7 @@ import java.util.concurrent.Callable;
  */
 public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSearchResult> {
 
-    private CompoundSearchResult compoundSearchResult = new CompoundSearchResult();
+    private CompoundSearchResult compoundSearchResult = new CompoundSearchResult(SearchResource.CHEBI);
     private SearchTermCategory searchTermCategory;
     private String[] rowMatchedFromCuratedFile;
     private String searchTerm;
@@ -54,7 +54,7 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
         return compoundSearchResult;
     }
 
-    private void fillWithChebiCompleteEntity(String chebiID, CompoundSearchResult compoundSearchResult) {
+    public void fillWithChebiCompleteEntity(String chebiID, CompoundSearchResult compoundSearchResult) {
         try {
             compoundSearchResult.setChebiId(chebiID);
             Entity chebiEntity = getChebiEntity(chebiID);

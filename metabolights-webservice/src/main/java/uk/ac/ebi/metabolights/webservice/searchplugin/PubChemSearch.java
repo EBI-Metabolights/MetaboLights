@@ -4,6 +4,8 @@ package uk.ac.ebi.metabolights.webservice.searchplugin;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 import java.io.BufferedReader;
@@ -22,6 +24,8 @@ import java.util.concurrent.Callable;
  * Created by kalai on 04/08/2016.
  */
 public class PubChemSearch implements Serializable, Cloneable, Callable<Collection<CompoundSearchResult>> {
+
+    private static final Logger logger = LoggerFactory.getLogger(PubChemSearch.class);
 
     private String pubchemUrl = GenericCompoundWSClients.getPubChemWSURL();
     private List<CompoundSearchResult> compoundSearchResults = new ArrayList<CompoundSearchResult>();
@@ -71,7 +75,7 @@ public class PubChemSearch implements Serializable, Cloneable, Callable<Collecti
 //    }
 
     private List<String> getAllMatchingCIDs(String searchURL, String method, String postBody) {
-        String pubchemResponse = executeRequest(searchURL, method, postBody);
+        String pubchemResponse = GenericCompoundWSClients.executeRequest(searchURL, method, postBody);
         if (pubchemResponse == null) return new ArrayList<>();
         List<String> pubchemCIDs = new ArrayList<>();
         try {
@@ -89,7 +93,7 @@ public class PubChemSearch implements Serializable, Cloneable, Callable<Collecti
     }
 
     private CompoundSearchResult fetchAndFillFullInfo(String pubchemID) {
-        CompoundSearchResult compoundSearchResult = new CompoundSearchResult();
+        CompoundSearchResult compoundSearchResult = new CompoundSearchResult(SearchResource.PUBCHEM);
         JSONObject result = getMetaData(pubchemID);
         if (result != null) {
             fillFullInfo(compoundSearchResult, result);
@@ -109,7 +113,7 @@ public class PubChemSearch implements Serializable, Cloneable, Callable<Collecti
 
     private JSONObject getMetaData(String pubchemID) {
         String searchURL = pubchemUrl + "cid/" + pubchemID + "/property/MolecularFormula,CanonicalSMILES,inchi,molecularformula,iupacname/json";
-        String pubchemResponse = executeRequest(searchURL, "GET", "");
+        String pubchemResponse = GenericCompoundWSClients.executeRequest(searchURL, "GET", "");
         if (pubchemResponse == null) return null;
         try {
             JSONObject result = new JSONObject(pubchemResponse);
@@ -122,7 +126,7 @@ public class PubChemSearch implements Serializable, Cloneable, Callable<Collecti
 
     private String getChebiID(String pubchemID) {
         String searchURL = pubchemUrl + "cid/" + pubchemID + "/xrefs/registryID/json";
-        String pubchemResponse = executeRequest(searchURL, "GET", "");
+        String pubchemResponse = GenericCompoundWSClients.executeRequest(searchURL, "GET", "");
         if (pubchemResponse == null) return "";
         try {
             JSONObject result = new JSONObject(pubchemResponse);
@@ -168,51 +172,7 @@ public class PubChemSearch implements Serializable, Cloneable, Callable<Collecti
     }
 
 
-    private String executeRequest(String requestURL, String method, String postBody) {
-        HttpURLConnection connection = null;
-        try {
-            //Create connection
-            //String encodedUrl = URLEncoder.encode(requestURL, "UTF-8");
 
-            URL url = new URL(requestURL);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod(method);      // "GET"
-            connection.setRequestProperty("Content-Type",
-                    "application/x-www-form-urlencoded");
-            connection.setRequestProperty("Content-Language", "en-US");
-            connection.setDoOutput(true);
-
-            if (method.equalsIgnoreCase("post")) {
-                if (!postBody.isEmpty()) {
-                    OutputStream os = connection.getOutputStream();
-                    os.write(postBody.getBytes());
-                    os.flush();
-                }
-            }
-
-            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                throw new RuntimeException("MetaboLights Java WS client: " + connection.getURL().toString() + "(" + method + ") request failed : HTTP error code : "
-                        + connection.getResponseCode());
-            }
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    (connection.getInputStream())));
-
-            String message = org.apache.commons.io.IOUtils.toString(br);
-
-            connection.disconnect();
-
-            return message;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            if (connection != null) {
-                connection.disconnect();
-            }
-        }
-    }
 
 
     public List<CompoundSearchResult> searchAndFillByInChI(String inchi) {

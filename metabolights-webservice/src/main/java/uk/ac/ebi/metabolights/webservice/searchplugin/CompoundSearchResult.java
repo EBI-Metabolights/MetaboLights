@@ -5,6 +5,9 @@ package uk.ac.ebi.metabolights.webservice.searchplugin;
  */
 public class CompoundSearchResult {
 
+    public CompoundSearchResult(SearchResource searchResource) {
+        this.setSearchResource(searchResource);
+    }
 
     // The name of this compound
     private String name;
@@ -21,6 +24,8 @@ public class CompoundSearchResult {
 
     // SMILES
     private String smiles;
+
+    private SearchResource searchResource;
 
     public String getSmiles() {
         return smiles;
@@ -60,6 +65,14 @@ public class CompoundSearchResult {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public SearchResource getSearchResource() {
+        return searchResource;
+    }
+
+    public void setSearchResource(SearchResource searchResource) {
+        this.searchResource = searchResource;
     }
 
     public boolean isComplete() {
