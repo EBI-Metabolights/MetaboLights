@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -53,16 +55,18 @@ public class CTSSearch implements Serializable, Cloneable, Callable<Collection<C
         try {
             String inchikey = getInChIKeyFrom(compoundName);
             CompoundSearchResult compoundSearchResult = getFullCompoundUsing(inchikey);
+            compoundSearchResult.setName(compoundName);
+            compoundSearchResult.setSmiles(getSMILESFromCactusFor(inchikey));
             searchResult.add(compoundSearchResult);
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         return searchResult;
     }
 
-    public String getInChIKeyFrom(String compoundName) throws JSONException {
-        String getURL = "http://cts.fiehnlab.ucdavis.edu/service/convert/Chemical%20Name/InChIKey/" + compoundName;
+    public String getInChIKeyFrom(String compoundName) throws Exception {
+        String getURL = "http://cts.fiehnlab.ucdavis.edu/service/convert/Chemical%20Name/InChIKey/" + encoded(compoundName);
         String response = GenericCompoundWSClients.executeRequest(getURL, "GET", "");
         JSONArray result = new JSONArray(response);
         String inchiKey = "";
@@ -80,12 +84,13 @@ public class CTSSearch implements Serializable, Cloneable, Callable<Collection<C
     public CompoundSearchResult getFullCompoundUsing(String inchiKey) throws JSONException {
         String getURL = "http://cts.fiehnlab.ucdavis.edu/service/compound/" + inchiKey;
         String response = GenericCompoundWSClients.executeRequest(getURL, "GET", "");
-        return fill(new JSONObject(response));
+        return fill(response);
     }
 
-    private CompoundSearchResult fill(JSONObject searchResult) throws JSONException {
+    private CompoundSearchResult fill(String response) throws JSONException {
         CompoundSearchResult compoundSearchResult = new CompoundSearchResult(SearchResource.CTS);
-        if (empty(searchResult)) return compoundSearchResult;
+        if (empty(response)) return compoundSearchResult;
+        JSONObject searchResult = new JSONObject(response);
         compoundSearchResult.setFormula(getFormula(searchResult));
         compoundSearchResult.setInchi(getInChICode(searchResult));
         List<String> chebiIDs = extractExternalIDs("ChEBI", searchResult);
@@ -95,9 +100,15 @@ public class CTSSearch implements Serializable, Cloneable, Callable<Collection<C
         return compoundSearchResult;
     }
 
-    private boolean empty(JSONObject searchResult) throws JSONException {
-        JSONArray result = searchResult.getJSONArray("result");
-        return result.length() == 0;
+    private boolean empty(String response) {
+
+        try {
+            JSONObject object = new JSONObject(response);
+            return false;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return true;
+        }
     }
 
     private String getInChICode(JSONObject searchResult) throws JSONException {
@@ -124,8 +135,15 @@ public class CTSSearch implements Serializable, Cloneable, Callable<Collection<C
         return externalResourceIDs;
     }
 
-    public List<String> getSynonymsFrom(String inchiKey) {
+    public List<String> getSynonymsFor(String inchiKey) {
         String getURL = " http://cts.fiehnlab.ucdavis.edu/service/synonyms/" + inchiKey;
+        String response = GenericCompoundWSClients.executeRequest(getURL, "GET", "");
+        //TODO extract result from json
+        return null;
+    }
+
+    public List<String> getSynonymsFromCactusFor(String inchiKey) {
+        String getURL = " https://cactus.nci.nih.gov/chemical/structure/" + inchiKey + "/names";
         String response = GenericCompoundWSClients.executeRequest(getURL, "GET", "");
         //TODO extract result from json
         return null;
@@ -151,10 +169,26 @@ public class CTSSearch implements Serializable, Cloneable, Callable<Collection<C
         return pubchemIDs;
     }
 
+    public String getSMILESFromCactusFor(String inchiKey) {
+        String getURL = "https://cactus.nci.nih.gov/chemical/structure/" + inchiKey + "/smiles";
+        String response = GenericCompoundWSClients.executeRequest(getURL, "GET", "");
+        return parseSmilesFrom(response);
+    }
+
+    private String parseSmilesFrom(String response){
+        if(response==null) return null;
+        String lines[] = response.split("\\r?\\n");
+        return lines[0];
+    }
+
 
     @Override
     public Collection<CompoundSearchResult> call() throws Exception {
         return null;
+    }
+
+    private String encoded(String searchTerm) throws UnsupportedEncodingException {
+        return URLEncoder.encode(searchTerm, "UTF-8");
     }
 
 }
