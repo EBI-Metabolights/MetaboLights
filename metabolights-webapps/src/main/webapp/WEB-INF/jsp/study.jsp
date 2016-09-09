@@ -1031,6 +1031,8 @@
                                 </script>
 
 
+
+
                                 <div style="position: relative; width: 100%;">
                                     <div style="float: left; padding: 10px;">
                                         <input name="btnSubmit" type="submit" class="submit"
@@ -1122,13 +1124,16 @@
                                                 <table id="privFtpFiles"
                                                        class="ftpFiles table table-striped table-bordered">
                                                     <tr>
-                                                        <th>Select</th>
+                                                        <th><label>
+                                                            <input type="checkbox" name="ftpCheckAll" id="ftpCheckAll">&emsp;Select All
+                                                            </label>
+                                                        </th>
                                                         <th>File</th>
                                                     </tr>
                                                     <tbody>
                                                     <c:forEach var="ftpFile" items="${ftpFiles}">
                                                         <tr>
-                                                            <td><input type="checkbox" class="asperaMultipleFiles"
+                                                            <td><input type="checkbox" class="ml--ftpfile"
                                                                        name="ftpFile" value="${ftpFile.name}"/></td>
                                                             <td>
                                                                     ${ftpFile.name}
@@ -1214,6 +1219,16 @@
                             </c:if>
                             <!-- private FTP files -->
                         </c:if>
+
+                        <script>
+                            $("#ftpCheckAll").click(function () {
+                                if ($("#ftpCheckAll").is(':checked')) {
+                                    $(".ml--ftpfile").prop("checked", true);
+                                } else {
+                                    $(".ml--ftpfile").prop("checked", false);
+                                }
+                            });
+                        </script>
                     </div>
 
                 </div>

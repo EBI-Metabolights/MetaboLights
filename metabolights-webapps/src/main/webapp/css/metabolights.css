@@ -483,3 +483,108 @@ a:link.btn-ok{
 .ml-loginpanelbody{
     padding: 25px 20px 10px 20px;
 }
+
+#filterForm{
+    padding-left: 0;
+}
+
+.sub-heading{
+    padding: 7px 10px 5px 10px;
+    background-color: #D6D6D6;
+    font-weight: lighter;
+    margin-bottom: 10px;
+}
+
+.sub-heading h4{
+    font-weight: normal;
+    margin: 5px 0 5px 0;
+}
+
+.category-heading{
+    font-style: italic;
+    font-weight: lighter;
+    padding: 7px 10px 5px 10px;
+    background-color: #D6D6D6;
+    margin-bottom: 0;
+}
+
+.ui-widget{
+    margin-bottom: 10px;
+}
+
+.grey{
+    background-color: #F1F1F4;
+    padding: 10px 10px;
+}
+
+.ssh{
+    padding: 5px 10px;
+    font-style: italic;
+    font-weight: lighter;
+    margin-bottom: 0;
+}
+
+.ml-pagination{
+    margin: 0;
+}
+
+.ml-compoundbox{
+    background-color: #F1F1F4;
+    padding: 20px 10px;
+    margin-bottom: 10px;
+}
+
+.nbr{
+    border-radius: 0;
+}
+
+.icon2-biggerFonts {
+    color: #000000;
+    font-size: 114% !important;
+}
+
+.ml-compoundbox-heading{
+    font-size: 1.6em;
+    margin: 10px 0 5px 0;
+    text-transform: capitalize;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #d6d6d6;
+}
+
+.label {
+    text-shadow: none !important;
+}
+
+.compound-thumbnail{
+    margin-top: 10px;
+    padding: 10px;
+    background-color: white;
+    border: 1px solid #D6D6D6;
+}
+
+.compound-label{
+    font-weight: normal;
+    font-size: 0.7em;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+.ml-studybox{
+    background-color: #F1F1F4;
+    padding: 0px;
+    margin-bottom: 20px;
+}
+
+.ml-study-heading{
+    background-color: #D6D6D6;
+    padding: 10px 20px;
+    font-size: 1.3em;
+}
+
+.ml-study-content{
+    padding: 10px 10px;
+}
+
+.ml-study-content .row{
+    margin-bottom: 5px;
+}

@@ -83,15 +83,15 @@ facets[].facet.lines[].FacetLine.checked
 
 
 </script>
+<div class="row">
+    <form name="searchFilter" id="filterForm" action="${action}" method="post" accept-charset="utf-8">
+        <div  class="sub-heading">
+            <h4><spring:message code="label.searchFilter"/></h4>
+        </div>
 
-<form name="searchFilter" id="filterForm" action="${action}" method="post" accept-charset="utf-8">
+        <c:forEach varStatus="loop"  var="facet" items="${facets}">
 
-    <h3><spring:message code="label.searchFilter"/></h3>
-
-
-    <c:forEach var="facet" items="${facets}">
-
-        <c:if test="${facet.name ne 'factors.name'
+            <c:if test="${facet.name ne 'factors.name'
         && facet.name ne 'users.fullName'
         &&  facet.name ne 'descriptors.description'
         &&  facet.name ne 'compound.hasSpecies'
@@ -101,102 +101,112 @@ facets[].facet.lines[].FacetLine.checked
         &&  facet.name ne 'compound.hasMS'
         }">
 
-        <%--<c:if test="${facet.name ne 'factors.name'--%>
-				<%--&& facet.name ne 'users.fullName'--%>
-				<%--&&  facet.name ne 'descriptors.description'--%>
-				<%--&&  facet.name ne 'compound.hasSpecies'--%>
-					<%--&&  facet.name ne 'compound.hasPathways'--%>
-					<%--&&  facet.name ne 'compound.hasReactions'--%>
-					<%--&&  facet.name ne 'compound.hasNMR'--%>
-					<%--&&  facet.name ne 'compound.hasMS'--%>
-				<%--}">--%>
-            <%--&lt;%&ndash;&&  facet.name ne 'compound.hasSpecies'&ndash;%&gt;--%>
-            <%--&lt;%&ndash;&&  facet.name ne 'compound.hasPathways'&ndash;%&gt;--%>
-            <%--&lt;%&ndash;&&  facet.name ne 'compound.hasReactions'&ndash;%&gt;--%>
-            <%--&lt;%&ndash;&&  facet.name ne 'compound.hasNMR'&ndash;%&gt;--%>
-            <%--&lt;%&ndash;&&  facet.name ne 'compound.hasMS'&ndash;%&gt;--%>
+                <%--<c:if test="${facet.name ne 'factors.name'--%>
+                <%--&& facet.name ne 'users.fullName'--%>
+                <%--&&  facet.name ne 'descriptors.description'--%>
+                <%--&&  facet.name ne 'compound.hasSpecies'--%>
+                <%--&&  facet.name ne 'compound.hasPathways'--%>
+                <%--&&  facet.name ne 'compound.hasReactions'--%>
+                <%--&&  facet.name ne 'compound.hasNMR'--%>
+                <%--&&  facet.name ne 'compound.hasMS'--%>
+                <%--}">--%>
+                <%--&lt;%&ndash;&&  facet.name ne 'compound.hasSpecies'&ndash;%&gt;--%>
+                <%--&lt;%&ndash;&&  facet.name ne 'compound.hasPathways'&ndash;%&gt;--%>
+                <%--&lt;%&ndash;&&  facet.name ne 'compound.hasReactions'&ndash;%&gt;--%>
+                <%--&lt;%&ndash;&&  facet.name ne 'compound.hasNMR'&ndash;%&gt;--%>
+                <%--&lt;%&ndash;&&  facet.name ne 'compound.hasMS'&ndash;%&gt;--%>
 
 
-            <c:if test="${fn:length(facet.lines) gt 1}">
-                <c:set var="caption">
-                    <c:choose>
-                        <c:when test="${facet.name=='ObjectType'}"><spring:message code="label.entrytype"/></c:when>
-                        <c:when test="${facet.name=='assays.technology'}"><spring:message
-                                code="label.technology"/></c:when>
-                        <c:when test="${facet.name=='studyStatus'}"><spring:message code="label.facetStatus"/></c:when>
-                        <c:when test="${facet.name=='organism.organismName'}"><spring:message
-                                code="label.organism"/></c:when>
-                        <%--<c:when test="${facet.name=='users.fullName'}"><spring:message code="label.subm"/></c:when>--%>
-                        <%--<c:when test="${facet.name=='factors.name'}"><spring:message code="label.factor"/></c:when>--%>
-                        <%--<c:when test="${facet.name=='descriptors.description'}"><spring:message code="label.descriptors"/></c:when>--%>
-                        <c:when test="${facet.name=='organism.organismPart'}"><spring:message
-                                code="label.organismPart"/></c:when>
-                        <c:when test="${facet.name=='validations.status'}"><spring:message
-                                code="label.validationsStatus"/></c:when>
-                        <c:when test="${facet.name=='validations.entries.statusExt'}"><spring:message
-                                code="label.validationsEntriesStatusExt"/></c:when>
-                        <%--<c:when test="${facet.name=='compound.hasSpecies'}"><spring:message code="label.FilterSpecies"/></c:when>--%>
-                        <%--<c:when test="${facet.name=='compound.hasPathways'}"><spring:message--%>
-                        <%--code="label.FilterPathways"/></c:when>--%>
-                        <%--<c:when test="${facet.name=='compound.hasReactions'}"><spring:message--%>
-                        <%--code="label.FilterReactions"/></c:when>--%>
-                        <%--<c:when test="${facet.name=='compound.hasNMR'}"><spring:message--%>
-                        <%--code="label.FilterNMR"/></c:when>--%>
-                        <%--<c:when test="${facet.name=='compound.hasMS'}"><spring:message code="label.FilterMS"/></c:when>--%>
-                        <c:otherwise>${facet.name}</c:otherwise>
-                    </c:choose>
-                </c:set>
-                <h4>${caption}</h4>
-                <c:if test="${fn:length(facet.lines) gt 5}">
-                    <div class="ui-widget">
-                        <input
-                                class="inputDiscrete resizable"
-                                id="autocomplete_${facet.name}"
-                                placeholder="Find your ${caption}"
-                        />
-                        <script>var availableTags = new Array();</script>
+                <c:if test="${fn:length(facet.lines) gt 1}">
+                    <c:set var="caption">
+                        <c:choose>
+                            <c:when test="${facet.name=='ObjectType'}"><spring:message code="label.entrytype"/></c:when>
+                            <c:when test="${facet.name=='assays.technology'}"><spring:message
+                                    code="label.technology"/></c:when>
+                            <c:when test="${facet.name=='studyStatus'}"><spring:message code="label.facetStatus"/></c:when>
+                            <c:when test="${facet.name=='organism.organismName'}"><spring:message
+                                    code="label.organism"/></c:when>
+                            <%--<c:when test="${facet.name=='users.fullName'}"><spring:message code="label.subm"/></c:when>--%>
+                            <%--<c:when test="${facet.name=='factors.name'}"><spring:message code="label.factor"/></c:when>--%>
+                            <%--<c:when test="${facet.name=='descriptors.description'}"><spring:message code="label.descriptors"/></c:when>--%>
+                            <c:when test="${facet.name=='organism.organismPart'}"><spring:message
+                                    code="label.organismPart"/></c:when>
+                            <c:when test="${facet.name=='validations.status'}"><spring:message
+                                    code="label.validationsStatus"/></c:when>
+                            <c:when test="${facet.name=='validations.entries.statusExt'}"><spring:message
+                                    code="label.validationsEntriesStatusExt"/></c:when>
+                            <%--<c:when test="${facet.name=='compound.hasSpecies'}"><spring:message code="label.FilterSpecies"/></c:when>--%>
+                            <%--<c:when test="${facet.name=='compound.hasPathways'}"><spring:message--%>
+                            <%--code="label.FilterPathways"/></c:when>--%>
+                            <%--<c:when test="${facet.name=='compound.hasReactions'}"><spring:message--%>
+                            <%--code="label.FilterReactions"/></c:when>--%>
+                            <%--<c:when test="${facet.name=='compound.hasNMR'}"><spring:message--%>
+                            <%--code="label.FilterNMR"/></c:when>--%>
+                            <%--<c:when test="${facet.name=='compound.hasMS'}"><spring:message code="label.FilterMS"/></c:when>--%>
+                            <c:otherwise>${facet.name}</c:otherwise>
+                        </c:choose>
+                    </c:set>
+                    <h5 class="category-heading">
+                        <a data-toggle="collapse" href="#filter_${loop.index}" aria-expanded="false" aria-controls="filter_${loop.index}">
+                            ${caption}
+                            <span class="pull-right">
+                                <i class="fa fa-arrow-down"></i>
+                            </span>
+                        </a>
+                    </h5>
+                    <div class="grey collapse" id="filter_${loop.index}" >
+                        <c:if test="${fn:length(facet.lines) gt 5}">
+                            <div class="ui-widget">
+                                <input
+                                        class="inputDiscrete resizable form-control input-sm"
+                                        id="autocomplete_${facet.name}"
+                                        placeholder="Find ${caption}"
+                                />
+                            </div>
+                            <script>var availableTags = new Array();</script>
+                        </c:if>
+
+                        <ul class="filterset" id="${facet.name}">
+                            <c:forEach var="times" begin="0" end="1" step="1">
+                                <c:set var="checkedItems" value="0"/>
+                                <c:forEach var="line" items="${facet.lines}">
+                                    <c:if test='${(line.checked and (times == 0)) or (!line.checked and (times == 1))}'>
+                                        <c:if test='${(line.checked and (times == 0))}'>
+                                            <c:set var="checkedItems" value="${checkedItems + 1}"/>
+                                        </c:if>
+                                        <input type="checkbox"
+                                               name="${facet.name}"
+                                               value="${line.value}"
+                                               <c:if test='${line.checked}'>CHECKED</c:if>
+                                               onclick="this.form.submit();">
+
+                                        <c:if test="${line.count<1}"><span class="dimmed">${line.value}</span> </c:if>
+                                        <c:if test="${line.count>0}">${line.value}</c:if>
+                                        <c:if test="${line.value=='compound' && facet.name=='ObjectType'}">
+                                            <c:if test='${line.checked}'>
+                                                <br/>
+                                                <%@include file="compoundFilter.jsp" %>
+                                            </c:if>
+                                        </c:if>
+                                        <br/>
+                                        <c:if test="${fn:length(facet.lines) gt 5}">
+                                            <script>availableTags.push("${line.value}")</script>
+                                        </c:if>
+                                    </c:if>
+                                </c:forEach>
+                            </c:forEach>
+                            <c:if test="${fn:length(facet.lines) gt 5}">
+                                <script>fillAutocomplete('autocomplete_${facet.name}', availableTags);</script>
+                            </c:if>
+                        </ul>
                     </div>
                 </c:if>
-
-                <ul class="filterset" id="${facet.name}">
-                    <c:forEach var="times" begin="0" end="1" step="1">
-                        <c:set var="checkedItems" value="0"/>
-                        <c:forEach var="line" items="${facet.lines}">
-                            <c:if test='${(line.checked and (times == 0)) or (!line.checked and (times == 1))}'>
-                                <c:if test='${(line.checked and (times == 0))}'>
-                                    <c:set var="checkedItems" value="${checkedItems + 1}"/>
-                                </c:if>
-                                <input type="checkbox"
-                                       name="${facet.name}"
-                                       value="${line.value}"
-                                       <c:if test='${line.checked}'>CHECKED</c:if>
-                                       onclick="this.form.submit();">
-
-                                <c:if test="${line.count<1}"><span class="dimmed">${line.value}</span> </c:if>
-                                <c:if test="${line.count>0}">${line.value}</c:if>
-                                <c:if test="${line.value=='compound' && facet.name=='ObjectType'}">
-                                    <br/>
-                                    <c:if test='${line.checked}'>
-                                        <%@include file="compoundFilter2.jsp" %>
-                                    </c:if>
-                                </c:if>
-                                <br/>
-                                <c:if test="${fn:length(facet.lines) gt 5}">
-                                    <script>availableTags.push("${line.value}")</script>
-                                </c:if>
-                            </c:if>
-                        </c:forEach>
-                    </c:forEach>
-                    <c:if test="${fn:length(facet.lines) gt 5}">
-                        <script>fillAutocomplete('autocomplete_${facet.name}', availableTags);</script>
-                    </c:if>
-                </ul>
             </c:if>
-        </c:if>
-    </c:forEach>
+        </c:forEach>
 
-    <input type="hidden" name="freeTextQuery" value="${searchResponse.content.query.text}"/>
-    <input type="hidden" name="pageNumber" value="1"/>
-</form>
+        <input type="hidden" name="freeTextQuery" value="${searchResponse.content.query.text}"/>
+        <input type="hidden" name="pageNumber" value="1"/>
+    </form>
+</div>
 <%--</c:if>--%>
 &nbsp;
