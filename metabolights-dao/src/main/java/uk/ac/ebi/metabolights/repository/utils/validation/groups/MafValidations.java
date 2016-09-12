@@ -34,8 +34,8 @@ public class MafValidations implements IValidationProcess {
         mafIndex_assaysWithMaf_map = new LinkedHashMap<>();
         Collection<Validation> mafValidations = new LinkedList<>();
         int descriptionSize = ProtocolValidations.getMetaboliteIdentificationProtocolDescriptionSize(study);
+        sortAssaysForMAFIn(study);
         if (metaboliteIdentificationProtocolIsPresent(descriptionSize)) {
-            sortAssaysForMAFIn(study);
             if (mafReferenceIsComprehensive()) {
                 mafValidations.add(comprehensiveMafValidation());
             } else if (noMafReferencedIn(study)) {
@@ -57,13 +57,14 @@ public class MafValidations implements IValidationProcess {
                     }
                 }
             }
-            if (!noMafReferencedIn(study)) {
-                if (descriptionSize <= 3) {
-                    mafValidations.add(metaboliteIdentificationProtocolContentValidation());
-                }
-
+          }
+        if (!noMafReferencedIn(study)) {
+            if (descriptionSize <= 3) {
+                mafValidations.add(metaboliteIdentificationProtocolContentValidation());
             }
+
         }
+
         return mafValidations;
     }
 
@@ -312,7 +313,7 @@ public class MafValidations implements IValidationProcess {
         Validation mi_protocol_correct_format_validation = new Validation(DescriptionConstants.MAF_PROTOCOLS, Requirement.MANDATORY, Group.PROTOCOLS);
         mi_protocol_correct_format_validation.setId(ValidationIdentifier.MI_PROTOCOL_CONTENT.getID());
         mi_protocol_correct_format_validation.setPassedRequirement(false);
-        mi_protocol_correct_format_validation.setMessage("Metabolite Assignment File(s) are referenced, but Metabolite Identification protocol is not sufficiently described");
+        mi_protocol_correct_format_validation.setMessage("Metabolite Assignment File(s) are referenced, but Metabolite Identification protocol is either not sufficiently described or absent");
         return mi_protocol_correct_format_validation;
     }
 
