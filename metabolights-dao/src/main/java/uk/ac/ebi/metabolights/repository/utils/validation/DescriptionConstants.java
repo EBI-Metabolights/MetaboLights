@@ -41,6 +41,7 @@ public class DescriptionConstants {
     public static final String PROTOCOLS_MINIMUM = "Minimal Experimental protocol";
     public static final String PROTOCOLS_SAMPLE_COLLECTION = "Sample Collection protocol";
     public static final String PROTOCOLS_TEXT = "Protocols text successfully parsed";
+    public static final String MAF_PROTOCOLS = "Metabolite Identification protocol description";
 
 
     public static final String ASSAYS = "Assay(s)";
