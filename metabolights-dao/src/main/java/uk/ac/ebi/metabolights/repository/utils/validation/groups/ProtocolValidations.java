@@ -121,7 +121,7 @@ public class ProtocolValidations implements IValidationProcess {
     }
 
     public static boolean metaboliteIdentificationProtocolIsPresent(Study study) {
-        return fieldIsPresent(study.getProtocols(), "Metabolite identification");
+        return mafProtocolfieldIsPresent(study.getProtocols(), "Metabolite identification");
     }
 
     public static boolean sampleCollectionProtocolIsPresent(Study study) {
@@ -134,6 +134,21 @@ public class ProtocolValidations implements IValidationProcess {
         }
         for (Protocol protocol : protocols) {
             if (protocol.getName().equalsIgnoreCase(fieldName)) {
+                if (protocol.getDescription().length() > 3) {
+                    return true;
+                }
+            }
+        }
+        return false;
+
+    }
+
+    private static boolean mafProtocolfieldIsPresent(Collection<Protocol> protocols, String fieldName) {
+        if (protocols.isEmpty()) {
+            return false;
+        }
+        for (Protocol protocol : protocols) {
+            if (protocol.getName().toLowerCase().contains(fieldName.toLowerCase())) {
                 if (protocol.getDescription().length() > 3) {
                     return true;
                 }
