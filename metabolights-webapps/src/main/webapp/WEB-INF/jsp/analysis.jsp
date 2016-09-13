@@ -34,9 +34,9 @@
         <div class="col-md-6">
           <div class="panel panel-default">
             <div class="panel-body">
-              <h3><a target="_blank" href="/metabolights/metaboanalyst"><b><img src="${pageContext.request.contextPath}/img/ma-icon.png" style="height:60px;"></b></a></h3>
+              <h3><a target="_blank" href="/metabolights/metaboanalyst"></a></h3>
               <h4 style="font-weight: normal">
-                <b>MetaboAnalyst</b> is a user-friendly, comprehensive web-based analytical pipeline for high-throughput metabolomics studies. Our version of MetaboAnalyst 3.0 is coupled with EBI's in-house R Cloud to faciliate
+                <a href="http://www.ebi.ac.uk/metabolights/metaboanalyst/" target="_blank"><b>MetaboAnalyst</b></a> is a user-friendly, comprehensive web-based analytical pipeline for high-throughput metabolomics studies. Our version of MetaboAnalyst 3.0 is coupled with EBI's in-house R Cloud to faciliate
                 compute intensive data analysis.<br><br><br>
 
               </h4>
@@ -52,9 +52,9 @@
           <div class="col-md-6">
             <div class="panel panel-default">
               <div class="panel-body">
-                <h3><a target="_blank" href="/metabolights/lipidhome"><b><img src="${pageContext.request.contextPath}/img/lh-icon.png" style="height:60px;"></b></a></h3>
+                <h3><a target="_blank" href="/metabolights/lipidhome"></a></h3>
                 <h4 style="font-weight: normal">
-                  <b>LipidHome</b> is a database of theoretical lipid structures derived from a seed set of lipid sub classes and some lipid chemical space constraints agreed upon with experts in the field. Lipids are organised according to a combination of the LIPID MAPS ontology and the recent publication by the LipidomicNet consortium.
+                  <a href="http://www.ebi.ac.uk/metabolights/lipidhome/" target="_blank"><b>LipidHome</b></a> is a database of theoretical lipid structures derived from a seed set of lipid sub classes and some lipid chemical space constraints agreed upon with experts in the field. Lipids are organised according to a combination of the LIPID MAPS ontology and the recent publication by the LipidomicNet consortium.
                 </h4>
               </div>
               <div class="panel-footer">

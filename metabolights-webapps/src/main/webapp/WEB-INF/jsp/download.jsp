@@ -47,7 +47,7 @@
             <p><spring:message code="msg.metabolightsAbout13" /></p>
             <p><spring:message code="msg.metaboLightsAbout16" />&nbsp;<spring:message code="msg.metabolightsAbout8"/></p>
             <p>MetaboLights XML exports can be downloaded using the following links:</p>
-            <p><a class="btn btn-default" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/eb-eye/eb-eye_metabolights_complete.xml" target="_blank">MetaboLights - Complete </a>&emsp;|&emsp;<a class="btn btn-default" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/eb-eye/eb-eye_metabolights.xml" target="_blank">MetaboLights</a></p>
+            <p><a class="btn btn-default" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/eb-eye/eb-eye_metabolights_complete.xml" target="_blank">MetaboLights - Complete </a>&emsp;|&emsp;<a class="btn btn-default" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/eb-eye/eb-eye_metabolights_studies.xml" target="_blank">MetaboLights</a></p>
 
         </div>
     </div>

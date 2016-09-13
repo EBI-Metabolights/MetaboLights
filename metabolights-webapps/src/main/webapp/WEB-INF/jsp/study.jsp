@@ -137,7 +137,6 @@
             <span class="study--id" id="mStudyId">${study.studyIdentifier}:</span>&nbsp;
             ${study.title}
         </h2>
-
         <div class="study--infopanel">
 
             <div class="col-md-5 no--padding">
@@ -634,6 +633,7 @@
                                             </div>
 
                                             <div class="panel-body">
+
                                                 <div id="mafTableWrapper${assay.assayNumber}"
                                                      data-obfuscationCode="${obfuscationCode}"
                                                      data-studyid="${study.studyIdentifier}"
@@ -902,25 +902,25 @@
                                     </c:if>
                                     <!--  Request FTP folder -->
                                     <c:if test="${study.studySize <= 1024000 }">
-                                        &nbsp;|&nbsp;
                                         <a class="noLine" rel="nofollow"
                                            href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/${study.studyIdentifier}${token}"
                                            title="<spring:message code="label.downloadstudy"/>">
                                             <span class="icon icon-functional" data-icon="="/><spring:message
                                                 code="label.downloadstudy"/>
                                         </a>
+                                        &nbsp;|&nbsp;
                                     </c:if>
 
                                     <c:if test="${study.publicStudy}">
-                                        &nbsp;|&nbsp;
                                         <a class="noLine"
                                            href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/${study.studyIdentifier}"
                                            title="<spring:message code="label.viewAllFiles"/>">
                                             <span class="icon icon-generic" data-icon="x"/><spring:message
                                                 code="label.viewAllFiles"/>
                                         </a>
+                                        &nbsp;|&nbsp;
                                     </c:if>
-                                    &nbsp;|&nbsp;
+                                    &nbsp;
                                     <a class="noLine" rel="nofollow"
                                        href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/metadata${token}"
                                        title="<spring:message code="label.downloadstudyMetadata"/>">
@@ -930,6 +930,10 @@
                                     &nbsp;
                                     <c:if test="${study.publicStudy}">
                                         <span id="asperaDownloadWrapper"></span>
+                                    </c:if>
+                                    &nbsp;
+                                    <c:if test="${(study.studyStatus == 'SUBMITTED') and hasPrivateFtpFolder }">
+                                        <span class="pull-right"><i class="fa fa-angle-double-down"></i>&nbsp;<a href="#ftpFolderDetails">FTP folder details</a></span>
                                     </c:if>
 
                                 </h5>
@@ -1105,11 +1109,13 @@
 
 
                             <br/><br/>
+                            <a name="ftpFolderDetails"></a>
                             <!-- private FTP files -->
                             <c:if test="${(study.studyStatus == 'SUBMITTED') and hasPrivateFtpFolder }">
                                 <div class="accordion">
                                     <h5 class="ftpFolder"><span class="icon icon-generic" data-icon="D"/></span>
                                         &nbsp;<spring:message code="label.priavteFtpFolder"/></h5>
+
                                     <div>
                                         <h5><spring:message code="label.ftpFileListTableExplanation"/></h5>
                                         <c:if test="${empty ftpFiles}">&emsp;&emsp;[EMPTY]</c:if>
@@ -1520,10 +1526,9 @@
             wrapperDiv = $('#mafTableWrapper' + id);
             assayid = id;
             studyid = wrapperDiv.attr("data-studyid");
-            var obfuscationCode = null;
             obfuscationCode = wrapperDiv.attr("data-obfuscationCode");
             var mafUrl = "";
-            if (obfuscationCode){
+            if (obfuscationCode != "null"){
                 mafUrl  = "/metabolights/reviewer" + obfuscationCode + "/assay/" + assayid + "/maf";
             }else{
                 mafUrl = "/metabolights/" + studyid + "/assay/" + assayid + "/maf";
@@ -1696,7 +1701,7 @@
             // If the new tab is NMR...
 
             // Adds an input element download button that uses Aspera
-            var downloadButton = $('<a class="pull-left" id="downloadButton"><span class="icon icon-functional" data-icon="="/> Download whole study (FAST)</a>');
+            var downloadButton = $('<a class="pull-left" id="downloadButton"><span class="icon icon-functional" data-icon="="/> Download whole study (FAST) &nbsp;|&nbsp;</a>');
 
             $('#asperaDownloadWrapper').prepend(downloadButton);
 

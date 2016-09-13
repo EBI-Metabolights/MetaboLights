@@ -92,7 +92,7 @@
     </div>
 </div>
 
-<c:if test="${not empty param.message || not empty message}">
+<c:if test="${not empty message}">
     <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -101,8 +101,8 @@
                     <p class="modal-title text-center" id="messageModalLabel">MetaboLights message</p>
                 </div>
                 <div class="modal-body">
-                    <c:if test="${not empty param.message}">
-                        <p><b><c:out value="${param.message}"/></b></p>
+                    <c:if test="${not empty message}">
+                        <p><b><c:out value="${message}"/></b></p>
                     </c:if>
                 </div>
                 <div class="modal-footer">

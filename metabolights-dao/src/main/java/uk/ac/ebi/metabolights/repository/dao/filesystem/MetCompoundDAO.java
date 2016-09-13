@@ -14,15 +14,13 @@ public class MetCompoundDAO {
 
     private final static Logger logger = LoggerFactory.getLogger(MzTabDAO.class.getName());
 
-    private final static String referenceFolderLocation = "/net/isilonP/public/rw/homes/tc_cm01/metabolights/reference";
-
     private final static String ftpCompoundsFolderLocation = "/nfs/ftp/pub/databases/metabolights/compounds";
 
-    public String getCompoundData(String compoundid){
+    public String getCompoundData(String compoundid, String referenceFolderLocation){
 
         String metCompoundData = "";
 
-        String JSONFilePath = getFilePath(compoundid);
+        String JSONFilePath = getFilePath(compoundid, referenceFolderLocation);
 
         if (checkFileExists(JSONFilePath)){
 
@@ -43,11 +41,11 @@ public class MetCompoundDAO {
 
     }
 
-    public String getSpectra(String compoundId, String spectraId){
+    public String getSpectra(String compoundId, String spectraId, String referenceFolderLocation){
 
         String spectraJSON = "";
 
-        String spectraPath = getSpectraFilePath(compoundId, spectraId);
+        String spectraPath = getSpectraFilePath(compoundId, spectraId, referenceFolderLocation);
 
         if (checkFileExists(spectraPath)){
 
@@ -93,14 +91,14 @@ public class MetCompoundDAO {
 
     }
 
-    private String getSpectraFilePath(String compoundId, String spectraId){
+    private String getSpectraFilePath(String compoundId, String spectraId, String referenceFolderLocation){
 
          return referenceFolderLocation + File.separator + compoundId.toUpperCase() + File.separator + compoundId + "_spectrum" + File.separator + spectraId + File.separator + spectraId + ".json";
 
     }
 
 
-    private String getFilePath(String compoundid){
+    private String getFilePath(String compoundid, String referenceFolderLocation){
 
         return referenceFolderLocation + File.separator + compoundid.toUpperCase() + File.separator + compoundid + "_data.json";
 

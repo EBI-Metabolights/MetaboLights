@@ -264,6 +264,8 @@ public class EntryController extends AbstractController {
 
 		if (obfuscationCode != null) {
 			mav.addObject("obfuscationCode", obfuscationCode);
+		}else{
+			mav.addObject("obfuscationCode", "null");
 		}
 
 		mav.addObject("liteStudy", wsClient.searchStudy(study.getStudyIdentifier()));
@@ -358,8 +360,6 @@ public class EntryController extends AbstractController {
 		}
 
 		return false;
-
-
 	}
 
 }

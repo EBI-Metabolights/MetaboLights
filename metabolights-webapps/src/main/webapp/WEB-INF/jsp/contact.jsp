@@ -33,7 +33,8 @@
 		<div class="col-md-6 col-md-offset-3">
 			<div class="ml--loginContainer">
 				<div class="ml-loginpanelhead">
-					<h4><spring:message code="label.contact" /></h4>
+					<h3>Feedback</h3>
+					<h5><spring:message code="label.contact" /></h5>
 				</div>
 				<div class="ml-loginpanelbody">
 					<form:form name="emailForm" action="contactUsAlert" method="post" commandName="contactValidation">

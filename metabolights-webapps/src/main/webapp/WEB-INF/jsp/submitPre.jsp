@@ -23,33 +23,37 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
 
-<h2>
-    	<c:if test="${!empty user}">Hi ${user.firstName}. </c:if>
-    	<spring:message code="msg.submCredentialsShort" />
-    </h2>
-    <br/><br/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
 
-    <div class='grid_9 alpha prefix_2'>
-        <div class="bigbutton maincolorI">
-	        <a href="submittoqueue">
-	            <span class="bigfont"><spring:message code="label.submitNewStudy"/></span><br/>
-		        <span><spring:message code="label.submitNewStudySub"/></span>
-	        </a>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <h3 class="heading text-center"><c:if test="${!empty user}">Hi ${user.firstName}. </c:if><spring:message code="msg.submCredentialsShort" /></h3>
+    </div>
+    <div class="col-md-12">
+        <div>&nbsp;</div>
+        <div class="col-md-4 col-md-offset-1">
+            <div class="bigbutton maincolorI">
+                <a href="submittoqueue">
+                    <span class="bigfont"><spring:message code="label.submitNewStudy"/></span><br/>
+                    <span><spring:message code="label.submitNewStudySub"/></span>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4 col-md-offset-2">
+            <div class="bigbutton seccolorI">
+                <a href="mysubmissions?status=PRIVATE">
+                    <span class="bigfont"><spring:message	code="label.updateOldStudy"/></span></br>
+                    <span><spring:message code="label.updateOldStudySub"/></span>
+                </a>
+            </div>
         </div>
     </div>
-
-    <div class='grid_9 omega prefix_2 sufix_2'>
-    	<div class="bigbutton seccolorI">
-	        <a href="mysubmissions?status=PRIVATE">
-		        <span class="bigfont"><spring:message	code="label.updateOldStudy"/></span></br>
-		    	<span><spring:message code="label.updateOldStudySub"/></span>
-	      	</a>
-      	</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div class="col-md-12">
+        <p class="text-center"><spring:message code="msg.metabolightsAbout11" /></p>
     </div>
-
-    <div class="grid_24 alpha omega">
-        <br/>
-        <br/>
-        <br/>
-        <p><spring:message code="msg.metabolightsAbout11" /></p>
-    </div>
+</div>

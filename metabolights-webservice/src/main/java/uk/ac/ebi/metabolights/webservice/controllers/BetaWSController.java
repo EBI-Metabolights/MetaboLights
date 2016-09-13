@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.MetCompoundDAO;
+import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
 
 /**
  *
@@ -32,7 +33,7 @@ public class BetaWSController extends BasicController {
 
         MetCompoundDAO metCompoundDAO = new MetCompoundDAO();
 
-        return metCompoundDAO.getCompoundData(compoundId);
+        return metCompoundDAO.getCompoundData(compoundId, PropertiesUtil.getProperty("referenceFolderLocation"));
 
     }
 
@@ -43,7 +44,7 @@ public class BetaWSController extends BasicController {
 
         MetCompoundDAO metCompoundDAO = new MetCompoundDAO();
 
-        return metCompoundDAO.getSpectra(compoundId, spectraId);
+        return metCompoundDAO.getSpectra(compoundId, spectraId, PropertiesUtil.getProperty("referenceFolderLocation"));
 
     }
 
