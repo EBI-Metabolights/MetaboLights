@@ -33,8 +33,9 @@ public class MafValidations implements IValidationProcess {
         assaysWithNoMaf = new ArrayList<>();
         mafIndex_assaysWithMaf_map = new LinkedHashMap<>();
         Collection<Validation> mafValidations = new LinkedList<>();
-        if (ProtocolValidations.metaboliteIdentificationProtocolIsPresent(study)) {
-            sortAssaysForMAFIn(study);
+        int descriptionSize = ProtocolValidations.getMetaboliteIdentificationProtocolDescriptionSize(study);
+        sortAssaysForMAFIn(study);
+        if (metaboliteIdentificationProtocolIsPresent(descriptionSize)) {
             if (mafReferenceIsComprehensive()) {
                 mafValidations.add(comprehensiveMafValidation());
             } else if (noMafReferencedIn(study)) {
@@ -56,8 +57,19 @@ public class MafValidations implements IValidationProcess {
                     }
                 }
             }
+          }
+        if (!noMafReferencedIn(study)) {
+            if (descriptionSize <= 3) {
+                mafValidations.add(metaboliteIdentificationProtocolContentValidation());
+            }
+
         }
+
         return mafValidations;
+    }
+
+    private boolean metaboliteIdentificationProtocolIsPresent(int descriptionSize) {
+        return descriptionSize != -1;
     }
 
     private static void sortAssaysForMAFIn(Study study) {
@@ -69,8 +81,7 @@ public class MafValidations implements IValidationProcess {
                 } else {
                     mafIndex_assaysWithMaf_map.put(new Integer(mafIndex), assay);
                 }
-            }
-            else{
+            } else {
                 assaysWithNoMaf.add(assay);
             }
         }
@@ -296,6 +307,14 @@ public class MafValidations implements IValidationProcess {
             message += maf_file_name + " (Assay " + entry.getValue().getAssayNumber() + ");";
         }
         return message;
+    }
+
+    public static Validation metaboliteIdentificationProtocolContentValidation() {
+        Validation mi_protocol_correct_format_validation = new Validation(DescriptionConstants.MAF_PROTOCOLS, Requirement.MANDATORY, Group.PROTOCOLS);
+        mi_protocol_correct_format_validation.setId(ValidationIdentifier.MI_PROTOCOL_CONTENT.getID());
+        mi_protocol_correct_format_validation.setPassedRequirement(false);
+        mi_protocol_correct_format_validation.setMessage("Metabolite Assignment File(s) are referenced, but Metabolite Identification protocol is either not sufficiently described or absent");
+        return mi_protocol_correct_format_validation;
     }
 
 }
