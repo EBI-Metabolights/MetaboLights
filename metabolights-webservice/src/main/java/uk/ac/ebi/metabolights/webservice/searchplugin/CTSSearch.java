@@ -20,12 +20,7 @@ import java.util.concurrent.Callable;
 /**
  * Created by kalai on 06/09/2016.
  */
-@Controller
-@RequestMapping("genericcompoundsearch")
 public class CTSSearch implements Serializable, Cloneable, Callable<Collection<CompoundSearchResult>> {
-
-    public static final String COMPOUND_NAME_MAPPING = "/name";
-
 
     //inchi-key to synonyms: http://cts.fiehnlab.ucdavis.edu/service/synonyms/WQZGKKKJIJFFOK-GASJEMHNSA-N
 
@@ -40,24 +35,20 @@ public class CTSSearch implements Serializable, Cloneable, Callable<Collection<C
 
     //get synonyms from inchikey: http://cts.fiehnlab.ucdavis.edu/service/synonyms/WQZGKKKJIJFFOK-GASJEMHNSA-N
 
-
-    @RequestMapping(value = COMPOUND_NAME_MAPPING + "/{compoundName}")
-    @ResponseBody
-    public RestResponse<List<CompoundSearchResult>> getCompoundByName(@PathVariable("compoundName") final String compoundName) {
-        RestResponse<List<CompoundSearchResult>> response = new RestResponse();
-        List<CompoundSearchResult> searchHits = getSearchHitsForName(compoundName);
-        response.setContent(searchHits);
-        return response;
-    }
-
-    private List<CompoundSearchResult> getSearchHitsForName(String compoundName) {
+    public List<CompoundSearchResult> getSearchHitsForName(String compoundName) {
         List<CompoundSearchResult> searchResult = new ArrayList<>();
         try {
             String inchikey = getInChIKeyFrom(compoundName);
-            CompoundSearchResult compoundSearchResult = getFullCompoundUsing(inchikey);
-            compoundSearchResult.setName(compoundName);
-            compoundSearchResult.setSmiles(getSMILESFromCactusFor(inchikey));
-            searchResult.add(compoundSearchResult);
+            if (!inchikey.isEmpty()) {
+                CompoundSearchResult compoundSearchResult = getFullCompoundUsing(inchikey);
+                if(!compoundSearchResult.isComplete()){
+                    //no smiles because, no matching chebi id is found
+                    compoundSearchResult.setName(compoundName);
+                    compoundSearchResult.setSmiles(getSMILESFromCactusFor(inchikey));
+                }
+                searchResult.add(compoundSearchResult);
+                return searchResult;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -66,7 +57,7 @@ public class CTSSearch implements Serializable, Cloneable, Callable<Collection<C
     }
 
     public String getInChIKeyFrom(String compoundName) throws Exception {
-        String getURL = "http://cts.fiehnlab.ucdavis.edu/service/convert/Chemical%20Name/InChIKey/" + encoded(compoundName);
+        String getURL = "http://cts.fiehnlab.ucdavis.edu/service/convert/Chemical%20Name/InChIKey/" + GenericCompoundWSClients.encoded(compoundName);
         String response = GenericCompoundWSClients.executeRequest(getURL, "GET", "");
         JSONArray result = new JSONArray(response);
         String inchiKey = "";
@@ -89,26 +80,34 @@ public class CTSSearch implements Serializable, Cloneable, Callable<Collection<C
 
     private CompoundSearchResult fill(String response) throws JSONException {
         CompoundSearchResult compoundSearchResult = new CompoundSearchResult(SearchResource.CTS);
-        if (empty(response)) return compoundSearchResult;
-        JSONObject searchResult = new JSONObject(response);
-        compoundSearchResult.setFormula(getFormula(searchResult));
-        compoundSearchResult.setInchi(getInChICode(searchResult));
-        List<String> chebiIDs = extractExternalIDs("ChEBI", searchResult);
-        if (!chebiIDs.isEmpty()) {
-            compoundSearchResult.setChebiId(chebiIDs.get(0));
+        if (isSuccess(response)) {
+            JSONObject searchResult = new JSONObject(response);
+            List<String> chebiIDs = extractExternalIDs("ChEBI", searchResult);
+            if (!chebiIDs.isEmpty()) {
+                String chebiID = chebiIDs.get(0);
+                if (!chebiID.isEmpty()) {
+                    new ChebiSearch().fillWithChebiCompleteEntity(chebiID, compoundSearchResult);
+                }
+
+            } else {
+                compoundSearchResult.setFormula(getFormula(searchResult));
+                compoundSearchResult.setInchi(getInChICode(searchResult));
+            }
         }
         return compoundSearchResult;
     }
 
-    private boolean empty(String response) {
-
-        try {
-            JSONObject object = new JSONObject(response);
-            return false;
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return true;
+    private boolean isSuccess(String response) {
+        if (response != null) {
+            try {
+                JSONObject object = new JSONObject(response);
+                return true;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return false;
+            }
         }
+        return false;
     }
 
     private String getInChICode(JSONObject searchResult) throws JSONException {
@@ -175,8 +174,8 @@ public class CTSSearch implements Serializable, Cloneable, Callable<Collection<C
         return parseSmilesFrom(response);
     }
 
-    private String parseSmilesFrom(String response){
-        if(response==null) return null;
+    private String parseSmilesFrom(String response) {
+        if (response == null) return null;
         String lines[] = response.split("\\r?\\n");
         return lines[0];
     }
@@ -187,8 +186,5 @@ public class CTSSearch implements Serializable, Cloneable, Callable<Collection<C
         return null;
     }
 
-    private String encoded(String searchTerm) throws UnsupportedEncodingException {
-        return URLEncoder.encode(searchTerm, "UTF-8");
-    }
 
 }

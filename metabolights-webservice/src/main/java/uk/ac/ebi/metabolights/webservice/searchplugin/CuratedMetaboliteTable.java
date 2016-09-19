@@ -16,11 +16,11 @@ public class CuratedMetaboliteTable {
     private String curatedMetaboliteListLocation = PropertiesUtil.getProperty("curatedMetaboliteListLocation");
     private List<String[]> curatedMetaboliteList;
 
-     public CuratedMetaboliteTable(){
+    public CuratedMetaboliteTable() {
         this.curatedMetaboliteList = initialiseCuratedList();
     }
 
-    private List<String[]> initialiseCuratedList(){
+    private List<String[]> initialiseCuratedList() {
         TsvParserSettings settings = new TsvParserSettings();
         settings.getFormat().setLineSeparator("\r");
         TsvParser parser = new TsvParser(settings);
@@ -35,33 +35,37 @@ public class CuratedMetaboliteTable {
 
     }
 
-    public String[] getRow(int index){
+    public String[] getRow(int index) {
         return curatedMetaboliteList.get(index);
     }
 
-    public boolean containsInColumn(int index, String value){
-        for(String[] row : curatedMetaboliteList){
-             if(row[index].equalsIgnoreCase(value)){
-                  return true;
-             }
+    public boolean containsInColumn(int index, String value) {
+        for (String[] row : curatedMetaboliteList) {
+            if (row[index].equalsIgnoreCase(value)) {
+                return true;
+            }
         }
         return false;
     }
 
-    public String[] getMatchingRow(int index, String value){
-        for(String[] row : curatedMetaboliteList){
-            if(row[index].contains("|")){
-                String[] split = row[index].split("\\|");
-                for(String s : split ){
-                    if(s.equalsIgnoreCase(value)){
+    public String[] getMatchingRow(int index, String value) {
+        value = value.replaceAll("\\s", "");
+        for (String[] row : curatedMetaboliteList) {
+            try {
+                if (row[index].contains("|")) {
+                    String[] split = row[index].split("\\|");
+                    for (String s : split) {
+                        if (s.replaceAll("\\s", "").replaceAll("\"","").equalsIgnoreCase(value)) {
+                            return row;
+                        }
+                    }
+                } else {
+                    if (row[index].replaceAll("\\s", "").replaceAll("\"","").equalsIgnoreCase(value)) {
                         return row;
                     }
                 }
-            }
-            else{
-                if(row[index].equalsIgnoreCase(value)){
-                    return row;
-                }
+            } catch (Exception e) {
+                continue;
             }
         }
         return new String[0];

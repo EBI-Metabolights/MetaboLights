@@ -8,7 +8,8 @@ public enum CuratedMetabolitesFileColumnIdentifier {
     MOLECULAR_FORMULA(3),
     SMILES(4),
     INCHI(5),
-    COMPOUND_NAME(6);
+    COMPOUND_NAME(6),
+    PRIORITY(7);
     private final int id;
 
     CuratedMetabolitesFileColumnIdentifier(final int columnID) {

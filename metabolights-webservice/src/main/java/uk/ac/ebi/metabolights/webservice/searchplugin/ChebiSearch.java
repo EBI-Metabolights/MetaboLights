@@ -33,7 +33,7 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
         this.searchTerm = searchTerm;
     }
 
-    public ChebiSearch(){
+    public ChebiSearch() {
 
     }
 
@@ -51,13 +51,25 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
         if (compoundSearchResult.getFormula() == null) {
             compoundSearchResult.setFormula(extractFormula(nameMatch, compoundName, CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()));
         }
+        if (!compoundSearchResult.isComplete()) {
+            fillWithMatchedRow(compoundSearchResult, nameMatch);
+        }
         return compoundSearchResult;
+    }
+
+    private void fillWithMatchedRow(CompoundSearchResult compoundSearchResult, String[] matchedRow) {
+        compoundSearchResult.setSmiles(matchedRow[CuratedMetabolitesFileColumnIdentifier.SMILES.getID()]);
+        compoundSearchResult.setInchi(matchedRow[CuratedMetabolitesFileColumnIdentifier.INCHI.getID()]);
+        compoundSearchResult.setChebiId(matchedRow[CuratedMetabolitesFileColumnIdentifier.CHEBI_ID.getID()]);
+        compoundSearchResult.setFormula(matchedRow[CuratedMetabolitesFileColumnIdentifier.MOLECULAR_FORMULA.getID()]);
+        compoundSearchResult.setName(matchedRow[CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()]);
     }
 
     public void fillWithChebiCompleteEntity(String chebiID, CompoundSearchResult compoundSearchResult) {
         try {
-            compoundSearchResult.setChebiId(chebiID);
             Entity chebiEntity = getChebiEntity(chebiID);
+            if (chebiEntity == null) return;
+            compoundSearchResult.setChebiId(chebiID);
             compoundSearchResult.setSmiles(chebiEntity.getSmiles());
             compoundSearchResult.setInchi(chebiEntity.getInchi());
             if (thisChebiResultisValid(chebiEntity.getFormulae())) {
@@ -212,14 +224,15 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
         return this.compoundSearchResult;
     }
 
-    private void doNameSearch(){
+    private void doNameSearch() {
         if (searchFromScratch) {
             searchAndFillByName(this.searchTerm, this.compoundSearchResult);
         } else {
             searchAndFillByName(this.searchTerm, this.rowMatchedFromCuratedFile, compoundSearchResult);
         }
     }
-    private void doInChISearch(){
+
+    private void doInChISearch() {
         if (searchFromScratch) {
             searchAndFillByInChI(this.searchTerm, this.compoundSearchResult);
         } else {
@@ -227,7 +240,7 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
         }
     }
 
-    private void doSMILESSearch(){
+    private void doSMILESSearch() {
         if (searchFromScratch) {
             searchAndFillBySMILES(this.searchTerm, this.compoundSearchResult);
         } else {

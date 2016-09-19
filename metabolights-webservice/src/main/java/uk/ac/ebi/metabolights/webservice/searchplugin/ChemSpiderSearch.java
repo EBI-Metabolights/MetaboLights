@@ -37,7 +37,7 @@ public class ChemSpiderSearch implements Serializable, Cloneable, Callable<Colle
 
     private int[] getChemSpiderID(String name) {
         int[] matchingIDs = get_Search_SimpleSearch_Results(name, this.ChemSpiderToken);
-        if (matchingIDs.length == 0) return new int[0];
+        if (matchingIDs == null || matchingIDs.length == 0) return new int[0];
         return matchingIDs;
     }
 

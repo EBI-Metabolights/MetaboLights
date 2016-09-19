@@ -8,6 +8,7 @@ import javax.xml.namespace.QName;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -20,11 +21,8 @@ public class GenericCompoundWSClients {
     private static Logger logger = LoggerFactory.getLogger(GenericCompoundWSClients.class);
     private static final String chebiWSUrl = "http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl";
     private static final String pubchemWSUrl = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/";
-    private static final String chemSpiderWSUrl = "TODO";
 
     private static ChebiWebServiceClient chebiWS;
-    // todo pubchem client
-    // todo chemspider client
 
 
     public static ChebiWebServiceClient getChebiWS() {
@@ -32,7 +30,7 @@ public class GenericCompoundWSClients {
             try {
                 logger.info("Starting a new instance of the ChEBI ChebiWebServiceClient");
                 chebiWS = new ChebiWebServiceClient(new URL(chebiWSUrl), new QName("http://www.ebi.ac.uk/webservices/chebi", "ChebiWebServiceService"));
-            } catch (MalformedURLException e) {
+            } catch (Exception e) {
                 logger.error("Error instanciating a new ChebiWebServiceClient " + e.getMessage());
             }
         return chebiWS;
@@ -88,6 +86,11 @@ public class GenericCompoundWSClients {
                 connection.disconnect();
             }
         }
+    }
+
+
+    public static String encoded(String searchTerm) throws UnsupportedEncodingException {
+        return URLEncoder.encode(searchTerm, "UTF-8");
     }
 
 

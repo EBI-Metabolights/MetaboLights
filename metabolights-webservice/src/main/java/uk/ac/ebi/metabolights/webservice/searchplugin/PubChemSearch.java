@@ -8,10 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -48,8 +45,8 @@ public class PubChemSearch implements Serializable, Cloneable, Callable<Collecti
 
     //  https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/206/xrefs/registryID/json
 
-    public List<CompoundSearchResult> searchAndFillByName(String name) {
-        String searchURL = pubchemUrl + "name/" + name + "/cids/json";
+    public List<CompoundSearchResult> searchAndFillByName(String name) throws UnsupportedEncodingException {
+        String searchURL = pubchemUrl + "name/" + GenericCompoundWSClients.encoded(name) + "/cids/json";
         List<String> pubchemCIDs = getAllMatchingCIDs(searchURL, "GET", "");
         if (pubchemCIDs.isEmpty()) return this.compoundSearchResults;
         fetchAndFillFullInfo(pubchemCIDs);
