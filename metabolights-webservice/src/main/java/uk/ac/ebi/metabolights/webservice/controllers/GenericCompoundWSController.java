@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.webservice.searchplugin.*;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -76,7 +77,7 @@ public class GenericCompoundWSController {
     @ResponseBody
     public RestResponse<List<CompoundSearchResult>> getCompoundByInChI(@RequestBody String compoundInChI) {
         RestResponse<List<CompoundSearchResult>> response = new RestResponse();
-        List<CompoundSearchResult> searchHits = getSearchHitsForInChI(compoundInChI);
+        List<CompoundSearchResult> searchHits = getSearchHitsForInChI(Utilities.decode(compoundInChI));
         Utilities.sort(searchHits);
         response.setContent(searchHits);
         return response;

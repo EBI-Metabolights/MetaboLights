@@ -1,5 +1,6 @@
 package uk.ac.ebi.metabolights.webservice.searchplugin;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -103,5 +104,16 @@ public class Utilities {
         }
         results.add(searchResult);
         return results;
+    }
+
+    public static String decode(String url){
+        String decoded = null;
+        try {
+            decoded = java.net.URLDecoder.decode(url, "UTF-8");
+            return decoded;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return url;
+        }
     }
 }
