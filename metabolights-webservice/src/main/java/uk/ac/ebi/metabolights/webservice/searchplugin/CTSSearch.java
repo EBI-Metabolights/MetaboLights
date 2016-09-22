@@ -41,7 +41,7 @@ public class CTSSearch implements Serializable, Cloneable, Callable<Collection<C
             String inchikey = getInChIKeyFrom(compoundName);
             if (!inchikey.isEmpty()) {
                 CompoundSearchResult compoundSearchResult = getFullCompoundUsing(inchikey);
-                if(!compoundSearchResult.isComplete()){
+                if (!compoundSearchResult.isComplete()) {
                     //no smiles because, no matching chebi id is found
                     compoundSearchResult.setName(compoundName);
                     compoundSearchResult.setSmiles(getSMILESFromCactusFor(inchikey));
@@ -82,19 +82,53 @@ public class CTSSearch implements Serializable, Cloneable, Callable<Collection<C
         CompoundSearchResult compoundSearchResult = new CompoundSearchResult(SearchResource.CTS);
         if (isSuccess(response)) {
             JSONObject searchResult = new JSONObject(response);
-            List<String> chebiIDs = extractExternalIDs("ChEBI", searchResult);
-            if (!chebiIDs.isEmpty()) {
-                String chebiID = chebiIDs.get(0);
+            List<String> databaseIds = new ArrayList<>();
+
+            if (extractExternalIDs("ChEBI", searchResult, databaseIds)) {
+                String chebiID = databaseIds.get(0);
                 if (!chebiID.isEmpty()) {
                     new ChebiSearch().fillWithChebiCompleteEntity(chebiID, compoundSearchResult);
                 }
-
+            } else if (extractExternalIDs("KEGG", searchResult, databaseIds)) {
+                String keggID = databaseIds.get(0);
+                if (!keggID.isEmpty()) {
+                    compoundSearchResult.setDatabaseId("KEGG:" + keggID);
+                    fillMinimumInfoFromCTS(compoundSearchResult, searchResult);
+                }
+            } else if (extractExternalIDs("Human Metabolome Database", searchResult, databaseIds)) {
+                String hmdbID = databaseIds.get(0);
+                if (!hmdbID.isEmpty()) {
+                    compoundSearchResult.setDatabaseId(hmdbID);
+                    fillMinimumInfoFromCTS(compoundSearchResult, searchResult);
+                }
+            } else if (extractExternalIDs("ChemSpider", searchResult, databaseIds)) {
+                String chemSpiderID = databaseIds.get(0);
+                if (!chemSpiderID.isEmpty()) {
+                    compoundSearchResult.setDatabaseId("ChemSpider:" + chemSpiderID);
+                    fillMinimumInfoFromCTS(compoundSearchResult, searchResult);
+                }
+            } else if (extractExternalIDs("Pubchem CID", searchResult, databaseIds)) {
+                String pubChemID = databaseIds.get(0);
+                if (!pubChemID.isEmpty()) {
+                    compoundSearchResult.setDatabaseId("PubchemCID:" + pubChemID);
+                    fillMinimumInfoFromCTS(compoundSearchResult, searchResult);
+                }
+            } else if (extractExternalIDs("Pubchem SID", searchResult, databaseIds)) {
+                String pubChemID = databaseIds.get(0);
+                if (!pubChemID.isEmpty()) {
+                    compoundSearchResult.setDatabaseId("PubchemSID:" + pubChemID);
+                    fillMinimumInfoFromCTS(compoundSearchResult, searchResult);
+                }
             } else {
-                compoundSearchResult.setFormula(getFormula(searchResult));
-                compoundSearchResult.setInchi(getInChICode(searchResult));
+                fillMinimumInfoFromCTS(compoundSearchResult, searchResult);
             }
         }
         return compoundSearchResult;
+    }
+
+    private void fillMinimumInfoFromCTS(CompoundSearchResult compoundSearchResult, JSONObject searchResult) throws JSONException {
+        compoundSearchResult.setFormula(getFormula(searchResult));
+        compoundSearchResult.setInchi(getInChICode(searchResult));
     }
 
     private boolean isSuccess(String response) {
@@ -120,18 +154,17 @@ public class CTSSearch implements Serializable, Cloneable, Callable<Collection<C
         return formula;
     }
 
-    private List<String> extractExternalIDs(String fromDataResource, JSONObject searchResult) throws JSONException {
+    private boolean extractExternalIDs(String fromDataResource, JSONObject searchResult, List<String> databaseIds) throws JSONException {
         JSONArray externalIDs = searchResult.getJSONArray("externalIds");
-        List<String> externalResourceIDs = new ArrayList<>();
         for (int i = 0; i < externalIDs.length(); i++) {
             JSONObject dataSource = (JSONObject) externalIDs.get(i);
             String sourceName = (String) dataSource.get("name");
             if (sourceName.equalsIgnoreCase(fromDataResource)) {
                 String sourceID = (String) dataSource.get("value");
-                externalResourceIDs.add(sourceID);
+                databaseIds.add(sourceID);
             }
         }
-        return externalResourceIDs;
+        return databaseIds.size() > 0;
     }
 
     public List<String> getSynonymsFor(String inchiKey) {

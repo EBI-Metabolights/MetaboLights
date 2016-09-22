@@ -37,7 +37,7 @@ public class GenericCompoundWSController {
     @ResponseBody
     public RestResponse<List<CompoundSearchResult>> getCompoundByName(@PathVariable("compoundName") final String compoundName) {
         RestResponse<List<CompoundSearchResult>> response = new RestResponse();
-        List<CompoundSearchResult> searchHits = getSearchHitsForName(compoundName);
+        List<CompoundSearchResult> searchHits = getSearchHitsForName(Utilities.decode(compoundName));
         Utilities.sort(searchHits);
         response.setContent(searchHits);
         return response;
@@ -102,11 +102,11 @@ public class GenericCompoundWSController {
         return Utilities.combine(searchResultsFromChebi, chemSpiderResults, pubchemResults);
     }
 
-    @RequestMapping(value = COMPOUND_SMILES_MAPPING, method = RequestMethod.POST)
+    @RequestMapping(value = COMPOUND_SMILES_MAPPING, method = RequestMethod.POST,headers = "content-type=application/x-www-form-urlencoded")
     @ResponseBody
     public RestResponse<List<CompoundSearchResult>> getCompoundBySMILES(@RequestBody String compoundSMILES) {
         RestResponse<List<CompoundSearchResult>> response = new RestResponse();
-        List<CompoundSearchResult> searchHits = getSearchHitsForSMILES(compoundSMILES);
+        List<CompoundSearchResult> searchHits = getSearchHitsForSMILES(Utilities.decode(compoundSMILES));
         Utilities.sort(searchHits);
         response.setContent(searchHits);
         return response;
@@ -143,8 +143,8 @@ public class GenericCompoundWSController {
         List<CompoundSearchResult> searchHits = new ArrayList<>();
         if (databaseId.toLowerCase().contains("chebi")) {
             CompoundSearchResult chebiResult = new CompoundSearchResult(SearchResource.CHEBI);
-            new ChebiSearch().fillWithChebiCompleteEntity(databaseId, chebiResult);
-            if (chebiResult.getChebiId() != null) {
+            new ChebiSearch().fillWithChebiCompleteEntity(Utilities.decode(databaseId), chebiResult);
+            if (chebiResult.getDatabaseId() != null) {
                 searchHits.add(chebiResult);
             } else {
                 response.setMessage("Invalid ChEBI ID");

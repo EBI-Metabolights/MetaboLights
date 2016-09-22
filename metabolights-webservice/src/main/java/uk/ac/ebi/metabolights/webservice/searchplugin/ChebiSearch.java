@@ -60,7 +60,7 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
     private void fillWithMatchedRow(CompoundSearchResult compoundSearchResult, String[] matchedRow) {
         compoundSearchResult.setSmiles(matchedRow[CuratedMetabolitesFileColumnIdentifier.SMILES.getID()]);
         compoundSearchResult.setInchi(matchedRow[CuratedMetabolitesFileColumnIdentifier.INCHI.getID()]);
-        compoundSearchResult.setChebiId(matchedRow[CuratedMetabolitesFileColumnIdentifier.CHEBI_ID.getID()]);
+        compoundSearchResult.setDatabaseId(matchedRow[CuratedMetabolitesFileColumnIdentifier.CHEBI_ID.getID()]);
         compoundSearchResult.setFormula(matchedRow[CuratedMetabolitesFileColumnIdentifier.MOLECULAR_FORMULA.getID()]);
         compoundSearchResult.setName(matchedRow[CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()]);
     }
@@ -69,7 +69,7 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
         try {
             Entity chebiEntity = getChebiEntity(chebiID);
             if (chebiEntity == null) return;
-            compoundSearchResult.setChebiId(chebiID);
+            compoundSearchResult.setDatabaseId(chebiID);
             compoundSearchResult.setSmiles(chebiEntity.getSmiles());
             compoundSearchResult.setInchi(chebiEntity.getInchi());
             if (thisChebiResultisValid(chebiEntity.getFormulae())) {

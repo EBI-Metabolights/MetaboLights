@@ -80,7 +80,7 @@ public class Utilities {
                     values++;
                     if (result.getSmiles() != null) {
                         values++;
-                        if (result.getChebiId() != null) {
+                        if (result.getDatabaseId() != null) {
                             values++;
                         }
                     }
@@ -98,7 +98,7 @@ public class Utilities {
             searchResult.setInchi(curatedMatch[CuratedMetabolitesFileColumnIdentifier.INCHI.getID()].replaceAll("\"", ""));
             searchResult.setSmiles(curatedMatch[CuratedMetabolitesFileColumnIdentifier.SMILES.getID()]);
             searchResult.setFormula(curatedMatch[CuratedMetabolitesFileColumnIdentifier.MOLECULAR_FORMULA.getID()]);
-            searchResult.setChebiId(curatedMatch[CuratedMetabolitesFileColumnIdentifier.CHEBI_ID.getID()]);
+            searchResult.setDatabaseId(curatedMatch[CuratedMetabolitesFileColumnIdentifier.CHEBI_ID.getID()]);
         } catch (Exception e) {
             return results;
         }

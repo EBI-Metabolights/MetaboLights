@@ -96,7 +96,7 @@ public class PubChemSearch implements Serializable, Cloneable, Callable<Collecti
             fillFullInfo(compoundSearchResult, result);
             String chebiID = getChebiID(pubchemID);
             if (!chebiID.isEmpty()) {
-                compoundSearchResult.setChebiId(chebiID);
+                compoundSearchResult.setDatabaseId(chebiID);
             }
         }
         return compoundSearchResult;

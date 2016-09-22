@@ -16,8 +16,8 @@ public class CompoundSearchResult {
     // Standard inchi of the compound
     private String inchi;
 
-    // ChEBI id
-    private String chebiId;
+    // database id
+    private String databaseId;
 
     // Formula
     private String formula;
@@ -43,12 +43,12 @@ public class CompoundSearchResult {
         this.formula = formula;
     }
 
-    public String getChebiId() {
-        return chebiId;
+    public String getDatabaseId() {
+        return databaseId;
     }
 
-    public void setChebiId(String chebiId) {
-        this.chebiId = chebiId;
+    public void setDatabaseId(String databaseId) {
+        this.databaseId = databaseId;
     }
 
     public String getInchi() {
@@ -80,7 +80,7 @@ public class CompoundSearchResult {
             if (getInchi() != null) {
                 if (getFormula() != null) {
                     if (getSmiles() != null) {
-                        if (getChebiId() != null) {
+                        if (getDatabaseId() != null) {
                             return true;
                         }
                     }
