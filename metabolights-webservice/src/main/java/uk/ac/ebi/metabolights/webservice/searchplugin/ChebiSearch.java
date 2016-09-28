@@ -7,7 +7,7 @@ import uk.ac.ebi.chebi.webapps.chebiWS.model.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
+import java.util.concurrent.*;
 
 /**
  * Created by kalai on 28/07/2016.
@@ -83,7 +83,7 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
 
     public CompoundSearchResult searchAndFillByName(String compoundName, CompoundSearchResult compoundSearchResult) {
         try {
-            LiteEntityList entities = getChebiLiteEntityList(compoundName, SearchCategory.CHEBI_NAME);
+            LiteEntityList entities = getChebiLiteEntityList(compoundName, SearchCategory.ALL_NAMES);
             List<LiteEntity> resultList = entities.getListElement();
             if (!resultList.isEmpty()) {
                 String matchingChebiID = getChEBIIDOfExactNameMatch(resultList, compoundName);
@@ -119,7 +119,7 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
                 return liteEntity.getChebiId();
             }
         }
-        return "";
+        return getSynonymMatchFrom(entities, compoundName);
     }
 
 
@@ -245,6 +245,67 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
             searchAndFillBySMILES(this.searchTerm, this.compoundSearchResult);
         } else {
             searchAndFillBySMILES(this.searchTerm, this.rowMatchedFromCuratedFile, compoundSearchResult);
+        }
+    }
+
+
+    private String getSynonymMatchFrom(List<LiteEntity> entities, String compoundName) {
+        ExecutorService executor = Executors.newFixedThreadPool(entities.size());
+        List<Future<Entity>> searchResultsFromChebi = new ArrayList<Future<Entity>>();
+        for (int i = 0; i < entities.size(); i++) {
+            LiteEntity liteEntity = entities.get(i);
+            searchResultsFromChebi.add(executor.submit(new ChebiEntitySearch(liteEntity.getChebiId())));
+        }
+        executor.shutdown();
+        return extractMatchingChebiID(searchResultsFromChebi, compoundName);
+    }
+
+    private String extractMatchingChebiID(List<Future<Entity>> searchResultsFromChebi, String termToMatch) {
+        for (Future<Entity> futureEntity : searchResultsFromChebi) {
+            try {
+                Entity entity = futureEntity.get();
+                List<DataItem> synonyms = entity.getSynonyms();
+                for (DataItem synonym : synonyms) {
+                    if (hit(synonym.getData(),termToMatch)) {
+                        return entity.getChebiId();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                continue;
+            }
+        }
+        return "";
+    }
+
+    private boolean hit(String synonym, String termToMatch) {
+       return removeFewCharactersForConsistency(synonym).equalsIgnoreCase(removeFewCharactersForConsistency(termToMatch));
+    }
+
+    private String removeFewCharactersForConsistency(String term) {
+        String modified = term.replaceAll("-", "");
+        modified = modified.replaceAll(",", "");
+        return modified;
+    }
+
+    private class ChebiEntitySearch implements Serializable, Cloneable, Callable<Entity> {
+
+        public String chebiid;
+
+
+        private ChebiWebServiceClient chebiWS = GenericCompoundWSClients.getChebiWS();
+
+        public ChebiWebServiceClient getChebiWS() {
+            return chebiWS;
+        }
+
+        public ChebiEntitySearch(String chebiid) {
+            this.chebiid = chebiid;
+        }
+
+        @Override
+        public Entity call() throws Exception {
+            return getChebiWS().getCompleteEntity(this.chebiid);
         }
     }
 }

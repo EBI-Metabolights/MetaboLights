@@ -97,10 +97,12 @@ public class ChemSpiderSearch implements Serializable, Cloneable, Callable<Colle
         String inchi = extendedCompoundInfoOutput[index].getInChI();
         String commonName = extendedCompoundInfoOutput[index].getCommonName();
         String molFormula = extendedCompoundInfoOutput[index].getMF();
+        int csid = extendedCompoundInfoOutput[index].getCSID();
         compoundSearchResult.setName(commonName);
         compoundSearchResult.setSmiles(smiles);
         compoundSearchResult.setInchi(inchi);
         compoundSearchResult.setFormula(molFormula);
+        compoundSearchResult.setDatabaseId("CSID " + new Integer(csid).toString());
         return compoundSearchResult;
 
     }

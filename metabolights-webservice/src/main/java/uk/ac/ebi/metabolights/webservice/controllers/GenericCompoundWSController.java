@@ -37,7 +37,7 @@ public class GenericCompoundWSController {
     @ResponseBody
     public RestResponse<List<CompoundSearchResult>> getCompoundByName(@PathVariable("compoundName") final String compoundName) {
         RestResponse<List<CompoundSearchResult>> response = new RestResponse();
-        List<CompoundSearchResult> searchHits = getSearchHitsForName(Utilities.decode(compoundName));
+        List<CompoundSearchResult> searchHits = getSearchHitsFromListAndChebIOnly(Utilities.decode(compoundName));
         Utilities.sort(searchHits);
         response.setContent(searchHits);
         return response;
@@ -51,6 +51,18 @@ public class GenericCompoundWSController {
             return searchHits;
         } else {
             searchHits = new CTSSearch().getSearchHitsForName(compoundName);
+        }
+        return searchHits;
+    }
+
+    private List<CompoundSearchResult> getSearchHitsFromListAndChebIOnly(final String compoundName) {
+        String[] nameMatch = curatedMetaboliteTable.getMatchingRow(CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID(), compoundName);
+        List<CompoundSearchResult> searchHits = new ArrayList<>();
+        if (thereIsAMatchInCuratedList(nameMatch)) {
+            searchHits.add(new ChebiSearch().searchAndFillByName(compoundName, nameMatch, new CompoundSearchResult(SearchResource.CURATED)));
+            return searchHits;
+        } else {
+            searchHits.add(new ChebiSearch().searchAndFillByName(compoundName, new CompoundSearchResult(SearchResource.CHEBI)));
         }
         return searchHits;
     }

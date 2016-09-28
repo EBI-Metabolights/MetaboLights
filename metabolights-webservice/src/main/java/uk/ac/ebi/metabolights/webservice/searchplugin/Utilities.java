@@ -14,8 +14,8 @@ public class Utilities {
 
 
     public static List<CompoundSearchResult> combine(List<Future<CompoundSearchResult>> searchResultsFromChebi,
-                                               Future<Collection<CompoundSearchResult>> chemSpiderResults,
-                                               Future<Collection<CompoundSearchResult>> pubchemResults) {
+                                                     Future<Collection<CompoundSearchResult>> chemSpiderResults,
+                                                     Future<Collection<CompoundSearchResult>> pubchemResults) {
         List<CompoundSearchResult> totalSearchResults = new ArrayList<>();
 
         try {
@@ -82,6 +82,9 @@ public class Utilities {
                         values++;
                         if (result.getDatabaseId() != null) {
                             values++;
+                            if (result.getDatabaseId().toLowerCase().contains("chebi")) {
+                                values++;
+                            }
                         }
                     }
                 }
@@ -106,7 +109,7 @@ public class Utilities {
         return results;
     }
 
-    public static String decode(String url){
+    public static String decode(String url) {
         String decoded = null;
         try {
             decoded = java.net.URLDecoder.decode(url, "UTF-8");
