@@ -88,7 +88,8 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
             if (!resultList.isEmpty()) {
                 String matchingChebiID = getChEBIIDOfExactNameMatch(resultList, compoundName);
                 if (!matchingChebiID.isEmpty()) {
-                    fillWithChebiCompleteEntity(matchingChebiID, compoundSearchResult);
+                    String checkedChebiID = checkForAnionCase(compoundName,matchingChebiID);
+                    fillWithChebiCompleteEntity(checkedChebiID, compoundSearchResult);
                 }
             }
         } catch (ChebiWebServiceFault_Exception e) {
@@ -120,6 +121,67 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
             }
         }
         return getSynonymMatchFrom(entities, compoundName);
+    }
+
+
+    private String getSynonymMatchFrom(List<LiteEntity> entities, String compoundName) {
+        ExecutorService executor = Executors.newFixedThreadPool(entities.size());
+        List<Future<Entity>> searchResultsFromChebi = new ArrayList<Future<Entity>>();
+        for (int i = 0; i < entities.size(); i++) {
+            LiteEntity liteEntity = entities.get(i);
+            searchResultsFromChebi.add(executor.submit(new ChebiEntitySearch(liteEntity.getChebiId())));
+        }
+        executor.shutdown();
+        return extractMatchingChebiID(searchResultsFromChebi, compoundName);
+    }
+
+    private String extractMatchingChebiID(List<Future<Entity>> searchResultsFromChebi, String termToMatch) {
+        for (Future<Entity> futureEntity : searchResultsFromChebi) {
+            try {
+                Entity entity = futureEntity.get();
+                List<DataItem> synonyms = entity.getSynonyms();
+                for (DataItem synonym : synonyms) {
+                    if (hit(synonym.getData(), termToMatch)) {
+                        return entity.getChebiId();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                continue;
+            }
+        }
+        return "";
+    }
+
+    private boolean hit(String synonym, String termToMatch) {
+        return removeFewCharactersForConsistency(synonym).equalsIgnoreCase(removeFewCharactersForConsistency(termToMatch));
+    }
+
+    private String removeFewCharactersForConsistency(String term) {
+        String modified = term.replaceAll("-", "");
+        modified = modified.replaceAll(",", "");
+        return modified;
+    }
+
+    private String checkForAnionCase(String compoundName, String chebiID) throws ChebiWebServiceFault_Exception {
+        if (isAnion(compoundName)) {
+            return getChebiIDofConjugateAcid(chebiID);
+        }
+        return chebiID;
+    }
+
+    private boolean isAnion(String compoundName) {
+        return compoundName.endsWith("ate");
+    }
+
+    private String getChebiIDofConjugateAcid(String anionChebiID) throws ChebiWebServiceFault_Exception {
+        OntologyDataItemList ontologyChildren = getChebiWS().getOntologyChildren(anionChebiID);
+        for (OntologyDataItem dataItem : ontologyChildren.getListElement()) {
+            if (dataItem.getType().equalsIgnoreCase("is conjugate acid of")) {
+                return dataItem.getChebiId();
+            }
+        }
+        return anionChebiID;
     }
 
 
@@ -246,46 +308,6 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
         } else {
             searchAndFillBySMILES(this.searchTerm, this.rowMatchedFromCuratedFile, compoundSearchResult);
         }
-    }
-
-
-    private String getSynonymMatchFrom(List<LiteEntity> entities, String compoundName) {
-        ExecutorService executor = Executors.newFixedThreadPool(entities.size());
-        List<Future<Entity>> searchResultsFromChebi = new ArrayList<Future<Entity>>();
-        for (int i = 0; i < entities.size(); i++) {
-            LiteEntity liteEntity = entities.get(i);
-            searchResultsFromChebi.add(executor.submit(new ChebiEntitySearch(liteEntity.getChebiId())));
-        }
-        executor.shutdown();
-        return extractMatchingChebiID(searchResultsFromChebi, compoundName);
-    }
-
-    private String extractMatchingChebiID(List<Future<Entity>> searchResultsFromChebi, String termToMatch) {
-        for (Future<Entity> futureEntity : searchResultsFromChebi) {
-            try {
-                Entity entity = futureEntity.get();
-                List<DataItem> synonyms = entity.getSynonyms();
-                for (DataItem synonym : synonyms) {
-                    if (hit(synonym.getData(),termToMatch)) {
-                        return entity.getChebiId();
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                continue;
-            }
-        }
-        return "";
-    }
-
-    private boolean hit(String synonym, String termToMatch) {
-       return removeFewCharactersForConsistency(synonym).equalsIgnoreCase(removeFewCharactersForConsistency(termToMatch));
-    }
-
-    private String removeFewCharactersForConsistency(String term) {
-        String modified = term.replaceAll("-", "");
-        modified = modified.replaceAll(",", "");
-        return modified;
     }
 
     private class ChebiEntitySearch implements Serializable, Cloneable, Callable<Entity> {
