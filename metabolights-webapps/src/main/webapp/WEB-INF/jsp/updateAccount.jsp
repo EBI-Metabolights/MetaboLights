@@ -24,64 +24,63 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
 
-<form:form name="mySubmForm" action="mysubmissions">
-    	<h2><spring:message code="menu.myAccountCaps" /></h2>
 
-        <div class="grid_6 prefix_6">
-			<input type="submit" name="submit" class="submit bigfont" value=" <spring:message code="label.viewMySubmissions"/> ">
-			<br/>&nbsp;
-		</div>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
 
-    </form:form>
-	<hr/>
-    <form:form name="accountForm" action="updateAccount" method="post" commandName="metabolightsUser">
-        <form:hidden path="userId" />
-        <form:hidden path="userName" />
-        <form:hidden path="email"/>
-        <form:hidden path="apiToken"/>
-        <form:hidden path="role"/>
-        <sec:authorize ifNotGranted="ROLE_SUPER_USER" >
-        	<form:hidden path="status" />
-        </sec:authorize>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <h3 class="heading"><spring:message code="menu.myAccountCaps" /></h3>
+        <div class="col-md-3">
+            &nbsp;
+        </div>
+        <div class="col-md-6">
+            <div class="ml--loginContainer">
+                <div class="ml-loginpanelhead">
+                    <h3>Update account details</h3>
+                    <p><spring:message code="msg.updateAccount" /></p>
+                </div>
+                <div class="ml-loginpanelbody">
+                    <div class="row">
+                        <form:form name="accountForm" action="updateAccount" method="post" commandName="metabolightsUser">
+                            <form:hidden path="userId" />
+                            <form:hidden path="userName" />
+                            <form:hidden path="email"/>
+                            <form:hidden path="apiToken"/>
+                            <form:hidden path="role"/>
+                            <sec:authorize ifNotGranted="ROLE_SUPER_USER" >
+                                <form:hidden path="status" />
+                            </sec:authorize>
 
-        <div class="grid_24">
-               <strong><spring:message code="msg.updateAccount" /></strong>
-               <br/>&nbsp;
-		</div>
+                            <div class="form-group">
+                                    <label><spring:message code="label.email" /></label>
+                                    <input class="form-control" value="<c:out value="${metabolightsUser.email}" />" disabled/>
+                            </div>
 
-		<div class="grid_24">
-			<div class="grid_6 alpha">
-				<spring:message code="label.email" />:
-			</div>
-			<div class="grid_18 omega">
-				<c:out value="${metabolightsUser.email}" />
-			</div>
-		</div>
+                            <jsp:include page="accountFormFields.jsp" />
 
-        <jsp:include page="accountFormFields.jsp" />
+                            <div class="form-group">
+                                <label><spring:message code="label.apiToken" /></label>
+                                <input class="form-control" value="<c:out value="${metabolightsUser.apiToken}" />" disabled/>
+                            </div>
 
-        <div class="grid_24">
-            <div class="grid_6 alpha">
-                <spring:message code="label.apiToken" />:
-            </div>
-            <div class="grid_18 omega">
-                <c:out value="${metabolightsUser.apiToken}" />
+
+                            <div class="form-group">
+                                    <input name="submit" type="submit" class="btn btn-primary" value="<spring:message code="label.update"/>">
+                                    <input name="cancel" type="button" class="btn btn-default" value="<spring:message code="label.cancel"/>" onclick="location.href='index'">
+                            </div>
+                        </form:form>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <p><strong><spring:message code="msg.starRequired"/></strong></p>
+                </div>
             </div>
         </div>
-
-
-		<div class="grid_24">
-			<div class="grid_18 prefix_6 alpha omega">
-				<input name="submit" type="submit" class="submit" value="<spring:message code="label.update"/>">
-				<input name="cancel" type="button" class="submit cancel" value="<spring:message code="label.cancel"/>" onclick="location.href='index'">
-	         </div>
-		</div>
-
-    	<div class="grid_24 alpha omega">
-			<p><strong><spring:message code="msg.starRequired"/></strong></p>
-		</div>
-
-    </form:form>
+    <div>
+</div>
 
     <script type="text/javascript" language="javascript">
        document.accountForm.firstName.focus();

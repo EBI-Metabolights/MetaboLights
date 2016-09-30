@@ -81,7 +81,9 @@ public class LoginController extends AbstractController{
 	public ModelAndView loggedOut() {
 	    //return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.loggedOut"));
 		//return AppContext.getMAVFactory().getFrontierMav("index","message", PropertyLookup.getMessage("msg.loggedOut"));
-		return new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.loggedOut"));
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("index");
+		mav.addObject("message", PropertyLookup.getMessage("msg.loggedOut"));
+		return mav;
     }
 
 	@RequestMapping(value={"/login"})

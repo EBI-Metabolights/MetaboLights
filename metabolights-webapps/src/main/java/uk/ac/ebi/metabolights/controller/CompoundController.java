@@ -63,20 +63,21 @@ public class CompoundController extends AbstractController {
 
         ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(view);
 
-        // Compound compound = ModelObjectFactory.getCompound(mtblc);
-        RestResponse<Compound> response = EntryController.getMetabolightsWsClient().getCompound(mtblc);
+//        Compound compound = ModelObjectFactory.getCompound(mtblc);
+//        RestResponse<Compound> response = EntryController.getMetabolightsWsClient().getCompound(mtblc);
+//
+//        Compound compound = response.getContent();
+//
+//        if (compound == null)
+//            return printMessage("Couldn't get the requested compound: "+ mtblc, response.getErr().getMessage());
+//
+//        /* We need the species grouped */
+//
+//        WebCompound webCompound = new WebCompound(compound);
 
-        Compound compound = response.getContent();
+        mav.addObject("compound", mtblc);
 
-        if (compound == null)
-            return printMessage("Couldn't get the requested compound: "+ mtblc, response.getErr().getMessage());
-
-        // We need the species grouped
-        WebCompound webCompound = new WebCompound(compound);
-
-
-        mav.addObject("compound", webCompound);
-		mav.addObject("pageTitle", mtblc + " - " + webCompound.getMc().getName());
+		//mav.addObject("pageTitle", mtblc + " - " + webCompound.getMc().getName());
 
         return mav;
 

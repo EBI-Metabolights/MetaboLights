@@ -24,71 +24,95 @@
   ~
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
-<div class="grid_24 alpha omega box">
+<div class="row ml-studybox">
 
-	<div class='grid_24 alpha omega'>
+	<div class="ml-study-heading">
 		<a href="${liteStudy.studyIdentifier}"><strong>${liteStudy.title}</strong></a>
 	</div>
 
-	<div class='grid_20 alpha omega'>
-		<br/>
-		<strong><spring:message code="label.validationsStatus"/>:&nbsp;</strong>
-		<c:if test="${liteStudy.validations.status == 'RED'}">
-			<span class="redTrafficL"/>
-			<span class="offTrafficL"/>
-			<span class="offTrafficL"/>
-		</c:if>
-		<c:if test="${liteStudy.validations.status == 'AMBER'}">
-			<span class="offTrafficL"/>
-			<span class="amberTrafficL"/>
-			<span class="offTrafficL"/>
-		</c:if>
-		<c:if test="${liteStudy.validations.status == 'GREEN'}">
-			<span class="offTrafficL"/>
-			<span class="offTrafficL"/>
-			<span class="greenTrafficL"/>
-		</c:if>
-		<br/>
-		<br/>
+	<div class="ml-study-content">
+		<div class="row">
+			<div class='col-md-3'>
+				<strong><spring:message code="label.validationsStatus"/></strong>
+			</div>
+			<div class='col-md-9'>
+				<c:if test="${liteStudy.validations.status == 'RED'}">
+					<span class="redTrafficL"/>
+					<span class="offTrafficL"/>
+					<span class="offTrafficL"/>
+				</c:if>
+				<c:if test="${liteStudy.validations.status == 'AMBER'}">
+					<span class="offTrafficL"/>
+					<span class="amberTrafficL"/>
+					<span class="offTrafficL"/>
+				</c:if>
+				<c:if test="${liteStudy.validations.status == 'GREEN'}">
+					<span class="offTrafficL"/>
+					<span class="offTrafficL"/>
+					<span class="greenTrafficL"/>
+				</c:if>
+			</div>
+		</div>
+		<div class='row'>
+			<div class='col-md-3'>
+				<strong><spring:message code="label.releaseDate"/>:</strong>
+			</div>
+			<div class='col-md-9'>
+				<fmt:formatDate pattern="dd-MMM-yyyy" value="${liteStudy.studyPublicReleaseDate}"/> &emsp;
+				<c:if test="${!(liteStudy.studyStatus == 'PUBLIC')}">
+					&nbsp;<span class="label label-danger"><i class="fa fa-key"></i></i><strong>&nbsp;<spring:message code="label.expPrivate"/></strong></span>
+				</c:if>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<strong><spring:message code="label.organism" /></strong>
+				<ul id="resultList">
+					<c:forEach var="species" items="${liteStudy.organism}">
+						<li>${species.organismName}</li>
+					</c:forEach>
+				</ul>
+				<strong><spring:message code="label.expFact" /></strong>
+				<ul id="resultList">
+					<c:forEach var="factor" items="${liteStudy.factors}">
+						<li>${factor.name}</li>
+					</c:forEach>
+				</ul>
+			</div>
+			<div class="col-md-6">
+				<br><br>
+				<div class="row">
+					<div class='col-md-5'>
+						<spring:message code="label.expId" />
+					</div>
+					<div class='col-md-7'>
+						<a href="${liteStudy.studyIdentifier}"><strong>${liteStudy.studyIdentifier}</strong></a>
+					</div>
+				</div>
+				<div class="row">
+					<div class='col-md-5'>
+						<spring:message code="label.filesize" />
+					</div>
+					<div class='col-md-7'>
+						<strong>${liteStudy.studyHumanReadable}</strong>
+					</div>
+				</div>
+				<div class="row">
+					<div class='col-md-5'>
+						<spring:message code="label.subm" />
+					</div>
+					<div class='col-md-7'>
+						<ul class="no-bullets" id="resultList">
+							<c:forEach var="owner" items="${liteStudy.users}">
+								<li><a href="search?users.fullName=${owner.fullName}">${owner.fullName}</a>
+									<a href="mailto:${owner.userName}?subject=<spring:message code="msg.emailStudyLinkSubject"/>&nbsp;${liteStudy.studyIdentifier}"><i class="fa fa-envelope-o" aria-hidden="true"></i>
+									</a>
+								</li>
+							</c:forEach>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-
-	<div class='grid_20 alpha omega'>
-		<strong><spring:message code="label.releaseDate"/>:</strong> <fmt:formatDate pattern="dd-MMM-yyyy" value="${liteStudy.studyPublicReleaseDate}"/>
-		<c:if test="${!(liteStudy.studyStatus == 'PUBLIC')}">
-			&nbsp;<div class="ebiicon key"></div><strong>&nbsp;<spring:message code="label.expPrivate"/></strong>
-		</c:if>
-	</div>
-
-	<div class='grid_20 alpha omega'>
-		<br/>
-		<strong><spring:message code="label.organism" /></strong>
-		<ul id="resultList">
-			<c:forEach var="species" items="${liteStudy.organism}">
-				<li>${species.organismName}</li>
-			</c:forEach>
-		</ul>
-	</div>
-
-	<div class='grid_18 alpha'>
-		<strong><spring:message code="label.expFact" /></strong>
-		<ul id="resultList">
-			<c:forEach var="factor" items="${liteStudy.factors}">
-				<li>${factor.name}</li>
-			</c:forEach>
-		</ul>
-	</div>
-
-	<div class='grid_6 omega'>
-		<spring:message code="label.expId" />: <a href="${liteStudy.studyIdentifier}"><strong>${liteStudy.studyIdentifier}</strong></a><br/>
-		<spring:message code="label.filesize" />: <strong>${liteStudy.studyHumanReadable}</strong><br/>
-		<spring:message code="label.subm" />&nbsp;
-		<ul id="resultList">
-			<c:forEach var="owner" items="${liteStudy.users}">
-				<li>
-					<a href="mailto:${owner.userName}?subject=<spring:message code="msg.emailStudyLinkSubject"/>&nbsp;${liteStudy.studyIdentifier}">${owner.fullName}</a>
-				</li>
-			</c:forEach>
-		</ul>
-	</div>
-
 </div>

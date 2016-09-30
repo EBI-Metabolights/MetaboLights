@@ -21,25 +21,32 @@
   ~
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
 
-<h2>MetaboLights Strategic Advisory Board (SAB)</h2>
-        </p>
-        </p>
-<h3>The MetaboLights SAB currently consists of :</h3>
-<ul id="ackn">
-    <li><a href="http://fiehnlab.ucdavis.edu/staff/fiehn">Oliver Fiehn (University of California, Davis) - 2010-now</a></li>
-    <li><a href="http://www.wishartlab.com">David Wishart (University of Alberta) - 2010-now</a></li>
-    <li><a href="https://www.linkedin.com/pub/roy-goodacre/6/316/502">Roy Goodacre (University of Manchester) - 2010-now</a></li>
-    <li><a href="https://www.linkedin.com/profile/view?id=83586589">Thomas Hankemeier (Netherlands Metabolomics Centre) - 2010-now</a></li>
-    <li><a href="https://www.linkedin.com/in/sasansone">Susanna-Assunta Sansone (University of Oxford) - 2010-now</a></li>
-    <li><a href="https://www.linkedin.com/pub/sastia-putri/3a/656/5b6">Sastia Putri (Osaka University) - 2015-now</a></li>
-    <li><a href="https://www6.bordeaux-aquitaine.inra.fr/bfp_eng/Staff/K-M/Moing-Annick">Annick Moing (INRA Bordeaux) - 2015-now</a></li>
-</ul>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <h3 class="heading">MetaboLights Strategic Advisory Board (SAB)</h3>
+        <p>The MetaboLights SAB currently consists of :</p>
+        <ul id="ackn">
+            <li><a target="_blank" href="http://fiehnlab.ucdavis.edu/staff/fiehn">Oliver Fiehn (University of California, Davis) - 2010-now</a></li>
+            <li><a target="_blank" href="http://www.wishartlab.com">David Wishart (University of Alberta) - 2010-now</a></li>
+            <li><a target="_blank" href="https://www.linkedin.com/pub/roy-goodacre/6/316/502">Roy Goodacre (University of Manchester) - 2010-now</a></li>
+            <li><a target="_blank" href="https://www.linkedin.com/profile/view?id=83586589">Thomas Hankemeier (Netherlands Metabolomics Centre) - 2010-now</a></li>
+            <li><a target="_blank" href="https://www.linkedin.com/in/sasansone">Susanna-Assunta Sansone (University of Oxford) - 2010-now</a></li>
+            <li><a target="_blank" href="https://www.linkedin.com/pub/sastia-putri/3a/656/5b6">Sastia Putri (Osaka University) - 2015-now</a></li>
+            <li><a target="_blank" href="https://www6.bordeaux-aquitaine.inra.fr/bfp_eng/Staff/K-M/Moing-Annick">Annick Moing (INRA Bordeaux) - 2015-now</a></li>
+        </ul>
 
-<h3>Alumni:</h3>
-<ul id="ackn">
-    <li><a href="https://www.linkedin.com/pub/mark-seymour/7/a55/42a">Mark Seymour (Syngenta) - 2010-2014</a></li>
-</ul>
+        <h3>Alumni:</h3>
+        <ul id="ackn">
+            <li><a target="_blank" href="https://www.linkedin.com/pub/mark-seymour/7/a55/42a">Mark Seymour (Syngenta) - 2010-2014</a></li>
+        </ul>
+
+    </div>
+</div>
 
 
 

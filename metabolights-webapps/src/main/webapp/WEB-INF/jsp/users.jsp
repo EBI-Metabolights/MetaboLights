@@ -25,7 +25,6 @@
   --%>
 
 <c:if test="${not empty usersMap}">
-	<br/>
     <script type='text/javascript' src='http://www.google.com/jsapi'></script>
    	<script type='text/javascript'>
     		google.load('visualization', '1', {'packages': ['geochart']});
@@ -45,7 +44,6 @@
 	        chart.draw(data, options);
 	    };
     </script>
-
 </c:if>	
 
 <script type="text/javascript">
@@ -60,41 +58,72 @@
     }
  </script>
 
-	<h2>Users</h2>
-	<div style="max-height:300px; overflow: auto">
-		<c:if test="${not empty users}">
-			<table cellpadding="5px" cellspacing="0px">
-				<tr>
-					<th><spring:message code="label.userName"/></th>
-					<th><spring:message code="label.firstName"/></th>
-					<th><spring:message code="label.lastName"/></th>
-					<th><spring:message code="label.affili"/></th>
-					<th><spring:message code="label.country"/></th>
-					<th><spring:message code="label.userStatus"/></th>
-					<th><spring:message code="label.userJoinDate"/></th>
-				</tr>
-				<c:forEach var="user" items="${users}">
-					<tr>
-						<td><a href="userAccount?usrId=${user.userId}">${user.userName}</a></td>
-						<td>${user.firstName}</td>
-						<td>${user.lastName}</td>
-						<td>
-							<c:choose>
-								<c:when test="${not empty user.affiliationUrl}">
-									<a href="http://${user.affiliationUrl}" target="_blank">${user.affiliation}</a>
-								</c:when>
-								<c:otherwise>${user.affiliation}</c:otherwise>
-							</c:choose>
-						</td>
-						<td>${user.country}</td>
-						<td>${user.status}</td>
-						<td><fmt:formatDate pattern="dd-MMM-yyyy" value="${user.joinDate}"/></td>
-					</tr>
-				</c:forEach>
-			</table>
-		</c:if>
-		
+<link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" type="text/css"/>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<br>
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					User Details
+				</div>
+				<div class="panel-body">
+					<c:if test="${not empty users}">
+						<table class="table table-bordered dataTable" cellpadding="5px" cellspacing="0px">
+							<thead>
+							<tr>
+								<th><spring:message code="label.userName"/></th>
+								<th><spring:message code="label.firstName"/></th>
+								<th><spring:message code="label.lastName"/></th>
+								<th><spring:message code="label.affili"/></th>
+								<th><spring:message code="label.country"/></th>
+								<th><spring:message code="label.userStatus"/></th>
+								<th><spring:message code="label.userJoinDate"/></th>
+							</tr>
+							</thead>
+							<c:forEach var="user" items="${users}">
+								<tr>
+									<td><a href="userAccount?usrId=${user.userId}">${user.userName}</a></td>
+									<td>${user.firstName}</td>
+									<td>${user.lastName}</td>
+									<td>
+										<c:choose>
+											<c:when test="${not empty user.affiliationUrl}">
+												<a href="http://${user.affiliationUrl}" target="_blank">${user.affiliation}</a>
+											</c:when>
+											<c:otherwise>${user.affiliation}</c:otherwise>
+										</c:choose>
+									</td>
+									<td>${user.country}</td>
+									<td>${user.status}</td>
+									<td><fmt:formatDate pattern="dd-MMM-yyyy" value="${user.joinDate}"/></td>
+								</tr>
+							</c:forEach>
+						</table>
+					</c:if>
+				</div>
+			</div>
+			<br>
+			<div class="panel panel-danger">
+				<div class="panel-body">
+					<div id="visualization" style="width: 100%; height: 500px;"></div>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div id="visualization" style="width: 900px; height: 500px;">
-		
-	</div>
+</div>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$('.dataTable').DataTable();
+	});
+</script>
+
+

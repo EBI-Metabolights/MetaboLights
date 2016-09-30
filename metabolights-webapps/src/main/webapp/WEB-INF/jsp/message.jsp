@@ -22,20 +22,27 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
 
-<h2>${title}</h2>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
 
-<div class="grid_24 alpha omega">
-  <c:forEach var="line" items="${message}">
-    <p>${line}</p>
-  </c:forEach>
+<div class="container-fluid">
+  <div class="col-md-12">
+    <h3 class="heading">${title}</h3>
+    <div class="col-md-12">
+      <c:forEach var="line" items="${message}">
+        <p>${line}</p>
+      </c:forEach>
 
-  <c:if test="${not empty exception}">
-      <h3>There's been an error:</h3>
-    <p>${exception.message}</p>
-  </c:if>
+      <c:if test="${not empty exception}">
+          <h3>There's been an error:</h3>
+        <p>${exception.message}</p>
+      </c:if>
 
+    </div>
+  </div>
 </div>
-
 
 <script type="text/javascript">
   var oneSecond = 1000;
@@ -68,14 +75,11 @@
   }
 </script>
 
-<div class="grid_24 alpha omega">
-
+<div class="col-md-12">
   <h4 class="well">
     <a class="noLine" rel="nofollow" href="${pageContext.request.contextPath}/${studyId}" title="Go Back to ${studyId}"  >
       <span class="icon icon-functional" data-icon="["/>Go Back to ${studyId}
       <span id="countdown" style="display: none;"/>
     </a>
-
   </h4>
-
 </div>

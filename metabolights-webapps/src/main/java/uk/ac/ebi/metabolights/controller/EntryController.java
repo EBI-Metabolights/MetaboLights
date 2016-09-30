@@ -262,6 +262,20 @@ public class EntryController extends AbstractController {
 
 		mav.addObject("study", study);
 
+		if (obfuscationCode != null) {
+
+			logger.info("adding the parameter obfuscation code " + obfuscationCode);
+
+			mav.addObject("obfuscationCode", obfuscationCode);
+
+		}else{
+
+			logger.info("obfuscation code not found setting the parameter to null");
+
+			mav.addObject("obfuscationCode", "null");
+
+		}
+
 		mav.addObject("liteStudy", wsClient.searchStudy(study.getStudyIdentifier()));
 
 		mav.addObject("studyStatuses", LiteStudy.StudyStatus.values());
@@ -354,8 +368,6 @@ public class EntryController extends AbstractController {
 		}
 
 		return false;
-
-
 	}
 
 }
