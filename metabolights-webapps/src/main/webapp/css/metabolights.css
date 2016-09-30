@@ -588,3 +588,12 @@ a:link.btn-ok{
 .ml-study-content .row{
     margin-bottom: 5px;
 }
+
+.no-bullets{
+    padding: 0 9px 0 0 !important;
+}
+
+.no-bullets li{
+    list-style: none !important;
+    text-indent: 0px !important;
+}

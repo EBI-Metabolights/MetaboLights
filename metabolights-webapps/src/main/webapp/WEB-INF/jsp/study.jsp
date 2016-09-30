@@ -744,6 +744,7 @@
                                             <div class="panel-body">
                                                 <div id="mafTableWrapper${assay.assayNumber}"
                                                      data-studyid="${study.studyIdentifier}"
+                                                     data-obfuscationCode="${obfuscationCode}"
                                                      data-assayid="${assay.assayNumber}">
                                                     <p class="text-center"><span><img
                                                             src="/metabolights/img/beta_loading.gif"></span></p>
@@ -1528,7 +1529,7 @@
             studyid = wrapperDiv.attr("data-studyid");
             obfuscationCode = wrapperDiv.attr("data-obfuscationCode");
             var mafUrl = "";
-            if (obfuscationCode != "null"){
+            if (obfuscationCode != "null" && obfuscationCode){
                 mafUrl  = "/metabolights/reviewer" + obfuscationCode + "/assay/" + assayid + "/maf";
             }else{
                 mafUrl = "/metabolights/" + studyid + "/assay/" + assayid + "/maf";

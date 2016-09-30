@@ -102,10 +102,11 @@
 						<spring:message code="label.subm" />
 					</div>
 					<div class='col-md-7'>
-						<ul id="resultList">
+						<ul class="no-bullets" id="resultList">
 							<c:forEach var="owner" items="${liteStudy.users}">
-								<li>
-									<a href="mailto:${owner.userName}?subject=<spring:message code="msg.emailStudyLinkSubject"/>&nbsp;${liteStudy.studyIdentifier}">${owner.fullName}</a>
+								<li><a href="search?users.fullName=${owner.fullName}">${owner.fullName}</a>
+									<a href="mailto:${owner.userName}?subject=<spring:message code="msg.emailStudyLinkSubject"/>&nbsp;${liteStudy.studyIdentifier}"><i class="fa fa-envelope-o" aria-hidden="true"></i>
+									</a>
 								</li>
 							</c:forEach>
 						</ul>
