@@ -101,10 +101,21 @@ public class ChemSpiderSearch implements Serializable, Cloneable, Callable<Colle
         compoundSearchResult.setName(commonName);
         compoundSearchResult.setSmiles(smiles);
         compoundSearchResult.setInchi(inchi);
-        compoundSearchResult.setFormula(molFormula);
-        compoundSearchResult.setDatabaseId("CSID " + new Integer(csid).toString());
+        compoundSearchResult.setFormula(format(molFormula));
+        compoundSearchResult.setDatabaseId(appendNameSpaceAndConvert(csid));
         return compoundSearchResult;
 
+    }
+
+    private String format(String formula) {
+        String formatted = formula.replaceAll("_", "");
+        formatted = formatted.replaceAll("\\{", "");
+        formatted = formatted.replaceAll("\\}", "");
+        return formatted;
+    }
+
+    private String appendNameSpaceAndConvert(int csid) {
+        return "CSID " + new Integer(csid).toString();
     }
 
     @Override
