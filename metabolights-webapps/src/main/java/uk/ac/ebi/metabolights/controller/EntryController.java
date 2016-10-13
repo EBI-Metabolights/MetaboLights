@@ -309,6 +309,7 @@ public class EntryController extends AbstractController {
 		Calendar calendar = new GregorianCalendar();
 		calendar.setTime(study.getStudyPublicReleaseDate());
 		mav.addObject("releaseYear", calendar.get(Calendar.YEAR));
+		mav.addObject("userOrcidID", user.getOrcId());
 
 		return  mav;
 	}
