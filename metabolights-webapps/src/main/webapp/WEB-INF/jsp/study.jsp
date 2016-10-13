@@ -50,6 +50,8 @@
 <script type="text/javascript"
         src="${pageContext.request.contextPath}/javascript/MetExplore/metExploreViz/metexploreviz.js"
         charset="utf-8"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//ves-ebi-37.ebi.ac.uk:8080/ThorWebTest/resources/js/dataclaiming/ebithor-claiming.0.2.js"></script>
 
 
 <script language="javascript" type="text/javascript">
@@ -89,17 +91,23 @@
 
             }
 
-        });
+        }
+        );
 
         var hash = $.trim( window.location.hash );
 
         if (hash) $('.nav-tabs a[href$="'+hash+'"]').trigger('click');
 
-
     });
+
+
 
 </script>
 
+<script>
+    thorApplicationNamespace.createWorkOrcId('${study.title}', 'data-set', '${releaseYear}', 'http://www.ebi.ac.uk/metabolights/${study.studyIdentifier}', '${study.description}');
+    thorApplicationNamespace.addWorkIdentifier('other-id', '${study.studyIdentifier}');
+</script>
 
 <%--<c:set var="readOnly" value="${!fn:contains(servletPath,study.studyIdentifier)}"/>--%>
 
@@ -133,10 +141,42 @@
 
     <div class="study--wrapper col-md-12">
 
-        <h2 class="study--title">
+        <h2 class="study--title col-md-10">
             <span class="study--id" id="mStudyId">${study.studyIdentifier}:</span>&nbsp;
             ${study.title}
         </h2>
+        <div class="col-md-2">
+            <div class="thor_div_showIf_notSigned">
+                <table>
+                    <tr>
+                        <td>You can <a href="#" class="thor_a_generate_signinLink">sign-in to ORCID</a> to claim your data</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="thor_checkbox_rememberMe_cookie"> Remember
+                            me on this computer</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="thor_div_showIf_signedIn">
+                <table>
+                    <tr>
+                        <td>You have signed in as <label class="thor_label_show_userName" ></label></td>
+                    </tr>
+                    <tr style="display:none" class="thor_div_showIf_datasetNotClaimed">
+                        <td>You can <a href="#" class="thor_a_generate_claimLink">claim ${study.studyIdentifier}</a> into your ORCID.
+                        </td>
+                    </tr>
+                    <tr style="display:none" class="thor_div_showIf_datasetAlreadyClaimed">
+                        <td>You have claimed ${study.studyIdentifier} into your ORCID.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="#" class="thor_a_generate_logoutLink"><i>logout</i></a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
         <div class="study--infopanel">
 
             <div class="col-md-5 no--padding">
@@ -1685,7 +1725,7 @@
 <script>
     $(document).ready(function () {
 
-
+        thorApplicationNamespace.loadClaimingInfo();
         var asperaLoaded = false;
 
         $(function () {

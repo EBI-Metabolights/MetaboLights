@@ -46,6 +46,8 @@ import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * Controller for entry (=study) details.
@@ -304,6 +306,9 @@ public class EntryController extends AbstractController {
 		if(user.isCurator()){
 			mav.addObject("curatorAPIToken", user.getApiToken());
 		}
+		Calendar calendar = new GregorianCalendar();
+		calendar.setTime(study.getStudyPublicReleaseDate());
+		mav.addObject("releaseYear", calendar.get(Calendar.YEAR));
 
 		return  mav;
 	}
