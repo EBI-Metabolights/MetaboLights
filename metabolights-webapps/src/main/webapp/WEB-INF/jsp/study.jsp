@@ -171,19 +171,19 @@
 <div class="container-fluid">
 
     <div class="study--wrapper col-md-12">
+        <h2 class="study--title col-md-9">
+            <span class="study--id" id="mStudyId">${study.studyIdentifier}:</span>&nbsp;
+            ${study.title}
+        </h2>
         <c:choose>
             <c:when test="${not empty userOrcidID}">
-                <h2 class="study--title col-md-10">
-                    <span class="study--id" id="mStudyId">${study.studyIdentifier}:</span>&nbsp;
-                        ${study.title}
-                </h2>
-                <div class="col-md-2">
+               <div class="col-md-3">
                     <div class="thor_div_showIf_notSigned">
-                        <table cellpadding="4">
+                        <table>
                             <tr>
                                 <td class="thor_div_showIf_datasetAlreadyClaimedList">
                                     <button type="button" class="btn btn-info" onclick="getOrcidClaimList()"
-                                            data-toggle="collapse" data-target="#claimants">Existing ORCID claims
+                                            data-toggle="collapse" data-target="#claimants">${study.studyIdentifier} ORCID claims
                                     </button>
                                     <div id="claimants" class="collapse existingClaimants">
                                     </div>
@@ -204,11 +204,11 @@
                     </div>
 
                     <div class="thor_div_showIf_signedIn">
-                        <table cellpadding="4">
+                        <table>
                             <tr>
                                 <td class="thor_div_showIf_datasetAlreadyClaimedList">
                                     <button type="button" class="btn btn-info" onclick="getOrcidClaimList()"
-                                            data-toggle="collapse" data-target="#claimants1">Existing ORCID claims
+                                            data-toggle="collapse" data-target="#claimants1">${study.studyIdentifier} ORCID claims
                                     </button>
                                     <div id="claimants1" class="collapse existingClaimants">
                                     </div>
@@ -238,10 +238,14 @@
                 </div>
             </c:when>
             <c:otherwise>
-                <h2 class="study--title col-md-12">
-                    <span class="study--id" id="mStudyId">${study.studyIdentifier}:</span>&nbsp;
-                        ${study.title}
-                </h2>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-info" onclick="getOrcidClaimList()"
+                            data-toggle="collapse" title="To Claim this study login into MetaboLights and link your ORCID account"
+                            data-target="#claimants2">${study.studyIdentifier} ORCID claims
+                    </button>
+                    <div id="claimants2" class="collapse existingClaimants">
+                    </div>
+                </div>
             </c:otherwise></c:choose>
         <div class="study--infopanel">
 
@@ -350,6 +354,9 @@
                 </div>
                 <button type="button" class="btn btn-default quicklinks files--tab" data-destination="files"><i
                         class="ml--icons fa fa-download pull-left"></i> Download Study files
+                </button>
+                <button type="button" class="btn btn-default"><i
+                        class="ml--icons"></i> Claim ORCID
                 </button>
 
             </div>
