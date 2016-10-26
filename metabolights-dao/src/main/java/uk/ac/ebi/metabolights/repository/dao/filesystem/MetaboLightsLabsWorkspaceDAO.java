@@ -1,8 +1,11 @@
 package uk.ac.ebi.metabolights.repository.dao.filesystem;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ebi.metabolights.repository.model.MLLProject;
+import uk.ac.ebi.metabolights.repository.model.MLLUser;
 import uk.ac.ebi.metabolights.repository.model.MLLWorkSpace;
 import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.repository.utils.FileUtil;
@@ -10,6 +13,9 @@ import uk.ac.ebi.metabolights.repository.utils.FileUtil;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by venkata on 22/08/2016.
@@ -18,37 +24,31 @@ public class MetaboLightsLabsWorkspaceDAO {
 
     private final static Logger logger = LoggerFactory.getLogger(MetaboLightsLabsWorkspaceDAO.class.getName());
 
-    public String getWorkSpaceInfo(User user, String workspaceLocation){
+
+    /**
+     * Returns MLLWorkSpace if the workspace exist
+     * @param user
+     * @param workspaceLocation
+     * @param initialiseWorkspaceFlag
+     * @return
+     */
+    public MLLWorkSpace getWorkSpaceInfo(User user, String workspaceLocation, boolean initialiseWorkspaceFlag){
 
         String workspaceInfoLocation = workspaceLocation + File.separator + "workspace.info";
 
-        String workspaceInfo = null;
+        ObjectMapper mapper = new ObjectMapper();
 
-        if (checkFileExists(workspaceInfoLocation)){
+        MLLWorkSpace mllWorkSpace = null;
 
-            try {
+        if (!checkFileExists(workspaceInfoLocation)){
 
-                workspaceInfo = FileUtil.file2String(workspaceInfoLocation);
+            if (initialiseWorkspaceFlag) {
 
-            } catch (IOException e) {
+                logger.info("Initialising workspace: " + workspaceInfoLocation);
 
-                e.printStackTrace();
+                if (!intialiseWorkspace(user, workspaceLocation)) {
 
-            }
-
-            logger.info("Workspace Info - Found: " + workspaceInfo);
-
-        }else{
-
-            if (intialiseWorkspace(user, workspaceLocation)){
-
-                try {
-
-                    workspaceInfo =  FileUtil.file2String(workspaceInfoLocation);
-
-                } catch (IOException e) {
-
-                    e.printStackTrace();
+                    return null;
 
                 }
 
@@ -56,7 +56,22 @@ public class MetaboLightsLabsWorkspaceDAO {
 
         }
 
-        return workspaceInfo;
+        logger.info("Workspace Found: " + workspaceInfoLocation);
+
+        File json = new File(workspaceInfoLocation);
+
+        try {
+
+            mllWorkSpace = mapper.readValue(json, MLLWorkSpace.class);
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        }
+
+        return mllWorkSpace;
+
     }
 
     private boolean intialiseWorkspace(User user, String workspaceLocation){
@@ -66,7 +81,11 @@ public class MetaboLightsLabsWorkspaceDAO {
         File dir = new File( workspaceLocation );
 
         if (!dir.exists())
-            dir.mkdirs();
+            try {
+                FileUtil.createFolder(workspaceLocation);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         try {
 
@@ -83,19 +102,19 @@ public class MetaboLightsLabsWorkspaceDAO {
 
             MLLWorkSpace mllWorkSpace = new MLLWorkSpace();
 
-            mllWorkSpace.setOwner(user);
+            MLLUser mllUser = new MLLUser(user);
 
-            mllWorkSpace.setProjects(new ArrayList<MLLWorkSpace>());
+            mllWorkSpace.setWorkspaceLocation(workspaceLocation);
+
+            mllWorkSpace.setOwner(mllUser);
+
+            mllWorkSpace.setProjects(new ArrayList<MLLProject>());
 
             mllWorkSpace.setSettings((new JSONObject()).toJSONString());
 
-            JSONObject info = new JSONObject();
+            FileUtil.String2File(mllWorkSpace.getAsJSON(), infoFile, false);
 
-            info.put("owner", mllWorkSpace.getOwner());
-
-            info.put("projects", mllWorkSpace.getProjects());
-
-            FileUtil.String2File(info.toJSONString(), infoFile, false);
+            return true;
 
 
         } catch (IOException e) {
@@ -106,6 +125,50 @@ public class MetaboLightsLabsWorkspaceDAO {
 
         return false;
 
+    }
+
+    public boolean isProjectExist(String workspaceLocation, String projectId){
+
+        String infoFile = workspaceLocation + File.separator + "workspace.info";
+
+        if (checkFileExists(infoFile)) {
+
+            return false;
+
+        }
+
+        MLLWorkSpace mllWorkSpace = null;
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        File json = new File(infoFile);
+
+        try {
+
+            mllWorkSpace = mapper.readValue(json, MLLWorkSpace.class);
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        }
+
+        return isProjectExist(mllWorkSpace, projectId);
+    }
+
+    public boolean isProjectExist(MLLWorkSpace mllWorkSpace, String projectId){
+
+        List<MLLProject> mllProjects = mllWorkSpace.getProjects();
+
+
+        for (MLLProject mllProject: mllProjects ){
+
+            if (mllProject.getId().equals(projectId))
+                return true;
+
+        }
+
+        return false;
     }
 
     private Boolean checkFileExists(String fileName){

@@ -63,7 +63,13 @@
 
                             <div class="form-group">
                                 <label><spring:message code="label.apiToken" /></label>
-                                <input class="form-control" value="<c:out value="${metabolightsUser.apiToken}" />" disabled/>
+                                <div class="input-group">
+                                    <input class="form-control" value="<c:out value="${metabolightsUser.apiToken}" />" disabled/>
+                                    <span class="input-group-btn">
+                                        <a data-clipboard-text="<c:out value="${metabolightsUser.apiToken}" />"  target="_blank" class="btn btn-default ml--clipboard" data-clipboard-text="{{ mtblc.structure }}"><i class="fa fa-clipboard" aria-hidden="true"></i></a>
+                                        </button>
+                                    </span>
+                                </div>
                             </div>
 
 
@@ -82,6 +88,10 @@
     <div>
 </div>
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+        <script src="${pageContext.request.contextPath}/javascript/Notifier.js"></script>
+
     <script type="text/javascript" language="javascript">
        document.accountForm.firstName.focus();
     </script>
@@ -90,3 +100,16 @@
         <span class="error"> <c:out value="${message}" /> </span>
         <br/>
     </c:if>
+<script>
+        var clipboard = new Clipboard('.ml--clipboard');
+        console.log(clipboard);
+        clipboard.on('success', function(e) {
+            Notifier.success("Successful", e.trigger.id + " Copied to clipboard!");
+        });
+
+        clipboard.on('error', function(e) {
+            alert();
+            console.error('Action:', e.action);
+            console.error('Trigger:', e.trigger);
+        });
+</script>

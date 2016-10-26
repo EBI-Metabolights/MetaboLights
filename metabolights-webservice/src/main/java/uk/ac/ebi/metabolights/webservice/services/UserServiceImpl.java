@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import sun.misc.BASE64Encoder;
+import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.UserDAO;
 import uk.ac.ebi.metabolights.repository.model.AppRole;
@@ -163,6 +164,9 @@ public class UserServiceImpl implements UserService{
 	private User getUser(String userToken) {
 		User user = null ;
 		try {
+			if (userDAO == null){
+				userDAO = DAOFactory.getInstance().getUserDAO();
+			}
 			user = userDAO.findByToken(userToken);
 
 			if (user == null){
@@ -172,7 +176,6 @@ public class UserServiceImpl implements UserService{
 				user.setRole(AppRole.ANONYMOUS);
 				user.setApiToken(userToken);
 			}
-
 
 		} catch (DAOException e) {
 			logger.error("Can't find user by token {}",userToken, e);
