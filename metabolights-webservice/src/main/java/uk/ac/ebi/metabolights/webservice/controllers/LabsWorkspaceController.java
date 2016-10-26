@@ -19,14 +19,13 @@ import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 
 /**
  * Created by venkata on 22/08/2016.
  */
 @Controller
 @RequestMapping("workbench")
-public class LabsWorkbenchController {
+public class LabsWorkspaceController {
     protected static final Logger logger = LoggerFactory.getLogger(BasicController.class);
 
     @RequestMapping(value = "settings", method = RequestMethod.POST)
@@ -68,7 +67,9 @@ public class LabsWorkbenchController {
 
         String workbenchLocation = PropertiesUtil.getProperty("userSpace") + user.getApiToken();
 
-        return (new MetaboLightsLabsDAO()).getWorkbenchSettings(user, workbenchLocation);
+        MetaboLightsLabsDAO metaboLightsLabsDAO = new MetaboLightsLabsDAO();
+
+        return metaboLightsLabsDAO.getWorkSpaceSettings(user, workbenchLocation);
 
     }
 
