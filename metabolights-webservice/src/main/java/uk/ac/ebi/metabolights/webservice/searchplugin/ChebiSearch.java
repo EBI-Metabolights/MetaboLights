@@ -189,6 +189,7 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
 
     private String extractFormula(String[] matchingRow, String termToMatch, int indexToSearch) {
         String formula = matchingRow[CuratedMetabolitesFileColumnIdentifier.MOLECULAR_FORMULA.getID()];
+        if(formula == null) return formula;
         if (formula.contains("|")) {
             String[] formulas = formula.split("\\|");
             return formulas[getMatchingIndex(extractSearchTerms(matchingRow, indexToSearch), termToMatch)];
