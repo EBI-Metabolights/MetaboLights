@@ -17,7 +17,6 @@ public class Utilities {
                                                      Future<Collection<CompoundSearchResult>> chemSpiderResults,
                                                      Future<Collection<CompoundSearchResult>> pubchemResults) {
         List<CompoundSearchResult> totalSearchResults = new ArrayList<>();
-
         try {
             totalSearchResults.addAll(extract(searchResultsFromChebi));
             totalSearchResults.addAll(extract(chemSpiderResults));
@@ -28,6 +27,44 @@ public class Utilities {
         }
         return totalSearchResults;
 
+    }
+
+    public static List<CompoundSearchResult> combine(List<Future<CompoundSearchResult>> searchResultsFromChebi,
+                                                     Future<Collection<CompoundSearchResult>> chemSpiderResults, String compoundName) {
+        List<CompoundSearchResult> totalSearchResults = new ArrayList<>();
+
+        try {
+            List<CompoundSearchResult> chebiCompounds = extract(searchResultsFromChebi);
+            if (!chebiCompounds.isEmpty()) {
+                if (hasSomeValue(chebiCompounds.get(0))) {
+                    totalSearchResults.addAll(chebiCompounds);
+                    return totalSearchResults;
+                }
+            }
+            Collection<CompoundSearchResult> chemSpiderCompounds = extract(chemSpiderResults);
+            if (!chemSpiderCompounds.isEmpty()) {
+                if (chemSpiderCompounds.size() == 1) {
+                    totalSearchResults.addAll(chemSpiderCompounds);
+                } else {
+                    for (CompoundSearchResult compound : chemSpiderCompounds) {
+                        if (hit(compound.getName(), compoundName)) {
+                            totalSearchResults.add(compound);
+                            return totalSearchResults;
+                        }
+                    }
+                    totalSearchResults.addAll(chemSpiderCompounds);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return totalSearchResults;
+
+    }
+
+    private static boolean hasSomeValue(CompoundSearchResult compound) {
+        return compound.getName() != null;
     }
 
 
@@ -118,5 +155,16 @@ public class Utilities {
             e.printStackTrace();
             return url;
         }
+    }
+
+
+    public static boolean hit(String synonym, String termToMatch) {
+        return removeFewCharactersForConsistency(synonym).equalsIgnoreCase(removeFewCharactersForConsistency(termToMatch));
+    }
+
+    public static String removeFewCharactersForConsistency(String term) {
+        String modified = term.replaceAll("-", "");
+        modified = modified.replaceAll(",", "");
+        return modified;
     }
 }

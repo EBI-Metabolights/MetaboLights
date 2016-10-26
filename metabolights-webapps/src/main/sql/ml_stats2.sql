@@ -39,7 +39,7 @@ insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', 
 insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Different organisms', count(*), 6 from ref_species where final_id is null and species_member is not null;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Reference compounds', count(*), 7 from ref_metabolite;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data','Total study size (TB)', round(sum(studysize)/1024/1024/1024,1), 8 from studies;
-insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data','- Max study size (GB)', round(max(studysize)/1024/1024,2), 9 from studies;
+insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data','- Max study size (TB)', round(max(studysize)/1024/1024/1024,1), 10 from studies;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data','- Average study size (GB)', round(avg(studysize)/1024/1024,2), 10 from studies;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data','- Median study size (GB)', round(median(studysize)/1024/1024,2), 11 from studies;
 

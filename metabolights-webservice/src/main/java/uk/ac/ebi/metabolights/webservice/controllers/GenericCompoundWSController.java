@@ -37,8 +37,7 @@ public class GenericCompoundWSController {
     @ResponseBody
     public RestResponse<List<CompoundSearchResult>> getCompoundByName(@PathVariable("compoundName") final String compoundName) {
         RestResponse<List<CompoundSearchResult>> response = new RestResponse();
-        List<CompoundSearchResult> searchHits = getSearchHitsFromListAndChebIOnly(Utilities.decode(compoundName));
-        Utilities.sort(searchHits);
+        List<CompoundSearchResult> searchHits = getSearchHitsFromListChebIAndChemSpiderOnly(compoundName.contains("(+)") ? compoundName : Utilities.decode(compoundName));
         response.setContent(searchHits);
         return response;
     }
@@ -65,6 +64,23 @@ public class GenericCompoundWSController {
             searchHits.add(new ChebiSearch().searchAndFillByName(compoundName, new CompoundSearchResult(SearchResource.CHEBI)));
         }
         return searchHits;
+    }
+
+    private List<CompoundSearchResult> getSearchHitsFromListChebIAndChemSpiderOnly(final String compoundName) {
+        String[] nameMatch = curatedMetaboliteTable.getMatchingRow(CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID(), compoundName);
+        List<CompoundSearchResult> searchHits = new ArrayList<>();
+        if (thereIsAMatchInCuratedList(nameMatch)) {
+            searchHits.add(new ChebiSearch().searchAndFillByName(compoundName, nameMatch, new CompoundSearchResult(SearchResource.CURATED)));
+            return searchHits;
+        } else {
+
+            List<Future<CompoundSearchResult>> searchResultsFromChebi = new ArrayList<Future<CompoundSearchResult>>();
+            ExecutorService executor = Executors.newFixedThreadPool(2);
+            searchResultsFromChebi.add(executor.submit(new ChebiSearch(SearchTermCategory.NAME, compoundName)));
+            Future<Collection<CompoundSearchResult>> chemSpiderResults = executor.submit(new ChemSpiderSearch(compoundName));
+            executor.shutdown();
+            return Utilities.combine(searchResultsFromChebi, chemSpiderResults,compoundName);
+        }
     }
 
 
@@ -114,7 +130,7 @@ public class GenericCompoundWSController {
         return Utilities.combine(searchResultsFromChebi, chemSpiderResults, pubchemResults);
     }
 
-    @RequestMapping(value = COMPOUND_SMILES_MAPPING, method = RequestMethod.POST,headers = "content-type=application/x-www-form-urlencoded")
+    @RequestMapping(value = COMPOUND_SMILES_MAPPING, method = RequestMethod.POST, headers = "content-type=application/x-www-form-urlencoded")
     @ResponseBody
     public RestResponse<List<CompoundSearchResult>> getCompoundBySMILES(@RequestBody String compoundSMILES) {
         RestResponse<List<CompoundSearchResult>> response = new RestResponse();
@@ -165,8 +181,6 @@ public class GenericCompoundWSController {
         response.setContent(searchHits);
         return response;
     }
-
-
 
 
 }

@@ -141,7 +141,7 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
                 Entity entity = futureEntity.get();
                 List<DataItem> synonyms = entity.getSynonyms();
                 for (DataItem synonym : synonyms) {
-                    if (hit(synonym.getData(), termToMatch)) {
+                    if (Utilities.hit(synonym.getData(), termToMatch)) {
                         return entity.getChebiId();
                     }
                 }
@@ -153,15 +153,6 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
         return "";
     }
 
-    private boolean hit(String synonym, String termToMatch) {
-        return removeFewCharactersForConsistency(synonym).equalsIgnoreCase(removeFewCharactersForConsistency(termToMatch));
-    }
-
-    private String removeFewCharactersForConsistency(String term) {
-        String modified = term.replaceAll("-", "");
-        modified = modified.replaceAll(",", "");
-        return modified;
-    }
 
     private String checkForAnionCase(String compoundName, String chebiID) throws ChebiWebServiceFault_Exception {
         if (isAnion(compoundName)) {
