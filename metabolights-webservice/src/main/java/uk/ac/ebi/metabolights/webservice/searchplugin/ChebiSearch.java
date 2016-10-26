@@ -1,8 +1,11 @@
 package uk.ac.ebi.metabolights.webservice.searchplugin;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.ChebiWebServiceFault_Exception;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.*;
+import uk.ac.ebi.metabolights.webservice.controllers.GenericCompoundWSController;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,7 +16,7 @@ import java.util.concurrent.*;
  * Created by kalai on 28/07/2016.
  */
 public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSearchResult> {
-
+    private static Logger logger = LoggerFactory.getLogger(ChebiSearch.class);
     private CompoundSearchResult compoundSearchResult = new CompoundSearchResult(SearchResource.CHEBI);
     private SearchTermCategory searchTermCategory;
     private String[] rowMatchedFromCuratedFile;
@@ -77,6 +80,7 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
             }
             compoundSearchResult.setName(chebiEntity.getChebiAsciiName());
         } catch (ChebiWebServiceFault_Exception e) {
+            logger.error("While trying to access Chebi with id: ", e);
             e.printStackTrace();
         }
     }
@@ -88,12 +92,12 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
             if (!resultList.isEmpty()) {
                 String matchingChebiID = getChEBIIDOfExactNameMatch(resultList, compoundName);
                 if (!matchingChebiID.isEmpty()) {
-                    String checkedChebiID = checkForAnionCase(compoundName,matchingChebiID);
+                    String checkedChebiID = checkForAnionCase(compoundName, matchingChebiID);
                     fillWithChebiCompleteEntity(checkedChebiID, compoundSearchResult);
                 }
             }
         } catch (ChebiWebServiceFault_Exception e) {
-            System.err.println(e.getMessage());
+            logger.error("something went wrong when searching for name: " + compoundName, e);
         }
         return compoundSearchResult;
     }
@@ -147,6 +151,7 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                logger.error("Something went wrong while extracting matching chebi id for " + termToMatch, e);
                 continue;
             }
         }
@@ -189,7 +194,7 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
 
     private String extractFormula(String[] matchingRow, String termToMatch, int indexToSearch) {
         String formula = matchingRow[CuratedMetabolitesFileColumnIdentifier.MOLECULAR_FORMULA.getID()];
-        if(formula == null) return formula;
+        if (formula == null) return formula;
         if (formula.contains("|")) {
             String[] formulas = formula.split("\\|");
             return formulas[getMatchingIndex(extractSearchTerms(matchingRow, indexToSearch), termToMatch)];
@@ -230,7 +235,7 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
             LiteEntityList entities = getChebiLiteEntityList(compoundInChI, SearchCategory.INCHI_INCHI_KEY);
             return fillSearchResults(entities, compoundSearchResult);
         } catch (ChebiWebServiceFault_Exception e) {
-            System.err.println(e.getMessage());
+            logger.error("Something went wrong with the InChI search in ChEBI for " + compoundInChI, e);
             return false;
         }
     }
@@ -248,7 +253,7 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
             LiteEntityList entities = getChebiLiteEntityList(compoundSMILES, SearchCategory.SMILES);
             return fillSearchResults(entities, compoundSearchResult);
         } catch (ChebiWebServiceFault_Exception e) {
-            System.err.println(e.getMessage());
+            logger.error("Something went wrong with the SMILES search in ChEBI for " + compoundSMILES, e);
             return false;
         }
     }

@@ -1,5 +1,8 @@
 package uk.ac.ebi.metabolights.webservice.searchplugin;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,7 +15,7 @@ import java.util.concurrent.Future;
  */
 public class Utilities {
 
-
+    private static Logger logger = LoggerFactory.getLogger(Utilities.class);
     public static List<CompoundSearchResult> combine(List<Future<CompoundSearchResult>> searchResultsFromChebi,
                                                      Future<Collection<CompoundSearchResult>> chemSpiderResults,
                                                      Future<Collection<CompoundSearchResult>> pubchemResults) {
@@ -24,6 +27,7 @@ public class Utilities {
 
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error("Something went wrong while combining search responses: " + e);
         }
         return totalSearchResults;
 
@@ -58,6 +62,7 @@ public class Utilities {
 
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error("Something went wrong while combining search responses for compound: "+compoundName , e);
         }
         return totalSearchResults;
 
@@ -140,6 +145,7 @@ public class Utilities {
             searchResult.setFormula(curatedMatch[CuratedMetabolitesFileColumnIdentifier.MOLECULAR_FORMULA.getID()]);
             searchResult.setDatabaseId(curatedMatch[CuratedMetabolitesFileColumnIdentifier.CHEBI_ID.getID()]);
         } catch (Exception e) {
+            logger.error("Something went wrong while converting String[] to CompoundSearchResult" , e);
             return results;
         }
         results.add(searchResult);
@@ -153,6 +159,7 @@ public class Utilities {
             return decoded;
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
+            logger.error("Something went wrong while decoding: " + url , e);
             return url;
         }
     }

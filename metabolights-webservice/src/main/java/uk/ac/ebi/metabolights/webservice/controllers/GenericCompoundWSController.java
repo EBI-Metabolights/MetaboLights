@@ -36,6 +36,7 @@ public class GenericCompoundWSController {
     @RequestMapping(value = COMPOUND_NAME_MAPPING + "/{compoundName}")
     @ResponseBody
     public RestResponse<List<CompoundSearchResult>> getCompoundByName(@PathVariable("compoundName") final String compoundName) {
+        logger.info("Searching by compound name " + compoundName);
         RestResponse<List<CompoundSearchResult>> response = new RestResponse();
         List<CompoundSearchResult> searchHits = getSearchHitsFromListChebIAndChemSpiderOnly(compoundName.contains("(+)") ? compoundName : Utilities.decode(compoundName));
         response.setContent(searchHits);
@@ -104,6 +105,7 @@ public class GenericCompoundWSController {
     @RequestMapping(value = COMPOUND_INCHI_MAPPING, method = RequestMethod.POST, headers = "content-type=application/x-www-form-urlencoded")
     @ResponseBody
     public RestResponse<List<CompoundSearchResult>> getCompoundByInChI(@RequestBody String compoundInChI) {
+        logger.info("Searching by InChI " + compoundInChI);
         RestResponse<List<CompoundSearchResult>> response = new RestResponse();
         List<CompoundSearchResult> searchHits = getSearchHitsForInChI(Utilities.decode(compoundInChI));
         Utilities.sort(searchHits);
@@ -133,6 +135,7 @@ public class GenericCompoundWSController {
     @RequestMapping(value = COMPOUND_SMILES_MAPPING, method = RequestMethod.POST, headers = "content-type=application/x-www-form-urlencoded")
     @ResponseBody
     public RestResponse<List<CompoundSearchResult>> getCompoundBySMILES(@RequestBody String compoundSMILES) {
+        logger.info("Searching by compound SMILES " + compoundSMILES);
         RestResponse<List<CompoundSearchResult>> response = new RestResponse();
         List<CompoundSearchResult> searchHits = getSearchHitsForSMILES(Utilities.decode(compoundSMILES));
         Utilities.sort(searchHits);
@@ -167,6 +170,7 @@ public class GenericCompoundWSController {
     @RequestMapping(value = COMPOUND_DATABASE_ID_MAPPING + "/{databaseId}")
     @ResponseBody
     public RestResponse<List<CompoundSearchResult>> getCompoundByDatabaseID(@PathVariable("databaseId") final String databaseId) {
+        logger.info("Searching by compound ID " + databaseId);
         RestResponse<List<CompoundSearchResult>> response = new RestResponse();
         List<CompoundSearchResult> searchHits = new ArrayList<>();
         if (databaseId.toLowerCase().contains("chebi")) {

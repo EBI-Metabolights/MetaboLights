@@ -2,6 +2,9 @@ package uk.ac.ebi.metabolights.webservice.searchplugin;
 
 import com.univocity.parsers.tsv.TsvParser;
 import com.univocity.parsers.tsv.TsvParserSettings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import uk.ac.ebi.metabolights.webservice.controllers.GenericCompoundWSController;
 import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
 
 import java.io.FileNotFoundException;
@@ -13,6 +16,7 @@ import java.util.List;
  * Created by kalai on 01/08/2016.
  */
 public class CuratedMetaboliteTable {
+    private static Logger logger = LoggerFactory.getLogger(CuratedMetaboliteTable.class);
     private String curatedMetaboliteListLocation = PropertiesUtil.getProperty("curatedMetaboliteListLocation");
     private List<String[]> curatedMetaboliteList;
 
@@ -27,8 +31,11 @@ public class CuratedMetaboliteTable {
 
 // parses all rows in one go.
         try {
-            return parser.parseAll(new FileReader(curatedMetaboliteListLocation));
+            List<String[]> curatedMetabolites = parser.parseAll(new FileReader(curatedMetaboliteListLocation));
+            logger.info("Total " + curatedMetabolites + " Loaded from " + curatedMetaboliteListLocation);
+            return curatedMetabolites;
         } catch (FileNotFoundException e) {
+            logger.error("Something went wrong while parsing the curated metabolights list" ,e);
             e.printStackTrace();
         }
         return new ArrayList<String[]>();
@@ -77,6 +84,7 @@ public class CuratedMetaboliteTable {
     }
 
     public static CuratedMetaboliteTable getInstance() {
+        logger.info("Creating instance of CuratedMetaboliteTable");
         return CuratedMetaboliteTableGeneratorHolder.INSTANCE;
     }
 }
