@@ -21,6 +21,7 @@ import uk.ac.ebi.metabolights.repository.model.*;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.webservice.services.UserServiceImpl;
 import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
+import uk.ac.ebi.metabolights.webservice.utils.SecurityUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +38,32 @@ import java.util.List;
 public class LabsWorkspaceController {
     protected static final Logger logger = LoggerFactory.getLogger(BasicController.class);
 
+    @RequestMapping(value = "initialise", method = RequestMethod.POST)
+    @ResponseBody
+    public RestResponse<String> initialise(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
+
+        RestResponse<String> restResponse = new RestResponse<String>();
+
+        User user = SecurityUtil.validateJWTToken(data);
+
+        if(user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
+
+            restResponse.setContent("invalid");
+
+            response.setStatus(403);
+
+            return restResponse;
+
+        }
+
+        restResponse.setContent(getWorkspaceInfo(user, true).getAsJSON());
+
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
+        return restResponse;
+
+    }
+
 
     /**
      * Fetch the workspace settings
@@ -51,7 +78,7 @@ public class LabsWorkspaceController {
 
         RestResponse<String> restResponse = new RestResponse<>();
 
-        JSONObject serverRequest = parseRequest(data);
+        JSONObject serverRequest = SecurityUtil.parseRequest(data);
 
         String userToken = (String) serverRequest.get("api_token");
 
@@ -81,7 +108,7 @@ public class LabsWorkspaceController {
      * @param initialiseWorkspaceFlag
      * @return
      */
-    private MLLWorkSpace getWorkspaceInfo(User user, boolean initialiseWorkspaceFlag){
+    public static MLLWorkSpace getWorkspaceInfo(User user, boolean initialiseWorkspaceFlag){
 
         String workspaceLocation = null;
 
@@ -106,7 +133,7 @@ public class LabsWorkspaceController {
 
         RestResponse<String> restResponse = new RestResponse<>();
 
-        JSONObject serverRequest = parseRequest(data);
+        JSONObject serverRequest = SecurityUtil.parseRequest(data);
 
         String userToken = (String) serverRequest.get("api_token");
 
@@ -176,7 +203,7 @@ public class LabsWorkspaceController {
 
         RestResponse<String> restResponse = new RestResponse<String>();
 
-        JSONObject serverRequest = parseRequest(data);
+        JSONObject serverRequest = SecurityUtil.parseRequest(data);
 
         String userToken = (String) serverRequest.get("api_token");
         String projectId = (String) serverRequest.get("project_id");
@@ -268,25 +295,7 @@ public class LabsWorkspaceController {
     }
 
 
-    /**
-     * Parse the input data into a JSON Object
-     * @param data
-     * @return
-     */
-    private JSONObject parseRequest(String data){
 
-        JSONParser parser = new JSONParser();
-        JSONObject uploadRequest = null;
-
-        try {
-            uploadRequest = (JSONObject) parser.parse(data);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return uploadRequest;
-
-    }
 
     /**
      * Authenticate user based on the API_TOKEN

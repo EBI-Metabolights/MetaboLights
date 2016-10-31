@@ -120,20 +120,33 @@ public class LabsController extends BasicController{
 
             String jwt = null;
             try {
+
                 jwt = jws.getCompactSerialization();
+
             } catch (JoseException e) {
+
                 response.setStatus(Response.Status.FORBIDDEN.getStatusCode());
+
                 return restResponse;
+
             }
 
-            restResponse.setContent(jwt);
-            response.setHeader("user", email);
+            response.setHeader("Access-Control-Expose-Headers", "jwt, user");
+
             response.setHeader("jwt", jwt);
+
+            response.setHeader("user", email);
+
             return restResponse;
+
         }else{
+
             restResponse.setContent("invalid");
+
             response.setStatus(Response.Status.FORBIDDEN.getStatusCode());
+
             return restResponse;
+
         }
 
     }
@@ -186,5 +199,6 @@ public class LabsController extends BasicController{
 
         return restResponse;
     }
+
 
 }
