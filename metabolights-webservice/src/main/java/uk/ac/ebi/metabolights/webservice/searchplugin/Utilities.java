@@ -140,7 +140,7 @@ public class Utilities {
         CompoundSearchResult searchResult = new CompoundSearchResult(SearchResource.CURATED);
         try {
             searchResult.setName(curatedMatch[CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()]);
-            searchResult.setInchi(curatedMatch[CuratedMetabolitesFileColumnIdentifier.INCHI.getID()].replaceAll("\"", ""));
+            searchResult.setInchi(curatedMatch[CuratedMetabolitesFileColumnIdentifier.INCHI.getID()]);
             searchResult.setSmiles(curatedMatch[CuratedMetabolitesFileColumnIdentifier.SMILES.getID()]);
             searchResult.setFormula(curatedMatch[CuratedMetabolitesFileColumnIdentifier.MOLECULAR_FORMULA.getID()]);
             searchResult.setDatabaseId(curatedMatch[CuratedMetabolitesFileColumnIdentifier.CHEBI_ID.getID()]);
@@ -171,7 +171,9 @@ public class Utilities {
 
     public static String removeFewCharactersForConsistency(String term) {
         String modified = term.replaceAll("-", "");
-        modified = modified.replaceAll(",", "");
+        modified = modified.replaceAll(",", "").replaceAll("\'","");
+        modified = modified.replaceAll("\\[", "").replaceAll("\\]","");
+        modified = modified.replaceAll("\\(", "").replaceAll("\\)","");
         return modified;
     }
 }

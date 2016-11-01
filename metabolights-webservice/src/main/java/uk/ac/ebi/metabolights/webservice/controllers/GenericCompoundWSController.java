@@ -38,7 +38,8 @@ public class GenericCompoundWSController {
     public RestResponse<List<CompoundSearchResult>> getCompoundByName(@PathVariable("compoundName") final String compoundName) {
         logger.info("Searching by compound name " + compoundName);
         RestResponse<List<CompoundSearchResult>> response = new RestResponse();
-        List<CompoundSearchResult> searchHits = getSearchHitsFromListChebIAndChemSpiderOnly(compoundName.contains("(+)") ? compoundName : Utilities.decode(compoundName));
+        //getSearchHitsFromListChebIAndChemSpiderOnly(compoundName.contains("(+)") ? compoundName : Utilities.decode(compoundName));
+        List<CompoundSearchResult> searchHits = getSearchHitsFromListChebIAndChemSpiderOnly(compoundName);
         response.setContent(searchHits);
         return response;
     }

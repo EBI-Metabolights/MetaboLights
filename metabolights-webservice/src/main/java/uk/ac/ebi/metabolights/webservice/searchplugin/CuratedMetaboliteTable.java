@@ -33,13 +33,36 @@ public class CuratedMetaboliteTable {
         try {
             List<String[]> curatedMetabolites = parser.parseAll(new FileReader(curatedMetaboliteListLocation));
             logger.info("Total " + curatedMetabolites + " Loaded from " + curatedMetaboliteListLocation);
-            return curatedMetabolites;
+            return removeQoutesFrom(curatedMetabolites);
         } catch (FileNotFoundException e) {
-            logger.error("Something went wrong while parsing the curated metabolights list" ,e);
+            logger.error("Something went wrong while parsing the curated metabolights list", e);
             e.printStackTrace();
         }
         return new ArrayList<String[]>();
 
+    }
+
+    private List<String[]> removeQoutesFrom(List<String[]> curatedMetabolites) {
+        List<String[]> qoutesRemovedList = new ArrayList<>();
+        for (String[] row : curatedMetabolites) {
+            try {
+                String compoundName = row[CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()];
+                if (compoundName != null || !compoundName.isEmpty()) {
+                    compoundName = compoundName.replaceAll("\"", "");
+                    row[CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()] = compoundName;
+                }
+                String inchi = row[CuratedMetabolitesFileColumnIdentifier.INCHI.getID()];
+                if (inchi != null || !inchi.isEmpty()) {
+                    inchi = inchi.replaceAll("\"", "");
+                    row[CuratedMetabolitesFileColumnIdentifier.INCHI.getID()] = inchi;
+                }
+                qoutesRemovedList.add(row);
+            } catch (Exception e) {
+                logger.error("Something went wrong while removing qoutes: " + e);
+                continue;
+            }
+        }
+        return qoutesRemovedList;
     }
 
     public String[] getRow(int index) {
@@ -59,19 +82,22 @@ public class CuratedMetaboliteTable {
         value = value.replaceAll("\\s", "");
         for (String[] row : curatedMetaboliteList) {
             try {
-                if (row[index].contains("|")) {
-                    String[] split = row[index].split("\\|");
-                    for (String s : split) {
-                        if (s.replaceAll("\\s", "").replaceAll("\"","").equalsIgnoreCase(value)) {
+                if(row[index] != null || !row[index].isEmpty()){
+                    if (row[index].contains("|")) {
+                        String[] split = row[index].split("\\|");
+                        for (String s : split) {
+                            if (s.replaceAll("\\s", "").equalsIgnoreCase(value)) {
+                                return row;
+                            }
+                        }
+                    } else {
+                        if (row[index].replaceAll("\\s", "").equalsIgnoreCase(value)) {
                             return row;
                         }
                     }
-                } else {
-                    if (row[index].replaceAll("\\s", "").replaceAll("\"","").equalsIgnoreCase(value)) {
-                        return row;
-                    }
                 }
             } catch (Exception e) {
+                logger.error("Something went wrong while finding a match in the list: " + e);
                 continue;
             }
         }
