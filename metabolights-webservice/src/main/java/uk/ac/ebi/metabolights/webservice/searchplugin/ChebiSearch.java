@@ -53,27 +53,49 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
             straightAwayfillWithMatchedRow(compoundSearchResult, nameMatch);
             return compoundSearchResult;
         }
-        String chebiID = extractChebiID(nameMatch, compoundName, CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID());
-        fillWithChebiCompleteEntity(chebiID, compoundSearchResult);
-        if (compoundSearchResult.getFormula() == null) {
-            compoundSearchResult.setFormula(extractFormula(nameMatch, compoundName, CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()));
-        }
-        if (!compoundSearchResult.isComplete()) {
-            straightAwayfillWithMatchedRow(compoundSearchResult, nameMatch);
+        try {
+            String chebiID = CuratedMetaboliteTableUtilities.extractChebiID(nameMatch, compoundName, CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID());
+            fillWithChebiCompleteEntity(chebiID, compoundSearchResult);
+            if (compoundSearchResult.getFormula() == null) {
+                compoundSearchResult.setFormula(CuratedMetaboliteTableUtilities.extractFormula(nameMatch, compoundName, CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()));
+            }
+            if (!compoundSearchResult.isComplete()) {
+                straightAwayfillWithMatchedRow(compoundSearchResult, nameMatch, compoundName);
+            }
+        } catch (Exception e) {
+            logger.error("Something went wrong while filling result from curatedRow: " + e);
         }
         return compoundSearchResult;
     }
 
     private void straightAwayfillWithMatchedRow(CompoundSearchResult compoundSearchResult, String[] matchedRow) {
-        compoundSearchResult.setSmiles(matchedRow[CuratedMetabolitesFileColumnIdentifier.SMILES.getID()]);
-        compoundSearchResult.setInchi(matchedRow[CuratedMetabolitesFileColumnIdentifier.INCHI.getID()]);
-        compoundSearchResult.setDatabaseId(matchedRow[CuratedMetabolitesFileColumnIdentifier.CHEBI_ID.getID()]);
-        compoundSearchResult.setFormula(matchedRow[CuratedMetabolitesFileColumnIdentifier.MOLECULAR_FORMULA.getID()]);
-        compoundSearchResult.setName(matchedRow[CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()]);
+        try {
+            compoundSearchResult.setSmiles(matchedRow[CuratedMetabolitesFileColumnIdentifier.SMILES.getID()]);
+            compoundSearchResult.setInchi(matchedRow[CuratedMetabolitesFileColumnIdentifier.INCHI.getID()]);
+            compoundSearchResult.setDatabaseId(matchedRow[CuratedMetabolitesFileColumnIdentifier.CHEBI_ID.getID()]);
+            compoundSearchResult.setFormula(matchedRow[CuratedMetabolitesFileColumnIdentifier.MOLECULAR_FORMULA.getID()]);
+            compoundSearchResult.setName(matchedRow[CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()]);
+        } catch (Exception e) {
+            logger.error("Something went wrong while parsing row to fill result: " + e);
+        }
     }
+
+    private void straightAwayfillWithMatchedRow(CompoundSearchResult compoundSearchResult, String[] matchedRow, String compoundName) {
+        try {
+            compoundSearchResult.setSmiles(CuratedMetaboliteTableUtilities.extractSMILES(matchedRow, compoundName, CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()));
+            compoundSearchResult.setInchi(CuratedMetaboliteTableUtilities.extractInChI(matchedRow, compoundName, CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()));
+            compoundSearchResult.setDatabaseId(CuratedMetaboliteTableUtilities.extractChebiID(matchedRow, compoundName, CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()));
+            compoundSearchResult.setFormula(CuratedMetaboliteTableUtilities.extractFormula(matchedRow, compoundName, CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()));
+            compoundSearchResult.setName(CuratedMetaboliteTableUtilities.extractName(matchedRow, compoundName, CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()));
+        } catch (Exception e) {
+            logger.error("Something went wrong while parsing row to fill result: " + e);
+        }
+    }
+
 
     public void fillWithChebiCompleteEntity(String chebiID, CompoundSearchResult compoundSearchResult) {
         try {
+            if (chebiID == null) return;
             Entity chebiEntity = getChebiEntity(chebiID);
             if (chebiEntity == null) return;
             compoundSearchResult.setDatabaseId(chebiID);
@@ -199,54 +221,11 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
     }
 
 
-    private String extractChebiID(String[] matchingRow, String termToMatch, int indexToSearch) {
-        String chebiID = matchingRow[CuratedMetabolitesFileColumnIdentifier.CHEBI_ID.getID()];
-        if (chebiID.contains("|")) {
-            String[] chebiIDS = chebiID.split("\\|");
-            return chebiIDS[getMatchingIndex(extractSearchTerms(matchingRow, indexToSearch), termToMatch)];
-        } else {
-            return chebiID;
-        }
-    }
-
-
-    private String extractFormula(String[] matchingRow, String termToMatch, int indexToSearch) {
-        String formula = matchingRow[CuratedMetabolitesFileColumnIdentifier.MOLECULAR_FORMULA.getID()];
-        if (formula == null) return formula;
-        if (formula.contains("|")) {
-            String[] formulas = formula.split("\\|");
-            return formulas[getMatchingIndex(extractSearchTerms(matchingRow, indexToSearch), termToMatch)];
-
-        } else {
-            return formula;
-        }
-    }
-
-    private String[] extractSearchTerms(String[] matchingRow, int searchIndex) {
-        String searchTerm = matchingRow[searchIndex];
-        if (searchTerm.contains("|")) {
-            return searchTerm.split("\\|");
-        } else {
-            return new String[]{searchTerm};
-        }
-    }
-
-    private int getMatchingIndex(String[] availableTerms, String termToMatch) {
-        for (int i = 0; i < availableTerms.length; i++) {
-            String current = availableTerms[i].trim();
-            String toMatch = termToMatch.trim();
-            if (current.equalsIgnoreCase(toMatch)) {
-                return i;
-            }
-        }
-        return 0;
-    }
-
     public void searchAndFillByInChI(String compoundInChI, String[] inchiMatch, CompoundSearchResult compoundSearchResult) {
-        String chebiID = extractChebiID(inchiMatch, compoundInChI, CuratedMetabolitesFileColumnIdentifier.INCHI.getID());
+        String chebiID = CuratedMetaboliteTableUtilities.extractChebiID(inchiMatch, compoundInChI, CuratedMetabolitesFileColumnIdentifier.INCHI.getID());
         fillWithChebiCompleteEntity(chebiID, compoundSearchResult);
         if (compoundSearchResult.getFormula() == null) {
-            compoundSearchResult.setFormula(extractFormula(inchiMatch, compoundInChI, CuratedMetabolitesFileColumnIdentifier.INCHI.getID()));
+            compoundSearchResult.setFormula(CuratedMetaboliteTableUtilities.extractFormula(inchiMatch, compoundInChI, CuratedMetabolitesFileColumnIdentifier.INCHI.getID()));
         }
     }
 
@@ -261,10 +240,10 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
     }
 
     public void searchAndFillBySMILES(String compoundSMILES, String[] smilesMatch, CompoundSearchResult compoundSearchResult) {
-        String chebiID = extractChebiID(smilesMatch, compoundSMILES, CuratedMetabolitesFileColumnIdentifier.SMILES.getID());
+        String chebiID = CuratedMetaboliteTableUtilities.extractChebiID(smilesMatch, compoundSMILES, CuratedMetabolitesFileColumnIdentifier.SMILES.getID());
         fillWithChebiCompleteEntity(chebiID, compoundSearchResult);
         if (compoundSearchResult.getFormula() == null) {
-            compoundSearchResult.setFormula(extractFormula(smilesMatch, compoundSMILES, CuratedMetabolitesFileColumnIdentifier.SMILES.getID()));
+            compoundSearchResult.setFormula(CuratedMetaboliteTableUtilities.extractFormula(smilesMatch, compoundSMILES, CuratedMetabolitesFileColumnIdentifier.SMILES.getID()));
         }
     }
 

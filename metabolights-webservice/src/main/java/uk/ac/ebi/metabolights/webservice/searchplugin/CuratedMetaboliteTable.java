@@ -80,19 +80,20 @@ public class CuratedMetaboliteTable {
 
     public String[] getMatchingRow(int index, String value) {
         value = value.replaceAll("\\s", "");
+        List<String[]> matchingRows = new ArrayList<>();
         for (String[] row : curatedMetaboliteList) {
             try {
-                if(row[index] != null || !row[index].isEmpty()){
+                if (row[index] != null || !row[index].isEmpty()) {
                     if (row[index].contains("|")) {
                         String[] split = row[index].split("\\|");
                         for (String s : split) {
                             if (s.replaceAll("\\s", "").equalsIgnoreCase(value)) {
-                                return row;
+                                matchingRows.add(row);
                             }
                         }
                     } else {
                         if (row[index].replaceAll("\\s", "").equalsIgnoreCase(value)) {
-                            return row;
+                            matchingRows.add(row);
                         }
                     }
                 }
@@ -101,7 +102,30 @@ public class CuratedMetaboliteTable {
                 continue;
             }
         }
-        return new String[0];
+        return prioritizedOneFromThe(matchingRows);
+    }
+
+    private String[] prioritizedOneFromThe(List<String[]> matchingRows) {
+        if (matchingRows.isEmpty()) {
+            return new String[0];
+        }
+        if (matchingRows.size() == 1) {
+            return matchingRows.get(0);
+        }
+        for (String[] row : matchingRows) {
+            try {
+                String priorityIndex = row[CuratedMetabolitesFileColumnIdentifier.PRIORITY.getID()];
+                if (priorityIndex != null || !priorityIndex.isEmpty()) {
+                    if (Integer.parseInt(priorityIndex) == 1) {
+                        return row;
+                    }
+                }
+            } catch (Exception e) {
+                logger.error("Something went wrong while extracting priority row: " + e);
+                continue;
+            }
+        }
+        return matchingRows.get(0);
     }
 
     public static class CuratedMetaboliteTableGeneratorHolder {
