@@ -164,16 +164,33 @@ public class Utilities {
         }
     }
 
+    public static String decodeSlashesAndDots(String url) {
+        String decoded = null;
+        try {
+            decoded = url.replaceAll("__","/");
+            decoded = decoded.replaceAll("_&_","\\.");
+            return decoded;
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("Something went wrong while decoding: " + url , e);
+            return url;
+        }
+    }
+
 
     public static boolean hit(String synonym, String termToMatch) {
         return removeFewCharactersForConsistency(synonym).equalsIgnoreCase(removeFewCharactersForConsistency(termToMatch));
     }
 
     public static String removeFewCharactersForConsistency(String term) {
-        String modified = term.replaceAll("-", "");
+        String modified = term.replaceAll("/\u2013|\u2014/g", "-");
+        modified = modified.replaceAll("\\p{Pd}", "");
+        modified = modified.replaceAll("-", "");
         modified = modified.replaceAll(",", "").replaceAll("\'","");
         modified = modified.replaceAll("\\[", "").replaceAll("\\]","");
         modified = modified.replaceAll("\\(", "").replaceAll("\\)","");
+        modified = modified.replaceAll("\\{", "").replaceAll("\\}", "");
+        modified = modified.replaceAll("\\s", "");
         return modified;
     }
 }

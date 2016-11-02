@@ -58,7 +58,6 @@ public class CuratedMetaboliteTable {
                 }
                 qoutesRemovedList.add(row);
             } catch (Exception e) {
-                logger.error("Something went wrong while removing qoutes: " + e);
                 continue;
             }
         }
