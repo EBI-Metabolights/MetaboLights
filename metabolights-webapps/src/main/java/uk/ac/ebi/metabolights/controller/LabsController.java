@@ -13,12 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class LabsController extends AbstractController {
 
-    @RequestMapping(value = "/workbench")
+    @RequestMapping(value = {"/labs", "/labs/login" })
     public ModelAndView showLabsPage(HttpServletRequest request) {
 
-        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("workbench");
-
-        mav.addObject("pageTitle", "MetaboLights Labs" );
+        ModelAndView mav = AppContext.getMAVFactory().getSimpleFrontierMav("labs");
 
         return mav;
 

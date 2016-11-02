@@ -198,6 +198,14 @@ public class StyleMAVFactory {
 		return mav;
 	}
 
+	public ModelAndView getSimpleFrontierMav(String name) {
+
+		ModelAndView mav = new ModelAndView (name);
+
+		return mav;
+
+	}
+
 	public ModelAndView getFrontierMav(String name, String modelName, Object objectModel) {
 		
 		ModelAndView mav=  getFrontierMav(name);

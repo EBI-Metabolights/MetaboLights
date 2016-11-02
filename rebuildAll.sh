@@ -2,8 +2,16 @@
 export ML="/Users/`whoami`/Development/metabolights"
 export DEPLOY=" install -DskipTests=true"
 #export DEPLOY=" deploy -DskipTests=true"
-export MVNOPTS=""
-#export MVNOPTS="--offline"
+#export MVNOPTS=""
+export MVNOPTS="--offline"
+cd $ML
+
+#cd metabolights-utils
+#mvn $MVNOPTS clean compile
+#mvn $MVNOPTS clean compile $DEPLOY
+#cd ../ metabolights-webservice
+#mvn dependency:copy-dependencies
+
 cd $ML
 mvn clean
 rm metabolights-webapps/src/main/webapp/WEB-INF/lib/*.jar
