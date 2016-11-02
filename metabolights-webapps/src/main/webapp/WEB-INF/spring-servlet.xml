@@ -184,7 +184,7 @@
         <sec:intercept-url pattern="/privatefiles" access="isAuthenticated()" />
         <sec:intercept-url pattern="/updateAccount" access="isAuthenticated()" />
 
-        <sec:intercept-url pattern="/workbench" access="isAuthenticated()" />
+        <sec:intercept-url pattern="/labs" access="isAuthenticated()" />
 		<sec:intercept-url pattern="/reindex" access="hasRole('ROLE_SUPER_USER')" />
         <sec:intercept-url pattern="/reindexall" access="hasRole('ROLE_SUPER_USER')" />
 		<sec:intercept-url pattern="/config" access="hasRole('ROLE_SUPER_USER')" />
