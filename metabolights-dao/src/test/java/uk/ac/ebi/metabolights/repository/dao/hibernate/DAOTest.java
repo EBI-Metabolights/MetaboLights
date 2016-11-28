@@ -45,7 +45,7 @@ public abstract class DAOTest {
 
 		// Get property file
 		Properties hibernateProperties = new Properties();
-		hibernateProperties.load(DAOTest.class.getResourceAsStream("/hibernate.hidden.properties"));
+		hibernateProperties.load(DAOTest.class.getResourceAsStream("hibernate.hidden.properties"));
 
 		configuration.setProperties(hibernateProperties);
 
