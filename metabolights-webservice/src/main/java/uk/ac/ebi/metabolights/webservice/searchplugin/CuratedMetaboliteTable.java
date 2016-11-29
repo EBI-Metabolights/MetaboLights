@@ -86,12 +86,14 @@ public class CuratedMetaboliteTable {
                     if (row[index].contains("|")) {
                         String[] split = row[index].split("\\|");
                         for (String s : split) {
-                            if (s.replaceAll("\\s", "").equalsIgnoreCase(value)) {
+//                            if (s.replaceAll("\\s", "").equalsIgnoreCase(value)) {
+                            if (Utilities.hit(s,value)) {
                                 matchingRows.add(row);
                             }
                         }
                     } else {
-                        if (row[index].replaceAll("\\s", "").equalsIgnoreCase(value)) {
+//                        if (row[index].replaceAll("\\s", "").equalsIgnoreCase(value)) {
+                        if (Utilities.hit(row[index],value)){
                             matchingRows.add(row);
                         }
                     }

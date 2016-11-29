@@ -186,6 +186,7 @@ public class Utilities {
         String modified = term.replaceAll("/\u2013|\u2014/g", "-");
         modified = modified.replaceAll("\\p{Pd}", "");
         modified = modified.replaceAll("-", "");
+        modified = modified.replaceAll("_", "");
         modified = modified.replaceAll(",", "").replaceAll("\'","");
         modified = modified.replaceAll("\\[", "").replaceAll("\\]","");
         modified = modified.replaceAll("\\(", "").replaceAll("\\)","");
