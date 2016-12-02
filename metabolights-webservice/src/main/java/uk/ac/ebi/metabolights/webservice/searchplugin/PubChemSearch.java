@@ -84,6 +84,7 @@ public class PubChemSearch implements Serializable, Cloneable, Callable<Collecti
                 pubchemCIDs.add(id.toString());
             }
         } catch (Exception e) {
+            logger.error("Something went wrong with the the request in pubchem: " + searchURL , e);
             e.printStackTrace();
         }
         return pubchemCIDs;
@@ -121,6 +122,7 @@ public class PubChemSearch implements Serializable, Cloneable, Callable<Collecti
             return result;
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error("Something went wrong while requesting metadata from pubchem for " + pubchemID + ", URL=" + searchURL , e);
         }
         return null;
     }
@@ -137,7 +139,7 @@ public class PubChemSearch implements Serializable, Cloneable, Callable<Collecti
             JSONArray array2 = (JSONArray) myObject2.get("RegistryID");
             return extractChebiID(array2);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Something went wrong while requesting chebiID from pubchem for " + pubchemID + ", URL=" + searchURL , e);
         }
         return "";
     }
@@ -151,6 +153,7 @@ public class PubChemSearch implements Serializable, Cloneable, Callable<Collecti
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                logger.error("Something went wrong while extracting chebiID from the JSONArray: " + array , e);
             }
         }
         return "";
@@ -167,6 +170,7 @@ public class PubChemSearch implements Serializable, Cloneable, Callable<Collecti
             compoundSearchResult.setInchi((String) myObject2.get("InChI"));
         } catch (JSONException e) {
             e.printStackTrace();
+            logger.error("Something went wrong while extracting results from pubchem response: " + searchResult, e);
         }
 
 

@@ -1,8 +1,11 @@
 package uk.ac.ebi.metabolights.webservice.searchplugin;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.ChebiWebServiceFault_Exception;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.*;
+import uk.ac.ebi.metabolights.webservice.controllers.GenericCompoundWSController;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,7 +16,7 @@ import java.util.concurrent.*;
  * Created by kalai on 28/07/2016.
  */
 public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSearchResult> {
-
+    private static Logger logger = LoggerFactory.getLogger(ChebiSearch.class);
     private CompoundSearchResult compoundSearchResult = new CompoundSearchResult(SearchResource.CHEBI);
     private SearchTermCategory searchTermCategory;
     private String[] rowMatchedFromCuratedFile;
@@ -46,27 +49,53 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
 
 
     public CompoundSearchResult searchAndFillByName(String compoundName, String[] nameMatch, CompoundSearchResult compoundSearchResult) {
-        String chebiID = extractChebiID(nameMatch, compoundName, CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID());
-        fillWithChebiCompleteEntity(chebiID, compoundSearchResult);
-        if (compoundSearchResult.getFormula() == null) {
-            compoundSearchResult.setFormula(extractFormula(nameMatch, compoundName, CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()));
+        if (oneNameContainsManyID(nameMatch)) {
+            straightAwayfillWithMatchedRow(compoundSearchResult, nameMatch);
+            return compoundSearchResult;
         }
-        if (!compoundSearchResult.isComplete()) {
-            fillWithMatchedRow(compoundSearchResult, nameMatch);
+        try {
+            String chebiID = CuratedMetaboliteTableUtilities.extractChebiID(nameMatch, compoundName, CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID());
+            fillWithChebiCompleteEntity(chebiID, compoundSearchResult);
+            if (compoundSearchResult.getFormula() == null) {
+                compoundSearchResult.setFormula(CuratedMetaboliteTableUtilities.extractFormula(nameMatch, compoundName, CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()));
+            }
+            if (!compoundSearchResult.isComplete()) {
+                straightAwayfillWithMatchedRow(compoundSearchResult, nameMatch, compoundName);
+            }
+        } catch (Exception e) {
+            logger.error("Something went wrong while filling result from curatedRow: " + e);
         }
         return compoundSearchResult;
     }
 
-    private void fillWithMatchedRow(CompoundSearchResult compoundSearchResult, String[] matchedRow) {
-        compoundSearchResult.setSmiles(matchedRow[CuratedMetabolitesFileColumnIdentifier.SMILES.getID()]);
-        compoundSearchResult.setInchi(matchedRow[CuratedMetabolitesFileColumnIdentifier.INCHI.getID()]);
-        compoundSearchResult.setDatabaseId(matchedRow[CuratedMetabolitesFileColumnIdentifier.CHEBI_ID.getID()]);
-        compoundSearchResult.setFormula(matchedRow[CuratedMetabolitesFileColumnIdentifier.MOLECULAR_FORMULA.getID()]);
-        compoundSearchResult.setName(matchedRow[CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()]);
+    private void straightAwayfillWithMatchedRow(CompoundSearchResult compoundSearchResult, String[] matchedRow) {
+        try {
+            compoundSearchResult.setSmiles(matchedRow[CuratedMetabolitesFileColumnIdentifier.SMILES.getID()]);
+            compoundSearchResult.setInchi(matchedRow[CuratedMetabolitesFileColumnIdentifier.INCHI.getID()]);
+            compoundSearchResult.setDatabaseId(matchedRow[CuratedMetabolitesFileColumnIdentifier.CHEBI_ID.getID()]);
+            compoundSearchResult.setFormula(matchedRow[CuratedMetabolitesFileColumnIdentifier.MOLECULAR_FORMULA.getID()]);
+            compoundSearchResult.setName(matchedRow[CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()]);
+        } catch (Exception e) {
+            logger.error("Something went wrong while parsing row to fill result: " + e);
+        }
     }
+
+    private void straightAwayfillWithMatchedRow(CompoundSearchResult compoundSearchResult, String[] matchedRow, String compoundName) {
+        try {
+            compoundSearchResult.setSmiles(CuratedMetaboliteTableUtilities.extractSMILES(matchedRow, compoundName, CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()));
+            compoundSearchResult.setInchi(CuratedMetaboliteTableUtilities.extractInChI(matchedRow, compoundName, CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()));
+            compoundSearchResult.setDatabaseId(CuratedMetaboliteTableUtilities.extractChebiID(matchedRow, compoundName, CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()));
+            compoundSearchResult.setFormula(CuratedMetaboliteTableUtilities.extractFormula(matchedRow, compoundName, CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()));
+            compoundSearchResult.setName(CuratedMetaboliteTableUtilities.extractName(matchedRow, compoundName, CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()));
+        } catch (Exception e) {
+            logger.error("Something went wrong while parsing row to fill result: " + e);
+        }
+    }
+
 
     public void fillWithChebiCompleteEntity(String chebiID, CompoundSearchResult compoundSearchResult) {
         try {
+            if (chebiID == null) return;
             Entity chebiEntity = getChebiEntity(chebiID);
             if (chebiEntity == null) return;
             compoundSearchResult.setDatabaseId(chebiID);
@@ -77,6 +106,7 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
             }
             compoundSearchResult.setName(chebiEntity.getChebiAsciiName());
         } catch (ChebiWebServiceFault_Exception e) {
+            logger.error("While trying to access Chebi with id: ", e);
             e.printStackTrace();
         }
     }
@@ -88,14 +118,22 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
             if (!resultList.isEmpty()) {
                 String matchingChebiID = getChEBIIDOfExactNameMatch(resultList, compoundName);
                 if (!matchingChebiID.isEmpty()) {
-                    String checkedChebiID = checkForAnionCase(compoundName,matchingChebiID);
+                    String checkedChebiID = checkForAnionCase(compoundName, matchingChebiID);
                     fillWithChebiCompleteEntity(checkedChebiID, compoundSearchResult);
                 }
             }
         } catch (ChebiWebServiceFault_Exception e) {
-            System.err.println(e.getMessage());
+            logger.error("something went wrong when searching for name: " + compoundName, e);
         }
         return compoundSearchResult;
+    }
+
+    private boolean oneNameContainsManyID(String[] matchedRow) {
+        if (!matchedRow[CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()].contains("|") &&
+                matchedRow[CuratedMetabolitesFileColumnIdentifier.CHEBI_ID.getID()].contains("|")) {
+            return true;
+        }
+        return false;
     }
 
     private boolean thisChebiResultisValid(List<DataItem> result) {
@@ -116,7 +154,7 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
     private String getChEBIIDOfExactNameMatch(List<LiteEntity> entities, String compoundName) {
         for (int i = 0; i < entities.size(); i++) {
             LiteEntity liteEntity = entities.get(i);
-            if (liteEntity.getChebiAsciiName().equalsIgnoreCase(compoundName)) {
+            if (Utilities.hit(liteEntity.getChebiAsciiName(),compoundName)) {
                 return liteEntity.getChebiId();
             }
         }
@@ -139,14 +177,24 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
         for (Future<Entity> futureEntity : searchResultsFromChebi) {
             try {
                 Entity entity = futureEntity.get();
+                if(Utilities.hit(entity.getChebiAsciiName(),termToMatch)){
+                    return entity.getChebiId();
+                }
                 List<DataItem> synonyms = entity.getSynonyms();
                 for (DataItem synonym : synonyms) {
                     if (Utilities.hit(synonym.getData(), termToMatch)) {
                         return entity.getChebiId();
                     }
                 }
+                List<DataItem> iupacNames = entity.getIupacNames();
+                for (DataItem iupacName : iupacNames) {
+                    if (Utilities.hit(iupacName.getData(), termToMatch)) {
+                        return entity.getChebiId();
+                    }
+                }
             } catch (Exception e) {
                 e.printStackTrace();
+                logger.error("Something went wrong while extracting matching chebi id for " + termToMatch, e);
                 continue;
             }
         }
@@ -176,51 +224,11 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
     }
 
 
-    private String extractChebiID(String[] matchingRow, String termToMatch, int indexToSearch) {
-        String chebiID = matchingRow[CuratedMetabolitesFileColumnIdentifier.CHEBI_ID.getID()];
-        if (chebiID.contains("|")) {
-            String[] chebiIDS = chebiID.split("\\|");
-            return chebiIDS[getMatchingIndex(extractSearchTerms(matchingRow, indexToSearch), termToMatch)];
-        } else {
-            return chebiID;
-        }
-    }
-
-
-    private String extractFormula(String[] matchingRow, String termToMatch, int indexToSearch) {
-        String formula = matchingRow[CuratedMetabolitesFileColumnIdentifier.MOLECULAR_FORMULA.getID()];
-        if (formula.contains("|")) {
-            String[] formulas = formula.split("\\|");
-            return formulas[getMatchingIndex(extractSearchTerms(matchingRow, indexToSearch), termToMatch)];
-
-        } else {
-            return formula;
-        }
-    }
-
-    private String[] extractSearchTerms(String[] matchingRow, int searchIndex) {
-        String searchTerm = matchingRow[searchIndex];
-        if (searchTerm.contains("|")) {
-            return searchTerm.split("\\|");
-        } else {
-            return new String[]{searchTerm};
-        }
-    }
-
-    private int getMatchingIndex(String[] availableTerms, String termToMatch) {
-        for (int i = 0; i < availableTerms.length; i++) {
-            if (availableTerms[i].equalsIgnoreCase(termToMatch)) {
-                return i;
-            }
-        }
-        return 0;
-    }
-
     public void searchAndFillByInChI(String compoundInChI, String[] inchiMatch, CompoundSearchResult compoundSearchResult) {
-        String chebiID = extractChebiID(inchiMatch, compoundInChI, CuratedMetabolitesFileColumnIdentifier.INCHI.getID());
+        String chebiID = CuratedMetaboliteTableUtilities.extractChebiID(inchiMatch, compoundInChI, CuratedMetabolitesFileColumnIdentifier.INCHI.getID());
         fillWithChebiCompleteEntity(chebiID, compoundSearchResult);
         if (compoundSearchResult.getFormula() == null) {
-            compoundSearchResult.setFormula(extractFormula(inchiMatch, compoundInChI, CuratedMetabolitesFileColumnIdentifier.INCHI.getID()));
+            compoundSearchResult.setFormula(CuratedMetaboliteTableUtilities.extractFormula(inchiMatch, compoundInChI, CuratedMetabolitesFileColumnIdentifier.INCHI.getID()));
         }
     }
 
@@ -229,16 +237,16 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
             LiteEntityList entities = getChebiLiteEntityList(compoundInChI, SearchCategory.INCHI_INCHI_KEY);
             return fillSearchResults(entities, compoundSearchResult);
         } catch (ChebiWebServiceFault_Exception e) {
-            System.err.println(e.getMessage());
+            logger.error("Something went wrong with the InChI search in ChEBI for " + compoundInChI, e);
             return false;
         }
     }
 
     public void searchAndFillBySMILES(String compoundSMILES, String[] smilesMatch, CompoundSearchResult compoundSearchResult) {
-        String chebiID = extractChebiID(smilesMatch, compoundSMILES, CuratedMetabolitesFileColumnIdentifier.SMILES.getID());
+        String chebiID = CuratedMetaboliteTableUtilities.extractChebiID(smilesMatch, compoundSMILES, CuratedMetabolitesFileColumnIdentifier.SMILES.getID());
         fillWithChebiCompleteEntity(chebiID, compoundSearchResult);
         if (compoundSearchResult.getFormula() == null) {
-            compoundSearchResult.setFormula(extractFormula(smilesMatch, compoundSMILES, CuratedMetabolitesFileColumnIdentifier.SMILES.getID()));
+            compoundSearchResult.setFormula(CuratedMetaboliteTableUtilities.extractFormula(smilesMatch, compoundSMILES, CuratedMetabolitesFileColumnIdentifier.SMILES.getID()));
         }
     }
 
@@ -247,7 +255,7 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
             LiteEntityList entities = getChebiLiteEntityList(compoundSMILES, SearchCategory.SMILES);
             return fillSearchResults(entities, compoundSearchResult);
         } catch (ChebiWebServiceFault_Exception e) {
-            System.err.println(e.getMessage());
+            logger.error("Something went wrong with the SMILES search in ChEBI for " + compoundSMILES, e);
             return false;
         }
     }
