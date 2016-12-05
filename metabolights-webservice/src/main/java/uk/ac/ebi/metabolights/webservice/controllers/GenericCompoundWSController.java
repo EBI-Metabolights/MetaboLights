@@ -39,9 +39,27 @@ public class GenericCompoundWSController {
         logger.info("Searching by compound name " + compoundName);
         RestResponse<List<CompoundSearchResult>> response = new RestResponse();
         //getSearchHitsFromListChebIAndChemSpiderOnly(compoundName.contains("(+)") ? compoundName : Utilities.decode(compoundName));
-        List<CompoundSearchResult> searchHits = getSearchHitsFromListChebIAndChemSpiderOnly(Utilities.decodeSlashesAndDots(compoundName));
+        List<CompoundSearchResult> searchHits = new ArrayList<>();
+        if (nameIsAnUnknown(compoundName)) {
+            searchHits.add(getDefaultEntryForUnknown());
+        } else {
+            searchHits = getSearchHitsFromListChebIAndChemSpiderOnly(Utilities.decodeSlashesAndDots(compoundName));
+        }
         response.setContent(searchHits);
         return response;
+    }
+
+    private boolean nameIsAnUnknown(String searchTerm) {
+        if (searchTerm.equalsIgnoreCase("unknown") || searchTerm.equalsIgnoreCase("unidentified")) {
+            return true;
+        }
+        return false;
+    }
+
+    private CompoundSearchResult getDefaultEntryForUnknown() {
+        CompoundSearchResult compoundSearchResult = new CompoundSearchResult(SearchResource.CURATED);
+        compoundSearchResult.setName("unknown");
+        return compoundSearchResult;
     }
 
     private List<CompoundSearchResult> getSearchHitsForName(final String compoundName) {
@@ -81,7 +99,7 @@ public class GenericCompoundWSController {
             searchResultsFromChebi.add(executor.submit(new ChebiSearch(SearchTermCategory.NAME, compoundName)));
             Future<Collection<CompoundSearchResult>> chemSpiderResults = executor.submit(new ChemSpiderSearch(compoundName));
             executor.shutdown();
-            return Utilities.combine(searchResultsFromChebi, chemSpiderResults,compoundName);
+            return Utilities.combine(searchResultsFromChebi, chemSpiderResults, compoundName);
         }
     }
 
