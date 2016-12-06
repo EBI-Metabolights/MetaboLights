@@ -32,7 +32,7 @@ public class CuratedMetaboliteTable {
 // parses all rows in one go.
         try {
             List<String[]> curatedMetabolites = parser.parseAll(new FileReader(curatedMetaboliteListLocation));
-            logger.info("Total " + curatedMetabolites + " Loaded from " + curatedMetaboliteListLocation);
+            logger.info("Total " + curatedMetabolites.size() + " Loaded from " + curatedMetaboliteListLocation);
             return removeQoutesFrom(curatedMetabolites);
         } catch (FileNotFoundException e) {
             logger.error("Something went wrong while parsing the curated metabolights list", e);
@@ -52,13 +52,15 @@ public class CuratedMetaboliteTable {
                     row[CuratedMetabolitesFileColumnIdentifier.COMPOUND_NAME.getID()] = compoundName;
                 }
                 String inchi = row[CuratedMetabolitesFileColumnIdentifier.INCHI.getID()];
-                if (inchi != null || !inchi.isEmpty()) {
-                    inchi = inchi.replaceAll("\"", "");
-                    row[CuratedMetabolitesFileColumnIdentifier.INCHI.getID()] = inchi;
+                if (inchi != null) {
+                    if(!inchi.isEmpty()){
+                        inchi = inchi.replaceAll("\"", "");
+                        row[CuratedMetabolitesFileColumnIdentifier.INCHI.getID()] = inchi;
+                    }
                 }
                 qoutesRemovedList.add(row);
             } catch (Exception e) {
-                continue;
+               continue;
             }
         }
         return qoutesRemovedList;
@@ -87,13 +89,13 @@ public class CuratedMetaboliteTable {
                         String[] split = row[index].split("\\|");
                         for (String s : split) {
 //                            if (s.replaceAll("\\s", "").equalsIgnoreCase(value)) {
-                            if (Utilities.hit(s,value)) {
+                            if (Utilities.hit(s, value)) {
                                 matchingRows.add(row);
                             }
                         }
                     } else {
 //                        if (row[index].replaceAll("\\s", "").equalsIgnoreCase(value)) {
-                        if (Utilities.hit(row[index],value)){
+                        if (Utilities.hit(row[index], value)) {
                             matchingRows.add(row);
                         }
                     }
