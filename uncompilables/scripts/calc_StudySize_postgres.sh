@@ -2,16 +2,9 @@
 
 #studyfolder="/nfs/public/rw/homes/tc_cm01/metabolights/prod/studies/stage/private"
 studyfolder="/nfs/www-prod/web_hx2/cm/metabolights/prod/studies/stage/private"
-sql_script="/nfs/www-prod/web_hx2/cm/metabolights/scripts/db_update_size_prod.sql"
+sql_script="/nfs/www-prod/web_hx2/cm/metabolights/scripts/db_update_size_prod_postgres.sql"
 
-source /homes/oracle/ora11setup.sh
-
-export PGPASSWORD=xx
-export PG_USER=xx
-export PG_DB=xx
-export PG_HOST=xx
-export PG_PORT=5432
-export PG_COMMAND="psql -U ${PG_USER} -w -d ${PG_DB} -h ${PG_HOST} -p ${PG_PORT}"
+source ./postgres.properties
 
 rm $sql_script
 touch $sql_script
@@ -44,4 +37,4 @@ done
 
 echo "\q" >> $sql_script
 
-$PG_COMMAND -f ${sql_script}
+${PG_COMMAND} -f ${sql_script}

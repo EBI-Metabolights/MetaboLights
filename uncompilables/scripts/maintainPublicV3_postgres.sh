@@ -23,6 +23,7 @@
 ##########################################################################
 
 . /nfs/production/panda/metabolights/source/metabolights/metabolights-webapps/src/main/scripts/logging_functions
+source ./postgres.properties
 
 #################################
 #  Configurable Options Follow  #
@@ -33,18 +34,12 @@ SCRIPT_LOC=/nfs/www-prod/web_hx2/cm/metabolights/scripts
 PRIVATE_LOC=/nfs/www-prod/web_hx2/cm/metabolights/prod/studies/stage/private
 PUBLIC_FTP_LOC=/ebi/ftp/pub/databases/metabolights/studies/public
 NUM_DAYS=2
-PGPASSWORD=xx
-PG_USER=xx
-PG_DB=xx
-PG_HOST=xx
-PG_PORT=5432
 
 #################################
 #  End of Configurable Options  #
 #################################
 
 SHELL_LOG_FILE=$SCRIPT_LOC/maintainPublicV3.log 
-PG_COMMAND="psql -U ${PG_USER} -w -d ${PG_DB} -h ${PG_HOST} -p ${PG_PORT}"
 
 # Get private studies that have passed the release date
 GET_STUDIES_SQL="select acc from studies where status = 3 AND ((date_trunc('day',releasedate)>=date_trunc('day',current_date-${NUM_DAYS})) or (date_trunc('day',updatedate) >=date_trunc('day',current_date-${NUM_DAYS})));"
@@ -63,21 +58,21 @@ Info "Testing required parameters"
 Info ------------------------------------------------------------------------------------------
 Info "Start"
 
-PUBLIC_STUDIES=`$PG_COMMAND -c ${GET_STUDIES_SQL} | grep MTBLS`
+PUBLIC_STUDIES=`$PG_COMMAND -c "${GET_STUDIES_SQL}" | grep MTBLS`
  
 for studies in $PUBLIC_STUDIES
 do
   Info "Removing MetExplore json mapping file"
-##  rm metexplore_mapping.json
+  rm metexplore_mapping.json
   Info "Study ${studies} is now being synced to the public ftp folder"
-##  mkdir -p ${PUBLIC_FTP_LOC}/${studies}
-##  rsync -av ${PRIVATE_LOC}/${studies}/ ${PUBLIC_FTP_LOC}/${studies}
-##  chmod -R go+rx ${PUBLIC_FTP_LOC}/${studies}
+  mkdir -p ${PUBLIC_FTP_LOC}/${studies}
+  rsync -av ${PRIVATE_LOC}/${studies}/ ${PUBLIC_FTP_LOC}/${studies}
+  chmod -R go+rx ${PUBLIC_FTP_LOC}/${studies}
 done
 
 
 Info "Update statistics table"
-##$PG_COMMAND -f  @$SCRIPT_LOC/ml_stats2.sql
+$PG_COMMAND -f $SCRIPT_LOC/ml_stats2_postgres.sql
 
-[ -z $PUBLIC_STUDIES ] ||  mailx -s 'MetaboLights Public File Maintenance' ${EMAILTO} < ${SHELL_LOG_FILE}
+[ -z $PUBLIC_STUDIES ] ||  mailx -s 'MetaboLights PostgreSQL Public File Maintenance' ${EMAILTO} < ${SHELL_LOG_FILE}
 
