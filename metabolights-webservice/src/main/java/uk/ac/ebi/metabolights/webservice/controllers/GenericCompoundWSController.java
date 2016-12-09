@@ -36,10 +36,30 @@ public class GenericCompoundWSController {
     @RequestMapping(value = COMPOUND_NAME_MAPPING + "/{compoundName}")
     @ResponseBody
     public RestResponse<List<CompoundSearchResult>> getCompoundByName(@PathVariable("compoundName") final String compoundName) {
+        logger.info("Searching by compound name " + compoundName);
         RestResponse<List<CompoundSearchResult>> response = new RestResponse();
-        List<CompoundSearchResult> searchHits = getSearchHitsFromListChebIAndChemSpiderOnly(compoundName.contains("(+)") ? compoundName : Utilities.decode(compoundName));
+        //getSearchHitsFromListChebIAndChemSpiderOnly(compoundName.contains("(+)") ? compoundName : Utilities.decode(compoundName));
+        List<CompoundSearchResult> searchHits = new ArrayList<>();
+        if (nameIsAnUnknown(compoundName)) {
+            searchHits.add(getDefaultEntryForUnknown());
+        } else {
+            searchHits = getSearchHitsFromListChebIAndChemSpiderOnly(Utilities.decodeSlashesAndDots(compoundName));
+        }
         response.setContent(searchHits);
         return response;
+    }
+
+    private boolean nameIsAnUnknown(String searchTerm) {
+        if (searchTerm.equalsIgnoreCase("unknown") || searchTerm.equalsIgnoreCase("unidentified")) {
+            return true;
+        }
+        return false;
+    }
+
+    private CompoundSearchResult getDefaultEntryForUnknown() {
+        CompoundSearchResult compoundSearchResult = new CompoundSearchResult(SearchResource.CURATED);
+        compoundSearchResult.setName("unknown");
+        return compoundSearchResult;
     }
 
     private List<CompoundSearchResult> getSearchHitsForName(final String compoundName) {
@@ -79,7 +99,7 @@ public class GenericCompoundWSController {
             searchResultsFromChebi.add(executor.submit(new ChebiSearch(SearchTermCategory.NAME, compoundName)));
             Future<Collection<CompoundSearchResult>> chemSpiderResults = executor.submit(new ChemSpiderSearch(compoundName));
             executor.shutdown();
-            return Utilities.combine(searchResultsFromChebi, chemSpiderResults,compoundName);
+            return Utilities.combine(searchResultsFromChebi, chemSpiderResults, compoundName);
         }
     }
 
@@ -104,6 +124,7 @@ public class GenericCompoundWSController {
     @RequestMapping(value = COMPOUND_INCHI_MAPPING, method = RequestMethod.POST, headers = "content-type=application/x-www-form-urlencoded")
     @ResponseBody
     public RestResponse<List<CompoundSearchResult>> getCompoundByInChI(@RequestBody String compoundInChI) {
+        logger.info("Searching by InChI " + compoundInChI);
         RestResponse<List<CompoundSearchResult>> response = new RestResponse();
         List<CompoundSearchResult> searchHits = getSearchHitsForInChI(Utilities.decode(compoundInChI));
         Utilities.sort(searchHits);
@@ -133,6 +154,7 @@ public class GenericCompoundWSController {
     @RequestMapping(value = COMPOUND_SMILES_MAPPING, method = RequestMethod.POST, headers = "content-type=application/x-www-form-urlencoded")
     @ResponseBody
     public RestResponse<List<CompoundSearchResult>> getCompoundBySMILES(@RequestBody String compoundSMILES) {
+        logger.info("Searching by compound SMILES " + compoundSMILES);
         RestResponse<List<CompoundSearchResult>> response = new RestResponse();
         List<CompoundSearchResult> searchHits = getSearchHitsForSMILES(Utilities.decode(compoundSMILES));
         Utilities.sort(searchHits);
@@ -167,6 +189,7 @@ public class GenericCompoundWSController {
     @RequestMapping(value = COMPOUND_DATABASE_ID_MAPPING + "/{databaseId}")
     @ResponseBody
     public RestResponse<List<CompoundSearchResult>> getCompoundByDatabaseID(@PathVariable("databaseId") final String databaseId) {
+        logger.info("Searching by compound ID " + databaseId);
         RestResponse<List<CompoundSearchResult>> response = new RestResponse();
         List<CompoundSearchResult> searchHits = new ArrayList<>();
         if (databaseId.toLowerCase().contains("chebi")) {

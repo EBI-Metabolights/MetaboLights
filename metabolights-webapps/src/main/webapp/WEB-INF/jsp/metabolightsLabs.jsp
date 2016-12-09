@@ -23,17 +23,18 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
 
-<base href="${pageContext.request.contextPath}/metabolightslabs/">
+<base href="${pageContext.request.contextPath}/labs/">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
-<app-root>Loading</app-root>
-<script type="text/javascript" src="inline.js"></script><script type="text/javascript" src="polyfills.bundle.js"></script><script type="text/javascript" src="main.bundle.js"></script></body>
+<app-root>
+    <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+</app-root>
 
-<script>
-    window.onload = function(){
-        document.getElementById('local-nav').style.display = 'none';
-        document.getElementById('breadcrumb').style.display = 'none';
-    };
-</script>
+<script type="text/javascript" src="inline.js"></script>
+<script type="text/javascript" src="styles.9c4623e50e91af63c06c.bundle.js"></script>
+<script type="text/javascript" src="scripts.5fd5b1b6d5381a7392a4.bundle.js"></script>
+<script type="text/javascript" src="main.3eb96af5334a480341a5.bundle.js"></script>

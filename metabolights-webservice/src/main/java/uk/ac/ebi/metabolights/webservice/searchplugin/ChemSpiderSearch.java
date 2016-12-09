@@ -2,6 +2,9 @@ package uk.ac.ebi.metabolights.webservice.searchplugin;
 
 import com.chemspider.www.MassSpecAPIStub;
 import com.chemspider.www.SearchStub;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import uk.ac.ebi.metabolights.webservice.controllers.GenericCompoundWSController;
 import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
 
 import java.io.Serializable;
@@ -14,7 +17,7 @@ import java.util.concurrent.Callable;
  * Created by kalai on 05/08/2016.
  */
 public class ChemSpiderSearch implements Serializable, Cloneable, Callable<Collection<CompoundSearchResult>> {
-
+    private static Logger logger = LoggerFactory.getLogger(ChemSpiderSearch.class);
     private final String ChemSpiderToken = PropertiesUtil.getProperty("chemspiderSecurityToken");
     private List<CompoundSearchResult> compoundSearchResults = new ArrayList<CompoundSearchResult>();
     private String searchTerm;
@@ -60,6 +63,7 @@ public class ChemSpiderSearch implements Serializable, Cloneable, Callable<Colle
             output = thisSimpleSearchResponse.getSimpleSearchResult().get_int();
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error("Something went wrong while searching for " + query + " in ChemSpider", e);
             return new int[0];
         }
         return output;
@@ -87,6 +91,7 @@ public class ChemSpiderSearch implements Serializable, Cloneable, Callable<Colle
             }
 
         } catch (Exception e) {
+            logger.error("Something went wrong while extracting search results in ChemSpider for: " + searchTerm, e);
         }
 
     }

@@ -29,7 +29,6 @@
     <artifactId>metabolights-referencelayer-dao</artifactId>
     <version>4.0-SNAPSHOT</version>
     <name>MetaboLights Reference layer Data Access Object</name>
-    <!--Migrated to slf4j + log4j-->
     <description>Reference layer Data Access Object</description>
 
     <parent>
@@ -52,6 +51,10 @@
                 <exclusion>
                     <artifactId>log4j</artifactId>
                     <groupId>log4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-collections</artifactId>
+                    <groupId>commons-collections</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -84,11 +87,5 @@
             <artifactId>lambdaj</artifactId>
             <version>2.3</version>
         </dependency>
-        <!--dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.15</version>
-            <scope>runtime</scope>
-        </dependency-->
     </dependencies>
 </project>

@@ -41,6 +41,7 @@
 					<span class="offTrafficL"/>
 					<span class="offTrafficL"/>
 				</c:if>
+
 				<c:if test="${liteStudy.validations.status == 'AMBER'}">
 					<span class="offTrafficL"/>
 					<span class="amberTrafficL"/>
@@ -53,17 +54,19 @@
 				</c:if>
 			</div>
 		</div>
-		<div class='row'>
-			<div class='col-md-3'>
-				<strong><spring:message code="label.releaseDate"/>:</strong>
+		<c:if test="${liteStudy.publicStudy}">
+			<div class='row'>
+				<div class='col-md-3'>
+					<strong><spring:message code="label.releaseDate"/>:</strong>
+				</div>
+				<div class='col-md-9'>
+					<fmt:formatDate pattern="dd-MMM-yyyy" value="${liteStudy.studyPublicReleaseDate}"/> &emsp;
+					<c:if test="${!(liteStudy.studyStatus == 'PUBLIC')}">
+						&nbsp;<span class="label label-danger"><i class="fa fa-key"></i></i><strong>&nbsp;<spring:message code="label.expPrivate"/></strong></span>
+					</c:if>
+				</div>
 			</div>
-			<div class='col-md-9'>
-				<fmt:formatDate pattern="dd-MMM-yyyy" value="${liteStudy.studyPublicReleaseDate}"/> &emsp;
-				<c:if test="${!(liteStudy.studyStatus == 'PUBLIC')}">
-					&nbsp;<span class="label label-danger"><i class="fa fa-key"></i></i><strong>&nbsp;<spring:message code="label.expPrivate"/></strong></span>
-				</c:if>
-			</div>
-		</div>
+		</c:if>
 		<div class="row">
 			<div class="col-md-6">
 				<strong><spring:message code="label.organism" /></strong>

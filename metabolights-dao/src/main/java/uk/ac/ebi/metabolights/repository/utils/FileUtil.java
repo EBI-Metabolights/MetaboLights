@@ -25,6 +25,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
+import java.nio.file.attribute.PosixFileAttributeView;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.UserPrincipalLookupService;
+import java.util.HashSet;
+import java.util.Set;
 
 
 public class FileUtil {
@@ -121,6 +130,31 @@ public class FileUtil {
 		File file = new File(path);
 
 		return file.exists();
+	}
+
+	public static Path createFolder(String newFolderPath) throws IOException {
+
+		// create the folder
+		File newFolder = new File(newFolderPath);
+		Path folderPath = newFolder.toPath();
+		if (!newFolder.mkdir()) throw new IOException();
+
+		// set folder owner, group and access permissions
+		// 'chmod 770'
+		UserPrincipalLookupService lookupService = FileSystems.getDefault().getUserPrincipalLookupService();
+		Set<PosixFilePermission> perms = new HashSet<PosixFilePermission>();
+		// owner permissions
+		perms.add(PosixFilePermission.OWNER_READ);
+		perms.add(PosixFilePermission.OWNER_WRITE);
+		perms.add(PosixFilePermission.OWNER_EXECUTE);
+		// group permissions
+		perms.add(PosixFilePermission.GROUP_READ);
+		perms.add(PosixFilePermission.GROUP_WRITE);
+		perms.add(PosixFilePermission.GROUP_EXECUTE);
+		// apply changes
+		Files.getFileAttributeView(folderPath, PosixFileAttributeView.class, LinkOption.NOFOLLOW_LINKS).setPermissions(perms);
+
+		return folderPath;
 	}
 
 	public static boolean fileExists(String path, boolean throwException) throws FileNotFoundException{

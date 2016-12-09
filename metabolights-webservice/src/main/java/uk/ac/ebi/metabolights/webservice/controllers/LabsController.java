@@ -44,7 +44,6 @@ import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.webservice.services.UserServiceImpl;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,8 +52,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.Key;
 
-
-
 /**
  * Created by venkata on 29/10/2015.
  */
@@ -62,8 +59,16 @@ import java.security.Key;
 @Controller
 @RequestMapping("labs")
 public class LabsController extends BasicController{
+
     protected static final Logger logger = LoggerFactory.getLogger(BasicController.class);
 
+    /**
+     * Authenticate user and generate JWT token if the user is valid
+     * @param data
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping(value = "authenticate", method = RequestMethod.POST)
     @ResponseBody
     public RestResponse<String> authenticateUser(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
@@ -115,24 +120,47 @@ public class LabsController extends BasicController{
 
             String jwt = null;
             try {
+
                 jwt = jws.getCompactSerialization();
+
             } catch (JoseException e) {
+
                 response.setStatus(Response.Status.FORBIDDEN.getStatusCode());
+
                 return restResponse;
+
             }
 
-            restResponse.setContent(jwt);
-            response.setHeader("user", email);
+            response.setHeader("Access-Control-Expose-Headers", "jwt, user");
+
             response.setHeader("jwt", jwt);
+
+            response.setHeader("user", email);
+
             return restResponse;
+
         }else{
+
             restResponse.setContent("invalid");
+
             response.setStatus(Response.Status.FORBIDDEN.getStatusCode());
+
             return restResponse;
+
         }
 
     }
 
+    /**
+     * Validate user based on the JWT Token
+     * @param request
+     * @param response
+     * @return
+     * @throws ServletException
+     * @throws IOException
+     * @throws JoseException
+     * @throws DAOException
+     */
     @RequestMapping(value = "validateuser", method = RequestMethod.GET)
     @ResponseBody
     public RestResponse<String> validateJWTToken(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, JoseException, DAOException {
@@ -171,4 +199,6 @@ public class LabsController extends BasicController{
 
         return restResponse;
     }
+
+
 }

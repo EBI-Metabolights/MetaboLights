@@ -3,6 +3,8 @@ package uk.ac.ebi.metabolights.webservice.searchplugin;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,7 @@ import java.util.concurrent.Callable;
  * Created by kalai on 06/09/2016.
  */
 public class CTSSearch implements Serializable, Cloneable, Callable<Collection<CompoundSearchResult>> {
+    private static Logger logger = LoggerFactory.getLogger(CTSSearch.class);
 
     //inchi-key to synonyms: http://cts.fiehnlab.ucdavis.edu/service/synonyms/WQZGKKKJIJFFOK-GASJEMHNSA-N
 
@@ -51,6 +54,7 @@ public class CTSSearch implements Serializable, Cloneable, Callable<Collection<C
             }
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error("Something went wrong while searching for " + compoundName + " in CTS", e);
         }
 
         return searchResult;
@@ -138,6 +142,7 @@ public class CTSSearch implements Serializable, Cloneable, Callable<Collection<C
                 return true;
             } catch (JSONException e) {
                 e.printStackTrace();
+                logger.error("Something went wrong while parsing resonse in the CTS Search = " + response, e);
                 return false;
             }
         }

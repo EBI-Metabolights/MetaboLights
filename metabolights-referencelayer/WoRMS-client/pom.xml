@@ -69,6 +69,24 @@
             <groupId>org.apache.axis2</groupId>
             <artifactId>axis2-transport-local</artifactId>
             <version>1.6.1</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>axiom-api</artifactId>
+                    <groupId>org.apache.ws.commons.axiom</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>axiom-impl</artifactId>
+                    <groupId>org.apache.ws.commons.axiom</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>neethi</artifactId>
+                    <groupId>org.apache.neethi</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.axis2</groupId>

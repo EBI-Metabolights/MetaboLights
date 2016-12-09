@@ -54,6 +54,13 @@
 		<put-attribute name="footer" value="/WEB-INF/jsp/frontier/footer.jsp" />
 	</definition>
 
+    <definition name="minimum" template="/WEB-INF/jsp/frontier/labslayout.jsp">
+        <put-attribute name="head" value="" />
+        <put-attribute name="header" value="" />
+        <put-attribute name="localheader" value="" />
+        <put-attribute name="body" value="" />
+        <put-attribute name="footer" value="" />
+    </definition>
 
 	<definition name="reflayersearch" extends="default">
 		<put-attribute name="title" value="Compound search" />
@@ -75,7 +82,7 @@
         <put-attribute name="body" value="/WEB-INF/jsp/bcompound.jsp" />
     </definition>
 
-    <definition name="workbench" extends="default">
+    <definition name="labs"  extends="minimum">
         <put-attribute name="title" value="MetaboLights Labs" />
         <put-attribute name="body" value="/WEB-INF/jsp/metabolightsLabs.jsp" />
     </definition>

@@ -31,13 +31,13 @@ public class GenericCompoundWSClients {
                 logger.info("Starting a new instance of the ChEBI ChebiWebServiceClient");
                 chebiWS = new ChebiWebServiceClient(new URL(chebiWSUrl), new QName("http://www.ebi.ac.uk/webservices/chebi", "ChebiWebServiceService"));
             } catch (Exception e) {
-                logger.error("Error instanciating a new ChebiWebServiceClient " + e.getMessage());
+                logger.error("Error instantiating a new ChebiWebServiceClient " + e);
             }
         return chebiWS;
     }
 
-    public static String getPubChemWSURL(){
-         return pubchemWSUrl;
+    public static String getPubChemWSURL() {
+        return pubchemWSUrl;
     }
 
     public static String executeRequest(String requestURL, String method, String postBody) {
@@ -52,7 +52,7 @@ public class GenericCompoundWSClients {
             connection.setRequestProperty("Content-Type",
                     "application/x-www-form-urlencoded");
             connection.setRequestProperty("Content-Language", "en-US");
-            connection.setRequestProperty( "charset", "utf-8");
+            connection.setRequestProperty("charset", "utf-8");
             connection.setDoOutput(true);
 
             if (method.equalsIgnoreCase("post")) {
@@ -65,7 +65,9 @@ public class GenericCompoundWSClients {
             logger.info(requestURL + " " + method + " " + postBody);
 
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                throw new RuntimeException("MetaboLights Java WS client: " + connection.getURL().toString() + "(" + method + ") request failed : HTTP error code : "
+//                throw new RuntimeException("MetaboLights Java WS client: " + connection.getURL().toString() + "(" + method + ") request failed : HTTP error code : "
+//                        + connection.getResponseCode());
+                logger.error("MetaboLights Java WS client: " + connection.getURL().toString() + "(" + method + ") request failed : HTTP error code : "
                         + connection.getResponseCode());
             }
 
@@ -80,6 +82,7 @@ public class GenericCompoundWSClients {
 
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error("Something went wrong with the execution of request: " + requestURL + ", method=" + method + ", postBody=" + postBody, e);
             return null;
         } finally {
             if (connection != null) {
