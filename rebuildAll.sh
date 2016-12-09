@@ -2,8 +2,8 @@
 export ML="/Users/`whoami`/Development/metabolights"
 export DEPLOY=" install -DskipTests=true"
 #export DEPLOY=" deploy -DskipTests=true"
-#export MVNOPTS=""
-export MVNOPTS="--offline"
+export MVNOPTS=""
+#export MVNOPTS="--offline"
 cd $ML
 
 #cd metabolights-utils
@@ -22,19 +22,19 @@ rm metabolights-webapps/target/metabolights-webapp-*.war
 rm  $ML/metabolights-webservice/target/*.war
 rm  -rf $ML/metabolights-webservice/target/*
 cd metabolights-domain
-mvn $MVNOPTS clean install $DEPLOY
+mvn $MVNOPTS clean compile $DEPLOY
 cd ../metabolights-dao
-mvn $MVNOPTS clean install $DEPLOY
+mvn $MVNOPTS clean compile $DEPLOY
 cd ../metabolights-referencelayer/dao
-mvn $MVNOPTS clean install $DEPLOY
+mvn $MVNOPTS clean compile $DEPLOY
 cd ../../metabolights-referencelayer/importer
-mvn $MVNOPTS clean install $DEPLOY
+mvn $MVNOPTS clean compile $DEPLOY
 cd ../../MetaboLights-Search
 mvn $MVNOPTS clean package $DEPLOY
 cd ../metabolights-webservice
 mvn $MVNOPTS clean package $DEPLOY
 cd ../metabolights-ws-client
-mvn $MVNOPTS clean install $DEPLOY
+mvn $MVNOPTS clean compile $DEPLOY
 cd ../metabolights-webapps
 mvn $MVNOPTS compile war:inplace war:war
 cp $ML/metabolights-webapps/target/metabolights-webapp-*.war /nfs/public/rw/homes/tc_cm01/metabolights/deploy/metabolights-webapp-dev.war

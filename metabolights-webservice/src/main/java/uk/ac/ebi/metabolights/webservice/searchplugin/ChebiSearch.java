@@ -101,14 +101,30 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
             compoundSearchResult.setDatabaseId(chebiID);
             compoundSearchResult.setSmiles(chebiEntity.getSmiles());
             compoundSearchResult.setInchi(chebiEntity.getInchi());
-            if (thisChebiResultisValid(chebiEntity.getFormulae())) {
-                compoundSearchResult.setFormula(chebiEntity.getFormulae().get(0).getData());
-            }
+            compoundSearchResult.setFormula(processFromulaWithCharge(chebiEntity));
             compoundSearchResult.setName(chebiEntity.getChebiAsciiName());
         } catch (ChebiWebServiceFault_Exception e) {
             logger.error("While trying to access Chebi with id: ", e);
             e.printStackTrace();
         }
+    }
+
+    private String processFromulaWithCharge(Entity chebiEntity) {
+        if (thisChebiResultisValid(chebiEntity.getFormulae())) {
+            String formula = chebiEntity.getFormulae().get(0).getData();
+            String charge = chebiEntity.getCharge();
+            if (!charge.equals("0")) {
+                if (charge.equals("+1")) {
+                    formula = formula + "+";
+                } else if (charge.equals("-1")) {
+                    formula = formula + "-";
+                } else {
+                    formula = formula + charge;
+                }
+            }
+            return formula;
+        }
+        return null;
     }
 
     public CompoundSearchResult searchAndFillByName(String compoundName, CompoundSearchResult compoundSearchResult) {
@@ -154,7 +170,7 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
     private String getChEBIIDOfExactNameMatch(List<LiteEntity> entities, String compoundName) {
         for (int i = 0; i < entities.size(); i++) {
             LiteEntity liteEntity = entities.get(i);
-            if (Utilities.hit(liteEntity.getChebiAsciiName(),compoundName)) {
+            if (Utilities.hit(liteEntity.getChebiAsciiName(), compoundName)) {
                 return liteEntity.getChebiId();
             }
         }
@@ -177,7 +193,7 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
         for (Future<Entity> futureEntity : searchResultsFromChebi) {
             try {
                 Entity entity = futureEntity.get();
-                if(Utilities.hit(entity.getChebiAsciiName(),termToMatch)){
+                if (Utilities.hit(entity.getChebiAsciiName(), termToMatch)) {
                     return entity.getChebiId();
                 }
                 List<DataItem> synonyms = entity.getSynonyms();
