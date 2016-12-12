@@ -355,8 +355,10 @@
                 <button type="button" class="btn btn-default quicklinks files--tab" data-destination="files"><i
                         class="ml--icons fa fa-download pull-left"></i> Download Study files
                 </button>
-                <button type="button" class="btn btn-default"><i
-                        class="ml--icons"></i> Claim ORCID
+                <button type="button" class="btn btn-default" title="To Claim this study login into MetaboLights and link your ORCID account"><i
+                        class="thorOrcIdSpan">
+                    <img src="//www.ebi.ac.uk/europepmc/thor/resources/orcid-id.png" value="What is ORCID?" width="15" height="15" data-pin-nopin="true">
+                </i>  Claim this study to ORCID
                 </button>
 
             </div>
