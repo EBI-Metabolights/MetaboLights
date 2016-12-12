@@ -44,6 +44,12 @@
             <groupId>org.isatools</groupId>
             <artifactId>ISAcreator-api</artifactId>
             <version>1.7.7.2-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>com.springsource.org.apache.commons.io</artifactId>
+                    <groupId>org.apache.commons</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>uk.ac.ebi.metabolights</groupId>

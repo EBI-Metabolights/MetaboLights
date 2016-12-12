@@ -31,7 +31,6 @@ import uk.ac.ebi.metabolights.repository.utils.ClobJsonUtils;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Clob;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -78,8 +77,8 @@ public class StudyData extends DataModel<Study> {
     }
 
     @Column(name = "validations", nullable = true)
-    @Basic(fetch = FetchType.LAZY)
-    @Lob
+    //@Basic(fetch = FetchType.LAZY)
+    //@Lob
     public String getValidations() {
         return validations;
     }
