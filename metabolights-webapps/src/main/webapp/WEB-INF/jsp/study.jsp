@@ -138,6 +138,28 @@
             }
         });
     }
+    //claim list
+    function logInTheCurrentUser(element){
+
+        // Fill dialog
+        var targetUrl = $(element).attr("href");
+        var text = $(element).attr("confirmationText");
+
+        dialog.text(text);
+
+        $(dialog).dialog({
+//           autoOpen: false,
+            modal: true,
+            buttons : {
+                "Confirm" : function() {
+                    window.location.href = targetUrl;
+                },
+                "Cancel" : function() {
+                    $(this).dialog("close");
+                }
+            }
+        });
+    }
 </script>
 
 <%--<c:set var="readOnly" value="${!fn:contains(servletPath,study.studyIdentifier)}"/>--%>
@@ -175,78 +197,7 @@
             <span class="study--id" id="mStudyId">${study.studyIdentifier}:</span>&nbsp;
             ${study.title}
         </h2>
-        <c:choose>
-            <c:when test="${not empty userOrcidID}">
-               <div class="col-md-3">
-                    <div class="thor_div_showIf_notSigned">
-                        <table>
-                            <tr>
-                                <td class="thor_div_showIf_datasetAlreadyClaimedList">
-                                    <button type="button" class="btn btn-info" onclick="getOrcidClaimList()"
-                                            data-toggle="collapse" data-target="#claimants">${study.studyIdentifier} ORCID claims
-                                    </button>
-                                    <div id="claimants" class="collapse existingClaimants">
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>You can <a href="#" class="thor_a_generate_signinLink">sign-in to ORCID</a> to claim
-                                    your
-                                    data
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="thor_checkbox_rememberMe_cookie"> Remember
-                                    me on this computer
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
 
-                    <div class="thor_div_showIf_signedIn">
-                        <table>
-                            <tr>
-                                <td class="thor_div_showIf_datasetAlreadyClaimedList">
-                                    <button type="button" class="btn btn-info" onclick="getOrcidClaimList()"
-                                            data-toggle="collapse" data-target="#claimants1">${study.studyIdentifier} ORCID claims
-                                    </button>
-                                    <div id="claimants1" class="collapse existingClaimants">
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>You have signed in as <label class="thor_label_show_userName"></label></td>
-                            </tr>
-                            <tr style="display:none" class="thor_div_showIf_datasetNotClaimed">
-                                <td>You can <a href="#"
-                                               class="thor_a_generate_claimLink">claim ${study.studyIdentifier}</a>
-                                    into your ORCID.
-                                </td>
-                            </tr>
-                            <tr style="display:none" class="thor_div_showIf_datasetAlreadyClaimed">
-                                <td>You have claimed ${study.studyIdentifier} into your ORCID.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="#" class="thor_a_generate_logoutLink"><i>logout</i></a>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-
-                </div>
-            </c:when>
-            <c:otherwise>
-                <div class="col-md-3">
-                    <button type="button" class="btn btn-info" onclick="getOrcidClaimList()"
-                            data-toggle="collapse" title="To Claim this study login into MetaboLights and link your ORCID account"
-                            data-target="#claimants2">${study.studyIdentifier} ORCID claims
-                    </button>
-                    <div id="claimants2" class="collapse existingClaimants">
-                    </div>
-                </div>
-            </c:otherwise></c:choose>
         <div class="study--infopanel">
 
             <div class="col-md-5 no--padding">
@@ -355,11 +306,90 @@
                 <button type="button" class="btn btn-default quicklinks files--tab" data-destination="files"><i
                         class="ml--icons fa fa-download pull-left"></i> Download Study files
                 </button>
-                <button type="button" class="btn btn-default" title="To Claim this study login into MetaboLights and link your ORCID account"><i
+                <c:choose>
+                <c:when test="${userApiToken eq 'MetaboLights-anonymous'}">
+                <button type="button" class="btn btn-default" title="To Claim this study login into MetaboLights and link your ORCID account" onclick="location.href ='login'"><i
                         class="thorOrcIdSpan">
                     <img src="//www.ebi.ac.uk/europepmc/thor/resources/orcid-id.png" value="What is ORCID?" width="15" height="15" data-pin-nopin="true">
                 </i>  Claim this study to ORCID
                 </button>
+                </c:when>
+                <c:otherwise>
+                    <%--<c:choose>--%>
+                        <%--<c:when test="${not empty userOrcidID}">--%>
+                            <%--<div class="col-md-3">--%>
+                                <%--<div class="thor_div_showIf_notSigned">--%>
+                                    <%--<table>--%>
+                                        <%--<tr>--%>
+                                            <%--<td class="thor_div_showIf_datasetAlreadyClaimedList">--%>
+                                                <%--<button type="button" class="btn btn-default" onclick="getOrcidClaimList()"--%>
+                                                        <%--data-toggle="collapse" data-target="#claimants">${study.studyIdentifier} ORCID claims--%>
+                                                <%--</button>--%>
+                                                <%--<div id="claimants" class="collapse existingClaimants">--%>
+                                                <%--</div>--%>
+                                            <%--</td>--%>
+                                        <%--</tr>--%>
+                                        <%--<tr>--%>
+                                            <%--<td>You can <a href="#" class="thor_a_generate_signinLink">sign-in to ORCID</a> to claim--%>
+                                                <%--your--%>
+                                                <%--data--%>
+                                            <%--</td>--%>
+                                        <%--</tr>--%>
+                                        <%--<tr>--%>
+                                            <%--<td><input type="checkbox" class="thor_checkbox_rememberMe_cookie"> Remember--%>
+                                                <%--me on this computer--%>
+                                            <%--</td>--%>
+                                        <%--</tr>--%>
+                                    <%--</table>--%>
+                                <%--</div>--%>
+
+                                <%--<div class="thor_div_showIf_signedIn">--%>
+                                    <%--<table>--%>
+                                        <%--<tr>--%>
+                                            <%--<td class="thor_div_showIf_datasetAlreadyClaimedList">--%>
+                                                <%--<button type="button" class="btn btn-default" onclick="getOrcidClaimList()"--%>
+                                                        <%--data-toggle="collapse" data-target="#claimants1">${study.studyIdentifier} ORCID claims--%>
+                                                <%--</button>--%>
+                                                <%--<div id="claimants1" class="collapse existingClaimants">--%>
+                                                <%--</div>--%>
+                                            <%--</td>--%>
+                                        <%--</tr>--%>
+
+                                        <%--<tr>--%>
+                                            <%--<td>You have signed in as <label class="thor_label_show_userName"></label></td>--%>
+                                        <%--</tr>--%>
+                                        <%--<tr style="display:none" class="thor_div_showIf_datasetNotClaimed">--%>
+                                            <%--<td>You can <a href="#"--%>
+                                                           <%--class="thor_a_generate_claimLink">claim ${study.studyIdentifier}</a>--%>
+                                                <%--into your ORCID.--%>
+                                            <%--</td>--%>
+                                        <%--</tr>--%>
+                                        <%--<tr style="display:none" class="thor_div_showIf_datasetAlreadyClaimed">--%>
+                                            <%--<td>You have claimed ${study.studyIdentifier} into your ORCID.--%>
+                                            <%--</td>--%>
+                                        <%--</tr>--%>
+                                        <%--<tr>--%>
+                                            <%--<td><a href="#" class="thor_a_generate_logoutLink"><i>logout</i></a>--%>
+                                            <%--</td>--%>
+                                        <%--</tr>--%>
+                                    <%--</table>--%>
+                                <%--</div>--%>
+
+                            <%--</div>--%>
+                        <%--</c:when>--%>
+                        <%--<c:otherwise>--%>
+                            <%--<div class="col-md-3">--%>
+                                <%--<button type="button" class="btn btn-info" onclick="getOrcidClaimList()"--%>
+                                        <%--data-toggle="collapse" title="To Claim this study login into MetaboLights and link your ORCID account"--%>
+                                        <%--data-target="#claimants2">${study.studyIdentifier} ORCID claims--%>
+                                <%--</button>--%>
+                                <%--<div id="claimants2" class="collapse existingClaimants">--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                        <%--</c:otherwise></c:choose>--%>
+                </c:otherwise>
+                </c:choose>
+
 
             </div>
 
