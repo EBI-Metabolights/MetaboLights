@@ -95,6 +95,12 @@
             <version>2.2</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jvnet.staxex</groupId>
+            <artifactId>stax-ex</artifactId>
+            <version>1.7.7</version>
+        </dependency>
+
 
         <!--<dependency>-->
             <!--<groupId>org.slf4j</groupId>-->
@@ -110,12 +116,6 @@
             <name>ChEBI Internal Repository</name>
             <url>scp://prod.ebi.ac.uk/ebi/sp/pro1/chebi/maven2_repo</url>
         </repository>
-        <snapshotRepository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>chebi-repo</id>
-            <name>ChEBI Internal Repository</name>
-            <url>scp://prod.ebi.ac.uk:/ebi/sp/pro1/chebi/maven2_repo</url>
-        </snapshotRepository>
     </distributionManagement>
     <repositories>
         <repository>
@@ -123,7 +123,7 @@
             <name>The EBI repository</name>
             <url>http://www.ebi.ac.uk/~maven/m2repo</url>
         </repository>
-        <repository>
+        <!--repository>
             <id>intact-repo</id>
             <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo</url>
         </repository>
@@ -137,14 +137,31 @@
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
-        </repository>
+        </repository-->
         <repository>
             <id>chebi-repo-snapshot</id>
+            <name>ChEBI Repository</name>
+            <url>http://www.ebi.ac.uk/~biobabel/maven2_repo</url>
+        </repository>
+        <repository>
+            <id>chebi-snapshot-repo-snapshot</id>
             <name>ChEBI Repository</name>
             <url>http://www.ebi.ac.uk/~biobabel/maven2_repo</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
+        </repository>
+        <repository>
+            <id>codehaus-mule-repo</id>
+            <name>codehaus-mule-repo</name>
+            <url>http://repository-master.mulesoft.org/nexus/content/groups/public/</url>
+            <layout>default</layout>
+        </repository>
+        <repository>
+            <id>stax-ex-fix</id>
+            <name>fix-ebi-missing-repo</name>
+            <url>https://mvnrepository.com/artifact/org.jvnet.staxex/stax-ex</url>
+            <layout>default</layout>
         </repository>
         <repository>
             <id>limpopo-repo</id>
@@ -153,7 +170,7 @@
         </repository>
         <repository>
             <id>wso2</id>
-            <url>http://dist.wso2.org/qarepo/</url>
+            <url>http://dist.wso2.org/maven2/</url>
         </repository>
         <repository>
             <id>springsource-repo</id>

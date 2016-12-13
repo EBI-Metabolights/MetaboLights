@@ -31,6 +31,7 @@ import uk.ac.ebi.metabolights.repository.utils.ClobJsonUtils;
 import uk.ac.ebi.metabolights.repository.utils.FileAuditUtil;
 import uk.ac.ebi.metabolights.repository.utils.IsaTab2MetaboLightsConverter;
 import uk.ac.ebi.metabolights.repository.utils.validation.StudyValidationUtilities;
+import uk.ac.ebi.metabolights.repository.utils.validation.groups.IsatabValidations;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -141,6 +142,7 @@ public class StudyDAO {
                 fillStudyFromFolder(includeMetabolites, studyToFill, studyFolder);
 
             } catch (Exception e) {
+                studyToFill.getValidations().getEntries().addAll(new IsatabValidations().getValidations(studyToFill));
 
                 logger.warn("Folder for {} found, but metadata can't be loaded. Load process will continue but without metadata. This should be fixed by submitting new metadata files.", studyToFill.getStudyIdentifier(), e);
 
