@@ -76,14 +76,6 @@
             <version>9.4-1200-jdbc41</version>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>oracle</groupId>
-            <artifactId>ojdbc6</artifactId>
-            <version>11.2.0.2</version>
-            <scope>test</scope>
-        </dependency>
-
         <dependency>
             <groupId>uk.ac.ebi.metabolights</groupId>
             <artifactId>metabolights-dao</artifactId>

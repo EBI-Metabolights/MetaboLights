@@ -399,12 +399,10 @@
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
-            <groupId>oracle</groupId>
-            <artifactId>ojdbc6</artifactId>
-            <version>11.2.0.2</version>
-            <scope>provided</scope>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.4-1200-jdbc41</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tiles</groupId>
