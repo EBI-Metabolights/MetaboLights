@@ -51,7 +51,7 @@
         src="${pageContext.request.contextPath}/javascript/MetExplore/metExploreViz/metexploreviz.js"
         charset="utf-8"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="//ves-ebi-37.ebi.ac.uk:8080/ThorWebTest/resources/js/dataclaiming/ebithor-claiming.0.2.js"></script>
+<script src="http://ves-ebi-37.ebi.ac.uk:8080/ThorWebTest/resources/js/dataclaiming/ebithor-claiming.0.2.js"></script>
 
 
 <script language="javascript" type="text/javascript">
@@ -379,10 +379,11 @@
                                 </div>
                             </div>
 
-
                         </c:when>
                         <c:otherwise>
-                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown"
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton2"
+                                    data-toggle="dropdown"
+                                    title="Link your ORCID id to your MetaboLights account to claim this study"
                                     aria-haspopup="true" aria-expanded="false" onclick="location.href='myAccount'">
                                 Update your ORCID ID
                             </button>
