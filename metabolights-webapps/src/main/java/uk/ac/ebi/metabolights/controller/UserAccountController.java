@@ -349,30 +349,33 @@ public class UserAccountController extends AbstractController{
     	//Update the user information in the database
     	userService.update(metabolightsUser);
 
+		HttpSession session = request.getSession();
+		String pagename = (String) session.getAttribute("currentpage");
+		if (pagename == null) {
 
-    	// Get the current user...
-    	MetabolightsUser currentUser = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+			// Get the current user...
+			MetabolightsUser currentUser = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 
-    	// If the user matches the account just been edited (now curators can edit accounts).
-    	if (currentUser.getUserId().equals(userCheck.getUserId())){
-	    	//Update the current security context with new attributes
-	    	try {
-				BeanUtils.copyProperties(currentUser, metabolightsUser);
-			} catch (Exception e) {
-				e.printStackTrace();
+			// If the user matches the account just been edited (now curators can edit accounts).
+			if (currentUser.getUserId().equals(userCheck.getUserId())){
+				//Update the current security context with new attributes
+				try {
+					BeanUtils.copyProperties(currentUser, metabolightsUser);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				//Redirect to account confirmation page
+				HttpSession httpSession = request.getSession();
+				httpSession.setAttribute("user", metabolightsUser);
+				return new ModelAndView("redirect:update-success");
+
+				// Is a curator....go back to user list
+			} else {
+				return new ModelAndView("redirect:users");
 			}
-
-			//Redirect to account confirmation page
-	    	HttpSession httpSession = request.getSession();
-			httpSession.setAttribute("user", metabolightsUser);
-	    	return new ModelAndView("redirect:update-success");
-
-    	// Is a curator....go back to user list
-    	} else {
-    		return new ModelAndView("redirect:users");
-    	}
-
-
+		}
+		return new ModelAndView("redirect:" + pagename);
 	}
 
 	/**
