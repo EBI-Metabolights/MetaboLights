@@ -26,7 +26,8 @@
 --%>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="http://www.ebi.ac.uk/europepmc/thor/resources/js/datasubmission/ebithor-submission.0.6.1.js"></script>
+<%--<script src="http://www.ebi.ac.uk/europepmc/thor/resources/js/datasubmission/ebithor-submission.0.6.1.js"></script>--%>
+<script src="http://ves-ebi-37.ebi.ac.uk:8080/ThorWebTest/resources/js/datasubmission/ebithor-submission.1.0.0.js"></script>
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 
 
