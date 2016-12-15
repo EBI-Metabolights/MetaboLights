@@ -351,8 +351,6 @@ public class UserAccountController extends AbstractController{
 
 		HttpSession session = request.getSession();
 		String pagename = (String) session.getAttribute("currentpage");
-		if (pagename == null) {
-
 			// Get the current user...
 			MetabolightsUser currentUser = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 
@@ -364,18 +362,19 @@ public class UserAccountController extends AbstractController{
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-
 				//Redirect to account confirmation page
 				HttpSession httpSession = request.getSession();
 				httpSession.setAttribute("user", metabolightsUser);
-				return new ModelAndView("redirect:update-success");
+//				return new ModelAndView("redirect:update-success");
+				if(pagename == null){
+					return new ModelAndView("redirect:update-success");
+				}
+				return new ModelAndView("redirect:" + pagename);
 
 				// Is a curator....go back to user list
 			} else {
 				return new ModelAndView("redirect:users");
 			}
-		}
-		return new ModelAndView("redirect:" + pagename);
 	}
 
 	/**
