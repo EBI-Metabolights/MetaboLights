@@ -156,7 +156,6 @@
         </property>
         <property name="hibernateProperties">
             <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL82Dialect</prop>
                 <!--<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>-->
                 <!--prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop-->
                 <!--<prop key="hibernate.search.default.indexBase">#{luceneIndexDirectoryShort}</prop>-->
