@@ -21,16 +21,15 @@
 
 package uk.ac.ebi.metabolights.repository.dao.hibernate;
 
-import oracle.jdbc.pool.OracleConnectionPoolDataSource;
 import org.junit.Before;
 import org.junit.Test;
+import org.postgresql.ds.PGPoolingDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.sql.PooledConnection;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -57,13 +56,12 @@ public class HibernateUtilTest {
 
 		// If pointing to oracle:
 		if (hibernateProperties.get("hibernate.connection.driver_class").equals("org.postgresql.Driver")) {
-
-			//Add postresql pool to JNDI.
-		} else if (hibernateProperties.get("hibernate.connection.driver_class").equals("oracle.jdbc.driver.OracleDriver")) {
-
+			addPostrePoolToJNDI(hibernateProperties);
+		}
+		/**else if (hibernateProperties.get("hibernate.connection.driver_class").equals("oracle.jdbc.driver.OracleDriver")) {
 			addOraclePoolToJNDI(hibernateProperties);
-
-		} else {
+		}**/
+		else {
 			logger.warn("Can't create a pool in JNDI for that driver: " + hibernateProperties.get("hibernate.connection.driver_class"));
 
 		}
@@ -72,10 +70,33 @@ public class HibernateUtilTest {
 
 	private void addPostrePoolToJNDI(Properties hibernateProperties) throws NamingException, SQLException {
 
+        // Create initial context
+        System.setProperty(Context.INITIAL_CONTEXT_FACTORY,
+                "org.apache.naming.java.javaURLContextFactory");
+        System.setProperty(Context.URL_PKG_PREFIXES,
+                "org.apache.naming");
+        InitialContext ic = new InitialContext();
+
+        ic.createSubcontext("java:");
+        ic.createSubcontext(JAVA_COMP);
+        ic.createSubcontext(JAVA_COMP_ENV);
+        ic.createSubcontext(JAVA_COMP_ENV_JDBC);
+
+        // Construct DataSource
+        PGPoolingDataSource ds = new PGPoolingDataSource();
+        ds.setUrl(hibernateProperties.getProperty("hibernate.connection.url"));
+        ds.setUser(hibernateProperties.getProperty("hibernate.connection.username"));
+        ds.setPassword(hibernateProperties.getProperty("hibernate.connection.password"));
+
+        // Test connectivity
+        Connection conn = ds.getConnection();
+        conn.close();
+
+        ic.bind(JNDI_TEST_DATA_SOURCE_FULL, ds);
 
 	}
 
-	private void addOraclePoolToJNDI(Properties hibernateProperties) throws NamingException, SQLException {
+	/**private void addOraclePoolToJNDI(Properties hibernateProperties) throws NamingException, SQLException {
 
 		// Create initial context
 		System.setProperty(Context.INITIAL_CONTEXT_FACTORY,
@@ -105,7 +126,8 @@ public class HibernateUtilTest {
 
 
 
-	}
+	}      **/
+
 	private Properties loadPropertyFile(String fileName) throws IOException {
 
 		Properties prop = new Properties();
