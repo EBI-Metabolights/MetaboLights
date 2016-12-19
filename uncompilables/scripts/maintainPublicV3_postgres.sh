@@ -23,7 +23,7 @@
 ##########################################################################
 
 . /nfs/production/panda/metabolights/source/metabolights/metabolights-webapps/src/main/scripts/logging_functions
-source ./postgres.properties
+source ./postgres.properties.prod
 
 #################################
 #  Configurable Options Follow  #
