@@ -51,7 +51,7 @@
         src="${pageContext.request.contextPath}/javascript/MetExplore/metExploreViz/metexploreviz.js"
         charset="utf-8"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="http://ves-ebi-37.ebi.ac.uk:8080/ThorWebTest/resources/js/dataclaiming/ebithor-claiming.0.2.js"></script>
+<script src="${orcidServiceUrl}"></script>
 
 
 <script language="javascript" type="text/javascript">

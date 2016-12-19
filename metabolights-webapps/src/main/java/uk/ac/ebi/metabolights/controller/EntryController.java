@@ -26,6 +26,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -59,6 +60,7 @@ public class EntryController extends AbstractController {
 
     private static final String ALTERNATIVE_ENTRY_PREFIX = "";
     private static Logger logger = LoggerFactory.getLogger(EntryController.class);
+	private @Value("#{OrcidClaimServiceURL}") String orcidServiceURL;
     private static String wsUrl;
     private final String DESCRIPTION = "descr";
 
@@ -314,6 +316,7 @@ public class EntryController extends AbstractController {
         calendar.setTime(study.getStudyPublicReleaseDate());
         mav.addObject("releaseYear", calendar.get(Calendar.YEAR));
         mav.addObject("userOrcidID", user.getOrcId());
+		mav.addObject("orcidServiceUrl", orcidServiceURL);
 
 
         return mav;

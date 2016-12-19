@@ -116,6 +116,8 @@
     <jee:jndi-lookup id="BccPivotalEmailAddress"    jndi-name="java:comp/env/BccPivotalEmailAddress"/>
     <jee:jndi-lookup id="staticHeaderFooter"    jndi-name="java:comp/env/staticHeaderFooter"/>
     <jee:jndi-lookup id="userSpace" jndi-name="java:comp/env/userSpace"/>
+    <jee:jndi-lookup id="OrcidClaimServiceURL" jndi-name="java:comp/env/OrcidClaimServiceURL"/>
+    <jee:jndi-lookup id="OrcidLinkServiceURL" jndi-name="java:comp/env/OrcidLinkServiceURL"/>
 
 
     <!--  register the application properties -->

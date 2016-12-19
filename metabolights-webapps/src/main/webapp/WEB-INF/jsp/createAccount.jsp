@@ -57,6 +57,7 @@
 									<c:if test="${not empty duplicateEmailAddress}"><c:out value="${duplicateEmailAddress}" /></c:if>
 								</span>
 							</div>
+							<c:set var="orcidLinkUrl" value="${orcidLinkUrl}"/>
 							<jsp:include page="accountFormFields.jsp" />
 
 						<div class="form-group">
