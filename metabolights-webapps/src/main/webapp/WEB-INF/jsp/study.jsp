@@ -104,7 +104,7 @@
 </script>
 
 <script>
-    thorApplicationNamespace.createWorkOrcId('${study.title}', 'data-set', '${releaseYear}', 'http://www.ebi.ac.uk/metabolights/${study.studyIdentifier}', '${study.description}');
+    thorApplicationNamespace.createWorkOrcId('${study.title}', 'data-set', '${releaseYear}', 'http://www.ebi.ac.uk/metabolights/${study.studyIdentifier}', '${study.description}','METABOLIGHTS');
     thorApplicationNamespace.addWorkIdentifier('other-id', '${study.studyIdentifier}');
 </script>
 

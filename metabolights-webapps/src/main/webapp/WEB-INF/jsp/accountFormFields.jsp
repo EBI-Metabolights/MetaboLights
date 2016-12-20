@@ -26,7 +26,6 @@
 --%>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<%--<script src="http://www.ebi.ac.uk/europepmc/thor/resources/js/datasubmission/ebithor-submission.0.6.1.js"></script>--%>
 <script src="${orcidLinkUrl}"></script>
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 
