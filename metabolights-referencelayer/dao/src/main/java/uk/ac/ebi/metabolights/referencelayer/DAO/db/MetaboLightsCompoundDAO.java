@@ -384,7 +384,7 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 	 */
 	private void insert(MetaboLightsCompound compound)	throws DAOException {
 		try {
-			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.compound", new String[]{"ID"}, null);
+			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.compound", new String[]{"id"}, null);       //ID and id are not the same if you use quotes when creating a table
 			stm.clearParameters();
 			stm.setString(1, compound.getAccession());
 			stm.setString(2, compound.getName());
@@ -393,12 +393,20 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 			stm.setString(5, compound.getChebiId());
             stm.setString(6, compound.getIupacNames());
             stm.setString(7, compound.getFormula());
-            stm.setBoolean(8, (Boolean) compound.getHasLiterature());
-            stm.setBoolean(9, (Boolean) compound.getHasReactions());
-            stm.setBoolean(10, (Boolean)compound.getHasSpecies());
-            stm.setBoolean(11, (Boolean)compound.getHasPathways());
-            stm.setBoolean(12, (Boolean)compound.getHasNMR());
-            stm.setBoolean(13, (Boolean) compound.getHasMS());
+            /**
+             stm.setBoolean(8, (Boolean) compound.getHasLiterature());
+             stm.setBoolean(9, (Boolean)compound.getHasReactions());
+             stm.setBoolean(10, (Boolean)compound.getHasSpecies());
+             stm.setBoolean(11, (Boolean)compound.getHasPathways());
+             stm.setBoolean(12, (Boolean)compound.getHasNMR());
+             stm.setBoolean(13, (Boolean)compound.getHasMS());      **/
+
+            stm.setInt(8,  ((compound.getHasLiterature()) ? 1 : 0));
+            stm.setInt(9,  ((compound.getHasReactions()) ? 1 : 0));
+            stm.setInt(10, ((compound.getHasSpecies()) ? 1 : 0));
+            stm.setInt(11, ((compound.getHasPathways()) ? 1 : 0));
+            stm.setInt(12, ((compound.getHasNMR()) ? 1 : 0));
+            stm.setInt(13, ((compound.getHasMS()) ? 1 : 0));
             stm.setDate(14, compound.getUpdatedDate());
 
 			stm.executeUpdate();
@@ -435,17 +443,24 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 			stm.setString(5, compound.getChebiId());
             stm.setString(6, compound.getIupacNames());
             stm.setString(7, compound.getFormula());
+            //Postgres does not like this parameter as it was converted into BigInt, rubbish!
+
+            /**
             stm.setBoolean(8, (Boolean) compound.getHasLiterature());
-            stm.setBoolean(9, (Boolean)compound.getHasReactions());
-            stm.setBoolean(10, (Boolean)compound.getHasSpecies());
-            stm.setBoolean(11, (Boolean)compound.getHasPathways());
-            stm.setBoolean(12, (Boolean)compound.getHasNMR());
-            stm.setBoolean(13, (Boolean)compound.getHasMS());
+            stm.setBoolean(9, (Boolean) compound.getHasReactions());
+            stm.setBoolean(10, (Boolean) compound.getHasSpecies());
+            stm.setBoolean(11, (Boolean) compound.getHasPathways());
+            stm.setBoolean(12, (Boolean) compound.getHasNMR());
+            stm.setBoolean(13, (Boolean) compound.getHasMS());      **/
+
+            stm.setInt(8,  ((compound.getHasLiterature()) ? 1 : 0));
+            stm.setInt(9,  ((compound.getHasReactions()) ? 1 : 0));
+            stm.setInt(10, ((compound.getHasSpecies()) ? 1 : 0));
+            stm.setInt(11, ((compound.getHasPathways()) ? 1 : 0));
+            stm.setInt(12, ((compound.getHasNMR()) ? 1 : 0));
+            stm.setInt(13, ((compound.getHasMS()) ? 1 : 0));
             stm.setDate(14, compound.getUpdatedDate());
-
             stm.setLong(15, compound.getId());
-
-
 
 			stm.executeUpdate();
 

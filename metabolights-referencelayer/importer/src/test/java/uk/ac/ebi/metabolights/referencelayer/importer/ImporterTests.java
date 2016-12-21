@@ -46,10 +46,9 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
+import uk.ac.ebi.metabolights.referencelayer.PostgresSqlLoader;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 
@@ -58,6 +57,7 @@ public class ImporterTests extends TestCase{
 	protected static final Logger LOGGER = LoggerFactory.getLogger(ImporterTests.class);
 
 	private ConnectionProvider connectionProvider;
+	private PostgresSqlLoader postgresSqlLoader;
 
 
 	@Override
@@ -68,20 +68,13 @@ public class ImporterTests extends TestCase{
 			@Override
 			public Connection getConnection() {
 
+			    PostgresSqlLoader postgresSqlLoader = new PostgresSqlLoader();
 
-				DatabaseInstance dbi = null;
-				try {
-					dbi = DatabaseInstance.getInstance("metabolightsDEV");
-//					dbi = DatabaseInstance.getInstance("metabolightsPROD");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-				return dbi.getConnection();
+                //return postgresSqlLoader.getPostgresConnection("metabolightsDEV");
+               return postgresSqlLoader.getPostgresConnection("metabolightsPROD");
 
 			}
 		};
-
 
 	}
 	 @Override
@@ -102,7 +95,7 @@ public class ImporterTests extends TestCase{
         //rli.setImportOptions(ReferenceLayerImporter.ImportOptions.REFRESH_MET_SPECIES);
 
 		// By deafeult use "metabolite"
-		//String chebiId= rli.getChebiIDRoot();
+		//String chebiId = rli.getChebiIDRoot();
 
 		// Bile Acid metabolites
 		//String chebiId = "CHEBI:48887";
@@ -110,7 +103,10 @@ public class ImporterTests extends TestCase{
 		// Plant metabolite: CHEBI:76924
 		//String chebiId = "CHEBI:76924";
 
-		String chebiId = "CHEBI:72058";
+        // Human metabolite
+        String chebiId = "CHEBI:77746";
+
+		//String chebiId = "CHEBI:72058";
 
 		rli.setChebiIDRoot(chebiId);
 
