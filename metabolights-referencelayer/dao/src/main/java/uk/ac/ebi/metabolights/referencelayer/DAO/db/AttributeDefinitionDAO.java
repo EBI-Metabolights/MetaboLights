@@ -14,7 +14,6 @@ package uk.ac.ebi.metabolights.referencelayer.DAO.db;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.DAOException;
 import uk.ac.ebi.metabolights.referencelayer.IDAO.IAttributeDefinitionDAO;
 import uk.ac.ebi.metabolights.referencelayer.model.AttributeDefinition;
-import uk.ac.ebi.metabolights.referencelayer.model.Database;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -168,7 +167,7 @@ public class AttributeDefinitionDAO extends AbstractDAO implements IAttributeDef
 	 */
 	private void insert(AttributeDefinition attributeDefinition) throws DAOException {
 		try {
-			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.attributedefinition", new String[]{"ID"}, null);
+			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.attributedefinition", new String[]{"id"}, null);
 			stm.clearParameters();
 			stm.setString(1, attributeDefinition.getName());
             stm.setString(2, attributeDefinition.getDescription());
