@@ -8,14 +8,13 @@
 #	      the next 3 weeks 
 #
 # 20150414  : Ken Haug - Created script
+# 20161220  : Ken Haug - Postgres version
 #
 ##########################################################################
-source /homes/oracle/ora11setup.sh
-DB_CONNECTION=user/pass@database
+SCRIPT_LOC=/nfs/www-prod/web_hx2/cm/metabolights/scripts
+source $SCRIPT_LOC/postgres.properties.prod
 EMAIL=metabolights-curation@ebi.ac.uk
-SQL_BASIC_STR="set pagesize 300\n column acc format a10\n column ReleaseDate format a20"
+
 # Get private studies that are passed the release date
-#GET_STUDIES_SQL="${SQL_BASIC_STR}\n select acc, to_char(releasedate,'DD MON YYYY') ReleaseDate from studies where status in(0,1,2) AND trunc(releasedate)<=trunc(sysdate+21) order by 2 asc;"
-#GET_STUDIES_SQL="${SQL_BASIC_STR}\n select acc||CHR(9)||to_char(releasedate,'DD MON YYYY')||CHR(9)||decode(status,0,'Submitted',1,'In Curation',2,'In Review','Public') from studies where status in(0,1,2) AND trunc(releasedate)<=trunc(sysdate+21) order by releasedate asc;"
-GET_STUDIES_SQL="${SQL_BASIC_STR}\n select acc||CHR(9)||to_char(releasedate,'DD MON YYYY')||CHR(9)||decode(status,0,'Submitted',1,'In Curation',2,'In Review','Public') from studies where status in(0,1,2) order by releasedate asc;"
-echo -e ${GET_STUDIES_SQL} | sqlplus -s ${DB_CONNECTION}
+GET_STUDIES_SQL="select lpad(acc,10,' ')||CHR(9)||to_char(releasedate,'DD MON YYYY')||CHR(9)|| case when status = 0 then 'Submitted' when status = 1 then 'In Curation' when status = 2 then 'In Review' when status = 3 then 'Public' else 'Dormant' end as Studies_not_yet_released from studies where status in(0,1,2) order by releasedate asc;"
+$PG_COMMAND -c "${GET_STUDIES_SQL}"

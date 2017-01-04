@@ -45,12 +45,12 @@ FS_FOLDER="/net/isilonP/public/rw/homes/tc_cm01/metabolights/ftp_private"
 FTP_FOLDER="/ebi/ftp/private/mtblight"
 DEL_PATTERN=".DELETEME-"
 
-# set a locking file, so no multiples instances of rsync will run
+# set a	locking	file, so no multiples instances of rsync will run
 lock="$FTP_FOLDER/$VER/rsyncjob.lock"
 touch $lock
 # open the file $lock for reading, and assign it file a handle
 exec 200>$lock
-# request a lock for the file $lock and exit if already taken by other instance
+# request a lock for the file $lock and exit if already taken by other instance 
 flock -n 200||exit 1
 # try to write something just to test the lock
 pid=$$
@@ -102,5 +102,5 @@ echo
 # create new requested folders
 echo Creating new requested folders...
 ### rsync -rdpv $FS_FOLDER/$VER/ $FTP_FOLDER/$VER/
-rsync -av -f"+ */" -f"- *" $FS_FOLDER/$VER/ $FTP_FOLDER/$VER/
+rsync -av -O -f"+ */" -f"- *" $FS_FOLDER/$VER/ $FTP_FOLDER/$VER/
 echo

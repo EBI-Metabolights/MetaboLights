@@ -180,7 +180,7 @@ public class CrossReferenceDAO extends AbstractDAO implements ICrossReferenceDAO
 	 */
 	private void insert(CrossReference crossReference) throws DAOException {
 		try {
-			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.crossreference", new String[]{"ID"}, null);
+			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.crossreference", new String[]{"id"}, null);
 			stm.clearParameters();
             stm.setString(1, crossReference.getAccession());
             stm.setLong(2, crossReference.getDb().getId());

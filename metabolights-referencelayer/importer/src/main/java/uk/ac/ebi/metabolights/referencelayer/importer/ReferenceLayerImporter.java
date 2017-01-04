@@ -58,7 +58,6 @@ import uk.ac.ebi.rhea.ws.response.search.RheaReaction;
 import javax.xml.namespace.QName;
 import java.io.File;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
@@ -272,18 +271,14 @@ public class ReferenceLayerImporter {
 		// For each compound
 		for (MetaboLightsCompound mc: mtblcToRefresh)
 		{
-
 			chebiID2MetaboLights(mc.getChebiId());
-
 		}
-
 
 	}
 
     public void importMetabolitesFromChebiTSV(File chebiTSV, long startFrom) throws DAOException, IOException {
 
         LOGGER.info("Importing metabolites from chebi. TSV: " + chebiTSV.getAbsoluteFile());
-
 
 		ArrayList<String> chebiIds = ChebiTools.chebiTsvToArrayList(chebiTSV);
 
@@ -365,7 +360,7 @@ public class ReferenceLayerImporter {
 					if ((importOptions & ImportOptions.REFRESH_MET_SPECIES) == ImportOptions.REFRESH_MET_SPECIES){
 						deleteExistingCHEBISpecies(mc);
 					}
-				}else{
+				} else {
 					LOGGER.info("The compound " + entity.getChebiId() + " is updated recently. Skipping it!");
 					return 1;
 				}
@@ -412,7 +407,7 @@ public class ReferenceLayerImporter {
 
 		} catch (DAOException e){
 
-			LOGGER.error(entity.getChebiId() + "failed");
+			LOGGER.error(entity.getChebiId() + " failed. "+e.getMessage());
 
 			failedCompounds.add(entity.getChebiId());
 
@@ -421,23 +416,6 @@ public class ReferenceLayerImporter {
 			initializeDAOs();
 
 			return 1;
-
-//			Throwable cause = e.getCause();
-//
-//			if (cause instanceof SQLException){
-//
-//				SQLException sqle = (SQLException) cause;
-//				// If it's bacause a duplicate key...
-//				//http://stackoverflow.com/questions/1988570/how-to-catch-a-specific-exceptions-in-jdbc
-//				if (sqle.getSQLState() != null && sqle.getSQLState().startsWith("23")){
-//					LOGGER.info("The compound " + entity.getChebiId() + " is already imported into the database (Duplicated primary key)", e);
-//					return 0;
-//				} else {
-//					throw e;
-//				}
-//			} else {
-//				throw e;
-//			}
 
 		}
 
@@ -451,7 +429,7 @@ public class ReferenceLayerImporter {
 		cal2.setTime(new Date());
 
 		if(cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH)) {
-			return true;
+		//	return true;
 		}
 
 		return false;

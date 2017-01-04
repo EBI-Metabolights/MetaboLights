@@ -4,7 +4,7 @@
 studyfolder="/nfs/www-prod/web_hx2/cm/metabolights/prod/studies/stage/private"
 sql_script="/nfs/www-prod/web_hx2/cm/metabolights/scripts/db_update_size_prod_postgres.sql"
 
-source ./postgres.properties
+source ./postgres.properties.prod
 
 rm $sql_script
 touch $sql_script
