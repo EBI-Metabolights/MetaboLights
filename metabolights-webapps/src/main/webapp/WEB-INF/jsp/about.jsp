@@ -111,12 +111,15 @@
         <div class="col-md-12">
             <div class="col-md-12">
                 <a href="http://www.nature.com/sdata/policies/repositories"><img src="img/support-journals/scientificData.png" style = "height: 40px;" alt="Nature Scientific Data"/></a>
-                <a href="https://academic.oup.com/gigascience/pages/instructions_to_authors"><img src="img/support-journals/gigaScience.png" style = "height: 40px;" alt="Giga Science"/></a>
+                <%--<a href="https://academic.oup.com/gigascience/pages/instructions_to_authors"><img src="img/support-journals/gigaScience.png" style = "height: 40px;" alt="Giga Science"/></a>--%>
                 <a href="https://www.biomedcentral.com/"><img src="img/support-journals/biomedCentral.png" style = "height: 40px;" alt="BioMed Central"/></a>
                 <a href="http://journals.plos.org/plosbiology/s/data-availability#loc-recommended-repositories"><img src="img/support-journals/Plos-biology.png" style = "height: 40px;" alt="PLOS Biology"/></a>
                 <a href="http://msb.embopress.org/authorguide#datadeposition"><img src="img/support-journals/EMBO-press.png" style = "height: 40px;" alt="EMBO press"/></a>
                 <a href="https://wellcomeopenresearch.org/for-authors/data-guidelines"><img src="img/support-journals/wellcome.png" style = "height: 100px;" alt="Wellcome Trust Open Research"/></a>
                 <a href="https://f1000research.com/for-authors/data-guidelines"><img src="img/support-journals/F1000-research.png" style = "height: 40px;" alt="F1000 Research"/></a>
+                <a href="http://link.springer.com/journal/11306"><img src="img/support-journals/metabolomics.png" style = "height: 40px;" alt="Springer Link - Metabolomics"/></a>
+                <a href="http://journal.frontiersin.org/journal/molecular-biosciences/section/metabolomics#author-guidelines"><img src="img/support-journals/frontiers.png" style = "height: 40px;" alt="Frontiers"/></a>
+                <a href="http://www.mdpi.com/journal/metabolites"><img src="img/support-journals/metabolites.png" style = "height: 60px;" alt="Metabolites"/></a>
                 <p><spring:message code="msg.metaboLightsAbout17"/></p>
                 <p><spring:message code="msg.metaboLightsAbout18"/></p>
             </div>
