@@ -1792,7 +1792,7 @@
         function getOrcidClaimList() {
             $.ajax({
                 cache: false,
-                url: "http://ves-ebi-37.ebi.ac.uk:8080/ThorWebTest/api/orcid/find/other-identifier-type:${study.studyIdentifier}",
+                url: "${orcidRetrieveClaimsServiceUrl}:${study.studyIdentifier}",
                 dataType: "json",
                 success: function (orchidRespData) {
                     console.log(orchidRespData);

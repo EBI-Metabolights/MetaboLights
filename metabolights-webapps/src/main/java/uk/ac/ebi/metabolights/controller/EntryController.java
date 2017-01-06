@@ -61,6 +61,7 @@ public class EntryController extends AbstractController {
     private static final String ALTERNATIVE_ENTRY_PREFIX = "";
     private static Logger logger = LoggerFactory.getLogger(EntryController.class);
 	private @Value("#{OrcidClaimServiceURL}") String orcidServiceURL;
+    private @Value("#{OrcidRetreiveClaimsURL}") String orcidRetreiveClaimsServiceURL;
     private static String wsUrl;
     private final String DESCRIPTION = "descr";
 
@@ -317,6 +318,7 @@ public class EntryController extends AbstractController {
         mav.addObject("releaseYear", calendar.get(Calendar.YEAR));
         mav.addObject("userOrcidID", user.getOrcId());
 		mav.addObject("orcidServiceUrl", orcidServiceURL);
+        mav.addObject("orcidRetrieveClaimsServiceUrl", orcidRetreiveClaimsServiceURL);
 
 
         return mav;
