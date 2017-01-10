@@ -140,7 +140,7 @@
 <div class="container-fluid">
 
     <div class="study--wrapper col-md-12">
-        <h2 class="study--title col-md-9">
+        <h2 class="study--title col-md-12">
             <span class="study--id" id="mStudyId">${study.studyIdentifier}:</span>&nbsp;
             ${study.title}
         </h2>
