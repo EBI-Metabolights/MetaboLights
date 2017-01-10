@@ -50,6 +50,8 @@
 <script type="text/javascript"
         src="${pageContext.request.contextPath}/javascript/MetExplore/metExploreViz/metexploreviz.js"
         charset="utf-8"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="${orcidServiceUrl}"></script>
 
 
 <script language="javascript" type="text/javascript">
@@ -65,64 +67,70 @@
 
         $("input#fileSelector").bind("keypress keyup", function (e) {
 
-            var code = e.keyCode || e.which;
+                var code = e.keyCode || e.which;
 
-            if (code == 13) {
+                if (code == 13) {
 
-                var value = e.target.value;
+                    var value = e.target.value;
 
-                var checked = true;
+                    var checked = true;
 
-                if (value[0] == "!") {
-                    checked = false;
-                    value = value.substr(1);
+                    if (value[0] == "!") {
+                        checked = false;
+                        value = value.substr(1);
+                    }
+
+                    if (value != "") {
+                        $("input[name='file'][value*='" + value + "']").attr("checked", checked)
+                    }
+
+                    e.target.select();
+
+                    e.preventDefault();
+
+
                 }
-
-                if (value != "") {
-                    $("input[name='file'][value*='" + value + "']").attr("checked", checked)
-                }
-
-                e.target.select();
-
-                e.preventDefault();
-
 
             }
+        );
 
-        });
+        var hash = $.trim(window.location.hash);
 
-        var hash = $.trim( window.location.hash );
-
-        if (hash) $('.nav-tabs a[href$="'+hash+'"]').trigger('click');
-
+        if (hash) $('.nav-tabs a[href$="' + hash + '"]').trigger('click');
 
     });
 
+
 </script>
 
+<script>
+    thorApplicationNamespace.createWorkOrcId('${study.title}', 'data-set', '${releaseYear}', 'http://www.ebi.ac.uk/metabolights/${study.studyIdentifier}', '${study.description}','METABOLIGHTS');
+    thorApplicationNamespace.addWorkIdentifier('other-id', '${study.studyIdentifier}');
+</script>
 
 <%--<c:set var="readOnly" value="${!fn:contains(servletPath,study.studyIdentifier)}"/>--%>
 
 <ol class="progtrckr" data-progtrckr-steps="${(fn:length(studyStatuses))-1}">
 
-        <c:set var="statusInitial" value="${studyStatuses[0]}"/>
+<c:set var="statusInitial" value="${studyStatuses[0]}"/>
 <li class="progtrckr-done" title="${statusInitial.description}">${statusInitial.descriptiveName}</li><%--
          --%><c:choose>
-        <c:when test="${study.studyStatus eq studyStatuses[4]}"><%--
+    <c:when test="${study.studyStatus eq studyStatuses[4]}"><%--
         --%><c:forEach begin="1" end="3" var="status" items="${studyStatuses}"><%--
-            --%><li class="progtrckr-todo" title="${status.description}">${status.descriptiveName}</li><%--
+            --%>
+        <li class="progtrckr-todo" title="${status.description}">${status.descriptiveName}</li><%--
          --%></c:forEach><%--
         --%></ol>
-        </c:when>
-        <c:otherwise><%--
+    </c:when>
+    <c:otherwise><%--
         --%><c:forEach begin="1" end="3" var="status" items="${studyStatuses}"><%--
         --%><c:if test="${status gt study.studyStatus}"><%--
             --%>
-            <li class="progtrckr-todo" title="${status.description}">${status.descriptiveName}</li><%--
+        <li class="progtrckr-todo" title="${status.description}">${status.descriptiveName}</li><%--
         --%></c:if><%--
         --%><c:if test="${status le study.studyStatus}"><%--
             --%>
-            <li class="progtrckr-done" title="${status.description}">${status.descriptiveName}</li><%--
+        <li class="progtrckr-done" title="${status.description}">${status.descriptiveName}</li><%--
         --%></c:if><%--
         --%></c:forEach><%--
         --%></ol><%--
@@ -132,19 +140,19 @@
 <div class="container-fluid">
 
     <div class="study--wrapper col-md-12">
-
-        <h2 class="study--title">
+        <h2 class="study--title col-md-9">
             <span class="study--id" id="mStudyId">${study.studyIdentifier}:</span>&nbsp;
             ${study.title}
         </h2>
+
         <div class="study--infopanel">
 
             <div class="col-md-5 no--padding">
                 <p><i class="fa fa-user"></i>&nbsp;<spring:message code="ref.msg.CitationAuthors"/>:
                     <c:forEach var="contact" items="${study.contacts}" varStatus="loopStatus">
                         <c:if test="${loopStatus.index ne 0}">, </c:if>
-                            <span id="aff"
-                                  <c:if test="${not empty contact.affiliation}">title="${contact.affiliation}"</c:if>>
+                        <span id="aff"
+                              <c:if test="${not empty contact.affiliation}">title="${contact.affiliation}"</c:if>>
                                  <strong>${contact.firstName}&nbsp;${contact.lastName}</strong>
                             </span>
                     </c:forEach>
@@ -182,23 +190,23 @@
                     </c:forEach>
                     &nbsp;|&nbsp;
 
-        <c:choose>
-            <c:when test="${study.studyStatus.descriptiveName eq 'Dormant'}">
-                <i class="fa fa-bookmark"></i>&nbsp;<spring:message
-                    code="ref.msg.status"/>:&nbsp;<span class="label label-pill label-danger" style="font-family: sans-serif;font-size: 18px;font-weight: lighter">${study.studyStatus.descriptiveName}</span>
-            </c:when>
-            <c:otherwise>
-                <i class="fa fa-bookmark"></i>&nbsp;<spring:message
-                    code="ref.msg.status"/>:&nbsp;${study.studyStatus.descriptiveName}
-            </c:otherwise>
-        </c:choose>
+                    <c:choose>
+                        <c:when test="${study.studyStatus.descriptiveName eq 'Dormant'}">
+                            <i class="fa fa-bookmark"></i>&nbsp;<spring:message
+                                code="ref.msg.status"/>:&nbsp;<span class="label label-pill label-danger" style="font-family: sans-serif;font-size: 18px;font-weight: lighter">${study.studyStatus.descriptiveName}</span>
+                        </c:when>
+                        <c:otherwise>
+                            <i class="fa fa-bookmark"></i>&nbsp;<spring:message
+                                code="ref.msg.status"/>:&nbsp;${study.studyStatus.descriptiveName}
+                        </c:otherwise>
+                    </c:choose>
 
 
-    <%-- &emsp;
-    <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="bottom" id="tourButton" title="Study Tour"><i class="fa fa-compass"></i></button>--%>
-    </p>
-    </div>
-    </div>
+                    <%-- &emsp;
+                    <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="bottom" id="tourButton" title="Study Tour"><i class="fa fa-compass"></i></button>--%>
+                </p>
+            </div>
+        </div>
 
         <c:if test="${not empty study.description}">
             <div class="btn-group pull-right" role="group" aria-label="...">
@@ -245,6 +253,100 @@
                 <button type="button" class="btn btn-default quicklinks files--tab" data-destination="files"><i
                         class="ml--icons fa fa-download pull-left"></i> Download Study files
                 </button>
+                <c:choose>
+                    <c:when test="${userApiToken eq 'MetaboLights-anonymous'}">
+                        <button type="button" class="btn btn-default"
+                                title="To Claim this study login into MetaboLights and link your ORCID account"
+                                onclick="location.href ='login'">
+                            <i class="thorOrcIdSpan">
+                                <img src="//www.ebi.ac.uk/europepmc/thor/resources/orcid-id.png" value="What is ORCID?"
+                                     width="15" height="15" data-pin-nopin="true">
+                            </i> Claim this study to ORCID
+                        </button>
+                    </c:when>
+                    <c:otherwise>
+                        <c:choose>
+                            <c:when test="${not empty userOrcidID}">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="thorOrcIdSpan">
+                                        <img src="//www.ebi.ac.uk/europepmc/thor/resources/orcid-id.png" value="What is ORCID?"
+                                             width="15" height="15" data-pin-nopin="true">
+                                    </i>
+                                    Claim this study to ORCID
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <div class="thor_div_showIf_notSigned">
+                                        <table>
+                                            <tr>
+                                                <td class="thor_div_showIf_datasetAlreadyClaimedList">
+                                                    <div id="claimants" class="existingClaimants">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>You can <a href="#" class="thor_a_generate_signinLink">sign-in to
+                                                    ORCID</a> to claim
+                                                    your
+                                                    data
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="checkbox" class="thor_checkbox_rememberMe_cookie">
+                                                    Remember
+                                                    me on this computer
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <div class="thor_div_showIf_signedIn">
+                                        <table>
+                                            <tr>
+                                                <td class="thor_div_showIf_datasetAlreadyClaimedList">
+                                                    <div id="claimants1" class="existingClaimants">
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>You have signed in as <label
+                                                        class="thor_label_show_userName"></label></td>
+                                            </tr>
+                                            <tr style="display:none" class="thor_div_showIf_datasetNotClaimed">
+                                                <td>You can <a href="#"
+                                                               class="thor_a_generate_claimLink">claim ${study.studyIdentifier}</a>
+                                                    into your ORCID.
+                                                </td>
+                                            </tr>
+                                            <tr style="display:none" class="thor_div_showIf_datasetAlreadyClaimed">
+                                                <td>You have claimed ${study.studyIdentifier} into your ORCID.
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><a href="#" class="thor_a_generate_logoutLink"><i>logout</i></a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </c:when>
+                            <c:otherwise>
+                                <button class="btn btn-default" type="button"
+                                        title="Link your ORCID id to your MetaboLights account to claim this study"
+                                        onclick="location.href='myAccount'">
+                                    <i class="thorOrcIdSpan">
+                                        <img src="//www.ebi.ac.uk/europepmc/thor/resources/orcid-id.png" value="What is ORCID?"
+                                             width="15" height="15" data-pin-nopin="true">
+                                    </i>
+                                    Update your ORCID ID
+                                </button>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:otherwise>
+                </c:choose>
+
 
             </div>
 
@@ -810,71 +912,71 @@
                     </c:if>
 
 
-                        <c:if test="${not empty study.assays}">
-                            <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
-                                <div role="tabpanel" class="tab-pane" id="metpathways">
+                    <c:if test="${not empty study.assays}">
+                        <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
+                            <div role="tabpanel" class="tab-pane" id="metpathways">
 
-                                    <div class="col-md-12">
-                                        <h3 class="well">Pathways - Assay&nbsp;<c:if
-                                                test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if></h3>
+                                <div class="col-md-12">
+                                    <h3 class="well">Pathways - Assay&nbsp;<c:if
+                                            test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if></h3>
 
-                                        <div class="well col-md-12">
-                                            <div class="">
-                                                <label>&emsp;&emsp;Select Pathway(s)</label><br>
-                                                <div class="col-xs-11">
-                                                    <div class="form-group">
-                                                        <select class="selectpicker form-control" id="metPathwaysSelect"
-                                                                multiple data-live-search="true">
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-1">
-                                                    <div class="form-group">
-                                                        <a class="btn btn-success ml--button form-control"
-                                                           id="loadPathways" role="button">Load</a>
-                                                    </div>
+                                    <div class="well col-md-12">
+                                        <div class="">
+                                            <label>&emsp;&emsp;Select Pathway(s)</label><br>
+                                            <div class="col-xs-11">
+                                                <div class="form-group">
+                                                    <select class="selectpicker form-control" id="metPathwaysSelect"
+                                                            multiple data-live-search="true">
+                                                    </select>
                                                 </div>
                                             </div>
+                                            <div class="col-md-1">
+                                                <div class="form-group">
+                                                    <a class="btn btn-success ml--button form-control"
+                                                       id="loadPathways" role="button">Load</a>
+                                                </div>
+                                            </div>
+                                        </div>
 
 
+                                        <div class="col-md-12">
                                             <div class="col-md-12">
-                                                <div class="col-md-12">
-                                                    <div id="metExploreContainer">
-                                                    </div>
+                                                <div id="metExploreContainer">
                                                 </div>
                                             </div>
-
-
                                         </div>
+
+
                                     </div>
-
-
-                                    <div class="col-md-12">
-                                        <div id="metPathwaysMappingDataContainer">
-                                            <div class="">
-                                                <br>
-                                                <div class="well">
-                                                    <h4>MetExplore Pathways Mapping</h4>
-                                                </div>
-                                                <table class="table" id="metExploreTable">
-                                                    <thead>
-                                                    <tr>
-                                                        <th>Name</th>
-                                                        <th>DB Identifier</th>
-                                                        <th>Mapped Metabolite(s)</th>
-                                                       <!-- <th>p value</th> -->
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody id="metPathwaysMappingDataTable">
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                 </div>
-                            </c:forEach>
-                        </c:if>
+
+
+                                <div class="col-md-12">
+                                    <div id="metPathwaysMappingDataContainer">
+                                        <div class="">
+                                            <br>
+                                            <div class="well">
+                                                <h4>MetExplore Pathways Mapping</h4>
+                                            </div>
+                                            <table class="table" id="metExploreTable">
+                                                <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>DB Identifier</th>
+                                                    <th>Mapped Metabolite(s)</th>
+                                                    <!-- <th>p value</th> -->
+                                                </tr>
+                                                </thead>
+                                                <tbody id="metPathwaysMappingDataTable">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </c:forEach>
+                    </c:if>
 
 
                     <div role="tabpanel" class="tab-pane" id="files">
@@ -934,7 +1036,8 @@
                                     </c:if>
                                     &nbsp;
                                     <c:if test="${(study.studyStatus == 'SUBMITTED') and hasPrivateFtpFolder }">
-                                        <span class="pull-right"><i class="fa fa-angle-double-down"></i>&nbsp;<a href="#ftpFolderDetails">FTP folder details</a></span>
+                                        <span class="pull-right"><i class="fa fa-angle-double-down"></i>&nbsp;<a
+                                                href="#ftpFolderDetails">FTP folder details</a></span>
                                     </c:if>
 
                                 </h5>
@@ -951,7 +1054,7 @@
                                 <div class="input-group">
                                     <input class="inputDiscrete form-control" id="fileSelector" type="text"
                                            placeholder="<spring:message code='label.fileList.Input.placeholder'/>">
-                                          <span class="input-group-btn">
+                                    <span class="input-group-btn">
                                               <button type="button" class="btn btn-primary ml--btngrpoup"
                                                       data-toggle="modal" data-target=".bs-example-modal-lg">?
                                               </button>
@@ -1034,8 +1137,6 @@
                                         }
                                     });
                                 </script>
-
-
 
 
                                 <div style="position: relative; width: 100%;">
@@ -1132,8 +1233,9 @@
                                                        class="ftpFiles table table-striped table-bordered">
                                                     <tr>
                                                         <th><label>
-                                                            <input type="checkbox" name="ftpCheckAll" id="ftpCheckAll">&emsp;Select All
-                                                            </label>
+                                                            <input type="checkbox" name="ftpCheckAll" id="ftpCheckAll">&emsp;Select
+                                                            All
+                                                        </label>
                                                         </th>
                                                         <th>File</th>
                                                     </tr>
@@ -1325,7 +1427,7 @@
     $(document).ready(function () {
 
         //Check to see if the window is top if not then display button
-        $(window).scroll(function(){
+        $(window).scroll(function () {
             if ($(this).scrollTop() > 100) {
                 $('.scrollToTop').fadeIn();
             } else {
@@ -1334,8 +1436,8 @@
         });
 
         //Click event to scroll to top
-        $('.scrollToTop').click(function(){
-            $('html, body').animate({scrollTop : 0},800);
+        $('.scrollToTop').click(function () {
+            $('html, body').animate({scrollTop: 0}, 800);
             return false;
         });
 
@@ -1432,12 +1534,12 @@
                     for (var key in metExploreDataJSONObj.pathwayList) {
                         var pathway = metExploreDataJSONObj.pathwayList[key]
                         if (pathway.mappedMetabolite > 0) {
-                            if (pathway.name.search("Transport")==-1 && pathway.name.search("Exchange")==-1){
+                            if (pathway.name.search("Transport") == -1 && pathway.name.search("Exchange") == -1) {
                                 //console.log(pathway);
                                 var option = document.createElement("option");
                                 option.text = pathway.name + "(" + pathway.mappedMetabolite + ")";
                                 option.value = pathway.mysqlId;
-                                if (!selectedValue){
+                                if (!selectedValue) {
                                     selectedValue = pathway.mysqlId;
                                 }
                                 select.appendChild(option);
@@ -1494,30 +1596,30 @@
         function loadPathwayData(myJsonString) {
 
 
-            MetExploreViz.onloadMetExploreViz(function(){
+            MetExploreViz.onloadMetExploreViz(function () {
 
                 metExploreViz.GraphPanel.refreshPanel(myJsonString,
-                        function(){
-                            metExploreViz.onloadSession(function(){
+                    function () {
+                        metExploreViz.onloadSession(function () {
 
-                                //Load mapping from the webservice
-                                var mapJSON = metExploreViz.GraphUtils.parseWebServiceMapping(myJsonString);
-                                metExploreViz.GraphMapping.loadDataFromJSON(mapJSON);
+                            //Load mapping from the webservice
+                            var mapJSON = metExploreViz.GraphUtils.parseWebServiceMapping(myJsonString);
+                            metExploreViz.GraphMapping.loadDataFromJSON(mapJSON);
 
-                                //Load mapping from Metabolight file
-                                //metExploreViz.GraphMapping.loadDataTSV("../../files/mappingoninchi.tsv");
+                            //Load mapping from Metabolight file
+                            //metExploreViz.GraphMapping.loadDataTSV("../../files/mappingoninchi.tsv");
 
-                                // //Color nodes
-                                metExploreViz.GraphMapping.graphMappingContinuousData("mappingoninchi.tsv", "S-10", "red", "#8AB146"
-                                        ,
-                                        function(){
-                                            var sideCompounds = ["M_adp_m", "M_adp_c", "M_amp_c", "M_amp_m", "M_amp_r", "M_amp_x", "M_atp_x", "M_atp_r", "M_atp_m", "M_atp_c", "M_hco3_c", "M_hco3_m", "M_co2_c", "M_co2_x", "M_co2_m", "M_ppi_c", "M_ppi_x", "M_ppi_r", "M_ppi_m", "M_fad_m", "M_fadh2_m", "M_gtp_c", "M_h2o2_x", "M_pi_m", "M_pi_c", "M_nad_x", "M_nad_c", "M_nad_m", "M_nadh_x", "M_nadh_m", "M_nadh_c", "M_nadp_m", "M_nadp_r", "M_nadp_x", "M_nadph_x", "M_nadph_r", "M_nadph_m", "M_o2_x", "M_o2_r", "M_o2_m", "M_h_r", "M_h_x", "M_h_l", "M_h_m", "M_h_c", "M_h_e", "M_so4_l", "M_h2o_x", "M_h2o_l", "M_h2o_m", "M_h2o_r", "M_h2o_e", "M_h2o_c"];
-                                            metExploreViz.GraphNode.loadSideCompounds(sideCompounds);
-                                            metExploreViz.GraphNetwork.duplicateSideCompounds();
-                                        }
-                                );
-                            });
+                            // //Color nodes
+                            metExploreViz.GraphMapping.graphMappingContinuousData("mappingoninchi.tsv", "S-10", "red", "#8AB146"
+                                ,
+                                function () {
+                                    var sideCompounds = ["M_adp_m", "M_adp_c", "M_amp_c", "M_amp_m", "M_amp_r", "M_amp_x", "M_atp_x", "M_atp_r", "M_atp_m", "M_atp_c", "M_hco3_c", "M_hco3_m", "M_co2_c", "M_co2_x", "M_co2_m", "M_ppi_c", "M_ppi_x", "M_ppi_r", "M_ppi_m", "M_fad_m", "M_fadh2_m", "M_gtp_c", "M_h2o2_x", "M_pi_m", "M_pi_c", "M_nad_x", "M_nad_c", "M_nad_m", "M_nadh_x", "M_nadh_m", "M_nadh_c", "M_nadp_m", "M_nadp_r", "M_nadp_x", "M_nadph_x", "M_nadph_r", "M_nadph_m", "M_o2_x", "M_o2_r", "M_o2_m", "M_h_r", "M_h_x", "M_h_l", "M_h_m", "M_h_c", "M_h_e", "M_so4_l", "M_h2o_x", "M_h2o_l", "M_h2o_m", "M_h2o_r", "M_h2o_e", "M_h2o_c"];
+                                    metExploreViz.GraphNode.loadSideCompounds(sideCompounds);
+                                    metExploreViz.GraphNetwork.duplicateSideCompounds();
+                                }
+                            );
                         });
+                    });
             });
 
         }
@@ -1529,9 +1631,9 @@
             studyid = wrapperDiv.attr("data-studyid");
             obfuscationCode = wrapperDiv.attr("data-obfuscationCode");
             var mafUrl = "";
-            if (obfuscationCode != "null" && obfuscationCode){
-                mafUrl  = "/metabolights/reviewer" + obfuscationCode + "/assay/" + assayid + "/maf";
-            }else{
+            if (obfuscationCode != "null" && obfuscationCode) {
+                mafUrl = "/metabolights/reviewer" + obfuscationCode + "/assay/" + assayid + "/maf";
+            } else {
                 mafUrl = "/metabolights/" + studyid + "/assay/" + assayid + "/maf";
             }
             $.ajax({
@@ -1685,6 +1787,41 @@
 <script>
     $(document).ready(function () {
 
+        thorApplicationNamespace.loadClaimingInfo();
+        //claim list
+        function getOrcidClaimList() {
+            $.ajax({
+                cache: false,
+                url: "${orcidRetrieveClaimsServiceUrl}:${study.studyIdentifier}",
+                dataType: "json",
+                success: function (orchidRespData) {
+                    console.log(orchidRespData);
+                    var claimListText = "";
+                    if (orchidRespData['orcid-search-results']['num-found'] > 0) {
+
+                        if (typeof thorApplicationNamespace != 'undefined') {
+                            for (var uli = 0; uli < orchidRespData['orcid-search-results']['num-found']; uli++) {
+                                var userOrcId = orchidRespData['orcid-search-results']['orcid-search-result'][uli]['orcid-profile']['orcid-identifier']['path'];
+                                claimListText += '<a href="http://europepmc.org/search?query=AUTHORID:\'' + userOrcId + '\'&sortby=Date">' + userOrcId + '</a><br>';
+                            }
+                        }
+                    }
+                    if (claimListText != "") {
+                        $('.existingClaimants').html('<strong>Existing claims</strong><br>' + claimListText);
+//                        $('.existingClaimants').html(claimListText);
+//                    $('.thor_div_showIf_datasetAlreadyClaimedList').show();
+                    }
+                    else {
+                        claimListText += 'None so far';
+//                        $('.existingClaimants').html(claimListText);
+                        $('.existingClaimants').html('<strong>Existing claims</strong>&nbsp;:&nbsp;' + claimListText);
+                    }
+
+                }
+            });
+        }
+
+        getOrcidClaimList();
 
         var asperaLoaded = false;
 
@@ -1756,5 +1893,6 @@
             asperaLoaded = true;
             </c:if>
         }
+
     });
 </script>

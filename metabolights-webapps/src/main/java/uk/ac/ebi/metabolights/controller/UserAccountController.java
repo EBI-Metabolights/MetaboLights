@@ -69,6 +69,7 @@ import java.util.UUID;
 public class UserAccountController extends AbstractController{
 
 	private static Logger logger = LoggerFactory.getLogger(UserAccountController.class);
+	private @Value("#{OrcidLinkServiceURL}") String orcidLinkServiceURL;
 
 	@Autowired
 	private UserService userService;
@@ -90,6 +91,7 @@ public class UserAccountController extends AbstractController{
     	//ModelAndView mav = new ModelAndView("createAccount");
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("createAccount");
     	mav.addObject(new MetabolightsUser());
+    	mav.addObject("orcidLinkUrl",orcidLinkServiceURL);
     	return mav;
     }
 
@@ -125,6 +127,7 @@ public class UserAccountController extends AbstractController{
     		//ModelAndView mav = new ModelAndView("createAccount");
     		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("createAccount");
         	mav.addObject(metabolightsUser);
+			mav.addObject("orcidLinkUrl",orcidLinkServiceURL);
         	if (duplicateEmailAddress) {
         		mav.addObject("duplicateEmailAddress", PropertyLookup.getMessage("Duplicate.metabolightsUser.email"));
         	}
@@ -313,7 +316,8 @@ public class UserAccountController extends AbstractController{
 		mav = AppContext.getMAVFactory().getFrontierMav("updateAccount");
  		metabolightsUser.setUserVerifyDbPassword(metabolightsUser.getDbPassword());
     	mav.addObject(metabolightsUser);
-    	logger.info("showing account details for "+metabolightsUser.getUserName()+" ID="+metabolightsUser.getUserId());
+		mav.addObject("orcidLinkUrl",orcidLinkServiceURL);
+		logger.info("showing account details for "+metabolightsUser.getUserName()+" ID="+metabolightsUser.getUserId());
     	return mav;
 
 	}
@@ -335,7 +339,8 @@ public class UserAccountController extends AbstractController{
     	if (result.hasErrors()) {
         	ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("updateAccount");
         	mav.addObject(metabolightsUser);
-       		return mav;
+			mav.addObject("orcidLinkUrl",orcidLinkServiceURL);
+        	return mav;
         }
 
     	//Did the user enter a new password? If so, encode it..
@@ -349,30 +354,32 @@ public class UserAccountController extends AbstractController{
     	//Update the user information in the database
     	userService.update(metabolightsUser);
 
+		HttpSession session = request.getSession();
+		String pagename = (String) session.getAttribute("currentpage");
+			// Get the current user...
+			MetabolightsUser currentUser = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 
-    	// Get the current user...
-    	MetabolightsUser currentUser = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+			// If the user matches the account just been edited (now curators can edit accounts).
+			if (currentUser.getUserId().equals(userCheck.getUserId())){
+				//Update the current security context with new attributes
+				try {
+					BeanUtils.copyProperties(currentUser, metabolightsUser);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				//Redirect to account confirmation page
+				HttpSession httpSession = request.getSession();
+				httpSession.setAttribute("user", metabolightsUser);
+//				return new ModelAndView("redirect:update-success");
+				if(pagename == null){
+					return new ModelAndView("redirect:update-success");
+				}
+				return new ModelAndView("redirect:" + pagename);
 
-    	// If the user matches the account just been edited (now curators can edit accounts).
-    	if (currentUser.getUserId().equals(userCheck.getUserId())){
-	    	//Update the current security context with new attributes
-	    	try {
-				BeanUtils.copyProperties(currentUser, metabolightsUser);
-			} catch (Exception e) {
-				e.printStackTrace();
+				// Is a curator....go back to user list
+			} else {
+				return new ModelAndView("redirect:users");
 			}
-
-			//Redirect to account confirmation page
-	    	HttpSession httpSession = request.getSession();
-			httpSession.setAttribute("user", metabolightsUser);
-	    	return new ModelAndView("redirect:update-success");
-
-    	// Is a curator....go back to user list
-    	} else {
-    		return new ModelAndView("redirect:users");
-    	}
-
-
 	}
 
 	/**
