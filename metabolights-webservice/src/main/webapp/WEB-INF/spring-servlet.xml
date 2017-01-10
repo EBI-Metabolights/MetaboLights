@@ -95,6 +95,9 @@
     <jee:jndi-lookup id="userSpace" jndi-name="java:comp/env/userSpace"/>
 
     <jee:jndi-lookup id="EUPMCWebServiceURL" jndi-name="java:comp/env/EUPMCWebServiceURL"/>
+    <jee:jndi-lookup id="OrcidClaimServiceURL" jndi-name="java:comp/env/OrcidClaimServiceURL"/>
+    <jee:jndi-lookup id="OrcidLinkServiceURL" jndi-name="java:comp/env/OrcidLinkServiceURL"/>
+    <jee:jndi-lookup id="OrcidRetreiveClaimsURL" jndi-name="java:comp/env/OrcidRetreiveClaimsURL"/>
 
 
 

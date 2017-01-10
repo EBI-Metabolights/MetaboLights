@@ -19,11 +19,11 @@
 # 20150914  : Ken Haug - New folder stucture, only sync public data directly with public ftp site
 # 20160309  : Ken Haug - Maintenance of MetExplore mapping files
 # 20161205  : Ken Haug - PostgreSQL version
+# 20161220  : Ken Haug - Included PostgreSQL backup
 #
 ##########################################################################
 
 . /nfs/production/panda/metabolights/source/metabolights/metabolights-webapps/src/main/scripts/logging_functions
-source ./postgres.properties
 
 #################################
 #  Configurable Options Follow  #
@@ -35,6 +35,7 @@ PRIVATE_LOC=/nfs/www-prod/web_hx2/cm/metabolights/prod/studies/stage/private
 PUBLIC_FTP_LOC=/ebi/ftp/pub/databases/metabolights/studies/public
 NUM_DAYS=2
 
+source $SCRIPT_LOC/postgres.properties.prod
 #################################
 #  End of Configurable Options  #
 #################################
@@ -74,5 +75,7 @@ done
 Info "Update statistics table"
 $PG_COMMAND -f $SCRIPT_LOC/ml_stats2_postgres.sql
 
-[ -z $PUBLIC_STUDIES ] ||  mailx -s 'MetaboLights PostgreSQL Public File Maintenance' ${EMAILTO} < ${SHELL_LOG_FILE}
+Info "Starting Postgres backup"
+$SCRIPT_LOC/backup_postgres.sh
 
+[ -z $PUBLIC_STUDIES ] ||  mailx -s 'MetaboLights PostgreSQL Public File Maintenance' ${EMAILTO} < ${SHELL_LOG_FILE}

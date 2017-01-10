@@ -46,7 +46,9 @@
     <div class ="row">
         <div class="col-md-3 col">
             <h2><spring:message code="title.serviceName" /></h2>
-            <p><spring:message code="msg.metabolightsAbout1" />&nbsp;<spring:message code="msg.metabolightsAbout" /></p>
+            <p><spring:message code="msg.metabolightsAbout1" />
+                <%--&nbsp;<spring:message code="msg.metabolightsAbout" />--%>
+            </p>
         </div>
         <div class="col-md-5 col">
             <h2><spring:message code="title.download" /></h2>

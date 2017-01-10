@@ -58,7 +58,7 @@
                                     <label><spring:message code="label.email" /></label>
                                     <input class="form-control" value="<c:out value="${metabolightsUser.email}" />" disabled/>
                             </div>
-
+                            <c:set var="orcidLinkUrl" value="${orcidLinkUrl}"/>
                             <jsp:include page="accountFormFields.jsp" />
 
                             <div class="form-group">

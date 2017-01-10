@@ -69,7 +69,6 @@ public class SpeciesMembersDAO extends AbstractDAO implements ISpeciesMembersDAO
 	@Override
 	public Collection<SpeciesMembers> getAllBySpeciesGroup(Long speciesGroupId) throws DAOException {
 
-
 		Collection<SpeciesMembers> spms = getBy("--where.speciesmembers.by.groupid", speciesGroupId);
 		return spms;
 	}
@@ -79,7 +78,6 @@ public class SpeciesMembersDAO extends AbstractDAO implements ISpeciesMembersDAO
 
 		Collection<SpeciesMembers> spms = getBy("--where.speciesmembers.all", null);
 		return spms;
-
 
 	}
 
@@ -135,7 +133,6 @@ public class SpeciesMembersDAO extends AbstractDAO implements ISpeciesMembersDAO
 
 	private SpeciesMembers loadSpeciesMember(ResultSet rs) throws SQLException, DAOException
 	{
-
 
         long id = rs.getLong("ID");
 		Long spgId = rs.getLong("GROUP_ID");
@@ -209,7 +206,7 @@ public class SpeciesMembersDAO extends AbstractDAO implements ISpeciesMembersDAO
 	 */
 	private void insert(SpeciesMembers speciesMember) throws DAOException {
 		try {
-			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.speciesmembers", new String[]{"ID"}, null);
+			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.speciesmembers", new String[]{"id"}, null);
 			stm.clearParameters();
 			stm.setLong(1, speciesMember.getSpeciesGroup().getId());
 			stm.setString(2, speciesMember.getTaxon());
@@ -264,8 +261,7 @@ public class SpeciesMembersDAO extends AbstractDAO implements ISpeciesMembersDAO
 			stm.executeUpdate();
 
 	        if (LOGGER.isDebugEnabled())
-    	            LOGGER.debug("speciesmembers deleted with id:" + speciesMember.getId());
-
+	            LOGGER.debug("speciesmembers deleted with id:" + speciesMember.getId());
 
 		} catch (SQLException ex) {
             throw new DAOException(ex);

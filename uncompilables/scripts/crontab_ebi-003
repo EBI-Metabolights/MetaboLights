@@ -8,18 +8,18 @@ MAILTO=metabolights-dev
 0 11 * * * /nfs/www-prod/web_hx2/cm/metabolights/scripts/tweetlivestudy.sh 2>&1 >/dev/null
 
 #update database stats and folder sizes
-0 07 * * * /nfs/www-prod/web_hx2/cm/metabolights/scripts/stats.sh 2>&1 >/dev/null
+0 07,15 * * * /nfs/www-prod/web_hx2/cm/metabolights/scripts/stats_postgres.sh 2>&1 >/dev/null
 
 #move to private_ftp
 #* * * * * /nfs/www-prod/web_hx2/cm/metabolights/scripts/move_to_private_ftp_prod.sh 2>&1 >/dev/null
 #23 * * * * /nfs/www-prod/web_hx2/cm/metabolights/scripts/rsync_private_ftp_prod.sh 2>&1 >/dev/null
 
 # Syncing files in the TEST applicacion
-*/5 * * * * /nfs/www-prod/web_hx2/cm/metabolights/scripts/priv_ftp_sync_step1.sh -s TEST 2>&1 >/dev/null
+*/15 * * * * /nfs/www-prod/web_hx2/cm/metabolights/scripts/priv_ftp_sync_step1.sh -s TEST 2>&1 >/dev/null
 25,55 * * * * /nfs/www-prod/web_hx2/cm/metabolights/scripts/priv_ftp_sync_step2.sh -s TEST 2>&1 >/dev/null
 # Syncing files in the DEV applicacion
-*/5 * * * * /nfs/www-prod/web_hx2/cm/metabolights/scripts/priv_ftp_sync_step1.sh -s DEV 2>&1 >/dev/null
+*/15 * * * * /nfs/www-prod/web_hx2/cm/metabolights/scripts/priv_ftp_sync_step1.sh -s DEV 2>&1 >/dev/null
 15,45 * * * * /nfs/www-prod/web_hx2/cm/metabolights/scripts/priv_ftp_sync_step2.sh -s DEV 2>&1 >/dev/null
 # Syncing files in the PROD applicacion
-*/10 * * * * /nfs/www-prod/web_hx2/cm/metabolights/scripts/priv_ftp_sync_step1.sh -s PROD 2>&1 >/dev/null
+0,15,30,45 * * * * /nfs/www-prod/web_hx2/cm/metabolights/scripts/priv_ftp_sync_step1.sh -s PROD 2>&1 >/dev/null
 5,35 * * * * /nfs/www-prod/web_hx2/cm/metabolights/scripts/priv_ftp_sync_step2.sh -s PROD 2>&1 >/dev/null

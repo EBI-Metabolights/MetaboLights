@@ -51,158 +51,175 @@ import java.util.UUID;
 
 /**
  * Controller for login and related actions.
- * @author markr
  *
+ * @author markr
  */
 @Controller
-public class LoginController extends AbstractController{
+public class LoginController extends AbstractController {
 
-	static final String ANONYMOUS_USER = "anonymousUser";
-	@Autowired
-	private EmailService emailService;
+    static final String ANONYMOUS_USER = "anonymousUser";
+    @Autowired
+    private EmailService emailService;
 
-	@Autowired
-	private UserService userService;
-	
-	@RequestMapping({"/login-success"})
-	public ModelAndView loggedIn() {
-	    //return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.loggedIn"));
+    @Autowired
+    private UserService userService;
 
-		MetabolightsUser user = LoginController.getLoggedUser();
+    //	@RequestMapping({"/login-success"})
+//	public ModelAndView loggedIn() {
+//	    //return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.loggedIn"));
+//
+//		MetabolightsUser user = LoginController.getLoggedUser();
+//
+//		if (user.isCurator()){
+//			return new ModelAndView ("redirect:useroptions");
+//		} else {
+//			return new ModelAndView("redirect:mysubmissions");
+//		}
+//    }
+    @RequestMapping({"/login-success"})
+    public ModelAndView loggedIn(HttpServletRequest request) {
+        //return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.loggedIn"));
 
-		if (user.isCurator()){
-			return new ModelAndView ("redirect:useroptions");
-		} else {
-			return new ModelAndView("redirect:mysubmissions");
-		}
+        MetabolightsUser user = LoginController.getLoggedUser();
+        HttpSession session = request.getSession();
+        String pagename = (String) session.getAttribute("currentpage");
+        if (pagename == null) {
+            if (user.isCurator()) {
+                return new ModelAndView("redirect:useroptions");
+            } else {
+                return new ModelAndView("redirect:mysubmissions");
+            }
+        }
+        return new ModelAndView("redirect:" + pagename);
+
     }
 
-	@RequestMapping({"/loggedout"})
-	public ModelAndView loggedOut() {
-	    //return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.loggedOut"));
-		//return AppContext.getMAVFactory().getFrontierMav("index","message", PropertyLookup.getMessage("msg.loggedOut"));
-		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("index");
-		mav.addObject("message", PropertyLookup.getMessage("msg.loggedOut"));
-		return mav;
+    @RequestMapping({"/loggedout"})
+    public ModelAndView loggedOut() {
+        //return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.loggedOut"));
+        //return AppContext.getMAVFactory().getFrontierMav("index","message", PropertyLookup.getMessage("msg.loggedOut"));
+        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("index");
+        mav.addObject("message", PropertyLookup.getMessage("msg.loggedOut"));
+        return mav;
     }
 
-	@RequestMapping(value={"/login"})
-	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = {"/login"})
+    public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
 
-		String url = " ";  //Have to reset the string, caching issues
-		url = getRedirectUrl(request,response);
+        String url = " ";  //Have to reset the string, caching issues
+        url = getRedirectUrl(request, response);
 
-    	//ModelAndView mav = new ModelAndView("login");
-		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("login");
-    	if (url.contains("submit")) //If we come from the submit menu, show different text in the login jsp
-    		mav.addObject("fromsubmit",true);
+        //ModelAndView mav = new ModelAndView("login");
+        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("login");
+        if (url.contains("submit")) //If we come from the submit menu, show different text in the login jsp
+            mav.addObject("fromsubmit", true);
 
-    	return mav;
-	}
-	
-	@RequestMapping(value={"/timeout"})
-	public ModelAndView resolveRequest (HttpServletRequest request) {
-		return GenericController.lastPartOfUrl(request);
-	}
-	
- 
-	@RequestMapping(value = "/forgotPassword")
-   	public ModelAndView passWordReset() {
-    	//ModelAndView mav = new ModelAndView("forgotPassword");
-		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("forgotPassword");
-    	mav.addObject(new EmailAddress());
-    	return mav;
+        return mav;
+    }
+
+    @RequestMapping(value = {"/timeout"})
+    public ModelAndView resolveRequest(HttpServletRequest request) {
+        return GenericController.lastPartOfUrl(request);
+    }
+
+
+    @RequestMapping(value = "/forgotPassword")
+    public ModelAndView passWordReset() {
+        //ModelAndView mav = new ModelAndView("forgotPassword");
+        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("forgotPassword");
+        mav.addObject(new EmailAddress());
+        return mav;
     }
 
     /**
-     * Handles a user request who forgot the password.<br> 
-     * @param email user form
+     * Handles a user request who forgot the password.<br>
+     *
+     * @param email  user form
      * @param result binding result
-     * @return where to navigate 
+     * @return where to navigate
      */
     @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
     public ModelAndView resetPassWord(@Valid EmailAddress email, BindingResult result, Model model) {
-    	//ModelAndView mav = new ModelAndView("forgotPassword");
-    	ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("forgotPassword");
-    	
-    	mav.addObject(email); 
+        //ModelAndView mav = new ModelAndView("forgotPassword");
+        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("forgotPassword");
+
+        mav.addObject(email);
         if (result.hasErrors()) {
             return mav;
         }
         //Find the user associated with the password
         MetabolightsUser mtblUser = userService.lookupByEmail(email.getEmailAddress());
-		if (mtblUser == null) {
-			mav.addObject("message", PropertyLookup.getMessage("msg.unknownEmail"));
-			return mav;
-		}
-		else {
-			// Get some new password
-			String tempPassword = getTemporaryPassword ();
-			mtblUser.setDbPassword(IsaTabAuthenticationProvider.encode(tempPassword));
-			
-			// Update database user details
-			userService.update(mtblUser);
+        if (mtblUser == null) {
+            mav.addObject("message", PropertyLookup.getMessage("msg.unknownEmail"));
+            return mav;
+        } else {
+            // Get some new password
+            String tempPassword = getTemporaryPassword();
+            mtblUser.setDbPassword(IsaTabAuthenticationProvider.encode(tempPassword));
 
-			// Send new password to user, tell him to update the temp password
-			emailService.sendResetPassword(email.getEmailAddress(), tempPassword, mtblUser.getUserName());
+            // Update database user details
+            userService.update(mtblUser);
 
-			//TODO = redirect, work out url?x=y
-			//return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.pwsent",email.getEmailAddress()));
-			return new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.pwsent",email.getEmailAddress()));
-		}
+            // Send new password to user, tell him to update the temp password
+            emailService.sendResetPassword(email.getEmailAddress(), tempPassword, mtblUser.getUserName());
+
+            //TODO = redirect, work out url?x=y
+            //return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.pwsent",email.getEmailAddress()));
+            return new ModelAndView("redirect:index?message=" + PropertyLookup.getMessage("msg.pwsent", email.getEmailAddress()));
+        }
     }
 
-    private String getTemporaryPassword () {
-    	String tempPw="";
-    	do {
-	    	String foo = UUID.randomUUID().toString();
-	    	foo=foo.replaceAll("\\-", "");
-	    	foo=foo.substring(0,6);
-	    	tempPw+=foo;
-    	} while (tempPw.length()<ValidatorMetabolightsUser.MIN_PASSWORD_LEN);
-    	return tempPw;
-	}
-     	
-	protected String getRedirectUrl(HttpServletRequest request, HttpServletResponse response) {
-	    HttpSession session = request.getSession(false);
-	    String url = "login";
-	    if (session != null) {
-	    	SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
-	    	if (savedRequest != null)
-	    		return savedRequest.getRedirectUrl();
-	    }
+    private String getTemporaryPassword() {
+        String tempPw = "";
+        do {
+            String foo = UUID.randomUUID().toString();
+            foo = foo.replaceAll("\\-", "");
+            foo = foo.substring(0, 6);
+            tempPw += foo;
+        } while (tempPw.length() < ValidatorMetabolightsUser.MIN_PASSWORD_LEN);
+        return tempPw;
+    }
+
+    protected String getRedirectUrl(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession(false);
+        String url = "login";
+        if (session != null) {
+            SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
+            if (savedRequest != null)
+                return savedRequest.getRedirectUrl();
+        }
 
 	    /* return a sane default in case data isn't there */
-	    return url;
-	}
+        return url;
+    }
 
-    @RequestMapping(value={"/securedredirect"})
-    public ModelAndView secureRedirect(@RequestParam(required=true,value="url") String url){
+    @RequestMapping(value = {"/securedredirect"})
+    public ModelAndView secureRedirect(@RequestParam(required = true, value = "url") String url) {
 
-        return new ModelAndView ("redirect:" + url);
+        return new ModelAndView("redirect:" + url);
 
     }
 
-	// returns a MetaboLightsUser or an "anoymous one" but not null for convenience.
-	public static MetabolightsUser getLoggedUser(){
+    // returns a MetaboLightsUser or an "anoymous one" but not null for convenience.
+    public static MetabolightsUser getLoggedUser() {
 
-		// Get the spring authentication instance
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        // Get the spring authentication instance
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-		if (auth.getPrincipal().equals(ANONYMOUS_USER)){
+        if (auth.getPrincipal().equals(ANONYMOUS_USER)) {
 
-			MetabolightsUser user = new MetabolightsUser();
-			user.setUserName(auth.getPrincipal().toString());
-			user.setRole(-1);
-			user.setFirstName(user.getUserName());
-			user.setApiToken("MetaboLights-anonymous");
-			return user;
+            MetabolightsUser user = new MetabolightsUser();
+            user.setUserName(auth.getPrincipal().toString());
+            user.setRole(-1);
+            user.setFirstName(user.getUserName());
+            user.setApiToken("MetaboLights-anonymous");
+            return user;
 
-		} else {
-			return (MetabolightsUser) auth.getPrincipal();
-		}
+        } else {
+            return (MetabolightsUser) auth.getPrincipal();
+        }
 
-	}
+    }
 
 }
 
