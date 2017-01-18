@@ -31,6 +31,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -136,7 +137,7 @@ public class MAFSplitter {
 
     private static void writeNewMAF(String fileName){
         try {
-            CSVWriter writer = new CSVWriter(new FileWriter(fileName+"_SPLIT" ));
+            CSVWriter writer = new CSVWriter(new FileWriter(fileName+"_SPLIT" ), '\t', '"');
 
             //Write the entire list
             writer.writeAll(allNewLines);
@@ -181,8 +182,23 @@ public class MAFSplitter {
                     List<String> newLine = new ArrayList<String>(); //The modified line
                     for (String cell : nextLine) {
                         if (cell.contains(pipeline)) { //Splitting!
+
+                            if (cell.contains(pipeline+pipeline)) {
+                                cell = cell.replaceAll("\\|\\|", "| |"); //Need to add space
+                                cell = cell.replaceAll("\\|\\|", "| |"); //Stupid thing!
+                            }
+
+                            if (cell.equals(pipeline))
+                                cell = " | ";
+
                             String[] newCell = cell.split(Pattern.quote(pipeline));
-                            newLine.add(newCell[i1]);    //Adding the modified cell
+                            if (newCell.length >= i1+1) { //Make sure the array after split containt the same number of elements as we try to loop through. TODO, correctNumberOfPipes is not correct?
+                                newLine.add(newCell[i1]);    //Adding the modified cell
+                            } else {  // Could not split after all.
+                                logAndOutput("Error in splitting: "+cell);
+                                newLine.add(cell); //Adding the unmodified cell
+                            }
+
                         } else {
                             newLine.add(cell); //Adding the unmodified cell
                         }
@@ -213,7 +229,7 @@ public class MAFSplitter {
 
             for (Integer allPipe : allPipes) {
                 if (allPipe != firstNumberOfPipes){
-                    logAndOutput("Warning: Incorrect number of pipelines, cannot continue with this line");
+                    logAndOutput(String.format("Warning: Incorrect number of pipelines, ignoring: " + Arrays.toString(nextLine)));
                     return -1;
                 }
             }
