@@ -9,14 +9,14 @@ import java.util.*;
  */
 public class StrangeCharactersDetector {
     public static void main(String[] args) {
-        if (args.length != 2) {
-            System.out.println("Please input a studies dir (arg0) and a file (arg1) to write the detected characters");
-            System.exit(0);
-        }
-        String dir = args[0];
-        String outFile = args[1];
-//        String dir = "/nfs/public/rw/homes/tc_cm01/metabolights/test/studies";
-//        String outFile = "/nfs/public/rw/homes/tc_cm01/metabolights/test/characters.txt";
+       // if (args.length != 2) {
+       //     System.out.println("Please input a studies dir (arg0) and a file (arg1) to write the detected characters");
+       //     System.exit(0);
+       // }
+        //String dir = args[0];
+        //String outFile = args[1];
+        String dir = "/Users/kenneth/kkk/";
+        String outFile = "/Users/kenneth/kkk/characters.txt";
         new StrangeCharactersDetector().processStudiesFolder(dir, outFile);
 
     }
