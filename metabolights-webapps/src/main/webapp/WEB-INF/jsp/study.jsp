@@ -361,6 +361,10 @@
 
             <script>
 
+                if ($('.description--wrapper').height() < 140){
+                    $('.expand--description').addClass("hidden");
+                }
+
                 $('.description--wrapper').find('a[href="#"]').on('click', function (e) {
                     e.preventDefault();
                     $(this).closest('.description--wrapper').find('.study--description--small').toggleClass('study--description--small study--description--big');
