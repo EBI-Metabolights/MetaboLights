@@ -361,7 +361,8 @@
 
             <script>
 
-                if ($('.description--wrapper').height() < 140){
+                if ($('.study--description').height() < 128){
+                    $('.study--description--small').toggleClass('study--description--small study--description--big');
                     $('.expand--description').addClass("hidden");
                 }
 
