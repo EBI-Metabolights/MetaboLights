@@ -64,13 +64,13 @@ public class StudyValidations implements IValidationProcess {
         Validation validation = new Validation(DescriptionConstants.STUDY_TEXT, Requirement.OPTIONAL, Group.STUDY);
         validation.setId(ValidationIdentifier.STUDY_TEXT.getID());
         String message = "";
-        if (Utilities.getNonUnicodeCharacters(study.getTitle()).size() > 0) {
+        if (Utilities.getUnAcceptableCharacters(study.getTitle()).size() > 0) {
             message += "Study title, ";
         }
-        if (Utilities.getNonUnicodeCharacters(study.getDescription()).size() > 0) {
+        if (Utilities.getUnAcceptableCharacters(study.getDescription()).size() > 0) {
             message += "Study description, ";
         }
-        if (Utilities.getNonUnicodeCharacters(getContactAsString(study.getContacts())).size() > 0) {
+        if (Utilities.getUnAcceptableCharacters(getContactAsString(study.getContacts())).size() > 0) {
             message += "Study contact, ";
         }
         if (!message.isEmpty()) {

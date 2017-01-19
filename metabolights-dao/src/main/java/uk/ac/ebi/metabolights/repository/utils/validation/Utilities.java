@@ -13,35 +13,32 @@ import java.util.*;
 public class Utilities {
 
     public static final int[] exceptionalOtherSymbols = {8482, 176, 174, 8451, 8457, 8480, 8482, 9702, 9474};
+    /*
+     Code points look up https://codepoints.net/search
+     */
 
     public static Status checkOverallStatus(Collection<Validation> validations) {
-        int red = 0;
-        int amber = 0;
-        for (Validation validation : validations) {
-            if (validation.getStatus().equals(Status.AMBER)) {
-                amber++;
-            }
-            if (validation.getStatus().equals(Status.RED)) {
-                red++;
-            }
-        }
+        int red = getIndividualStatus(Status.RED, validations);
+        int amber = getIndividualStatus(Status.AMBER, validations);
         return red > 0 ? Status.RED : amber > 0 ? Status.AMBER : Status.GREEN;
 
     }
 
     public static boolean checkPassedMinimumRequirement(Collection<Validation> validations) {
-        int red = 0;
-        int amber = 0;
-        for (Validation validation : validations) {
-            if (validation.getStatus().equals(Status.AMBER)) {
-                amber++;
-            }
-            if (validation.getStatus().equals(Status.RED)) {
-                red++;
-            }
-        }
+        int red = getIndividualStatus(Status.RED, validations);
+        int amber = getIndividualStatus(Status.AMBER, validations);
         return red > 0 ? false : amber > 0 ? true : true;
 
+    }
+
+    private static int getIndividualStatus(Status status, Collection<Validation> validations) {
+        int count = 0;
+        for (Validation validation : validations) {
+            if (validation.getStatus().equals(status)) {
+                count++;
+            }
+        }
+        return count;
     }
 
     public static boolean minCharRequirementPassed(String toCheck, int limit) {
@@ -51,22 +48,40 @@ public class Utilities {
         return toCheck.length() >= limit;
     }
 
-    public static List<String> getNonUnicodeCharacters(String s) {
+    public static List<String> getUnAcceptableCharacters(String s) {
         final List<String> result = new ArrayList<String>();
-        for (int i = 0, n = s.length(); i < n; i++) {
-            String character = s.substring(i, i + 1);
-            int other_Symbol = Character.OTHER_SYMBOL;
-            int this_ = Character.getType(character.charAt(0));
+        String[] words = s.split("\\s+");
+        for (String word : words) {
+            for (int i = 0; i < word.length(); i++) {
+                String character = word.substring(i, i + 1);
+                int funCharacterType = Character.OTHER_SYMBOL;
+                int characterType = Character.getType(character.charAt(0));
 
-            if (other_Symbol == this_ || Arrays.equals(character.toCharArray(), Character.toChars(0x003F))) {
-                int codePoint = character.codePointAt(0);
-                if (!exceptional(codePoint)) {
-                    result.add(character);
+                if (funCharacterType == characterType) {
+                    int codePoint = character.codePointAt(0);
+                    if (!exceptional(codePoint)) {
+                        result.add(character);
+                    }
+                }
+                if (isQuestionMark(character)) {
+                    if (!isURL(word)) {
+                        result.add(character);
+                    }
                 }
             }
-
         }
         return result;
+    }
+
+    private static boolean isQuestionMark(String character) {
+        return Arrays.equals(character.toCharArray(), Character.toChars(0x003F));
+    }
+
+    private static boolean isURL(String word) {
+        if (word.toLowerCase().contains("http:") || word.toLowerCase().contains("ftp:")) {
+            return true;
+        }
+        return false;
     }
 
     private static boolean exceptional(int code) {
@@ -193,7 +208,6 @@ public class Utilities {
         }
         return pass;
     }
-
 
 
 }
