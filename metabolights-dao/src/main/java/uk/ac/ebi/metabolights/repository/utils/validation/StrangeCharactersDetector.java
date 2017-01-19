@@ -15,8 +15,6 @@ public class StrangeCharactersDetector {
         }
         String dir = args[0];
         String outFile = args[1];
-//        String dir = "/nfs/public/rw/homes/tc_cm01/metabolights/test/studies";
-//        String outFile = "/nfs/public/rw/homes/tc_cm01/metabolights/test/characters.txt";
         new StrangeCharactersDetector().processStudiesFolder(dir, outFile);
 
     }
@@ -37,6 +35,10 @@ public class StrangeCharactersDetector {
 
                     }
 
+                } else {
+                    if (study.getName().equals("i_Investigation.txt")) {
+                        addto(codePoint_study_map, detectCharacters(study), study.getName());
+                    }
                 }
             }
         }
@@ -49,7 +51,17 @@ public class StrangeCharactersDetector {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(investigationFile));
             while ((line = reader.readLine()) != null) {
-                strangeCharacters.addAll(getNonUnicodeCharacters(line));
+                String[] words = line.split("\\s+");
+                for (String word : words) {
+                    List<String> nonUnicodeCharacters = Utilities.getUnAcceptableCharacters(word);
+                    if (!nonUnicodeCharacters.isEmpty()) {
+                        for (String s : nonUnicodeCharacters) {
+                            System.out.println("string -- " + s);
+                        }
+                        System.out.println(word);
+                    }
+                    strangeCharacters.addAll(nonUnicodeCharacters);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -99,21 +111,4 @@ public class StrangeCharactersDetector {
         }
         return studiesString;
     }
-
-    public HashSet<String> getNonUnicodeCharacters(String s) {
-        final HashSet<String> result = new HashSet<String>();
-        for (int i = 0, n = s.length(); i < n; i++) {
-            String character = s.substring(i, i + 1);
-            int other_Symbol = Character.OTHER_SYMBOL;
-            int this_ = Character.getType(character.charAt(0));
-
-            if (other_Symbol == this_ || Arrays.equals(character.toCharArray(), Character.toChars(0x003F))) {
-                result.add(character);
-            }
-
-        }
-        return result;
-    }
-
-
 }

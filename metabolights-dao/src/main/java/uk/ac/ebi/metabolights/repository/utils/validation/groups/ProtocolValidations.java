@@ -180,7 +180,7 @@ public class ProtocolValidations implements IValidationProcess {
         String message = "";
         for (Protocol protocol : study.getProtocols()) {
             if (!protocol.getDescription().isEmpty()) {
-                List<String> notCoded = Utilities.getNonUnicodeCharacters(protocol.getDescription());
+                List<String> notCoded = Utilities.getUnAcceptableCharacters(protocol.getDescription());
                 if (notCoded.size() > 0) {
                     message += protocol.getName() + ", ";
                 }
