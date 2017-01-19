@@ -1636,13 +1636,16 @@
             } else {
                 mafUrl = "/metabolights/" + studyid + "/assay/" + assayid + "/maf";
             }
+
+
+
             $.ajax({
                 url: mafUrl,
                 dataType: "html",
             }).done(function (data) {
                 wrapperDiv.html(data);
                 $('.maf').addClass("table table-striped table-bordered")
-                $('.maf').DataTable();
+                var table = $('.maf').DataTable();
 
                 var chebiInfoDiv = new Biojs.ChEBICompound({
                     target: 'chebiInfo',
@@ -1651,6 +1654,7 @@
                     proxyUrl: undefined,
                     chebiDetailsUrl: 'http://www.ebi.ac.uk/webservices/chebi/2.0/test/getCompleteEntity?chebiId='
                 });
+
                 $('#chebiInfo').hide();
 
 
@@ -1678,22 +1682,20 @@
                     }
                     $(idOfHiddenText).slideToggle();
                 });
+
                 var metLinkTimer = 0; // 0 is a safe "no timer" value
 
 
                 function loadMetabolite(e) {
-                    // Clear this as flag there's no timer outstanding
                     metLinkTimer = 0;
                     var metlink;
                     metlink = $(e.target);
                     var metaboliteId = metlink.attr('identifier');
                     // If its a chebi id
                     if (metaboliteId.indexOf("CHEBI:") == 0) {
-                        //var mouseX = metlink.left + metlink.offsetParent.offsetLeft + metlink.offsetWidth + 80;
-                        //var mouseY = metlink.top + metlink.offsetParent.offsetTop + metlink.offsetParent.offsetParent.offsetTop;
                         var offset = metlink.offset();
                         var mouseX = offset.left + metlink.outerWidth() + 20;
-                        var mouseY = offset.top;
+                        var mouseY = offset.top-200;
                         chebiId = metaboliteId;
                         $('#chebiInfo img:last-child').remove;
                         $('#chebiInfo').css({
@@ -1708,15 +1710,14 @@
                     }
                 }
 
-
-                $('.metLink').on('mouseenter', function (e) {
+                $(document).on('mouseenter','.metLink', function (e) {
                     // I'm assuming you don't want to stomp on an existing timer
                     if (!metLinkTimer) {
                         metLinkTimer = setTimeout(function () {
                             loadMetabolite(e);
                         }, 500); // Or whatever value you want
                     }
-                }).on('mouseleave', function () {
+                }).on('mouseleave','.metLink', function () {
                     // Cancel the timer if it hasn't already fired
                     if (metLinkTimer) {
                         clearTimeout(metLinkTimer);
