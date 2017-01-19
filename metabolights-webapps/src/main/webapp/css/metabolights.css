@@ -168,11 +168,6 @@ body{
     margin: 10px;
 }
 
-.study--description{
-    padding: 15px 10px;
-    font-size: 14px;
-}
-
 .study--title{
     color: #2c3e50;
     font-weight: 400;
@@ -190,9 +185,23 @@ body{
     color: #2E789A;
 }
 
+.expand--description{
+    margin-left: 15px;
+}
+
 .study--description{
-    padding: 5px 15px;
+    padding: 0px 15px;
     font-size: 14px;
+}
+
+.study--description--small {
+    height: 100px;
+    overflow:hidden;
+    margin-bottom: 8px;
+}
+
+.study--description--big {
+    height: auto;
 }
 
 .study--infopanel{

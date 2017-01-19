@@ -352,7 +352,22 @@
 
             <p class="study--subtitle"><b>Study Description</b></p>
 
-            <p class="study--description">${study.description}</p>
+            <div class="description--wrapper">
+                <div class="study--description--small">
+                    <p class="study--description">${study.description}</p>
+                </div>
+                <a class="expand--description" href="#">Click to read more</a>
+            </div>
+
+            <script>
+
+                $('.description--wrapper').find('a[href="#"]').on('click', function (e) {
+                    e.preventDefault();
+                    $(this).closest('.description--wrapper').find('.study--description--small').toggleClass('study--description--small study--description--big');
+                    $('.expand--description').addClass("hidden");
+                });
+
+            </script>
 
         </c:if>
         <div class="tabs--wrapper">
