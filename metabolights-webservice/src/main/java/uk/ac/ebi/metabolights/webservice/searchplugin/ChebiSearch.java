@@ -232,7 +232,8 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
     private String getChebiIDofConjugateAcid(String anionChebiID) throws ChebiWebServiceFault_Exception {
         OntologyDataItemList ontologyChildren = getChebiWS().getOntologyChildren(anionChebiID);
         for (OntologyDataItem dataItem : ontologyChildren.getListElement()) {
-            if (dataItem.getType().equalsIgnoreCase("is conjugate acid of")) {
+            if (dataItem.getType().equalsIgnoreCase("is conjugate acid of") ||
+                    dataItem.getType().equalsIgnoreCase("is conjugate base of")) {
                 return dataItem.getChebiId();
             }
         }
