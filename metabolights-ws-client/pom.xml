@@ -36,6 +36,7 @@
         <groupId>uk.ac.ebi.metabolights</groupId>
         <version>1.5</version>
     </parent>
+
     <dependencies>
         <dependency>
             <artifactId>metabolights-domain</artifactId>
@@ -57,11 +58,6 @@
             <artifactId>search-service</artifactId>
             <version>4.0</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>com.fasterxml.jackson.datatype</groupId>-->
-            <!--<artifactId>jackson-datatype-guava</artifactId>-->
-            <!--<version>2.4.3</version>-->
-        <!--</dependency>-->
-
     </dependencies>
+
 </project>
