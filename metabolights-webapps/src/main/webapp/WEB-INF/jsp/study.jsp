@@ -27,7 +27,7 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
+<!--<link rel="stylesheet" href="${pageContefxt.request.contextPath}/cssrl/iconfont/font_fstyle.css" type="text/css"/>-->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/dataTables.bootstrap.min.css"/>
@@ -352,7 +352,27 @@
 
             <p class="study--subtitle"><b>Study Description</b></p>
 
-            <p class="study--description">${study.description}</p>
+            <div class="description--wrapper">
+                <div class="study--description--small">
+                    <p class="study--description">${study.description}</p>
+                </div>
+                <a class="expand--description" href="#">Click to read more</a>
+            </div>
+
+            <script>
+
+                if ($('.study--description').height() < 128){
+                    $('.study--description--small').toggleClass('study--description--small study--description--big');
+                    $('.expand--description').addClass("hidden");
+                }
+
+                $('.description--wrapper').find('a[href="#"]').on('click', function (e) {
+                    e.preventDefault();
+                    $(this).closest('.description--wrapper').find('.study--description--small').toggleClass('study--description--small study--description--big');
+                    $('.expand--description').addClass("hidden");
+                });
+
+            </script>
 
         </c:if>
         <div class="tabs--wrapper">
@@ -1376,8 +1396,8 @@
     </div>
 </div>
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script src="https://raw.githubusercontent.com/flatlogic/bootstrap-tabcollapse/master/bootstrap-tabcollapse.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdn.rawgit.com/flatlogic/bootstrap-tabcollapse/master/bootstrap-tabcollapse.js"></script>
 <script type="text/javascript" charset="utf-8">
     $('#study--tab').tabCollapse();
 </script>
@@ -1388,7 +1408,7 @@
         src="${pageContext.request.contextPath}/javascript/dataTables.conditionalPaging.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/js/bootstrap-select.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/js/i18n/defaults-*.min.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/js/i18n/defaults-*.min.js"></script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/js/bootstrap-tour.js"></script>
 
 <script type="text/javascript">
@@ -1636,13 +1656,16 @@
             } else {
                 mafUrl = "/metabolights/" + studyid + "/assay/" + assayid + "/maf";
             }
+
+
+
             $.ajax({
                 url: mafUrl,
                 dataType: "html",
             }).done(function (data) {
                 wrapperDiv.html(data);
                 $('.maf').addClass("table table-striped table-bordered")
-                $('.maf').DataTable();
+                var table = $('.maf').DataTable();
 
                 var chebiInfoDiv = new Biojs.ChEBICompound({
                     target: 'chebiInfo',
@@ -1651,6 +1674,7 @@
                     proxyUrl: undefined,
                     chebiDetailsUrl: 'http://www.ebi.ac.uk/webservices/chebi/2.0/test/getCompleteEntity?chebiId='
                 });
+
                 $('#chebiInfo').hide();
 
 
@@ -1678,22 +1702,20 @@
                     }
                     $(idOfHiddenText).slideToggle();
                 });
+
                 var metLinkTimer = 0; // 0 is a safe "no timer" value
 
 
                 function loadMetabolite(e) {
-                    // Clear this as flag there's no timer outstanding
                     metLinkTimer = 0;
                     var metlink;
                     metlink = $(e.target);
                     var metaboliteId = metlink.attr('identifier');
                     // If its a chebi id
                     if (metaboliteId.indexOf("CHEBI:") == 0) {
-                        //var mouseX = metlink.left + metlink.offsetParent.offsetLeft + metlink.offsetWidth + 80;
-                        //var mouseY = metlink.top + metlink.offsetParent.offsetTop + metlink.offsetParent.offsetParent.offsetTop;
                         var offset = metlink.offset();
                         var mouseX = offset.left + metlink.outerWidth() + 20;
-                        var mouseY = offset.top;
+                        var mouseY = offset.top-200;
                         chebiId = metaboliteId;
                         $('#chebiInfo img:last-child').remove;
                         $('#chebiInfo').css({
@@ -1708,15 +1730,14 @@
                     }
                 }
 
-
-                $('.metLink').on('mouseenter', function (e) {
+                $(document).on('mouseenter','.metLink', function (e) {
                     // I'm assuming you don't want to stomp on an existing timer
                     if (!metLinkTimer) {
                         metLinkTimer = setTimeout(function () {
                             loadMetabolite(e);
                         }, 500); // Or whatever value you want
                     }
-                }).on('mouseleave', function () {
+                }).on('mouseleave','.metLink', function () {
                     // Cancel the timer if it hasn't already fired
                     if (metLinkTimer) {
                         clearTimeout(metLinkTimer);
@@ -1795,7 +1816,7 @@
                 url: "${orcidRetrieveClaimsServiceUrl}:${study.studyIdentifier}",
                 dataType: "json",
                 success: function (orchidRespData) {
-                    console.log(orchidRespData);
+                    //console.log(orchidRespData);
                     var claimListText = "";
                     if (orchidRespData['orcid-search-results']['num-found'] > 0) {
 

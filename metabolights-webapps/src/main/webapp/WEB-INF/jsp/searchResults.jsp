@@ -1,9 +1,9 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
-<%@page contentType="text/html;charset=UTF-8"%>
-<%@page pageEncoding="UTF-8"%>
+<%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@page contentType="text/html;charset=UTF-8" %>
+<%@page pageEncoding="UTF-8" %>
 <%--
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
@@ -27,7 +27,7 @@
 
 <%--<script type="text/javascript" src="javascript/jquery-imtechPager.js"></script>--%>
 <script type="text/javascript" src="javascript/jquery.jqpagination.min.js"></script>
-<link rel="stylesheet" href="cssrl/jqpagination.css" type="text/css" />
+<link rel="stylesheet" href="cssrl/jqpagination.css" type="text/css"/>
 <script type="text/javascript" src="javascript/jquery-highlight.js"></script>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
@@ -35,7 +35,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
 
-<div class="container-fluid">
+<div class="container-fluid" id="app">
     <div class="row">
         <div class="col-md-12">
             <h4>
@@ -69,13 +69,13 @@
                 <c:set var="hits" value="${searchResponse.content.results}"/>
                 <c:set var="facets" value="${query.facets}"/>
                 <script type="text/javascript">
-                    $(document).ready(function() {
+                    $(document).ready(function () {
                         $('.pagination').jqPagination({
                             paged: function (page) {
                                 // do something with the page variable
                                 filterForm = document.forms['filterForm'];
                                 pageNumberField = filterForm.elements["pageNumber"];
-                                pageNumberField.value= page;
+                                pageNumberField.value = page;
                                 filterForm.submit();
 
                             },
@@ -91,7 +91,8 @@
             <c:if test="${!empty query.text}">
                 <aside class="grid_6 omega shortcuts expander right" id="search-extras">
                     <div id="ebi_search_results">
-                        <h3 class="slideToggle icon icon-functional" data-icon="u"><spring:message code="msg.otherebiresults"/></h3>
+                        <h3 class="slideToggle icon icon-functional" data-icon="u"><spring:message
+                                code="msg.otherebiresults"/></h3>
                     </div>
                 </aside>
                 <script>
@@ -103,24 +104,24 @@
             </div>
             <div class="col-md-9" id="search-results">
                 <div class="sub-heading col-md-12">
-                        <div class="pull-left">
-                            <h4>${pagination.itemsCount}&nbsp;result<c:if test="${pagination.itemsCount ne 1}">s</c:if><%--
+                    <div class="pull-left">
+                        <h4>${pagination.itemsCount}&nbsp;result<c:if test="${pagination.itemsCount ne 1}">s</c:if><%--
                     --%><c:if test="${pagecount gt 1}"><%--
                         --%>,&nbsp;showing ${firstPageItemNumber} to ${lastPageItemNumber}
-                                </c:if>
-                            </h4>
-                        </div>
-                        <div class="pull-right">
-                            <c:if test="${pagecount gt 1}">
-                                <div class="right pagination ml-pagination">
-                                    <a href="#" data-action="first">&laquo;</a>
-                                    <a href="#" data-action="previous">&lsaquo;</a>
-                                    <input type="text" readonly="readonly" />
-                                    <a href="#" data-action="next">&rsaquo;</a>
-                                    <a href="#" data-action="last">&raquo;</a>
-                                </div>
                             </c:if>
-                        </div>
+                        </h4>
+                    </div>
+                    <div class="pull-right">
+                        <c:if test="${pagecount gt 1}">
+                            <div class="right pagination ml-pagination">
+                                <a href="#" data-action="first">&laquo;</a>
+                                <a href="#" data-action="previous">&lsaquo;</a>
+                                <input type="text" readonly="readonly"/>
+                                <a href="#" data-action="next">&rsaquo;</a>
+                                <a href="#" data-action="last">&raquo;</a>
+                            </div>
+                        </c:if>
+                    </div>
                 </div>
                 <div class="col-md-12" id="highlight-plugin">
                     <c:forEach var="hit" items="${hits}">
@@ -143,63 +144,209 @@
             </div>
         </c:if>
     </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">{{ study.studyIdentifier }}:&nbsp;{{ study.title }}</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <b>Description: </b><br>
+                        {{ study.description }}
+                    </p><br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="study--infopanel">
+                                    <div class="col-md-5 no--padding">
+                                        <small><i class="fa fa-user"></i>&nbsp;<spring:message code="ref.msg.CitationAuthors"/>:
+                                                <span id="aff" v-for="contact in study.contacts" >
+                                                   <strong>{{contact.firstName}}&nbsp;{{contact.lastName}}</strong>
+                                                </span>
+                                        </small>
+                                    </div>
+                                    <div class="col-md-7 no--padding">
+                                        <small class="pull-right">
+                                            <i class="fa fa-calendar"></i>&nbsp;
+                                            <spring:message code="label.subDate"/>:
+                                            <strong>{{study.studySubmissionDate | formatDate}}</strong>
+                                            <spring:message code="label.releaseDate"/>: <strong>{{study.studyPublicReleaseDate | formatDate}}</strong>
+                                            <spring:message code="label.updateDate"/>: <strong>{{study.updateDate | formatDate}}</strong>
+                                        </small><br>
+                                        <small class="pull-right" id="mStudyStatus">
+                                            <i class="fa fa-user">&nbsp;</i><spring:message code="label.subm"/>:&nbsp;
+                                                   <span v-for="user in study.users">
+                                                       <a href="mailto:{{user.userName}}?subject=<spring:message code="msg.emailStudyLinkSubject"/>&nbsp;">{{user.fullName}}</a>
+                                                   </span>
+                                            &nbsp;|&nbsp;
+                                            <i class="fa fa-bookmark"></i>&nbsp;<spring:message
+                                                code="ref.msg.status"/>:&nbsp;{{ study.studyStatus }}
+                                            <%-- &emsp;
+                                            <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="bottom" id="tourButton" title="Study Tour"><i class="fa fa-compass"></i></button>--%>
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">&nbsp;</div>
+                        <div class="col-md-4">
+                            <div class="panel panel-default">
+                                <div class="panel-heading"><span class="glyphicon glyphicon-globe"
+                                                                 aria-hidden="true"></span>&nbsp;
+                                    <spring:message code="label.organisms"/></div>
+                                <div class="panel-body">
+                                           <span v-for="organism in study.organism">
+                                            <span>
+                                                {{ organism.organismName }};
+                                            </span>
+                                           </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="panel panel-default">
+                                <div class="panel-heading"><span class="glyphicon glyphicon-list"
+                                                                 aria-hidden="true"></span>&nbsp;
+                                    <spring:message code="label.studyDesign"/></div>
+                                <div class="panel-body">
+                                           <span v-for="descriptor in study.descriptors">
+                                            <span>
+                                                {{ descriptor.description }};
+                                            </span>
+                                           </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="panel panel-default">
+                                <div class="panel-heading"><span class="glyphicon glyphicon-tags"
+                                                                 aria-hidden="true"></span>&nbsp;
+                                    <spring:message code="label.experimentalFactors"/></div>
+                                <div class="panel-body">
+                                    <span v-for="factor in study.factors">
+                                            <span>
+                                                {{ factor.name }};
+                                            </span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <%--<c:if test="${empty searchResponses}">--%>
-    <%--<script>$("body").addClass("noresults")</script>--%>
-    <%--<section class="grid_16 alpha">--%>
-        <%--<h4>--%>
-            <%--<c:if test="${!empty welcomemessage}"> <div style="padding-left:0px"><spring:message code="msg.nothingFoundPersonal" /></div></c:if>--%>
-            <%--<c:if test="${empty welcomemessage}">--%>
-                <%--<br />--%>
-                <%--<br />--%>
-                <%--<spring:message code="msg.nothingFound" />&nbsp;<spring:message code="msg.searchSuggestions" />--%>
-            <%--</c:if>--%>
-        <%--</h4>--%>
-        <%--<br />--%>
-    <%--</section>--%>
-    <%--<c:if test="${!empty userQueryClean}">--%>
+<%--<script>$("body").addClass("noresults")</script>--%>
+<%--<section class="grid_16 alpha">--%>
+<%--<h4>--%>
+<%--<c:if test="${!empty welcomemessage}"> <div style="padding-left:0px"><spring:message code="msg.nothingFoundPersonal" /></div></c:if>--%>
+<%--<c:if test="${empty welcomemessage}">--%>
+<%--<br />--%>
+<%--<br />--%>
+<%--<spring:message code="msg.nothingFound" />&nbsp;<spring:message code="msg.searchSuggestions" />--%>
+<%--</c:if>--%>
+<%--</h4>--%>
+<%--<br />--%>
+<%--</section>--%>
+<%--<c:if test="${!empty userQueryClean}">--%>
 
-        <%--<aside class="grid_8 omega shortcuts" id="search-extras">--%>
-            <%--<div id="ebi_search_results" class="noresults">--%>
-                <%--<h3 class=""><spring:message code="msg.otherebiresults"/></h3>--%>
-            <%--</div>--%>
-        <%--</aside>--%>
-    <%--</c:if>--%>
+<%--<aside class="grid_8 omega shortcuts" id="search-extras">--%>
+<%--<div id="ebi_search_results" class="noresults">--%>
+<%--<h3 class=""><spring:message code="msg.otherebiresults"/></h3>--%>
+<%--</div>--%>
+<%--</aside>--%>
+<%--</c:if>--%>
 
 <%--</c:if>--%>
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.10/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.17/vue-resource.js"></script>
 <script>
-    $(".grey").on('shown.bs.collapse', function ()
-    {
+    $(".grey").on('shown.bs.collapse', function () {
         var active = $(this).attr('id');
         $.cookie(active, "1");
-        var panels=$.cookie(); //get all cookies
-        console.log(panels);
+        var panels = $.cookie(); //get all cookies
+        //console.log(panels);
     });
 
-    $(".grey").on('hidden.bs.collapse', function ()
-    {
+    $(".grey").on('hidden.bs.collapse', function () {
         var active = $(this).attr('id');
         $.removeCookie(active);
-        var panels=$.cookie(); //get all cookies
-        console.log(panels);
+        var panels = $.cookie(); //get all cookies
+        //console.log(panels);
     });
 
-    $(document).ready(function(){
-        var panels=$.cookie(); //get all cookies
-        console.log(panels);
-        for (var panel in panels){ //<-- panel is the name of the cookie
-            if ($("#"+panel).hasClass('grey')) // check if this is a panel
+    $(document).ready(function () {
+        var panels = $.cookie(); //get all cookies
+        //console.log(panels);
+        for (var panel in panels) { //<-- panel is the name of the cookie
+            if ($("#" + panel).hasClass('grey')) // check if this is a panel
             {
-                $("#"+panel).collapse("show");
+                $("#" + panel).collapse("show");
             }
         }
+
+        $('[data-toggle="tooltip"]').tooltip();
     });
+
 </script>
 
 <c:if test="${!empty query.text}">
     <script src="//www.ebi.ac.uk/web_guidelines/js/ebi-global-search-run.js"></script>
     <script src="//www.ebi.ac.uk/web_guidelines/js/ebi-global-search.js"></script>
 </c:if>
+
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            selectedStudy: null,
+            study: null
+        },
+        methods: {
+            studyQuickView: function (id) {
+                this.selectedStudy = id;
+                this.getStudyDetails();
+            },
+            getStudyDetails: function () {
+                this.$http.get('${pageContext.request.contextPath}/webservice/study/' + this.selectedStudy, function (data, status, request) {
+                    this.study = data.content;
+                    console.log(data.content);
+                    $('#myModal').modal('show');
+                }).error(function (data, status, request) {
+                    console.log(data);
+                    console.log(status);
+                    console.log(request);
+                });
+            }
+        },
+        filters: {
+            formatDate: function (value) {
+                var a = new Date(value);
+                var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                var year = a.getFullYear();
+                var month = months[a.getMonth()];
+                var date = a.getDate();
+                var hour = a.getHours();
+                var min = a.getMinutes();
+                var sec = a.getSeconds();
+                var time = date + ' ' + month + ' ' + year ;
+                return time;
+            }
+        }
+    })
+</script>
