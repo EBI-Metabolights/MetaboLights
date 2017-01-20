@@ -586,8 +586,16 @@ a:link.btn-ok{
 
 .ml-study-heading{
     background-color: #D6D6D6;
-    padding: 10px 20px;
+    padding: 10px 10px;
     font-size: 1.3em;
+    text-decoration: none !important;
+}
+
+.nb {
+    border-bottom-width: 0;
+    border-bottom-style: none !important;
+    border-bottom-color: transparent;
+    color: #000 !important;
 }
 
 .ml-study-content{
