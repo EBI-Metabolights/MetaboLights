@@ -100,14 +100,6 @@
             <artifactId>stax-ex</artifactId>
             <version>1.7.7</version>
         </dependency>
-
-
-        <!--<dependency>-->
-            <!--<groupId>org.slf4j</groupId>-->
-            <!--<artifactId>slf4j-log4j12</artifactId>-->
-            <!--<version>1.7.7</version>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
     </dependencies>
     <distributionManagement>
         <repository>
@@ -123,21 +115,6 @@
             <name>The EBI repository</name>
             <url>http://www.ebi.ac.uk/~maven/m2repo</url>
         </repository>
-        <!--repository>
-            <id>intact-repo</id>
-            <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo</url>
-        </repository>
-        <repository>
-            <id>ebi-snapshot-repo</id>
-            <name>The EBI internal snapshot repository</name>
-            <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo-snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository-->
         <repository>
             <id>chebi-repo-snapshot</id>
             <name>ChEBI Repository</name>

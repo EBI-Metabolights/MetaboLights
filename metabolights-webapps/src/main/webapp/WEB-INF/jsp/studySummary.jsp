@@ -1,8 +1,8 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@page contentType="text/html;charset=UTF-8"%>
-<%@page pageEncoding="UTF-8"%>
+<%@page contentType="text/html;charset=UTF-8" %>
+<%@page pageEncoding="UTF-8" %>
 
 <%--
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
@@ -24,98 +24,120 @@
   ~
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
-<div class="row ml-studybox">
+<div class="ml-studybox row">
+    <div class="col-md-12 ml-study-heading">
+        <div class="col-md-12">
+            <a class="nb " href="${liteStudy.studyIdentifier}"><strong>${liteStudy.title}</strong></a>
+                <span class="pull-right">
+                    <c:if test="${!(liteStudy.studyStatus == 'PUBLIC')}">
+                        <small>
+                            <span class="label label-danger">
+                                <i class="fa fa-key"></i>
+                                &nbsp;<spring:message code="label.expPrivate"/>
+                            </span>
+                        </small>
+                    </c:if>
+                            <c:if test="${liteStudy.validations.status == 'RED'}">
+                                <span class="btn btn-sm"
+                                      data-toggle="tooltip"
+                                      data-placement="bottom"
+                                      title="Mandatory​ information is missing">
+                                    <span class="redTrafficL"></span>&nbsp;
+                                </span>
+                            </c:if>
+                            <c:if test="${liteStudy.validations.status == 'AMBER'}">
+                                <span class="btn btn-sm"
+                                      data-toggle="tooltip"
+                                      data-placement="bottom"
+                                      title="Optional fields are missing">
+                                <span class="amberTrafficL"></span>&nbsp;</span>
+                            </c:if>
+                            <c:if test="${liteStudy.validations.status == 'GREEN'}">
+                                <span class="btn btn-sm"
+                                      data-toggle="tooltip"
+                                      data-placement="bottom"
+                                      title="All Mandatory and Optional fields are present">
+                                    <span class="greenTrafficL"></span>&nbsp;
+                                </span>
+                            </c:if>
+                    <c:if test="${(liteStudy.studyStatus == 'PUBLIC')}">
+                    <small>
+                        <span @click="studyQuickView('${liteStudy.studyIdentifier}')"><i class="fa fa-expand"></i></span>
 
-	<div class="ml-study-heading">
-		<a href="${liteStudy.studyIdentifier}"><strong>${liteStudy.title}</strong></a>
-	</div>
-
-	<div class="ml-study-content">
-		<div class="row">
-			<div class='col-md-3'>
-				<strong><spring:message code="label.validationsStatus"/></strong>
-			</div>
-			<div class='col-md-9'>
-				<c:if test="${liteStudy.validations.status == 'RED'}">
-					<span class="redTrafficL"/>
-					<span class="offTrafficL"/>
-					<span class="offTrafficL"/>
-				</c:if>
-
-				<c:if test="${liteStudy.validations.status == 'AMBER'}">
-					<span class="offTrafficL"/>
-					<span class="amberTrafficL"/>
-					<span class="offTrafficL"/>
-				</c:if>
-				<c:if test="${liteStudy.validations.status == 'GREEN'}">
-					<span class="offTrafficL"/>
-					<span class="offTrafficL"/>
-					<span class="greenTrafficL"/>
-				</c:if>
-			</div>
-		</div>
-		<c:if test="${liteStudy.publicStudy}">
-			<div class='row'>
-				<div class='col-md-3'>
-					<strong><spring:message code="label.releaseDate"/>:</strong>
-				</div>
-				<div class='col-md-9'>
-					<fmt:formatDate pattern="dd-MMM-yyyy" value="${liteStudy.studyPublicReleaseDate}"/> &emsp;
-					<c:if test="${!(liteStudy.studyStatus == 'PUBLIC')}">
-						&nbsp;<span class="label label-danger"><i class="fa fa-key"></i></i><strong>&nbsp;<spring:message code="label.expPrivate"/></strong></span>
-					</c:if>
-				</div>
-			</div>
-		</c:if>
-		<div class="row">
-			<div class="col-md-6">
-				<strong><spring:message code="label.organism" /></strong>
-				<ul id="resultList">
-					<c:forEach var="species" items="${liteStudy.organism}">
-						<li>${species.organismName}</li>
-					</c:forEach>
-				</ul>
-				<strong><spring:message code="label.expFact" /></strong>
-				<ul id="resultList">
-					<c:forEach var="factor" items="${liteStudy.factors}">
-						<li>${factor.name}</li>
-					</c:forEach>
-				</ul>
-			</div>
-			<div class="col-md-6">
-				<br><br>
-				<div class="row">
-					<div class='col-md-5'>
-						<spring:message code="label.expId" />
-					</div>
-					<div class='col-md-7'>
-						<a href="${liteStudy.studyIdentifier}"><strong>${liteStudy.studyIdentifier}</strong></a>
-					</div>
-				</div>
-				<div class="row">
-					<div class='col-md-5'>
-						<spring:message code="label.filesize" />
-					</div>
-					<div class='col-md-7'>
-						<strong>${liteStudy.studyHumanReadable}</strong>
-					</div>
-				</div>
-				<div class="row">
-					<div class='col-md-5'>
-						<spring:message code="label.subm" />
-					</div>
-					<div class='col-md-7'>
-						<ul class="no-bullets" id="resultList">
-							<c:forEach var="owner" items="${liteStudy.users}">
-								<li><a href="search?users.fullName=${owner.fullName}">${owner.fullName}</a>
-									<a href="mailto:${owner.userName}?subject=<spring:message code="msg.emailStudyLinkSubject"/>&nbsp;${liteStudy.studyIdentifier}"><i class="fa fa-envelope-o" aria-hidden="true"></i>
-									</a>
-								</li>
-							</c:forEach>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                    </small>
+                    </c:if>
+                </span>
+            <%--<span class="pull-right  btn-xs btn"--%>
+            <%--data-toggle="modal"--%>
+            <%--data-target=".bs-example-modal-lg"--%>
+            <%--data-toggle="tooltip"--%>
+            <%--data-placement="bottom"--%>
+            <%--title="Quick&nbsp;view">--%>
+            <%--<i class="fa fa-expand"></i>--%>
+            <%--</span>--%>
+        </div>
+    </div>
+    <div class="ml-study-content col-md-12 ">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td><i  class="fa fa-anchor" aria-hidden="true"></i>&nbsp;Study Identifier</td>
+                                <td><a href="${liteStudy.studyIdentifier}">
+                                    ${liteStudy.studyIdentifier}
+                                </a></td>
+                            </tr>
+                            <c:if test="${!liteStudy.publicStudy}">
+                            <tr>
+                                <td><i data-toggle="tooltip"
+                                       data-placement="bottom"
+                                       title="Release date" class="fa fa-calendar"></i>&nbsp;Release Date</td>
+                                <td><fmt:formatDate pattern="dd-MMM-yyyy" value="${liteStudy.studyPublicReleaseDate}"/></td>
+                            </tr>
+                            </c:if>
+                            <tr>
+                                <td><i data-toggle="tooltip"
+                                       data-placement="bottom"
+                                       title="Study size" class="fa fa-hdd-o" aria-hidden="true"></i>&nbsp;Study Size</td>
+                                <td>${liteStudy.studyHumanReadable}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa fa-user"></i>&nbsp;Submitted by</td>
+                                <td><c:forEach var="owner" items="${liteStudy.users}">
+                                    <a href="search?users.fullName=${owner.fullName}">${owner.fullName}</a>
+                                    <a href="mailto:${owner.userName}?subject=<spring:message code="msg.emailStudyLinkSubject"/>&nbsp;${liteStudy.studyIdentifier}"><i
+                                            class="fa fa-envelope-o" aria-hidden="true"></i>
+                                    </a>
+                                </c:forEach></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <td><spring:message code="label.organism"/></td>
+                        <td>
+                            <c:forEach var="species" items="${liteStudy.organism}">
+                                ${species.organismName}
+                            </c:forEach>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><spring:message code="label.expFact"/></td>
+                        <td>
+                            <c:forEach var="factor" items="${liteStudy.factors}">
+                                ${factor.name},
+                            </c:forEach>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>

@@ -397,7 +397,7 @@ public class FileDispatcherController extends AbstractController {
 	}
 
     /**
-     * Get a list of files from private FTP folder for a Study
+     * Get a list of files from private upload folder for a Study
      * Only Submiters (ROLE_SUBMITTER) and Curators (ROLE_SUPER_USER) should be accessing this
      *
      * @param studyId
@@ -414,7 +414,7 @@ public class FileDispatcherController extends AbstractController {
     }
 
     /**
-     * Create a private FTP folder for a Study, so the user can upload big files using ftp.
+     * Create a private upload folder for a Study, so the user can upload big files using ftp.
      * Only Submiters (ROLE_SUBMITTER) and Curators (ROLE_SUPER_USER) should be accessing this
      *
      * @param studyId the ID of the study
@@ -424,7 +424,7 @@ public class FileDispatcherController extends AbstractController {
     @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/requestFtpFolder")
     public ModelAndView requestFtpFolder(@PathVariable("studyId") String studyId) {
 
-        logger.info("Requesting a private FTP folder for the study {}", studyId);
+        logger.info("Requesting a private upload folder for the study {}", studyId);
 
         // Using the WebService-client to do the job
         MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
@@ -437,11 +437,11 @@ public class FileDispatcherController extends AbstractController {
             msg.add(line);
         }
 
-        return printMessage("Creating private FTP folder for Study...", msg, null, studyId);
+        return printMessage("Creating private upload folder for Study...", msg, null, studyId);
     }
 
     /**
-     * Move files from private FTP folder for a Study.
+     * Move files from private upload folder for a Study.
      * Only Submiters (ROLE_SUBMITTER) and Curators (ROLE_SUPER_USER) should be accessing this
      *
      * @param studyId the ID of the study
@@ -454,7 +454,7 @@ public class FileDispatcherController extends AbstractController {
                                                @RequestParam("ftpFile") List<String> selectedFiles,
                                                HttpServletResponse response) {
 
-        logger.info("Moving files from private FTP folder for the study {}", studyId);
+        logger.info("Moving files from private upload folder for the study {}", studyId);
 
         // Using the WebService-client to do the job
         MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
@@ -466,11 +466,11 @@ public class FileDispatcherController extends AbstractController {
         for (String line:str){
             msg.add(line);
         }
-        return printMessage("Moving files from private FTP folder...", msg, null, studyId);
+        return printMessage("Moving files from private upload folder...", msg, null, studyId);
     }
 
     /**
-     * Check if a Study has a private FTP folder
+     * Check if a Study has a private upload folder
      *
      * @param studyId
      * @return
@@ -486,7 +486,7 @@ public class FileDispatcherController extends AbstractController {
     }
 
     /**
-     * Delete a series of files selected from the private FTP folder for a Study
+     * Delete a series of files selected from the private upload folder for a Study
      * Requires confirmation.
      * Only Submiters (ROLE_SUBMITTER) and Curators (ROLE_SUPER_USER) should be accessing this
      *
@@ -513,6 +513,6 @@ public class FileDispatcherController extends AbstractController {
             msg.add(line);
         }
 
-        return printMessage("Deleting files from private FTP folder...", msg, null, studyId);
+        return printMessage("Deleting files from private upload folder...", msg, null, studyId);
     }
 }

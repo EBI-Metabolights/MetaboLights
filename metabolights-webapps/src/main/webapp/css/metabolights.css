@@ -168,11 +168,6 @@ body{
     margin: 10px;
 }
 
-.study--description{
-    padding: 15px 10px;
-    font-size: 14px;
-}
-
 .study--title{
     color: #2c3e50;
     font-weight: 400;
@@ -190,9 +185,23 @@ body{
     color: #2E789A;
 }
 
+.expand--description{
+    margin-left: 15px;
+}
+
 .study--description{
-    padding: 5px 15px;
+    padding: 0px 15px;
     font-size: 14px;
+}
+
+.study--description--small {
+    height: 100px;
+    overflow:hidden;
+    margin-bottom: 8px;
+}
+
+.study--description--big {
+    height: auto;
 }
 
 .study--infopanel{
@@ -577,8 +586,16 @@ a:link.btn-ok{
 
 .ml-study-heading{
     background-color: #D6D6D6;
-    padding: 10px 20px;
+    padding: 10px 10px;
     font-size: 1.3em;
+    text-decoration: none !important;
+}
+
+.nb {
+    border-bottom-width: 0;
+    border-bottom-style: none !important;
+    border-bottom-color: transparent;
+    color: #000 !important;
 }
 
 .ml-study-content{
