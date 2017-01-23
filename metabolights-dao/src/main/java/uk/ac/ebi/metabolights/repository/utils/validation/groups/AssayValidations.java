@@ -4,11 +4,13 @@ import uk.ac.ebi.metabolights.repository.model.Assay;
 import uk.ac.ebi.metabolights.repository.model.Field;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.Table;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.*;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Group;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Requirement;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.ValidationIdentifier;
 import uk.ac.ebi.metabolights.repository.utils.validation.DescriptionConstants;
 import uk.ac.ebi.metabolights.repository.utils.validation.Utilities;
 
-import java.io.File;
 import java.util.*;
 
 /**
@@ -117,7 +119,9 @@ public class AssayValidations implements IValidationProcess {
         List<String> fileFields = new ArrayList<>();
         for (Map.Entry<String, Field> entry : tableFields.entrySet()) {
             if (Utilities.containsKeyword(entry.getKey(), " file")) {
-                fileFields.add(entry.getKey());
+                String localField = Utilities.getfieldName(entry.getKey()).toLowerCase();
+                if (!localField.contains("parameter value"))  // Ignore Parameter values describing files (mzML2ISA generated)
+                    fileFields.add(entry.getKey());
             }
         }
         return fileFields;
@@ -128,7 +132,8 @@ public class AssayValidations implements IValidationProcess {
         List<String> fileFields = new ArrayList<>();
         for (Map.Entry<String, Field> entry : tableFields.entrySet()) {
             if (Utilities.containsKeyword(entry.getKey(), " file")) {
-                if (!Utilities.getfieldName(entry.getKey()).equalsIgnoreCase("metabolite assignment file")) {
+                String localField = Utilities.getfieldName(entry.getKey()).toLowerCase();
+                if (!localField.equalsIgnoreCase("metabolite assignment file") && !localField.contains("parameter value") ) {   // Ignore Parameter values describing files (mzML2ISA generated)
                     fileFields.add(entry.getKey());
                 }
             }
