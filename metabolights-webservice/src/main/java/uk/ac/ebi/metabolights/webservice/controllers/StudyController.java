@@ -695,7 +695,7 @@ public class StudyController extends BasicController{
 	}
 
 	/**
-	 * Create a private FTP folder for a Study, so the user can upload big files using ftp.
+	 * Create a private upload folder for a Study, so the user can upload big files using ftp.
 	 *
 	 * @param studyIdentifier
 	 * @return
@@ -719,7 +719,7 @@ public class StudyController extends BasicController{
 		String ftp_path = "/"+ftp_paths[ftp_paths.length - 1]+"/";
 
 		User user = getUser();
-		logger.info("User {} has requested a private FTP folder for the study {}", user.getUserName(),studyIdentifier);
+		logger.info("User {} has requested a private upload folder for the study {}", user.getUserName(),studyIdentifier);
 
 		// FTP folder is composed with the study identifier + the obfuscation code
 		String ftpFolder = studyIdentifier.toLowerCase() + "-" + getObfuscationCode(studyIdentifier, user);
@@ -727,14 +727,33 @@ public class StudyController extends BasicController{
 		// create the folder
 		FileUtil.createFtpFolder(ftpFolder);
 		RestResponse<String> restResponse = new RestResponse<>();
-		restResponse.setContent("Private FTP folder for Study.");
-		restResponse.setMessage("Your requested FTP folder is being created. Details for access will be mailed to you shortly.");
+		restResponse.setContent("Private upload folder for Study.");
+		restResponse.setMessage("Your requested upload folder is being created. Details for access will be mailed to you shortly.");
 
 		// send FTP folder details by email
-		String subject = "Requested Study FTP folder.";
-		StringBuilder body = new StringBuilder().append("We are happy to inform you that your FTP folder for study ")
+		String subject = "Requested Study upload folder.";
+//		StringBuilder body = new StringBuilder().append("We are happy to inform you that your FTP folder for study ")
+//				.append("<b>").append(studyIdentifier).append("</b>")
+//				.append(" has been successfully created and is now ready for use. To access, please use your favorite FTP client with the following account details:").append('\n').append('\n')
+//				.append('\t').append("user: ")
+//				.append("<b>").append(privateFTPUser).append("</b>").append('\n')
+//				.append('\t').append("password: ")
+//				.append("<b>").append(privateFTPPass).append("</b>").append('\n')
+//				.append('\t').append("server: ")
+//				.append("<b>").append(privateFTPServer).append("</b>").append('\n')
+//				.append('\t').append("remote folder: ")
+//				.append("<b>").append(ftp_path).append(ftpFolder).append("</b>").append('\n')
+//				.append('\n')
+//				.append("Please, note that the remote folder needs to be entirely typed, as the folder is not browsable. So use ")
+//				.append("\"").append("<b>").append("cd ").append(ftp_path).append(ftpFolder).append("</b>").append("\"").append(" to access your private folder.")
+//				.append(" More extensive instructions can be found here: ").append(linkFTPUploadDoc)
+//				.append('\n').append('\n')
+//				.append("We would be grateful for any feedback on the upload procedure and any issues you may find.")
+//				.append('\n');
+		StringBuilder body = new StringBuilder().append("We are happy to inform you that your upload folder for study ")
 				.append("<b>").append(studyIdentifier).append("</b>")
-				.append(" has been successfully created and is now ready for use. To access, please use your favorite FTP client with the following account details:").append('\n').append('\n')
+				.append(" has been successfully created and is now ready for use. You can use either FTP or Aspera Client to upload your study files.").append('\n').append('\n')
+				.append("<b>").append("Using FTP Client:").append("</b>").append('\n')
 				.append('\t').append("user: ")
 				.append("<b>").append(privateFTPUser).append("</b>").append('\n')
 				.append('\t').append("password: ")
@@ -746,18 +765,26 @@ public class StudyController extends BasicController{
 				.append('\n')
 				.append("Please, note that the remote folder needs to be entirely typed, as the folder is not browsable. So use ")
 				.append("\"").append("<b>").append("cd ").append(ftp_path).append(ftpFolder).append("</b>").append("\"").append(" to access your private folder.")
-				.append(" More extensive instructions can be found here: ").append(linkFTPUploadDoc)
+				.append('\n')
+				.append('\n')
+				.append("<b>").append("Using Aspera Client:").append("</b>").append('\n')
+				.append("You can also use the high-speed Aspera client to upload with the same username and password listed above using the command below.\n" +
+						"ascp -QT -L-  -l 300M your_local_data_folder mtblight@ah01.ebi.ac.uk:").append(ftp_path).append(ftpFolder)
+				.append('\n')
+				.append('\n')
+				.append(" Detailed Instructions on data upload through FTP/Aspera is available here: ").append(linkFTPUploadDoc)
 				.append('\n').append('\n')
 				.append("We would be grateful for any feedback on the upload procedure and any issues you may find.")
 				.append('\n');
 		emailService.sendCreatedFTPFolderEmail(user.getEmail(),getSubmitterEmail(studyIdentifier,user), subject, body.toString());
-		logger.info("Private FTP folder details sent to user: {}, by email: {} .", user.getUserName(), user.getEmail());
+		logger.info("Private upload folder details sent to user: {}, by email: {} .", user.getUserName(), user.getEmail());
+		logger.info(subject);
 
 		return restResponse;
 	}
 
 	/**
-	 * Move files from the Study private FTP folder to its MetaboLights folder.
+	 * Move files from the Study private upload folder to its MetaboLights folder.
 	 *
 	 * @param studyIdentifier
 	 * @param fileNames
@@ -789,7 +816,7 @@ public class StudyController extends BasicController{
 
 
 	/**
-	 * Check if a Study has a private FTP folder
+	 * Check if a Study has a private upload folder
 	 *
 	 * @param studyIdentifier
 	 * @return
@@ -816,7 +843,7 @@ public class StudyController extends BasicController{
 	}
 
 	/**
-	 * Get a list of files in the private FTP folder of a Study
+	 * Get a list of files in the private upload folder of a Study
 	 *
 	 * @param studyIdentifier
 	 * @return
@@ -839,13 +866,13 @@ public class StudyController extends BasicController{
 		String[] fileNames = FileUtil.getFtpFolderList(privateFTPRoot + File.separator + ftpFolder);
 		RestResponse<String[]> restResponse = new RestResponse<>();
 		restResponse.setContent(fileNames);
-		restResponse.setMessage("List of files in your private FTP folder");
+		restResponse.setMessage("List of files in your private upload folder");
 
 		return restResponse;
 	}
 
 	/**
-	 * Delete a list of files from the private FTP folder of the study
+	 * Delete a list of files from the private upload folder of the study
 	 *
 	 * @param studyIdentifier
 	 * @return
@@ -860,7 +887,7 @@ public class StudyController extends BasicController{
 			throws DAOException, IsaTabException, IndexingFailureException, IOException {
 
 		User user = getUser();
-		logger.info("User {} requested to delete files from study {} private FTP folder.", user.getFullName(), studyIdentifier);
+		logger.info("User {} requested to delete files from study {} private upload folder.", user.getFullName(), studyIdentifier);
 
 		// look for the private FTP folder
 		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");

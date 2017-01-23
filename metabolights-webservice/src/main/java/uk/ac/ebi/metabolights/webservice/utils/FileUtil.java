@@ -242,7 +242,7 @@ public class FileUtil {
 	}
 
 	/**
-	 * Create a private FTP folder for uploading big study files
+	 * Create a private upload folder for uploading big study files
 	 *
 	 * @param folder
 	 * @return a String containing created folder
@@ -257,7 +257,12 @@ public class FileUtil {
 		// create the folder
 		File ftpFolder = new File(privateFTPRoot + File.separator + folder);
 		Path folderPath = ftpFolder.toPath();
-		if (!ftpFolder.mkdir()) throw new IOException();
+//		if (!ftpFolder.mkdir()) throw new IOException();
+		try{
+			ftpFolder.mkdir();
+		}                     catch(Exception e){
+			        e.printStackTrace();
+		}
 
 		// set folder owner, group and access permissions
 		// 'chmod 770'
@@ -278,7 +283,7 @@ public class FileUtil {
 	}
 
 	/**
-	 * Move a single file from a private FTP folder to MetaboLights
+	 * Move a single file from a private upload folder to MetaboLights
 	 *
 	 * @param fileName
 	 * @param ftpFolder
@@ -310,7 +315,7 @@ public class FileUtil {
 	}
 
 	/**
-	 * Move a list of files from a private FTP folder to MetaboLights
+	 * Move a list of files from a private upload folder to MetaboLights
 	 *
 	 * @param fileNames
 	 * @param ftpFolder
@@ -331,7 +336,7 @@ public class FileUtil {
 	}
 
 	/**
-	 * Get a list of files in the private FTP folder
+	 * Get a list of files in the private upload folder
 	 *
 	 * @param ftpFolder
 	 * @return
@@ -357,7 +362,7 @@ public class FileUtil {
 	}
 
 	/**
-	 * Check if a private FTP folder exists
+	 * Check if a private upload folder exists
 	 *
 	 * @param ftpFolder
 	 * @return
@@ -375,7 +380,7 @@ public class FileUtil {
 	static String filePrefix = ".DELETEME-";
 
 	/**
-	 * Delete a list of files from the private FTP folder, upon user request
+	 * Delete a list of files from the private upload folder, upon user request
 	 *
 	 * @param fileNames
 	 * @param ftpFolder
@@ -394,7 +399,7 @@ public class FileUtil {
 	}
 
 	/**
-	 * Delete a file from the private FTP folder, upon user request
+	 * Delete a file from the private upload folder, upon user request
 	 * Although, actually we are no longer moving the file,
 	 * just re-naming it to be deleted later by a bash script
 	 *
