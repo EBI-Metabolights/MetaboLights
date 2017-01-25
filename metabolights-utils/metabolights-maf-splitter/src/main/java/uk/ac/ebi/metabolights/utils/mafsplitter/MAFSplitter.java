@@ -176,9 +176,9 @@ public class MAFSplitter {
 
         for (int i = 0; i < allLines.size(); i++) {
             nextLine = allLines.get(i);
-            numberOfPipes = correctNumberOfPipes(nextLine);
+            numberOfPipes = correctNumberOfPipes(nextLine);  //Keep in mind that two dataelements only contain 1 pipeline
             if (nextLine != null && numberOfPipes > 0) { // We have the same number of pipelines in all cells so we can proceed
-                for (int i1 = 0; i1 < numberOfPipes; i1++) { //Loop the number of times we have pipelines
+                for (int i1 = 0; i1 < numberOfPipes+1; i1++) { //Loop the number of times we have pipelines (+1 to get the last data element)
                     List<String> newLine = new ArrayList<String>(); //The modified line
                     for (String cell : nextLine) {
                         if (cell.contains(pipeline)) { //Splitting!
@@ -192,7 +192,7 @@ public class MAFSplitter {
                                 cell = " | ";
 
                             String[] newCell = cell.split(Pattern.quote(pipeline));
-                            if (newCell.length >= i1+1) { //Make sure the array after split containt the same number of elements as we try to loop through. TODO, correctNumberOfPipes is not correct?
+                            if (newCell.length >= i1+1) { //Make sure the array after split containt the same number of elements as we try to loop through
                                 newLine.add(newCell[i1]);    //Adding the modified cell
                             } else {  // Could not split after all.
                                 logAndOutput("Error in splitting: "+cell);

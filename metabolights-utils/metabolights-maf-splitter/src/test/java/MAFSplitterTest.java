@@ -41,8 +41,8 @@ public class MAFSplitterTest extends TestCase {
     public void testMAFSplitter(){
         if (studyDirectory == null)
             studyDirectory = MAFSplitterTest.class.getClassLoader().getResource(".").getPath();
-        //String testStudy = "/MTBLS313/m_imagingms_metabolite_profiling_mass_spectrometry_v2_maf2.tsv";
-        String testStudy = "MTBLS313/m_imagingms_metabolite_profiling_mass_spectrometry_v2_maf.tsv";
+        String testStudy = "/MTBLS313/m_imagingms_metabolite_profiling_mass_spectrometry_v2_maf_SMALL.tsv";
+        //String testStudy = "MTBLS313/m_imagingms_metabolite_profiling_mass_spectrometry_v2_maf.tsv";
 
         mafSplitter.convertMAF(studyDirectory + testStudy);
     }

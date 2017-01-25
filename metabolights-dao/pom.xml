@@ -30,7 +30,7 @@
     <name>MetaboLights DAO</name>
     <description>MetaboLights Data Access Objects module</description>
     <!--Migrated to slf4j + log4j-->
-    <version>4.2-SNAPSHOT</version>
+    <version>4.3-SNAPSHOT</version>
 
     <parent>
         <artifactId>metabolights-main</artifactId>

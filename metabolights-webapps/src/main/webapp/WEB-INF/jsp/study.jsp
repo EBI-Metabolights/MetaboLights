@@ -1023,6 +1023,7 @@
                                             </a>
                                         </sec:authorize>
                                     </c:if>
+                                    &nbsp;
                                     <!--  Request FTP folder -->
                                     <c:if test="${study.studySize <= 1024000 }">
                                         <a class="noLine" rel="nofollow"
@@ -1057,7 +1058,7 @@
                                     &nbsp;
                                     <c:if test="${(study.studyStatus == 'SUBMITTED') and hasPrivateFtpFolder }">
                                         <span class="pull-right"><i class="fa fa-angle-double-down"></i>&nbsp;<a
-                                                href="#ftpFolderDetails">FTP folder details</a></span>
+                                                href="#ftpFolderDetails">Upload folder details</a></span>
                                     </c:if>
 
                                 </h5>
@@ -1236,7 +1237,7 @@
                             <c:if test="${(study.studyStatus == 'SUBMITTED') and hasPrivateFtpFolder }">
                                 <div class="accordion">
                                     <h5 class="ftpFolder"><span class="icon icon-generic" data-icon="D"/></span>
-                                        &nbsp;<spring:message code="label.priavteFtpFolder"/></h5>
+                                        &nbsp;<spring:message code="label.privateFtpFolder"/></h5>
 
                                     <div>
                                         <h5><spring:message code="label.ftpFileListTableExplanation"/></h5>
@@ -1285,7 +1286,7 @@
                                                             <input data-delete="${pageContext.request.contextPath}/${study.studyIdentifier}/files/deleteSelFtpFiles"
                                                                    data-move="$${pageContext.request.contextPath}/{study.studyIdentifier}/files/moveFilesfromFtpFolder"
                                                                    data-title="Confirmation"
-                                                                   data-info="This will delete all selected files from your private FTP folder, no way back!."
+                                                                   data-info="This will delete all selected files from your private upload folder, no way back!."
                                                                    data-toggle="modal"
                                                                    data-target="#confirm-ftp-delete-modal"
                                                                    id="deleteFtpSelFilesBtn" name="deleteFtpSelFilesBtn"

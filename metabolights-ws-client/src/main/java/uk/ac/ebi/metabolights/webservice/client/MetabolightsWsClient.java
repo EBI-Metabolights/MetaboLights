@@ -771,7 +771,7 @@ public class MetabolightsWsClient {
     }
 
     /**
-     * Create a private FTP folder for a Study, so the user can upload big files using ftp.
+     * Create a private upload folder for a Study, so the user can upload big files using ftp.
      *
      * @param studyId
      * @return
@@ -789,7 +789,7 @@ public class MetabolightsWsClient {
     }
 
     /**
-     * Move files from private FTP folder for a Study.
+     * Move files from private upload folder for a Study.
      *
      * @param studyId
      * @return
@@ -807,7 +807,7 @@ public class MetabolightsWsClient {
     }
 
     /**
-     * Get a list of files from private FTP folder for a Study
+     * Get a list of files from private upload folder for a Study
      *
      * @param studyId
      * @return
@@ -823,7 +823,7 @@ public class MetabolightsWsClient {
     }
 
     /**
-     * Check if a Study has a private FTP folder
+     * Check if a Study has a private upload folder
      *
      * @param studyId
      * @return
@@ -839,7 +839,7 @@ public class MetabolightsWsClient {
     }
 
     /**
-     * Delete a list of files from the private FTP folder of the study
+     * Delete a list of files from the private upload folder of the study
      *
      * @param studyId
      * @param selectedFiles
