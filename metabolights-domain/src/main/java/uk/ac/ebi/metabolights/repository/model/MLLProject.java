@@ -11,6 +11,7 @@ public class MLLProject {
 
     private String Id;
     private String Title;
+    private String Description;
     private MLLUser Owner;
     private String settings;
     private String projectLocation;
@@ -64,6 +65,13 @@ public class MLLProject {
         this.projectLocation = projectLocation;
     }
 
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
+    }
 
     @JsonIgnore
     public String getAsJSON() {

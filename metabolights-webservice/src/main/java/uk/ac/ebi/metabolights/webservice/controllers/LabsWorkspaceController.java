@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.MetaboLightsLabsProjectDAO;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.MetaboLightsLabsWorkspaceDAO;
+import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
-import uk.ac.ebi.metabolights.repository.dao.hibernate.UserDAO;
 import uk.ac.ebi.metabolights.repository.model.*;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.webservice.services.UserServiceImpl;
@@ -34,9 +36,12 @@ import java.util.List;
  * Created by venkata on 22/08/2016.
  */
 @Controller
-@RequestMapping("workspace")
+@RequestMapping("labs-workspace")
 public class LabsWorkspaceController {
+
     protected static final Logger logger = LoggerFactory.getLogger(BasicController.class);
+    public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
+    private StudyDAO studyDAO;
 
     @RequestMapping(value = "initialise", method = RequestMethod.POST)
     @ResponseBody
@@ -199,7 +204,7 @@ public class LabsWorkspaceController {
      */
     @RequestMapping(value = "asperaConfiguration", method = RequestMethod.POST)
     @ResponseBody
-    public RestResponse<String> createNewProject(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public RestResponse<String> asperaConfiguration(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         RestResponse<String> restResponse = new RestResponse<String>();
 
@@ -275,6 +280,143 @@ public class LabsWorkspaceController {
         response.setStatus(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
 
         return restResponse;
+
+    }
+
+    /**
+     * Fetch aspera configuration for uploading data to MetaboLights Labs
+     * @param data
+     * @param request
+     * @param response
+     * @return
+     * @throws ServletException
+     * @throws IOException
+     * @throws JoseException
+     * @throws DAOException
+     */
+    @RequestMapping(value = "createProject", method = RequestMethod.POST)
+    @ResponseBody
+    public RestResponse<String> createProject(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        RestResponse<String> restResponse = new RestResponse<String>();
+
+        JSONObject serverRequest = SecurityUtil.parseRequest(data);
+
+        String title = (String) serverRequest.get("title");
+
+        String description = (String) serverRequest.get("description");
+
+        User user = SecurityUtil.validateJWTToken(data);
+
+        if(user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
+
+            restResponse.setContent("invalid");
+
+            response.setStatus(403);
+
+            return restResponse;
+
+        }
+
+
+        if(user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
+
+            logger.info("User with the token doesnt exist. Aborting the request");
+
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User doesnt exist error!");
+
+            return restResponse;
+
+        }
+
+        MLLWorkSpace mllWorkSpace = getWorkspaceInfo(user, true);
+
+        if (mllWorkSpace == null){
+
+            logger.warn("Error fetching the workspace info associated with the user token");
+
+            response.setStatus(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+
+            return restResponse;
+
+        }
+
+        MetaboLightsLabsWorkspaceDAO metaboLightsLabsDAO = new MetaboLightsLabsWorkspaceDAO();
+
+        MLLProject mllProject = createMLLProject(mllWorkSpace, user.getApiToken(), title, description);
+
+
+        if(mllProject != null){
+
+            Boolean cloneProject = (Boolean) serverRequest.get("cloneProject");
+
+            if(cloneProject){
+
+                String studyId = (String) serverRequest.get("studyId");
+
+                if (studyId != null || studyId.matches(METABOLIGHTS_ID_REG_EXP)){
+
+                    logger.info("Cloning study: " + studyId);
+
+                    String studyLocation = "";
+
+                    try{
+
+                        studyDAO = getStudyDAO();
+
+                        // Get the study
+
+                            Study study = studyDAO.getStudy(studyId, user.getApiToken(), false);
+
+
+
+                            studyLocation = study.getStudyLocation();
+
+                            String projectLocation = mllProject.getProjectLocation();
+
+                    }  catch (DAOException ex) {
+
+                        logger.error("Error looking for study {}: {}", studyId, ex.getMessage());
+
+                    }
+
+                }
+
+            }
+
+        }
+
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        restResponse.setContent(mapper.writeValueAsString(mllProject));
+
+        return restResponse;
+
+    }
+
+    private uk.ac.ebi.metabolights.repository.dao.StudyDAO getStudyDAO() throws DAOException {
+
+        if (studyDAO == null){
+
+            studyDAO = DAOFactory.getInstance().getStudyDAO();
+
+        }
+        return studyDAO;
+    }
+
+
+    private MLLProject createMLLProject(MLLWorkSpace mllWorkSpace, String userToken, String title, String description){
+
+        String workspaceLocation = PropertiesUtil.getProperty("userSpace") + userToken;
+
+        String asperaUser = PropertiesUtil.getProperty("asperaUser") ;
+
+        String asperaSecret = PropertiesUtil.getProperty("asperaSecret") ;
+
+        MetaboLightsLabsProjectDAO metaboLightsLabsProjectDAO = new MetaboLightsLabsProjectDAO();
+
+        return  metaboLightsLabsProjectDAO.createMLLProject(workspaceLocation, mllWorkSpace, userToken, asperaUser, asperaSecret, title, description);
 
     }
 

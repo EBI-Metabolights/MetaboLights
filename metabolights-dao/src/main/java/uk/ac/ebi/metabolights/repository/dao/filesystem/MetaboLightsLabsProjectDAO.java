@@ -39,6 +39,12 @@ public class MetaboLightsLabsProjectDAO {
 
     }
 
+    public MLLProject createMLLProject(String workspaceLocation, MLLWorkSpace mllWorkSpace, String userToken, String asperaUser, String asperaSecret, String title, String description){
+
+        return createNewProject(mllWorkSpace, workspaceLocation, userToken, asperaUser, asperaSecret, title, description);
+
+    }
+
     private MLLProject getProject( MLLWorkSpace mllWorkSpace, String projectId ){
 
 
@@ -59,8 +65,13 @@ public class MetaboLightsLabsProjectDAO {
 
     }
 
+    private MLLProject createNewProject( MLLWorkSpace mllWorkSpace, String workspaceLocation, String apiToken, String asperaUser , String asperaSecret ) {
 
-    private MLLProject createNewProject( MLLWorkSpace mllWorkSpace, String workspaceLocation, String apiToken, String asperaUser , String asperaSecret ){
+        return createNewProject(mllWorkSpace, workspaceLocation, apiToken, asperaUser, asperaSecret, "Default Title", "Lorem ipsum");
+
+    }
+
+    private MLLProject createNewProject( MLLWorkSpace mllWorkSpace, String workspaceLocation, String apiToken, String asperaUser , String asperaSecret, String title, String description ){
 
         UUID id = UUID.randomUUID();
 
@@ -76,7 +87,9 @@ public class MetaboLightsLabsProjectDAO {
 
         mllProject.setAsperaSettings(getAsperaURL(apiToken, id.toString(), asperaUser, asperaSecret));
 
-        mllProject.setTitle("Untitled Project");
+        mllProject.setTitle(title);
+
+        mllProject.setDescription(description);
 
         mllWorkSpace.appendProject(mllProject);
 
@@ -137,7 +150,6 @@ public class MetaboLightsLabsProjectDAO {
         return mllProject;
 
     }
-
 
     private String getAsperaURL(String apiToken, String projectId, String asperaUser, String asperaToken){
 
