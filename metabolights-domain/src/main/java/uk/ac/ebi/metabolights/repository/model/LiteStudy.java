@@ -83,6 +83,8 @@ public class LiteStudy extends Entity {
     private String studyIdentifier;
     private String title;
 
+    private String studyDescription;
+
     // Database fields
     private Study.StudyStatus studyStatus = Study.StudyStatus.SUBMITTED;
 
@@ -259,5 +261,12 @@ public class LiteStudy extends Entity {
         this.validations = validations;
     }
 
+    public String getStudyDescription() {
+        return studyDescription;
+    }
+
+    public void setStudyDescription(String studyDescription) {
+        this.studyDescription = studyDescription;
+    }
 
 }

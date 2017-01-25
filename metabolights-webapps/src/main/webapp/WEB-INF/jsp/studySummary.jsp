@@ -30,11 +30,20 @@
             <a class="nb " href="${liteStudy.studyIdentifier}"><strong>${liteStudy.title}</strong></a>
                 <span class="pull-right">
                     <c:if test="${!(liteStudy.studyStatus == 'PUBLIC')}">
-                        <small>
+                        <small data-toggle="tooltip"
+                               data-placement="bottom"
+                               title="${liteStudy.studyStatus.description}">
                             <span class="label label-danger">
                                 <i class="fa fa-key"></i>
                                 &nbsp;<spring:message code="label.expPrivate"/>
                             </span>
+                        </small>
+                    </c:if>
+                    <c:if test="${(liteStudy.studyStatus == 'PUBLIC')}">
+                        <small data-toggle="tooltip"
+                               data-placement="bottom"
+                               title="${liteStudy.studyStatus.description}">
+                                <i class="fa fa-globe"></i>
                         </small>
                     </c:if>
                             <c:if test="${liteStudy.validations.status == 'RED'}">
@@ -122,17 +131,34 @@
                     <tr>
                         <td><spring:message code="label.organism"/></td>
                         <td>
-                            <c:forEach var="species" items="${liteStudy.organism}">
-                                ${species.organismName}
-                            </c:forEach>
+                            <c:choose>
+                                <c:when test="${empty liteStudy.organism}">
+                                    -
+                                </c:when>
+                                <c:otherwise>
+                                    <c:forEach var="species" items="${liteStudy.organism}"  varStatus="loop">
+                                        ${species.organismName}
+                                        ${!loop.last ? ', ' : ''}
+                                    </c:forEach>
+                                </c:otherwise>
+                            </c:choose>
+
                         </td>
                     </tr>
                     <tr>
                         <td><spring:message code="label.expFact"/></td>
                         <td>
-                            <c:forEach var="factor" items="${liteStudy.factors}">
-                                ${factor.name},
-                            </c:forEach>
+                            <c:choose>
+                                <c:when test="${empty liteStudy.factors}">
+                                    -
+                                </c:when>
+                                <c:otherwise>
+                                    <c:forEach var="factor" items="${liteStudy.factors}" varStatus="loop">
+                                        ${factor.name}
+                                        ${!loop.last ? ', ' : ''}
+                                    </c:forEach>
+                                </c:otherwise>
+                            </c:choose>
                         </td>
                     </tr>
                     </tbody>
