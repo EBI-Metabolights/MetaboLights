@@ -153,7 +153,7 @@ public class MAFSplitter {
 
     private static boolean hasPipeline(){
         //Read CSV line by line to check if there is any pipelines "|" used
-        String[] nextLine;  String pipeline ="|";
+        String[] nextLine;
         for (int i = 0; i < allLines.size(); i++) {
             nextLine = allLines.get(i);
             if (nextLine != null) {
@@ -183,13 +183,7 @@ public class MAFSplitter {
                     for (String cell : nextLine) {
                         if (cell.contains(pipeline)) { //Splitting!
 
-                            if (cell.contains(pipeline+pipeline)) {
-                                cell = cell.replaceAll("\\|\\|", "| |"); //Need to add space
-                                cell = cell.replaceAll("\\|\\|", "| |"); //Stupid thing!
-                            }
-
-                            if (cell.equals(pipeline))
-                                cell = " | ";
+                            cell = cleanCells(cell);
 
                             String[] newCell = cell.split(Pattern.quote(pipeline));
                             if (newCell.length >= i1+1) { //Make sure the array after split containt the same number of elements as we try to loop through
@@ -213,6 +207,24 @@ public class MAFSplitter {
         }
 
         return true;
+    }
+
+    private static String cleanCells(String cell){
+        if (cell.contains(pipeline+pipeline)) {
+            cell = cell.replaceAll("\\|\\|", "| |"); //Need to add space
+            cell = cell.replaceAll("\\|\\|", "| |"); //Stupid thing!
+        }
+
+        if (cell.equals(pipeline))
+            cell = " | ";           //Stupid thing!
+
+        if (cell.endsWith(pipeline))
+            cell = cell + " ";      //Stupid thing!
+
+        if (cell.startsWith(pipeline))
+            cell = " " + cell ;     //Stupid thing!
+
+        return cell;
     }
 
     private static int correctNumberOfPipes(String[] nextLine){
