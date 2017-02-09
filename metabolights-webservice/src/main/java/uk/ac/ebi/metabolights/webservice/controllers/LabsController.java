@@ -63,15 +63,16 @@ public class LabsController extends BasicController{
     protected static final Logger logger = LoggerFactory.getLogger(BasicController.class);
 
     /**
-     * Authenticate user and generate JWT token if the user is valid
+     * Authenticates the user and generates the JWT token for further request
      * @param data
-     * @param request
      * @param response
-     * @return
-     */
+     * @return restResponse
+     * */
     @RequestMapping(value = "authenticate", method = RequestMethod.POST)
     @ResponseBody
-    public RestResponse<String> authenticateUser(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
+    public RestResponse<String> authenticateUser(@RequestBody String data, HttpServletResponse response) {
+
+        // parse login data fields
         JSONParser parser = new JSONParser();
         JSONObject loginData = null;
 
@@ -85,6 +86,8 @@ public class LabsController extends BasicController{
         String secret = (String) loginData.get("secret");
 
         RestResponse<String> restResponse = new RestResponse<>();
+
+        // check if the user exists and valid
         UserServiceImpl usi = null;
 
         try {
@@ -97,6 +100,7 @@ public class LabsController extends BasicController{
         User user = usi.authenticateUser(email,secret);
 
         if (user != null){
+
             JwtClaims claims = new JwtClaims();
             claims.setSubject(email);
             claims.setIssuer("Metabolights");
@@ -138,16 +142,13 @@ public class LabsController extends BasicController{
             response.setHeader("user", email);
 
             return restResponse;
-
-        }else{
-
-            restResponse.setContent("invalid");
-
-            response.setStatus(Response.Status.FORBIDDEN.getStatusCode());
-
-            return restResponse;
-
         }
+
+        restResponse.setContent("invalid");
+
+        response.setStatus(Response.Status.FORBIDDEN.getStatusCode());
+
+        return restResponse;
 
     }
 
@@ -155,13 +156,13 @@ public class LabsController extends BasicController{
      * Validate user based on the JWT Token
      * @param request
      * @param response
-     * @return
+     * @return restResponse
      * @throws ServletException
      * @throws IOException
      * @throws JoseException
      * @throws DAOException
      */
-    @RequestMapping(value = "validateuser", method = RequestMethod.GET)
+    @RequestMapping(value = "validateUser", method = RequestMethod.GET)
     @ResponseBody
     public RestResponse<String> validateJWTToken(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, JoseException, DAOException {
 
@@ -199,6 +200,5 @@ public class LabsController extends BasicController{
 
         return restResponse;
     }
-
 
 }

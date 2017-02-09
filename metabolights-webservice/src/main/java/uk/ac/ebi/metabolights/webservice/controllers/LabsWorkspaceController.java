@@ -1,36 +1,34 @@
 package uk.ac.ebi.metabolights.webservice.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.jose4j.json.internal.json_simple.JSONObject;
-import org.jose4j.json.internal.json_simple.parser.JSONParser;
-import org.jose4j.json.internal.json_simple.parser.ParseException;
-import org.jose4j.lang.JoseException;
+import java.io.File;
+import java.util.List;
 import org.slf4j.Logger;
+import java.io.IOException;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
-import uk.ac.ebi.metabolights.repository.dao.filesystem.MetaboLightsLabsProjectDAO;
-import uk.ac.ebi.metabolights.repository.dao.filesystem.MetaboLightsLabsWorkspaceDAO;
-import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
-import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
-import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
-import uk.ac.ebi.metabolights.repository.model.*;
-import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
-import uk.ac.ebi.metabolights.webservice.services.UserServiceImpl;
-import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
-import uk.ac.ebi.metabolights.webservice.utils.SecurityUtil;
-
+import javax.ws.rs.core.Response;
+import org.jose4j.lang.JoseException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.Response;
-import java.io.IOException;
-import java.util.List;
+import uk.ac.ebi.metabolights.repository.model.*;
+import org.springframework.stereotype.Controller;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
+import org.jose4j.json.internal.json_simple.JSONObject;
+import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestBody;
+import uk.ac.ebi.metabolights.webservice.utils.SecurityUtil;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestMapping;
+import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
+import uk.ac.ebi.metabolights.webservice.services.UserServiceImpl;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
+import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.MetaboLightsLabsProjectDAO;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.MetaboLightsLabsWorkspaceDAO;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 
 /**
  * Created by venkata on 22/08/2016.
@@ -43,15 +41,21 @@ public class LabsWorkspaceController {
     public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
     private StudyDAO studyDAO;
 
+    /**
+     * Initialise the workspace - return the dashboard settings to bootstrap the labs
+     * @param data
+     * @param response
+     * @return
+     */
     @RequestMapping(value = "initialise", method = RequestMethod.POST)
     @ResponseBody
-    public RestResponse<String> initialise(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
+    public RestResponse<String> initialise(@RequestBody String data, HttpServletResponse response) {
 
         RestResponse<String> restResponse = new RestResponse<String>();
 
         User user = SecurityUtil.validateJWTToken(data);
 
-        if(user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
+        if (user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
 
             restResponse.setContent("invalid");
 
@@ -61,7 +65,7 @@ public class LabsWorkspaceController {
 
         }
 
-        restResponse.setContent(getWorkspaceInfo(user, true).getAsJSON());
+        restResponse.setContent(getWorkspaceInfo(user).getAsJSON());
 
         response.setHeader("Access-Control-Allow-Origin", "*");
 
@@ -71,70 +75,14 @@ public class LabsWorkspaceController {
 
 
     /**
-     * Fetch the workspace settings
-     * @param data (User_API_TOKEN)
-     * @param request
-     * @param response
-     * @return RestResponse
-     */
-    @RequestMapping(value = "settings", method = RequestMethod.POST)
-    @ResponseBody
-    public RestResponse<String> getWorkspaceSettings(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        RestResponse<String> restResponse = new RestResponse<>();
-
-        JSONObject serverRequest = SecurityUtil.parseRequest(data);
-
-        String userToken = (String) serverRequest.get("api_token");
-
-        User user = authenticateUser(userToken);
-
-        if(user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
-
-            logger.info("User with the token doesnt exist. Aborting the request");
-
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User doesn't exist error!");
-
-            return restResponse;
-
-        }
-
-        logger.info("User exists. Fetching workspace information");
-
-        restResponse.setContent(getWorkspaceInfo(user, true).getAsJSON());
-
-        return restResponse;
-
-    }
-
-    /**
-     * Fetch the user workspace details, initialise if its not.
-     * @param user
-     * @param initialiseWorkspaceFlag
-     * @return
-     */
-    public static MLLWorkSpace getWorkspaceInfo(User user, boolean initialiseWorkspaceFlag){
-
-        String workspaceLocation = null;
-
-        workspaceLocation = PropertiesUtil.getProperty("userSpace") + user.getApiToken();
-
-        MetaboLightsLabsWorkspaceDAO metaboLightsLabsDAO = new MetaboLightsLabsWorkspaceDAO();
-
-        return metaboLightsLabsDAO.getWorkSpaceInfo(user, workspaceLocation, initialiseWorkspaceFlag);
-
-    }
-
-    /**
      * Fetch the list of projects in a workspace
      * @param data (User_API_TOKEN)
-     * @param request
      * @param response
      * @return
      */
     @RequestMapping(value = "projects", method = RequestMethod.POST)
     @ResponseBody
-    public RestResponse<String> getProjects(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public RestResponse<String> getProjects(@RequestBody String data, HttpServletResponse response) throws IOException {
 
         RestResponse<String> restResponse = new RestResponse<>();
 
@@ -144,7 +92,7 @@ public class LabsWorkspaceController {
 
         User user = authenticateUser(userToken);
 
-        if(user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
+        if (user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
 
             logger.info("User with the token doesnt exist. Aborting the request");
 
@@ -162,18 +110,17 @@ public class LabsWorkspaceController {
 
     /**
      * Get array of MLLProject associated with the users workspace
+     *
      * @param user
      * @return
      */
-    private String getWorkspaceProjects(User user){
+    private String getWorkspaceProjects(User user) {
 
-        String workspaceLocation = null;
+        String root = PropertiesUtil.getProperty("userSpace");
 
-        workspaceLocation = PropertiesUtil.getProperty("userSpace") + user.getApiToken();
+        MetaboLightsLabsWorkspaceDAO metaboLightsLabsDAO = new MetaboLightsLabsWorkspaceDAO(user, root);
 
-        MetaboLightsLabsWorkspaceDAO metaboLightsLabsDAO = new MetaboLightsLabsWorkspaceDAO();
-
-        List<MLLProject> mllProjects = metaboLightsLabsDAO.getWorkSpaceInfo(user, workspaceLocation, false).getProjects();
+        List<MLLProject> mllProjects = metaboLightsLabsDAO.getMllWorkSpace().getProjects();
 
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -187,14 +134,14 @@ public class LabsWorkspaceController {
 
         }
 
-        return workspaceLocation;
-
+        return null;
     }
+
 
     /**
      * Fetch aspera configuration for uploading data to MetaboLights Labs
+     *
      * @param data
-     * @param request
      * @param response
      * @return
      * @throws ServletException
@@ -204,20 +151,21 @@ public class LabsWorkspaceController {
      */
     @RequestMapping(value = "asperaConfiguration", method = RequestMethod.POST)
     @ResponseBody
-    public RestResponse<String> asperaConfiguration(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public RestResponse<String> asperaConfiguration(@RequestBody String data, HttpServletResponse response) throws IOException {
 
         RestResponse<String> restResponse = new RestResponse<String>();
 
         JSONObject serverRequest = SecurityUtil.parseRequest(data);
 
         String userToken = (String) serverRequest.get("api_token");
+
         String projectId = (String) serverRequest.get("project_id");
-        // replace all double quotes in the string - python boolean issue #todo
+
         boolean createNewProject = Boolean.valueOf(((String) serverRequest.get("new_project_flag")).replace("\"", "\\\""));
 
         User user = authenticateUser(userToken);
 
-        if(user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
+        if (user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
 
             logger.info("User with the token doesnt exist. Aborting the request");
 
@@ -228,9 +176,9 @@ public class LabsWorkspaceController {
         }
 
 
-        MLLWorkSpace mllWorkSpace = getWorkspaceInfo(user, createNewProject);
+        MLLWorkSpace mllWorkSpace = getWorkspaceInfo(user);
 
-        if (mllWorkSpace == null){
+        if (mllWorkSpace == null) {
 
             logger.warn("Error fetching the workspace info associated with the user token: " + userToken);
 
@@ -241,20 +189,19 @@ public class LabsWorkspaceController {
         }
 
         logger.info("Checking if a project with the give projectId exists");
-
-        MetaboLightsLabsWorkspaceDAO metaboLightsLabsDAO = new MetaboLightsLabsWorkspaceDAO();
-
         logger.info("Checking if a project is not null or empty");
 
-        if(projectId != null){
+        if (projectId != null) {
 
-            if(!projectId.trim().equalsIgnoreCase("")) {
+            if (!projectId.trim().equalsIgnoreCase("")) {
 
-                boolean projectExists = metaboLightsLabsDAO.isProjectExist(mllWorkSpace, projectId);
+                boolean projectExists = mllWorkSpace.isProjectExist(projectId);
 
                 if (projectExists) {
 
-                    MLLProject mllProject = createOrGetMLLProject(mllWorkSpace, projectId, user.getApiToken(), false);
+                    MLLProject mllProject = mllWorkSpace.getProject(projectId);
+
+                    mllProject.setAsperaSettings("{ \"asperaURL\" : \""+ mllWorkSpace.getOwner().getApiToken() + File.separator + mllProject.getId() + "\", \"asperaUser\" : \"\",  \"asperaServer\" : \"ah01.ebi.ac.uk\", \"asperaSecret\" :  \"\" }");
 
                     restResponse.setContent(mllProject.getAsperaSettings());
 
@@ -265,9 +212,11 @@ public class LabsWorkspaceController {
 
         }
 
-        if (createNewProject){
+        if (createNewProject) {
 
-            MLLProject mllProject = createOrGetMLLProject(mllWorkSpace, projectId, user.getApiToken(), true);
+            MLLProject mllProject = (new MetaboLightsLabsProjectDAO(mllWorkSpace)).getMllProject();
+
+            mllProject.setAsperaSettings("{ \"asperaURL\" : \""+ mllWorkSpace.getOwner().getApiToken() + File.separator + mllProject.getId() + "\", \"asperaUser\" : \"\",  \"asperaServer\" : \"ah01.ebi.ac.uk\", \"asperaSecret\" :  \"\" }");
 
             restResponse.setContent(mllProject.getAsperaSettings());
 
@@ -284,7 +233,59 @@ public class LabsWorkspaceController {
     }
 
     /**
+     * Fetch the user workspace details, initialise if user does not exist.
+     * @param user
+     * @return
+     */
+    private MLLWorkSpace getWorkspaceInfo(User user) {
+
+        String root = PropertiesUtil.getProperty("userSpace");
+
+        return (new MetaboLightsLabsWorkspaceDAO(user, root)).getMllWorkSpace();
+
+    }
+
+
+    /**
+     * Fetch the workspace settings
+     *
+     * @param data (User_API_TOKEN)
+     * @param response
+     * @return RestResponse
+     */
+    @RequestMapping(value = "settings", method = RequestMethod.POST)
+    @ResponseBody
+    public RestResponse<String> getWorkspaceSettings(@RequestBody String data, HttpServletResponse response) throws IOException {
+
+        RestResponse<String> restResponse = new RestResponse<>();
+
+        JSONObject serverRequest = SecurityUtil.parseRequest(data);
+
+        String userToken = (String) serverRequest.get("api_token");
+
+        User user = authenticateUser(userToken);
+
+        if (user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
+
+            logger.info("User with the token doesnt exist. Aborting the request");
+
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User doesn't exist error!");
+
+            return restResponse;
+
+        }
+
+        logger.info("User exists. Fetching workspace information");
+
+        restResponse.setContent(getWorkspaceInfo(user).getAsJSON());
+
+        return restResponse;
+
+    }
+
+    /**
      * Fetch aspera configuration for uploading data to MetaboLights Labs
+     *
      * @param data
      * @param request
      * @param response
@@ -308,7 +309,7 @@ public class LabsWorkspaceController {
 
         User user = SecurityUtil.validateJWTToken(data);
 
-        if(user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
+        if (user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
 
             restResponse.setContent("invalid");
 
@@ -319,7 +320,7 @@ public class LabsWorkspaceController {
         }
 
 
-        if(user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
+        if (user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
 
             logger.info("User with the token doesnt exist. Aborting the request");
 
@@ -329,9 +330,9 @@ public class LabsWorkspaceController {
 
         }
 
-        MLLWorkSpace mllWorkSpace = getWorkspaceInfo(user, true);
+        MLLWorkSpace mllWorkSpace = getWorkspaceInfo(user);
 
-        if (mllWorkSpace == null){
+        if (mllWorkSpace == null) {
 
             logger.warn("Error fetching the workspace info associated with the user token");
 
@@ -341,44 +342,40 @@ public class LabsWorkspaceController {
 
         }
 
-        MetaboLightsLabsWorkspaceDAO metaboLightsLabsDAO = new MetaboLightsLabsWorkspaceDAO();
 
-        MLLProject mllProject = createMLLProject(mllWorkSpace, user.getApiToken(), title, description);
+        Boolean cloneProject = (Boolean) serverRequest.get("cloneProject");
 
-
-        if(mllProject != null){
-
-            Boolean cloneProject = (Boolean) serverRequest.get("cloneProject");
-
-            if(cloneProject){
-
-                String studyId = (String) serverRequest.get("studyId");
-
-                if (studyId != null || studyId.matches(METABOLIGHTS_ID_REG_EXP)){
-
-                    logger.info("Cloning study: " + studyId);
-
-                    String studyLocation = "";
-
-                    try{
-
-                        studyDAO = getStudyDAO();
-
-                        // Get the study
-
-                            Study study = studyDAO.getStudy(studyId, user.getApiToken(), false);
+        ObjectMapper mapper = new ObjectMapper();
 
 
+        if (cloneProject) {
 
-                            studyLocation = study.getStudyLocation();
+            String studyId = (String) serverRequest.get("studyId");
 
-                            String projectLocation = mllProject.getProjectLocation();
+            if (studyId != null || studyId.matches(METABOLIGHTS_ID_REG_EXP)) {
 
-                    }  catch (DAOException ex) {
+                logger.info("Cloning study: " + studyId);
 
-                        logger.error("Error looking for study {}: {}", studyId, ex.getMessage());
+                try {
 
-                    }
+                    studyDAO = getStudyDAO();
+
+                    Study study =  studyDAO.getStudy(studyId, user.getApiToken());
+
+                    MLLProject mllProject = (new MetaboLightsLabsProjectDAO(mllWorkSpace, title, description, study)).getMllProject();
+
+                    restResponse.setContent(mapper.writeValueAsString(mllProject));
+
+                    return restResponse;
+
+
+                } catch (DAOException e) {
+
+                    e.printStackTrace();
+
+                } catch (IsaTabException e) {
+
+                    e.printStackTrace();
 
                 }
 
@@ -387,7 +384,7 @@ public class LabsWorkspaceController {
         }
 
 
-        ObjectMapper mapper = new ObjectMapper();
+        MLLProject mllProject = (new MetaboLightsLabsProjectDAO(mllWorkSpace, title, description, null)).getMllProject();
 
         restResponse.setContent(mapper.writeValueAsString(mllProject));
 
@@ -397,7 +394,7 @@ public class LabsWorkspaceController {
 
     private uk.ac.ebi.metabolights.repository.dao.StudyDAO getStudyDAO() throws DAOException {
 
-        if (studyDAO == null){
+        if (studyDAO == null) {
 
             studyDAO = DAOFactory.getInstance().getStudyDAO();
 
@@ -406,46 +403,14 @@ public class LabsWorkspaceController {
     }
 
 
-    private MLLProject createMLLProject(MLLWorkSpace mllWorkSpace, String userToken, String title, String description){
-
-        String workspaceLocation = PropertiesUtil.getProperty("userSpace") + userToken;
-
-        String asperaUser = PropertiesUtil.getProperty("asperaUser") ;
-
-        String asperaSecret = PropertiesUtil.getProperty("asperaSecret") ;
-
-        MetaboLightsLabsProjectDAO metaboLightsLabsProjectDAO = new MetaboLightsLabsProjectDAO();
-
-        return  metaboLightsLabsProjectDAO.createMLLProject(workspaceLocation, mllWorkSpace, userToken, asperaUser, asperaSecret, title, description);
-
-    }
-
-
-
-    private MLLProject createOrGetMLLProject(MLLWorkSpace mllWorkSpace, String projectId, String userToken, boolean createNewFlag){
-
-        String workspaceLocation = PropertiesUtil.getProperty("userSpace") + userToken;
-
-        String asperaUser = PropertiesUtil.getProperty("asperaUser") ;
-
-        String asperaSecret = PropertiesUtil.getProperty("asperaSecret") ;
-
-        MetaboLightsLabsProjectDAO metaboLightsLabsProjectDAO = new MetaboLightsLabsProjectDAO();
-
-        return  metaboLightsLabsProjectDAO.getMLLProject(projectId, workspaceLocation, mllWorkSpace, createNewFlag, userToken ,asperaUser, asperaSecret);
-
-    }
-
-
-
-
     /**
      * Authenticate user based on the API_TOKEN
+     *
      * @param userToken
-     * @return
+     * @return user
      */
 
-    private User authenticateUser(String userToken){
+    private User authenticateUser(String userToken) {
 
         UserServiceImpl usi = null;
 

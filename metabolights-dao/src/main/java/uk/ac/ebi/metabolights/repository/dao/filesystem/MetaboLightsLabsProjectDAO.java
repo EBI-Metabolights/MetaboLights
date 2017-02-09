@@ -1,19 +1,17 @@
 package uk.ac.ebi.metabolights.repository.dao.filesystem;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import uk.ac.ebi.metabolights.repository.model.MLLProject;
-import uk.ac.ebi.metabolights.repository.model.MLLUser;
-import uk.ac.ebi.metabolights.repository.model.MLLWorkSpace;
-import uk.ac.ebi.metabolights.repository.model.User;
-import uk.ac.ebi.metabolights.repository.utils.FileUtil;
-
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
 import java.util.UUID;
+import org.slf4j.Logger;
+import java.io.IOException;
+import java.io.BufferedReader;
+import org.slf4j.LoggerFactory;
+import java.io.InputStreamReader;
+import uk.ac.ebi.metabolights.repository.model.*;
+import uk.ac.ebi.metabolights.repository.utils.FileUtil;
+import uk.ac.ebi.metabolights.repository.utils.LabsUtils;
+
 
 /**
  * Created by venkata on 11/10/2016.
@@ -22,95 +20,50 @@ public class MetaboLightsLabsProjectDAO {
 
     private final static Logger logger = LoggerFactory.getLogger(MetaboLightsLabsProjectDAO.class.getName());
 
-    public MLLProject getMLLProject(String projectId, String workspaceLocation, MLLWorkSpace mllWorkSpace, boolean createNewFlag, String userToken, String asperaUser, String asperaSecret){
+    private MLLProject mllProject = null;
 
-        MLLProject mllProject = getProject(mllWorkSpace, projectId);
+    public MetaboLightsLabsProjectDAO(User user, String projectId, String root){
 
-        if (mllProject != null)
-            return  mllProject;
+        MLLWorkSpace mllWorkSpace = (new MetaboLightsLabsWorkspaceDAO(user, root)).getMllWorkSpace();
 
-        if (createNewFlag){
+        mllProject = mllWorkSpace.getProject(projectId);
 
-            mllProject = createNewProject(mllWorkSpace, workspaceLocation, userToken,asperaUser, asperaSecret);
+    }
 
+    public MetaboLightsLabsProjectDAO(MLLWorkSpace workSpace){
+
+        MLLProject project = new MLLProject(workSpace);
+        mllProject = project;
+    }
+
+    public MetaboLightsLabsProjectDAO(MLLWorkSpace workSpace, String projectId){
+
+        mllProject = workSpace.getProject(projectId);
+
+    }
+
+    public MetaboLightsLabsProjectDAO(MLLWorkSpace mllWorkSpace, String title, String description, Study study){
+
+        mllProject = new MLLProject(mllWorkSpace, title, description);
+
+        if (study != null) {
+            mllProject.setBusy(true);
+            mllProject.save();
         }
 
-        return mllProject;
+        if (study != null) {
 
-    }
+            String sourceFolder = study.getStudyLocation();
+            String destinationFolder = mllProject.getProjectLocation();
 
-    public MLLProject createMLLProject(String workspaceLocation, MLLWorkSpace mllWorkSpace, String userToken, String asperaUser, String asperaSecret, String title, String description){
+            FileUtil.copyFiles(sourceFolder, destinationFolder);
 
-        return createNewProject(mllWorkSpace, workspaceLocation, userToken, asperaUser, asperaSecret, title, description);
+            mllProject.setBusy(false);
+            mllProject.save();
 
-    }
+            mllWorkSpace.appendOrUpdateProject(mllProject);
 
-    private MLLProject getProject( MLLWorkSpace mllWorkSpace, String projectId ){
-
-
-        List<MLLProject> mllProjects = mllWorkSpace.getProjects();
-
-
-        for (MLLProject mllProject: mllProjects ){
-
-            if (mllProject.getId().equals(projectId)){
-
-                return mllProject;
-
-            }
-
-        }
-
-        return null;
-
-    }
-
-    private MLLProject createNewProject( MLLWorkSpace mllWorkSpace, String workspaceLocation, String apiToken, String asperaUser , String asperaSecret ) {
-
-        return createNewProject(mllWorkSpace, workspaceLocation, apiToken, asperaUser, asperaSecret, "Default Title", "Lorem ipsum");
-
-    }
-
-    private MLLProject createNewProject( MLLWorkSpace mllWorkSpace, String workspaceLocation, String apiToken, String asperaUser , String asperaSecret, String title, String description ){
-
-        UUID id = UUID.randomUUID();
-
-        MLLProject mllProject = new MLLProject();
-
-        mllProject.setId(id.toString());
-
-        mllProject.setOwner(mllWorkSpace.getOwner());
-
-        mllProject.setProjectLocation(workspaceLocation + File.separator + id.toString());
-
-        mllProject.setSettings("{}");
-
-        mllProject.setAsperaSettings(getAsperaURL(apiToken, id.toString(), asperaUser, asperaSecret));
-
-        mllProject.setTitle(title);
-
-        mllProject.setDescription(description);
-
-        mllWorkSpace.appendProject(mllProject);
-
-        String wsInfoFile = workspaceLocation + File.separator + "workspace.info";
-
-        String projectDir = workspaceLocation + File.separator + id.toString();
-
-        String projectInfoFile = projectDir + File.separator + id.toString() + ".info";
-
-        try {
-
-            FileUtil.createFolder(projectDir);
-
-            FileUtil.String2File(mllProject.getAsJSON(), projectInfoFile, false);
-            FileUtil.String2File(mllWorkSpace.getAsJSON(), wsInfoFile, false);
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-
-            return null;
+            mllWorkSpace.save();
 
         }
 
@@ -118,7 +71,7 @@ public class MetaboLightsLabsProjectDAO {
         Process p;
 
         try {
-            String[] commands = {"ssh", "ebi-004",  "/nfs/www-prod/web_hx2/cm/metabolights/scripts/priv_ftp_sync_step1.sh -s dev"};
+            String[] commands = {"ssh", "ebi-004", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/priv_ftp_sync_step1.sh -s dev"};
             p = Runtime.getRuntime().exec(commands);
             BufferedReader br = new BufferedReader(
                     new InputStreamReader(p.getInputStream()));
@@ -147,14 +100,15 @@ public class MetaboLightsLabsProjectDAO {
 
         }
 
-        return mllProject;
-
     }
 
-    private String getAsperaURL(String apiToken, String projectId, String asperaUser, String asperaToken){
 
-        return "{ \"asperaURL\" : \""+ apiToken + File.separator + projectId + "\", \"asperaUser\" : \"" + asperaUser + "\",  \"asperaServer\" : \"ah01.ebi.ac.uk\", \"asperaSecret\" : \"" + asperaToken + "\" }";
+    public MLLProject getMllProject() {
+        return mllProject;
+    }
 
+    public void setMllProject(MLLProject mllProject) {
+        this.mllProject = mllProject;
     }
 
 

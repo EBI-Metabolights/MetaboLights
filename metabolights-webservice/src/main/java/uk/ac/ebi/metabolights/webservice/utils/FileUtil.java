@@ -21,6 +21,7 @@
 
 package uk.ac.ebi.metabolights.webservice.utils;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -395,6 +396,7 @@ public class FileUtil {
 			result.append(new File(fileName).getName()).append(", ").append("file was ")
 					.append(deleteFileFromFTP(fileName,ftpFolder) ? "":"NOT ").append("deleted.").append("|");
 		}
+
 		return result.toString();
 	}
 

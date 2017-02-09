@@ -21,6 +21,7 @@
 
 package uk.ac.ebi.metabolights.repository.utils;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -188,6 +189,32 @@ public class FileUtil {
 		}
 
 		return result;
+
+	}
+
+
+	/**
+	 * Copy contents of a folder to another
+	 *
+	 */
+	public static boolean copyFiles(String sourceFolder, String destionationFolder){
+
+		File source = new File(sourceFolder);
+		File dest = new File(destionationFolder);
+
+		try {
+
+			FileUtils.copyDirectory(source, dest);
+
+			return true;
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		}
+
+		return false;
 
 	}
 
