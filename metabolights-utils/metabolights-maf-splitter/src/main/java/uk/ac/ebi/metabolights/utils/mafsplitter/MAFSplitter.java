@@ -26,10 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,7 +38,21 @@ import java.util.regex.Pattern;
 public class MAFSplitter {
 
     private final static Logger logger = LoggerFactory.getLogger(MAFSplitter.class.getName());
-    private final static String pipeline = "|";
+
+    public static String getPipeline() {
+        return pipeline;
+    }
+
+    public static void setPipeline(String pipeline) {
+
+        try {
+            MAFSplitter.pipeline  = new String(pipeline.getBytes(),"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            MAFSplitter.pipeline = pipeline;
+        }
+    }
+
+    private static String pipeline;
     private static CSVReader reader;
     private static List<String[]> allLines = new ArrayList<String[]>();
     private static List<String[]> allNewLines = new ArrayList<String[]>();
@@ -102,6 +113,8 @@ public class MAFSplitter {
             setReader(new CSVReader(new FileReader(fileName), '\t' , '"' , 0));
             readCSVFile();
 
+            setPipeline("|");
+
             //Does the MAF contain pipelines? if not we can stop processing now
             if (hasPipeline()){
                 if(splitMAF()) {
@@ -153,13 +166,13 @@ public class MAFSplitter {
 
     private static boolean hasPipeline(){
         //Read CSV line by line to check if there is any pipelines "|" used
-        String[] nextLine;  String pipeline ="|";
+        String[] nextLine;
         for (int i = 0; i < allLines.size(); i++) {
             nextLine = allLines.get(i);
             if (nextLine != null) {
                     //Verifying the read data here
                     for (String cell : nextLine) {
-                        if (cell.contains(pipeline)) {
+                        if (cell.contains(getPipeline())) {
                             return true;
                         }
                     }
@@ -171,6 +184,7 @@ public class MAFSplitter {
 
     private static boolean splitMAF(){
         //Read CSV line by line to check if there is any pipelines "|" used
+        //TODO, split on pipeline first (All columns), then on ";" and "/" in metabolite_identifcation column
         String[] nextLine;
         int numberOfPipes = 0;
 
@@ -181,17 +195,11 @@ public class MAFSplitter {
                 for (int i1 = 0; i1 < numberOfPipes+1; i1++) { //Loop the number of times we have pipelines (+1 to get the last data element)
                     List<String> newLine = new ArrayList<String>(); //The modified line
                     for (String cell : nextLine) {
-                        if (cell.contains(pipeline)) { //Splitting!
+                        if (cell.contains(getPipeline())) { //Splitting!
 
-                            if (cell.contains(pipeline+pipeline)) {
-                                cell = cell.replaceAll("\\|\\|", "| |"); //Need to add space
-                                cell = cell.replaceAll("\\|\\|", "| |"); //Stupid thing!
-                            }
+                            cell = cleanCells(cell);
 
-                            if (cell.equals(pipeline))
-                                cell = " | ";
-
-                            String[] newCell = cell.split(Pattern.quote(pipeline));
+                            String[] newCell = cell.split(Pattern.quote(getPipeline()));
                             if (newCell.length >= i1+1) { //Make sure the array after split containt the same number of elements as we try to loop through
                                 newLine.add(newCell[i1]);    //Adding the modified cell
                             } else {  // Could not split after all.
@@ -215,12 +223,30 @@ public class MAFSplitter {
         return true;
     }
 
+    private static String cleanCells(String cell){
+        if (cell.contains(getPipeline()+getPipeline())) {
+            cell = cell.replaceAll("\\|\\|", "| |"); //Need to add space
+            cell = cell.replaceAll("\\|\\|", "| |"); //Stupid thing!
+        }
+
+        if (cell.equals(getPipeline()))
+            cell = " | ";           //Stupid thing!
+
+        if (cell.endsWith(getPipeline()))
+            cell = cell + " ";      //Stupid thing!
+
+        if (cell.startsWith(getPipeline()))
+            cell = " " + cell ;     //Stupid thing!
+
+        return cell;
+    }
+
     private static int correctNumberOfPipes(String[] nextLine){
         int firstNumberOfPipes = 0;
         List<Integer> allPipes = new ArrayList<Integer>();
         for (String cell: nextLine){
-            if (cell.contains(pipeline))
-                allPipes.add(StringUtils.countMatches(cell, pipeline));
+            if (cell.contains(getPipeline()))
+                allPipes.add(StringUtils.countMatches(cell, getPipeline()));
         }
 
         //check for same number of pipelines in all cells for this row.
