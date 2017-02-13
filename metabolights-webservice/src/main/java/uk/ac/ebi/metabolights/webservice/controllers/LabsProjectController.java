@@ -62,7 +62,7 @@ public class LabsProjectController {
 
         String projectId = (String) serverRequest.get("id");
 
-        String projectLocation = PropertiesUtil.getProperty("userSpace") + user.getApiToken() + File.separator + projectId;
+        String projectLocation = PropertiesUtil.getProperty("userSpace") + File.separator + user.getApiToken() + File.separator + projectId;
 
         JSONArray contentJSONArray = new JSONArray(Arrays.asList(FileUtil.getFtpFolderList(projectLocation)));
 
@@ -158,6 +158,47 @@ public class LabsProjectController {
         mllProject.save();
 
         restResponse.setContent(mllProject.getAsJSON());
+
+        return restResponse;
+
+    }
+
+    /**
+     * Get the project logs
+     * @param data
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "log", method = RequestMethod.POST)
+    @ResponseBody
+    public RestResponse<String> getProjectLog(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
+
+        RestResponse<String> restResponse = new RestResponse<String>();
+
+        User user = SecurityUtil.validateJWTToken(data);
+
+        if(user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
+
+            restResponse.setContent("invalid");
+
+            response.setStatus(403);
+
+            return restResponse;
+
+        }
+
+        JSONObject serverRequest = SecurityUtil.parseRequest(data);
+
+        String projectId = (String) serverRequest.get("id");
+
+        String root = PropertiesUtil.getProperty("userSpace");
+
+        MetaboLightsLabsProjectDAO metaboLightsLabsProjectDAO = new MetaboLightsLabsProjectDAO(user, projectId, root);
+
+        MLLProject mllProject = metaboLightsLabsProjectDAO.getMllProject();
+
+        restResponse.setContent(mllProject.getLogs());
 
         return restResponse;
 

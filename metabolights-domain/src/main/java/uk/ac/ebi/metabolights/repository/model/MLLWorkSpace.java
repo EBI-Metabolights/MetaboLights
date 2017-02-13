@@ -50,7 +50,7 @@ public class MLLWorkSpace {
     }
 
     public void setOwner(MLLUser owner) {
-        owner = owner;
+        Owner = owner;
     }
 
     public Timestamp getCreatedAt() {
@@ -85,21 +85,24 @@ public class MLLWorkSpace {
         this.Projects = projects;
     }
 
+    public MLLWorkSpace() {}
+
     public MLLWorkSpace(MLLWorkSpace mllWorkSpace) {
 
-        Owner = mllWorkSpace.getOwner();
-        CreatedAt = mllWorkSpace.getCreatedAt();
-        UpdatedAt = mllWorkSpace.getUpdatedAt();
-        Projects = mllWorkSpace.getProjects();
-        Settings = mllWorkSpace.getSettings();
+        this.Owner = mllWorkSpace.getOwner();
+        this.CreatedAt = mllWorkSpace.getCreatedAt();
+        this.WorkspaceLocation = mllWorkSpace.getWorkspaceLocation();
+        this.UpdatedAt = mllWorkSpace.getUpdatedAt();
+        this.Projects = mllWorkSpace.getProjects();
+        this.Settings = mllWorkSpace.getSettings();
 
     }
 
     public MLLWorkSpace(User mlOwner, String root) {
 
-        setWorkspaceLocation(root +  File.separator + Owner.getApiToken());
+        this.WorkspaceLocation = root +  File.separator + mlOwner.getApiToken();
 
-        String workspaceInfoLocation = WorkspaceLocation + File.separator + "workspace.info";
+        String workspaceInfoLocation = this.WorkspaceLocation + File.separator + "workspace.info";
 
         if(FileUtils.checkFileExists(workspaceInfoLocation)){
 
@@ -109,7 +112,15 @@ public class MLLWorkSpace {
 
                 ObjectMapper mapper = new ObjectMapper();
 
-                new MLLWorkSpace(mapper.readValue(json, MLLWorkSpace.class));
+                MLLWorkSpace tempMllWorkSpace = mapper.readValue(json, MLLWorkSpace.class);
+
+                this.Owner = tempMllWorkSpace.getOwner();
+                this.CreatedAt = tempMllWorkSpace.getCreatedAt();
+                this.WorkspaceLocation = tempMllWorkSpace.getWorkspaceLocation();
+                this.UpdatedAt = tempMllWorkSpace.getUpdatedAt();
+                this.Projects = tempMllWorkSpace.getProjects();
+                this.Settings = tempMllWorkSpace.getSettings();
+
 
             } catch (IOException e) {
 
@@ -119,17 +130,17 @@ public class MLLWorkSpace {
 
         }else{
 
-            Owner = new MLLUser(mlOwner);
+            this.Owner = new MLLUser(mlOwner);
 
-            CreatedAt = LabsUtils.getCurrentTimeStamp();
+            this.CreatedAt = LabsUtils.getCurrentTimeStamp();
 
-            UpdatedAt = LabsUtils.getCurrentTimeStamp();
+            this.UpdatedAt = LabsUtils.getCurrentTimeStamp();
 
-            setProjects(new ArrayList<MLLProject>());
+            this.setProjects(new ArrayList<MLLProject>());
 
-            setSettings((new JSONObject()).toJSONString());
+            this.setSettings((new JSONObject()).toJSONString());
 
-            save();
+            this.save();
 
         }
     }

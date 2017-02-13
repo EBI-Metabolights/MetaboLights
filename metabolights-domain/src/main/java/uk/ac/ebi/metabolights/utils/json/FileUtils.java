@@ -3,9 +3,7 @@ package uk.ac.ebi.metabolights.utils.json;
 import uk.ac.ebi.metabolights.repository.model.MLLProject;
 import uk.ac.ebi.metabolights.repository.model.MLLWorkSpace;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.*;
 import java.nio.file.attribute.PosixFileAttributeView;
 import java.nio.file.attribute.PosixFilePermission;
@@ -108,6 +106,36 @@ public class FileUtils {
 
         //Close the writer
         writer.close();
+    }
+
+    /**
+     * Returns a string with the contents of a file.
+     * @param fileToUse
+     * @return
+     * @throws java.io.IOException
+     */
+    public static String file2String (String fileToUse) throws IOException{
+
+        //Instantiate a file object
+        File file = new File (fileToUse);
+
+        //Use a buffered reader
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        String line = "";
+        String text = "";
+
+        //Go through the file
+        while((line = reader.readLine()) != null)
+        {
+            //Add the final carriage return and line feed
+            text += line + "\r\n";
+        }
+
+        //Close the reader
+        reader.close();
+
+        //Return the String
+        return text;
     }
 
     static String filePrefix = ".DELETEME-";

@@ -102,6 +102,7 @@ public class MLLProject {
 
     public void setBusy(Boolean busy) { IsBusy = busy; }
 
+    public MLLProject(){}
 
     public MLLProject(MLLWorkSpace mllWorkSpace){
 
@@ -140,6 +141,27 @@ public class MLLProject {
     }
 
 
+    @JsonIgnore
+    public String getLogs(){
+
+        String LogFile = ProjectLocation + File.separator + Id + ".log";
+
+        String logs = null;
+
+        try {
+
+            logs =  FileUtils.file2String(LogFile);
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        }
+
+        return logs;
+    }
+
+
 
     @JsonIgnore
     public Boolean save(){
@@ -157,6 +179,8 @@ public class MLLProject {
                 setUpdatedAt();
 
                 FileUtils.createFolder(ProjectLocation);
+
+                FileUtils.String2File("Created at:" + this.getCreatedAt(), LogFile);
 
             } catch (IOException e) {
 
