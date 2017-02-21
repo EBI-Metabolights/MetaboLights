@@ -350,3 +350,22 @@
         }
     })
 </script>
+
+<script>
+
+    $( ".crossRefWrapper" ).each(function( index ) {
+        var uniqRefs = []
+        $( this ).find('.crossRef').each(function() {
+            //console.log($(this).text());
+            if ($.inArray($(this).text(), uniqRefs) == -1)
+            {
+                uniqRefs.push($(this).text())
+            }else{
+                $(this).prev('span.separator').remove();
+                $(this).remove();
+            }
+        });
+    });
+
+
+</script>
