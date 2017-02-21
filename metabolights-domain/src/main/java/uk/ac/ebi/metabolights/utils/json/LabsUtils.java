@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by venkata on 09/02/2017.
@@ -16,6 +17,17 @@ public class LabsUtils {
     public static Timestamp getCurrentTimeStamp(){
 
         return new Timestamp((new Date()).getTime());
+
+    }
+
+    public static String listToString(List<String> list){
+
+        String result = "";
+        for (String s : list) {
+            result = s + result + "<Br>" ;
+        }
+
+        return result;
 
     }
 
