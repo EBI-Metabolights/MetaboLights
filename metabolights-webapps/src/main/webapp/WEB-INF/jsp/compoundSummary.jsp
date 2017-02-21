@@ -59,7 +59,7 @@
                         ${compound.description}
                     </p>
                 </c:if>
-                <p>
+                <p class="crossRefWrapper">
                     <c:forEach var="specie" items="${compound.metSpecies}"
                                varStatus="loopStatus">
                         <c:choose>
@@ -67,16 +67,15 @@
                                 <b><spring:message code="ref.msg.mtbl.studies" /></b>
                             </c:when>
                             <c:otherwise>
-                                ,
+                                <span class="separator">,</span>
                             </c:otherwise>
                         </c:choose>
-
                         <c:choose>
                             <c:when test="${not fn:containsIgnoreCase(specie.crossReference.accession, 'CHEBI:')}">
-                                <a href="${specie.crossReference.accession}">${specie.crossReference.accession}</a>
+                                <a class="crossRef" href="${specie.crossReference.accession}">${specie.crossReference.accession}</a>
                             </c:when>
                             <c:otherwise>
-                                <a href="https://www.ebi.ac.uk/chebi/searchId.do?chebiId=${specie.crossReference.accession}">${specie.crossReference.accession}</a>
+                                <a class="crossRef" href="https://www.ebi.ac.uk/chebi/searchId.do?chebiId=${specie.crossReference.accession}">${specie.crossReference.accession}</a>
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>

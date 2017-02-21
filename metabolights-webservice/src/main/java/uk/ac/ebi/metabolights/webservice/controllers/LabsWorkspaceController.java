@@ -364,6 +364,8 @@ public class LabsWorkspaceController {
 
                     MLLProject mllProject = (new MetaboLightsLabsProjectDAO(mllWorkSpace, title, description, study)).getMllProject();
 
+                    mllProject.log("Cloning study: " + studyId);
+
                     restResponse.setContent(mapper.writeValueAsString(mllProject));
 
                     return restResponse;

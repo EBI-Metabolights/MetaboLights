@@ -4,21 +4,27 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import uk.ac.ebi.metabolights.utils.json.FileUtils;
+import uk.ac.ebi.metabolights.utils.json.LabsFormatter;
 import uk.ac.ebi.metabolights.utils.json.LabsUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.FileHandler;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 /**
  * Created by venkata on 11/10/2016.
  */
 public class MLLProject {
 
+    private Logger logger = null;
+    private FileHandler fh;
     private String Id;
     private String Title;
     private String Description;
@@ -140,6 +146,28 @@ public class MLLProject {
         mllWorkSpace.save();
     }
 
+    private void initLogger(){
+
+        try {
+
+            this.logger = Logger.getLogger(this.getId());
+
+            this.fh = new FileHandler(this.ProjectLocation + File.separator + Id + ".log");
+
+            this.logger.addHandler(this.fh);
+
+            LabsFormatter formatter = new LabsFormatter();
+
+            this.fh.setFormatter(formatter);
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        }
+
+    }
+
 
     @JsonIgnore
     public String getLogs(){
@@ -161,7 +189,12 @@ public class MLLProject {
         return logs;
     }
 
+    @JsonIgnore
+    public void log(String message){
 
+        getLogger().info(message);
+
+    }
 
     @JsonIgnore
     public Boolean save(){
@@ -176,11 +209,17 @@ public class MLLProject {
             try {
 
                 setCreatedAt();
+
                 setUpdatedAt();
 
                 FileUtils.createFolder(ProjectLocation);
 
                 FileUtils.String2File("Created at:" + this.getCreatedAt(), LogFile);
+
+                this.initLogger();
+
+                this.logger.info( "Created " + this.getTitle());
+
 
             } catch (IOException e) {
 
@@ -191,7 +230,16 @@ public class MLLProject {
 
         try {
 
+
+            if(this.logger == null){
+
+                this.initLogger();
+
+            }
+
             setUpdatedAt();
+
+            this.logger.info( this.getTitle() + " Updated");
 
             FileUtils.project2File(this, projectInfoFile);
 
@@ -208,8 +256,20 @@ public class MLLProject {
     @JsonIgnore
     public String delete(List<String> files){
 
+        getLogger().info( "Deleting file(s) :" + LabsUtils.listToString(files));
+
         return FileUtils.deleteFilesFromProject(files, ProjectLocation);
 
+    }
+
+    @JsonIgnore
+    private Logger getLogger(){
+
+        if(this.logger == null){
+            this.initLogger();
+        }
+
+        return this.logger;
     }
 
     @JsonIgnore
