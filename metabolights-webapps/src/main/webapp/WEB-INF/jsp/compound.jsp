@@ -360,6 +360,7 @@
 
                                         <div v-if="selectedReaction">
                                             <br>
+                                            <p><i class="fa fa-link"></i>&nbsp;</i><i>Source: </i><a target="_blank" :href="'http://www.rhea-db.org/reaction?id=RHEA:'+selectedReaction">Rhea: {{ selectedReaction }}</a></p>
                                             <!-- <div class="ml_trc grey"><b><h4>{{ selectedReactionData.name }}</h4></b></div> -->
                                             <div class="col-md-12" id="BioJSReaction"></div>
                                             <div class="clearfix">&nbsp;</div>
