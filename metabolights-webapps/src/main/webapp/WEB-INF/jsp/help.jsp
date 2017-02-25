@@ -94,6 +94,14 @@
                                     <a class="btn btn-default" target="_blank" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/MetaboLights%20Tutorial%20-%20FAQ.pdf"><strong></strong></a>
                                 </div>
                             </div>
+                            <div class="ml-row row">
+                                <div class="col-md-8"><strong>常见问题与回答</strong></div>
+                                <div class="col-md-3">
+                                    <a class="btn btn-default" target="_blank" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/MetaboLights\ 常见问题与回答20170224.pdf"><strong></strong></a>
+                                </div>
+                            </div>
+
+
                     </div>
                 <br/>
                 <br/>
