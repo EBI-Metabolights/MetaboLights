@@ -1,5 +1,6 @@
 package uk.ac.ebi.metabolights.repository.utils.validation.groups;
 
+import org.apache.commons.io.FilenameUtils;
 import uk.ac.ebi.metabolights.repository.model.Assay;
 import uk.ac.ebi.metabolights.repository.model.Field;
 import uk.ac.ebi.metabolights.repository.model.Study;
@@ -10,7 +11,9 @@ import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.ValidationIdentifier;
 import uk.ac.ebi.metabolights.repository.utils.validation.DescriptionConstants;
 import uk.ac.ebi.metabolights.repository.utils.validation.Utilities;
+import uk.ac.ebi.metabolights.utils.json.FileUtils;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -55,6 +58,9 @@ public class AssayValidations implements IValidationProcess {
             Validation assayRawFileValidation = getAssayHasFilesValidation(study);
             assayValidations.add(assayRawFileValidation);
             assayValidations.add(referencedFilesArePresentInFileSystem(study, assayRawFileValidation.getPassedRequirement()));
+            if (assayRawFileValidation.getPassedRequirement()) {
+                assayValidations.add(referencedRawFilesAreOfCorrectFormat(study));
+            }
 //            Validation areColumnsEmptyValidation = getEmptyColumnsValidation(study);
 //            if (!areColumnsEmptyValidation.getPassedRequirement()) {
 //                assayValidations.add(areColumnsEmptyValidation);
@@ -112,7 +118,7 @@ public class AssayValidations implements IValidationProcess {
                 return validation;
             }
         }
-      return validation;
+        return validation;
     }
 
     private static List<String> getFileFieldsFrom(LinkedHashMap<String, Field> tableFields) {
@@ -133,7 +139,7 @@ public class AssayValidations implements IValidationProcess {
         for (Map.Entry<String, Field> entry : tableFields.entrySet()) {
             if (Utilities.containsKeyword(entry.getKey(), " file")) {
                 String localField = Utilities.getfieldName(entry.getKey()).toLowerCase();
-                if (!localField.equalsIgnoreCase("metabolite assignment file") && !localField.contains("parameter value") ) {   // Ignore Parameter values describing files (mzML2ISA generated)
+                if (!localField.equalsIgnoreCase("metabolite assignment file") && !localField.contains("parameter value")) {   // Ignore Parameter values describing files (mzML2ISA generated)
                     fileFields.add(entry.getKey());
                 }
             }
@@ -195,38 +201,45 @@ public class AssayValidations implements IValidationProcess {
     }
 
 
-    private static Map<Boolean, List<String>> allAssayColumnsHasFilesMatchedInFileSystem(List<String> rawFilesList, List<Assay> assays) {
+    private static Map<Boolean, List<String>> allAssayColumnsHasFilesMatchedInFileSystem(List<String> allFilesList, List<Assay> assays) {
         Map<Boolean, List<String>> hasPassed_FailedFileNamesMap = new LinkedHashMap<>();
-        List<String> noPhysicalReference = new ArrayList<>();
-
-        for (Assay assay : assays) {
-            List<String> fileFields = getFileFieldsFrom(assay.getAssayTable().getFields());
-            //int[] indexesToBeLookedUpon = getAllIndexes(fileFields);
-            for (int i = 0; i < fileFields.size(); i++) {
-                if (thisFileColumnHasFilesReferenced(fileFields.get(i), assay.getAssayTable().getData())) {
-                    HashSet<String> uniqueFileNames = new HashSet();
-
-                    for (List<String> data : assay.getAssayTable().getData()) {
-                        String rawFileName = data.get(Utilities.indexToCheck(fileFields.get(i)));
-                        if (!rawFileName.isEmpty()) {
-                            uniqueFileNames.add(rawFileName);
-                        }
-                    }
-
-                    for (String uniqFileName : uniqueFileNames) {
-                        if (!Utilities.match(uniqFileName, rawFilesList)) {
-                            noPhysicalReference.add(uniqFileName);
-                        }
-                    }
-                }
-            }
-        }
+        List<String> noPhysicalReference = filesThatHasnoPhysicalReference(allFilesList, assays);
         if (noPhysicalReference.size() > 0) {
             hasPassed_FailedFileNamesMap.put(false, noPhysicalReference);
             return hasPassed_FailedFileNamesMap;
         }
         hasPassed_FailedFileNamesMap.put(true, new ArrayList<String>());
         return hasPassed_FailedFileNamesMap;
+    }
+
+    private static List<String> filesThatHasnoPhysicalReference(List<String> allFilesList, List<Assay> assays) {
+        List<String> noPhysicalReference = new ArrayList<>();
+        HashSet<String> filesThatAreReferencedInAssays = getFilesThatAreReferencedInAssays(assays);
+        for (String uniqueFileName : filesThatAreReferencedInAssays) {
+            if (!Utilities.match(uniqueFileName, allFilesList)) {
+                noPhysicalReference.add(uniqueFileName);
+            }
+        }
+        return noPhysicalReference;
+    }
+
+    private static HashSet<String> getFilesThatAreReferencedInAssays(List<Assay> assays) {
+        HashSet<String> uniqueFileNamesReferencedInAssays = new HashSet();
+        for (Assay assay : assays) {
+            List<String> fileFields = getFileFieldsFrom(assay.getAssayTable().getFields());
+            //int[] indexesToBeLookedUpon = getAllIndexes(fileFields);
+            for (int i = 0; i < fileFields.size(); i++) {
+                if (thisFileColumnHasFilesReferenced(fileFields.get(i), assay.getAssayTable().getData())) {
+                    for (List<String> data : assay.getAssayTable().getData()) {
+                        String rawFileName = data.get(Utilities.indexToCheck(fileFields.get(i)));
+                        if (!rawFileName.isEmpty()) {
+                            uniqueFileNamesReferencedInAssays.add(rawFileName);
+                        }
+                    }
+                }
+            }
+        }
+        return uniqueFileNamesReferencedInAssays;
     }
 
     private static HashSet<String> getUniqueFileNames(List<String> fileDataColumn) {
@@ -251,6 +264,52 @@ public class AssayValidations implements IValidationProcess {
         for (int i = 0; i < rawFilesNoMatchList.size(); i++) {
             errMessage += " " + rawFilesNoMatchList.get(i);
             if (i < rawFilesNoMatchList.size() - 1) {
+                errMessage += ",";
+            }
+        }
+        return errMessage;
+    }
+
+    public static Validation referencedRawFilesAreOfCorrectFormat(Study study) {
+        Validation validation = new Validation(DescriptionConstants.ASSAY_CORRECT_RAW_FILE, Requirement.MANDATORY, Group.FILES);
+        validation.setId(ValidationIdentifier.ASSAY_CORRECT_RAW_FILE.getID());
+        HashSet<String> incorrectFormat = new HashSet<>();
+
+        HashSet<String> filesThatAreReferencedInAssays = getFilesThatAreReferencedInAssays(study.getAssays());
+        for (String file : filesThatAreReferencedInAssays) {
+            try {
+                if(!file.startsWith("m_")){
+                    File newFile = new File(study.getStudyLocation() + File.separator + file);
+                    if (newFile.isDirectory()) {
+                        incorrectFormat.add(file);
+                    } else {
+                        String extension = FilenameUtils.getExtension(file);
+                        if (extension.isEmpty()) {
+                            incorrectFormat.add(file);
+                        } else {
+                            if (Utilities.incorrectFormat(extension)) {
+                                incorrectFormat.add(file);
+                            }
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (incorrectFormat.size() > 0) {
+            validation.setPassedRequirement(false);
+            validation.setMessage(getIncorrectAssayFileFormatMessage(incorrectFormat));
+        }
+        return validation;
+    }
+
+    private static String getIncorrectAssayFileFormatMessage(HashSet<String> incorrectRawFiles) {
+        List<String> list = new ArrayList<String>(incorrectRawFiles);
+        String errMessage = "Raw files reported in Assay columns, are not of valid format:";
+        for (int i = 0; i < list.size(); i++) {
+            errMessage += " " + list.get(i);
+            if (i < list.size() - 1) {
                 errMessage += ",";
             }
         }
@@ -312,7 +371,7 @@ public class AssayValidations implements IValidationProcess {
             String missingColumn = entry.getKey();
             message += missingColumn + " (";
             for (Integer assayNumber : entry.getValue()) {
-                message += "Assay " + (assayNumber+1) + ";";
+                message += "Assay " + (assayNumber + 1) + ";";
             }
             message += ")";
 
