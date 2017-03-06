@@ -81,6 +81,19 @@ facets[].facet.lines[].FacetLine.checked
 //        }
 //    });
 
+    $( document ).ready(function() {
+        var QueryString = function () {
+            var query = window.location.search.substring(1);
+            return query;
+        }();
+
+        if (QueryString !== undefined || QueryString !== ""){
+            console.log(QueryString);
+            $('#filterForm').attr('action', $('#filterForm').attr('action') + "?" + QueryString);
+        }
+    });
+
+
 
 </script>
 <div class="row">

@@ -82,6 +82,7 @@
                             current_page: ${pagination.page},
                             max_page: ${pagecount}
                         });
+
                     });
                 </script>
 

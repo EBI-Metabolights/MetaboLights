@@ -73,6 +73,7 @@ public class WSSearchController extends AbstractController {
     public static final String DESCRIPTORS_DESCRIPTION = "descriptors.description";
     public static final String VALIDATIONS_STATUS = "validations.status";
     public static final String VALIDATIONS_ENTRIES_STATUS = "validations.entries.statusExt";
+    public static final String SEARCH_USER_STUDIES = "searchUserStudies";
 
     private static Logger logger = LoggerFactory.getLogger(WSSearchController.class);
 
@@ -115,7 +116,26 @@ public class WSSearchController extends AbstractController {
         populateFacet(query, compoundFilter);
 
         // Make the search
-        return internalSearch(SEARCH, query);
+        return internalSearch(SEARCH, query, null);
+
+    }
+
+    @RequestMapping(value = SEARCH_USER_STUDIES, method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView searchAuthorStudies(HttpServletRequest request) {
+
+        // Get the query
+        SearchQuery query = getQuery(request);
+
+
+        // Add a compound filter
+        Map.Entry searchStudyEntry = new AbstractMap.SimpleEntry(OBJECT_TYPE, new String[]{"study"});
+        Map.Entry userFilter = new AbstractMap.SimpleEntry(USERS_FULL_NAME, new String[]{request.getParameter("users.fullName")});
+
+        populateFacet(query, searchStudyEntry);
+        populateFacet(query, userFilter);
+
+        // Make the search
+        return internalSearch(SEARCH, query, SEARCH_USER_STUDIES);
 
     }
 
@@ -133,7 +153,7 @@ public class WSSearchController extends AbstractController {
         populateFacet(query, compoundFilter);
 
         // Make the search
-        return internalSearch(SEARCH, query);
+        return internalSearch(SEARCH, query, null);
 
     }
 
@@ -142,15 +162,19 @@ public class WSSearchController extends AbstractController {
         // Get the query
         SearchQuery query = getQuery(request);
         // Make the search
-        return internalSearch(MAVName, query);
+        return internalSearch(MAVName, query, null);
     }
 
-    private ModelAndView internalSearch(String MAVName, SearchQuery query) {
+    private ModelAndView internalSearch(String MAVName, SearchQuery query, String action) {
 
         ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(MAVName);
 
         //used for the JSP form
-        mav.addObject("action", SEARCH);
+        if (action == null) {
+            mav.addObject("action", SEARCH);
+        }else{
+            mav.addObject("action", action);
+        }
 
         if (MAVName.equals(SEARCH)) {
             mav.addObject(HEADER, PropertyLookup.getMessage("msg.search.title"));
@@ -278,7 +302,7 @@ public class WSSearchController extends AbstractController {
 
 
         //Trigger the internalSearch based on the filter
-        ModelAndView mav = internalSearch(MY_SUBMISSIONS, query);
+        ModelAndView mav = internalSearch(MY_SUBMISSIONS, query, null);
 
 
         return mav;

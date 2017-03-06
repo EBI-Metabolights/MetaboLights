@@ -115,7 +115,7 @@
                             <tr>
                                 <td><i class="fa fa-user"></i>&nbsp;Submitted by</td>
                                 <td><c:forEach var="owner" items="${liteStudy.users}">
-                                    <a href="search?users.fullName=${owner.fullName}">${owner.fullName}</a>
+                                    <a href="searchUserStudies?users.fullName=${owner.fullName}">${owner.fullName}</a>
                                     <a href="mailto:${owner.userName}?subject=<spring:message code="msg.emailStudyLinkSubject"/>&nbsp;${liteStudy.studyIdentifier}"><i
                                             class="fa fa-envelope-o" aria-hidden="true"></i>
                                     </a>
