@@ -302,7 +302,7 @@ public class WSSearchController extends AbstractController {
 
 
         //Trigger the internalSearch based on the filter
-        ModelAndView mav = internalSearch(MY_SUBMISSIONS, query, null);
+        ModelAndView mav = internalSearch(MY_SUBMISSIONS, query, MY_SUBMISSIONS);
 
 
         return mav;
