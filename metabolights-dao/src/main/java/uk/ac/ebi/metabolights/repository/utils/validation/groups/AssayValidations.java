@@ -281,7 +281,9 @@ public class AssayValidations implements IValidationProcess {
                 if(!file.startsWith("m_")){
                     File newFile = new File(study.getStudyLocation() + File.separator + file);
                     if (newFile.isDirectory()) {
-                        incorrectFormat.add(file);
+                        if (newFile.list().length == 0){
+                            incorrectFormat.add(file);
+                        }
                     } else {
                         String extension = FilenameUtils.getExtension(file);
                         if (extension.isEmpty()) {
@@ -306,7 +308,7 @@ public class AssayValidations implements IValidationProcess {
 
     private static String getIncorrectAssayFileFormatMessage(HashSet<String> incorrectRawFiles) {
         List<String> list = new ArrayList<String>(incorrectRawFiles);
-        String errMessage = "Raw files reported in the Assay(s), are not of valid format:";
+        String errMessage = "Raw files reported in the Assay(s), are not of valid format or the raw file folders are empty:";
         for (int i = 0; i < list.size(); i++) {
             errMessage += " " + list.get(i);
             if (i < list.size() - 1) {
