@@ -34,9 +34,9 @@ public class CuratedMetaboliteTable {
             List<String[]> curatedMetabolites = parser.parseAll(new FileReader(curatedMetaboliteListLocation));
             logger.info("Total " + curatedMetabolites.size() + " Loaded from " + curatedMetaboliteListLocation);
             return removeQoutesFrom(curatedMetabolites);
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             logger.error("Something went wrong while parsing the curated metabolights list", e);
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         return new ArrayList<String[]>();
 
