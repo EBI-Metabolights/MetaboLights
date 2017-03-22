@@ -55,8 +55,10 @@ import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
 
 import javax.naming.NamingException;
 import javax.xml.namespace.QName;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
@@ -169,6 +171,37 @@ public class StudyController extends BasicController{
 		return response;
 
 	}
+
+    @RequestMapping({"/parallelCoordinatesData"})
+    @ResponseBody
+    public RestResponse getFactorsDistribution(@RequestParam("study") String study){
+
+        String ftpUrl = "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/derived/parallel_coordinates/factorsDistribution.json";
+
+        study = study.replace("\"","");
+
+        if(study != null && !study.isEmpty()){
+            ftpUrl = "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/derived/parallel_coordinates/" + study + ".json";
+        }
+
+        StringBuffer sbf = new StringBuffer();
+
+        try {
+            URL url = new URL(ftpUrl);
+            BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+            String inputLine;
+            while ( (inputLine = in.readLine()) != null) sbf.append(inputLine);
+            in.close();
+        } catch (MalformedURLException e) {
+        } catch (IOException e) {
+        }
+
+        RestResponse restResponse = new RestResponse();
+
+        restResponse.setContent(sbf.toString());
+
+        return restResponse;
+    }
 
 	@RequestMapping("listWithDetails")
 	@ResponseBody
