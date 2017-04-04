@@ -28,12 +28,24 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.13/d3.min.js"></script>
 <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
 <script src="${pageContext.request.contextPath}/javascript/nv.d3.js"></script>
 <script src="${pageContext.request.contextPath}/javascript/d3.parcoords.js"></script>
 <script src="${pageContext.request.contextPath}/javascript/divgrid.js"></script>
 
-<style>
 
+<style>
+    #PContainer a:hover {
+        color: #f1f1f4 !important;
+        cursor: pointer;
+    }
+
+    #downloadList a:hover {
+        color: #000 !important;
+        cursor: pointer;
+    }
 
     #example {
         min-height: 500px;
@@ -163,13 +175,42 @@
         <div id="PContainer">
             <h3 class="text-center"><b><span id="studyId"></span></b> Parallel Coordinates</h3><br>
             <div class="container">
+                <div class="well">
                 <div id="example" class="parcoords"></div>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Data Table</h3>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Data Table <i><a id="resetPC" class="pull-right"><i class="fa fa-retweet" aria-hidden="true"></i> Reset</a></i></h3>
+                            </div>
+                            <div class="panel-body">
+                                <div id="grid"></div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="panel-body">
-                        <div id="grid"></div>
+                    <div class="col-md-4">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Download raw data</h3>
+                            </div>
+                            <div class="panel-body">
+                                <ul class="list-group" id="downloadList">
+                                    <li class="list-group-item">No raw files selected</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">MAF files</h3>
+                            </div>
+                            <div class="panel-body">
+                                <ul class="list-group" id="downloadMAFList">
+                                    <li class="list-group-item">No MAF files selected</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -209,12 +250,13 @@
 
 <script id="brushing">// quantitative colour scale
 
-    var green_to_blue = d3.scale.linear()
-        .domain([9, 50])
-        .range(["#7AC143", "#00B0DD"])
-        .interpolate(d3.interpolateLab);
+    var data = [];
 
-    var color = function(d) { return green_to_blue(d['Length of Day (hours)']); };
+    $( "#resetPC" ).click(function() {
+        loadPC();
+    });
+
+    var color = "#f00";
 
     function getParameterByName(name, url) {
         if (!url) {
@@ -392,182 +434,105 @@
 
         $("#studyId").text(study);
 
-
-
-// load csv file and create the chart
         d3.json('/metabolights/webservice/study/parallelCoordinatesData?study="'+study+'"', function(jsonData) {
-            var data = JSON.parse(jsonData.content)
+            data = JSON.parse(jsonData.content)
+
+            loadPC();
 
             // $('#example').height(data.length * 15);
-
-            var parcoords = d3.parcoords()("#example")
-                .color(color)
-                .alpha(0.4);
-
-            parcoords
-                .data(data)
-                .render()
-                .brushMode("1D-axes");  // enable brushing
-
-            // create data table, row hover highlighting
-            var grid = d3.divgrid();
-            d3.select("#grid")
-                .datum(data)
-                .call(grid)
-                .selectAll(".row")
-                .on({
-                    "mouseover": function(d) { parcoords.highlight([d]) },
-                    "mouseout": parcoords.unhighlight
-                });
-
-            // update data table on brush event
-            parcoords.on("brush", function(d) {
-                d3.select("#grid")
-                    .datum(d)
-                    .call(grid)
-                    .selectAll(".row")
-                    .on({
-                        "mouseover": function(d) { parcoords.highlight([d]) },
-                        "mouseout": parcoords.unhighlight
-                    });
-            });
         });
-
-//        d3.json('/metabolights/webservice/study/parallelCoordinatesData?study="'+study+'"', function(error, jsonData) {
-//            var m = [30, 10, 10, 10],
-//                w = (document.getElementById("PCContainer").offsetWidth) - m[1] - m[3],
-//                h = 500 - m[0] - m[2];
-//
-//            var x = d3.scale.ordinal().rangePoints([0, w], 1),
-//                y = {},
-//                dragging = {};
-//
-//            var line = d3.svg.line(),
-//                axis = d3.svg.axis().orient("left"),
-//                background,
-//                foreground;
-//
-//            var svg = d3.select("#PCContainer").append("svg:svg")
-//                .attr("width", w + m[1] + m[3])
-//                .attr("height", h + m[0] + m[2])
-//                .append("svg:g")
-//                .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
-//
-//            var cars = JSON.parse(jsonData.content);;
-//
-//            // Extract the list of dimensions and create a scale for each.
-//            x.domain(dimensions = d3.keys(cars[0]).filter(function(d) {
-//                if(d === "name") return false;
-//                if(isNaN(cars[0][d])) {
-//                    y[d] = d3.scale.ordinal()
-//                        .domain(cars.map(function(p) { return p[d]; }))
-//                        .rangePoints([h, 0]);
-//                }
-//                else {
-//                    y[d] = d3.scale.linear()
-//                        .domain(d3.extent(cars, function(p) { return +p[d]; }))
-//                        .range([h, 0]);
-//                }
-//                return true;
-//            }));
-//
-//            // Add grey background lines for context.
-//            background = svg.append("svg:g")
-//                .attr("class", "background")
-//                .selectAll("path")
-//                .data(cars)
-//                .enter().append("svg:path")
-//                .attr("d", path);
-//
-//            // Add blue foreground lines for focus.
-//            foreground = svg.append("svg:g")
-//                .attr("class", "foreground")
-//                .selectAll("path")
-//                .data(cars)
-//                .enter().append("svg:path")
-//                .attr("d", path);
-//
-//            // Add a group element for each dimension.
-//            var g = svg.selectAll(".dimension")
-//                .data(dimensions)
-//                .enter().append("svg:g")
-//                .attr("class", "dimension")
-//                .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
-//                .call(d3.behavior.drag()
-//                    .on("dragstart", function(d) {
-//                        dragging[d] = this.__origin__ = x(d);
-//                        background.attr("visibility", "hidden");
-//                    })
-//                    .on("drag", function(d) {
-//                        dragging[d] = Math.min(w, Math.max(0, this.__origin__ += d3.event.dx));
-//                        foreground.attr("d", path);
-//                        dimensions.sort(function(a, b) { return position(a) - position(b); });
-//                        x.domain(dimensions);
-//                        g.attr("transform", function(d) { return "translate(" + position(d) + ")"; })
-//                    })
-//                    .on("dragend", function(d) {
-//                        delete this.__origin__;
-//                        delete dragging[d];
-//                        transition(d3.select(this)).attr("transform", "translate(" + x(d) + ")");
-//                        transition(foreground)
-//                            .attr("d", path);
-//                        background
-//                            .attr("d", path)
-//                            .transition()
-//                            .delay(500)
-//                            .duration(0)
-//                            .attr("visibility", null);
-//                    }));
-//
-//            // Add an axis and title.
-//            g.append("svg:g")
-//                .attr("class", "axis")
-//                .each(function(d) { d3.select(this).call(axis.scale(y[d])); })
-//                .append("svg:text")
-//                .attr("text-anchor", "middle")
-//                .attr("y", -9)
-//                .text(String);
-//
-//            // Add and store a brush for each axis.
-//            g.append("svg:g")
-//                .attr("class", "brush")
-//                .each(function(d) { d3.select(this).call(y[d].brush = d3.svg.brush().y(y[d]).on("brush", brush)); })
-//                .selectAll("rect")
-//                .attr("x", -8)
-//                .attr("width", 16);
-//
-//
-//            function position(d) {
-//                var v = dragging[d];
-//                return v == null ? x(d) : v;
-//            }
-//
-//            function transition(g) {
-//                return g.transition().duration(500);
-//            }
-//
-//            // Returns the path for a given data point.
-//            function path(d) {
-//                return line(dimensions.map(function(p) {
-//                    return [position(p), y[p](d[p])]; }));
-//            }
-//
-//            // Handles a brush event, toggling the display of foreground lines.
-//            function brush() {
-//                var actives = dimensions.filter(function(p) { return !y[p].brush.empty(); }),
-//                    extents = actives.map(function(p) { return y[p].brush.extent(); });
-//                foreground.style("display", function(d) {
-//                    return actives.every(function(p, i) {
-//                        return extents[i][0] <= d[p] && d[p] <= extents[i][1];
-//                    }) ? null : "none";
-//                });
-//            }
-//        });
-
-
 
     }
 
+    function loadPC(){
 
+        d3.selectAll("svg").remove();
+
+        var parcoords = d3.parcoords()("#example")
+            .color(color)
+            .alpha(0.7);
+
+
+
+        var tempData = JSON.parse(JSON.stringify(data));
+
+        tempData.forEach(function(v){ delete v.files });
+        tempData.forEach(function(v){ delete v.mafFile });
+
+        getTheDownloadableFiles(tempData);
+
+        parcoords
+            .data(tempData)
+            .hideAxis(['id'])
+            .render()
+            .brushMode("1D-axes");  // enable brushing
+
+        parcoords.reorderable()
+
+        // create data table, row hover highlighting
+        var grid = d3.divgrid();
+        d3.select("#grid")
+            .datum(tempData)
+            .call(grid)
+            .selectAll(".row")
+            .on({
+                "mouseover": function(d) { parcoords.highlight([d]); },
+                "mouseout": parcoords.unhighlight
+            });
+
+        // update data table on brush event
+        parcoords.on("brush", function(d) {
+            getTheDownloadableFiles(d)
+            d3.select("#grid")
+                .datum(d)
+                .call(grid)
+                .selectAll(".row")
+                .on({
+                    "mouseover": function(d) { parcoords.highlight([d]); },
+                    "mouseout": parcoords.unhighlight
+                });
+        });
+
+    }
+
+    function getTheDownloadableFiles(d) {
+        var sortedRawFilesArray = []
+        d.forEach(function(m){
+            data.forEach(function (n) {
+                if (m.id == n.id){
+                    sortedRawFilesArray = sortedRawFilesArray.concat(n.files);
+                }
+            })
+        })
+
+        $("#downloadList").html("");
+        unique(sortedRawFilesArray).forEach(function (f) {
+            $("#downloadList").append('<li class="list-group-item"><a href="/metabolights/'+study+'/files/'+f+'">'+f+'</a></li>');
+        })
+
+
+        var sortedMAFFilesArray = []
+        d.forEach(function(m){
+            data.forEach(function (n) {
+                if (m.id == n.id){
+                    sortedMAFFilesArray = sortedMAFFilesArray.concat([n.mafFile]);
+                }
+            })
+        })
+
+        $("#downloadMAFList").html("");
+
+        unique(sortedMAFFilesArray).forEach(function (f) {
+            $("#downloadMAFList").append('<li class="list-group-item"><a href="/metabolights/'+study+'/files/'+f+'">'+f+'</a></li>');
+        })
+    }
+
+function unique(list) {
+    var result = [];
+    $.each(list, function(i, e) {
+        if ($.inArray(e, result) == -1) result.push(e);
+    });
+    return result;
+}
 
 </script>

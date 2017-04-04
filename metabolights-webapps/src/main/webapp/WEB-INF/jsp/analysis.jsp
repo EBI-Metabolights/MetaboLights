@@ -68,7 +68,7 @@
       </div>
       <hr>
       <div class="row">
-        <h3><a href="parallelCoordinates">Parallel Coordinates</a>&nbsp;<sup><small>BETA*</small></sup></h3>
+        <h3><a href="parallelCoordinates">Study Factor Distribution</a>&nbsp;<sup><small>BETA*</small></sup></h3>
         <p>Parallel coordinates are a common way of visualizing high-dimensional study factors / analysing multivariate study data.<br>
           <i><small>* may contain a number of known or unknown bugs</small></i>
         </p>

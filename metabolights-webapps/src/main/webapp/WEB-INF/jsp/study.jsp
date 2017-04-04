@@ -1071,7 +1071,13 @@
                                 </div>
                                 <div id="noAspera" class="noAspera"></div>
 
-                                <h4><spring:message code="label.fileListTableExplanation"/></h4>
+                                <div class="clearfix">
+                                    <h4><spring:message code="label.fileListTableExplanation"/>
+                                        <span style="border-bottom: 1px solid #ccc; border-radius: 4px;" class="pull-right">
+                                            <small><a class="btn btn-default btn-xs" target="_blank" href="/metabolights/parallelCoordinates?study=${study.studyIdentifier}"><i class="fa fa-filter" aria-hidden="true"></i>&nbsp; Filter</a></small>
+                                        </span>
+                                    </h4>
+                                </div>
                                 <div class="input-group">
                                     <input class="inputDiscrete form-control" id="fileSelector" type="text"
                                            placeholder="<spring:message code='label.fileList.Input.placeholder'/>">
