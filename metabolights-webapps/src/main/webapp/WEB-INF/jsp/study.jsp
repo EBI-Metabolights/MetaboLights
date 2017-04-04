@@ -253,6 +253,8 @@
                 <button type="button" class="btn btn-default quicklinks files--tab" data-destination="files"><i
                         class="ml--icons fa fa-download pull-left"></i> Download Study files
                 </button>
+
+            <c:if test="${study.studyStatus.descriptiveName eq 'Public'}">
                 <c:choose>
                     <c:when test="${userApiToken eq 'MetaboLights-anonymous'}">
                         <button type="button" class="btn btn-default"
@@ -346,6 +348,7 @@
                         </c:choose>
                     </c:otherwise>
                 </c:choose>
+            </c:if>
 
 
             </div>
