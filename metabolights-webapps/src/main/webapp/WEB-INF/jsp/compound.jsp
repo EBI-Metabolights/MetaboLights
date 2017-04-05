@@ -174,8 +174,6 @@
                                             <h4>
                                                 {{ mtblc.definition }}
                                             </h4>
-
-                                            {{mtblc.flags.hasSpecies}}
                                         </div>
                                         <div class="met-panel col-md-12">
 
@@ -186,10 +184,10 @@
                                             <div class="col-md-12 ml_tr">
                                                 <div class="col-md-3 ml_trc ml_trh">MetaboLights Identifier</div>
                                                 <div class="col-md-9 ml_trc">
-                                                    <p v-for="iupac in mtblc.iupacNames" class="label-spaced">{{ mtblc.id }}</p>
+                                                    <p class="label-spaced">{{ mtblc.id }}</p>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12 ml_tr">
+                                            <div class="col-md-12 ml_tr" v-if="mtblc.iupacNames.length > 0">
                                                 <div class="col-md-3 ml_trc ml_trh">IUPAC Names</div>
                                                 <div class="col-md-9 ml_trc">
                                                     <p v-for="iupac in mtblc.iupacNames" class="label-spaced">{{ iupac }},</p>
@@ -235,7 +233,7 @@
                                                 <div class="col-md-3 ml_trc ml_trh">SMILES</div>
                                                 <div class="col-md-9 ml_trc">{{ mtblc.smiles }}</div>
                                             </div>
-                                            <div class="col-md-12 ml_tr">
+                                            <div class="col-md-12 ml_tr" v-if="mtblc.synonyms.length > 0">
                                                 <div class="col-md-3 ml_trc ml_trh">Synonymns</div>
                                                 <div class="col-md-9 ml_trc">
                                                     <div id="ml--synonyms">
