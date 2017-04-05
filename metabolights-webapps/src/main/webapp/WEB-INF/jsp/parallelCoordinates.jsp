@@ -179,7 +179,7 @@
                 <div id="example" class="parcoords"></div>
                 </div>
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-6">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Data Table <i><a id="resetPC" class="pull-right"><i class="fa fa-retweet" aria-hidden="true"></i> Reset</a></i></h3>
@@ -189,7 +189,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="panel panel-info">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Download raw data</h3>
@@ -200,7 +200,18 @@
                                 </ul>
                             </div>
                         </div>
-
+                    </div>
+                    <div class="col-md-3">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Metabolites Identified</h3>
+                            </div>
+                            <div class="panel-body">
+                                <ul class="list-group" id="metabolitesList">
+                                    <li class="list-group-item">No metabolites identified</li>
+                                </ul>
+                            </div>
+                        </div>
                         <div class="panel panel-info">
                             <div class="panel-heading">
                                 <h3 class="panel-title">MAF files</h3>
@@ -458,6 +469,8 @@
 
         tempData.forEach(function(v){ delete v.files });
         tempData.forEach(function(v){ delete v.mafFile });
+        tempData.forEach(function(v){ delete v.metabolites });
+
 
         getTheDownloadableFiles(tempData);
 
@@ -524,6 +537,22 @@
 
         unique(sortedMAFFilesArray).forEach(function (f) {
             $("#downloadMAFList").append('<li class="list-group-item"><a href="/metabolights/'+study+'/files/'+f+'">'+f+'</a></li>');
+        })
+
+
+        var sortedMetabolitesArray = []
+        d.forEach(function(m){
+            data.forEach(function (n) {
+                if (m.id == n.id){
+                    sortedMetabolitesArray = sortedMetabolitesArray.concat(n.metabolites);
+                }
+            })
+        })
+
+        $("#metabolitesList").html("");
+
+        unique(sortedMetabolitesArray).forEach(function (f) {
+            $("#metabolitesList").append('<li class="list-group-item">'+f+'</li>');
         })
     }
 

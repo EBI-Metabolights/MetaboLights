@@ -55,17 +55,10 @@ public class ModelObjectFactory {
             mcd.returnPooledConnection();
 
 			if (mc != null ) {
-				// Get the chebi Entry
-
-				MetCompoundDAO metCompoundDAO = new MetCompoundDAO();
-
-				metCompoundDAO.getCompoundData(accession, PropertiesUtil.getProperty("referenceFolderLocation"));
-
-
-				//Entity chebiEntity = getCompleteEntityExample(mc.getChebiId());
-				//Compound comp = new Compound(mc, chebiEntity);
-				//logger.info("Getting compound from ChEBI" + accession);
-				//return comp;
+				Entity chebiEntity = getCompleteEntityExample(mc.getChebiId());
+				Compound comp = new Compound(mc, chebiEntity);
+				logger.info("Getting compound from ChEBI" + accession);
+				return comp;
 			}
 
 			return null;
