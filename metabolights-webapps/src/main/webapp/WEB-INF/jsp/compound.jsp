@@ -262,7 +262,12 @@
                                                 <div class="col-md-3 ml_trc"><b>{{ $key }}</b></div>
                                                 <div class="col-md-9 ml_trc">
                                                     <p v-for="source in id">
-                                                        <span>{{{ source.SpeciesAccession }}}</span>&emsp;<span>{{{ source.SourceAccession }}}</span>
+                                                        <span v-if="isStudy(source.SpeciesAccession)">
+                                                            <a target="_blank" :href="'/metabolights/'+source.SpeciesAccession"><span>{{{ source.SpeciesAccession }}}</span></a>&emsp;<a @click="showMAFDetails(source)" ><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                                        </span>
+                                                        <span v-else>
+                                                            <span>{{{ source.SpeciesAccession }}}</span>&emsp;<span>{{{ source.SourceAccession }}}</span>
+                                                        </span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -470,6 +475,63 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="modal fade" id="modal-maf" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-md">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button " class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title">
+                                            Metabolite Identification Details
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table table-bordered table-hover">
+                                            <tbody>
+                                            <tr>
+                                                <td>Study Id</td>
+                                                <td>{{ selectedMAFEntry.SpeciesAccession }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Species</td>
+                                                <td>{{ selectedMAFEntry.Species }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Assay Id</td>
+                                                <td>{{ selectedMAFEntry.Assay }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>MAF Details</td>
+                                                <td>
+                                                    <span v-for="(index, prop) in selectedMAFEntry.MAFEntry">
+                                                        <span v-if="prop != ''">
+                                                            <span v-if="prop">
+                                                                <span v-if="index == 'sampleMeasurements'">
+                                                                    <span>Sample Measurements</span><br>
+                                                                    <span v-for="(type,measurement) in prop">
+                                                                        <span v-if="measurement['sampleName'] != ''">
+                                                                            <span v-if="measurement['value'] == ''">
+                                                                                {{ measurement['sampleName'] }}:&emsp;<b> - </b><br>
+                                                                            </span>
+                                                                            <span v-else>
+                                                                                {{ measurement['sampleName'] }}:&emsp;<b>{{ measurement['value'] }}</b><br>
+                                                                            </span>
+                                                                        </span>
+                                                                    </span>
+                                                                </span>
+                                                                <span v-else>
+                                                                    {{index}}:&emsp;<b>{{ prop }}</b><br>
+                                                                </span>
+                                                            </span>
+                                                        </span>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -528,7 +590,8 @@
         synonymsCount: 0,
         msSpectra: [],
         nmrSpectra: [],
-        selectedWPSpeciesStudyMap: []
+        selectedWPSpeciesStudyMap: [],
+        selectedMAFEntry: null
     }
 
     var vm = new Vue({
@@ -589,6 +652,17 @@
             },
             toggleLoading: function(){
                 this.loading = !this.loading;
+            },
+            isStudy: function(id){
+                if (id.includes("MTBLS")){
+                    return true;
+                }
+                return false;
+            },
+            showMAFDetails: function(details){
+                this.selectedMAFEntry = details;
+                console.log(this.selectedMAFEntry);
+                $('#modal-maf').modal('show');
             }
         },
         ready: function(){

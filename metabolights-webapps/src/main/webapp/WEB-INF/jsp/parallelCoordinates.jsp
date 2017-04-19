@@ -192,12 +192,17 @@
                     <div class="col-md-3">
                         <div class="panel panel-info">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Download raw data</h3>
+                                <h3 class="panel-title">Download raw data  <i><a id="selectAll" class="pull-right"><i class="fa fa-download" aria-hidden="true"></i></a></i></h3>
                             </div>
                             <div class="panel-body">
-                                <ul class="list-group" id="downloadList">
-                                    <li class="list-group-item">No raw files selected</li>
-                                </ul>
+                                <form id="download-form" method="post">
+                                    <input name="submit" id="downloadSelected" type="submit" class="btn btn-default form-control" value="<spring:message code="label.downloadSelectedFiles"/>"/>
+                                    <div class="clearfix">&nbsp;</div>
+                                    <table class="table table-bordered">
+                                        <tbody id="downloadList">
+                                        </tbody>
+                                    </table>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -518,10 +523,23 @@
             })
         })
 
+
+
+        $("#download-form").attr("action", "/metabolights/"+study+"/files/downloadSelFiles/");
+
         $("#downloadList").html("");
-        unique(sortedRawFilesArray).forEach(function (f) {
-            $("#downloadList").append('<li class="list-group-item"><a href="/metabolights/'+study+'/files/'+f+'">'+f+'</a></li>');
-        })
+
+        if(unique(sortedRawFilesArray).length > 0 ){
+            $('#downloadSelected').show();
+            unique(sortedRawFilesArray).forEach(function (f) {
+                $("#downloadList").append('<tr><td><span class="checkbox"><label><input class="fileCheckbox" type="checkbox" name="file" value="'+f+'"></label><a href="/metabolights/'+study+'/files/'+f+'">'+f+'</a></span></td></tr>');
+            });
+        }else{
+            $('#downloadSelected').hide();
+            $("#downloadList").append('<tr><td class="text-center">No raw files to download</td></tr>');
+        }
+
+
 
 
         var sortedMAFFilesArray = []
@@ -535,9 +553,13 @@
 
         $("#downloadMAFList").html("");
 
-        unique(sortedMAFFilesArray).forEach(function (f) {
-            $("#downloadMAFList").append('<li class="list-group-item"><a href="/metabolights/'+study+'/files/'+f+'">'+f+'</a></li>');
-        })
+        if(unique(sortedMAFFilesArray).length > 0 ) {
+            unique(sortedMAFFilesArray).forEach(function (f) {
+                $("#downloadMAFList").append('<li class="list-group-item"><a href="/metabolights/' + study + '/files/' + f + '">' + f + '</a></li>');
+            })
+        }else{
+            $("#downloadMAFList").append('<li class="list-group-item">No MAF files selected</li>');
+        }
 
 
         var sortedMetabolitesArray = []
@@ -550,10 +572,13 @@
         })
 
         $("#metabolitesList").html("");
-
-        unique(sortedMetabolitesArray).forEach(function (f) {
-            $("#metabolitesList").append('<li class="list-group-item">'+f+'</li>');
-        })
+        if(unique(sortedMetabolitesArray).length > 0 ) {
+            unique(sortedMetabolitesArray).forEach(function (f) {
+                $("#metabolitesList").append('<li class="list-group-item">' + f + '</li>');
+            })
+        }else{
+            $("#metabolitesList").append('<li class="list-group-item">No Metabolites</li>');
+        }
     }
 
 function unique(list) {
@@ -563,5 +588,6 @@ function unique(list) {
     });
     return result;
 }
+
 
 </script>

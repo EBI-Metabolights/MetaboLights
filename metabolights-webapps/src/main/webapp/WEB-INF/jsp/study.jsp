@@ -1024,6 +1024,7 @@
                                                 <span class="icon icon-functional" data-icon="D"/><spring:message
                                                     code="label.requestFtpFolder"/>
                                             </a>
+                                            &nbsp;|&nbsp;
                                         </sec:authorize>
                                     </c:if>
                                     &nbsp;
