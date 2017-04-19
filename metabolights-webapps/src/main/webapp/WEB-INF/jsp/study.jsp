@@ -103,10 +103,7 @@
 
 </script>
 
-<script>
-    thorApplicationNamespace.createWorkOrcId('${study.title}', 'data-set', '${releaseYear}', '//www.ebi.ac.uk/metabolights/${study.studyIdentifier}', '${study.description}','METABOLIGHTS');
-    thorApplicationNamespace.addWorkIdentifier('other-id', '${study.studyIdentifier}');
-</script>
+
 
 <%--<c:set var="readOnly" value="${!fn:contains(servletPath,study.studyIdentifier)}"/>--%>
 
@@ -1927,4 +1924,12 @@
         }
 
     });
+</script>
+<script>
+    var title ="${study.title}";
+    var description = "${study.description}";
+    var editedTitle = title.replace(/[']/g, '');
+    var editedDescription = description.replace(/[']/g, '');
+    thorApplicationNamespace.createWorkOrcId(editedTitle, 'data-set', '${releaseYear}', 'http://www.ebi.ac.uk/metabolights/${study.studyIdentifier}', editedDescription,'METABOLIGHTS');
+    thorApplicationNamespace.addWorkIdentifier('other-id', '${study.studyIdentifier}');
 </script>
