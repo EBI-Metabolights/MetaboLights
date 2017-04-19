@@ -28,17 +28,17 @@
   --%>
 
 <!--<link rel="stylesheet" href="${pageContefxt.request.contextPath}/cssrl/iconfont/font_fstyle.css" type="text/css"/>-->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css"/>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/dataTables.bootstrap.min.css"/>
-<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css"/>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.10/css/dataTables.bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/ChEBICompound.css" type="text/css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/css/bootstrap-tour.css"
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/css/bootstrap-tour.css"
       type="text/css"/>
 
 <link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/css/bootstrap-select.min.css">
+      href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/css/bootstrap-select.min.css">
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.js" charset="utf-8"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.ChEBICompound.js"
@@ -50,7 +50,7 @@
 <script type="text/javascript"
         src="${pageContext.request.contextPath}/javascript/MetExplore/metExploreViz/metexploreviz.js"
         charset="utf-8"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="${orcidServiceUrl}"></script>
 
 
@@ -104,7 +104,7 @@
 </script>
 
 <script>
-    thorApplicationNamespace.createWorkOrcId('${study.title}', 'data-set', '${releaseYear}', 'http://www.ebi.ac.uk/metabolights/${study.studyIdentifier}', '${study.description}','METABOLIGHTS');
+    thorApplicationNamespace.createWorkOrcId('${study.title}', 'data-set', '${releaseYear}', '//www.ebi.ac.uk/metabolights/${study.studyIdentifier}', '${study.description}','METABOLIGHTS');
     thorApplicationNamespace.addWorkIdentifier('other-id', '${study.studyIdentifier}');
 </script>
 
@@ -519,7 +519,7 @@
                                                         <c:set var="DOIValue" value="${pub.doi}"/>
                                                         <c:choose>
                                                             <c:when test="${not empty pub.pubmedId}">
-                                                                <a href="http://europepmc.org/abstract/MED/${pub.pubmedId}"
+                                                                <a href="//europepmc.org/abstract/MED/${pub.pubmedId}"
                                                                    target="_blank">${pub.title}</a>
                                                             </c:when>
                                                             <c:when test="${not empty pub.doi}">
@@ -533,7 +533,7 @@
                                                                 </c:if>
                                                                 <c:if test="${not fn:contains(DOIValue, 'dx.doi')}">
                                                                     <a target="_blank"
-                                                                       href="http://dx.doi.org/${DOIValue}">${pub.title}</a>
+                                                                       href="//dx.doi.org/${DOIValue}">${pub.title}</a>
                                                                 </c:if>
                                                             </c:when>
                                                             <c:otherwise>${pub.title}</c:otherwise>
@@ -613,7 +613,7 @@
                                             <c:if test="${cell.field.header eq 'Sample Name'}">
                                                 <c:if test="${fn:startsWith(cellvalue, 'SAMEA')}">
                                                     <c:set var="cellvalue"
-                                                           value="<a href='http://www.ebi.ac.uk/biosamples/sample/${cellvalue}'>${cellvalue}</a>"/>
+                                                           value="<a href='//www.ebi.ac.uk/biosamples/sample/${cellvalue}'>${cellvalue}</a>"/>
                                                 </c:if>
                                             </c:if>
                                             <td>${cellvalue}</td>
@@ -804,7 +804,7 @@
                                                                         <c:if test="${cell.field.header eq 'Sample Name'}">
                                                                             <c:if test="${fn:startsWith(cellvalue, 'SAMEA')}">
                                                                                 <c:set var="cellvalue"
-                                                                                       value="<a href='http://www.ebi.ac.uk/biosamples/sample/${cell.value}'>${cell.value}</a>"/>
+                                                                                       value="<a href='//www.ebi.ac.uk/biosamples/sample/${cell.value}'>${cell.value}</a>"/>
                                                                             </c:if>
                                                                         </c:if>
                                                                         <td>${cellvalue}</td>
@@ -911,7 +911,7 @@
                                                                         <c:if test="${cell.field.header eq 'Sample Name'}">
                                                                             <c:if test="${fn:startsWith(cellvalue, 'SAMEA')}">
                                                                                 <c:set var="cellvalue"
-                                                                                       value="<a href='http://www.ebi.ac.uk/biosamples/sample/${cell.value}'>${cell.value}</a>"/>
+                                                                                       value="<a href='//www.ebi.ac.uk/biosamples/sample/${cell.value}'>${cell.value}</a>"/>
                                                                             </c:if>
                                                                         </c:if>
                                                                         <td>${cellvalue}</td>
@@ -1406,20 +1406,20 @@
     </div>
 </div>
 
-<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://cdn.rawgit.com/flatlogic/bootstrap-tabcollapse/master/bootstrap-tabcollapse.js"></script>
+<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="//cdn.rawgit.com/flatlogic/bootstrap-tabcollapse/master/bootstrap-tabcollapse.js"></script>
 <script type="text/javascript" charset="utf-8">
     $('#study--tab').tabCollapse();
 </script>
 
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="//cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js"></script>
 <script type="text/javascript"
         src="${pageContext.request.contextPath}/javascript/dataTables.conditionalPaging.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/js/bootstrap-select.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/js/bootstrap-select.min.js"></script>
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/js/i18n/defaults-*.min.js"></script>-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/js/bootstrap-tour.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/js/bootstrap-tour.js"></script>
 
 <script type="text/javascript">
     // Instance the tour
@@ -1605,7 +1605,7 @@
 
         function loadPathways(ids) {
             MetExploreViz.onloadMetExploreViz(function () {
-                var url = "http://metexplore.toulouse.inra.fr:8080/metExploreWebService/mapping/graphresult/38285/filteredbypathway?pathwayidlist=(" + ids.toString() + ")";
+                var url = "//metexplore.toulouse.inra.fr:8080/metExploreWebService/mapping/graphresult/38285/filteredbypathway?pathwayidlist=(" + ids.toString() + ")";
                 $.ajax({
                     url: url,
                     type: 'GET',
@@ -1682,7 +1682,7 @@
                     width: '400px',
                     height: '300px',
                     proxyUrl: undefined,
-                    chebiDetailsUrl: 'http://www.ebi.ac.uk/webservices/chebi/2.0/test/getCompleteEntity?chebiId='
+                    chebiDetailsUrl: '//www.ebi.ac.uk/webservices/chebi/2.0/test/getCompleteEntity?chebiId='
                 });
 
                 $('#chebiInfo').hide();
@@ -1833,7 +1833,7 @@
                         if (typeof thorApplicationNamespace != 'undefined') {
                             for (var uli = 0; uli < orchidRespData['orcid-search-results']['num-found']; uli++) {
                                 var userOrcId = orchidRespData['orcid-search-results']['orcid-search-result'][uli]['orcid-profile']['orcid-identifier']['path'];
-                                claimListText += '<a href="http://europepmc.org/search?query=AUTHORID:\'' + userOrcId + '\'&sortby=Date">' + userOrcId + '</a><br>';
+                                claimListText += '<a href="//europepmc.org/search?query=AUTHORID:\'' + userOrcId + '\'&sortby=Date">' + userOrcId + '</a><br>';
                             }
                         }
                     }

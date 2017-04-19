@@ -37,11 +37,11 @@
    
     <title><tiles:insertAttribute name="title" ignore="true" /></title>
 
-    <link rel="stylesheet"  href="http://www.ebi.ac.uk/inc/css/contents.css"     type="text/css" />
-    <link rel="stylesheet"  href="http://www.ebi.ac.uk/inc/css/userstyles.css"   type="text/css" />
-    <script  src="http://www.ebi.ac.uk/inc/js/contents.js" type="text/javascript"></script>
-    <link rel="SHORTCUT ICON" href="http://www.ebi.ac.uk/bookmark.ico" />
-    <link rel="stylesheet"  href="http://www.ebi.ac.uk/inc/css/sidebars.css"   type="text/css" />
+    <link rel="stylesheet"  href="//www.ebi.ac.uk/inc/css/contents.css"     type="text/css" />
+    <link rel="stylesheet"  href="//www.ebi.ac.uk/inc/css/userstyles.css"   type="text/css" />
+    <script  src="//www.ebi.ac.uk/inc/js/contents.js" type="text/javascript"></script>
+    <link rel="SHORTCUT ICON" href="//www.ebi.ac.uk/bookmark.ico" />
+    <link rel="stylesheet"  href="//www.ebi.ac.uk/inc/css/sidebars.css"   type="text/css" />
     <link rel="stylesheet" type="text/css" href="css/multi-line-button.css" media="all" />
     <link rel="stylesheet" type="text/css" href="css/styles.css" media="all" />
     <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.8.21.custom.css" media="all" />
