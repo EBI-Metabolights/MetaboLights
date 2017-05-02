@@ -108,11 +108,14 @@ public class AssayValidations implements IValidationProcess {
             List<String> fileFields = getFileFieldsExceptMAFFrom(assay.getAssayTable().getFields());
             List<String> fileColumnsThatAreEmpty = new ArrayList<>();
             for (String fileField : fileFields) {
-                if (!thisFileColumnHasFilesReferenced(fileField, assay.getAssayTable().getData())) {
-                    fileColumnsThatAreEmpty.add(fileField);
+                if (Utilities.getfieldName(fileField).equalsIgnoreCase("free induction decay data file") ||
+                        Utilities.getfieldName(fileField).equalsIgnoreCase("raw spectral data file")) {
+                    if (!thisFileColumnHasFilesReferenced(fileField, assay.getAssayTable().getData())) {
+                        fileColumnsThatAreEmpty.add(fileField);
+                    }
                 }
             }
-            if (fileColumnsThatAreEmpty.size() == fileFields.size()) {
+            if (fileColumnsThatAreEmpty.size() > 0) {
                 validation.setPassedRequirement(false);
                 validation.setMessage(getErrMessage(assay, fileColumnsThatAreEmpty));
                 return validation;
