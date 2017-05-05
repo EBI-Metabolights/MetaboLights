@@ -161,6 +161,8 @@
                     </a>
                     <%-- &nbsp;|&nbsp;
                     <a href="${pageContext.request.contextPath}/beta/${study.studyIdentifier}" class="icon icon-generic" data-icon="&lt;">BETA</a> --%>
+                     &nbsp;|&nbsp; <a><i class="fa fa-pencil"></i> &nbsp;Quick edit</a>
+
                 </div>
             </div>
 
