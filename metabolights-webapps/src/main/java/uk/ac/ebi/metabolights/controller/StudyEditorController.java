@@ -2,7 +2,9 @@ package uk.ac.ebi.metabolights.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.service.AppContext;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,9 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 public class StudyEditorController extends AbstractController {
 
     @RequestMapping(value = {"/studyeditor"})
-    public ModelAndView showStudyEditorPage(HttpServletRequest request) {
+    public ModelAndView showStudyEditorPage(@RequestParam(required=true,value="studyId") String studyId, HttpServletRequest request) {
 
         ModelAndView mav = AppContext.getMAVFactory().getSimpleFrontierMav("studyeditor");
+        mav.addObject("studyId", studyId);
+        MetabolightsUser user = LoginController.getLoggedUser();
+        mav.addObject("apiToken", user.getApiToken());
 
         return mav;
 

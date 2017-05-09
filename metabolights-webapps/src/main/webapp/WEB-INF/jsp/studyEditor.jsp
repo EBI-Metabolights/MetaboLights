@@ -23,22 +23,12 @@
 <base href="${pageContext.request.contextPath}/ngeditor/">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="styles.8da2364522e0749f90c2.bundle.css"/>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+<link href="styles.8da2364522e0749f90c2.bundle.css" rel="stylesheet"/></head>
 
-
-<h1>Hi Kalai</h1>
-Loading study editor...
-<app-root>
-   <%----%>
-   <%----%>
-<%--<ml-study-editor studyID="MTBLS5"></ml-study-editor>--%>
-
-    <%--Loaded study editor...--%>
-</app-root>
-
-<script type="text/javascript" src="inline.711e57b421e6e8b94fbc.bundle.js"></script><script type="text/javascript" src="polyfills.c5921fb9456dd60b1fc0.bundle.js"></script><script type="text/javascript" src="vendor.799b53e529d382bcee72.bundle.js"></script><script type="text/javascript" src="main.61a7704148c388b43c94.bundle.js"></script></body>
-
-
-
+<%--Loading study editor for ${studyId}...--%>
+<div class="container">
+    <ml-study-editor studyID="${studyId}" apiToken="${apiToken}"></ml-study-editor>
+</div>
+<script type="text/javascript" src="inline.60dea4f2a964ccdaf95b.bundle.js"></script><script type="text/javascript" src="polyfills.63929c2b04758c996018.bundle.js"></script><script type="text/javascript" src="vendor.298e93e19050483cd5f3.bundle.js"></script><script type="text/javascript" src="main.0f22b71bc2ed1ea31ec6.bundle.js"></script></body>
 
