@@ -25,12 +25,15 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" rel="stylesheet">
 <link href="styles.8da2364522e0749f90c2.bundle.css" rel="stylesheet"/>
-
+<script>
+    localStorage.setItem("apiToken", "${apiToken}");
+</script>
 
 <%--Loading study editor for ${studyId}...--%>
 <div class="container" style="background-color: #e6e6e6">
     <div class="row">
-        <ml-study-editor studyID="${studyId}" apiToken="${apiToken}"></ml-study-editor>
+        <%--<ml-study-editor studyID="${studyId}" apiToken="${apiToken}"></ml-study-editor>--%>
+        <ml-study-editor studyID="${studyId}"></ml-study-editor>
     </div>
     <div class="row">
         <div><a href="${pageContext.request.contextPath}/${studyId}" class="btn btn-primary btn-block"
@@ -38,9 +41,9 @@
     </div>
 </div>
 
-<script type="text/javascript" src="inline.b3a2a50886ccdb661efb.bundle.js"></script>
+<script type="text/javascript" src="inline.4a157d5ef0412c72fe84.bundle.js"></script>
 <script type="text/javascript" src="polyfills.63929c2b04758c996018.bundle.js"></script>
 <script type="text/javascript" src="vendor.298e93e19050483cd5f3.bundle.js"></script>
-<script type="text/javascript" src="main.3a324ca864ddb77bc598.bundle.js"></script>
+<script type="text/javascript" src="main.c9f6acd0cf0fb6e8cc6c.bundle.js"></script>
 
 
