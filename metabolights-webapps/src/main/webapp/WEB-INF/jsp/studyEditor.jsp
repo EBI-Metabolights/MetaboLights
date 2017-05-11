@@ -25,10 +25,10 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" rel="stylesheet">
 <link href="styles.8da2364522e0749f90c2.bundle.css" rel="stylesheet"/>
-</head>
+
 
 <%--Loading study editor for ${studyId}...--%>
-<div class="container">
+<div class="container" style="background-color: #e6e6e6">
     <div class="row">
         <ml-study-editor studyID="${studyId}" apiToken="${apiToken}"></ml-study-editor>
     </div>
@@ -38,10 +38,9 @@
     </div>
 </div>
 
-<script type="text/javascript" src="inline.18189aaac23df83c3090.bundle.js"></script>
+<script type="text/javascript" src="inline.b3a2a50886ccdb661efb.bundle.js"></script>
 <script type="text/javascript" src="polyfills.63929c2b04758c996018.bundle.js"></script>
 <script type="text/javascript" src="vendor.298e93e19050483cd5f3.bundle.js"></script>
-<script type="text/javascript" src="main.0ac27eba6244fd7109cc.bundle.js"></script>
-
+<script type="text/javascript" src="main.3a324ca864ddb77bc598.bundle.js"></script>
 
 
