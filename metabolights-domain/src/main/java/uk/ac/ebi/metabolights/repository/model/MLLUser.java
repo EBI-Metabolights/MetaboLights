@@ -59,7 +59,6 @@ public class MLLUser {
 
     private AppRole role;
 
-    @JsonIgnore
     private String apiToken;
 
     private String orcid;

@@ -259,7 +259,7 @@
                                                 <div class="col-md-12 ml_trc"><b><h4>Species</h4></b></div>
                                             </div>
                                             <div class="col-md-12 ml_tr" v-for="id in mtblc.species">
-                                                <div class="col-md-3 ml_trc"><b>{{ $key }}</b></div>
+                                                <div class="col-md-3 ml_trc"><p class="bnStyling"><b><i>{{ $key }}</i></b></p></div>
                                                 <div class="col-md-9 ml_trc">
                                                     <p v-for="source in id">
                                                         <span v-if="isStudy(source.SpeciesAccession)">

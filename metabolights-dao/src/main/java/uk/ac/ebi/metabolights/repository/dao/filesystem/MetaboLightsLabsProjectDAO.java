@@ -61,11 +61,11 @@ public class MetaboLightsLabsProjectDAO {
             mllProject.setBusy(false);
             mllProject.save();
 
-            mllWorkSpace.appendOrUpdateProject(mllProject);
-
-            mllWorkSpace.save();
-
         }
+
+        mllWorkSpace.appendOrUpdateProject(mllProject);
+
+        mllWorkSpace.save();
 
         String s;
         Process p;

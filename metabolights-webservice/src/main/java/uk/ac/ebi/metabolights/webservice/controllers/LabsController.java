@@ -153,6 +153,94 @@ public class LabsController extends BasicController{
     }
 
     /**
+     * Authenticates the user token and generates the JWT token for further request
+     * @param data
+     * @param response
+     * @return restResponse
+     * */
+    @RequestMapping(value = "authenticateToken", method = RequestMethod.POST)
+    @ResponseBody
+    public RestResponse<String> authenticateToken(@RequestBody String data, HttpServletResponse response) {
+
+        // parse login data fields
+        JSONParser parser = new JSONParser();
+        JSONObject loginData = null;
+
+        try {
+            loginData = (JSONObject) parser.parse(data);
+        } catch (ParseException e) {
+
+        }
+
+        String token = (String) loginData.get("token");
+
+        RestResponse<String> restResponse = new RestResponse<>();
+
+        // check if the user exists and valid
+        UserServiceImpl usi = null;
+
+        try {
+            usi = new UserServiceImpl();
+        } catch (DAOException e) {
+            response.setStatus(Response.Status.FORBIDDEN.getStatusCode());
+            return restResponse;
+        }
+
+        User user = usi.lookupByToken(token);
+
+        if (user != null){
+
+            JwtClaims claims = new JwtClaims();
+            claims.setSubject(user.getEmail());
+            claims.setIssuer("Metabolights");
+            claims.setAudience("Metabolights Labs");
+            claims.setClaim("Name",user.getFullName());
+
+            Key key = null;
+            try {
+                key = new HmacKey(token.getBytes("UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                response.setStatus(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+                return restResponse;
+            }
+
+            JsonWebSignature jws = new JsonWebSignature();
+            jws.setPayload(claims.toJson());
+            jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.HMAC_SHA256);
+            jws.setKey(key);
+            jws.setDoKeyValidation(false); // relaxes the key length requirement
+
+            String jwt = null;
+            try {
+
+                jwt = jws.getCompactSerialization();
+
+            } catch (JoseException e) {
+
+                response.setStatus(Response.Status.FORBIDDEN.getStatusCode());
+
+                return restResponse;
+
+            }
+
+            response.setHeader("Access-Control-Expose-Headers", "jwt, user");
+
+            response.setHeader("jwt", jwt);
+
+            response.setHeader("user", user.getEmail());
+
+            return restResponse;
+        }
+
+        restResponse.setContent("invalid");
+
+        response.setStatus(Response.Status.FORBIDDEN.getStatusCode());
+
+        return restResponse;
+
+    }
+
+    /**
      * Validate user based on the JWT Token
      * @param request
      * @param response

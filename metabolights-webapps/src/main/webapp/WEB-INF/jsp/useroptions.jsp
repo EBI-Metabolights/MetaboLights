@@ -29,6 +29,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
 
 <sec:authorize ifAnyGranted="ROLE_SUBMITTER">
+    <sec:authentication var="token" property="principal.apiToken" />
     <div class="container">
         <br><br>
         <div class="panel panel-info">
@@ -38,7 +39,7 @@
                 <div class="col-md-12">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <a target="_blank" href="<spring:url value="labs"/>" class="btn btn-default btn-md form-control ml--noborder">
+                            <a target="_blank" id="labsLink" class="btn btn-default btn-md form-control ml--noborder">
                                 <i class="fa fa-tachometer" aria-hidden="true"></i>&nbsp;
                                 <spring:message code="menu.myWorkspaceCap" />
                             </a>
@@ -73,6 +74,32 @@
             </div>
         </div>
     </div>
+    <script>
+        $(function () {
+            var token = {
+                token : "<c:out value="${token}"/>"
+            }
+            $('#labsLink').on('click', function () {
+                $.ajax({
+                    url: '/metabolights/webservice/labs/authenticateToken',
+                    type: 'post',
+                    contentType: "application/json",
+                    data: JSON.stringify(token),
+                    success: function (data, textStatus, response) {
+                        var jwt = response.getResponseHeader('jwt');
+                        var user = response.getResponseHeader('user');
+                        localStorage.setItem('jwt', jwt);
+                        localStorage.setItem('user', user);
+                        window.location.href = "/metabolights/labs";
+                    },
+                    error: function (request, status, error) {
+                        alert(request.responseText);
+                    }
+                });
+            });
+        });
+
+    </script>
 </sec:authorize>
 <br><br>
 <sec:authorize ifAnyGranted="ROLE_SUPER_USER">
