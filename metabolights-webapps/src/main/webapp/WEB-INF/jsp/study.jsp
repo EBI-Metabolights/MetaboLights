@@ -162,7 +162,7 @@
                     <%-- &nbsp;|&nbsp;
                     <a href="${pageContext.request.contextPath}/beta/${study.studyIdentifier}" class="icon icon-generic" data-icon="&lt;">BETA</a> --%>
                     <c:if test="${userHasEditRights eq true}">
-                        &nbsp;|&nbsp; <a href="studyeditor?studyId=${liteStudy.studyIdentifier}"><i class="fa fa-pencil"></i> &nbsp;Quick edit</a>
+                        &nbsp;|&nbsp; <a href="${pageContext.request.contextPath}/studyeditor?studyId=${liteStudy.studyIdentifier}"><i class="fa fa-pencil"></i> &nbsp;Quick edit</a>
                     </c:if>
 
                 </div>
