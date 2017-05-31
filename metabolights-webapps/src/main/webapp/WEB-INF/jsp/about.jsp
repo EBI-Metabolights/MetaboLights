@@ -86,7 +86,7 @@
                         Licensing
                     </div>
                     <div class="panel-body">
-                        All <a href="https://github.com/EBI-Metabolights" target="_blank">code</a> is licensed under <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a> and all data is governed by the standard EBI <a href="http://www.ebi.ac.uk/about/terms-of-use" target="_blank">Terms of use</a>
+                        All data is governed by the EMBL-EBI's <a href="http://www.ebi.ac.uk/about/terms-of-use" target="_blank">Terms of use</a> and all <a href="https://github.com/EBI-Metabolights" target="_blank">code</a> is licensed under <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a>.
                     </div>
                 </div>
             </div>
