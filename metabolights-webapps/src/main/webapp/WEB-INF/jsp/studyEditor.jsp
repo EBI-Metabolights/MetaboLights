@@ -31,16 +31,17 @@
 </script>
 
 <%--Loading study editor for ${studyId}...--%>
-
-<div class="container" style="background-color: #e6e6e6">
+<%--// style="background-color: #e6e6e6"--%>
+<div class="container">
     <div class="row">
+        <isa-json-editor studyID="${studyId}"></isa-json-editor>
         <%--<ml-study-editor studyID="${studyId}" apiToken="${apiToken}"></ml-study-editor>--%>
         <%--<ml-study-editor studyID="${studyId}"></ml-study-editor>--%>
-            <isa-json-editor studyID="MTBLS100"></isa-json-editor>
     </div>
+    <%--<br>--%>
     <div class="row">
-        <div><a href="${pageContext.request.contextPath}/${studyId}" class="btn btn-primary btn-block"
-                role="button">Back to ${studyId}</a></div>
+        <div><a href="${pageContext.request.contextPath}/${studyId}" class="btn btn-primary pull-left"
+                role="button"><span style="color:white;"><< Back to ${studyId}</span></a></div>
     </div>
 </div>
 
@@ -50,10 +51,16 @@
 <%--<script type="text/javascript" src="vendor.298e93e19050483cd5f3.bundle.js"></script>--%>
 <%--<script type="text/javascript" src="main.c9f6acd0cf0fb6e8cc6c.bundle.js"></script>--%>
 
-<script type="text/javascript" src="inline.e9f1b3da6118c9c85b20.bundle.js"></script>
+<script type="text/javascript" src="inline.9e677b8024d572f15e31.bundle.js"></script>
 <script type="text/javascript" src="polyfills.63929c2b04758c996018.bundle.js"></script>
-<script type="text/javascript" src="vendor.5ed63ffea66e3e006cb6.bundle.js"></script>
-<script type="text/javascript" src="main.03cab097066535f7385b.bundle.js"></script>
+<script type="text/javascript" src="vendor.7e6a69c84c03fbb88920.bundle.js"></script>
+<script type="text/javascript" src="main.c20dd6d35c99c447715f.bundle.js"></script>
+
+
+
+
+
+
 
 
 
