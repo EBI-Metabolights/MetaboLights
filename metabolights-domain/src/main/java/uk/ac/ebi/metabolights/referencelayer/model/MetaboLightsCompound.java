@@ -40,6 +40,9 @@ public class MetaboLightsCompound extends Entity {
     // Standard inchi of the compound
     private String inchi;
 
+    // Standard inchikey of the compound
+    private String inchikey;
+
     // ChEBI id
     private String chebiId;
 
@@ -132,6 +135,20 @@ public class MetaboLightsCompound extends Entity {
     }
 
     /**
+     * @return the inchikey
+     */
+    public String getInchikey() {
+        return inchikey;
+    }
+
+    /**
+     * @param inchikey the inchikey to set
+     */
+    public void setInchikey(String inchikey) {
+        this.inchikey = inchikey;
+    }
+
+    /**
      * @return the inchi
      */
     public String getInchi() {
@@ -144,6 +161,7 @@ public class MetaboLightsCompound extends Entity {
     public void setInchi(String inchi) {
         this.inchi = inchi;
     }
+
     /**
      * @return the chebiId
      */

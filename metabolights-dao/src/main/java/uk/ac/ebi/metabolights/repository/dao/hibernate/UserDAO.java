@@ -42,7 +42,7 @@ public class UserDAO extends DAO <User,UserData>{
 	};
 
 	/**
-	 * Find a user by means of the user tokken.
+	 * Find a user by means of the user token.
 	 * @param userToken
 	 */
 	public User findByToken(String userToken) throws DAOException {

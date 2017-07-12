@@ -332,14 +332,13 @@ public class ReferenceLayerImporter {
 	private int chebiEntity2Metabolights(Entity entity) throws DAOException, IOException {
 
 		// If the entity has no structure
-		if (entity.getSmiles()== null){
+		if (entity.getSmiles() == null){
 			return 0;
 		}
 
 		try {
 
 			String accession = MetaboLightsCompoundDAO.chebiID2MetaboLightsID(entity.getChebiId());
-
 
 			// Check if we have already the Metabolite (since querying the WS is what takes more...)
 			MetaboLightsCompound mc = mcd.findByCompoundAccession(accession);
@@ -381,6 +380,7 @@ public class ReferenceLayerImporter {
 
 			mc.setDescription(entity.getDefinition());
 			mc.setInchi(entity.getInchi());
+			mc.setInchikey(entity.getInchiKey());
 			mc.setFormula(extractFormula(entity.getFormulae()));
 			mc.setIupacNames(extractIupacNames(entity.getIupacNames()));
 
