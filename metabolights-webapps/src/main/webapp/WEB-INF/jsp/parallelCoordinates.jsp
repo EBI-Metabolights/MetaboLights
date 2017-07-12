@@ -23,113 +23,51 @@
   ~
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
-
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.13/d3.min.js"></script>
-<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
-<script src="${pageContext.request.contextPath}/javascript/nv.d3.js"></script>
-<script src="${pageContext.request.contextPath}/javascript/d3.parcoords.js"></script>
-<script src="${pageContext.request.contextPath}/javascript/divgrid.js"></script>
-
-
 <style>
-    #PContainer a:hover {
-        color: #f1f1f4 !important;
-        cursor: pointer;
-    }
-
-    #downloadList a:hover {
-        color: #000 !important;
-        cursor: pointer;
-    }
-
-    #example {
-        min-height: 500px;
-        margin: 12px 0;
-    }
-
-    .highlight {
-        background-color: transparent !important;
-        color: inherit;
-    }
-
-    pre {
-        color: #444;
-        font-family: Ubuntu Mono, Monaco, monospace;
-        padding: 4px 8px;
-        background: #f2f2f2;
-        border: 1px solid #ccc;
-    }
-    h1 small {
-        font-weight: normal;
-        font-size: 0.5em;
-    }
-    h3 {
-        margin-top: 40px;
-    }
-    .float {
-        float: left;
-    }
-    .centered {
-        text-align: center;
-    }
-    .hide {
-        display: none;
-    }
-    input {
-        font-size: 16px;
-    }
-
     /* data table styles */
     #grid { min-height: 40px; }
-    .row{ clear: left; font-size: 11px; padding: 10px;}
-    .header { clear: left; font-size: 11px}
-    .row:nth-child(odd) { background: rgba(0,0,0,0.05); }
-    .header { font-weight: bold; }
-    .cell { float: left; overflow: hidden; white-space: nowrap; width: 160px; height: 18px; }
-    .col-0 { width: 120px; }
-
-
-    /* parcoords styles */
-    .parcoords > svg, .parcoords > canvas {
-        font: 11px "Source Code Pro", Consolas, monaco, monospace;
+    /*.row{ clear: left; font-size: 11px; padding: 10px;}*/
+    /*.header { clear: left; font-size: 11px}*/
+    /*.row:nth-child(odd) { background: rgba(0,0,0,0.05); }*/
+    /*.header { font-weight: bold; }*/
+    .header .cell { text-transform: capitalize;  padding: 10px 10px; text-align: center}
+    .cell { float: left; overflow: hidden; white-space: nowrap; padding: 10px 10px; }
+    /*.col-0 { width: 120px; }*/
+    .table{
+        margin: 0;
+        margin-bottom: 0 !important;
+    }
+    th {
+        background-color: #8e8e8e;
+        color: #fff;
+    }
+    th, td {
+        border: #8e8e8e 0.3px solid !important;
+         vertical-align: middle;
+    }
+    .table-row:hover{
+        cursor: pointer;
+    }
+    .parcoords > canvas {
+        font: 14px sans-serif;
         position: absolute;
     }
     .parcoords > canvas {
         pointer-events: none;
     }
-
     .parcoords text.label {
         cursor: default;
-    }
-
-    .parcoords rect.background {
-        fill: transparent;
     }
     .parcoords rect.background:hover {
         fill: rgba(120,120,120,0.2);
     }
-    .parcoords .resize rect {
-        fill: rgba(0,0,0,0.1);
-    }
-    .parcoords rect.extent {
-        fill: rgba(255,255,255,0.25);
-        stroke: rgba(0,0,0,0.6);
-    }
-    .parcoords .axis line, .parcoords .axis path {
-        fill: none;
-        stroke: #454545;
-        shape-rendering: crispEdges;
-    }
     .parcoords canvas {
         opacity: 1;
-        -moz-transition: opacity 0.5s;
-        -webkit-transition: opacity 0.5s;
-        -o-transition: opacity 0.5s;
+        transition: opacity 0.3s;
+        -moz-transition: opacity 0.3s;
+        -webkit-transition: opacity 0.3s;
+        -o-transition: opacity 0.3s;
     }
     .parcoords canvas.faded {
         opacity: 0.25;
@@ -141,11 +79,24 @@
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
+        background-color: white;
+    }
+
+    .highlight {
+        background-color: transparent !important;
+        color: #000000;
+    }
+    .tableWrapper {
+        overflow-x: scroll;
     }
 
     .label {
         font-size: 10px;
         padding-left: 10px;
+    }
+
+    form{
+        padding: 0 !important;
     }
 
     .d3-tip {
@@ -158,74 +109,161 @@
         font-size: 0.8em;
     }
 
-    .header .cell{
-        text-transform: capitalize;
-        font-weight: bold;
-        color: #337AB7;
+    .warning-wrapper{
+        height: 40vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
-    .cell{
-        text-align: center;
+
+    #loading-wrapper{
+        height: 40vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+    .factorsListWrapper{
+        max-height: 600px;
+        min-height: 20px;
+        overflow-y: scroll;
     }
 </style>
-
-
 <div id="content" class="grid_24">
-    <div class="container-fluid">
-        <div id="PContainer">
-            <h3 class="text-center"><b><span id="studyId"></span></b> Parallel Coordinates</h3><br>
-            <div class="container">
-                <div class="well">
-                <div id="example" class="parcoords"></div>
+    <div class="container-fluid" id="parallelCoordinatesApp">
+        <div class="collapse" id="dataDoesntExist">
+           <div class="panel panel-default">
+               <div class="panel-heading">
+                   Parallel Coordinates
+               </div>
+               <div class="panel-body">
+                   <div class="warning-wrapper">
+                       <span>
+                           <h4 class="text-center">
+                               <i class="fa fa-warning"></i> {{ study }} parallel coordinates data doesnt exist
+                           </h4>
+                       </span>
+                   </div>
+               </div>
+           </div>
+        </div>
+        <div id="studyParallelCoordinates" class="row">
+            <div class="col-md-9">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Parallel Coordinates {{study}}<i><a style="cursor: pointer;" @click="reset" class="pull-right"><i class="fa fa-retweet" aria-hidden="true"></i> Reset</a></i>
+                    </div>
+                    <div class="panel-body">
+                        <div id="example" class="parcoords" style="width:100%;height:600px;">
+                            <div id="loading">
+                               <div id="loading-wrapper">
+                                   <h4 class="text-center">
+                                       <img src="/metabolights/img/beta_loading.gif" alt="Loading....">
+                                   </h4>
+                               </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Study factors list
+                    </div>
+                    <div class="panel-body">
+                        <div class="factorsListWrapper">
+                            <ul>
+                                <li v-if="key != 'files' && key != 'mafFile' && key != 'metabolites' && key != 'name' && key != 'id'" v-for="factor, key in pCoordData[0]">
+                                    {{ key }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Data Table <i><a id="resetPC" class="pull-right"><i class="fa fa-retweet" aria-hidden="true"></i> Reset</a></i></h3>
-                            </div>
-                            <div class="panel-body">
-                                <div id="grid"></div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Data Table</h3>
+                        </div>
+                        <div class="tableWrapper">
+                        <table id="grid" class="table table-bordered table-hover">
+                        </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="row">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                           <div class="row">
+                               <h3 class="panel-title">
+                                <span v-if="selectedFiles.length == rawFiles.length">
+                                    <a @click="selectAll" style="cursor: pointer"><i class="fa fa-toggle-on"></i></a>
+                                </span>
+                                   <span v-else>
+                                    <a @click="selectAll" style="cursor: pointer"><i class="fa fa-toggle-off"></i></a>
+                                </span>
+                                   &nbsp;Raw files
+                                   <div class="pull-right">
+                                       <a @click="download" style="cursor: pointer"><small><i class="fa fa-download"></i> Download files</small></a>
+                                   </div>
+                               </h3>
+                           </div>
+                        </div>
+                        <div  v-if="rawFiles.length > 0">
+                            <form id="downloadForm" :action="'/metabolights/'+ study +'/files/downloadSelFiles/'" method="post">
+                                <table class="table table-bordered table-condensed table-hover">
+                                <tr v-for="file, key in rawFiles">
+                                    <td>
+                                        <label>
+                                            <input :selected="selectedFiles[key] == file" v-model="selectedFiles" class="fileCheckbox" :value="file" name="file" type="checkbox">
+                                        </label>
+                                        <a :href="'/metabolights/' +study + '/files/' + file">{{ file }}</a>
+                                    </td>
+                                </tr>
+                                </table>
+                            </form>
+                        </div>
+                        <div v-else class="panel-body">
+                            No data available
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">MAFF files</h3>
+                        </div>
+                        <div class="tableWrapper">
+                            <table v-if="mafFiles.length > 0" class="table table-bordered table-condensed table-hover">
+                                <tr v-for="file in mafFiles">
+                                    <td><a>{{ file }}</a></td>
+                                </tr>
+                            </table>
+                            <div v-else class="panel-body">
+                                No data available
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Download raw data  <i><a id="selectAll" class="pull-right"><i class="fa fa-download" aria-hidden="true"></i></a></i></h3>
-                            </div>
-                            <div class="panel-body">
-                                <form id="download-form" method="post">
-                                    <input name="submit" id="downloadSelected" type="submit" class="btn btn-default form-control" value="<spring:message code="label.downloadSelectedFiles"/>"/>
-                                    <div class="clearfix">&nbsp;</div>
-                                    <table class="table table-bordered">
-                                        <tbody id="downloadList">
-                                        </tbody>
-                                    </table>
-                                </form>
-                            </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="row">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Metabolites</h3>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Metabolites Identified</h3>
-                            </div>
-                            <div class="panel-body">
-                                <ul class="list-group" id="metabolitesList">
-                                    <li class="list-group-item">No metabolites identified</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">MAF files</h3>
-                            </div>
-                            <div class="panel-body">
-                                <ul class="list-group" id="downloadMAFList">
-                                    <li class="list-group-item">No MAF files selected</li>
-                                </ul>
-                            </div>
+                        <table v-if="metabolites.length > 0" class="table table-bordered table-condensed table-hover">
+                            <tr  v-for="metabolite in metabolites">
+                                <td v-html="metabolite"></td>
+                            </tr>
+                        </table>
+                        <div v-else class="panel-body">
+                            No data available
                         </div>
                     </div>
                 </div>
@@ -234,11 +272,6 @@
         <div id="factorDistributionChart">
             <h4 class="text-center">Study Factors Distribution Chart</h4>
             <br>
-            <p class="text-center">
-                <span><span class="legend-field nmr">&emsp;</span>NMR</span>&emsp;
-                <span><span class="legend-field ms">&emsp;</span>MS</span>&emsp;
-                <span><span class="legend-field both">&emsp;</span>NMR & MS</span>
-            </p>
             <div class="container">
                 <hr>
                 <p class="text-center">
@@ -249,9 +282,9 @@
                         <option value="descending">Factors Descending</option>
                     </select>
                     &emsp;
-                    <label> <input type="radio" name="technology" value="NMR"> NMR</label>&emsp;
-                    <label> <input type="radio" name="technology" value="MS"> MS</label>&emsp;
-                    <label> <input type="radio" name="technology" value="both" checked> NMR & MS</label>
+                    <label> <span style="min-width: 20px; padding: 0 5px;" class="legend-field nmr"><input type="radio" name="technology" value="NMR"> NMR</span></label>&emsp;
+                    <label> <span style="min-width: 20px; color: #fff; margin-left: 10px; padding: 0 5px;" class="legend-field ms"><input type="radio" name="technology" value="MS"> MS</span></label>&emsp;
+                    <label> <span style="min-width: 20px; color: #fff; margin-left: 10px; padding: 0 5px;" class="legend-field both"><input type="radio" name="technology" value="both" checked> NMR & MS</span></label>
                 </p>
                 <br>
             </div>
@@ -261,333 +294,395 @@
         </div>
     </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script src="http://syntagmatic.github.io/parallel-coordinates/examples/lib/d3.svg.multibrush.js"></script>
+<script src="http://syntagmatic.github.io/parallel-coordinates/d3.parcoords.js"></script>
+<script src="https://unpkg.com/vue@2.3.4" type="application/javascript"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<script src="/metabolights/javascript/divgrid.js"></script>
 
-<script id="brushing">// quantitative colour scale
-
-    var data = [];
-
-    $( "#resetPC" ).click(function() {
-        loadPC();
-    });
-
-    var color = "#f00";
-
-    function getParameterByName(name, url) {
-        if (!url) {
-            url = window.location.href;
-        }
-        name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
-
-    var study = getParameterByName('study');
-
-    if (study == "" || study == undefined){
-
-        $("#PContainer").hide();
-
-        var data = [];
-
-        function draw(sortValue){
-            d3.selectAll("svg").remove();
-            d3.json('/metabolights/webservice/study/parallelCoordinatesData?study=""', function(error, jsonData) {
-
-                data = JSON.parse(jsonData.content);
-
-                filterValue = document.querySelector('input[name="technology"]:checked').value;
-
-                if(filterValue == 'NMR'){
-                    data = data.filter(function (entry) {
-                        return entry.Technology.indexOf("NMR spectroscopy") > -1;
-                    });
-                }else if(filterValue == "MS"){
-                    data  = data.filter(function(entry){
-                        return entry.Technology.indexOf("mass spectrometry") > -1;
-                    });
-                }
-
-                if(sortValue == "studyId"){
-                    data.sort(function(x, y){
-                        return d3.descending(parseInt(x.Study.replace("MTBLS", "")),parseInt(y.Study.replace("MTBLS", "")));
-                    });
-                }else if(sortValue == "ascending"){
-                    data.sort(function(x, y){
-                        return d3.descending(x.TotalFactors,y.TotalFactors);
-                    });
+<script>
+    var app = new Vue({
+        el: '#parallelCoordinatesApp',
+        data: {
+            study: null,
+            pCoordData: [],
+            rawFiles: [],
+            mafFiles: [],
+            metabolites: [],
+            selectedFiles: []
+        },
+        mounted: function() {
+            this.getParameterByName('study');
+        },
+        methods: {
+            download: function () {
+                if(this.selectedFiles.length > 0 ) {
+                    document.getElementById("downloadForm").submit();
                 }else{
-                    data.sort(function(x, y){
-                        return d3.ascending(x.TotalFactors,y.TotalFactors);
-                    });
+                    alert("Please select the files to download");
+                }
+            },
+            selectAll: function(){
+                if(this.selectedFiles.length == this.rawFiles.length){
+                    this.selectedFiles = [];
+                }else{
+                    this.selectedFiles = this.rawFiles;
+                }
+            },
+            reset:function(){
+                this.loadParallelCoordinates();
+            },
+            getParameterByName: function(name, url) {
+                if (!url) {
+                    url = window.location.href;
+                }
+                name = name.replace(/[\[\]]/g, "\\$&");
+                var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                    results = regex.exec(url);
+
+                if (results){
+                    this.study = decodeURIComponent(results[2].replace(/\+/g, " "));
+                    if (this.study){
+                        $("#factorDistributionChart").hide();
+                        this.loadParallelCoordinates();
+                    }
+                }else{
+                    this.loadBarChart();
                 }
 
-                //set up svg using margin conventions - we'll need plenty of room on the left for labels
-                var margin = {
-                    top: -90,
-                    right: 25,
-                    bottom: -90,
-                    left: 100
-                };
+            },
 
-                var width = 960 - margin.left - margin.right,
-                    height = (data.length * 20) - margin.top - margin.bottom;
+            loadBarChart: function(){
+                $("#studyParallelCoordinates").hide();
 
-                var svg = d3.select("#graphic").append("svg")
-                    .attr("width", width + margin.left + margin.right)
-                    .attr("height", height + margin.top + margin.bottom)
-                    .append("g")
-                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                var data = [];
 
-                var tip = d3.tip()
-                    .attr('class', 'd3-tip')
-                    .offset([-10, 0])
-                    .html(function(d) {
-                        var tempString = "";
-                        for (var key in d.Factors){
-                            tempString =  tempString + "<span style='color:red; padding: 10px 0'>" + key + "</span><small style='color:#f1f1f4;'> " + d.Factors[key]['values'] + "</small><br>"
+                function draw(sortValue){
+                    d3.selectAll("svg").remove();
+                    d3.json('/metabolights/webservice/study/parallelCoordinatesData?study=""', function(error, jsonData) {
+
+                        data = JSON.parse(jsonData.content);
+
+                        filterValue = document.querySelector('input[name="technology"]:checked').value;
+
+                        if(filterValue == 'NMR'){
+                            data = data.filter(function (entry) {
+                                return entry.Technology.indexOf("NMR spectroscopy") > -1;
+                            });
+                        }else if(filterValue == "MS"){
+                            data  = data.filter(function(entry){
+                                return entry.Technology.indexOf("mass spectrometry") > -1;
+                            });
                         }
-                        return "<strong>" + d.Study + "&nbsp;Factors:</strong><br><br>" + tempString;
-                    })
 
-                tip.direction('e')
-
-                svg.call(tip);
-
-                var x = d3.scale.linear()
-                    .range([0, width])
-                    .domain([0, d3.max(data, function (d) {
-                        return d.TotalFactors;
-                    })]);
-
-                var y = d3.scale.ordinal()
-                    .rangeRoundBands([height, 0], .1)
-                    .domain(data.map(function (d) {
-                        return d.Study;
-                    }));
-
-                //make y axis to show bar names
-                var yAxis = d3.svg.axis()
-                    .scale(y)
-                    .tickSize(0)
-                    .orient("left");
-
-
-                var gy = svg.append("g")
-                    .attr("class", "y axis")
-                    .call(yAxis)
-                    .attr("transform", "translate(-10,0)");
-
-                var bars = svg.selectAll(".bar")
-                    .data(data)
-                    .enter()
-                    .append("g")
-
-                //append rects
-                bars.append("rect")
-                    .attr("y", function (d) {
-                        return y(d.Study);
-                    })
-                    .attr("fill", function(d) {
-                        if ((d.Technology).indexOf("NMR spectroscopy") > -1 && ((d.Technology).indexOf("mass spectrometry") > -1)) {
-                            return "#fe446d";
-                        } else if(((d.Technology).indexOf("NMR spectroscopy") > -1)){
-                            return "#FFB520";
+                        if(sortValue == "studyId"){
+                            data.sort(function(x, y){
+                                return d3.descending(parseInt(x.Study.replace("MTBLS", "")),parseInt(y.Study.replace("MTBLS", "")));
+                            });
+                        }else if(sortValue == "ascending"){
+                            data.sort(function(x, y){
+                                return d3.descending(x.TotalFactors,y.TotalFactors);
+                            });
                         }else{
-                            return "#216BD6";
+                            data.sort(function(x, y){
+                                return d3.ascending(x.TotalFactors,y.TotalFactors);
+                            });
                         }
-                    })
-                    .attr("height", y.rangeBand())
-                    .attr("x", 0)
-                    .attr("width", function (d) {
-                        return x(d.TotalFactors);
-                    })
-                    .style("cursor", "pointer")
-                    .on("click", function(d){
-                        var win = window.open("/metabolights/parallelCoordinates?study=" + d.Study);
-                        win.focus();
-                    })
-                    .on('mouseover', tip.show)
-                    .on('mouseout', tip.hide)
 
-                //add a value label to the right of each bar
-                bars.append("text")
-                    .attr("class", "label")
-                    //y position of the label is halfway down the bar
-                    .attr("y", function (d) {
-                        return y(d.Study) + y.rangeBand() / 2 + 4;
-                    })
-                    //x position is 3 pixels to the right of the bar
-                    .attr("x", function (d) {
-                        return x(d.TotalFactors) + 3;
-                    })
-                    .html(function (d) {
-                        return d.TotalFactors;
+                        //set up svg using margin conventions - we'll need plenty of room on the left for labels
+                        var margin = {
+                            top: -90,
+                            right: 25,
+                            bottom: -90,
+                            left: 100
+                        };
+
+                        var width = 960 - margin.left - margin.right,
+                            height = (data.length * 20) - margin.top - margin.bottom;
+
+                        var svg = d3.select("#graphic").append("svg")
+                            .attr("width", width + margin.left + margin.right)
+                            .attr("height", height + margin.top + margin.bottom)
+                            .append("g")
+                            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+                        var tip = d3.tip()
+                            .attr('class', 'd3-tip')
+                            .offset([-10, 0])
+                            .html(function(d) {
+                                var tempString = "";
+                                for (var key in d.Factors){
+                                    tempString =  tempString + "<span style='color:red; padding: 10px 0'>" + key + "</span><small style='color:#f1f1f4;'> " + d.Factors[key]['values'] + "</small><br>"
+                                }
+                                return "<strong>" + d.Study + "&nbsp;Factors:</strong><br><br>" + tempString;
+                            })
+
+                        tip.direction('e')
+
+                        svg.call(tip);
+
+                        var x = d3.scale.linear()
+                            .range([0, width])
+                            .domain([0, d3.max(data, function (d) {
+                                return d.TotalFactors;
+                            })]);
+
+                        var y = d3.scale.ordinal()
+                            .rangeRoundBands([height, 0], .1)
+                            .domain(data.map(function (d) {
+                                return d.Study;
+                            }));
+
+                        //make y axis to show bar names
+                        var yAxis = d3.svg.axis()
+                            .scale(y)
+                            .tickSize(0)
+                            .orient("left");
+
+
+                        var gy = svg.append("g")
+                            .attr("class", "y axis")
+                            .call(yAxis)
+                            .attr("transform", "translate(-10,0)");
+
+                        var bars = svg.selectAll(".bar")
+                            .data(data)
+                            .enter()
+                            .append("g")
+
+                        //append rects
+                        bars.append("rect")
+                            .attr("y", function (d) {
+                                return y(d.Study);
+                            })
+                            .attr("fill", function(d) {
+                                if ((d.Technology).indexOf("NMR spectroscopy") > -1 && ((d.Technology).indexOf("mass spectrometry") > -1)) {
+                                    return "#fe446d";
+                                } else if(((d.Technology).indexOf("NMR spectroscopy") > -1)){
+                                    return "#FFB520";
+                                }else{
+                                    return "#216BD6";
+                                }
+                            })
+                            .attr("height", y.rangeBand())
+                            .attr("x", 0)
+                            .attr("width", function (d) {
+                                return x(d.TotalFactors);
+                            })
+                            .style("cursor", "pointer")
+                            .on("click", function(d){
+                                var win = window.open("/metabolights/parallelCoordinates?study=" + d.Study);
+                                win.focus();
+                            })
+                            .on('mouseover', tip.show)
+                            .on('mouseout', tip.hide)
+
+                        //add a value label to the right of each bar
+                        bars.append("text")
+                            .attr("class", "label")
+                            //y position of the label is halfway down the bar
+                            .attr("y", function (d) {
+                                return y(d.Study) + y.rangeBand() / 2 + 4;
+                            })
+                            //x position is 3 pixels to the right of the bar
+                            .attr("x", function (d) {
+                                return x(d.TotalFactors) + 3;
+                            })
+                            .html(function (d) {
+                                return d.TotalFactors;
+                            });
+
+                    });
+                }
+
+                d3.select("select").on("change", change);
+
+                d3.selectAll("input").on("change", change);
+
+                draw("studyId");
+
+                function change() {
+                    var e = document.getElementById("sortChart");
+                    var sortValue = e.options[e.selectedIndex].value;
+                    draw(sortValue);
+                }
+            },
+
+            loadParallelCoordinates: function(){
+
+                d3.selectAll("svg").remove();
+
+                var blue_to_brown = d3.scale.linear()
+                    .domain([9, 50])
+                    .range(["steelblue", "brown"])
+                    .interpolate(d3.interpolateLab);
+
+                var color = function(d) { return blue_to_brown(d['economy (mpg)']); };
+
+                var parcoords = d3.parcoords()("#example")
+                    .color(color)
+                    .alpha(0.4);
+
+                var that = this;
+
+                // load csv file and create the chart
+                d3.json('/metabolights/webservice/study/parallelCoordinatesData?study="' + this.study +'"', function(data) {
+
+                    if(data.content == ""){
+                        $("#studyParallelCoordinates").hide();
+                        $("#dataDoesntExist").toggle();
+                        return
+                    }
+
+                    $('#loading').empty();
+
+                    data = JSON.parse(data.content)
+
+                    that.pCoordData = data;
+
+                    var tempData = JSON.parse(JSON.stringify(data));
+
+                    that.getTheDownloadableFiles(tempData);
+
+                    tempData.forEach(function(v){ delete v.files });
+                    tempData.forEach(function(v){ delete v.mafFile });
+                    tempData.forEach(function(v){ delete v.metabolites });
+
+                    parcoords
+                        .data(tempData)
+                        .hideAxis(["name", "id"])
+                        .composite("darker")
+                        .render()
+                        .shadows()
+                        .reorderable()
+                        .color("rgba(0,200,0,0.5)")
+                        .brushMode("1D-axes-multi");  // enable brushing
+
+
+                    var grid = d3.divgrid();
+                    d3.select("#grid")
+                        .datum(tempData)
+                        .call(grid)
+                        .selectAll(".table-row")
+                        .on({
+                            "mouseover": function(d) { parcoords.highlight([d]); },
+                            "mouseout": parcoords.unhighlight
+                        });
+
+                    // update data table on brush event
+                    parcoords.on("brush", function(d) {
+                        that.getTheDownloadableFiles(d)
+                        d3.select("#grid")
+                            .datum(d)
+                            .call(grid)
+                            .selectAll(".table-row")
+                            .on({
+                                "mouseover": function(d) { parcoords.highlight([d]); },
+                                "mouseout": parcoords.unhighlight
+                            });
                     });
 
-            });
-        }
-
-        d3.select("select").on("change", change);
-
-        d3.selectAll("input").on("change", change);
-
-        draw("studyId");
-
-        function change() {
-            var e = document.getElementById("sortChart");
-            var sortValue = e.options[e.selectedIndex].value;
-            draw(sortValue);
-        }
-
-    }else{
-
-        $("#factorDistributionChart").hide();
-
-        $("#studyId").text(study);
-
-        d3.json('/metabolights/webservice/study/parallelCoordinatesData?study="'+study+'"', function(jsonData) {
-            data = JSON.parse(jsonData.content)
-
-            loadPC();
-
-            // $('#example').height(data.length * 15);
-        });
-
-    }
-
-    function loadPC(){
-
-        d3.selectAll("svg").remove();
-
-        var parcoords = d3.parcoords()("#example")
-            .color(color)
-            .alpha(0.7);
-
-
-
-        var tempData = JSON.parse(JSON.stringify(data));
-
-        tempData.forEach(function(v){ delete v.files });
-        tempData.forEach(function(v){ delete v.mafFile });
-        tempData.forEach(function(v){ delete v.metabolites });
-
-
-        getTheDownloadableFiles(tempData);
-
-        parcoords
-            .data(tempData)
-            .hideAxis(['id'])
-            .render()
-            .brushMode("1D-axes");  // enable brushing
-
-        parcoords.reorderable()
-
-        // create data table, row hover highlighting
-        var grid = d3.divgrid();
-        d3.select("#grid")
-            .datum(tempData)
-            .call(grid)
-            .selectAll(".row")
-            .on({
-                "mouseover": function(d) { parcoords.highlight([d]); },
-                "mouseout": parcoords.unhighlight
-            });
-
-        // update data table on brush event
-        parcoords.on("brush", function(d) {
-            getTheDownloadableFiles(d)
-            d3.select("#grid")
-                .datum(d)
-                .call(grid)
-                .selectAll(".row")
-                .on({
-                    "mouseover": function(d) { parcoords.highlight([d]); },
-                    "mouseout": parcoords.unhighlight
                 });
-        });
 
-    }
+                var sltBrushMode = d3.select('#sltBrushMode')
 
-    function getTheDownloadableFiles(d) {
-        var sortedRawFilesArray = []
-        d.forEach(function(m){
-            data.forEach(function (n) {
-                if (m.id == n.id){
-                    sortedRawFilesArray = sortedRawFilesArray.concat(n.files);
-                }
-            })
-        })
+                sltBrushMode.selectAll('option')
+                    .data(parcoords.brushModes())
+                    .enter()
+                    .append('option')
+                    .text(function(d) { return d; });
+
+                sltBrushMode.on('change', function() {
+                    parcoords.brushMode(this.value);
+                    switch(this.value) {
+                        case 'None':
+                            d3.select("#pStrums").style("visibility", "hidden");
+                            d3.select("#lblPredicate").style("visibility", "hidden");
+                            d3.select("#sltPredicate").style("visibility", "hidden");
+                            d3.select("#btnReset").style("visibility", "hidden");
+                            break;
+                        case '2D-strums':
+                            d3.select("#pStrums").style("visibility", "visible");
+                            break;
+                        default:
+                            d3.select("#pStrums").style("visibility", "hidden");
+                            d3.select("#lblPredicate").style("visibility", "visible");
+                            d3.select("#sltPredicate").style("visibility", "visible");
+                            d3.select("#btnReset").style("visibility", "visible");
+                            break;
+                    }
+                });
+            },
+
+            getTheDownloadableFiles: function (d) {
+
+                var that = this;
+                var sortedRawFilesArray = []
+                d.forEach(function(m){
+                    that.pCoordData.forEach(function (n) {
+                        if (m.id == n.id){
+                            sortedRawFilesArray = sortedRawFilesArray.concat(n.files);
+                        }
+                    })
+                })
 
 
+                this.rawFiles = this.unique(sortedRawFilesArray);
 
-        $("#download-form").attr("action", "/metabolights/"+study+"/files/downloadSelFiles/");
+                var sortedMAFFilesArray = []
+                d.forEach(function(m){
+                    that.pCoordData.forEach(function (n) {
+                        if (m.id == n.id){
+                            sortedMAFFilesArray = sortedMAFFilesArray.concat([n.mafFile]);
+                        }
+                    })
+                })
 
-        $("#downloadList").html("");
+                this.mafFiles = this.unique(sortedMAFFilesArray);
 
-        if(unique(sortedRawFilesArray).length > 0 ){
-            $('#downloadSelected').show();
-            unique(sortedRawFilesArray).forEach(function (f) {
-                $("#downloadList").append('<tr><td><span class="checkbox"><label><input class="fileCheckbox" type="checkbox" name="file" value="'+f+'"></label><a href="/metabolights/'+study+'/files/'+f+'">'+f+'</a></span></td></tr>');
-            });
-        }else{
-            $('#downloadSelected').hide();
-            $("#downloadList").append('<tr><td class="text-center">No raw files to download</td></tr>');
+
+                var sortedMetabolitesArray = []
+                d.forEach(function(m){
+                    that.pCoordData.forEach(function (n) {
+                        if (m.id == n.id){
+                            sortedMetabolitesArray = sortedMetabolitesArray.concat( n.metabolites );
+                        }
+                    })
+                })
+
+                this.metabolites = this.unique(sortedMetabolitesArray);
+
+                this.metabolites = this.annotateChEBIIds(this.metabolites);
+
+            },
+
+            annotateChEBIIds: function(metabolites) {
+                var annotatedMetabolites = []
+                metabolites.forEach(function (metabolite) {
+                    var ChEBIMatch = metabolite.match(/\(([^)]+)\)/);
+                    if (ChEBIMatch){
+                        var ChebiId = metabolite.match(/\(([^)]+)\)/)[1];
+                        if (ChebiId.indexOf("CHEBI") !== -1){
+                            annotatedMetabolites.push("<a target='_blank' href='https://www.ebi.ac.uk/chebi/searchId.do?chebiId="+ChebiId+"'>" + metabolite + "</a>");
+                        }else{
+                            annotatedMetabolites.push( metabolite );
+                        }
+                    }else{
+                        annotatedMetabolites.push( metabolite );
+                    }
+                })
+
+                return annotatedMetabolites;
+            },
+
+            unique: function(list) {
+                var result = [];
+                $.each(list, function(i, e) {
+                    if ($.inArray(e, result) == -1) result.push(e);
+                });
+                return result;
+            }
         }
-
-
-
-
-        var sortedMAFFilesArray = []
-        d.forEach(function(m){
-            data.forEach(function (n) {
-                if (m.id == n.id){
-                    sortedMAFFilesArray = sortedMAFFilesArray.concat([n.mafFile]);
-                }
-            })
-        })
-
-        $("#downloadMAFList").html("");
-
-        if(unique(sortedMAFFilesArray).length > 0 ) {
-            unique(sortedMAFFilesArray).forEach(function (f) {
-                $("#downloadMAFList").append('<li class="list-group-item"><a href="/metabolights/' + study + '/files/' + f + '">' + f + '</a></li>');
-            })
-        }else{
-            $("#downloadMAFList").append('<li class="list-group-item">No MAF files selected</li>');
-        }
-
-
-        var sortedMetabolitesArray = []
-        d.forEach(function(m){
-            data.forEach(function (n) {
-                if (m.id == n.id){
-                    sortedMetabolitesArray = sortedMetabolitesArray.concat(n.metabolites);
-                }
-            })
-        })
-
-        $("#metabolitesList").html("");
-        if(unique(sortedMetabolitesArray).length > 0 ) {
-            unique(sortedMetabolitesArray).forEach(function (f) {
-                $("#metabolitesList").append('<li class="list-group-item">' + f + '</li>');
-            })
-        }else{
-            $("#metabolitesList").append('<li class="list-group-item">No Metabolites</li>');
-        }
-    }
-
-function unique(list) {
-    var result = [];
-    $.each(list, function(i, e) {
-        if ($.inArray(e, result) == -1) result.push(e);
-    });
-    return result;
-}
-
-
+    })
 </script>

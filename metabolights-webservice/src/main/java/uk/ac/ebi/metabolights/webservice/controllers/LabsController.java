@@ -188,7 +188,7 @@ public class LabsController extends BasicController{
 
         User user = usi.lookupByToken(token);
 
-        if (user != null){
+        if (user.getEmail() != null){
 
             JwtClaims claims = new JwtClaims();
             claims.setSubject(user.getEmail());
@@ -230,6 +230,7 @@ public class LabsController extends BasicController{
             response.setHeader("user", user.getEmail());
 
             return restResponse;
+
         }
 
         restResponse.setContent("invalid");
