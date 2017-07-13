@@ -115,12 +115,20 @@ public class MLLWorkSpace {
                 MLLWorkSpace tempMllWorkSpace = mapper.readValue(json, MLLWorkSpace.class);
 
                 this.Owner = tempMllWorkSpace.getOwner();
+
+                if(this.Owner == null){
+
+                    this.Owner = new MLLUser(mlOwner);
+
+                    this.save();
+
+                }
+
                 this.CreatedAt = tempMllWorkSpace.getCreatedAt();
                 this.WorkspaceLocation = tempMllWorkSpace.getWorkspaceLocation();
                 this.UpdatedAt = tempMllWorkSpace.getUpdatedAt();
-                this.Projects = tempMllWorkSpace.getProjects();
                 this.Settings = tempMllWorkSpace.getSettings();
-
+                this.Projects = tempMllWorkSpace.getProjects();
 
             } catch (IOException e) {
 

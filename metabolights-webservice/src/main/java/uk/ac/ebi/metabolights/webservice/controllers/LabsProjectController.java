@@ -1,6 +1,9 @@
 package uk.ac.ebi.metabolights.webservice.controllers;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import org.jose4j.json.internal.json_simple.parser.JSONParser;
@@ -191,15 +194,18 @@ public class LabsProjectController {
 
         String root = PropertiesUtil.getProperty("userSpace");
 
-        MetaboLightsLabsProjectDAO metaboLightsLabsProjectDAO = new MetaboLightsLabsProjectDAO(user, projectId, root );
 
-        MLLProject mllProject = metaboLightsLabsProjectDAO.getMllProject();
+        MLLWorkSpace mllWorkSpace = new MLLWorkSpace(user, root);
+
+        MLLProject mllProject = mllWorkSpace.getProject(projectId);
 
         mllProject.setTitle(title);
 
         mllProject.setDescription(description);
 
         mllProject.save();
+
+        mllWorkSpace.appendOrUpdateProject(mllProject);
 
         restResponse.setContent(mllProject.getAsJSON());
 
@@ -291,6 +297,105 @@ public class LabsProjectController {
         restResponse.setContent(mllProject.getAsJSON());
 
         return restResponse;
+
+    }
+
+
+    /**
+     * Submit mzml2isa conversion jobs
+     * @param data
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "convertMzml2isa", method = RequestMethod.POST)
+    public RestResponse<String> convertMzML2isa(@RequestBody String data, HttpServletRequest request, HttpServletResponse response){
+
+        RestResponse<String> restResponse = new RestResponse<String>();
+
+        User user = SecurityUtil.validateJWTToken(data);
+
+        if(user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
+
+            restResponse.setContent("invalid");
+
+            response.setStatus(403);
+
+            return restResponse;
+
+        }
+
+        JSONObject serverRequest = SecurityUtil.parseRequest(data);
+
+        String projectId = (String) serverRequest.get("id");
+
+        String root = PropertiesUtil.getProperty("userSpace");
+
+        MetaboLightsLabsProjectDAO metaboLightsLabsProjectDAO = new MetaboLightsLabsProjectDAO(user, projectId, root );
+
+        MLLProject mllProject = metaboLightsLabsProjectDAO.getMllProject();
+
+        JSONParser parser = new JSONParser();
+
+        JSONObject settings= SecurityUtil.parseRequest(mllProject.getSettings());
+
+        if (settings.get("jobs") == null || settings == null){
+
+            String[] commands = {"ssh", "ebi-004", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_mzml2isa.sh --token " + user.getApiToken() + " --project " + mllProject.getId() + " --env dev "};
+
+            restResponse.setContent(executeCommand(commands));
+
+        }else{
+
+            String[] commands = {"ssh", "ebi-004", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_mzml2isa.sh --token " + user.getApiToken() + " --project " + mllProject.getId() + " --env dev " + "--job " + settings.get("jobs") };
+
+            restResponse.setContent(executeCommand(commands));
+
+        }
+
+        return restResponse;
+    }
+
+    private String executeCommand(String[] commands){
+
+        String s;
+        Process p;
+
+        StringBuilder sb = null;
+
+        try {
+            p = Runtime.getRuntime().exec(commands);
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader(p.getInputStream()));
+            sb = new StringBuilder();
+            while ((s = br.readLine()) != null) {
+                logger.info("line: " + s);
+                sb.append(s);
+            }
+            p.waitFor();
+
+            BufferedReader stdError = new BufferedReader(new
+                    InputStreamReader(p.getErrorStream()));
+
+            while ((s = stdError.readLine()) != null) {
+                logger.error("line: " + s);
+            }
+
+            logger.error("exit: " + p.exitValue());
+            p.destroy();
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        } catch (InterruptedException e) {
+
+            e.printStackTrace();
+
+        }
+
+
+        return sb.toString();
 
     }
 

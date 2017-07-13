@@ -31,7 +31,6 @@
 <script type="text/javascript" src="javascript/jquery-highlight.js"></script>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
 
@@ -246,7 +245,6 @@
 </div>
 
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <%--<c:if test="${empty searchResponses}">--%>
 <%--<script>$("body").addClass("noresults")</script>--%>
 <%--<section class="grid_16 alpha">--%>

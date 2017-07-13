@@ -65,7 +65,19 @@ public class LabsWorkspaceController {
 
         }
 
-        restResponse.setContent(getWorkspaceInfo(user).getAsJSON());
+        MLLWorkSpace mllWorkSpace = getWorkspaceInfo(user);
+
+        String asperaUser = PropertiesUtil.getProperty("asperaUser");
+
+        String asperaSecret = PropertiesUtil.getProperty("asperaSecret");
+
+        for ( MLLProject project : mllWorkSpace.getProjects() ) {
+
+            project.setAsperaSettings("{ \"asperaURL\" : \""+ user.getApiToken() + File.separator + project.getId() + "\", \"asperaUser\" : \""+ asperaUser + "\",  \"asperaServer\" : \"ah01.ebi.ac.uk\", \"asperaSecret\" :  \""+ asperaSecret + "\" }");
+
+        }
+
+        restResponse.setContent(mllWorkSpace.getAsJSON());
 
         response.setHeader("Access-Control-Allow-Origin", "*");
 
@@ -175,7 +187,6 @@ public class LabsWorkspaceController {
 
         }
 
-
         MLLWorkSpace mllWorkSpace = getWorkspaceInfo(user);
 
         if (mllWorkSpace == null) {
@@ -187,6 +198,11 @@ public class LabsWorkspaceController {
             return restResponse;
 
         }
+
+        String asperaUser = PropertiesUtil.getProperty("asperaUser");
+
+        String asperaSecret = PropertiesUtil.getProperty("asperaSecret");
+
 
         logger.info("Checking if a project with the give projectId exists");
         logger.info("Checking if a project is not null or empty");
@@ -201,7 +217,7 @@ public class LabsWorkspaceController {
 
                     MLLProject mllProject = mllWorkSpace.getProject(projectId);
 
-                    mllProject.setAsperaSettings("{ \"asperaURL\" : \""+ mllWorkSpace.getOwner().getApiToken() + File.separator + mllProject.getId() + "\", \"asperaUser\" : \"\",  \"asperaServer\" : \"ah01.ebi.ac.uk\", \"asperaSecret\" :  \"\" }");
+                    mllProject.setAsperaSettings("{ \"asperaURL\" : \""+ mllWorkSpace.getOwner().getApiToken() + File.separator + mllProject.getId() + "\", \"asperaUser\" : \""+ asperaUser + "\",  \"asperaServer\" : \"ah01.ebi.ac.uk\", \"asperaSecret\" :  \""+ asperaSecret + "\" }");
 
                     restResponse.setContent(mllProject.getAsperaSettings());
 
@@ -216,7 +232,7 @@ public class LabsWorkspaceController {
 
             MLLProject mllProject = (new MetaboLightsLabsProjectDAO(mllWorkSpace)).getMllProject();
 
-            mllProject.setAsperaSettings("{ \"asperaURL\" : \""+ mllWorkSpace.getOwner().getApiToken() + File.separator + mllProject.getId() + "\", \"asperaUser\" : \"\",  \"asperaServer\" : \"ah01.ebi.ac.uk\", \"asperaSecret\" :  \"\" }");
+            mllProject.setAsperaSettings("{ \"asperaURL\" : \""+ mllWorkSpace.getOwner().getApiToken() + File.separator + mllProject.getId() + "\", \"asperaUser\" : \""+ asperaUser + "\",  \"asperaServer\" : \"ah01.ebi.ac.uk\", \"asperaSecret\" :  \""+ asperaSecret + "\" }");
 
             restResponse.setContent(mllProject.getAsperaSettings());
 
