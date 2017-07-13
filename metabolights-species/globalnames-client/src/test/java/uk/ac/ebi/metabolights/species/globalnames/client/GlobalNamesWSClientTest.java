@@ -47,7 +47,7 @@ public class GlobalNamesWSClientTest {
 		// Expected result....
 		// http://resolver.globalnames.org/name_resolvers.json?names=Isaria%20sinclairii&data_source_ids=5
 
-		GlobalNamesResponse response =  client.resolveName(ISARIA_SINCLAIRII, GlobalNamesSources.Index_Fungorum);
+		GlobalNamesResponse response = client.resolveName(ISARIA_SINCLAIRII, GlobalNamesSources.Index_Fungorum);
 
 
 		//assertEquals("Datasources must be 1" , 1, response.getData_sources().size());
