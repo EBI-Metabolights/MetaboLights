@@ -42,7 +42,8 @@ insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', 
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', ' - in Curation', count(*), 4 from studies where status = 1;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', ' - in Submission', count(*), 5 from studies where status = 0;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', ' - Dormant', count(*), 6 from studies where status = 4;
-insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Different organisms', count(*), 7 from ref_species where final_id is null and species_member is not null;
+--insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Different organisms', count(*), 7 from ref_species where final_id is null and species_member is not null;
+insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Different organisms', count(*), 7 from ref_species where final_id is null;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Reference compounds', count(*), 8 from ref_metabolite;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data','Total study size (TB)', round(sum(studysize)/1024/1024/1024,1), 9 from studies;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data','- Max study size (TB)', round(max(studysize)/1024/1024/1024,1), 10 from studies;

@@ -108,11 +108,14 @@ public class AssayValidations implements IValidationProcess {
             List<String> fileFields = getFileFieldsExceptMAFFrom(assay.getAssayTable().getFields());
             List<String> fileColumnsThatAreEmpty = new ArrayList<>();
             for (String fileField : fileFields) {
-                if (!thisFileColumnHasFilesReferenced(fileField, assay.getAssayTable().getData())) {
-                    fileColumnsThatAreEmpty.add(fileField);
+                if (Utilities.getfieldName(fileField).equalsIgnoreCase("free induction decay data file") ||
+                        Utilities.getfieldName(fileField).equalsIgnoreCase("raw spectral data file")) {
+                    if (!thisFileColumnHasFilesReferenced(fileField, assay.getAssayTable().getData())) {
+                        fileColumnsThatAreEmpty.add(fileField);
+                    }
                 }
             }
-            if (fileColumnsThatAreEmpty.size() == fileFields.size()) {
+            if (fileColumnsThatAreEmpty.size() > 0) {
                 validation.setPassedRequirement(false);
                 validation.setMessage(getErrMessage(assay, fileColumnsThatAreEmpty));
                 return validation;
@@ -138,8 +141,12 @@ public class AssayValidations implements IValidationProcess {
         List<String> rawFileFields = new ArrayList<String>();
         if(!fileFields.isEmpty()){
               for(String fileField : fileFields){
-                  if(!Utilities.getfieldName(fileField).equalsIgnoreCase("derived spectral data file")){
-                     rawFileFields.add(fileField);
+//                  if(!Utilities.getfieldName(fileField).equalsIgnoreCase("derived spectral data file")){
+//                     rawFileFields.add(fileField);
+//                  }
+                  if(Utilities.getfieldName(fileField).equalsIgnoreCase("free induction decay data file")
+                          || Utilities.getfieldName(fileField).equalsIgnoreCase("raw spectral data file") ){
+                      rawFileFields.add(fileField);
                   }
               }
         }
@@ -227,7 +234,7 @@ public class AssayValidations implements IValidationProcess {
 
     private static List<String> filesThatHasnoPhysicalReference(List<String> allFilesList, List<Assay> assays) {
         List<String> noPhysicalReference = new ArrayList<>();
-        HashSet<String> filesThatAreReferencedInAssays = getFilesThatAreReferencedInAssays(assays, false);
+        HashSet<String> filesThatAreReferencedInAssays = getFilesThatAreReferencedInAssays(assays, true);
         for (String uniqueFileName : filesThatAreReferencedInAssays) {
             if (!Utilities.match(uniqueFileName, allFilesList)) {
                 noPhysicalReference.add(uniqueFileName);

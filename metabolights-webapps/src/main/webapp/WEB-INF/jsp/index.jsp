@@ -39,8 +39,6 @@
 <%--});--%>
 
 <%--</script>--%>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" />
-
 <br/>
 <div class="container-fluid">
     <div class ="row">
@@ -115,8 +113,8 @@
     </div>
 </c:if>
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script src="https://raw.githubusercontent.com/flatlogic/bootstrap-tabcollapse/master/bootstrap-tabcollapse.js"></script>
+
+<%--<script type="application/javascript" src="https://raw.githubusercontent.com/flatlogic/bootstrap-tabcollapse/master/bootstrap-tabcollapse.js"></script>--%>
 
 <script>
     $(function() {

@@ -26,8 +26,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.ac.ebi.biobabel.util.db.DatabaseInstance;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesDAO;
+import uk.ac.ebi.metabolights.referencelayer.PostgresSqlLoader;
 import uk.ac.ebi.metabolights.referencelayer.model.Species;
 
 import java.sql.Connection;
@@ -42,7 +42,7 @@ import static org.junit.Assert.*;
 public class SpeciesUpdaterTest {
     protected static final Logger LOGGER = LoggerFactory.getLogger(SpeciesUpdaterTest.class);
 	private static final String WORMS_TEST_ID = "WORMS:145379";
-	private static final String NEWT_HUMAN = "NEWT:9606";
+	private static final String NEWT_HUMAN = "NCBI:9606";
 
 	private static Connection con;
 
@@ -50,10 +50,16 @@ public class SpeciesUpdaterTest {
     public static void setUp() throws Exception {
 
 
-        DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsPROD");
+        //DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsPROD");
 		//DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsDEV");
 
-        con = dbi.getConnection();
+        //con = dbi.getConnection();
+
+
+        PostgresSqlLoader postgresSqlLoader = new PostgresSqlLoader();
+
+        //return postgresSqlLoader.getPostgresConnection("metabolightsDEV");
+        con =  postgresSqlLoader.getPostgresConnection("metabolightsPROD");
 
 
     }
@@ -67,12 +73,8 @@ public class SpeciesUpdaterTest {
     @Test
     public void UpdateSpecies() throws Exception {
 
-
         SpeciesUpdater speciesUpdater = new SpeciesUpdater(con);
-
 		speciesUpdater.setUpdateOptions(SpeciesUpdater.UpdateOptions.GROUP_USE_GLOBAL_NAMES);
-
-
         speciesUpdater.UpdateSpeciesInformation();
 
     }
@@ -83,9 +85,7 @@ public class SpeciesUpdaterTest {
 
 
 		SpeciesUpdater speciesUpdater = new SpeciesUpdater(con);
-
 		SpeciesDAO spd = new SpeciesDAO(con);
-
 		Species sp = spd.findBySpeciesTaxon(NEWT_HUMAN);
 
 		// If HUman is not there (just in case)...

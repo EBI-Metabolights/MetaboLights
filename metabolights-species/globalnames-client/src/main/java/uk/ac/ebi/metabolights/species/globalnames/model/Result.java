@@ -44,6 +44,8 @@ public class Result {
 	String prescore;
 	float score;
 	String edit_distance;
+    String imported_at;
+    String match_value;
 
 	public int getData_source_id() {
 		return data_source_id;
@@ -188,4 +190,21 @@ public class Result {
 	public void setEdit_distance(String edit_distance) {
 		this.edit_distance = edit_distance;
 	}
+
+    public String getImported_at() {
+        return imported_at;
+    }
+
+    public void setImported_at(String imported_at) {
+        this.imported_at = imported_at;
+    }
+
+    public String getMatch_value() {
+        return match_value;
+    }
+
+    public void setMatch_value(String match_value) {
+        this.match_value = match_value;
+    }
+
 }

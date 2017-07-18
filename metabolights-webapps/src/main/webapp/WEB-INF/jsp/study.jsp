@@ -28,7 +28,6 @@
   --%>
 
 <!--<link rel="stylesheet" href="${pageContefxt.request.contextPath}/cssrl/iconfont/font_fstyle.css" type="text/css"/>-->
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css"/>
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
 <link rel="stylesheet" href="//cdn.datatables.net/1.10.10/css/dataTables.bootstrap.min.css"/>
 <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
@@ -947,19 +946,19 @@
                                     <div class="well col-md-12">
                                         <div class="">
                                             <label>&emsp;&emsp;Select Pathway(s)</label><br>
-                                            <div class="col-xs-11">
+                                            <div class="col-xs-12">
                                                 <div class="form-group">
                                                     <select class="selectpicker form-control" id="metPathwaysSelect"
                                                             multiple data-live-search="true">
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-1">
-                                                <div class="form-group">
-                                                    <a class="btn btn-success ml--button form-control"
-                                                       id="loadPathways" role="button">Load</a>
-                                                </div>
-                                            </div>
+                                            <%--<div class="col-md-1">--%>
+                                                <%--<div class="form-group">--%>
+                                                    <%--<a class="btn btn-success ml--button form-control"--%>
+                                                       <%--id="loadPathways" role="button">Load</a>--%>
+                                                <%--</div>--%>
+                                            <%--</div>--%>
                                         </div>
 
 
@@ -1079,7 +1078,7 @@
                                 <div class="clearfix">
                                     <h4><spring:message code="label.fileListTableExplanation"/>
                                         <span style="border-bottom: 1px solid #ccc; border-radius: 4px;" class="pull-right">
-                                            <small><a class="btn btn-default btn-xs" target="_blank" href="/metabolights/parallelCoordinates?study=${study.studyIdentifier}"><i class="fa fa-filter" aria-hidden="true"></i>&nbsp; Filter</a></small>
+                                            <small><a class="btn btn-success btn-xs text-white" target="_blank" href="/metabolights/parallelCoordinates?study=${study.studyIdentifier}"><i class="fa fa-filter" aria-hidden="true"></i>&nbsp; Subset</a></small>
                                         </span>
                                     </h4>
                                 </div>
@@ -1408,7 +1407,6 @@
     </div>
 </div>
 
-<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="//cdn.rawgit.com/flatlogic/bootstrap-tabcollapse/master/bootstrap-tabcollapse.js"></script>
 <script type="text/javascript" charset="utf-8">
     $('#study--tab').tabCollapse();
@@ -1536,6 +1534,9 @@
         $('.selectpicker').selectpicker({
             style: 'btn-info'
         });
+        $('.selectpicker').on('change',     function(){
+            loadPathways($('.selectpicker').selectpicker('val'));
+        });
 
         function loadData(target) {
             if (target == '#metpathways') {
@@ -1587,7 +1588,6 @@
                     $('.selectpicker').selectpicker('refresh');
                     $('.selectpicker').selectpicker('val', selectedValue);
                     loadPathways(selectedValue);
-                    hidePleaseWait();
 
                 },
                 error: function (request, error) {
@@ -1599,9 +1599,7 @@
 
         $('#loadPathways').on('click', function () {
             //alert();
-            showPleaseWait();
-            //console.log($('.selectpicker').selectpicker('val'));
-            loadPathways($('.selectpicker').selectpicker('val'));
+            chan
             hidePleaseWait();
         });
 
@@ -1614,7 +1612,8 @@
                     async: false,
                     dataType: 'json',
                     success: function (data) {
-                        loadPathwayData(JSON.stringify(data))
+                        loadPathwayData(JSON.stringify(data));
+                        hidePleaseWait();
                     },
                     error: function (request, error) {
                         alert("Request: " + JSON.stringify(request));
