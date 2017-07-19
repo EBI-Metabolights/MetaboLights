@@ -1,38 +1,37 @@
 package uk.ac.ebi.metabolights.webservice.controllers;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.jose4j.json.internal.json_simple.JSONArray;
+import org.jose4j.json.internal.json_simple.JSONObject;
+import org.jose4j.json.internal.json_simple.parser.JSONParser;
+import org.jose4j.json.internal.json_simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.MetaboLightsLabsProjectDAO;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
+import uk.ac.ebi.metabolights.repository.model.AppRole;
+import uk.ac.ebi.metabolights.repository.model.MLLProject;
+import uk.ac.ebi.metabolights.repository.model.MLLWorkSpace;
+import uk.ac.ebi.metabolights.repository.model.User;
+import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
+import uk.ac.ebi.metabolights.webservice.services.UserServiceImpl;
+import uk.ac.ebi.metabolights.webservice.utils.FileUtil;
+import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
+import uk.ac.ebi.metabolights.webservice.utils.SecurityUtil;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
-
-import org.jose4j.json.internal.json_simple.parser.JSONParser;
-import org.jose4j.json.internal.json_simple.parser.ParseException;
-import org.slf4j.Logger;
 import java.util.Arrays;
-import org.slf4j.LoggerFactory;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.springframework.stereotype.Controller;
-import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
-import uk.ac.ebi.metabolights.repository.model.User;
-import org.jose4j.json.internal.json_simple.JSONArray;
-import org.jose4j.json.internal.json_simple.JSONObject;
-import uk.ac.ebi.metabolights.repository.model.AppRole;
-import uk.ac.ebi.metabolights.repository.utils.LabsUtils;
-import uk.ac.ebi.metabolights.webservice.services.UserServiceImpl;
-import uk.ac.ebi.metabolights.webservice.utils.FileUtil;
-import uk.ac.ebi.metabolights.repository.model.MLLProject;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import uk.ac.ebi.metabolights.webservice.utils.SecurityUtil;
-import uk.ac.ebi.metabolights.repository.model.MLLWorkSpace;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestMapping;
-import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
-import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
-import uk.ac.ebi.metabolights.repository.dao.filesystem.MetaboLightsLabsProjectDAO;
-import uk.ac.ebi.metabolights.repository.dao.filesystem.MetaboLightsLabsWorkspaceDAO;
+import java.util.List;
 
 /**
  * Created by venkata on 22/08/2016.
@@ -300,16 +299,16 @@ public class LabsProjectController {
 
     }
 
-
     /**
-     * Submit mzml2isa conversion jobs
+     * Authenticate user and convert the mzML2isa
      * @param data
      * @param request
      * @param response
      * @return
      */
-    @RequestMapping(value = "convertMzml2isa", method = RequestMethod.POST)
-    public RestResponse<String> convertMzML2isa(@RequestBody String data, HttpServletRequest request, HttpServletResponse response){
+    @RequestMapping(value = "convertMZMLToISA", method = RequestMethod.POST)
+    @ResponseBody
+    public RestResponse<String> convertMZMLToISA(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
 
         RestResponse<String> restResponse = new RestResponse<String>();
 
@@ -335,31 +334,30 @@ public class LabsProjectController {
 
         MLLProject mllProject = metaboLightsLabsProjectDAO.getMllProject();
 
-        JSONParser parser = new JSONParser();
-
         JSONObject settings= SecurityUtil.parseRequest(mllProject.getSettings());
 
-        if (settings.get("jobs") == null || settings == null){
+        if (settings == null || settings.get("jobs") == null){
 
-            String[] commands = {"ssh", "ebi-004", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_mzml2isa.sh --token " + user.getApiToken() + " --project " + mllProject.getId() + " --env dev "};
+            String[] commands = {"ssh", "ebi-login-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_mzml2isa.sh", "--token", user.getApiToken(), "--project " , mllProject.getId(), "--env", "dev"};
 
-            restResponse.setContent(executeCommand(commands));
+            return executeCommand(commands, response, restResponse);
 
         }else{
 
-            String[] commands = {"ssh", "ebi-004", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_mzml2isa.sh --token " + user.getApiToken() + " --project " + mllProject.getId() + " --env dev " + "--job " + settings.get("jobs") };
+            String[] commands = {"ssh", "ebi-login-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_mzml2isa.sh", "--token", user.getApiToken(), "--project " , mllProject.getId(), "--env", "dev", "--job" , (String) settings.get("jobs") };
 
-            restResponse.setContent(executeCommand(commands));
+            return executeCommand(commands, response, restResponse);
 
         }
 
-        return restResponse;
     }
 
-    private String executeCommand(String[] commands){
+    private RestResponse<String> executeCommand(String[] commands, HttpServletResponse response, RestResponse<String> restResponse){
 
         String s;
         Process p;
+
+        Boolean error = false;
 
         StringBuilder sb = null;
 
@@ -378,10 +376,11 @@ public class LabsProjectController {
                     InputStreamReader(p.getErrorStream()));
 
             while ((s = stdError.readLine()) != null) {
+                error = true;
+                sb.append(s);
                 logger.error("line: " + s);
             }
 
-            logger.error("exit: " + p.exitValue());
             p.destroy();
 
         } catch (IOException e) {
@@ -394,8 +393,18 @@ public class LabsProjectController {
 
         }
 
+        if (error){
 
-        return sb.toString();
+            restResponse.setMessage(sb.toString());
+
+            response.setStatus(500);
+
+        }else{
+
+            restResponse.setContent(sb.toString());
+        }
+
+        return restResponse;
 
     }
 
