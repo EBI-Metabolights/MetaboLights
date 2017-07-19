@@ -44,6 +44,8 @@ public class GlobalNamesResponse {
 	List<Data> data = new ArrayList<Data>();
 	String status;
 	String message;
+    @JsonProperty("parameters")
+    Parameters parameters;
 
 
 	public String getId() {
@@ -93,4 +95,12 @@ public class GlobalNamesResponse {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+
+    public Parameters getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(Parameters parameters) {
+        this.parameters = parameters;
+    }
 }

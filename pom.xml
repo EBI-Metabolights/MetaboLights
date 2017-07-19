@@ -39,7 +39,7 @@
         <module>metabolights-search</module>
     </modules>
     <properties>
-        <com.fasterxml.jackson.version>2.4.3</com.fasterxml.jackson.version>
+        <com.fasterxml.jackson.version>2.8.9</com.fasterxml.jackson.version>
     </properties>
     <build>
         <extensions>
