@@ -31,12 +31,8 @@
       integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 <link rel="stylesheet" media="screen"
       href="https://cdnjs.cloudflare.com/ajax/libs/handsontable/0.32.0/handsontable.full.css">
-<link href="styles.e91dad0bb684df9b7da5.bundle.css" rel="stylesheet"/>
-<script>
-    localStorage.setItem("apiToken", "${apiToken}");
-</script>
-<%--Loading study editor for ${studyId}...--%>
-<%--// style="background-color: #e6e6e6"--%>
+<link href="styles.764212209b2e59f67965.bundle.css" rel="stylesheet"/>
+
 <div class="container">
     <div class="row">
         <app-test-version studyID="${studyId}"></app-test-version>
@@ -44,29 +40,16 @@
         <%--<ml-study-editor studyID="${studyId}" apiToken="${apiToken}"></ml-study-editor>--%>
         <%--<ml-study-editor studyID="${studyId}"></ml-study-editor>--%>
     </div>
-    <%--<br>--%>
     <div class="row">
         <div><a href="${pageContext.request.contextPath}/${studyId}" class="btn btn-primary pull-right"
                 role="button"><span style="color:white;">Go back to ${studyId}</span></a></div>
     </div>
 </div>
 
-<%--<div class="container">--%>
-<%--<h4>MetaboLights Study Editor</h4>--%>
-<%--<app-test-version studyID="MTBLS1"></app-test-version>--%>
-<%--<!--<isa-json-editor studyID="MTBLS1"></isa-json-editor>-->--%>
-<%--</div>--%>
-
-
-<%--<script type="text/javascript" src="inline.4a157d5ef0412c72fe84.bundle.js"></script>--%>
-<%--<script type="text/javascript" src="polyfills.63929c2b04758c996018.bundle.js"></script>--%>
-<%--<script type="text/javascript" src="vendor.298e93e19050483cd5f3.bundle.js"></script>--%>
-<%--<script type="text/javascript" src="main.c9f6acd0cf0fb6e8cc6c.bundle.js"></script>--%>
-
-<script type="text/javascript" src="inline.069b5d9a8907c80366f8.bundle.js"></script>
+<script type="text/javascript" src="inline.ffa9c0b3f9b8e8446326.bundle.js"></script>
 <script type="text/javascript" src="polyfills.63929c2b04758c996018.bundle.js"></script>
 <script type="text/javascript" src="vendor.e928ce39e73e37a84a27.bundle.js"></script>
-<script type="text/javascript" src="main.0321bb8fa2b5cf45c7b4.bundle.js"></script>
+<script type="text/javascript" src="main.0fe95b657cbb70f87faa.bundle.js"></script>
 
 
 

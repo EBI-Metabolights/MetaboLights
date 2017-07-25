@@ -153,6 +153,18 @@
                             </span>
                     </c:forEach>
                 </p>
+                <script>
+                    $(document).ready(function(){ /*code here*/
+//                        localStorage.removeItem("apiToken");
+                        $('#redirectToEditorPage').click(function(){
+                            var token = "${userApiToken}";
+                            localStorage.setItem("apiToken", token);
+//                            window.location.href = ;
+                            window.open("${pageContext.request.contextPath}/studyeditor?studyId=${liteStudy.studyIdentifier}");
+                        })
+
+                    });
+                </script>
                 <div>
                     <%@include file="studyActions.jsp" %>
                     <a data-toggle="modal" data-target="#shareStudy"><i class="fa fa-link"></i>&nbsp;
@@ -161,9 +173,8 @@
                     <%-- &nbsp;|&nbsp;
                     <a href="${pageContext.request.contextPath}/beta/${study.studyIdentifier}" class="icon icon-generic" data-icon="&lt;">BETA</a> --%>
                     <c:if test="${userHasEditRights eq true}">
-                        &nbsp;|&nbsp; <a target="_blank" href="${pageContext.request.contextPath}/studyeditor?studyId=${liteStudy.studyIdentifier}"><i class="fa fa-pencil"></i> &nbsp;Quick edit</a>
+                        &nbsp;|&nbsp;<i class="fa fa-pencil"></i><a id="redirectToEditorPage" style="cursor: pointer">&nbsp;Quick edit</a>
                     </c:if>
-
                 </div>
             </div>
 
