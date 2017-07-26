@@ -1,6 +1,5 @@
 package uk.ac.ebi.metabolights.webservice.controllers;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.jose4j.json.internal.json_simple.JSONArray;
 import org.jose4j.json.internal.json_simple.JSONObject;
 import org.jose4j.json.internal.json_simple.parser.JSONParser;
@@ -30,7 +29,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -72,7 +73,17 @@ public class LabsProjectController {
 
         String projectLocation = PropertiesUtil.getProperty("userSpace") + File.separator + user.getApiToken() + File.separator + projectId;
 
-        JSONArray contentJSONArray = new JSONArray(Arrays.asList(FileUtil.getFtpFolderList(projectLocation)));
+        // JSONArray contentJSONArray = new JSONArray(Arrays.asList(FileUtil.getFtpFolderList(projectLocation)));
+
+        List<String> filesList = new ArrayList<>();
+
+        for (String file: FileUtil.listFileTree(new File(projectLocation))) {
+
+            filesList.add(file.replace(projectLocation , ""));
+
+        }
+
+        JSONArray contentJSONArray = new JSONArray(filesList);
 
         restResponse.setContent(contentJSONArray.toJSONString());
 
@@ -340,19 +351,19 @@ public class LabsProjectController {
 
             String[] commands = {"ssh", "ebi-login-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_mzml2isa.sh", "--token", user.getApiToken(), "--project " , mllProject.getId(), "--env", "dev"};
 
-            return executeCommand(commands, response, restResponse);
+            return executeCommand(commands, response, restResponse, mllProject);
 
         }else{
 
             String[] commands = {"ssh", "ebi-login-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_mzml2isa.sh", "--token", user.getApiToken(), "--project " , mllProject.getId(), "--env", "dev", "--job" , (String) settings.get("jobs") };
 
-            return executeCommand(commands, response, restResponse);
+            return executeCommand(commands, response, restResponse, mllProject);
 
         }
 
     }
 
-    private RestResponse<String> executeCommand(String[] commands, HttpServletResponse response, RestResponse<String> restResponse){
+    private RestResponse<String> executeCommand(String[] commands, HttpServletResponse response, RestResponse<String> restResponse, MLLProject project){
 
         String s;
         Process p;
@@ -393,16 +404,21 @@ public class LabsProjectController {
 
         }
 
-        if (error){
+//        if (error){
+//
+//            restResponse.setMessage(sb.toString());
+//
+//            response.setStatus(500);
+//
+//        }else{
 
-            restResponse.setMessage(sb.toString());
+            // sb.toString()
 
-            response.setStatus(500);
+           // JSONObject output = SecurityUtil.parseRequest('');
 
-        }else{
+            project.saveJobDetails("jobs", SecurityUtil.parseRequest("{'message': 'Job submitted successfully', 'code': 'PEND', 'jobID': '5134734'}"));
 
-            restResponse.setContent(sb.toString());
-        }
+//        }
 
         return restResponse;
 

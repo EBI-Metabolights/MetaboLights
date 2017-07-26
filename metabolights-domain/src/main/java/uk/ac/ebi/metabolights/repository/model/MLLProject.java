@@ -3,6 +3,7 @@ package uk.ac.ebi.metabolights.repository.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jose4j.json.internal.json_simple.JSONObject;
 import uk.ac.ebi.metabolights.utils.json.FileUtils;
 import uk.ac.ebi.metabolights.utils.json.LabsFormatter;
 import uk.ac.ebi.metabolights.utils.json.LabsUtils;
@@ -34,6 +35,7 @@ public class MLLProject {
     private String AsperaSettings;
     private Timestamp CreatedAt;
     private Timestamp UpdatedAt;
+    private List<MLLJob> Jobs;
     private Boolean IsBusy = false;
 
     public String getAsperaSettings() {
@@ -108,6 +110,14 @@ public class MLLProject {
 
     public void setBusy(Boolean busy) { IsBusy = busy; }
 
+    public List<MLLJob> getJobs() {
+        return Jobs;
+    }
+
+    public void setJobs(List<MLLJob> jobs) {
+        Jobs = jobs;
+    }
+
     public MLLProject(){}
 
     public MLLProject(MLLWorkSpace mllWorkSpace){
@@ -168,6 +178,26 @@ public class MLLProject {
 
     }
 
+    @JsonIgnore
+    public Boolean saveJob(MLLJob mllJob){
+
+        this.Jobs.add(mllJob);
+
+        this.save();
+
+        return true;
+    }
+
+
+    @JsonIgnore
+    public MLLJob getJob(String jobid){
+        for(MLLJob job : this.Jobs) {
+            if(job.getJobId().equalsIgnoreCase(jobid)){
+                return job;
+            }
+        }
+        return null;
+    }
 
     @JsonIgnore
     public String getLogs(){
@@ -250,6 +280,19 @@ public class MLLProject {
         }
 
         return false;
+
+    }
+
+    @JsonIgnore
+    public void saveJobDetails(String key, JSONObject value){
+
+        JSONObject settings = LabsUtils.parseRequest(this.getSettings());
+
+        settings.put("jobs", value.toString());
+
+        this.setSettings(settings.toString());
+
+        this.save();
 
     }
 
