@@ -1,7 +1,7 @@
 #!/bin/sh
 
 export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
-export ML="/Users/`whoami`/Development/metabolights"
+export ML="/Users/CS76Bot/Development/metabolomics/MetaboLights"
 export DEPLOY=" install -DskipTests=true"
 #export DEPLOY=" deploy -DskipTests=true"
 export MVNOPTS=""
