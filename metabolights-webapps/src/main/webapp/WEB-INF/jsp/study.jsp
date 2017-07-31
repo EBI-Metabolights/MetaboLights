@@ -275,57 +275,90 @@
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <div class="thor_div_showIf_notSigned">
-                                        <table>
-                                            <tr>
-                                                <td class="thor_div_showIf_datasetAlreadyClaimedList">
-                                                    <div id="claimants" class="existingClaimants">
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>You can <a href="#" class="thor_a_generate_signinLink">sign-in to
-                                                    ORCID</a> to claim
-                                                    your
-                                                    data
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><input type="checkbox" class="thor_checkbox_rememberMe_cookie">
-                                                    Remember
-                                                    me on this computer
-                                                </td>
-                                            </tr>
-                                        </table>
+                                        <%--<table>--%>
+                                            <%--<tr>--%>
+                                                <%--<td class="thor_div_showIf_datasetAlreadyClaimedList">--%>
+                                                    <%--<div id="claimants" class="existingClaimants">--%>
+                                                    <%--</div>--%>
+                                                <%--</td>--%>
+                                            <%--</tr>--%>
+                                            <%--<tr>--%>
+                                                <%--<td>You can <a href="#" class="thor_a_generate_signinLink">sign-in to--%>
+                                                    <%--ORCID</a> to claim--%>
+                                                    <%--your--%>
+                                                    <%--data--%>
+                                                <%--</td>--%>
+                                            <%--</tr>--%>
+                                            <%--<tr>--%>
+                                                <%--<td><input type="checkbox" class="thor_checkbox_rememberMe_cookie">--%>
+                                                    <%--Remember--%>
+                                                    <%--me on this computer--%>
+                                                <%--</td>--%>
+                                            <%--</tr>--%>
+                                        <%--</table>--%>
+
+                                        <div class="panel panel-warning" style="margin: -6px 0px -8px -1px;">
+                                            <div class="panel-heading thor_div_showIf_datasetAlreadyClaimedList existingClaimants"></div>
+                                            <div class="panel-body">You can <a href="#" class="thor_a_generate_signinLink">sign-in to
+                                                ORCID</a> to claim
+                                                your
+                                                data</div>
+                                            <div class="panel-footer"><input type="checkbox" class="thor_checkbox_rememberMe_cookie">
+                                                Remember me on this computer</div>
+                                        </div>
+
+
                                     </div>
 
                                     <div class="thor_div_showIf_signedIn">
-                                        <table>
-                                            <tr>
-                                                <td class="thor_div_showIf_datasetAlreadyClaimedList">
-                                                    <div id="claimants1" class="existingClaimants">
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                        <%--<table>--%>
+                                            <%--<tr>--%>
+                                                <%--<td class="thor_div_showIf_datasetAlreadyClaimedList">--%>
+                                                    <%--<div id="claimants1" class="existingClaimants">--%>
+                                                    <%--</div>--%>
+                                                <%--</td>--%>
+                                            <%--</tr>--%>
 
-                                            <tr>
-                                                <td>You have signed in as <label
-                                                        class="thor_label_show_userName"></label></td>
-                                            </tr>
-                                            <tr style="display:none" class="thor_div_showIf_datasetNotClaimed">
-                                                <td>You can <a href="#"
+                                            <%--<tr>--%>
+                                                <%--<td>You have signed in as <label--%>
+                                                        <%--class="thor_label_show_userName"></label></td>--%>
+                                            <%--</tr>--%>
+                                            <%--<tr style="display:none" class="thor_div_showIf_datasetNotClaimed">--%>
+                                                <%--<td>You can <a href="#"--%>
+                                                               <%--class="thor_a_generate_claimLink">claim ${study.studyIdentifier}</a>--%>
+                                                    <%--into your ORCID.--%>
+                                                <%--</td>--%>
+                                            <%--</tr>--%>
+                                            <%--<tr style="display:none" class="thor_div_showIf_datasetAlreadyClaimed">--%>
+                                                <%--<td>You have claimed ${study.studyIdentifier} into your ORCID.--%>
+                                                <%--</td>--%>
+                                            <%--</tr>--%>
+                                            <%--<tr>--%>
+                                                <%--<td><a href="#" class="thor_a_generate_logoutLink"><i>logout</i></a>--%>
+                                                <%--</td>--%>
+                                            <%--</tr>--%>
+                                        <%--</table>--%>
+
+                                        <div class="panel panel-warning" style="margin: -6px 0px -8px -1px;">
+                                            <div class="panel-heading thor_div_showIf_datasetAlreadyClaimedList existingClaimants"></div>
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    You have signed in as <label
+                                                        class="thor_label_show_userName"></label>
+                                                </div>
+                                                <div class="row thor_div_showIf_datasetNotClaimed">
+                                                    You can <a href="#"
                                                                class="thor_a_generate_claimLink">claim ${study.studyIdentifier}</a>
                                                     into your ORCID.
-                                                </td>
-                                            </tr>
-                                            <tr style="display:none" class="thor_div_showIf_datasetAlreadyClaimed">
-                                                <td>You have claimed ${study.studyIdentifier} into your ORCID.
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="#" class="thor_a_generate_logoutLink"><i>logout</i></a>
-                                                </td>
-                                            </tr>
-                                        </table>
+                                                </div>
+                                                <div class="row thor_div_showIf_datasetAlreadyClaimed">
+                                                    You have claimed ${study.studyIdentifier} into your ORCID.
+                                                </div>
+                                            </div>
+                                            <div class="panel-footer"><a href="#" class="thor_a_generate_logoutLink"><i>logout</i></a></div>
+                                        </div>
+
+
                                     </div>
                                 </div>
 
