@@ -1817,6 +1817,38 @@
 
         thorApplicationNamespace.loadClaimingInfo();
         //claim list
+        <%--function getOrcidClaimList() {--%>
+            <%--$.ajax({--%>
+                <%--cache: false,--%>
+                <%--url: "${orcidRetrieveClaimsServiceUrl}:${study.studyIdentifier}",--%>
+                <%--dataType: "json",--%>
+                <%--success: function (orchidRespData) {--%>
+                    <%--//console.log(orchidRespData);--%>
+                    <%--var claimListText = "";--%>
+                    <%--if (orchidRespData['orcid-search-results']['num-found'] > 0) {--%>
+
+                        <%--if (typeof thorApplicationNamespace != 'undefined') {--%>
+                            <%--for (var uli = 0; uli < orchidRespData['orcid-search-results']['num-found']; uli++) {--%>
+                                <%--var userOrcId = orchidRespData['orcid-search-results']['orcid-search-result'][uli]['orcid-profile']['orcid-identifier']['path'];--%>
+                                <%--claimListText += '<a href="//europepmc.org/search?query=AUTHORID:\'' + userOrcId + '\'&sortby=Date">' + userOrcId + '</a><br>';--%>
+                            <%--}--%>
+                        <%--}--%>
+                    <%--}--%>
+                    <%--if (claimListText != "") {--%>
+                        <%--$('.existingClaimants').html('<strong>Existing claims</strong><br>' + claimListText);--%>
+<%--//                        $('.existingClaimants').html(claimListText);--%>
+<%--//                    $('.thor_div_showIf_datasetAlreadyClaimedList').show();--%>
+                    <%--}--%>
+                    <%--else {--%>
+                        <%--claimListText += 'None so far';--%>
+<%--//                        $('.existingClaimants').html(claimListText);--%>
+                        <%--$('.existingClaimants').html('<strong>Existing claims</strong>&nbsp;:&nbsp;' + claimListText);--%>
+                    <%--}--%>
+
+                <%--}--%>
+            <%--});--%>
+        <%--}--%>
+
         function getOrcidClaimList() {
             $.ajax({
                 cache: false,
@@ -1830,7 +1862,17 @@
                         if (typeof thorApplicationNamespace != 'undefined') {
                             for (var uli = 0; uli < orchidRespData['orcid-search-results']['num-found']; uli++) {
                                 var userOrcId = orchidRespData['orcid-search-results']['orcid-search-result'][uli]['orcid-profile']['orcid-identifier']['path'];
-                                claimListText += '<a href="//europepmc.org/search?query=AUTHORID:\'' + userOrcId + '\'&sortby=Date">' + userOrcId + '</a><br>';
+
+                                var userOrcGivenNames = orchidRespData['orcid-search-results']['orcid-search-result'][uli]['orcid-profile']['orcid-bio']['personal-details']['given-names']['value'];
+                                var userOrcFamilyNames = orchidRespData['orcid-search-results']['orcid-search-result'][uli]['orcid-profile']['orcid-bio']['personal-details']['family-name']['value'];
+
+                                if ($.trim(userOrcGivenNames) != "" && $.trim(userOrcFamilyNames) != "") {
+                                    var completeName = userOrcGivenNames + " " + userOrcFamilyNames;
+                                    claimListText += '<a target="_blank" href="//europepmc.org/search?query=AUTHORID:\'' + userOrcId + '\'&sortby=Date">' + completeName + '</a><br>';
+                                }
+                                else{
+                                    claimListText += '<a target="_blank" href="//europepmc.org/search?query=AUTHORID:\'' + userOrcId + '\'&sortby=Date">' + userOrcId + '</a><br>';
+                                }
                             }
                         }
                     }
@@ -1848,6 +1890,11 @@
                 }
             });
         }
+
+//        function getClaimantFullName(var orcidBio){
+//
+//
+//        }
 
         getOrcidClaimList();
 
