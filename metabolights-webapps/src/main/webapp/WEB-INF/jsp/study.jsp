@@ -251,20 +251,20 @@
                 </button>
 
             <c:if test="${study.studyStatus.descriptiveName eq 'Public'}">
-                <c:choose>
-                    <c:when test="${userApiToken eq 'MetaboLights-anonymous'}">
-                        <button type="button" class="btn btn-default"
-                                title="To Claim this study login into MetaboLights and link your ORCID account"
-                                onclick="location.href ='login'">
-                            <i class="thorOrcIdSpan">
-                                <img src="//www.ebi.ac.uk/europepmc/thor/resources/orcid-id.png" value="What is ORCID?"
-                                     width="15" height="15" data-pin-nopin="true">
-                            </i> Claim this study to ORCID
-                        </button>
-                    </c:when>
-                    <c:otherwise>
-                        <c:choose>
-                            <c:when test="${not empty userOrcidID}">
+                <%--<c:choose>--%>
+                    <%--<c:when test="${userApiToken eq 'MetaboLights-anonymous'}">--%>
+                        <%--<button type="button" class="btn btn-default"--%>
+                                <%--title="To Claim this study login into MetaboLights and link your ORCID account"--%>
+                                <%--onclick="location.href ='login'">--%>
+                            <%--<i class="thorOrcIdSpan">--%>
+                                <%--<img src="//www.ebi.ac.uk/europepmc/thor/resources/orcid-id.png" value="What is ORCID?"--%>
+                                     <%--width="15" height="15" data-pin-nopin="true">--%>
+                            <%--</i> Claim this study to ORCID--%>
+                        <%--</button>--%>
+                    <%--</c:when>--%>
+                    <%--<c:otherwise>--%>
+                        <%--<c:choose>--%>
+                            <%--<c:when test="${not empty userOrcidID}">--%>
                                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="thorOrcIdSpan">
@@ -329,21 +329,21 @@
                                     </div>
                                 </div>
 
-                            </c:when>
-                            <c:otherwise>
-                                <button class="btn btn-default" type="button"
-                                        title="Link your ORCID id to your MetaboLights account to claim this study"
-                                        onclick="location.href='myAccount'">
-                                    <i class="thorOrcIdSpan">
-                                        <img src="//www.ebi.ac.uk/europepmc/thor/resources/orcid-id.png" value="What is ORCID?"
-                                             width="15" height="15" data-pin-nopin="true">
-                                    </i>
-                                    Update your ORCID ID
-                                </button>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:otherwise>
-                </c:choose>
+                            <%--</c:when>--%>
+                            <%--<c:otherwise>--%>
+                                <%--<button class="btn btn-default" type="button"--%>
+                                        <%--title="Link your ORCID id to your MetaboLights account to claim this study"--%>
+                                        <%--onclick="location.href='myAccount'">--%>
+                                    <%--<i class="thorOrcIdSpan">--%>
+                                        <%--<img src="//www.ebi.ac.uk/europepmc/thor/resources/orcid-id.png" value="What is ORCID?"--%>
+                                             <%--width="15" height="15" data-pin-nopin="true">--%>
+                                    <%--</i>--%>
+                                    <%--Update your ORCID ID--%>
+                                <%--</button>--%>
+                            <%--</c:otherwise>--%>
+                        <%--</c:choose>--%>
+                    <%--</c:otherwise>--%>
+                <%--</c:choose>--%>
             </c:if>
 
 
