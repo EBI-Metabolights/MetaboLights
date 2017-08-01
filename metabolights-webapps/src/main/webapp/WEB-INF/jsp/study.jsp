@@ -1899,22 +1899,24 @@
                 success: function (orchidRespData) {
                     //console.log(orchidRespData);
                     var claimListText = "";
+                    var claimsDiv = "";
                     if (orchidRespData['orcid-search-results']['num-found'] > 0) {
 
                         if (typeof thorApplicationNamespace != 'undefined') {
                             for (var uli = 0; uli < orchidRespData['orcid-search-results']['num-found']; uli++) {
                                 var userOrcId = orchidRespData['orcid-search-results']['orcid-search-result'][uli]['orcid-profile']['orcid-identifier']['path'];
 
-                                var userOrcGivenNames = orchidRespData['orcid-search-results']['orcid-search-result'][uli]['orcid-profile']['orcid-bio']['personal-details']['given-names']['value'];
-                                var userOrcFamilyNames = orchidRespData['orcid-search-results']['orcid-search-result'][uli]['orcid-profile']['orcid-bio']['personal-details']['family-name']['value'];
+//                                var userOrcGivenNames = orchidRespData['orcid-search-results']['orcid-search-result'][uli]['orcid-profile']['orcid-bio']['personal-details']['given-names']['value'];
+//                                var userOrcFamilyNames = orchidRespData['orcid-search-results']['orcid-search-result'][uli]['orcid-profile']['orcid-bio']['personal-details']['family-name']['value'];
 
-                                if ($.trim(userOrcGivenNames) != "" && $.trim(userOrcFamilyNames) != "") {
-                                    var completeName = userOrcGivenNames + " " + userOrcFamilyNames;
-                                    claimListText += '<a target="_blank" href="//europepmc.org/search?query=AUTHORID:\'' + userOrcId + '\'&sortby=Date">' + completeName + '</a><br>';
-                                }
-                                else {
+//                                if ($.trim(userOrcGivenNames) != "" && $.trim(userOrcFamilyNames) != "") {
+//                                    var completeName = userOrcGivenNames + " " + userOrcFamilyNames;
+//                                    claimListText += '<a target="_blank" href="//europepmc.org/search?query=AUTHORID:\'' + userOrcId + '\'&sortby=Date">' + completeName + '</a><br>';
+//                                }
+//                                else {
                                     claimListText += '<a target="_blank" href="//europepmc.org/search?query=AUTHORID:\'' + userOrcId + '\'&sortby=Date">' + userOrcId + '</a><br>';
-                                }
+//                                }
+
                             }
                         }
                     }
@@ -1933,12 +1935,47 @@
             });
         }
 
-//        function getClaimantFullName(var orcidBio){
-//
-//
-//        }
 
-        getOrcidClaimList();
+//        getOrcidClaimList();
+
+        function getMtblsOrcidClaims(orcidToMatch) {
+            $.ajax({
+                cache: false,
+                url: "https://www.ebi.ac.uk/europepmc/thor/api/dataclaiming/findDatabaseClaims/METABOLIGHTS",
+                dataType: "json",
+                success: function (orchidRespData) {
+                    console.log(orchidRespData);
+                    var claimListText = "";
+                    if (orchidRespData['lstDatabaseClaims'].length > 0) {
+
+                        if (typeof thorApplicationNamespace != 'undefined') {
+                            console.log("entering..")
+                            for (var uli = 0; uli < orchidRespData['lstDatabaseClaims'].length; uli++) {
+                                var userOrcId = orchidRespData['lstDatabaseClaims'][uli]['orcId'];
+                                console.log("orcid to match.." + orcidToMatch + " - " + userOrcId)
+                                if(userOrcId === orcidToMatch){
+                                    var externalIdentifiers = orchidRespData['lstDatabaseClaims'][uli]['workExternalIdentifiers'];
+                                    if(externalIdentifiers.length > 0){
+                                       var mtblsid = externalIdentifiers[0]['workExternalIdentifierId'];
+                                        claimListText += '<a target="_blank" class="small" href="${pageContext.request.contextPath}/' + mtblsid + '">' + mtblsid + '</a><br>';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (claimListText != "") {
+                        $('.existingClaimants').html('<strong>Existing claims</strong><br>' + claimListText);
+                    }
+                    else {
+                        claimListText += 'None so far';
+                        $('.existingClaimants').html('<strong>Existing claims</strong>&nbsp;:&nbsp;' + claimListText);
+                    }
+
+                }
+            });
+        }
+
+        getMtblsOrcidClaims("0000-0003-1572-0687");
 
         var asperaLoaded = false;
 
