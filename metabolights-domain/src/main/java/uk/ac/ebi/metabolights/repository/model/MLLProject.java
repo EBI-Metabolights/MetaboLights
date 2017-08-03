@@ -11,10 +11,7 @@ import uk.ac.ebi.metabolights.utils.json.LabsUtils;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -181,6 +178,12 @@ public class MLLProject {
     @JsonIgnore
     public Boolean saveJob(MLLJob mllJob){
 
+        if (this.Jobs == null){
+
+            this.Jobs = new ArrayList<MLLJob>();
+
+        }
+
         this.Jobs.add(mllJob);
 
         this.save();
@@ -279,20 +282,9 @@ public class MLLProject {
 
         }
 
+
+
         return false;
-
-    }
-
-    @JsonIgnore
-    public void saveJobDetails(String key, JSONObject value){
-
-        JSONObject settings = LabsUtils.parseRequest(this.getSettings());
-
-        settings.put("jobs", value.toString());
-
-        this.setSettings(settings.toString());
-
-        this.save();
 
     }
 

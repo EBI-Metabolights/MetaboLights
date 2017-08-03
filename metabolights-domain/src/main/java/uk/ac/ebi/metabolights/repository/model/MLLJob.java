@@ -1,6 +1,8 @@
 package uk.ac.ebi.metabolights.repository.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jose4j.json.internal.json_simple.JSONObject;
 import uk.ac.ebi.metabolights.utils.json.LabsUtils;
 
@@ -8,12 +10,17 @@ import java.sql.Timestamp;
 
 
 public class MLLJob {
+    private String MLLProjectId;
     private String JobId;
     private String Status;
     private JSONObject Info;
-    private MLLProject MLLProject;
     private Timestamp CreatedAt;
     private Timestamp UpdatedAt;
+    private boolean hide;
+
+    public String getMLLProjectId() { return MLLProjectId; }
+
+    public void setMLLProjectId(String MLLProjectId) { this.MLLProjectId = MLLProjectId; }
 
     public String getJobId() {
         return JobId;
@@ -39,14 +46,6 @@ public class MLLJob {
         this.Info = info;
     }
 
-    public MLLProject getMllProject() {
-        return MLLProject;
-    }
-
-    public void setMllProject(MLLProject mllProject) {
-        this.MLLProject = mllProject;
-    }
-
     public Timestamp getCreatedAt() {
         return CreatedAt;
     }
@@ -63,15 +62,38 @@ public class MLLJob {
         UpdatedAt = updatedAt;
     }
 
+    public boolean isHide() { return hide; }
+
+    public void setHide(boolean hide) { this.hide = hide; }
 
     public MLLJob(){}
 
-    public MLLJob(MLLProject mllProject, String id, String status, JSONObject info){
+    public MLLJob(String mllProjectId, String id, String status, JSONObject info){
+        this.MLLProjectId = mllProjectId;
         this.JobId = id;
-        this.MLLProject = mllProject;
+        this.Status = status;
         this.Info = info;
         this.CreatedAt = LabsUtils.getCurrentTimeStamp();
         this.UpdatedAt = LabsUtils.getCurrentTimeStamp();
+        this.hide = false;
+    }
+
+    @JsonIgnore
+    public String getAsJSON() {
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+
+            return mapper.writeValueAsString(this) ;
+
+        } catch (JsonProcessingException e) {
+
+            e.printStackTrace();
+
+        }
+
+        return null;
     }
 
 }

@@ -12,11 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.MetaboLightsLabsProjectDAO;
+import uk.ac.ebi.metabolights.repository.dao.filesystem.MetaboLightsLabsWorkspaceDAO;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
-import uk.ac.ebi.metabolights.repository.model.AppRole;
-import uk.ac.ebi.metabolights.repository.model.MLLProject;
-import uk.ac.ebi.metabolights.repository.model.MLLWorkSpace;
-import uk.ac.ebi.metabolights.repository.model.User;
+import uk.ac.ebi.metabolights.repository.model.*;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.webservice.services.UserServiceImpl;
 import uk.ac.ebi.metabolights.webservice.utils.FileUtil;
@@ -71,7 +69,7 @@ public class LabsProjectController {
 
         String projectId = (String) serverRequest.get("id");
 
-        String projectLocation = PropertiesUtil.getProperty("userSpace") + File.separator + user.getApiToken() + File.separator + projectId;
+        String projectLocation = PropertiesUtil.getProperty("userSpace") + user.getApiToken() + File.separator + projectId;
 
         // JSONArray contentJSONArray = new JSONArray(Arrays.asList(FileUtil.getFtpFolderList(projectLocation)));
 
@@ -341,29 +339,47 @@ public class LabsProjectController {
 
         String root = PropertiesUtil.getProperty("userSpace");
 
-        MetaboLightsLabsProjectDAO metaboLightsLabsProjectDAO = new MetaboLightsLabsProjectDAO(user, projectId, root );
 
-        MLLProject mllProject = metaboLightsLabsProjectDAO.getMllProject();
+        MetaboLightsLabsWorkspaceDAO metaboLightsLabsWorkspaceDAO = new MetaboLightsLabsWorkspaceDAO(user, root);
+
+        MLLWorkSpace mllWorkSpace = metaboLightsLabsWorkspaceDAO.getMllWorkSpace();
+
+        MLLProject mllProject =  mllWorkSpace.getProject(projectId);
 
         JSONObject settings= SecurityUtil.parseRequest(mllProject.getSettings());
+
 
         if (settings == null || settings.get("jobs") == null){
 
             String[] commands = {"ssh", "ebi-login-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_mzml2isa.sh", "--token", user.getApiToken(), "--project " , mllProject.getId(), "--env", "dev"};
 
-            return executeCommand(commands, response, restResponse, mllProject);
+            MLLJob pJob = executeCommand(commands, response, restResponse, mllProject);
+
+            mllProject.saveJob(pJob);
+
+            mllWorkSpace.appendOrUpdateProject(mllProject);
+
+            restResponse.setContent(pJob.getAsJSON());
 
         }else{
 
             String[] commands = {"ssh", "ebi-login-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_mzml2isa.sh", "--token", user.getApiToken(), "--project " , mllProject.getId(), "--env", "dev", "--job" , (String) settings.get("jobs") };
 
-            return executeCommand(commands, response, restResponse, mllProject);
+            MLLJob pJob = executeCommand(commands, response, restResponse, mllProject);
+
+            mllProject.saveJob(pJob);
+
+            mllWorkSpace.appendOrUpdateProject(mllProject);
+
+            restResponse.setContent(pJob.getAsJSON());
 
         }
 
+        return restResponse;
+
     }
 
-    private RestResponse<String> executeCommand(String[] commands, HttpServletResponse response, RestResponse<String> restResponse, MLLProject project){
+    private MLLJob executeCommand(String[] commands, HttpServletResponse response, RestResponse<String> restResponse, MLLProject project){
 
         String s;
         Process p;
@@ -392,8 +408,6 @@ public class LabsProjectController {
                 logger.error("line: " + s);
             }
 
-            p.destroy();
-
         } catch (IOException e) {
 
             e.printStackTrace();
@@ -412,15 +426,15 @@ public class LabsProjectController {
 //
 //        }else{
 
-            // sb.toString()
+            // JSONObject output = SecurityUtil.parseRequest("{\"message\": \"Job submitted successfully\",\"code\": \"PEND\",\"jobID\": \"5134734\"}");
 
-           // JSONObject output = SecurityUtil.parseRequest('');
+            JSONObject output = SecurityUtil.parseRequest(sb.toString().replace("u'","\"").replace("'", "\""));
 
-            project.saveJobDetails("jobs", SecurityUtil.parseRequest("{'message': 'Job submitted successfully', 'code': 'PEND', 'jobID': '5134734'}"));
+            MLLJob pJob = new MLLJob(project.getId(), output.get("jobID").toString(), output.get("code").toString(), output);
 
 //        }
 
-        return restResponse;
+        return pJob;
 
     }
 
