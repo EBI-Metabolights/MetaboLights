@@ -450,6 +450,7 @@ METABOLIGHTS.FileControl.prototype.download = function (source, path) {
                 "rate_policy": conf.rate_policy,
                 "remote_host": conf.remote_download_host,
                 "remote_user": conf.remote_download_user,
+                "fasp_port": conf.fasp_port,
                 "resume": 'sparse_checksum', // "none","attributes","sparse_checksum","full_checksum"
                 "ssh_port": 22,
                 "target_rate_kbps": conf.target_rate_kbps
