@@ -336,6 +336,29 @@ public class FileUtil {
 		return result.toString();
 	}
 
+
+	public static Collection<String> listFileTree(File dir) {
+		Set<String> fileTree = new HashSet<String>();
+		if(dir==null||dir.listFiles()==null){
+			return fileTree;
+		}
+
+		for (File entry : dir.listFiles(new FileFilter() {
+			@Override
+			public boolean accept(File file) {
+				return !file.isHidden();
+			}
+		})) {
+			if (entry.isFile()){
+				fileTree.add(entry.getAbsolutePath());
+			}else {
+				fileTree.add(entry.getAbsolutePath());
+				fileTree.addAll(listFileTree(entry));
+			}
+		}
+		return fileTree;
+	}
+
 	/**
 	 * Get a list of files in the private upload folder
 	 *

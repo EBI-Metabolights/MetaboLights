@@ -1,5 +1,8 @@
 package uk.ac.ebi.metabolights.utils.json;
 
+import org.jose4j.json.internal.json_simple.JSONObject;
+import org.jose4j.json.internal.json_simple.parser.JSONParser;
+import org.jose4j.json.internal.json_simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +31,26 @@ public class LabsUtils {
         }
 
         return result;
+
+    }
+
+    /**
+     * Parse the input data into a JSON Object
+     * @param data
+     * @return
+     */
+    public static JSONObject parseRequest(String data){
+
+        JSONParser parser = new JSONParser();
+        JSONObject uploadRequest = null;
+
+        try {
+            uploadRequest = (JSONObject) parser.parse(data);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return uploadRequest;
 
     }
 

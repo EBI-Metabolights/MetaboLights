@@ -3,6 +3,7 @@ package uk.ac.ebi.metabolights.repository.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jose4j.json.internal.json_simple.JSONObject;
 import uk.ac.ebi.metabolights.utils.json.FileUtils;
 import uk.ac.ebi.metabolights.utils.json.LabsFormatter;
 import uk.ac.ebi.metabolights.utils.json.LabsUtils;
@@ -10,10 +11,7 @@ import uk.ac.ebi.metabolights.utils.json.LabsUtils;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -34,6 +32,7 @@ public class MLLProject {
     private String AsperaSettings;
     private Timestamp CreatedAt;
     private Timestamp UpdatedAt;
+    private List<MLLJob> Jobs;
     private Boolean IsBusy = false;
 
     public String getAsperaSettings() {
@@ -108,6 +107,14 @@ public class MLLProject {
 
     public void setBusy(Boolean busy) { IsBusy = busy; }
 
+    public List<MLLJob> getJobs() {
+        return Jobs;
+    }
+
+    public void setJobs(List<MLLJob> jobs) {
+        Jobs = jobs;
+    }
+
     public MLLProject(){}
 
     public MLLProject(MLLWorkSpace mllWorkSpace){
@@ -168,6 +175,44 @@ public class MLLProject {
 
     }
 
+    @JsonIgnore
+    public Boolean saveJob(MLLJob mllJob){
+
+        if (this.Jobs == null){
+
+            this.Jobs = new ArrayList<MLLJob>();
+
+        }
+
+        int i = 0;
+        boolean exist = false;
+        for(MLLJob job : this.Jobs) {
+            if(job.getJobId().equalsIgnoreCase(mllJob.getJobId())){
+               exist = true;
+               break;
+            }
+            i++;
+        }
+
+        if(exist){
+            this.Jobs.set(i, mllJob);
+        }else{
+            this.Jobs.add(mllJob);
+        }
+
+        return this.save();
+    }
+
+
+    @JsonIgnore
+    public MLLJob getJob(String jobid){
+        for(MLLJob job : this.Jobs) {
+            if(job.getJobId().equalsIgnoreCase(jobid)){
+                return job;
+            }
+        }
+        return null;
+    }
 
     @JsonIgnore
     public String getLogs(){
@@ -248,6 +293,8 @@ public class MLLProject {
             e.printStackTrace();
 
         }
+
+
 
         return false;
 
