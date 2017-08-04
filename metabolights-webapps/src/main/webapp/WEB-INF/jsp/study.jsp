@@ -250,20 +250,7 @@
                 </button>
 
                 <c:if test="${study.studyStatus.descriptiveName eq 'Public'}">
-                    <%--<c:choose>--%>
-                    <%--<c:when test="${userApiToken eq 'MetaboLights-anonymous'}">--%>
-                    <%--<button type="button" class="btn btn-default"--%>
-                    <%--title="To Claim this study login into MetaboLights and link your ORCID account"--%>
-                    <%--onclick="location.href ='login'">--%>
-                    <%--<i class="thorOrcIdSpan">--%>
-                    <%--<img src="//www.ebi.ac.uk/europepmc/thor/resources/orcid-id.png" value="What is ORCID?"--%>
-                    <%--width="15" height="15" data-pin-nopin="true">--%>
-                    <%--</i> Claim this study to ORCID--%>
-                    <%--</button>--%>
-                    <%--</c:when>--%>
-                    <%--<c:otherwise>--%>
-                    <%--<c:choose>--%>
-                    <%--<c:when test="${not empty userOrcidID}">--%>
+
                     <button class="btn btn-default dropdown-toggle orcid-dropdown" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="thorOrcIdSpan">
@@ -277,32 +264,15 @@
 
                             <div class="panel panel-warning" style="margin: -6px 0px -8px -1px;">
                                 <div class="panel-heading thor_div_showIf_datasetAlreadyClaimedList">
-                                    <%--<div class="row">--%>
-                                        <%--<div class="panel panel-warning">--%>
-                                            <%--<div class="panel-body"> --%>
+
                                                 You can <a href="#" class="thor_a_generate_signinLink">sign-in
                                                 to
                                                 ORCID</a> to claim your data
-                                            <%--</div>--%>
-                                        <%--</div>--%>
 
-                                    <%--</div>--%>
                                 </div>
                                 <div class="panel-body">
-                                    <div class="row">
-                                        <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="Claimed studies"
-                                           data-content="MTBLS1"
-                                           data-html="true">
-                                            ORCID</a>
-                                        <br>
-                                        <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="Claimed studies"
-                                           data-content="MTBLS1"
-                                           data-html="true">
-                                            ORCID</a>
-                                    </div>
-                                    <br>
-                                    <div class="row existingClaimants">
 
+                                    <div class="row existingClaimants">
                                     </div>
 
                                     <c:if test="${userApiToken ne 'MetaboLights-anonymous'}">
@@ -332,24 +302,20 @@
 
                             <div class="panel panel-warning" style="margin: -6px 0px -8px -1px;">
                                 <div class="panel-heading thor_div_showIf_datasetAlreadyClaimedList">
-                                    <%--<div class="row">--%>
-                                        <%--<div class="panel panel-warning">--%>
-                                            <%--<div class="panel-body">--%>
+
                                                 <div class="row">
                                                     You have signed in as <label
                                                         class="thor_label_show_userName"></label>
                                                 </div>
                                                 <div class="row thor_div_showIf_datasetNotClaimed">
                                                     You can <a href="#"
-                                                               class="thor_a_generate_claimLink">claim ${study.studyIdentifier}</a>
+                                                               class="thor_a_generate_claimLink"><strong>claim ${study.studyIdentifier}</strong></a>
                                                     into your ORCID.
                                                 </div>
-                                                <div class="row thor_div_showIf_datasetAlreadyClaimed">
-                                                    You have claimed ${study.studyIdentifier} into your ORCID.
+                                                <div class="row small thor_div_showIf_datasetAlreadyClaimed">
+                                                    You have claimed <strong>${study.studyIdentifier}</strong> into your ORCID.
                                                 </div>
-                                            <%--</div>--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
+
                                 </div>
                                 <div class="panel-body">
                                      <div class="row existingClaimants">
@@ -371,40 +337,11 @@
                                     </c:if>
                                 </div>
                                 <div class="panel-footer">
-                                    <a href="#" class="thor_a_generate_logoutLink"><i>Logout from ORCID</i></a>
+                                   <a href="#" class="thor_a_generate_logoutLink"><i>Logout from ORCID</i></a>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <%--<c:if test="${userApiToken ne 'MetaboLights-anonymous'}">--%>
-                    <%--<c:if test="${empty userOrcidID}">--%>
-                    <%--<br>--%>
-                    <%--also,  If you have an ORCID account--%>
-                    <%--<br>--%>
-                    <%--<div class="panel panel-default">--%>
-                    <%--&lt;%&ndash;<div class="panel-heading">ORCID record is missing</div>&ndash;%&gt;--%>
-                    <%--<div class="panel-body"><a href="${pageContext.request.contextPath}/myAccount"--%>
-                    <%--target="_blank">Update your MTBLS account with ORCID</a></div>--%>
-                    <%--</div>--%>
-                    <%--</c:if>--%>
-                    <%--</c:if>--%>
-
-                    <%--</c:when>--%>
-                    <%--<c:otherwise>--%>
-                    <%--<button class="btn btn-default" type="button"--%>
-                    <%--title="Link your ORCID id to your MetaboLights account to claim this study"--%>
-                    <%--onclick="location.href='myAccount'">--%>
-                    <%--<i class="thorOrcIdSpan">--%>
-                    <%--<img src="//www.ebi.ac.uk/europepmc/thor/resources/orcid-id.png" value="What is ORCID?"--%>
-                    <%--width="15" height="15" data-pin-nopin="true">--%>
-                    <%--</i>--%>
-                    <%--Update your ORCID ID--%>
-                    <%--</button>--%>
-                    <%--</c:otherwise>--%>
-                    <%--</c:choose>--%>
-                    <%--</c:otherwise>--%>
-                    <%--</c:choose>--%>
                 </c:if>
 
 
@@ -1898,82 +1835,7 @@
                 }
             });
 
-        //claim list
-        <%--function getOrcidClaimList() {--%>
-        <%--$.ajax({--%>
-        <%--cache: false,--%>
-        <%--url: "${orcidRetrieveClaimsServiceUrl}:${study.studyIdentifier}",--%>
-        <%--dataType: "json",--%>
-        <%--success: function (orchidRespData) {--%>
-        <%--//console.log(orchidRespData);--%>
-        <%--var claimListText = "";--%>
-        <%--if (orchidRespData['orcid-search-results']['num-found'] > 0) {--%>
 
-        <%--if (typeof thorApplicationNamespace != 'undefined') {--%>
-        <%--for (var uli = 0; uli < orchidRespData['orcid-search-results']['num-found']; uli++) {--%>
-        <%--var userOrcId = orchidRespData['orcid-search-results']['orcid-search-result'][uli]['orcid-profile']['orcid-identifier']['path'];--%>
-        <%--claimListText += '<a href="//europepmc.org/search?query=AUTHORID:\'' + userOrcId + '\'&sortby=Date">' + userOrcId + '</a><br>';--%>
-        <%--}--%>
-        <%--}--%>
-        <%--}--%>
-        <%--if (claimListText != "") {--%>
-        <%--$('.existingClaimants').html('<strong>Existing claims</strong><br>' + claimListText);--%>
-        <%--//                        $('.existingClaimants').html(claimListText);--%>
-        <%--//                    $('.thor_div_showIf_datasetAlreadyClaimedList').show();--%>
-        <%--}--%>
-        <%--else {--%>
-        <%--claimListText += 'None so far';--%>
-        <%--//                        $('.existingClaimants').html(claimListText);--%>
-        <%--$('.existingClaimants').html('<strong>Existing claims</strong>&nbsp;:&nbsp;' + claimListText);--%>
-        <%--}--%>
-
-        <%--}--%>
-        <%--});--%>
-        <%--}--%>
-
-        <%--function getOrcidClaimList() {--%>
-            <%--$.ajax({--%>
-                <%--cache: false,--%>
-                <%--url: "${orcidRetrieveClaimsServiceUrl}:${study.studyIdentifier}",--%>
-                <%--dataType: "json",--%>
-                <%--success: function (orchidRespData) {--%>
-                    <%--//console.log(orchidRespData);--%>
-                    <%--var claimListText = "";--%>
-                    <%--var claimsDiv = "";--%>
-                    <%--if (orchidRespData['orcid-search-results']['num-found'] > 0) {--%>
-
-                        <%--if (typeof thorApplicationNamespace != 'undefined') {--%>
-                            <%--for (var uli = 0; uli < orchidRespData['orcid-search-results']['num-found']; uli++) {--%>
-                                <%--var userOrcId = orchidRespData['orcid-search-results']['orcid-search-result'][uli]['orcid-profile']['orcid-identifier']['path'];--%>
-
-<%--//                                var userOrcGivenNames = orchidRespData['orcid-search-results']['orcid-search-result'][uli]['orcid-profile']['orcid-bio']['personal-details']['given-names']['value'];--%>
-<%--//                                var userOrcFamilyNames = orchidRespData['orcid-search-results']['orcid-search-result'][uli]['orcid-profile']['orcid-bio']['personal-details']['family-name']['value'];--%>
-
-<%--//                                if ($.trim(userOrcGivenNames) != "" && $.trim(userOrcFamilyNames) != "") {--%>
-<%--//                                    var completeName = userOrcGivenNames + " " + userOrcFamilyNames;--%>
-<%--//                                    claimListText += '<a target="_blank" href="//europepmc.org/search?query=AUTHORID:\'' + userOrcId + '\'&sortby=Date">' + completeName + '</a><br>';--%>
-<%--//                                }--%>
-<%--//                                else {--%>
-                                    <%--claimListText += '<a target="_blank" href="//europepmc.org/search?query=AUTHORID:\'' + userOrcId + '\'&sortby=Date">' + userOrcId + '</a><br>';--%>
-<%--//                                }--%>
-
-                            <%--}--%>
-                        <%--}--%>
-                    <%--}--%>
-                    <%--if (claimListText != "") {--%>
-                        <%--$('.existingClaimants').html('<strong>Existing claims</strong><br>' + claimListText);--%>
-<%--//                        $('.existingClaimants').html(claimListText);--%>
-<%--//                    $('.thor_div_showIf_datasetAlreadyClaimedList').show();--%>
-                    <%--}--%>
-                    <%--else {--%>
-                        <%--claimListText += 'None so far';--%>
-<%--//                        $('.existingClaimants').html(claimListText);--%>
-                        <%--$('.existingClaimants').html('<strong>Existing claims</strong>&nbsp;:&nbsp;' + claimListText);--%>
-                    <%--}--%>
-
-                <%--}--%>
-            <%--});--%>
-        <%--}--%>
 
         function getOrcidClaimList() {
             $.ajax({
@@ -1981,47 +1843,34 @@
                 url: "${orcidRetrieveClaimsServiceUrl}:${study.studyIdentifier}",
                 dataType: "json",
                 success: function (orchidRespData) {
-                    //console.log(orchidRespData);
-                    var claimListText = "";
-                    var claimsDiv = "";
-                    var attempt = '<div class="row"> \
+                    var claimListText = '<div class="row"> \
                                 <div class="panel panel-warning">  \
                                     <div class="panel-body">';
-                    if (orchidRespData['orcid-search-results']['num-found'] > 0) {
-
+                    console.log(orchidRespData);
+                    var resultsNumber = orchidRespData['orcid-search-results']['num-found'];
+                    if (resultsNumber > 0) {
                         if (typeof thorApplicationNamespace != 'undefined') {
                             for (var uli = 0; uli < orchidRespData['orcid-search-results']['num-found']; uli++) {
-                                var userOrcId = orchidRespData['orcid-search-results']['orcid-search-result'][uli]['orcid-profile']['orcid-identifier']['path'];
-                                claimListText += '<a target="_blank" href="//europepmc.org/search?query=AUTHORID:\'' + userOrcId + '\'&sortby=Date">' + userOrcId + '</a><br>';
-                                claimsDiv += '<div class="dropdown"> \
-                                    <a class="dropdown-toggle" data-toggle="dropdown">Dropdown Example<span class="caret"></span></a>\
-                                    <div class="dropdown-menu claimedStudies">\
-                                    </div>';
+                                if(resultsNumber === 1 ){
+                                    var userOrcId = orchidRespData['orcid-search-results']['orcid-search-result']['orcid-profile']['orcid-identifier']['path'];
+                                }else{
+                                    var userOrcId = orchidRespData['orcid-search-results']['orcid-search-result'][uli]['orcid-profile']['orcid-identifier']['path'];
+                                }
                                 var claimedStudies = getMatchingMtblsOrcidClaims(userOrcId);
-                                console.log("claimed studies - " + claimedStudies);
-//                                 attempt += '<div class="row"> \
-//                                <div class="panel panel-warning">  \
-//                                    <div class="panel-body"> \
-//                                <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="Studies Claimed"\
-//                                data-content=' + claimedStudies +
-//                                'data-html="true">'
-//                                + userOrcId + '</a>  \
-//                                </div></div></div>';
-
-                                 attempt  += '<a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="Studies Claimed"\
+                                claimListText  += '<a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="Studies Claimed"\
                                 data-content=\'' + claimedStudies +  '\' ' +
                                      'data-html="true" class="popup-ajax">'
                                 + userOrcId + '</a><br>';
                             }
-                            attempt +=  '</div></div></div>';
+                            claimListText +=  '</div></div></div>';
                         }
                     }
                     if (claimListText != "") {
-                        $('.existingClaimants').html('<strong>Existing claims</strong><br><br>' + attempt);
+                        $('.existingClaimants').html('<strong>Existing claims</strong><br><br>' + claimListText);
                     }
                     else {
-                        attempt += 'None so far';
-                      $('.existingClaimants').html('<strong>Existing claims</strong>&nbsp;:&nbsp;' + attempt);
+                        claimListText += 'None so far';
+                      $('.existingClaimants').html('<strong>Existing claims</strong>&nbsp;:&nbsp;' + claimListText);
                     }
                     $(function (){
                         $(".popup-ajax").popover({placement:'right'});
@@ -2043,14 +1892,12 @@
                     if(externalIdentifiers.length > 0){
                         var mtblsid = externalIdentifiers[0]['workExternalIdentifierId'];
                         matchingIdsContent += '<a target="_blank" class="small" href="${pageContext.request.contextPath}/' + mtblsid + '">' + mtblsid + '</a><br>';
-                        console.log("claims text " +  matchingIdsContent)
-                        return matchingIdsContent;
                     }
                 }
             }
+            matchingIdsContent += '<br><a target="_blank" class="small" href="//europepmc.org/search?query=AUTHORID:' + orcidToMatch + '&sortby=Date">View ORCID profile</a><br>';
             return matchingIdsContent;
         }
-
 
         function getMtblsOrcidClaims(orcidToMatch) {
             var claimListText = "";
@@ -2060,14 +1907,11 @@
                 dataType: "json",
                 success: function (orchidRespData) {
                     console.log(orchidRespData);
-//                    var claimListText = "";
                     if (orchidRespData['lstDatabaseClaims'].length > 0) {
-
                         if (typeof thorApplicationNamespace != 'undefined') {
                             console.log("entering..")
                             for (var uli = 0; uli < orchidRespData['lstDatabaseClaims'].length; uli++) {
                                 var userOrcId = orchidRespData['lstDatabaseClaims'][uli]['orcId'];
-//                                console.log("orcid to match.." + orcidToMatch + " - " + userOrcId)
                                 if(userOrcId === orcidToMatch){
                                     var externalIdentifiers = orchidRespData['lstDatabaseClaims'][uli]['workExternalIdentifiers'];
                                     if(externalIdentifiers.length > 0){
@@ -2080,21 +1924,10 @@
                             }
                         }
                     }
-//                    if (claimListText != "") {
-//                        $('.existingClaimants').html('<strong>Existing claims</strong><br>' + claimListText);
-//                    }
-//                    else {
-//                        claimListText += 'None so far';
-//                        $('.existingClaimants').html('<strong>Existing claims</strong>&nbsp;:&nbsp;' + claimListText);
-//                    }
-
                 }
             });
 
         }
-
-    //    getMtblsOrcidClaims("0000-0003-1572-0687");
-
         var asperaLoaded = false;
 
         $(function () {
@@ -2175,7 +2008,6 @@
     var editedDescription = description.replace(/[']/g, '');
     thorApplicationNamespace.createWorkOrcId(editedTitle, 'data-set', '${releaseYear}', 'http://www.ebi.ac.uk/metabolights/${study.studyIdentifier}', editedDescription, 'METABOLIGHTS');
     thorApplicationNamespace.addWorkIdentifier('other-id', '${study.studyIdentifier}');
-
 
     $(function () {
         $('[data-toggle="popover"]').popover();

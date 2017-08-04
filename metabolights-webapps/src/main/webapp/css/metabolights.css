@@ -925,3 +925,7 @@ img:not(.imagecache-screenshot-carousel-img) {
 .text-white{
     color: #fff !important;
 }
+
+.popup-ajax:focus,.popup-ajax:active {
+    outline: none !important;
+}
