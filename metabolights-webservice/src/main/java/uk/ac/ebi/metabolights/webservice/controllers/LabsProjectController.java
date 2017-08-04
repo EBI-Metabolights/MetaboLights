@@ -16,6 +16,7 @@ import uk.ac.ebi.metabolights.repository.dao.filesystem.MetaboLightsLabsWorkspac
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.*;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
+import uk.ac.ebi.metabolights.utils.json.LabsUtils;
 import uk.ac.ebi.metabolights.webservice.services.UserServiceImpl;
 import uk.ac.ebi.metabolights.webservice.utils.FileUtil;
 import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
@@ -337,6 +338,8 @@ public class LabsProjectController {
 
         String projectId = (String) serverRequest.get("id");
 
+        String jobID = (String) serverRequest.get("jobId");
+
         String root = PropertiesUtil.getProperty("userSpace");
 
 
@@ -346,14 +349,14 @@ public class LabsProjectController {
 
         MLLProject mllProject =  mllWorkSpace.getProject(projectId);
 
-        JSONObject settings= SecurityUtil.parseRequest(mllProject.getSettings());
+        MLLJob mllJob = mllProject.getJob(jobID);
 
 
-        if (settings == null || settings.get("jobs") == null){
+        if (mllJob == null){
 
             String[] commands = {"ssh", "ebi-login-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_mzml2isa.sh", "--token", user.getApiToken(), "--project " , mllProject.getId(), "--env", "dev"};
 
-            MLLJob pJob = executeCommand(commands, response, restResponse, mllProject);
+            MLLJob pJob = executeCommand(commands, mllProject, null);
 
             mllProject.saveJob(pJob);
 
@@ -363,9 +366,17 @@ public class LabsProjectController {
 
         }else{
 
-            String[] commands = {"ssh", "ebi-login-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_mzml2isa.sh", "--token", user.getApiToken(), "--project " , mllProject.getId(), "--env", "dev", "--job" , (String) settings.get("jobs") };
+            String[] commands = {"ssh", "ebi-login-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_mzml2isa.sh", "--token", user.getApiToken(), "--project " , mllProject.getId(), "--env", "dev", "--job" , mllJob.getJobId() };
 
-            MLLJob pJob = executeCommand(commands, response, restResponse, mllProject);
+            MLLJob pJob = executeCommand(commands, mllProject, mllJob);
+
+            if (pJob == null){
+
+                restResponse.setMessage("Job submission unsuccessful. Please check the logs for more details");
+
+                response.setStatus(500);
+
+            }
 
             mllProject.saveJob(pJob);
 
@@ -379,7 +390,7 @@ public class LabsProjectController {
 
     }
 
-    private MLLJob executeCommand(String[] commands, HttpServletResponse response, RestResponse<String> restResponse, MLLProject project){
+    private MLLJob executeCommand(String[] commands, MLLProject project, MLLJob mllJob){
 
         String s;
         Process p;
@@ -418,23 +429,44 @@ public class LabsProjectController {
 
         }
 
-//        if (error){
-//
-//            restResponse.setMessage(sb.toString());
-//
-//            response.setStatus(500);
-//
-//        }else{
+        // JSONObject output = SecurityUtil.parseRequest("{\"message\": \"Job submitted successfully\",\"code\": \"PEND\",\"jobID\": \"5134734\"}");
 
-            // JSONObject output = SecurityUtil.parseRequest("{\"message\": \"Job submitted successfully\",\"code\": \"PEND\",\"jobID\": \"5134734\"}");
+        JSONObject output = SecurityUtil.parseRequest(sb.toString().replace("u'","\"").replace("'", "\""));
 
-            JSONObject output = SecurityUtil.parseRequest(sb.toString().replace("u'","\"").replace("'", "\""));
+        if (error || output == null){
+
+            return null;
+
+        }
+
+        if (mllJob == null ){
 
             MLLJob pJob = new MLLJob(project.getId(), output.get("jobID").toString(), output.get("code").toString(), output);
 
-//        }
+            return pJob;
 
-        return pJob;
+        }else if(output != null){
+
+            String code = output.get("code").toString();
+
+            if (code == ""){
+
+                mllJob.setStatus("FINISHED / EXITED");
+
+            }else{
+
+                mllJob.setStatus(code);
+
+            }
+
+            mllJob.setInfo(output);
+            mllJob.setUpdatedAt(LabsUtils.getCurrentTimeStamp());
+
+            return mllJob;
+
+        }
+
+        return null;
 
     }
 

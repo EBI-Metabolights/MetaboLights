@@ -184,11 +184,23 @@ public class MLLProject {
 
         }
 
-        this.Jobs.add(mllJob);
+        int i = 0;
+        boolean exist = false;
+        for(MLLJob job : this.Jobs) {
+            if(job.getJobId().equalsIgnoreCase(mllJob.getJobId())){
+               exist = true;
+               break;
+            }
+            i++;
+        }
 
-        this.save();
+        if(exist){
+            this.Jobs.set(i, mllJob);
+        }else{
+            this.Jobs.add(mllJob);
+        }
 
-        return true;
+        return this.save();
     }
 
 
