@@ -1557,6 +1557,7 @@
             $.ajax({
                 url: url,
                 type: 'GET',
+
                 dataType: 'json',
                 success: function (data) {
                     metExploreDataJSONObj = JSON.parse(data.content);
@@ -1846,7 +1847,7 @@
                     var claimListText = '<div class="row"> \
                                 <div class="panel panel-warning">  \
                                     <div class="panel-body">';
-                    console.log(orchidRespData);
+//                    console.log(orchidRespData);
                     var resultsNumber = orchidRespData['orcid-search-results']['num-found'];
                     if (resultsNumber > 0) {
                         if (typeof thorApplicationNamespace != 'undefined') {
@@ -1862,16 +1863,12 @@
                                      'data-html="true" class="popup-ajax">'
                                 + userOrcId + '</a><br>';
                             }
-                            claimListText +=  '</div></div></div>';
                         }
+                    }else {
+                        claimListText  +=   '<p class="text-center"><pre>None so far</pre></p>';
                     }
-                    if (claimListText != "") {
-                        $('.existingClaimants').html('<strong>Existing claims</strong><br><br>' + claimListText);
-                    }
-                    else {
-                        claimListText += 'None so far';
-                      $('.existingClaimants').html('<strong>Existing claims</strong>&nbsp;:&nbsp;' + claimListText);
-                    }
+                    claimListText +=  '</div></div></div>';
+                    $('.existingClaimants').html('<strong>Existing claims</strong><br><br>' + claimListText);
                     $(function (){
                         $(".popup-ajax").popover({placement:'right'});
                     });
