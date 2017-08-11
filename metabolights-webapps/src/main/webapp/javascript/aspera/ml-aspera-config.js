@@ -9,7 +9,7 @@ METABOLIGHTS.ConfigFileControl = {
     // remote_upload_host: 'ah01.ebi.ac.uk',
     // remote_upload_user: 'UPLOAD_USERNAME',
     // remote_upload_password: 'UPLOAD_PASSWORD',
-    remote_download_host: 'fasp-beta.ebi.ac.uk',
+    remote_download_host: 'fasp.ebi.ac.uk',
     remote_download_user: 'fasp-ml',
     download_token: 'metabolights  download',
     download_authentication:'token',
@@ -17,6 +17,7 @@ METABOLIGHTS.ConfigFileControl = {
     rate_policy: 'fair',
     cipher: 'none',
     fasp_port: 33001,
+    http_fallback: false,
     asperaDownloadConnectPath: 'http://downloads.asperasoft.com/download_connect/',
     // uploadDirectoryPrefix: 'upload'
 };
