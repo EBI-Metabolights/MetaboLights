@@ -31,7 +31,7 @@
       integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 <link rel="stylesheet" media="screen"
       href="https://cdnjs.cloudflare.com/ajax/libs/handsontable/0.32.0/handsontable.full.css">
-<link href="styles.764212209b2e59f67965.bundle.css" rel="stylesheet"/>
+<link href="styles.32b2992df6194aa895ed.bundle.css" rel="stylesheet"/>
 
 <div class="container">
     <div class="row">
@@ -46,10 +46,13 @@
     </div>
 </div>
 
-<script type="text/javascript" src="inline.ffa9c0b3f9b8e8446326.bundle.js"></script>
+<script type="text/javascript" src="inline.dac20c9a73e20d530d8c.bundle.js"></script>
 <script type="text/javascript" src="polyfills.63929c2b04758c996018.bundle.js"></script>
-<script type="text/javascript" src="vendor.e928ce39e73e37a84a27.bundle.js"></script>
-<script type="text/javascript" src="main.0fe95b657cbb70f87faa.bundle.js"></script>
+<script type="text/javascript" src="vendor.4d9b987a0f2849e3adcf.bundle.js"></script>
+<script type="text/javascript" src="main.b1edfdc66263a77ae767.bundle.js"></script>
+
+
+
 
 
 
