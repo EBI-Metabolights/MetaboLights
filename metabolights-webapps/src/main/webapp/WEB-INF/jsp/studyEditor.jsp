@@ -36,9 +36,6 @@
 <div class="container">
     <div class="row">
         <app-study-editor studyID="${studyId}"></app-study-editor>
-        <%--<isa-json-editor studyID="${studyId}"></isa-json-editor>--%>
-        <%--<ml-study-editor studyID="${studyId}" apiToken="${apiToken}"></ml-study-editor>--%>
-        <%--<ml-study-editor studyID="${studyId}"></ml-study-editor>--%>
     </div>
     <div class="row">
         <div><a href="${pageContext.request.contextPath}/${studyId}" class="btn btn-primary pull-right"
@@ -50,7 +47,6 @@
 <script type="text/javascript" src="polyfills.63929c2b04758c996018.bundle.js"></script>
 <script type="text/javascript" src="vendor.4d9b987a0f2849e3adcf.bundle.js"></script>
 <script type="text/javascript" src="main.b1edfdc66263a77ae767.bundle.js"></script>
-
 
 
 

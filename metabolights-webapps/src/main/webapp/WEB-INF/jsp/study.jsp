@@ -158,7 +158,6 @@
                         $('#redirectToEditorPage').click(function(){
                             var token = "${userApiToken}";
                             localStorage.setItem("apiToken", token);
-//                            window.location.href = ;
                             window.open("${pageContext.request.contextPath}/studyeditor?studyId=${liteStudy.studyIdentifier}");
                         })
 
