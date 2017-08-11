@@ -24,6 +24,7 @@ import uk.ac.ebi.metabolights.webservice.utils.SecurityUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.Response;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -349,8 +350,11 @@ public class LabsProjectController {
 
         MLLProject mllProject =  mllWorkSpace.getProject(projectId);
 
-        MLLJob mllJob = mllProject.getJob(jobID);
+        MLLJob mllJob = null;
 
+        if(jobID != null) {
+            mllJob = mllProject.getJob(jobID);
+        }
 
         if (mllJob == null){
 
@@ -387,6 +391,82 @@ public class LabsProjectController {
         }
 
         return restResponse;
+
+    }
+
+    /**
+     * Authenticate user and convert the mzML2isa
+     * @param data
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "getJobLogs", method = RequestMethod.POST)
+    @ResponseBody
+    public RestResponse<String> getJobLogs(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
+
+        RestResponse<String> restResponse = new RestResponse<String>();
+
+        User user = SecurityUtil.validateJWTToken(data);
+
+        if(user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
+
+            restResponse.setContent("invalid");
+
+            response.setStatus(403);
+
+            return restResponse;
+
+        }
+
+        JSONObject serverRequest = SecurityUtil.parseRequest(data);
+
+        String projectId = (String) serverRequest.get("id");
+
+        String jobID = (String) serverRequest.get("jobId");
+
+        String root = PropertiesUtil.getProperty("userSpace");
+
+
+        MetaboLightsLabsWorkspaceDAO metaboLightsLabsWorkspaceDAO = new MetaboLightsLabsWorkspaceDAO(user, root);
+
+        MLLWorkSpace mllWorkSpace = metaboLightsLabsWorkspaceDAO.getMllWorkSpace();
+
+        MLLProject mllProject =  mllWorkSpace.getProject(projectId);
+
+        MLLJob mllJob = null;
+
+        if(jobID != null) {
+            mllJob = mllProject.getJob(jobID);
+        }
+
+        if (mllJob == null){
+
+            restResponse.setContent("invalid input");
+
+            response.setStatus(Response.Status.FORBIDDEN.getStatusCode());
+
+        }else{
+
+            restResponse.setContent(getJobDetails(mllJob, root));
+
+        }
+
+        return restResponse;
+
+    }
+
+    private String getJobDetails(MLLJob job, String root){
+
+        JSONObject mllPJob = new JSONObject();
+
+        if (root != null){
+            mllPJob.put("log", job.getJobLogs().replace(root, "/base_path/"));
+        }else{
+            mllPJob.put("log", job.getJobLogs());
+        }
+
+        return mllPJob.toJSONString();
 
     }
 
@@ -449,9 +529,19 @@ public class LabsProjectController {
 
             String code = output.get("code").toString();
 
-            if (code == ""){
+            if (code.isEmpty()){
 
-                mllJob.setStatus("FINISHED / EXITED");
+                String jobLogDetails = getJobDetails(mllJob, null);
+
+                if (jobLogDetails.contains("Successfully completed")){
+
+                    mllJob.setStatus("DONE");
+
+                }else{
+
+                    mllJob.setStatus("FINISHED but EXITED");
+
+                }
 
             }else{
 

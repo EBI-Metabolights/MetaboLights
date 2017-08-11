@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jose4j.json.internal.json_simple.JSONObject;
+import uk.ac.ebi.metabolights.utils.json.FileUtils;
 import uk.ac.ebi.metabolights.utils.json.LabsUtils;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 
 
@@ -94,6 +96,37 @@ public class MLLJob {
         }
 
         return null;
+    }
+
+
+    @JsonIgnore
+    public String getJobLogs(){
+
+        String userRoot = "/net/isilonP/public/rw/homes/tc_cm01/logs/";
+
+        String err = "";
+
+        String output = "";
+
+        try {
+
+            err = FileUtils.file2String(userRoot + "mzml2isaJob" + "." + this.getJobId() + ".err" );
+
+            output = FileUtils.file2String(userRoot + "mzml2isaJob" + "." + this.getJobId() + ".out" ).replace("","");
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        }
+
+        JSONObject log = new JSONObject();
+
+        log.put("err", err);
+        log.put("out", output);
+
+        return log.toJSONString();
+
     }
 
 }
