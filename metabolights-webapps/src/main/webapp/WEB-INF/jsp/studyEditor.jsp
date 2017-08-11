@@ -35,7 +35,7 @@
 
 <div class="container">
     <div class="row">
-        <app-test-version studyID="${studyId}"></app-test-version>
+        <app-study-editor studyID="${studyId}"></app-study-editor>
         <%--<isa-json-editor studyID="${studyId}"></isa-json-editor>--%>
         <%--<ml-study-editor studyID="${studyId}" apiToken="${apiToken}"></ml-study-editor>--%>
         <%--<ml-study-editor studyID="${studyId}"></ml-study-editor>--%>
