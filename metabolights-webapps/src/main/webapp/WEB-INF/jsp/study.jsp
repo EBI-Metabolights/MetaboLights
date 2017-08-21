@@ -257,7 +257,7 @@
                             <img src="//www.ebi.ac.uk/europepmc/thor/resources/orcid-id.png" value="What is ORCID?"
                                  width="15" height="15" data-pin-nopin="true">
                         </i>
-                        Claim this study to ORCID
+                        ORCID Claims
                     </button>
                     <div class="dropdown-menu orcid-dropdown" aria-labelledby="dropdownMenuButton">
                         <div class="thor_div_showIf_notSigned">
@@ -1854,21 +1854,25 @@
                             for (var uli = 0; uli < orchidRespData['orcid-search-results']['num-found']; uli++) {
                                 if(resultsNumber === 1 ){
                                     var userOrcId = orchidRespData['orcid-search-results']['orcid-search-result']['orcid-profile']['orcid-identifier']['path'];
+                                    var userOrcName = orchidRespData['orcid-search-results']['orcid-search-result']['orcid-profile']['orcid-bio']['personal-details']['given-names']['value'];
+                                    userOrcName += " " + orchidRespData['orcid-search-results']['orcid-search-result']['orcid-profile']['orcid-bio']['personal-details']['family-name']['value'];
                                 }else{
                                     var userOrcId = orchidRespData['orcid-search-results']['orcid-search-result'][uli]['orcid-profile']['orcid-identifier']['path'];
+                                    var userOrcName = orchidRespData['orcid-search-results']['orcid-search-result'][uli]['orcid-profile']['orcid-bio']['personal-details']['given-names']['value'];
+                                    userOrcName += " " + orchidRespData['orcid-search-results']['orcid-search-result'][uli]['orcid-profile']['orcid-bio']['personal-details']['family-name']['value'];
                                 }
                                 var claimedStudies = getMatchingMtblsOrcidClaims(userOrcId);
                                 claimListText  += '<a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="Studies Claimed"\
                                 data-content=\'' + claimedStudies +  '\' ' +
                                      'data-html="true" class="popup-ajax">'
-                                + userOrcId + '</a><br>';
+                                + userOrcName + '</a><br>';
                             }
                         }
                     }else {
                         claimListText  +=   '<p class="text-center"><pre>None so far</pre></p>';
                     }
                     claimListText +=  '</div></div></div>';
-                    $('.existingClaimants').html('<strong>Existing claims</strong><br><br>' + claimListText);
+                    $('.existingClaimants').html('Existing ORCID Claims<br>' + claimListText);
                     $(function (){
                         $(".popup-ajax").popover({placement:'right'});
                     });
@@ -1892,7 +1896,7 @@
                     }
                 }
             }
-            matchingIdsContent += '<br><a target="_blank" class="small" href="//europepmc.org/search?query=AUTHORID:' + orcidToMatch + '&sortby=Date">View ORCID profile</a><br>';
+            matchingIdsContent += '<br><a target="_blank" class="small" href="http://orcid.org/' + orcidToMatch+'">View ORCID profile</a><br>';
             return matchingIdsContent;
         }
 
