@@ -304,8 +304,6 @@ public class LabsProjectController {
 
         mllProject.delete(files);
 
-        restResponse.setContent(mllProject.getAsJSON());
-
         return restResponse;
 
     }

@@ -34,6 +34,28 @@ public class FileUtils {
         writer.close();
     }
 
+    /**
+     * Deletes all fileNames and subdirectories under dir.
+     *
+     * @param dir to delete
+     * @return Returns true if all deletions were successful.
+     * If a deletion fails, the method stops attempting to delete and returns false.
+     */
+    public static boolean deleteDir(File dir) {
+        if (dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i=0; i<children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+
+        // The directory is now empty so delete it
+        return dir.delete();
+    }
+
     public static Boolean checkFileExists(String fileName){
         if (fileName == null || fileName.isEmpty())
             return false;        // No filename given
@@ -181,9 +203,25 @@ public class FileUtils {
 
         // we are no longer moving the file...
         // ...just re-naming it to be deleted later by a bash script
-        filePath.toFile().renameTo(new File( "" + File.separator +
-                projectFolder + File.separator +
-                filePrefix + fileName));
+
+        if (fileName.contains("/")){
+
+            File tempFile = new File(fileName);
+            String tempFileName = tempFile.getName();
+            String tempFileParent = tempFile.getParentFile().getPath();
+
+            fileName = tempFileParent + File.separator + filePrefix + tempFileName;
+
+        }else{
+
+            fileName = filePrefix + fileName;
+
+        }
+
+        filePath.toFile().renameTo(
+                new File( "" + File.separator +  projectFolder + File.separator + fileName)
+        );
+
         result = true;
 
         return result;

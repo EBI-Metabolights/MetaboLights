@@ -2,6 +2,9 @@ package uk.ac.ebi.metabolights.webservice.controllers;
 
 import java.io.File;
 import java.util.List;
+
+import org.jose4j.json.internal.json_simple.parser.JSONParser;
+import org.jose4j.json.internal.json_simple.parser.ParseException;
 import org.slf4j.Logger;
 import java.io.IOException;
 import org.slf4j.LoggerFactory;
@@ -148,6 +151,69 @@ public class LabsWorkspaceController {
 
         return null;
     }
+
+    /**
+     * Fetch the list of projects in a workspace
+     * @param data (User_API_TOKEN)
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "deleteProject", method = RequestMethod.POST)
+    @ResponseBody
+    public RestResponse<String> deleteProjectFromWorkspace(@RequestBody String data, HttpServletResponse response) throws IOException {
+
+        RestResponse<String> restResponse = new RestResponse<String>();
+
+        JSONObject serverRequest = SecurityUtil.parseRequest(data);
+
+        String projectId = (String) serverRequest.get("project_id");
+
+        User user = SecurityUtil.validateJWTToken(data);
+
+        if (user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
+
+            restResponse.setContent("invalid");
+
+            response.setStatus(403);
+
+            return restResponse;
+
+        }
+
+
+        if (user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
+
+            logger.info("User with the token doesnt exist. Aborting the request");
+
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User doesnt exist error!");
+
+            return restResponse;
+
+        }
+
+        MLLWorkSpace mllWorkSpace = getWorkspaceInfo(user);
+
+        if (mllWorkSpace == null) {
+
+            logger.warn("Error fetching the workspace info associated with the user");
+
+            response.setStatus(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+
+            return restResponse;
+
+        }
+
+        MLLProject mllProject = mllWorkSpace.getProject(projectId);
+
+        if(mllProject != null){
+
+            mllWorkSpace.deleteProject(mllProject);
+
+        }
+
+        return restResponse;
+    }
+
 
 
     /**
