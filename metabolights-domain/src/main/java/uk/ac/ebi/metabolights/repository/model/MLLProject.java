@@ -305,7 +305,7 @@ public class MLLProject {
 
         getLogger().info( "Deleting file(s) :" + LabsUtils.listToString(files));
 
-        return FileUtils.deleteFilesFromProject(files, ProjectLocation);
+        return FileUtils.deleteFilesFromProject(files, this.ProjectLocation.replace("//","/"));
 
     }
 

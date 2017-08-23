@@ -100,7 +100,7 @@ public class MLLWorkSpace {
 
     public MLLWorkSpace(User mlOwner, String root) {
 
-        this.WorkspaceLocation = root +  File.separator + mlOwner.getApiToken();
+        this.WorkspaceLocation = root +  mlOwner.getApiToken();
 
         String workspaceInfoLocation = this.WorkspaceLocation + File.separator + "workspace.info";
 
@@ -125,7 +125,7 @@ public class MLLWorkSpace {
                 }
 
                 this.CreatedAt = tempMllWorkSpace.getCreatedAt();
-                this.WorkspaceLocation = tempMllWorkSpace.getWorkspaceLocation();
+                this.WorkspaceLocation = tempMllWorkSpace.getWorkspaceLocation().replace("//","/");
                 this.UpdatedAt = tempMllWorkSpace.getUpdatedAt();
                 this.Settings = tempMllWorkSpace.getSettings();
                 this.Projects = tempMllWorkSpace.getProjects();
@@ -201,6 +201,17 @@ public class MLLWorkSpace {
     private Boolean saveProject(MLLProject mllProject){
 
         Projects.add(mllProject);
+
+        return this.save();
+
+    }
+
+    @JsonIgnore
+    public Boolean deleteProject(MLLProject mllProject){
+
+        Projects.remove(mllProject);
+
+        FileUtils.deleteDir(new File(mllProject.getProjectLocation()));
 
         return this.save();
 

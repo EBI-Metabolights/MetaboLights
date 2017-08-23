@@ -320,6 +320,7 @@ LabsURL['authenticate'] = server + 'labs/authenticate';
 // Workspace
 LabsURL['initialise'] = server + 'labs-workspace/initialise';
 LabsURL['createProject'] = server + 'labs-workspace/createProject';
+LabsURL['deleteProject'] = server + 'labs-workspace/deleteProject';
 // Project
 LabsURL['projectContent'] = server + 'labs-project/content';
 LabsURL['projectDetails'] = server + 'labs-project/details';
@@ -866,10 +867,12 @@ var File = (function () {
     function File() {
         this.title = "";
         this.timeStamp = "";
+        this.index = 0;
     }
     File.prototype.deserialize = function (input) {
         this.title = input.title;
         this.timeStamp = input.timeStamp;
+        this.index = input.fileIndex;
         return this;
     };
     return File;
@@ -920,7 +923,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".div-wrapper{\n\tdisplay: -webkit-box;\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\t-webkit-box-align: center;\n\t    -ms-flex-align: center;\n\t        align-items: center;\n  \t-webkit-box-pack: center;\n  \t    -ms-flex-pack: center;\n  \t        justify-content: center;\n\tmin-height: 50vh;\n\tpadding: 40px 40px;\n\t-webkit-box-orient: vertical;\n\t-webkit-box-direction: normal;\n\t    -ms-flex-direction: column;\n\t        flex-direction: column;\n\ttext-align: center;\n}\n\n.vh80{\n\tmin-height: 80vh !important;\n}\n\n.div-wrapper .spinner > h5{\n\tfont-weight: normal;\n\tletter-spacing: 1px;\n}\n\n.div-wrapper .spinner > small{\n\tfont-weight: lighter;\n}\n\n.spinner{\n\tposition: relative !important;\n    top: 0%;\n    left: 0%;\n    margin-top: 0px; \n    margin-left: 0px;\n    text-align: center;\n}\n\nul {\n  list-style-type: none;\n}\n\nul li{\n  padding: 5px 0;\n}\n\n.npt{\n\tpadding-top: 0;\n}\n\n.npl{\n\tpadding-left: 5px;\n}\n\n.logFileData{\n\toverflow-x: scroll;\n}", ""]);
+exports.push([module.i, ".div-wrapper{\n\tdisplay: -webkit-box;\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\t-webkit-box-align: center;\n\t    -ms-flex-align: center;\n\t        align-items: center;\n  \t-webkit-box-pack: center;\n  \t    -ms-flex-pack: center;\n  \t        justify-content: center;\n\tmin-height: 50vh;\n\tpadding: 40px 40px;\n\t-webkit-box-orient: vertical;\n\t-webkit-box-direction: normal;\n\t    -ms-flex-direction: column;\n\t        flex-direction: column;\n\ttext-align: center;\n}\n\n.vh80{\n\tmin-height: 80vh !important;\n}\n\n.div-wrapper .spinner > h5{\n\tfont-weight: normal;\n\tletter-spacing: 1px;\n}\n\n.div-wrapper .spinner > small{\n\tfont-weight: lighter;\n}\n\n.spinner{\n\tposition: relative !important;\n    top: 0%;\n    left: 0%;\n    margin-top: 0px; \n    margin-left: 0px;\n    text-align: center;\n}\n\nul {\n  list-style-type: none;\n}\n\nul li{\n  padding: 5px 0;\n}\n\n.npt{\n\tpadding-top: 0;\n}\n\n.npl{\n\tpadding-left: 5px;\n}\n\n.logFileData{\n\toverflow-x: scroll;\n}\n\n.jcc{\n    -webkit-box-pack: center !important;\n        -ms-flex-pack: center !important;\n            justify-content: center !important;\n}", ""]);
 
 // exports
 
@@ -933,7 +936,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/work-space/project/project.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"content row\" *ngIf=\"project!==undefined; else elseBlock\">\n\t<div class=\"col-md-9 mini-wrapper\">\n\t\t<div class=\"section\">\n\t\t\t<h3 class=\"title\"><b><img src=\"assets/img/project.png\" height=\"16\" class=\"logo\"> &nbsp;{{ project.title }}</b></h3>\n\t\t</div>\n\t\t<!-- <div *ngIf=\"files?.length > 0\" class=\"section ntp\">\n  \t\t\t<small>\n\t  \t\t\t<label>\n\t  \t\t\t\t<input (change)=\"selectAllFiles($event)\" type=\"checkbox\"> Select all\n\t  \t\t\t</label>\n\t  \t\t</small>\n\t\t  \t<div class=\"card\">\n\t\t\t  \t<ul class=\"list-group list-group-flush\" *ngFor=\"let file of files; let i = index;\">\n\t\t\t  \t\t<div class=\"checkbox\">\n\t\t\t\t\t\t<li class=\"list-group-item\">\n\t\t\t\t\t\t    <label>\n\t\t\t\t\t\t    \t\t<input [checked]=\"selectedFiles.indexOf(file) > -1\" (change)=\"updateSelectedFilesList($event, i, file)\" type=\"checkbox\"> \n\t\t\t\t\t\t\t    \t&nbsp;<small>{{ file }}</small>\n\t\t\t\t\t    \t</label>\n\t\t\t\t  \t\t</li>\n\t\t\t\t\t</div>\n\t\t\t  \t</ul>\n\t\t\t</div>\n\t\t</div>\n\t\t<div *ngIf=\"files?.length == 0\" class=\"section ntp\">\n\t\t\t<div class=\"cloning_project\">\n\t\t\t\t<img src=\"assets/img/safebox.png\" height=\"128\" class=\"logo\"><br><br>\n\t\t\t\t<div class=\"spinner\">\n\t\t\t\t\t<h6 class=\"text-center lighter\">\n\t\t\t\t\t\tNo files yet! Upload files using aspera? \n\t\t\t\t\t</h6>\n\t\t\t\t\t<small>Note: Files uploaded through Aspera might take some time to appear in the project folder.</small><br><br>\n\t\t\t\t\t<small class=\"center\"><i><button class=\"btn btn-sm btn-primary\" (click)=\"asperaUpload()\"><i class=\"fa fa-upload\"></i> UPLOAD DATA </button></i></small>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div> -->\n\t\t<div class=\"section npt\">\n\t\t\t<tree-view [directory]=\"projectStructure\"></tree-view>\n\t\t</div>\n\n\t</div>\n\t<div class=\"col-xs-12 col-md-3 grey np\">\n\t\t<div class=\"section\">\n\t\t  \t<small><label>Import data</label></small><br>\n\t\t  \t<div class=\"btn-group-sm\" role=\"group\" aria-label=\"...\">\n\t\t\t\t<button class=\"btn btn-primary pointer\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Upload files - Aspera web browser client. Note: Files uploaded through Aspera might take some time to appear in the project folder. \" (click)=\"asperaUpload()\">\n\t\t  \t\t\t<i class=\"fa fa-upload\"></i> Aspera Upload\n\t\t  \t\t</button>\n\t\t\t\t<button class=\"btn btn-info pointer\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Upload files - Aspera command line client\" (click)=\"open(content)\">\n\t\t  \t\t\t<i class=\"fa fa-terminal\"></i>\n\t\t  \t\t</button>\n\t\t  \t\t<a class=\"btn btn-default pointer\" data-toggle=\"tooltip\" data-placement=\"left\" title=\"Need help with setting up Aspera\" href=\"ftp://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/MetaboLights%20Tutorial%20-%20FAQ.pdf\" target=\"_blank\">\n\t\t\t\t\t<i class=\"fa fa-question\"></i>\n\t\t\t\t</a>\n\t\t  \t</div>\n\t\t</div>\n\t\t<div class=\"section\" *ngIf=\"files?.length > 0\">\n\t\t\t<small><label> Tools </label></small><br>\n\t\t  \t<span class=\"form-group\">\n\t\t  \t\t<span class=\"tiny text-muted\"><label> File format conversions</label></span><br>\n\t\t  \t\t<button (click)=\"openMzml2IsaModal(mzml2isa)\" class=\"btn btn-success btn-sm\" [ngClass]=\"mzMLFiles?.length <= 0 ? 'disabled' : ''\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Parser to extract meta information from mzML mass spectrometry files and parse relevant information to a ISA-Tab structure\">\n\t\t  \t\t\t.mzML <i class=\"fa fa-arrow-circle-o-right\" aria-hidden=\"true\"></i> ISA\n\t\t  \t\t</button>\n\t\t  \t</span><br>\n\t\t  \t<span class=\"tiny text-muted\"><label> Data Analysis</label></span><br>\n\t\t  \t<span class=\"form-group\">\n\t\t  \t\t<button class=\"btn btn-info btn-sm disabled\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Run Isotopologue Parameter Optimization (IPO) \">\n\t\t  \t\t\t<i class=\"fa fa-filter\" aria-hidden=\"true\"></i>\n\t\t  \t\t</button>\n\t\t  \t</span><br>\n\t\t\t<span class=\"tiny text-muted\"><label> Export</label></span><br>\n\t\t  \t<span class=\"form-group\">\n\t\t  \t\t<button class=\"btn btn-warning btn-sm disabled\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Submit project as a study to MetaboLights Database\">\n\t\t  \t\t\t<i class=\"fa fa-university\" aria-hidden=\"true\"></i>\n\t\t  \t\t</button>\n\t\t  \t\t<button class=\"btn btn-warning btn-sm disabled\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Export as PDF file\">\n\t\t  \t\t\t<i class=\"fa fa-file-pdf-o\" aria-hidden=\"true\"></i>\n\t\t  \t\t</button>\n\t\t  \t\t<button class=\"btn btn-warning btn-sm disabled\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Export as .zip file\">\n\t\t  \t\t\t<i class=\"fa fa-file-archive-o\" aria-hidden=\"true\"></i>\n\t\t  \t\t</button>\n\t\t  \t</span>\n\t\t</div>\n\t\t<div class=\"section\">\n\t\t\t<small><label> Configuration </label></small><br>\n\t\t  \t<span class=\"form-group\">\n\t\t  \t\t<button class=\"btn btn-warning btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Edit project details\" (click)=\"openEditModal(editProjectDetails)\"><i class=\"fa fa-cogs\"></i></button>\n\t\t\t\t<!-- <button class=\"btn btn-default btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"View Project Log\" ><i class=\"fa fa-road\"></i></button>  -->\n\t\t\t\t<button (click)=\"openJobsModal(jobs)\" class=\"btn btn-primary btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"View Jobs\" >\n\t\t\t\t\t<i class=\"fa fa-tasks\" aria-hidden=\"true\"></i>&nbsp;\n\t\t\t\t\t{{ project.jobs.length }}\n\t\t\t\t</button>\n\t\t\t\t<button *ngIf=\"files?.length > 0\" class=\"btn btn-danger btn-sm\" (click)=\"openDeleteConfirmationModal(confirmDeleteFiles)\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Delete file(s)\" ><i class=\"fa fa-trash\"></i></button> \n\t\t  \t</span>\n\t\t  \t<p class=\"alert-wrapper\" *ngFor=\"let alert of alerts\">\n\t\t\t\t<small><ngb-alert [type]=\"alert.type\" (close)=\"closeAlert(alert)\">{{ alert.message }}</ngb-alert></small>\n\t\t\t</p>\n\t\t</div>\n\t\t<div class=\"section\">\n\t\t  \t<div class=\"ml-card\">\n\t\t  \t\t<div class=\"ml-card-header\">\n\t\t  \t\t\tProject Details\n\t\t  \t\t</div>\n\t\t  \t\t<div class=\"ml-card-body\">\n\t\t  \t\t\t<small><i>TITLE: </i></small>\n\t\t  \t\t\t<p>{{ project.title }}</p>\n\t\t  \t\t\t<small><i>ID: </i></small>\n\t\t  \t\t\t<p><small>{{ project.id }}</small></p>\n\t\t  \t\t\t<small><i>Description: </i></small>\n\t\t  \t\t\t<p>{{ project.description }}</p>\n\t\t\t    \t<small><i>Created at: </i></small>\n\t\t  \t\t\t<p>{{ project.createdAt | date:'yyyy-MM-dd HH:mm:ss Z' }}</p>\n\t\t  \t\t\t<small><i>Updated at: </i></small>\n\t\t  \t\t\t<p>{{ project.updatedAt | date:'yyyy-MM-dd HH:mm:ss Z' }}</p>\n\t\t  \t\t\t<small><i>Status: </i></small>\n\t\t  \t\t\t<p *ngIf=\"project.isBusy\">\n\t\t  \t\t\t\t<i class=\"fa fa-lock\"></i>\n\t\t  \t\t\t</p>\n\t\t  \t\t\t<p *ngIf=\"!project.isBusy\">\n\t\t  \t\t\t\t<i class=\"fa fa-unlock\"></i>\n\t\t  \t\t\t</p>\n\t\t  \t\t</div>\n\t\t  \t</div>\n\t\t</div>\n\t</div>\n</div>\n<ng-template #elseBlock>\n\t<div class=\"content row\">\n\t\t<div class=\"col-md-12 mini-wrapper\">\n\t\t\t<div class=\"div-wrapper vh80\">\n\t\t\t\t<img src=\"assets/img/broken-link.png\" height=\"128\" class=\"logo\"><br>\n\t\t\t\t<div class=\"spinner\">\n\t\t\t\t\t<h6 class=\"text-center\">\n\t\t\t\t\t\tProject not found\n\t\t\t\t\t</h6><br>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</ng-template>\n<ng-template #mzml2isa let-c=\"close\" let-d=\"dismiss\" ngbModalContainer>\n\t<div class=\"modal-body\">\n\t\t<div class=\"div-wrapper\">\n\t\t\t<img src=\"assets/img/file-conversion.png\" height=\"128\" class=\"logo\"><br>\n\t\t\t<h2>mzml2isa</h2>\n\t\t\t<small>\n\t\t\t\t<b>Parser to extract meta information from mzML mass spectrometry files and parse relevant information to a ISA-Tab structure</b>\n\t\t\t</small>\n\t\t\t<small class=\"center tiny text-muted\">Note: Conversion might take a while depending upon the size of the .mzML files.</small>\n\t\t\t<br>\n\t\t\t<button (click)=\"convertMzml2isa()\" type=\"submit\" class=\"btn btn-primary\">Convert .mzML to ISA</button>\n\t\t</div>\n\t</div>\n</ng-template>\n<ng-template #jobs let-c=\"close\" let-d=\"dismiss\" ngbModalContainer>\n\t<div class=\"modal-header\">\n\t    <h5 class=\"modal-title\">Jobs</h5>\n\t</div>\n\t<div class=\"modal-body\">\n\t\t<div *ngFor=\"let job of project.jobs\" class=\"card\" [ngClass]=\"{'card-outline-warning': job.status == 'PEND'}\">\n\t\t  <div class=\"card-block\">\n\t\t    <h4 class=\"card-title\">Job ID: {{ job.job }}</h4>\n\t\t    <h6 class=\"card-subtitle mb-2 text-muted\">{{ job.info.message }}</h6>\n\t\t    <span class=\"badge badge-default\">Status: <span [innerHTML]=\"job.status\"></span></span>\n\t\t\t<a class=\"pointer\" (click)=\"displayJobLogs(job)\"><span class=\"badge badge-primary\">\n\t\t    \t<i class=\"fa fa-eye\"></i>&nbsp;View Job Output\n\t\t    </span></a>\n\t\t    <a class=\"pointer float-right\" *ngIf=\"job.status != 'DONE'\" (click)=\"convertMzml2isa(job)\"><span class=\"badge badge-primary\">\n\t\t    \t<i class=\"fa fa-refresh\"></i>&nbsp;Update Status\n\t\t    </span></a>\n\t\t\t<div class=\"collapse logFileData\" [id]=\"'job_'+ job.jobId\">\n\t\t\t\t<hr>\n\t\t\t\t<small><b>Output</b></small>\n\t\t\t\t<div [innerHTML]=\"job.log.out\"></div>\n\t\t\t\t<hr>\n\t\t\t\t<small><b>Error log</b></small>\n\t\t\t\t<div [innerHTML]=\"job.log.err\"></div>\n\t\t\t</div>\n\t\t  </div>\n\t\t</div>\n\t</div>\n</ng-template>\n<ng-template #content let-c=\"close\" let-d=\"dismiss\" ngbModalContainer>\n\t<form>\n\t\t<div class=\"modal-header\">\n\t\t\t<h5 class=\"modal-title\"><i class=\"fa fa-terminal\"></i>&emsp;Aspera Command Line File Upload </h5>\n\t\t\t<a class=\"close pull-right\" aria-label=\"Close\" (click)=\"d('Cross click')\">\n\t\t\t\t<span aria-hidden=\"true\">&times;</span>\n\t\t\t</a>\n\t\t</div>\n\t\t<div class=\"modal-body\">\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"col-md-12\">\n\t\t\t\t\t<small>\n\t\t\t\t\t\t<span class=\"tiny\">Please note if you have already setup aspera for a MetaboLights Labs project, please ignore the first 2 steps.</span><br>\n\t\t\t\t\t\t<b>Step 1: Install Aspera ascp command line client</b><br>\n\t\t\t\t\t\tThe Aspera ascp command line client can be downloaded <i><a href=\"http://downloads.asperasoft.com/downloads\" target=\"_blank\">here</a></i><br><br>\n\t\t\t\t\t\t<b>Step 2: PIP Install - MetaboLightsLabs CLI Tool</b><br>\n\t\t\t\t\t\t<code>> pip install git+https://github.com/EBI-Metabolights/MetaboLightsLabs-PythonCLI</code><br>\n\t\t\t\t\t\tFor details on how to install PIP - <i><a href=\"https://pip.pypa.io/en/stable/installing/\" target=\"_blank\">Click here</a></i><br><br>\n\t\t\t\t\t\t<b>Step 3: Upload the files</b><br>\n\t\t\t\t\t\t<span class=\"tiny\">Copy the following command, replace the filesToUpload with your files/folders location (array if more than one) and execute from the command line.</span><br>\n\t\t\t\t\t\t<code>> uploadToMetaboLightsLabs.py -t {{token}} -i <b><code>< filesToUpload ></code></b> -p {{ project.id }} -s DEV</code><br><br>\n\t\t\t\t\t\t<!-- <b>Step 3: Navigate to the folder where the Aspera command line client program ascp is installed.</b><br>\n\t\t\t\t\t\tThe location of the 'ascp' program in the filesystem:<br>\n\t\t\t\t\t\t<span class=\"col-md-12\">\n\t\t\t\t\t\t\t<b>Mac:</b> on the desktop go cd /Applications/Aspera\\ Connect.app/Contents/Resources/ there you'll see the command line utilities where you're going to use 'ascp'.<br><br>\n\n\t\t\t\t\t\t\t<b>Windows:</b> the downloaded files are a bit hidden. For instance in Windows7 the ascp.exe is located in the users home directory in: AppData\\Local\\Programs\\Aspera\\Aspera Connect\\bin\\ascp.exe<br><br>\n\n\t\t\t\t\t\t\t<b>Linux:</b> should be in your user's home directory, cd /home/username/.aspera/connect/bin/ there you'll see the command line utilities where you're going to use 'ascp'.<br><br>\n\t\t\t\t\t\t</span> -->\n\t\t\t\t\t</small>\n\t\t\t\t\t<p class=\"tiny\">For assistance contact us (please mention your error log or screenshots) <a href=\"mailto:metabolights-help@ebi.ac.uk\">&nbsp;here</a></p>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</form>\n</ng-template>\n<ng-template #projectLocked let-c=\"close\" let-d=\"dismiss\" ngbModalContainer>\n\t<div class=\"modal-body\">\n\t\t<div class=\"div-wrapper\">\n\t\t\t<img src=\"assets/img/waiting.png\" height=\"128\" class=\"logo\"><br><br>\n\t\t\t<div class=\"spinner\">\n\t\t\t\t<div class=\"bounce1\"></div>\n\t\t\t\t<div class=\"bounce2\"></div>\n\t\t\t\t<div class=\"bounce3\"></div>\n\t\t\t\t<br><br>\n\t\t\t\t<h5 class=\"text-center\">\n\t\t\t\t\tPlease wait while we clone study in to your project. \n\t\t\t\t</h5>\n\t\t\t\t<small class=\"center\">This might take a while depending upon the size of the study.</small>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</ng-template>\n<ng-template #editProjectDetails let-c=\"close\" let-d=\"dismiss\" ngbModalContainer>\n\t<form [formGroup]=\"editProjectDetailsForm\" (ngSubmit)=\"submitForm(editProjectDetailsForm.value)\">\n\t\t<div class=\"modal-header\">\n\t\t\t<h5 class=\"modal-title\"><i class=\"fa fa-cogs\"></i>&emsp;Settings </h5>\n\t\t\t<a class=\"close pull-right\" aria-label=\"Close\" (click)=\"d('Cross click')\">\n\t\t\t\t<span aria-hidden=\"true\">&times;</span>\n\t\t\t</a>\n\t\t</div>\n\t\t<div class=\"modal-body\">\n\t\t\t<div class=\"form-group\" [ngClass]=\"{'has-error':!editProjectDetailsForm.controls['title'].valid}\">\n\t\t\t\t<small><label>Title</label></small>\n\t\t\t\t<input class=\"form-control\" type=\"text\" [formControl]=\"editProjectDetailsForm.controls['title']\" >\n\t\t\t</div>\n\t\t\t<div class=\"form-group\" [ngClass]=\"{'has-error':!editProjectDetailsForm.controls['description'].valid}\">\n\t\t\t\t<small><label for=\"projectTitle\">Description (Optional)</label></small>\n\t\t\t\t<textarea rows=\"5\" class=\"form-control\" [formControl]=\"editProjectDetailsForm.controls['description']\"></textarea>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"modal-footer\">\n\t\t\t<button type=\"submit\" [disabled]=\"!editProjectDetailsForm.valid\" class=\"btn btn-primary\">Save</button>\n\t\t\t<button type=\"button\" class=\"btn btn-secondary\" (click)=\"c('Close click')\">Close</button>\n\t\t</div>\n\t</form>\n</ng-template>\n<ng-template #confirmDeleteFiles let-c=\"close\" let-d=\"dismiss\" ngbModalContainer>\n\t<div class=\"modal-body\">\n\t\t<div class=\"div-wrapper\">\n\t\t\t<img src=\"assets/img/trash.png\" height=\"128\" class=\"logo\"><br><br>\n\t\t\t<div class=\"spinner\">\n\t\t\t\t<h5 class=\"text-center\">\n\t\t\t\t\tAre you sure ? <br><br>Do you want to delete the selected files ? \n\t\t\t\t</h5>\n\t\t\t\t<small class=\"center\">The files will be deleted permanantely and will be unavailable.</small>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<div class=\"modal-footer\">\n\t\t<button type=\"submit\" (click)=\"deleteSelectedFiles()\" class=\"btn btn-danger\">Delete</button>\n\t\t<button type=\"button\" class=\"btn btn-secondary\" (click)=\"c('Close click')\">Close</button>\n\t</div>\n</ng-template>"
+module.exports = "<div class=\"content row\" *ngIf=\"project!==undefined; else elseBlock\">\n\t<div class=\"col-md-9 mini-wrapper\">\n\t\t<div class=\"section\">\n\t\t\t<h3 class=\"title\"><b><img src=\"assets/img/project.png\" height=\"16\" class=\"logo\"> &nbsp;{{ project.title }}</b></h3>\n\t\t</div>\n\t\t<!-- <div *ngIf=\"files?.length > 0\" class=\"section ntp\">\n  \t\t\t<small>\n\t  \t\t\t<label>\n\t  \t\t\t\t<input (change)=\"selectAllFiles($event)\" type=\"checkbox\"> Select all\n\t  \t\t\t</label>\n\t  \t\t</small>\n\t\t  \t<div class=\"card\">\n\t\t\t  \t<ul class=\"list-group list-group-flush\" *ngFor=\"let file of files; let i = index;\">\n\t\t\t  \t\t<div class=\"checkbox\">\n\t\t\t\t\t\t<li class=\"list-group-item\">\n\t\t\t\t\t\t    <label>\n\t\t\t\t\t\t    \t\t<input [checked]=\"selectedFiles.indexOf(file) > -1\" (change)=\"updateSelectedFilesList($event, i, file)\" type=\"checkbox\"> \n\t\t\t\t\t\t\t    \t&nbsp;<small>{{ file }}</small>\n\t\t\t\t\t    \t</label>\n\t\t\t\t  \t\t</li>\n\t\t\t\t\t</div>\n\t\t\t  \t</ul>\n\t\t\t</div>\n\t\t</div>\n\t\t<div *ngIf=\"files?.length == 0\" class=\"section ntp\">\n\t\t\t<div class=\"cloning_project\">\n\t\t\t\t<img src=\"assets/img/safebox.png\" height=\"128\" class=\"logo\"><br><br>\n\t\t\t\t<div class=\"spinner\">\n\t\t\t\t\t<h6 class=\"text-center lighter\">\n\t\t\t\t\t\tNo files yet! Upload files using aspera? \n\t\t\t\t\t</h6>\n\t\t\t\t\t<small>Note: Files uploaded through Aspera might take some time to appear in the project folder.</small><br><br>\n\t\t\t\t\t<small class=\"center\"><i><button class=\"btn btn-sm btn-primary\" (click)=\"asperaUpload()\"><i class=\"fa fa-upload\"></i> UPLOAD DATA </button></i></small>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div> -->\n\t\t<div class=\"section npt\">\n\t\t\t<tree-view [directory]=\"projectStructure\"></tree-view>\n\t\t</div>\n\n\t</div>\n\t<div class=\"col-xs-12 col-md-3 grey np\">\n\t\t<div class=\"section\">\n\t\t  \t<small><label>Import data</label></small><br>\n\t\t  \t<div class=\"btn-group-sm\" role=\"group\" aria-label=\"...\">\n\t\t\t\t<button class=\"btn btn-primary pointer\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Upload files - Aspera web browser client. Note: Files uploaded through Aspera might take some time to appear in the project folder. \" (click)=\"showAsperaWaitingMessage(asperaMessage)\">\n\t\t  \t\t\t<i class=\"fa fa-upload\"></i> Aspera Upload\n\t\t  \t\t</button>\n\t\t\t\t<button class=\"btn btn-info pointer\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Upload files - Aspera command line client\" (click)=\"open(content)\">\n\t\t  \t\t\t<i class=\"fa fa-terminal\"></i>\n\t\t  \t\t</button>\n\t\t  \t\t<a class=\"btn btn-default pointer\" data-toggle=\"tooltip\" data-placement=\"left\" title=\"Need help with setting up Aspera\" href=\"ftp://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/MetaboLights%20Tutorial%20-%20FAQ.pdf\" target=\"_blank\">\n\t\t\t\t\t<i class=\"fa fa-question\"></i>\n\t\t\t\t</a>\n\t\t  \t</div>\n\t\t</div>\n\t\t<div class=\"section\" *ngIf=\"files?.length > 0\">\n\t\t\t<small><label> Tools </label></small><br>\n\t\t  \t<span class=\"form-group\">\n\t\t  \t\t<span class=\"tiny text-muted\"><label> File format conversions</label></span><br>\n\t\t  \t\t<button (click)=\"openMzml2IsaModal(mzml2isa)\" class=\"btn btn-success btn-sm\" [ngClass]=\"mzMLFiles.length <= 0 ? 'disabled' : ''\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Parser to extract meta information from mzML mass spectrometry files and parse relevant information to a ISA-Tab structure\">\n\t\t  \t\t\t.mzML <i class=\"fa fa-arrow-circle-o-right\" aria-hidden=\"true\"></i> ISA\n\t\t  \t\t</button>\n\t\t  \t</span><br>\n\t\t  \t<span class=\"tiny text-muted\"><label> Data Analysis</label></span><br>\n\t\t  \t<span class=\"form-group\">\n\t\t  \t\t<button class=\"btn btn-info btn-sm disabled\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Run Isotopologue Parameter Optimization (IPO) \">\n\t\t  \t\t\t<i class=\"fa fa-filter\" aria-hidden=\"true\"></i>\n\t\t  \t\t</button>\n\t\t  \t</span><br>\n\t\t\t<span class=\"tiny text-muted\"><label> Export</label></span><br>\n\t\t  \t<span class=\"form-group\">\n\t\t  \t\t<button [ngClass]=\"isaTabDirectories.length > 0 ? '' : 'disabled'\" class=\"btn btn-warning btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Submit project as a study to MetaboLights Database\">\n\t\t  \t\t\t<i class=\"fa fa-university\" aria-hidden=\"true\"></i>\n\t\t  \t\t</button>\n\t\t  \t\t<button class=\"btn btn-warning btn-sm disabled\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Export as PDF file\">\n\t\t  \t\t\t<i class=\"fa fa-file-pdf-o\" aria-hidden=\"true\"></i>\n\t\t  \t\t</button>\n\t\t  \t\t<button class=\"btn btn-warning btn-sm disabled\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Export as .zip file\">\n\t\t  \t\t\t<i class=\"fa fa-file-archive-o\" aria-hidden=\"true\"></i>\n\t\t  \t\t</button>\n\t\t  \t</span>\n\t\t</div>\n\t\t<div class=\"section\">\n\t\t\t<small><label> Configuration </label></small><br>\n\t\t  \t<span class=\"form-group\">\n\t\t  \t\t<button class=\"btn btn-warning btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Edit project details\" (click)=\"openEditModal(editProjectDetails)\"><i class=\"fa fa-cogs\"></i></button>\n\t\t\t\t<!-- <button class=\"btn btn-default btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"View Project Log\" ><i class=\"fa fa-road\"></i></button>  -->\n\t\t\t\t<button [ngClass]=\"project.jobs.length <= 0 ? 'disabled' : ''\" (click)=\"openJobsModal(jobs)\" class=\"btn btn-primary btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"View Jobs\" >\n\t\t\t\t\t<i class=\"fa fa-tasks\" aria-hidden=\"true\"></i>&nbsp;\n\t\t\t\t\t{{ project.jobs.length }}\n\t\t\t\t</button>\n\t\t\t\t<button *ngIf=\"files?.length > 0\" class=\"btn btn-danger btn-sm\" (click)=\"openDeleteConfirmationModal(confirmDeleteFiles)\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Delete file(s)\" ><i class=\"fa fa-trash\"></i></button> \n\t\t  \t</span>\n\t\t  \t<p class=\"alert-wrapper\" *ngFor=\"let alert of alerts\">\n\t\t\t\t<small><ngb-alert [type]=\"alert.type\" (close)=\"closeAlert(alert)\">{{ alert.message }}</ngb-alert></small>\n\t\t\t</p>\n\t\t</div>\n\t\t<div class=\"section\">\n\t\t  \t<div class=\"ml-card\">\n\t\t  \t\t<div class=\"ml-card-header\">\n\t\t  \t\t\tProject Details\n\t\t  \t\t</div>\n\t\t  \t\t<div class=\"ml-card-body\">\n\t\t  \t\t\t<small><i>TITLE: </i></small>\n\t\t  \t\t\t<p>{{ project.title }}</p>\n\t\t  \t\t\t<small><i>ID: </i></small>\n\t\t  \t\t\t<p><small>{{ project.id }}</small></p>\n\t\t  \t\t\t<small><i>Description: </i></small>\n\t\t  \t\t\t<p>{{ project.description }}</p>\n\t\t\t    \t<small><i>Created at: </i></small>\n\t\t  \t\t\t<p>{{ project.createdAt | date:'yyyy-MM-dd HH:mm:ss Z' }}</p>\n\t\t  \t\t\t<small><i>Updated at: </i></small>\n\t\t  \t\t\t<p>{{ project.updatedAt | date:'yyyy-MM-dd HH:mm:ss Z' }}</p>\n\t\t  \t\t\t<small><i>Status: </i></small>\n\t\t  \t\t\t<p *ngIf=\"project.isBusy\">\n\t\t  \t\t\t\t<i class=\"fa fa-lock\"></i>\n\t\t  \t\t\t</p>\n\t\t  \t\t\t<p *ngIf=\"!project.isBusy\">\n\t\t  \t\t\t\t<i class=\"fa fa-unlock\"></i>\n\t\t  \t\t\t</p>\n\t\t  \t\t</div>\n\t\t  \t</div>\n\t\t</div>\n\t</div>\n</div>\n<ng-template #elseBlock>\n\t<div class=\"content row\">\n\t\t<div class=\"col-md-12 mini-wrapper\">\n\t\t\t<div class=\"div-wrapper vh80\">\n\t\t\t\t<img src=\"assets/img/broken-link.png\" height=\"128\" class=\"logo\"><br>\n\t\t\t\t<div class=\"spinner\">\n\t\t\t\t\t<h6 class=\"text-center\">\n\t\t\t\t\t\tProject not found\n\t\t\t\t\t</h6><br>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</ng-template>\n<ng-template #mzml2isa let-c=\"close\" let-d=\"dismiss\" ngbModalContainer>\n\t<div class=\"modal-body\">\n\t\t<div class=\"div-wrapper\">\n\t\t\t<img src=\"assets/img/file-conversion.png\" height=\"128\" class=\"logo\"><br>\n\t\t\t<h2>mzml2isa</h2>\n\t\t\t<small>\n\t\t\t\t<b>Parser to extract meta information from mzML mass spectrometry files and parse relevant information to a ISA-Tab structure</b>\n\t\t\t</small>\n\t\t\t<small class=\"center tiny text-muted\">Note: Conversion might take a while depending upon the size of the .mzML files.</small>\n\t\t\t<br>\n\t\t\t<button (click)=\"convertMzml2isa()\" type=\"submit\" class=\"btn btn-primary\">Convert .mzML to ISA</button>\n\t\t</div>\n\t</div>\n</ng-template>\n<ng-template #jobs let-c=\"close\" let-d=\"dismiss\" ngbModalContainer>\n\t<div class=\"modal-header\">\n\t    <h5 class=\"modal-title\">Jobs</h5>\n\t</div>\n\t<div class=\"modal-body\">\n\t\t<div *ngFor=\"let job of project.jobs\" class=\"card\" [ngClass]=\"{'card-outline-warning': job.status == 'PEND'}\">\n\t\t  <div class=\"card-block\">\n\t\t    <h4 class=\"card-title\">Job ID: {{ job.job }}</h4>\n\t\t    <h6 class=\"card-subtitle mb-2 text-muted\">{{ job.info.message }}</h6>\n\t\t    <span class=\"badge badge-default\">Status: <span [innerHTML]=\"job.status\"></span></span>\n\t\t\t<a class=\"pointer\" (click)=\"displayJobLogs(job)\"><span class=\"badge badge-primary\">\n\t\t    \t<i class=\"fa fa-eye\"></i>&nbsp;View Job Output\n\t\t    </span></a>\n\t\t    <a class=\"pointer float-right\" *ngIf=\"job.status != 'DONE'\" (click)=\"convertMzml2isa(job)\"><span class=\"badge badge-primary\">\n\t\t    \t<i class=\"fa fa-refresh\"></i>&nbsp;Update Status\n\t\t    </span></a>\n\t\t\t<div class=\"collapse logFileData\" [id]=\"'job_'+ job.jobId\">\n\t\t\t\t<hr>\n\t\t\t\t<small><b>Output</b></small>\n\t\t\t\t<div [innerHTML]=\"job.log.out\"></div>\n\t\t\t\t<hr>\n\t\t\t\t<small><b>Error log</b></small>\n\t\t\t\t<div [innerHTML]=\"job.log.err\"></div>\n\t\t\t</div>\n\t\t  </div>\n\t\t</div>\n\t</div>\n</ng-template>\n<ng-template #content let-c=\"close\" let-d=\"dismiss\" ngbModalContainer>\n\t<form>\n\t\t<div class=\"modal-header\">\n\t\t\t<h5 class=\"modal-title\"><i class=\"fa fa-terminal\"></i>&emsp;Aspera Command Line File Upload </h5>\n\t\t\t<a class=\"close pull-right\" aria-label=\"Close\" (click)=\"d('Cross click')\">\n\t\t\t\t<span aria-hidden=\"true\">&times;</span>\n\t\t\t</a>\n\t\t</div>\n\t\t<div class=\"modal-body\">\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"col-md-12\">\n\t\t\t\t\t<small>\n\t\t\t\t\t\t<span class=\"tiny\">Please note if you have already setup aspera for a MetaboLights Labs project, please ignore the first 2 steps.</span><br>\n\t\t\t\t\t\t<b>Step 1: Install Aspera ascp command line client</b><br>\n\t\t\t\t\t\tThe Aspera ascp command line client can be downloaded <i><a href=\"http://downloads.asperasoft.com/downloads\" target=\"_blank\">here</a></i><br><br>\n\t\t\t\t\t\t<b>Step 2: PIP Install - MetaboLightsLabs CLI Tool</b><br>\n\t\t\t\t\t\t<code>> pip install git+https://github.com/EBI-Metabolights/MetaboLightsLabs-PythonCLI</code><br>\n\t\t\t\t\t\tFor details on how to install PIP - <i><a href=\"https://pip.pypa.io/en/stable/installing/\" target=\"_blank\">Click here</a></i><br><br>\n\t\t\t\t\t\t<b>Step 3: Upload the files</b><br>\n\t\t\t\t\t\t<span class=\"tiny\">Copy the following command, replace the filesToUpload with your files/folders location (array if more than one) and execute from the command line.</span><br>\n\t\t\t\t\t\t<code>> uploadToMetaboLightsLabs.py -t {{token}} -i <b><code>< filesToUpload ></code></b> -p {{ project.id }} -s DEV</code><br><br>\n\t\t\t\t\t\t<!-- <b>Step 3: Navigate to the folder where the Aspera command line client program ascp is installed.</b><br>\n\t\t\t\t\t\tThe location of the 'ascp' program in the filesystem:<br>\n\t\t\t\t\t\t<span class=\"col-md-12\">\n\t\t\t\t\t\t\t<b>Mac:</b> on the desktop go cd /Applications/Aspera\\ Connect.app/Contents/Resources/ there you'll see the command line utilities where you're going to use 'ascp'.<br><br>\n\n\t\t\t\t\t\t\t<b>Windows:</b> the downloaded files are a bit hidden. For instance in Windows7 the ascp.exe is located in the users home directory in: AppData\\Local\\Programs\\Aspera\\Aspera Connect\\bin\\ascp.exe<br><br>\n\n\t\t\t\t\t\t\t<b>Linux:</b> should be in your user's home directory, cd /home/username/.aspera/connect/bin/ there you'll see the command line utilities where you're going to use 'ascp'.<br><br>\n\t\t\t\t\t\t</span> -->\n\t\t\t\t\t</small>\n\t\t\t\t\t<p class=\"tiny\">For assistance contact us (please mention your error log or screenshots) <a href=\"mailto:metabolights-help@ebi.ac.uk\">&nbsp;here</a></p>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</form>\n</ng-template>\n<ng-template #projectLocked let-c=\"close\" let-d=\"dismiss\" ngbModalContainer>\n\t<div class=\"modal-body\">\n\t\t<div class=\"div-wrapper\">\n\t\t\t<img src=\"assets/img/waiting.png\" height=\"128\" class=\"logo\"><br><br>\n\t\t\t<div class=\"spinner\">\n\t\t\t\t<div class=\"bounce1\"></div>\n\t\t\t\t<div class=\"bounce2\"></div>\n\t\t\t\t<div class=\"bounce3\"></div>\n\t\t\t\t<br><br>\n\t\t\t\t<h5 class=\"text-center\">\n\t\t\t\t\tPlease wait while we clone study in to your project. \n\t\t\t\t</h5>\n\t\t\t\t<small class=\"center\">This might take a while depending upon the size of the study.</small>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</ng-template>\n<ng-template #asperaMessage let-c=\"close\" let-d=\"dismiss\" ngbModalContainer>\n\t<div class=\"modal-body\">\n\t\t<div class=\"div-wrapper\">\n\t\t\t<img src=\"assets/img/waiting.png\" height=\"128\" class=\"logo\"><br><br>\n\t\t\t<div class=\"spinner\">\n\t\t\t\t<br>\n\t\t\t\t<h5 class=\"text-center\">\n\t\t\t\t\tFiles uploaded through Aspera might take some time to appear in the project folder. \n\t\t\t\t</h5>\n\t\t\t\t<small class=\"center\">If the problem persist please contact us for more assistance</small>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<div class=\"modal-footer  jcc\">\n\t\t<button class=\"btn btn-success\" (click)=\"asperaUpload()\">Sure! Proceed</button>\n\t</div>\n</ng-template>\n<ng-template #editProjectDetails let-c=\"close\" let-d=\"dismiss\" ngbModalContainer>\n\t<form [formGroup]=\"editProjectDetailsForm\" (ngSubmit)=\"submitForm(editProjectDetailsForm.value)\">\n\t\t<div class=\"modal-header\">\n\t\t\t<h5 class=\"modal-title\"><i class=\"fa fa-cogs\"></i>&emsp;Settings </h5>\n\t\t\t<a class=\"close pull-right\" aria-label=\"Close\" (click)=\"d('Cross click')\">\n\t\t\t\t<span aria-hidden=\"true\">&times;</span>\n\t\t\t</a>\n\t\t</div>\n\t\t<div class=\"modal-body\">\n\t\t\t<div class=\"form-group\" [ngClass]=\"{'has-error':!editProjectDetailsForm.controls['title'].valid}\">\n\t\t\t\t<small><label>Title</label></small>\n\t\t\t\t<input class=\"form-control\" type=\"text\" [formControl]=\"editProjectDetailsForm.controls['title']\" >\n\t\t\t</div>\n\t\t\t<div class=\"form-group\" [ngClass]=\"{'has-error':!editProjectDetailsForm.controls['description'].valid}\">\n\t\t\t\t<small><label for=\"projectTitle\">Description (Optional)</label></small>\n\t\t\t\t<textarea rows=\"5\" class=\"form-control\" [formControl]=\"editProjectDetailsForm.controls['description']\"></textarea>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"modal-footer\">\n\t\t\t<button type=\"submit\" [disabled]=\"!editProjectDetailsForm.valid\" class=\"btn btn-primary\">Save</button>\n\t\t\t<button type=\"button\" class=\"btn btn-secondary\" (click)=\"c('Close click')\">Close</button>\n\t\t</div>\n\t</form>\n</ng-template>\n<ng-template #confirmDeleteFiles let-c=\"close\" let-d=\"dismiss\" ngbModalContainer>\n\t<div class=\"modal-body\">\n\t\t<div class=\"div-wrapper\">\n\t\t\t<img src=\"assets/img/trash.png\" height=\"128\" class=\"logo\"><br><br>\n\t\t\t<div class=\"spinner\">\n\t\t\t\t<h5 class=\"text-center\">\n\t\t\t\t\tAre you sure ? <br><br>Do you want to delete the selected files ? \n\t\t\t\t</h5>\n\t\t\t\t<small class=\"center\">The files will be deleted permanantely and will be unavailable.</small>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<div class=\"modal-footer\">\n\t\t<button type=\"submit\" (click)=\"deleteSelectedFiles()\" class=\"btn btn-danger\">Delete</button>\n\t\t<button type=\"button\" class=\"btn btn-secondary\" (click)=\"c('Close click')\">Close</button>\n\t</div>\n</ng-template>"
 
 /***/ }),
 
@@ -985,7 +988,9 @@ var ProjectComponent = (function () {
         this.fb = fb;
         this.files = [];
         this.mzMLFiles = [];
+        this.isaTabDirectories = [];
         this.processedFolders = [];
+        this.fileIndex = 1;
         this.alerts = [];
         this.MIN_CONNECT_VERSION = "3.6.0.0";
         this.CONNECT_AUTOINSTALL_LOCATION = "//d3gcli72yxqn2z.cloudfront.net/connect/v4";
@@ -1010,34 +1015,39 @@ var ProjectComponent = (function () {
             this.selectedFiles.splice(index, 1);
         }
     };
-    ProjectComponent.prototype.selectAllFiles = function (e) {
-        if (e.target.checked) {
-            this.selectedFiles = this.files;
-        }
-        else {
-            this.selectedFiles = [];
-        }
-    };
+    // selectAllFiles(e){
+    //   if(e.target.checked){
+    //     this.selectedFiles = this.files;
+    //   }else{
+    //     this.selectedFiles = [];
+    //   }
+    // }
     ProjectComponent.prototype.deleteSelectedFiles = function () {
         var _this = this;
         if (this.selectedFiles.length <= 0) {
             alert("No selection provided");
         }
+        var filesToDelete = [];
+        filesToDelete = this.selectedFiles.filter(function (n) { return n != undefined; });
         var body = {};
         body["jwt"] = localStorage.getItem("jwt");
         body["user"] = localStorage.getItem("user");
         body["id"] = this.project.id;
-        body["files"] = this.selectedFiles;
+        body["files"] = [];
+        filesToDelete.forEach(function (file) {
+            if (file != undefined) {
+                body["files"].push(file.title.replace("/", ""));
+            }
+        });
         this.http.post(__WEBPACK_IMPORTED_MODULE_9__common_globals__["a" /* LabsURL */]['delete'], body, { headers: __WEBPACK_IMPORTED_MODULE_8__common_headers__["a" /* contentHeaders */] })
             .subscribe(function (response) {
-            _this.getProjectContent(_this.id);
-            _this.selectedFiles = [];
             _this.deleteConfirmationModalRef.close();
             _this.alerts.push({
                 id: 1,
                 type: 'success',
                 message: 'File(s) delete successful!',
             });
+            _this.ngOnInit();
         }, function (error) {
             _this.alerts.push({
                 id: 1,
@@ -1114,6 +1124,7 @@ var ProjectComponent = (function () {
         };
         this.asperaWeb.addEventListener(AW4.Connect.EVENT.STATUS, statusEventListener);
         this.asperaWeb.initSession();
+        this.asperaMessageModalRef.close();
         this.asperaWeb.showSelectFileDialog({
             success: (function (dataTransferObj) {
                 this.buildUploadSpec(dataTransferObj);
@@ -1124,6 +1135,10 @@ var ProjectComponent = (function () {
             }
         });
     };
+    ProjectComponent.prototype.showAsperaWaitingMessage = function (content) {
+        this.asperaMessageModalRef = this.modalService.open(content);
+    };
+    // Note: Files uploaded through Aspera might take some time to appear in the project folder. 
     ProjectComponent.prototype.buildUploadSpec = function (dataTransferObj) {
         var transferSpecs = [{
                 "aspera_connect_settings": {
@@ -1312,6 +1327,9 @@ var ProjectComponent = (function () {
         };
         this.http.post(__WEBPACK_IMPORTED_MODULE_9__common_globals__["a" /* LabsURL */]['projectContent'], body, { headers: __WEBPACK_IMPORTED_MODULE_8__common_headers__["a" /* contentHeaders */] })
             .subscribe(function (response) {
+            _this.selectedFiles = [];
+            _this.processedFolders = [];
+            _this.projectStructure = new __WEBPACK_IMPORTED_MODULE_5__project_directory__["a" /* Directory */]();
             _this.files = [];
             var body = JSON.parse(response.json().content);
             for (var i in body) {
@@ -1327,9 +1345,31 @@ var ProjectComponent = (function () {
                 }
             }
             _this.renderRichFileStructure();
+            _this.checkForValidISATabFiles();
+            console.log(_this.isaTabDirectories);
         }, function (error) {
             alert(error.text());
             console.log(error.text());
+        });
+    };
+    ProjectComponent.prototype.checkForValidISATabFiles = function () {
+        var _this = this;
+        this.projectStructure.directories.forEach(function (directory) {
+            var allFilesExist = [false, false, false];
+            directory.files.forEach(function (file) {
+                if (file.title.indexOf("i_") == 0) {
+                    allFilesExist[0] = true;
+                }
+                else if (file.title.indexOf("s_") == 0) {
+                    allFilesExist[1] = true;
+                }
+                else if (file.title.indexOf("a_") == 0) {
+                    allFilesExist[2] = true;
+                }
+            });
+            if (allFilesExist.indexOf(false) == -1) {
+                _this.isaTabDirectories.push(directory);
+            }
         });
     };
     ProjectComponent.prototype.renderRichFileStructure = function () {
@@ -1343,6 +1383,7 @@ var ProjectComponent = (function () {
         this.files.forEach(function (file) {
             if (file.indexOf(folderPath) == 0 && file != folderPath) {
                 if ((file.split("/").length - 1 <= depth) && file.indexOf(".") == -1) {
+                    console.log("folder");
                     if (_this.processedFolders.indexOf(file) == -1) {
                         _this.processedFolders.push(file);
                         var subDirectory = new __WEBPACK_IMPORTED_MODULE_5__project_directory__["a" /* Directory */]();
@@ -1355,6 +1396,8 @@ var ProjectComponent = (function () {
                     if ((file.split("/").length - 1) <= depth) {
                         var subFile = new __WEBPACK_IMPORTED_MODULE_6__project_file__["a" /* File */]();
                         subFile.title = file;
+                        subFile.index = _this.fileIndex;
+                        _this.fileIndex = _this.fileIndex + 1;
                         directory.files.push(subFile);
                     }
                 }
@@ -1447,6 +1490,7 @@ var Project = (function () {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__project_directory__ = __webpack_require__("../../../../../src/app/work-space/project/directory.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__project_project_component__ = __webpack_require__("../../../../../src/app/work-space/project/project.component.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TreeView; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1457,13 +1501,75 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+
 
 
 var TreeView = (function () {
-    function TreeView() {
+    function TreeView(parent) {
+        this.parent = parent;
     }
+    TreeView.prototype.isDirectorySelected = function (directory) {
+        var _this = this;
+        var allSelected = true;
+        if (directory.files.length == 0) {
+            if (directory.directories.length > 0) {
+                directory.directories.forEach(function (subDirectory) {
+                    allSelected = _this.isDirectorySelected(subDirectory);
+                });
+            }
+        }
+        else {
+            directory.files.forEach(function (file) {
+                if (_this.parent.selectedFiles.indexOf(file) == -1) {
+                    allSelected = false;
+                }
+            });
+        }
+        return allSelected;
+    };
     TreeView.prototype.toogleDirectory = function (event) {
         event.target.nextElementSibling.style.display = event.target.nextElementSibling.style.display == "none" ? "block" : "none";
+    };
+    TreeView.prototype.updateSelectedDirectoryFilesList = function (e, directory) {
+        if (e.target.checked) {
+            this.addFilesRecursively(directory);
+        }
+        else {
+            this.removeFilesRecursively(directory);
+        }
+    };
+    TreeView.prototype.updateSelectedFilesList = function (e, index, filename) {
+        if (e.target.checked) {
+            this.parent.selectedFiles[index] = filename;
+        }
+        else {
+            this.parent.selectedFiles[index] = null;
+        }
+    };
+    TreeView.prototype.addFilesRecursively = function (directory) {
+        var _this = this;
+        if (directory.directories.length > 0) {
+            directory.directories.forEach(function (directory) {
+                _this.addFilesRecursively(directory);
+            });
+        }
+        directory.files.forEach(function (file) {
+            _this.parent.selectedFiles[file.index - 1] = file;
+        });
+    };
+    TreeView.prototype.removeFilesRecursively = function (directory) {
+        var _this = this;
+        if (directory.directories.length > 0) {
+            directory.directories.forEach(function (directory) {
+                _this.removeFilesRecursively(directory);
+            });
+        }
+        directory.files.forEach(function (file) {
+            _this.parent.selectedFiles[file.index - 1] = null;
+        });
     };
     return TreeView;
 }());
@@ -1475,11 +1581,13 @@ TreeView = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_10" /* Component */])({
         selector: 'tree-view',
         styles: [__webpack_require__("../../../../../src/app/work-space/project/project.component.css")],
-        template: "\n  <img *ngIf=\"directory.level > 0\" src=\"assets/img/folder.png\" height=\"16\" class=\"logo\"> \n  <a class=\"pointer\" (click)=\"toogleDirectory($event)\" *ngIf=\"directory.level > 0\">\n    {{ directory.title }}\n  </a>\n  <ul [ngClass]=\"{'npl' : directory.level == 0}\">\n    <li *ngFor=\"let subDirectory of directory.directories\">\n      <tree-view [directory]=\"subDirectory\"></tree-view>\n    </li>\n    <li *ngFor=\"let file of directory.files\">\n      <a><input type=\"checkbox\"> <img src=\"assets/img/file.png\" height=\"16\" class=\"logo\">&nbsp;{{ file.title.split(\"/\").slice(-1)[0]}}</a>\n    </li>\n  </ul>\n  "
-    })
+        template: "\n  <span *ngIf=\"directory.level > 0\">\n    <input [checked]=\"isDirectorySelected(directory)\" (change)=\"updateSelectedDirectoryFilesList($event, directory)\" type=\"checkbox\">&nbsp;\n    <img src=\"assets/img/folder.png\" height=\"16\" class=\"logo\">\n  </span>\n  <a class=\"pointer\" (click)=\"toogleDirectory($event)\" *ngIf=\"directory.level > 0\">\n    {{ directory.title }}\n  </a>\n  <ul [ngClass]=\"{'npl' : directory.level == 0}\">\n    <li *ngFor=\"let subDirectory of directory.directories\">\n      <tree-view [directory]=\"subDirectory\"></tree-view>\n    </li>\n    <li *ngFor=\"let file of directory.files; let i = index;\">\n      <a><input [checked]=\"parent.selectedFiles.indexOf(file) > -1\" (change)=\"updateSelectedFilesList($event, file.index - 1 , file)\" type=\"checkbox\"> <img src=\"assets/img/file.png\" height=\"16\" class=\"logo\">&nbsp;{{ file.title.split(\"/\").slice(-1)[0] }}</a>\n    </li>\n  </ul>\n  "
+    }),
+    __param(0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["f" /* Inject */])(__WEBPACK_IMPORTED_MODULE_2__project_project_component__["a" /* ProjectComponent */])),
+    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__project_project_component__["a" /* ProjectComponent */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__project_project_component__["a" /* ProjectComponent */]) === "function" && _b || Object])
 ], TreeView);
 
-var _a;
+var _a, _b;
 //# sourceMappingURL=tree-view.component.js.map
 
 /***/ }),
@@ -1492,7 +1600,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".p-wrapper{\n    background: #F5F5F6;\n    border-radius: 3px;\n    border: 1px solid #E1E2E4;\n    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);\n    -moz-box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);\n    -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);\n    padding: 15px;\n    color: #898E95;\n    min-width: 180px;\n    margin: 0 20px 20px 20px;\n}\n\n.p-wrapper h1{\n    font-size: 18px;\n    font-weight: 0.9em;\n    text-overflow: ellipsis;\n}\n\n\n.p-wrapper h5{\n    font-size: 16px;\n    margin-bottom: 0px;\n}\n\n.p-wrapper .tiny{\n    font-weight: lighter;\n    font-size: 10px;\n    margin-bottom: 10px;\n}\n\n.p-wrapper:hover{\n    border: 1px solid #E1E2E4;\n    cursor: pointer;\n    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.9);\n    -moz-box-shadow: 0 1px 2px 0 rgba(0,0,0,0.9);\n    -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,0.9);\n}\n\n.selectedProject{\n    border: 1px solid #E1E2E4;\n    cursor: pointer;\n    color: #000;\n    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.9);\n    -moz-box-shadow: 0 1px 2px 0 rgba(0,0,0,0.9);\n    -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,0.9);\n}\n\n.cloning_project{\n\tdisplay: -webkit-box;\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\t-webkit-box-align: center;\n\t    -ms-flex-align: center;\n\t        align-items: center;\n  \t-webkit-box-pack: center;\n  \t    -ms-flex-pack: center;\n  \t        justify-content: center;\n\tmin-height: 50vh;\n\tpadding: 40px 40px;\n\t-webkit-box-orient: vertical;\n\t-webkit-box-direction: normal;\n\t    -ms-flex-direction: column;\n\t        flex-direction: column;\n\ttext-align: center;\n}\n\n.cloning_project .spinner > h5{\n\tfont-weight: normal;\n\tletter-spacing: 1px;\n}\n\n.cloning_project .spinner > small{\n\tfont-weight: lighter;\n}\n\n.spinner{\n\tposition: relative !important;\n    top: 0%;\n    left: 0%;\n    margin-top: 0px; \n    margin-left: 0px;\n    text-align: center;\n}\n\n.md{\n\tmargin-top: 10px;\n\tpadding-bottom: 2px;\n}\n", ""]);
+exports.push([module.i, ".p-wrapper{\n    background: #F5F5F6;\n    border-radius: 3px;\n    border: 1px solid #E1E2E4;\n    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);\n    -moz-box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);\n    -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);\n    padding: 15px;\n    color: #898E95;\n    min-width: 180px;\n    margin: 0 20px 20px 20px;\n}\n\n.p-wrapper h1{\n    font-size: 18px;\n    font-weight: 0.9em;\n    text-overflow: ellipsis;\n}\n\n\n.p-wrapper h5{\n    font-size: 16px;\n    margin-bottom: 0px;\n}\n\n.p-wrapper .tiny{\n    font-weight: lighter;\n    font-size: 10px;\n    margin-bottom: 10px;\n}\n\n.p-wrapper:hover{\n    border: 1px solid #E1E2E4;\n    cursor: pointer;\n    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.9);\n    -moz-box-shadow: 0 1px 2px 0 rgba(0,0,0,0.9);\n    -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,0.9);\n}\n\n.selectedProject{\n    border: 1px solid #E1E2E4;\n    cursor: pointer;\n    color: #000;\n    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.9);\n    -moz-box-shadow: 0 1px 2px 0 rgba(0,0,0,0.9);\n    -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,0.9);\n}\n\n.cloning_project{\n\tdisplay: -webkit-box;\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\t-webkit-box-align: center;\n\t    -ms-flex-align: center;\n\t        align-items: center;\n  \t-webkit-box-pack: center;\n  \t    -ms-flex-pack: center;\n  \t        justify-content: center;\n\tmin-height: 50vh;\n\tpadding: 40px 40px;\n\t-webkit-box-orient: vertical;\n\t-webkit-box-direction: normal;\n\t    -ms-flex-direction: column;\n\t        flex-direction: column;\n\ttext-align: center;\n}\n\n.cloning_project .spinner > h5{\n\tfont-weight: normal;\n\tletter-spacing: 1px;\n}\n\n.cloning_project .spinner > small{\n\tfont-weight: lighter;\n}\n\n.spinner{\n\tposition: relative !important;\n    top: 0%;\n    left: 0%;\n    margin-top: 0px; \n    margin-left: 0px;\n    text-align: center;\n}\n\n.md{\n\tmargin-top: 10px;\n\tpadding-bottom: 2px;\n}\n\n.bt{\n    border-top: 1px solid #f1f1f4;\n    margin-top: 10px;\n    padding-top: 10px;\n}\n\n.jcc{\n    -webkit-box-pack: center !important;\n        -ms-flex-pack: center !important;\n            justify-content: center !important;\n}", ""]);
 
 // exports
 
@@ -1505,7 +1613,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/work-space/projects/projects.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"content row\">\n\t<div class=\"col-md-9 mini-wrapper\">\n\t\t<div class=\"section\">\n\t\t\t<h3 class=\"title\">Projects</h3>\n\t\t</div>\n\t\t<div class=\" section ntp\" *ngIf=\"projects.length > 0\">\n\t\t\t<div class=\"row\">\n\t\t\t\t<div *ngFor=\"let project of projects\">\n\t\t\t\t\t<div class=\"col-3\" [class.selectedProject]=\"project.id === selectedProject.id\" class=\"p-wrapper\"  (dblclick)=\"onSelect(project)\" (click)=\"setSelected(project)\">\n\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t<h1><i class=\"fa fa-folder-o fa-2x\"></i></h1>\n\t\t\t\t\t\t\t<h5><a>{{ project.title }}</a></h5>\n\t\t\t\t\t\t\t<h6 class=\"md\">\n\t\t\t\t\t\t\t\t<small class=\"tiny\">\n\t\t\t\t\t\t\t\t\t<span class=\"pull-left\">\n\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-info-circle\"></i>&nbsp;{{ getId(project.id) }}\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<span class=\"pull-right\">\n\t\t\t\t\t\t\t\t\t\t<span *ngIf=\"project.isBusy == true\">\n\t\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-lock fa-2x\"></i>\n\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t</small>\n\t\t\t\t\t\t\t</h6>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div *ngIf=\"projects.length == 0\">\n\t\t\t<div class=\"cloning_project\">\n\t\t\t\t<img src=\"assets/img/start.png\" height=\"128\" class=\"logo\"><br>\n\t\t\t\t<div class=\"spinner\">\n\t\t\t\t\t<h6 class=\"text-center\">\n\t\t\t\t\t\tNo projects found! Create a new project to get started? \n\t\t\t\t\t</h6><br>\n\t\t\t\t\t<small class=\"center\"><i><a href=\"http://www.ebi.ac.uk/metabolights/contact\" target=\"_blank\" class=\"btn btn-sm btn-primary\">Need Help</a></i></small>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<div class=\"col-xs-12 col-md-3 grey np\">\n\t\t<div class=\"section\">\n\t\t\t<!-- \n\t\t\t\t<span class=\"right\">\n\t\t  \t\t\t<label>Manage Projects</label>\n\t\t  \t\t</span> \n\t\t  \t-->\n\t\t  \t<span class=\"form-group\">\n\t\t  \t\t<button (click)=\"open(content)\" class=\"btn btn-success btn-sm form-control\">\n\t\t  \t\t\t<i class=\"fa fa-plus\"></i> Create Project\n\t\t  \t\t</button>\n\t\t  \t</span>\n\t\t</div>\n\t\t<div class=\"section\" *ngIf=\"selectedProject\">\n\t\t  \t<div class=\"ml-card\">\n\t\t  \t\t<div class=\"ml-card-header\">\n\t\t  \t\t\tProject Details\n\t\t  \t\t</div>\n\t\t  \t\t<div class=\"ml-card-body\">\n\t\t  \t\t\t<small><i>TITLE: </i></small>\n\t\t  \t\t\t<p>{{ selectedProject.title }}</p>\n\t\t  \t\t\t<small><i>ID: </i></small>\n\t\t  \t\t\t<p><small>{{ selectedProject.id }}</small></p>\n\t\t  \t\t\t<small><i>Description: </i></small>\n\t\t  \t\t\t<p>{{ selectedProject.description }}</p>\n\t\t  \t\t\t<small><i>Created at: </i></small>\n\t\t  \t\t\t<p>{{ selectedProject.createdAt | date:'yyyy-MM-dd HH:mm:ss Z' }}</p>\n\t\t  \t\t\t<small><i>Updated at: </i></small>\n\t\t  \t\t\t<p>{{ selectedProject.updatedAt | date:'yyyy-MM-dd HH:mm:ss Z' }}</p>\n\t\t  \t\t</div>\n\t\t  \t</div>\n\t\t</div>\n\t\t<p *ngFor=\"let alert of alerts\">\n\t\t\t<small><ngb-alert [type]=\"alert.type\" (close)=\"closeAlert(alert)\">{{ alert.message }}</ngb-alert></small>\n\t\t</p>\n\t</div>\n</div>\n<ng-template #content let-c=\"close\" let-d=\"dismiss\" ngbModalContainer>\n\t<form [formGroup]=\"createProjectForm\" (ngSubmit)=\"submitForm(createProjectForm.value)\">\n\t\t<div *ngIf=\"cloningProject\">\n\t\t\t<div class=\"modal-body\">\n\t\t\t\t<div class=\"cloning_project\">\n\t\t\t\t\t<img src=\"assets/img/waiting.png\" height=\"128\" class=\"logo\"><br><br>\n\t\t\t\t\t<div class=\"spinner\">\n\t\t\t\t\t\t<div class=\"bounce1\"></div>\n\t\t\t\t\t\t<div class=\"bounce2\"></div>\n\t\t\t\t\t\t<div class=\"bounce3\"></div>\n\t\t\t\t\t\t<br><br>\n\t\t\t\t\t\t<h5 class=\"text-center\">\n\t\t\t\t\t\t\tPlease wait while we clone study in to your project. \n\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t<small class=\"center\">This might take a while depending upon the size of the study.</small>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div *ngIf=\"!cloningProject\">\n\t\t\t<div class=\"modal-header\">\n\t\t\t\t<h5 class=\"modal-title\"><i class=\"fa fa-plus\"></i> Create Project </h5>\n\t\t\t\t<a class=\"close pull-right\" aria-label=\"Close\" (click)=\"d('Cross click')\">\n\t\t\t\t\t<span aria-hidden=\"true\">&times;</span>\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t\t<div class=\"modal-body\">\t\t\t\n\t\t\t\t<div class=\"form-group\" [ngClass]=\"{'has-error':!createProjectForm.controls['title'].valid}\">\n\t\t\t\t\t<small><label>Title</label></small>\n\t\t\t\t\t<input class=\"form-control\" type=\"text\" [formControl]=\"createProjectForm.controls['title']\" >\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group\" [ngClass]=\"{'has-error':!createProjectForm.controls['description'].valid}\">\n\t\t\t\t\t<small><label for=\"projectTitle\">Description (Optional)</label></small>\n\t\t\t\t\t<textarea rows=\"5\" class=\"form-control\" [formControl]=\"createProjectForm.controls['description']\"></textarea>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group\" [ngClass]=\"{'has-error':!createProjectForm.controls['cloneProject'].valid}\">\n\t\t\t\t\t<div class=\"checkbox\">\n\t\t\t\t\t\t<small><label><input #someCheckbox type=\"checkbox\" [formControl]=\"createProjectForm.controls['cloneProject']\">&nbsp;Clone existing <a href=\"http://www.metabolights.org\" target=\"_blank\">Metabolights study</a></label></small>\n\t\t\t\t\t</div>\n\t\t\t\t\t<input [formControl]=\"createProjectForm.controls['studyId']\" class=\"form-control\" [attr.disabled]=\"createProjectForm.controls['cloneProject'].value === false || null\" type=\"text\" placeholder=\"Study Id. Ex: MTBLS1\">\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"modal-footer\">\n\t\t\t\t<button type=\"submit\" [disabled]=\"!createProjectForm.valid\" class=\"btn btn-primary\">Create</button>\n\t\t\t\t<button type=\"button\" class=\"btn btn-secondary\" (click)=\"c('Close click')\">Close</button>\n\t\t\t</div>\n\t\t</div>\n\t</form>\n</ng-template>        "
+module.exports = "<div class=\"content row\">\n\t<div class=\"col-md-9 mini-wrapper\">\n\t\t<div class=\"section\">\n\t\t\t<h3 class=\"title\">Projects</h3>\n\t\t</div>\n\t\t<div class=\" section ntp\" *ngIf=\"projects.length > 0\">\n\t\t\t<div class=\"row\">\n\t\t\t\t<div *ngFor=\"let project of projects\">\n\t\t\t\t\t<div class=\"col-3\" [class.selectedProject]=\"project.id === selectedProject.id\" class=\"p-wrapper\"  (dblclick)=\"onSelect(project)\" (click)=\"setSelected(project)\">\n\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t<h1><i class=\"fa fa-folder-o fa-2x\"></i></h1>\n\t\t\t\t\t\t\t<h5><a>{{ project.title }}</a></h5>\n\t\t\t\t\t\t\t<h6 class=\"md\">\n\t\t\t\t\t\t\t\t<small class=\"tiny\">\n\t\t\t\t\t\t\t\t\t<span class=\"pull-left\">\n\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-info-circle\"></i>&nbsp;{{ getId(project.id) }}\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<span class=\"pull-right\">\n\t\t\t\t\t\t\t\t\t\t<span *ngIf=\"project.isBusy == true\">\n\t\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-lock fa-2x\"></i>\n\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t</small>\n\t\t\t\t\t\t\t</h6>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div *ngIf=\"projects.length == 0\">\n\t\t\t<div class=\"cloning_project\">\n\t\t\t\t<img src=\"assets/img/start.png\" height=\"128\" class=\"logo\"><br>\n\t\t\t\t<div class=\"spinner\">\n\t\t\t\t\t<h6 class=\"text-center\">\n\t\t\t\t\t\tNo projects found! Create a new project to get started? \n\t\t\t\t\t</h6><br>\n\t\t\t\t\t<small class=\"center\"><i><a href=\"http://www.ebi.ac.uk/metabolights/contact\" target=\"_blank\" class=\"btn btn-sm btn-primary\">Need Help</a></i></small>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<div class=\"col-xs-12 col-md-3 grey np\">\n\t\t<div class=\"section\">\n\t\t\t<!-- \n\t\t\t\t<span class=\"right\">\n\t\t  \t\t\t<label>Manage Projects</label>\n\t\t  \t\t</span> \n\t\t  \t-->\n\t\t  \t<span class=\"form-group\">\n\t\t  \t\t<button (click)=\"open(content)\" class=\"btn btn-success btn-sm form-control\">\n\t\t  \t\t\t<i class=\"fa fa-plus\"></i> Create New Project\n\t\t  \t\t</button>\n\t\t  \t</span>\n\t\t</div>\n\t\t<div class=\"section\" *ngIf=\"selectedProject\">\n\t\t  \t<div class=\"ml-card\">\n\t\t  \t\t<div class=\"ml-card-header\">\n\t\t  \t\t\tProject Details\n\t\t  \t\t</div>\n\t\t  \t\t<div class=\"ml-card-body\">\n\t\t  \t\t\t<small><i>TITLE: </i></small>\n\t\t  \t\t\t<p>{{ selectedProject.title }}</p>\n\t\t  \t\t\t<small><i>ID: </i></small>\n\t\t  \t\t\t<p><small>{{ selectedProject.id }}</small></p>\n\t\t  \t\t\t<small><i>Description: </i></small>\n\t\t  \t\t\t<p>{{ selectedProject.description }}</p>\n\t\t  \t\t\t<small><i>Created at: </i></small>\n\t\t  \t\t\t<p>{{ selectedProject.createdAt | date:'yyyy-MM-dd HH:mm:ss Z' }}</p>\n\t\t  \t\t\t<small><i>Updated at: </i></small>\n\t\t  \t\t\t<p>{{ selectedProject.updatedAt | date:'yyyy-MM-dd HH:mm:ss Z' }}</p>\n\t\t  \t\t\t<span class=\"form-group bt\">\n\t\t\t\t  \t\t<button (click)=\"openDeleteConfirmationModal(confirmDeleteProject)\" class=\"btn btn-danger btn-sm form-control\">\n\t\t\t\t  \t\t\t<i class=\"fa fa-trash\"></i> Delete Project\n\t\t\t\t  \t\t</button>\n\t\t\t\t  \t</span>\n\t\t  \t\t</div>\n\t\t  \t</div>\n\t\t  \t<p *ngFor=\"let alert of alerts\">\n\t\t\t\t<small><ngb-alert [type]=\"alert.type\" (close)=\"closeAlert(alert)\">{{ alert.message }}</ngb-alert></small>\n\t\t\t</p>\n\t\t</div>\n\t</div>\n</div>\n<ng-template #confirmDeleteProject let-c=\"close\" let-d=\"dismiss\" ngbModalContainer>\n\t<div class=\"modal-body\">\n\t\t<div class=\"div-wrapper\">\n\t\t\t<img src=\"assets/img/trash.png\" height=\"128\" class=\"logo\"><br><br>\n\t\t\t<div class=\"spinner\">\n\t\t\t\t<h6 class=\"text-center\">\n\t\t\t\t\tAre you sure ? <br><br>Do you want to delete the selected project\n\t\t\t\t</h6>\n\t\t\t\t<h6 class=\"text-danger\">\"{{ selectedProject.title }}\"</h6>\n\t\t\t\t<small class=\"center\">The project and its contents will be deleted permanantely and will be unavailable.</small>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<div class=\"modal-footer jcc\">\n\t\t<button type=\"button\" class=\"btn btn-secondary\" (click)=\"c('Close click')\">No! Go back</button>\n\t\t<button type=\"submit\" (click)=\"deleteSelectedProject()\" class=\"btn btn-danger\">Delete project permanently!</button>\n\t</div>\n</ng-template> \n<ng-template #waiting let-c=\"close\" let-d=\"dismiss\" ngbModalContainer>\n\t<div class=\"modal-body\">\n\t\t<div class=\"div-wrapper\">\n\t\t\t<img src=\"assets/img/waiting.png\" height=\"128\" class=\"logo\"><br><br>\n\t\t\t<div class=\"spinner\">\n\t\t\t\t<div class=\"bounce1\"></div>\n\t\t\t\t<div class=\"bounce2\"></div>\n\t\t\t\t<div class=\"bounce3\"></div>\n\t\t\t\t<br><br>\n\t\t\t\t<h5 class=\"text-center\">\n\t\t\t\t\tPlease wait while we create your project. \n\t\t\t\t</h5>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</ng-template>\n<ng-template #content let-c=\"close\" let-d=\"dismiss\" ngbModalContainer>\n\t<form [formGroup]=\"createProjectForm\" (ngSubmit)=\"submitForm(createProjectForm.value, waiting)\">\n\t\t<div *ngIf=\"cloningProject\">\n\t\t\t<div class=\"modal-body\">\n\t\t\t\t<div class=\"cloning_project\">\n\t\t\t\t\t<img src=\"assets/img/waiting.png\" height=\"128\" class=\"logo\"><br><br>\n\t\t\t\t\t<div class=\"spinner\">\n\t\t\t\t\t\t<div class=\"bounce1\"></div>\n\t\t\t\t\t\t<div class=\"bounce2\"></div>\n\t\t\t\t\t\t<div class=\"bounce3\"></div>\n\t\t\t\t\t\t<br><br>\n\t\t\t\t\t\t<h5 class=\"text-center\">\n\t\t\t\t\t\t\tPlease wait while we clone study in to your project. \n\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t<small class=\"center\">This might take a while depending upon the size of the study.</small>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div *ngIf=\"!cloningProject\">\n\t\t\t<div class=\"modal-header\">\n\t\t\t\t<h5 class=\"modal-title\"><i class=\"fa fa-plus\"></i> Create Project </h5>\n\t\t\t\t<a class=\"close pull-right\" aria-label=\"Close\" (click)=\"d('Cross click')\">\n\t\t\t\t\t<span aria-hidden=\"true\">&times;</span>\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t\t<div class=\"modal-body\">\t\t\t\n\t\t\t\t<div class=\"form-group\" [ngClass]=\"{'has-error':!createProjectForm.controls['title'].valid}\">\n\t\t\t\t\t<small><label>Title</label></small>\n\t\t\t\t\t<input class=\"form-control\" type=\"text\" [formControl]=\"createProjectForm.controls['title']\" >\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group\" [ngClass]=\"{'has-error':!createProjectForm.controls['description'].valid}\">\n\t\t\t\t\t<small><label for=\"projectTitle\">Description (Optional)</label></small>\n\t\t\t\t\t<textarea rows=\"5\" class=\"form-control\" [formControl]=\"createProjectForm.controls['description']\"></textarea>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group\" [ngClass]=\"{'has-error':!createProjectForm.controls['cloneProject'].valid}\">\n\t\t\t\t\t<div class=\"checkbox\">\n\t\t\t\t\t\t<small><label><input #someCheckbox type=\"checkbox\" [formControl]=\"createProjectForm.controls['cloneProject']\">&nbsp;Clone existing <a href=\"http://www.metabolights.org\" target=\"_blank\">Metabolights study</a></label></small>\n\t\t\t\t\t</div>\n\t\t\t\t\t<input [formControl]=\"createProjectForm.controls['studyId']\" class=\"form-control\" [attr.disabled]=\"createProjectForm.controls['cloneProject'].value === false || null\" type=\"text\" placeholder=\"Study Id. Ex: MTBLS1\">\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"modal-footer\">\n\t\t\t\t<button type=\"submit\" [disabled]=\"!createProjectForm.valid\" class=\"btn btn-primary\">Create</button>\n\t\t\t\t<button type=\"button\" class=\"btn btn-secondary\" (click)=\"c('Close click')\">Close</button>\n\t\t\t</div>\n\t\t</div>\n\t</form>\n</ng-template>        "
 
 /***/ }),
 
@@ -1587,8 +1695,53 @@ var ProjectsComponent = (function () {
             _this.closeResult = "Dismissed " + _this.getDismissReason(reason);
         });
     };
-    ProjectsComponent.prototype.submitForm = function (body) {
+    ProjectsComponent.prototype.openDeleteConfirmationModal = function (content) {
         var _this = this;
+        this.deleteConfirmationModalRef = this.modalService.open(content);
+        this.deleteConfirmationModalRef.result.then(function (result) {
+            _this.closeResult = "Closed with: " + result;
+        }, function (reason) {
+            _this.closeResult = "Dismissed " + _this.getDismissReason(reason);
+        });
+    };
+    ProjectsComponent.prototype.deleteSelectedProject = function () {
+        var _this = this;
+        var body = {};
+        body["jwt"] = localStorage.getItem("jwt");
+        body["user"] = localStorage.getItem("user");
+        body["project_id"] = this.selectedProject.id;
+        body["files"] = [];
+        this.http.post(__WEBPACK_IMPORTED_MODULE_7__common_globals__["a" /* LabsURL */]['deleteProject'], body, { headers: __WEBPACK_IMPORTED_MODULE_4__common_headers__["a" /* contentHeaders */] })
+            .subscribe(function (response) {
+            _this.deleteConfirmationModalRef.close();
+            var selectedProjectIndex = 0;
+            var projectIndex = 0;
+            _this.authService.dashBoard.projects.forEach(function (aProject) {
+                if (aProject.id == _this.selectedProject.id) {
+                    selectedProjectIndex = projectIndex;
+                    return;
+                }
+                projectIndex = projectIndex + 1;
+            });
+            _this.authService.dashBoard.projects.splice(selectedProjectIndex, 1);
+            _this.projects = _this.authService.dashBoard.projects;
+            _this.alerts.push({
+                id: 1,
+                type: 'success',
+                message: 'Project deleted successfully!',
+            });
+            _this.ngOnInit();
+        }, function (error) {
+            _this.alerts.push({
+                id: 1,
+                type: 'danger',
+                message: 'Project delete unsuccessful! Error',
+            });
+        });
+    };
+    ProjectsComponent.prototype.submitForm = function (body, waiting) {
+        var _this = this;
+        this.waitingModalRef = this.modalService.open(waiting);
         if (body.cloneProject == true) {
             if (body.studyId == "" || body.studyId == null) {
                 alert('Please provide a valid MetaboLights Study ID');
@@ -1598,6 +1751,7 @@ var ProjectsComponent = (function () {
                 this.cloningProject = true;
             }
         }
+        this.modalRef.close();
         body["jwt"] = localStorage.getItem("jwt");
         body["user"] = localStorage.getItem("user");
         this.http.post(__WEBPACK_IMPORTED_MODULE_7__common_globals__["a" /* LabsURL */]['createProject'], body, { headers: __WEBPACK_IMPORTED_MODULE_4__common_headers__["a" /* contentHeaders */] })
@@ -1607,13 +1761,13 @@ var ProjectsComponent = (function () {
             _this.setSelected(project);
             _this.authService.dashBoard.projects.push(project);
             _this.projects = _this.authService.dashBoard.projects;
-            _this.modalRef.close();
             _this.alerts.push({
                 id: 1,
                 type: 'success',
                 message: 'Project ' + project.title + ' creation successful!',
             });
             _this.initForms();
+            _this.waitingModalRef.close();
         }, function (error) {
             _this.alerts.push({
                 id: 1,
