@@ -18,8 +18,8 @@ public class StudyEditorController extends AbstractController {
     @RequestMapping(value = {"/studyeditor"})
     public ModelAndView showStudyEditorPage(@RequestParam(required=true,value="studyId") String studyId, HttpServletRequest request) {
 
-//        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("studyeditor");
-        ModelAndView mav = AppContext.getMAVFactory().getSimpleFrontierMav("studyeditor");
+//        ModelAndView mav = AppContext.getMAVFactory().getSimpleFrontierMav("studyeditor");
+        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("studyeditor");
         mav.addObject("studyId", studyId);
         MetabolightsUser user = LoginController.getLoggedUser();
         mav.addObject("apiToken", user.getApiToken());
@@ -28,3 +28,4 @@ public class StudyEditorController extends AbstractController {
 
     }
 }
+                                                                                                                                                                      s
