@@ -990,7 +990,7 @@
                                     </div>
 
                                 <div class="col-md-12" style="display: none;" id="noPathwaysFound">
-                                    <h5 class="well"><i class="fa fa fa-info-circle"></i>&nbsp;Pathways with matched metabolites from the study doesnt exist.</h5>
+                                    <h5 class="well"><i class="fa fa fa-info-circle"></i>&nbsp;No pathways have been found for the metabolites in this study.</h5>
                                 </div>
                             </div>
 
