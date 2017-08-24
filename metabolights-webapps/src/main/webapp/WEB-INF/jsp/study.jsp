@@ -933,7 +933,7 @@
                         <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
                             <div role="tabpanel" class="tab-pane" id="metpathways">
 
-                                <div class="col-md-12">
+                                <div class="col-md-12" id="metexplore-wrapper">
                                     <h3 class="well">Pathways - Assay&nbsp;<c:if
                                             test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if></h3>
 
@@ -968,8 +968,7 @@
                                 </div>
 
 
-                                <div class="col-md-12">
-                                    <div id="metPathwaysMappingDataContainer">
+                                    <div class="col-md-12" id="metPathwaysMappingDataContainer">
                                         <div class="">
                                             <br>
                                             <div class="well">
@@ -989,9 +988,12 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
 
+                                <div class="col-md-12" style="display: none;" id="noPathwaysFound">
+                                    <h5 class="well"><i class="fa fa fa-info-circle"></i>&nbsp;Pathways with matched metabolites from the study doesnt exist.</h5>
+                                </div>
                             </div>
+
                         </c:forEach>
                     </c:if>
 
@@ -1560,10 +1562,11 @@
 
                 dataType: 'json',
                 success: function (data) {
-                    metExploreDataJSONObj = JSON.parse(data.content);
+                    metExploreDataJSONObj = JSON.parse(data.content.replace("NaN", 0));
                     //console.log(metExploreDataJSONObj)
                     var selectedValue;
                     var select = document.getElementById("metPathwaysSelect");
+                    var pathwayExists = false;
                     for (var key in metExploreDataJSONObj.pathwayList) {
                         var pathway = metExploreDataJSONObj.pathwayList[key]
                         if (pathway.mappedMetabolite > 0) {
@@ -1579,6 +1582,7 @@
 
                                 $('#metPathwaysMappingDataTable').append('<tr><td>' + pathway.name + '</td><td>' + pathway.dbIdentifier + ' (' + pathway.numberOfMetabolite + ')</td><td>' + pathway.mappedMetabolite + '</td></tr>');
                             }
+                            pathwayExists = true;
                         }
                     }
 
@@ -1587,7 +1591,12 @@
                     });
                     $('.selectpicker').selectpicker('refresh');
                     $('.selectpicker').selectpicker('val', selectedValue);
-                    loadPathways(selectedValue);
+
+                    if(pathwayExists){
+                        loadPathways(selectedValue);
+                    }else{
+                        displayNoPathwaysFound();
+                    }
 
                 },
                 error: function (request, error) {
@@ -1596,39 +1605,44 @@
             });
         }
 
+        function displayNoPathwaysFound(){
+            hidePleaseWait();
+            $('#noPathwaysFound').toggle();
+            $('#metPathwaysMappingDataContainer').hide();
+            $('#metexplore-wrapper').hide();
+        }
+
 
         $('#loadPathways').on('click', function () {
             //alert();
-            chan
             hidePleaseWait();
         });
 
         function loadPathways(ids) {
-            MetExploreViz.onloadMetExploreViz(function () {
-                var url = "//metexplore.toulouse.inra.fr:8080/metExploreWebService/mapping/graphresult/38285/filteredbypathway?pathwayidlist=(" + ids.toString() + ")";
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    async: false,
-                    dataType: 'json',
-                    success: function (data) {
-                        loadPathwayData(JSON.stringify(data));
-                        hidePleaseWait();
-                    },
-                    error: function (request, error) {
-                        alert("Request: " + JSON.stringify(request));
-                    }
-                });
+            if (ids != undefined){
+                MetExploreViz.onloadMetExploreViz(function () {
+                    var url = "//metexplore.toulouse.inra.fr:8080/metExploreWebService/mapping/graphresult/38285/filteredbypathway?pathwayidlist=(" + ids.toString() + ")";
+                    $.ajax({
+                        url: url,
+                        type: 'GET',
+                        async: false,
+                        dataType: 'json',
+                        success: function (data) {
+                            loadPathwayData(JSON.stringify(data));
+                            hidePleaseWait();
+                        },
+                        error: function (request, error) {
+                            alert("Request: " + JSON.stringify(request));
+                        }
+                    });
 
-            });
+                });
+            }
         }
 
 
         function loadPathwayData(myJsonString) {
-
-
             MetExploreViz.onloadMetExploreViz(function () {
-
                 metExploreViz.GraphPanel.refreshPanel(myJsonString,
                     function () {
                         metExploreViz.onloadSession(function () {

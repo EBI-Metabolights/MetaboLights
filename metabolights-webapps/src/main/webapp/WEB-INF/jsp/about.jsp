@@ -58,8 +58,6 @@
                     <div class="well">
                         <p><strong>Follow us on </strong><br><br>
                             <span class="bigfont">
-                                <a href="http://metabolights.blogspot.co.uk" class="icon icon-socialmedia" data-icon="B"></a>&nbsp;
-                                <a href="http://www.facebook.com/MetaboLights" class="icon icon-socialmedia" data-icon="F"></a>&nbsp;
                                 <a href="https://twitter.com/metabolights" class="icon icon-socialmedia" data-icon="T"></a>
                             </span>
                         </p>
