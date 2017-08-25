@@ -18,6 +18,8 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 
+
+
 .Share_study{
     font-size: 0.7em !important;
     color: #209AD6;
@@ -190,7 +192,6 @@ body{
 }
 
 .study--description{
-    padding: 0px 15px;
     font-size: 14px;
 }
 
@@ -204,6 +205,14 @@ body{
     height: auto;
 }
 
+.study--description--big p{
+    padding: 0px 15px;
+}
+
+.study--description--small p{
+    padding: 0px 15px;
+}
+ß
 .study--infopanel{
     display: inline-block;
     width: calc(100% - 20px);
