@@ -263,8 +263,9 @@ public class MLLProject {
 
                 this.initLogger();
 
-                this.logger.info( "Created " + this.getTitle());
+                getLogger().info( "Created " + this.getTitle());
 
+                this.fh.close();
 
             } catch (IOException e) {
 
@@ -275,16 +276,11 @@ public class MLLProject {
 
         try {
 
-
-            if(this.logger == null){
-
-                this.initLogger();
-
-            }
-
             setUpdatedAt();
 
-            this.logger.info( this.getTitle() + " Updated");
+            getLogger().info( this.getTitle() + " Updated");
+
+            this.fh.close();
 
             FileUtils.project2File(this, projectInfoFile);
 
@@ -304,6 +300,8 @@ public class MLLProject {
     public String delete(List<String> files){
 
         getLogger().info( "Deleting file(s) :" + LabsUtils.listToString(files));
+
+        this.fh.close();
 
         return FileUtils.deleteFilesFromProject(files, this.ProjectLocation.replace("//","/"));
 

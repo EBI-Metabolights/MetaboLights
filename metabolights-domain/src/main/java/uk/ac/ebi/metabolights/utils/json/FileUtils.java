@@ -205,23 +205,15 @@ public class FileUtils {
 
         if (fileName.contains("/")){
 
-            if (!fileName.contains(".")){
-
-                FileUtils.deleteDir(new File( "" + File.separator +  projectFolder + File.separator + fileName));
-
-            }else{
-
                 File tempFile = new File(fileName);
                 String tempFileName = tempFile.getName();
-                String tempFileParent = tempFile.getParentFile().getPath();
+                String tempFileParentPath = tempFile.getParentFile().getPath();
 
-                fileName = tempFileParent + File.separator + filePrefix + tempFileName;
+                fileName = tempFileParentPath + File.separator + filePrefix + tempFileName;
 
                 filePath.toFile().renameTo(
                         new File( "" + File.separator +  projectFolder + File.separator + fileName)
                 );
-
-            }
 
         }else{
 
