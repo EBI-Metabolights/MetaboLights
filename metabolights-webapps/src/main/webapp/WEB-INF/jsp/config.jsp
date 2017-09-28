@@ -531,7 +531,7 @@ $(function() {
         <br>
     </div>
 </div>
-
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 <script>
     $('#configurationTabs a').click(function (e) {

@@ -134,7 +134,7 @@
 
 <div class="container-fluid">
 
-    <div class="study--wrapper col-md-12">
+    <div class="study--wrapper col-md-12 clearfix">
         <h2 class="study--title col-md-12">
             <span class="study--id" id="mStudyId">${study.studyIdentifier}:</span>&nbsp;
             ${study.title}
@@ -1412,6 +1412,7 @@
 <script type="text/javascript" charset="utf-8">
     $('#study--tab').tabCollapse();
 </script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <script type="text/javascript" src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="//cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js"></script>
@@ -1843,7 +1844,7 @@
         var orcidMtblsClaims;
             $.ajax({
                 cache: false,
-                url: "https://www.ebi.ac.uk/europepmc/thor/api/dataclaiming/findDatabaseClaims/METABOLIGHTS",
+                url: "//www.ebi.ac.uk/europepmc/thor/api/dataclaiming/findDatabaseClaims/METABOLIGHTS",
                 dataType: "json",
                 success: function (orchidRespData) {
                     orcidMtblsClaims = orchidRespData['lstDatabaseClaims'];
@@ -1910,7 +1911,7 @@
                     }
                 }
             }
-            matchingIdsContent += '<br><a target="_blank" class="small" href="http://orcid.org/' + orcidToMatch+'">View ORCID profile</a><br>';
+            matchingIdsContent += '<br><a target="_blank" class="small" href="//orcid.org/' + orcidToMatch+'">View ORCID profile</a><br>';
             return matchingIdsContent;
         }
 
@@ -1918,7 +1919,7 @@
             var claimListText = "";
             $.ajax({
                 cache: false,
-                url: "https://www.ebi.ac.uk/europepmc/thor/api/dataclaiming/findDatabaseClaims/METABOLIGHTS",
+                url: "//www.ebi.ac.uk/europepmc/thor/api/dataclaiming/findDatabaseClaims/METABOLIGHTS",
                 dataType: "json",
                 success: function (orchidRespData) {
                     console.log(orchidRespData);
@@ -2021,7 +2022,7 @@
     var description = "${study.description}";
     var editedTitle = title.replace(/[']/g, '');
     var editedDescription = description.replace(/[']/g, '');
-    thorApplicationNamespace.createWorkOrcId(editedTitle, 'data-set', '${releaseYear}', 'http://www.ebi.ac.uk/metabolights/${study.studyIdentifier}', editedDescription, 'METABOLIGHTS');
+    thorApplicationNamespace.createWorkOrcId(editedTitle, 'data-set', '${releaseYear}', '//www.ebi.ac.uk/metabolights/${study.studyIdentifier}', editedDescription, 'METABOLIGHTS');
     thorApplicationNamespace.addWorkIdentifier('other-id', '${study.studyIdentifier}');
 
     $(function () {

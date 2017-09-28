@@ -295,10 +295,10 @@
     </div>
 </div>
 <script src="//d3js.org/d3.v3.min.js"></script>
-<script src="http://syntagmatic.github.io/parallel-coordinates/examples/lib/d3.svg.multibrush.js"></script>
-<script src="http://syntagmatic.github.io/parallel-coordinates/d3.parcoords.js"></script>
-<script src="https://unpkg.com/vue@2.3.4" type="application/javascript"></script>
-<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<script src="//syntagmatic.github.io/parallel-coordinates/examples/lib/d3.svg.multibrush.js"></script>
+<script src="//syntagmatic.github.io/parallel-coordinates/d3.parcoords.js"></script>
+<script src="//unpkg.com/vue@2.3.4" type="application/javascript"></script>
+<script src="//labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 <script src="/metabolights/javascript/divgrid.js"></script>
 
 <script>
@@ -664,7 +664,7 @@
                     if (ChEBIMatch){
                         var ChebiId = metabolite.match(/\(([^)]+)\)/)[1];
                         if (ChebiId.indexOf("CHEBI") !== -1){
-                            annotatedMetabolites.push("<a target='_blank' href='https://www.ebi.ac.uk/chebi/searchId.do?chebiId="+ChebiId+"'>" + metabolite + "</a>");
+                            annotatedMetabolites.push("<a target='_blank' href='//www.ebi.ac.uk/chebi/searchId.do?chebiId="+ChebiId+"'>" + metabolite + "</a>");
                         }else{
                             annotatedMetabolites.push( metabolite );
                         }

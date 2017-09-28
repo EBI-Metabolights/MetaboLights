@@ -13,7 +13,7 @@
         <div class="col-md-3">
             <div class="compound-thumbnail">
                 <a href="${compound.accession}">
-                    <img class="media-object" src="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=${fn:replace(compound.accession, "MTBLC", "")}&amp;dimensions=200&amp;scaleMolecule=true"
+                    <img class="media-object" src="//www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=${fn:replace(compound.accession, "MTBLC", "")}&amp;dimensions=200&amp;scaleMolecule=true"
                          onerror="this.src='img/large_noImage.gif';"/>
                 </a>
             </div>

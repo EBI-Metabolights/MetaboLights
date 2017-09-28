@@ -212,7 +212,7 @@ body{
 .study--description--small p{
     padding: 0px 15px;
 }
-ß
+
 .study--infopanel{
     display: inline-block;
     width: calc(100% - 20px);
@@ -637,7 +637,7 @@ a:link.btn-ok{
     display: block;
     height: 53px;
     width: 89%;
-    background-image: url(http://www.ebi.ac.uk/web_guidelines/EBI-Framework/v1.2/images/logos/EMBL-EBI/EMBL_EBI_Logo_black.svg);
+    background-image: url(//www.ebi.ac.uk/web_guidelines/EBI-Framework/v1.2/images/logos/EMBL-EBI/EMBL_EBI_Logo_black.svg);
     background-size: contain;
     background-repeat: no-repeat;
     margin-left: -.25rem;
@@ -785,7 +785,7 @@ img:not(.imagecache-screenshot-carousel-img) {
 }
 
 .masthead-black-bar .button, .masthead-black-bar .button.hover, .masthead-black-bar .button:focus, .masthead-black-bar .button:hover {
-    background: no-repeat 4px 50% url(http://www.ebi.ac.uk/web_guidelines/EBI-Framework/v1.2/images/logos/EMBL-EBI/EMBL_EBI_Logo_white.svg);
+    background: no-repeat 4px 50% url(//www.ebi.ac.uk/web_guidelines/EBI-Framework/v1.2/images/logos/EMBL-EBI/EMBL_EBI_Logo_white.svg);
     padding-left: 108px;
     background-size: 100px;
     padding-right: 17px;
@@ -866,7 +866,7 @@ img:not(.imagecache-screenshot-carousel-img) {
 .green{
     border-radius: 0 !important;
     background-color: #007c82 !important;
-    background-image: url(http://www.ebi.ac.uk/web_guidelines/EBI-Framework/v1.2/images/map.png) !important;
+    background-image: url(//www.ebi.ac.uk/web_guidelines/EBI-Framework/v1.2/images/map.png) !important;
     background-position: 100% 100% !important;
     background-repeat: no-repeat !important;
     color: #fff !important;
