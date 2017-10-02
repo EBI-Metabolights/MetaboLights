@@ -28,4 +28,4 @@ public class StudyEditorController extends AbstractController {
 
     }
 }
-                                                                                                                                                                      s
+                                                                                                                                                                      
