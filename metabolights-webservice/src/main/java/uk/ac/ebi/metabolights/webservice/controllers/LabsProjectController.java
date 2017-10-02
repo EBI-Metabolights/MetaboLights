@@ -264,6 +264,47 @@ public class LabsProjectController {
 
     }
 
+//    /**
+//     * Download the Selected Files
+//     * @param data
+//     * @param request
+//     * @param response
+//     * @return
+//     */
+//    @RequestMapping(value = "download", method = RequestMethod.POST)
+//    @ResponseBody
+//    public RestResponse<String> downloadProject(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
+//
+//        RestResponse<String> restResponse = new RestResponse<String>();
+//
+//        User user = SecurityUtil.validateJWTToken(data);
+//
+//        if(user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
+//
+//            restResponse.setContent("invalid");
+//
+//            response.setStatus(403);
+//
+//            return restResponse;
+//
+//        }
+//
+//        JSONObject serverRequest = SecurityUtil.parseRequest(data);
+//
+//        String projectId = (String) serverRequest.get("id");
+//
+//        String root = PropertiesUtil.getProperty("userSpace");
+//
+//        MetaboLightsLabsProjectDAO metaboLightsLabsProjectDAO = new MetaboLightsLabsProjectDAO(user, projectId, root);
+//
+//        MLLProject mllProject = metaboLightsLabsProjectDAO.getMllProject();
+//
+//        restResponse.setContent(mllProject.getLogs());
+//
+//        return restResponse;
+//
+//    }
+
 
     /**
      * Authenticate user and delete the file

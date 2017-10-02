@@ -134,7 +134,7 @@
 
 <div class="container-fluid">
 
-    <div class="study--wrapper col-md-12">
+    <div class="study--wrapper col-md-12 clearfix">
         <h2 class="study--title col-md-12">
             <span class="study--id" id="mStudyId">${study.studyIdentifier}:</span>&nbsp;
             ${study.title}
@@ -947,7 +947,7 @@
                         <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
                             <div role="tabpanel" class="tab-pane" id="metpathways">
 
-                                <div class="col-md-12">
+                                <div class="col-md-12" id="metexplore-wrapper">
                                     <h3 class="well">Pathways - Assay&nbsp;<c:if
                                             test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if></h3>
 
@@ -982,8 +982,7 @@
                                 </div>
 
 
-                                <div class="col-md-12">
-                                    <div id="metPathwaysMappingDataContainer">
+                                    <div class="col-md-12" id="metPathwaysMappingDataContainer">
                                         <div class="">
                                             <br>
                                             <div class="well">
@@ -1003,9 +1002,12 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
 
+                                <div class="col-md-12" style="display: none;" id="noPathwaysFound">
+                                    <h5 class="well"><i class="fa fa fa-info-circle"></i>&nbsp;No pathways have been found for the metabolites in this study.</h5>
+                                </div>
                             </div>
+
                         </c:forEach>
                     </c:if>
 
@@ -1424,6 +1426,7 @@
 <script type="text/javascript" charset="utf-8">
     $('#study--tab').tabCollapse();
 </script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <script type="text/javascript" src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="//cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js"></script>
@@ -1574,10 +1577,11 @@
 
                 dataType: 'json',
                 success: function (data) {
-                    metExploreDataJSONObj = JSON.parse(data.content);
+                    metExploreDataJSONObj = JSON.parse(data.content.replace("NaN", 0));
                     //console.log(metExploreDataJSONObj)
                     var selectedValue;
                     var select = document.getElementById("metPathwaysSelect");
+                    var pathwayExists = false;
                     for (var key in metExploreDataJSONObj.pathwayList) {
                         var pathway = metExploreDataJSONObj.pathwayList[key]
                         if (pathway.mappedMetabolite > 0) {
@@ -1593,6 +1597,7 @@
 
                                 $('#metPathwaysMappingDataTable').append('<tr><td>' + pathway.name + '</td><td>' + pathway.dbIdentifier + ' (' + pathway.numberOfMetabolite + ')</td><td>' + pathway.mappedMetabolite + '</td></tr>');
                             }
+                            pathwayExists = true;
                         }
                     }
 
@@ -1601,7 +1606,12 @@
                     });
                     $('.selectpicker').selectpicker('refresh');
                     $('.selectpicker').selectpicker('val', selectedValue);
-                    loadPathways(selectedValue);
+
+                    if(pathwayExists){
+                        loadPathways(selectedValue);
+                    }else{
+                        displayNoPathwaysFound();
+                    }
 
                 },
                 error: function (request, error) {
@@ -1610,39 +1620,44 @@
             });
         }
 
+        function displayNoPathwaysFound(){
+            hidePleaseWait();
+            $('#noPathwaysFound').toggle();
+            $('#metPathwaysMappingDataContainer').hide();
+            $('#metexplore-wrapper').hide();
+        }
+
 
         $('#loadPathways').on('click', function () {
             //alert();
-            chan
             hidePleaseWait();
         });
 
         function loadPathways(ids) {
-            MetExploreViz.onloadMetExploreViz(function () {
-                var url = "//metexplore.toulouse.inra.fr:8080/metExploreWebService/mapping/graphresult/38285/filteredbypathway?pathwayidlist=(" + ids.toString() + ")";
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    async: false,
-                    dataType: 'json',
-                    success: function (data) {
-                        loadPathwayData(JSON.stringify(data));
-                        hidePleaseWait();
-                    },
-                    error: function (request, error) {
-                        alert("Request: " + JSON.stringify(request));
-                    }
-                });
+            if (ids != undefined){
+                MetExploreViz.onloadMetExploreViz(function () {
+                    var url = "//metexplore.toulouse.inra.fr:8080/metExploreWebService/mapping/graphresult/38285/filteredbypathway?pathwayidlist=(" + ids.toString() + ")";
+                    $.ajax({
+                        url: url,
+                        type: 'GET',
+                        async: false,
+                        dataType: 'json',
+                        success: function (data) {
+                            loadPathwayData(JSON.stringify(data));
+                            hidePleaseWait();
+                        },
+                        error: function (request, error) {
+                            alert("Request: " + JSON.stringify(request));
+                        }
+                    });
 
-            });
+                });
+            }
         }
 
 
         function loadPathwayData(myJsonString) {
-
-
             MetExploreViz.onloadMetExploreViz(function () {
-
                 metExploreViz.GraphPanel.refreshPanel(myJsonString,
                     function () {
                         metExploreViz.onloadSession(function () {
@@ -1843,7 +1858,7 @@
         var orcidMtblsClaims;
             $.ajax({
                 cache: false,
-                url: "https://www.ebi.ac.uk/europepmc/thor/api/dataclaiming/findDatabaseClaims/METABOLIGHTS",
+                url: "//www.ebi.ac.uk/europepmc/thor/api/dataclaiming/findDatabaseClaims/METABOLIGHTS",
                 dataType: "json",
                 success: function (orchidRespData) {
                     orcidMtblsClaims = orchidRespData['lstDatabaseClaims'];
@@ -1910,7 +1925,7 @@
                     }
                 }
             }
-            matchingIdsContent += '<br><a target="_blank" class="small" href="http://orcid.org/' + orcidToMatch+'">View ORCID profile</a><br>';
+            matchingIdsContent += '<br><a target="_blank" class="small" href="//orcid.org/' + orcidToMatch+'">View ORCID profile</a><br>';
             return matchingIdsContent;
         }
 
@@ -1918,7 +1933,7 @@
             var claimListText = "";
             $.ajax({
                 cache: false,
-                url: "https://www.ebi.ac.uk/europepmc/thor/api/dataclaiming/findDatabaseClaims/METABOLIGHTS",
+                url: "//www.ebi.ac.uk/europepmc/thor/api/dataclaiming/findDatabaseClaims/METABOLIGHTS",
                 dataType: "json",
                 success: function (orchidRespData) {
                     console.log(orchidRespData);
@@ -2021,7 +2036,7 @@
     var description = "${study.description}";
     var editedTitle = title.replace(/[']/g, '');
     var editedDescription = description.replace(/[']/g, '');
-    thorApplicationNamespace.createWorkOrcId(editedTitle, 'data-set', '${releaseYear}', 'http://www.ebi.ac.uk/metabolights/${study.studyIdentifier}', editedDescription, 'METABOLIGHTS');
+    thorApplicationNamespace.createWorkOrcId(editedTitle, 'data-set', '${releaseYear}', '//www.ebi.ac.uk/metabolights/${study.studyIdentifier}', editedDescription, 'METABOLIGHTS');
     thorApplicationNamespace.addWorkIdentifier('other-id', '${study.studyIdentifier}');
 
     $(function () {

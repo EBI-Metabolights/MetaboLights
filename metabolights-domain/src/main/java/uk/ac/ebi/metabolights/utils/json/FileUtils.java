@@ -175,8 +175,7 @@ public class FileUtils {
         StringBuffer result = new StringBuffer();
 
         for (String fileName : fileNames) {
-            result.append(new File(fileName).getName()).append(", ").append("file was ")
-                    .append(deleteFileFromProject(fileName,projectFolder) ? "":"NOT ").append("deleted.").append("|");
+            result.append(new File(fileName).getName()).append(", ").append("file was ").append(deleteFileFromProject(fileName,projectFolder) ? "":"NOT ").append("deleted.").append("|");
         }
 
         return result.toString();
@@ -206,21 +205,25 @@ public class FileUtils {
 
         if (fileName.contains("/")){
 
-            File tempFile = new File(fileName);
-            String tempFileName = tempFile.getName();
-            String tempFileParent = tempFile.getParentFile().getPath();
+                File tempFile = new File(fileName);
+                String tempFileName = tempFile.getName();
+                String tempFileParentPath = tempFile.getParentFile().getPath();
 
-            fileName = tempFileParent + File.separator + filePrefix + tempFileName;
+                fileName = tempFileParentPath + File.separator + filePrefix + tempFileName;
+
+                filePath.toFile().renameTo(
+                        new File( "" + File.separator +  projectFolder + File.separator + fileName)
+                );
 
         }else{
 
             fileName = filePrefix + fileName;
 
-        }
+            filePath.toFile().renameTo(
+                    new File( "" + File.separator +  projectFolder + File.separator + fileName)
+            );
 
-        filePath.toFile().renameTo(
-                new File( "" + File.separator +  projectFolder + File.separator + fileName)
-        );
+        }
 
         result = true;
 

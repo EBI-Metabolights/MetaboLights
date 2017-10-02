@@ -107,7 +107,7 @@
         methods: {
             loadStudyLiterature: function () {
                 $('#literaturebody').html('<tr><td colspan="3"><p class="text-center"><img src="${pageContext.request.contextPath}/img/beta_loading.gif"></p></td></tr>');
-                this.$http.get('http://www.ebi.ac.uk/metabolights/webservice/study/MTBLS'+this.selected+'/full', function (data, status, request) {
+                this.$http.get('//www.ebi.ac.uk/metabolights/webservice/study/MTBLS'+this.selected+'/full', function (data, status, request) {
                     var studyDescription = data['content']['description'];
                     var studyProtocols = data['content']['protocols'];
                     var sprot = '';
@@ -129,7 +129,7 @@
             },
                 loadStudyWithDetails: function(){
                     $('#studieslist').html('<tr><td colspan="3"><p class="text-center"><img src="${pageContext.request.contextPath}/img/beta_loading.gif"></p></td></tr>');
-                    this.$http.get('http://ves-ebi-8d:8080/metabolights/webservice/study/listWithDetails', function (data, status, request) {
+                    this.$http.get('//ves-ebi-8d:8080/metabolights/webservice/study/listWithDetails', function (data, status, request) {
                         this.studiesWithDetails = data['content'];
                         $('#studieslist').html("");
                     }).error(function (data, status, request) {
@@ -139,7 +139,7 @@
         },
 
         ready: function() {
-            this.$http.get('http://www.ebi.ac.uk/metabolights/webservice/study/list', function (data, status, request) {
+            this.$http.get('//www.ebi.ac.uk/metabolights/webservice/study/list', function (data, status, request) {
                 this.studies = data['content'];
                 for(var i in this.studies) {
                     var item = parseInt(this.studies[i].replace("MTBLS", ""));

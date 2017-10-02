@@ -747,6 +747,7 @@
 
 <script>
     $('#study-details-modal').on('show.bs.modal', function(e) {
+        alert();
         var studyid = $(e.relatedTarget).data('studyid');
         var title = $("."+studyid+"--title").text();
         var description = $("."+studyid+"--description").text();
