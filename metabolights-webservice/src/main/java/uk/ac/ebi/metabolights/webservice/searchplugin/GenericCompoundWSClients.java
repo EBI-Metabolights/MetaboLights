@@ -19,7 +19,7 @@ import java.net.URLEncoder;
  */
 public class GenericCompoundWSClients {
     private static Logger logger = LoggerFactory.getLogger(GenericCompoundWSClients.class);
-    private static final String chebiWSUrl = "http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl";
+    private static final String chebiWSUrl = "https://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl";
     private static final String pubchemWSUrl = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/";
 
     private static ChebiWebServiceClient chebiWS;
