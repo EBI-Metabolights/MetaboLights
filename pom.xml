@@ -113,17 +113,17 @@
         <repository>
             <id>ebi-repo</id>
             <name>The EBI repository</name>
-            <url>http://www.ebi.ac.uk/~maven/m2repo</url>
+            <url>https://www.ebi.ac.uk/~maven/m2repo</url>
         </repository>
         <repository>
             <id>chebi-repo-snapshot</id>
             <name>ChEBI Repository</name>
-            <url>http://www.ebi.ac.uk/~biobabel/maven2_repo</url>
+            <url>https://www.ebi.ac.uk/~biobabel/maven2_repo</url>
         </repository>
         <repository>
             <id>chebi-snapshot-repo-snapshot</id>
             <name>ChEBI Repository</name>
-            <url>http://www.ebi.ac.uk/~biobabel/maven2_repo</url>
+            <url>https://www.ebi.ac.uk/~biobabel/maven2_repo</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
