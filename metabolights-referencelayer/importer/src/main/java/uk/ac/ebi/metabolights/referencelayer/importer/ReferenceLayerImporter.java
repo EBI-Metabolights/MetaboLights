@@ -159,7 +159,8 @@ public class ReferenceLayerImporter {
 	}
 
 
-	private int importOptions = ImportOptions.UPDATE_EXISTING_MET;
+	//private int importOptions = ImportOptions.UPDATE_EXISTING_MET;
+    private int importOptions = ImportOptions.REFRESH_MET_SPECIES;
 
 	// Instantiate with a connection object
     public ReferenceLayerImporter(ConnectionProvider connectionProvider) throws IOException {
@@ -349,7 +350,7 @@ public class ReferenceLayerImporter {
 					// If we don't need to update existing metabolites..
 					if ((importOptions & ImportOptions.UPDATE_EXISTING_MET) == 0){
 						LOGGER.info("The compound " + accession + " already exists and update option not selected.");
-						return 0;
+					//	return 0;
 					}
 
 
