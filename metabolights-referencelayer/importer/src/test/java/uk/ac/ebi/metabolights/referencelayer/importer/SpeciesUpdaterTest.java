@@ -49,24 +49,19 @@ public class SpeciesUpdaterTest {
     @BeforeClass
     public static void setUp() throws Exception {
 
-
         //DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsPROD");
 		//DatabaseInstance dbi = DatabaseInstance.getInstance("metabolightsDEV");
-
         //con = dbi.getConnection();
 
-
         PostgresSqlLoader postgresSqlLoader = new PostgresSqlLoader();
-
         //return postgresSqlLoader.getPostgresConnection("metabolightsDEV");
         con =  postgresSqlLoader.getPostgresConnection("metabolightsPROD");
 
-
     }
+
     @AfterClass
     public static void tearDown() throws Exception {
         if (con != null) con.close();
-
     }
 
 
@@ -74,7 +69,7 @@ public class SpeciesUpdaterTest {
     public void UpdateSpecies() throws Exception {
 
         SpeciesUpdater speciesUpdater = new SpeciesUpdater(con);
-		speciesUpdater.setUpdateOptions(SpeciesUpdater.UpdateOptions.GROUP_USE_GLOBAL_NAMES);
+		speciesUpdater.setUpdateOptions(SpeciesUpdater.UpdateOptions.ALL);
         speciesUpdater.UpdateSpeciesInformation();
 
     }

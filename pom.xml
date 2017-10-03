@@ -135,6 +135,10 @@
             <layout>default</layout>
         </repository>
         <repository>
+            <id>nexus-ebi-release-repo</id>
+            <url>http://www.ebi.ac.uk/Tools/maven/repos/content/groups/ebi-repo/</url>
+        </repository>
+        <repository>
             <id>stax-ex-fix</id>
             <name>fix-ebi-missing-repo</name>
             <url>https://mvnrepository.com/artifact/org.jvnet.staxex/stax-ex</url>
