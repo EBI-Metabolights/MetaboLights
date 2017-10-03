@@ -542,7 +542,7 @@ public class ReferenceLayerImporter {
     private void importMetSpeciesFromCompundOrigins(MetaboLightsCompound mc, Entity chebiEntity, CrossReference chebiXRef) throws DAOException {
 
 		//For each compound origin in chebi...
-        for (CompoundOrigins origin : chebiEntity.getCompoundOrigins()){
+        for (CompoundOriginDataItem origin : chebiEntity.getCompoundOrigins()){
 
             Species sp = getSpeciesFromCompoundOrigins(origin);
 
@@ -615,7 +615,7 @@ public class ReferenceLayerImporter {
 	}
 
 
-	private Species getSpeciesFromCompoundOrigins(CompoundOrigins origin) throws DAOException {
+	private Species getSpeciesFromCompoundOrigins(CompoundOriginDataItem origin) throws DAOException {
 
         // Try to find the specie
 		return getSpecies(origin.getSpeciesText(), origin.getSpeciesAccession());
