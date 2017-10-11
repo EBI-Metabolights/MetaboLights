@@ -158,7 +158,7 @@
                         $('#redirectToEditorPage').click(function(){
                             var token = "${userApiToken}";
                             localStorage.setItem("apiToken", token);
-                            window.open("${pageContext.request.contextPath}/studyeditor?studyId=${liteStudy.studyIdentifier}");
+                            window.open("${pageContext.request.contextPath}/studyeditor?studyId=${study.studyIdentifier}");
                         })
 
                     });
@@ -194,8 +194,8 @@
                 </p>
                 <p class="text-right" id="mStudyStatus">
                     <i class="fa fa-user">&nbsp;</i><spring:message code="label.subm"/>:&nbsp;
-                    <c:forEach var="owner" items="${liteStudy.users}">
-                        <a href="mailto:${owner.userName}?subject=<spring:message code="msg.emailStudyLinkSubject"/>&nbsp;${liteStudy.studyIdentifier}">${owner.fullName}</a>
+                    <c:forEach var="owner" items="${study.users}">
+                        <a href="mailto:${owner.userName}?subject=<spring:message code="msg.emailStudyLinkSubject"/>&nbsp;${study.studyIdentifier}">${owner.fullName}</a>
                     </c:forEach>
                     &nbsp;|&nbsp;
 
