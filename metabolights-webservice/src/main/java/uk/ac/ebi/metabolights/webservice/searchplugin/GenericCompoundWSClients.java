@@ -29,7 +29,7 @@ public class GenericCompoundWSClients {
         if (chebiWS == null)
             try {
                 logger.info("Starting a new instance of the ChEBI ChebiWebServiceClient");
-                chebiWS = new ChebiWebServiceClient(new URL(chebiWSUrl), new QName("http://www.ebi.ac.uk/webservices/chebi", "ChebiWebServiceService"));
+                chebiWS = new ChebiWebServiceClient(new URL(chebiWSUrl), new QName("https://www.ebi.ac.uk/webservices/chebi", "ChebiWebServiceService"));
             } catch (Exception e) {
                 logger.error("Error instantiating a new ChebiWebServiceClient " + e);
             }
