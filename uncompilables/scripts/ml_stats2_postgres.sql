@@ -36,12 +36,12 @@ CREATE AGGREGATE median(NUMERIC) (
 truncate table ml_stats;
 
 -- Section "Data"
-insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', 'Total number of studies', count(*), 1 from studies;
+insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', 'Total number of studies', count(*), 1 from studies where status != 4;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', ' - Public', count(*), 2 from studies where status = 3;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', ' - in Review', count(*), 3 from studies where status = 2;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', ' - in Curation', count(*), 4 from studies where status = 1;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', ' - in Submission', count(*), 5 from studies where status = 0;
-insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', ' - Dormant', count(*), 6 from studies where status = 4;
+--insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', ' - Dormant', count(*), 6 from studies where status = 4;
 --insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Different organisms', count(*), 7 from ref_species where final_id is null and species_member is not null;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Different organisms', count(*), 7 from ref_species where final_id is null;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Reference compounds', count(*), 8 from ref_metabolite;
