@@ -35,21 +35,30 @@
 <!-- Optional theme -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
       integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-<link rel="stylesheet" media="screen"
-      href="https://cdnjs.cloudflare.com/ajax/libs/handsontable/0.32.0/handsontable.full.css">
-<%--<link href="styles.32b2992df6194aa895ed.bundle.css" rel="stylesheet"/>--%>
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 <%--todo change styles--%>
 
 <div class="container">
+    <br>
     <div class="row">
-        <%--<app-adv-editor></app-adv-editor>--%>
-            <h1>HELLO</h1>
+        <mtbls-adv-search></mtbls-adv-search>
+        <%--<h1>HELLO</h1>--%>
     </div>
-    <div class="row">
-        <div><a href="${pageContext.request.contextPath}/${studyId}" class="btn btn-primary pull-right"
-                role="button"><span style="color:white;">Go back to ${studyId}</span></a></div>
-    </div>
+    <%--<div class="row">--%>
+        <%--<div><a href="${pageContext.request.contextPath}/${studyId}" class="btn btn-primary pull-right"--%>
+                <%--role="button"><span style="color:white;">Go back to ${studyId}</span></a></div>--%>
+    <%--</div>--%>
 </div>
+
+<script type="text/javascript" src="inline.bundle.js"></script>
+<script type="text/javascript" src="polyfills.bundle.js"></script>
+<script type="text/javascript" src="styles.bundle.js"></script>
+<script type="text/javascript" src="vendor.bundle.js"></script>
+<script type="text/javascript" src="main.bundle.js"></script>
+
+
+
+
 
 
 
