@@ -682,6 +682,12 @@ a.more:after, a.read-more:after, a.readmore:after {
     font-size: .85em;
 }
 
+.galaxy-panel{
+    background-color: transparent!important;
+    border: 1px solid #ddd;
+    margin-bottom: 0px !important;
+}
+
 #ebi-footer-meta{
     margin-top: 1rem;
 }
