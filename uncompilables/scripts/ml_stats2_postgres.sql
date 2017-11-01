@@ -76,7 +76,7 @@ group by to_char(submissiondate,'YYYY-MM') order by to_char(submissiondate,'YYYY
 
 insert into ml_stats(page_section, str_name, str_value, sort_order)  
 select 'Stats_number', to_char(submissiondate,'YYYY-MM'), sum(count(*)) over (order by to_char(submissiondate,'YYYY-MM')), '0' 
-from studies
+from studies where status != 4
 group by to_char(submissiondate,'YYYY-MM') order by to_char(submissiondate,'YYYY-MM') asc;
 
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Info', 'Last updated', to_char(current_timestamp,'DD-Mon-YYYY HH24:MI:SS'), 1;
