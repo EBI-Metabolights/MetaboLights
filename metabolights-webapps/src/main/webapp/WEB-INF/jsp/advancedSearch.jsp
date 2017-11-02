@@ -36,6 +36,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
       integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="styles.bb26d335f22939ac90d1.bundle.css" rel="stylesheet"/>
 <%--todo change styles--%>
 
 <div class="container">
@@ -50,11 +51,10 @@
     <%--</div>--%>
 </div>
 
-<script type="text/javascript" src="inline.bundle.js"></script>
-<script type="text/javascript" src="polyfills.bundle.js"></script>
-<script type="text/javascript" src="styles.bundle.js"></script>
-<script type="text/javascript" src="vendor.bundle.js"></script>
-<script type="text/javascript" src="main.bundle.js"></script>
+<script type="text/javascript" src="inline.5ff79d9d5cc46eb6f6dc.bundle.js"></script>
+<script type="text/javascript" src="polyfills.ed762e38550b1ba74505.bundle.js"></script>
+<script type="text/javascript" src="vendor.f1967bd5c017fba09684.bundle.js"></script>
+<script type="text/javascript" src="main.6358c413deefc3a9591e.bundle.js"></script>
 
 
 
