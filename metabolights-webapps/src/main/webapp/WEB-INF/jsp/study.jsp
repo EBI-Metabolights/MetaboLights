@@ -1622,7 +1622,7 @@
         function loadPathways(ids) {
             if (ids != undefined){
                 MetExploreViz.onloadMetExploreViz(function () {
-                    var url = "//metexplore.toulouse.inra.fr:8080/metExploreWebService/mapping/graphresult/38285/filteredbypathway?pathwayidlist=(" + ids.toString() + ")";
+                    var url = "//metexplore.toulouse.inra.fr/metExploreWebService/mapping/graphresult/38285/filteredbypathway?pathwayidlist=(" + ids.toString() + ")";
                     $.ajax({
                         url: url,
                         type: 'GET',

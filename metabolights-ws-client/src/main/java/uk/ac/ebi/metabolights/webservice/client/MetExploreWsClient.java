@@ -37,7 +37,7 @@ public class MetExploreWsClient extends WsClient{
 
     private String getMetExplorePathwayMappingsUrl(String studyId){
 
-        String metExplorePathwayMappingsUrl = "http://metexplore.toulouse.inra.fr:8080/metExploreWebService/mapping/launchaspathways/inchi/1363?name=EBI_Phenomanal_Test&wsurl=http://wwwdev.ebi.ac.uk/metabolights/webservice/study/"+studyId+"/getMetabolitesInchi";
+        String metExplorePathwayMappingsUrl = "https://metexplore.toulouse.inra.fr/metExploreWebService/mapping/launchaspathways/inchi/1363?name=EBI_Phenomanal_Test&wsurl=http://wwwdev.ebi.ac.uk/metabolights/webservice/study/"+studyId+"/getMetabolitesInchi";
 
         return metExplorePathwayMappingsUrl;
 
