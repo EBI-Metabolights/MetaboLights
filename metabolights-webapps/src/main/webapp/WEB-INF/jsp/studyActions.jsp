@@ -18,19 +18,18 @@
 
 <%--If editable--%>
 <c:if test="${readOnly eq false}">
-    <div class="dropdown ml--inline">
-        <a id="dLabel" role="button" data-toggle="dropdown" class="" data-target="#" href="#">
-            Actions <span class="caret"></span>
-        </a>
+    <span class="dropdown">
+        <button id="dLabel" type="button" class="btn btn-primary nbr" data-toggle="dropdown" data-target="#" href="#">
+            <i class="fa fa-cogs"></i> Actions <span class="caret"></span>
+        </button>&nbsp;
         <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-
             <c:if test="${(study.studyStatus == 'SUBMITTED') || curator}">
                 <c:if test="${(study.studyStatus != 'PUBLIC')}">
                     <li><a href="${pageContext.request.contextPath}/updatepublicreleasedateform?study=${study.studyIdentifier}">change release date</a></li>
                 </c:if>
                 <li><a href="${pageContext.request.contextPath}/updatestudyform?study=${study.studyIdentifier}">Update study</a></li>
                 <li class="dropdown-submenu"><a href="#" tabindex="-1">Change status</a>
-                    <ul class="dropdown-menu">
+                    <ul class="nbr dropdown-menu">
                         <c:if test="${curator && (study.studyStatus != 'SUBMITTED')}">
                             <li><a data-href="${pageContext.request.contextPath}/updatestatus?study=${study.studyIdentifier}&newStatus=SUBMITTED" data-title="Confirmation" data-info="Are you sure you want to change the status back to Submitted?" data-toggle="modal" data-target="#confirm-modal" data-class="btn-danger" data-value="Change-status">Submitted</a></li>
                         </c:if>
@@ -78,8 +77,7 @@
                 </c:if>
             </c:if>
         </ul>
-    </div>
-    &emsp;|&emsp;
+    </span>
 </c:if>
 
 <div class="modal fade" id="confirm-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

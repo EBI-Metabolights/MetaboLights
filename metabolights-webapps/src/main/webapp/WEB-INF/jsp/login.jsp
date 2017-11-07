@@ -27,7 +27,6 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
 
-<div class="container-fluid">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <div class="ml--loginContainer">
@@ -72,11 +71,13 @@
                     </div>
 
                     <div class="form-group">
-                        <a href="forgotPassword"><spring:message code="label.oopsForgot" /></a><br>
-                        <input name="submit" type="submit" class="submit" value="<spring:message code="label.login"/>">
-                        <input name="cancel" type="button" class="submit cancel" value="<spring:message code="label.cancel"/>" onclick="location.href='index'">
+                        <div class="form-group">
+                            <input name="submit" type="submit" class="submit btn btn-primary form-control" value="<spring:message code="label.login"/>">
+                        </div>
+                        <%--<input name="cancel" type="button" class="submit cancel" value="<spring:message code="label.cancel"/>" onclick="location.href='index'">--%>
                     </div>
-
+                    <small><a href="forgotPassword"><spring:message code="label.oopsForgot" /></a></small>
+                    <br>
                 </form>
                         </div>
             </div>
@@ -84,7 +85,6 @@
                 <a href="newAccount"><spring:message code="label.needNewAccount"/></a></p>
         </div>
     </div>
-</div>
 
 <script type="text/javascript" language="javascript">
     document.loginForm.j_username.focus();

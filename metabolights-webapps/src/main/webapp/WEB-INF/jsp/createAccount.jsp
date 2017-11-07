@@ -23,13 +23,6 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
 
-
-
-<link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
-
-<div class="container-fluid">
 	<div class="row">
 		<div class="col-md-3">
 			&nbsp;
@@ -38,7 +31,9 @@
 			<div class="ml--loginContainer">
 				<div class="ml-loginpanelhead">
 					<h3>Create an account</h3>
-					<p><spring:message	code="msg.newAccount.submittersOnly"/></p>
+					<p><small>
+						<spring:message	code="msg.newAccount.submittersOnly"/>
+					</small></p>
 				</div>
 				<div class="ml-loginpanelbody">
 					<div class="row">
@@ -65,8 +60,8 @@
 						</div>
 
 						<div class="form-group">
-								<input name="submit" type="submit" class="submit" value="<spring:message code="label.create"/>">
-								<input name="cancel" type="button" class="submit cancel" value="<spring:message code="label.cancel"/>" onclick="location.href='index'">
+								<input name="submit" type="submit" class="submit btn btn-primary form-control" value="<spring:message code="label.create"/>">
+								<%--<input name="cancel" type="button" class="submit cancel" value="<spring:message code="label.cancel"/>" onclick="location.href='index'">--%>
 						</div>
 						</form:form>
 					</div>
@@ -75,7 +70,6 @@
 			<small><strong><spring:message code="msg.starRequired"/></strong></small>
 		</div>
 	</div>
-</div>
 
 
 

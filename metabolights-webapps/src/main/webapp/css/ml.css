@@ -1,0 +1,1275 @@
+blockquote, dd, div, dl, dt, form, li, ol, p, pre, td, th, ul {
+    margin: 0;
+    padding: 0;
+}
+
+html.fontface .icon-c8:before {
+    color: inherit;
+}
+
+html.fontface .icon-c6:before {
+    color: inherit;
+}
+
+.icon-generic{
+    margin: 5px;
+}
+
+a{
+    border-bottom: none;
+}
+
+a:focus, a:hover {
+    color: inherit;
+    text-decoration: none;
+}
+
+a.more:after, a.read-more:after, a.readmore:after {
+    content: " >";
+    font-family: "EBI-Functional";
+    font-size: .85em;
+}
+
+p {
+    line-height: 20px;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.p1px{
+    padding: 1px !important;
+}
+
+.ml-main-wrapper{
+    padding: 20px 0;
+    min-height: 70vh;
+}
+
+.wrong:before{
+
+    content: "\002718";
+    font-weight: bold;
+}
+
+.mandatory {
+    color: red;
+}
+.optional {
+    color: darkorange;
+}
+.ok {
+    color: green;
+}
+
+.override {
+    color: darkorange;
+}
+
+.ok:before{
+    content: "\002713";
+    font-weight: bold;
+}
+
+.redTrafficL::before{
+    content: "\0025C9";
+    color: red;
+}
+.amberTrafficL::before{
+    content: "\0025C9";
+    color: darkorange;
+}
+.greenTrafficL::before{
+    content: "\0025C9";
+    color: green;
+}
+.offTrafficL::before{
+    content: "\0025EF";
+    color: #bbb;
+}
+
+
+.breadcrumb {
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    border-radius: 2px;
+}
+
+.nmt{
+    margin-top: 0px !important;
+}
+
+.nmb{
+    margin-bottom: 0px !important;
+}
+
+a span.link-pdf {
+    background: url(//www.ebi.ac.uk/inc/images/icon_pdf.gif) right center no-repeat;
+    padding: 0 18px 0 0;
+}
+
+
+.ml--loginContainer{
+    border: 1px solid #F1F1F4;
+    background-color: #F1F1F4;
+    margin: 20px 0;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+.ml-loginpanelhead{
+    padding: 10px 20px 10px 20px;
+    border-bottom: 1px solid #D9D9D9;
+}
+
+.ml-loginpanelbody{
+    padding: 25px 20px 10px 20px;
+}
+
+/* header */
+.navbar {
+    min-height: 0;
+    margin-bottom: 0px;
+    border: none;
+    border-radius: 0;
+    font-size: 1.2rem;
+}
+
+.navbar-inverse {
+    background-color: inherit;
+    border-color: inherit;
+}
+
+.navbar-nav>li>a {
+}
+
+.nav>li>a {
+    position: relative ;
+    display: block ;
+    padding: 8px 15px ;
+}
+
+.navbar-right {
+    margin-right: 0;
+}
+
+.navbar-dark{
+    background-color: #333;
+}
+
+.navbar-nav>li>a{
+    color: #fff;
+}
+
+.nav>li>a:focus, .nav>li>a:hover {
+    text-decoration: none;
+    color: #000;
+    background-color: #eee;
+}
+
+.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:focus, .navbar-inverse .navbar-nav>.open>a:hover {
+    color: #fff;
+    background-color: #888 !important;
+}
+
+.ml-header{
+    height: 140px;
+    background-image: url("/metabolights/img/pattern-header.png");
+    background-size: 100% auto;
+}
+
+.ml-header-section-top {
+    height: 103px;
+    display: flex;
+    align-items: center;
+}
+
+.ml-header-section-bottom {
+    height: 40px;
+}
+
+.metabolights-logo{
+    color: #125789;
+    font-size: 2.6em;
+    font-weight: 400;
+    margin-top: 10px;
+}
+
+.ml-header .form-control{
+    border: 1px solid #8a8a8a;
+}
+
+.ml-header img{
+    margin-right: 10px;
+}
+
+.ml-header #local-search{
+    margin-top: 10px;
+}
+
+.ml-header #local-search .btn{
+    background-color: #f1f1f4;
+    border: 1px solid #8a8a8a;
+}
+
+.examples{
+    color: #fff;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+.examples > a{
+    color: #fff;
+}
+
+.masthead-black-bar {
+    background-color: #333;
+}
+
+.masthead-black-bar ul li.home a:before {
+    font-family: 'EBI-Generic';
+    content: 'H ';
+}
+
+.masthead-black-bar ul li.services a:before {
+    font-family: 'EBI-Generic';
+    content: '( ';
+}
+
+.masthead-black-bar ul li.research a:before {
+    font-family: 'EBI-Generic';
+    content: ') ';
+}
+
+.masthead-black-bar ul li.training a:before {
+    font-family: 'EBI-Generic';
+    content: 't ';
+}
+
+.masthead-black-bar ul li.about a:before {
+    font-family: 'EBI-Generic';
+    content: 'i ';
+}
+
+.masthead-black-bar a:hover,.masthead-black-bar a:focus,.masthead-black-bar a:active {
+    border-bottom: none !important;
+}
+
+.masthead-black-bar a,.masthead-black-bar  a:link,.masthead-black-bar  a:visited {
+    border-bottom-width: 0;
+    border-bottom-style: none;
+    border-bottom-color: transparent;
+}
+
+.masthead-black-bar ul li.services a:active, .masthead-black-bar ul li.services a:focus, .masthead-black-bar ul li.services a:hover {
+    background-color: #389198;
+}
+
+.masthead-black-bar ul li.research a:active, .masthead-black-bar ul li.research a:focus, .masthead-black-bar ul li.research a:hover {
+    background-color: #6dab49;
+}
+
+.masthead-black-bar ul li.training a:active, .masthead-black-bar ul li.training a:focus, .masthead-black-bar ul li.training a:hover {
+    background-color: #e9b400;
+}
+
+.masthead-black-bar ul li.about a:active, .masthead-black-bar ul li.about a:focus, .masthead-black-bar ul li.about a:hover, .masthead-black-bar ul li.about-us a:active, .masthead-black-bar ul li.about-us a:focus, .masthead-black-bar ul li.about-us a:hover {
+    background-color: #389198;
+}
+
+.masthead-black-bar .button, .masthead-black-bar .button.hover, .masthead-black-bar .button:focus, .masthead-black-bar .button:hover {
+    background: no-repeat 4px 50% url(//www.ebi.ac.uk/web_guidelines/EBI-Framework/v1.2/images/logos/EMBL-EBI/EMBL_EBI_Logo_white.svg);
+    background-position-x: 10px;
+    background-size: 100px;
+}
+
+.masthead-black-bar .button {
+    padding-left: 108px;
+    background-size: 100px;
+    padding-right: 17px;
+    width: 185px;
+    height: 34px;
+    line-height: 11px;
+}
+
+.masthead-black-bar h6 {
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.dropdown-large {
+    position: static !important;
+}
+
+.dropdown-menu-large {
+    padding: 20px 0px;
+}
+.dropdown-menu-large > li > ul {
+    padding: 0;
+    margin: 0;
+}
+.dropdown-menu-large > li > ul > li {
+    list-style: none;
+}
+.dropdown-menu-large > li > ul > li > a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.428571429;
+    color: #333333;
+    white-space: normal;
+}
+.dropdown-menu-large > li ul > li > a:hover,
+.dropdown-menu-large > li ul > li > a:focus {
+    text-decoration: none;
+    color: #262626;
+    background-color: #f5f5f5;
+}
+.dropdown-menu-large .disabled > a,
+.dropdown-menu-large .disabled > a:hover,
+.dropdown-menu-large .disabled > a:focus {
+    color: #999999;
+}
+.dropdown-menu-large .disabled > a:hover,
+.dropdown-menu-large .disabled > a:focus {
+    text-decoration: none;
+    background-color: transparent;
+    background-image: none;
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+    cursor: not-allowed;
+}
+.dropdown-menu-large .dropdown-header {
+    color: #428bca;
+    font-size: 18px;
+}
+
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -6px;
+    margin-left: -1px;
+    -webkit-border-radius: 0 6px 6px 6px;
+    -moz-border-radius: 0 6px 6px;
+    border-radius: 0 6px 6px 6px;
+}
+
+.dark{
+    border-radius: 0 !important;
+    background-color: #333 !important;
+    background-image: url(//www.ebi.ac.uk/web_guidelines/EBI-Framework/v1.2/images/map.png) !important;
+    background-position: 100% 100% !important;
+    background-repeat: no-repeat !important;
+    color: #fff !important;
+    height: 25em !important;
+    padding-right: 0.7rem;
+    width: 50em;
+}
+
+
+.dark p{
+    margin-bottom: 1rem;
+    font-size: 1.2em;
+    text-rendering: optimizeLegibility;
+    padding-top: 10px;
+    line-height: 1.6;
+}
+
+.dark a{
+    border-bottom-width: 1px !important;
+    border-bottom-color: inherit;
+    font-size: 80%;
+    line-height: inherit;
+    color: #fff;
+    border-color: #fff !important;
+}
+
+.scrollToTop{
+    padding: 15px 20px;
+    text-align:center;
+    background: rgba(255,255,255, 0.7);
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+    position:fixed;
+    bottom:50px;
+    right:50px;
+    border-radius: 4px;
+    border: 1px solid #F5F5F5;
+    display:none;
+}
+.scrollToTop:hover{
+    text-decoration:none;
+}
+
+/* footer */
+.global-footer {
+    border-top: 5px solid #eee;
+    padding: 1rem 0;
+}
+
+.global-footer .ebi-logo {
+    display: block;
+    height: 53px;
+    width: 89%;
+    background-image: url(//www.ebi.ac.uk/web_guidelines/EBI-Framework/v1.2/images/logos/EMBL-EBI/EMBL_EBI_Logo_black.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-left: -.25rem;
+    position: relative;
+    top: 8px;
+}
+
+.global-footer h5 {
+    margin-top: 1.25rem;
+    margin-bottom: 5px;
+    font-size: 1.2em;
+    font-family: "Helvetica Neue",Helvetica,Roboto,Arial,sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    color: inherit;
+    line-height: 1.4;
+}
+
+.label.services-color, .services-color, .services-color a, .services-color a:hover, .services-color a:visited, .services-color cite, .services-color h3, .services-color h4, a.services-color, a:hover.services-color {
+    color: #389198 !important;
+}
+
+.label.research-color, .research-color, .research-color a, .research-color a:hover, .research-color a:visited, .research-color cite, .research-color h3, .research-color h4, a.research-color, a:hover.research-color {
+    color: #6dab49 !important;
+}
+
+.label.training-color, .training-color, .training-color a, .training-color a:hover, .training-color a:visited, .training-color cite, .training-color h3, .training-color h4, a.training-color, a:hover.training-color {
+    color: #e9b400 !important;
+}
+
+.industry-color, .industry-color a, .industry-color a:hover, .industry-color a:visited, .industry-color cite, .industry-color h3, .industry-color h4, .label.industry-color, a.industry-color, a:hover.industry-color {
+    color: #0086b4 !important;
+}
+
+.ebi-color, .ebi-color a, .ebi-color a:hover, .ebi-color a:visited, .ebi-color cite, .ebi-color h3, .ebi-color h4, .label.ebi-color, a.ebi-color, a:hover.ebi-color {
+    color: #007c82 !important;
+}
+
+a.more:after, a.read-more:after, a.readmore:after {
+    content: " >";
+    font-family: "EBI-Functional";
+    font-size: .85em;
+}
+
+.ebi-footer-meta{
+    margin-top: 2rem;
+}
+
+.global-footer ul {
+    margin-left: 0;
+    font-size: 95%;
+    list-style: none;
+}
+
+.global-footer a {
+    color: #666;
+}
+
+.global-footer ul > li{
+    display: list-item;
+    text-align: -webkit-match-parent;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.global-footer ul li a:hover{
+    background-color: transparent;
+    text-decoration: none;
+    border-bottom-width: 1px;
+    border-bottom-style: dotted;
+    border-radius: 0;
+    border-bottom-color: #F1F1F4;
+}
+
+
+.popup-ajax:focus,.popup-ajax:active {
+    outline: none !important;
+}
+
+.global-footer p {
+    margin: 0 0 5px;
+    font-size: 1em;
+}
+
+
+/* index page */
+
+.panel-primary {
+    border-color: #c5e4ff;
+}
+
+.panel-primary .custom-footer{
+    border-top: 1px solid #c5e4ff;
+}
+
+.panel-primary .custom-footer li{
+    border-bottom: 1px solid #c5e4ff;
+    padding: 10px 5px;
+    font-size: 0.8em;
+    list-style: none;
+    text-transform: uppercase;
+}
+
+
+.panel-success .custom-footer{
+    border-top: 1px solid #d6e9c6;
+}
+
+.panel-success .custom-footer li{
+    border-bottom: 1px solid #d6e9c6;
+    padding: 10px 5px;
+    font-size: 0.8em;
+    list-style: none;
+    text-transform: uppercase;
+}
+
+.panel-danger .custom-footer{
+    border-top: 1px solid #ebccd1;
+}
+
+.panel-danger .custom-footer li{
+    border-bottom: 1px solid #ebccd1;
+    padding: 10px 5px;
+    font-size: 0.8em;
+    list-style: none;
+    text-transform: uppercase;
+}
+
+.grey{
+    background-color: #f1f1f4;
+}
+
+.nbr{
+    border-radius: 0;
+}
+
+.ntbp{
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.gbg{
+    background-color: #fefffd;
+}
+
+.bbg{
+    background-color: #fbfdff;
+}
+
+.rbg{
+    background-color: #fffbfb;
+}
+
+.section-heading{
+    font-weight: 500;
+    margin-top: 0;
+    text-align: center;
+    font-size: 1.6em;
+    letter-spacing: 1px;
+}
+
+.section-text{
+    font-weight: 400;
+    margin-top: 0;
+    font-size: 14px;
+    color: #696969;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+/* SearchPage */
+
+.cpanel .panel-heading{
+    padding: 1px 15px;
+}
+
+.cpanel .panel-heading h4{
+    line-height: 1.4em;
+}
+
+.category-heading{
+    font-style: normal;
+    font-weight: normal;
+    padding: 3px 10px 10px 10px;
+    background-color: transparent;
+    margin-bottom: 0;
+    border-bottom: 1px solid #f1f1f4;
+}
+
+.np{
+    padding: 0;
+}
+
+.grey {
+    background-color: #f5f5f7;
+    padding: 10px 20px;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.capitalize{
+    text-transform: capitalize;
+}
+
+.filterset{
+    max-height: 470px;
+    overflow-y: scroll;
+}
+
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+    font-size: 12px;
+}
+
+.panel-heading span {
+    margin-top: -2px;
+}
+
+.pointer{
+    cursor: pointer;
+}
+
+.pb10{
+    padding-bottom: 10px !important;
+}
+
+.study-modal-body>p{
+    font-size: 0.9em;
+}
+
+.ml--icons{
+    font-size: 1.38em !important;
+}
+
+.pull-up-10{
+    margin-top: -10px;
+}
+
+/*Study page*/
+ol.progtrckr {
+    margin: 0;
+    margin-left: -1px;
+    margin-right: -1px;
+    padding: 0;
+    padding-top: 10px;
+    list-style-type: none;
+    background-color: white;
+}
+
+ol.progtrckr li {
+    display: inline-block;
+    text-align: center;
+    line-height: 3em;
+}
+
+ol.progtrckr[data-progtrckr-steps="2"] li { width: 49%; }
+ol.progtrckr[data-progtrckr-steps="3"] li { width: 33%; }
+ol.progtrckr[data-progtrckr-steps="4"] li { width: 25%; }
+ol.progtrckr[data-progtrckr-steps="5"] li { width: 19%; }
+ol.progtrckr[data-progtrckr-steps="6"] li { width: 16%; }
+ol.progtrckr[data-progtrckr-steps="7"] li { width: 14%; }
+ol.progtrckr[data-progtrckr-steps="8"] li { width: 12%; }
+ol.progtrckr[data-progtrckr-steps="9"] li { width: 11%; }
+
+ol.progtrckr li.progtrckr-done {
+    color: black;
+    border-bottom: 4px solid #125789;
+}
+ol.progtrckr li.progtrckr-todo {
+    color: silver;
+    border-bottom: 4px solid silver;
+}
+
+ol.progtrckr li:after {
+    content: "\00a0\00a0";
+}
+ol.progtrckr li:before {
+    position: relative;
+    bottom: -2.5em;
+    float: left;
+    left: 50%;
+    line-height: 1em;
+}
+ol.progtrckr li.progtrckr-done:before {
+    content: "\2713";
+    color: white;
+    background-color: #37BDDC;
+    height: 1.5em;
+    width: 1.5em;
+    line-height: 1.5em;
+    border: none;
+    border-radius: 1.5em;
+}
+ol.progtrckr li.progtrckr-todo:before {
+    content: "\039F";
+    color: silver;
+    background-color: white;
+    font-size: 1.5em;
+    bottom: -1.6em;
+}
+
+.study--wrapper{
+    padding: 0 0 0px 0;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+.study--header{
+    background-color: #F5F5F5;
+}
+
+.study--title{
+    padding: 30px 20px 30px 20px;
+    font-size: 20px;
+    line-height: 1.3em;
+    border-bottom: 1px solid #ccc;
+}
+
+.ml-1{
+    margin-left: -1px;
+}
+
+.study--id{
+    color: #2E789A;
+}
+
+.study--infopanel{
+    display: inline-block;
+    padding: 10px 20px 10px 20px;
+    font-size: 0.9em;
+    border-bottom: 1px solid #ccc;
+}
+.pt10{
+    padding-top: 10px;
+}
+
+.pt5{
+    padding-top: 5px;
+}
+
+.study-description-wrapper{
+    padding: 0px 20px 0px 20px;
+}
+
+.study--subtitle{
+    color: #2c3e50;
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.tabs--wrapper{
+}
+
+table.dataTable {
+    padding: 0;
+    border-radius: 2px !important;
+}
+
+.dataTable th {
+    background-color: #fff;
+}
+
+table.assayTable {
+    padding: 0;
+    border-radius: 2px !important;
+}
+
+.assayTable th {
+    background-color: #fff;
+}
+
+table.filesTable {
+    padding: 0;
+    border-radius: 2px !important;
+}
+
+.filesTable th {
+    background-color: #fff;
+}
+
+table.maf th{
+    background-color: #fff;
+}
+
+table.maf {
+    padding: 0;
+    border-radius: 2px !important;
+}
+
+
+table.maf.clean {
+    border: 1px solid #ddd;
+    margin: 0px;
+}
+
+.scrollStyle
+{
+    overflow-x:auto;
+}
+
+.nav>li>a:focus, .nav>li>a:hover {
+    text-decoration: none;
+    border-top: 1px solid #F5F5F5;
+    border-bottom: 1px solid #F5F5F5;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    color: #000;
+    border-radius: 0;
+    background-color: #F5F5F5;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    border-radius: 0;
+    background-color: #F5F5F5;
+    border-top: 1px solid #F5F5F5;
+    border-bottom: 1px solid #F5F5F5;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+
+.study--tabcontent{
+    background-color: white;
+    min-height: 100px;
+    padding: 20px;
+}
+
+.dropdown-menu > li > a {
+    border-bottom: none;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu>a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-left-color: #ccc;
+    margin-top: 5px;
+    margin-right: -10px;
+}
+
+.dropdown-submenu:hover>a:after {
+    border-left-color: #fff;
+}
+
+.dropdown-submenu.pull-left {
+    float: none;
+}
+
+.dropdown-submenu.pull-left>.dropdown-menu {
+    left: -100%;
+    margin-left: 10px;
+    -webkit-border-radius: 6px 0 6px 6px;
+    -moz-border-radius: 6px 0 6px 6px;
+    border-radius: 6px 0 6px 6px;
+}
+
+#cssmenu
+{
+    margin-top:15px;
+    z-index : 1;
+    display: inline;
+    background-color: #804D19;
+}
+
+#cssmenu ul
+{
+    list-style:none;
+    position:relative;
+    float:left;
+    margin:0;
+    padding:0;
+    background-color: inherit;
+
+}
+
+#cssmenu ul a
+{
+    display:block;
+    text-decoration:none;
+    font-size:13px;
+    padding:0 15px;
+}
+
+#cssmenu ul li
+{
+    position:relative;
+    float:left;
+    margin:0;
+    padding:0;
+    z-index: 1;
+}
+
+#cssmenu ul li.current-menu-item
+{
+    background:inherit;
+}
+
+#cssmenu ul li:hover
+{
+    background-color:inherit;
+    opacity: 1;
+}
+
+#cssmenu ul ul
+{
+    display:none;
+    position:absolute;
+    top:100%;
+    left:0;
+    background-color:inherit;
+    padding:0;
+    z-index : 1;
+}
+
+#cssmenu ul ul li
+{
+    float:none;
+    width:200px;
+    background-color: inherit;
+}
+
+#cssmenu ul ul a
+{
+    line-height:120%;
+    padding:10px 15px;
+}
+
+#cssmenu ul ul ul
+{
+    top:0;
+    left:100%
+}
+
+#cssmenu ul li:hover > ul
+{
+    display:block
+}
+
+.species{
+    list-style: none;
+}
+
+#tree-container {
+    min-height: 600px;
+}
+
+/* Species tree styles*/
+.node {
+    cursor: pointer
+}
+
+.node:hover {
+    stroke: rgb(0, 0, 0);
+    stroke-width: 1px;
+}
+
+.overlay {
+    background-color: #f8f8f8;
+}
+
+/*.node circle { fill: #fff; stroke: #804D19; stroke-width: 2px; }*/
+.node text {
+    font-size: 14px;
+    font-family: sans-serif;
+}
+
+.link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 1px;
+}
+
+/*.templink { fill: none; stroke: red; stroke-width: 3px; }*/
+/*.ghostCircle.show{ display:block; }*/
+/*.ghostCircle, .activeDrag .ghostCircle{ display: none; }*/
+
+/*.node circle { fill: #804D19; stroke: #804D19; stroke-width: 2px; }*/
+.leaf {
+    fill: #ffffff;
+    stroke: #125789;
+    stroke-width: 1px;
+}
+
+.branch {
+    fill: #125789;
+    stroke: #125789;
+    stroke-width: 1px;
+}
+
+/*circle .leaf { fill: #E2AF7B; stroke: #E2AF7B; stroke-width: 2px; }*/
+
+#wait {
+    margin-top: 50px;
+}
+
+#wait img {
+    width: 100px;
+    margin-top: 100px;
+}
+
+/*Species Page*/
+
+p.references{
+    font-size: 0.9em;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+html.fontface i.icon-conceptual, html.fontface input.icon-conceptual, html.fontface .icon-conceptual:before {
+    font-family: 'EBI-Conceptual';
+    font-size: 100%;
+    content: attr(data-icon);
+}
+
+@media only screen and (min-width : 320px) {
+    .masthead-black-bar {
+        height: 50px;
+        padding-top: 5px;
+    }
+
+    .ml-header{
+        height: 196px;
+        background-image: url("/metabolights/img/pattern-header.png");
+        background-size: auto 100%;
+        background-position: right 0 top;
+    }
+
+    .ml-header-section-top {
+        height: 150px;
+    }
+
+    .ebi-logo{
+        height: 25px;
+        margin-top: 5px;
+    }
+
+    .masthead-black-bar .nav {
+        margin: 0;
+    }
+
+    .masthead-black-bar .nav>li {
+        float: right;
+        text-align: center;
+    }
+
+    .masthead-black-bar .nav>li a{
+        font-size: 0.7em;
+        padding: 0 5px;
+    }
+
+    .masthead-black-bar ul li.about a:before {
+        font-size: 1.2em;
+    }
+
+    .masthead-black-bar ul li.training a:before {
+        font-size: 1.2em;
+    }
+
+    .masthead-black-bar ul li.research a:before {
+        font-size: 1.2em;
+    }
+
+    .masthead-black-bar ul li.services a:before {
+        font-size: 1.2em;
+    }
+
+    .navbar-dark {
+        background-color: rgba(51,51,51,0.95);
+    }
+
+    .navbar-toggle {
+        margin: 0;
+        margin-left: 10px;
+        float: none;
+    }
+
+    .navbar-toggle span{
+        font-size: 1.5em;
+        color: white;
+        font-weight: lighter;
+        letter-spacing: 1px;
+    }
+
+    .ml-header .ml-logo{
+        font-size: 1.9em;
+        font-weight: normal;
+        letter-spacing: 1px;
+        color: #fff;
+    }
+
+    .examples{
+        font-size: 0.9em;
+    }
+
+    .navbar-nav>li>a {
+        color: #fff;
+        font-size: 1.3em;
+    }
+
+    .ml-header-section-bottom{
+        margin-right: -15px;
+        margin-left: -15px;
+    }
+
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (min-width : 480px) {
+    .ml-header{
+        height: 170px;
+    }
+
+    .masthead-black-bar .nav>li a{
+        font-size: 0.7em;
+        padding: 0 5px;
+    }
+
+    .ml-header-section-top {
+        height: 130px;
+    }
+
+    .ebi-logo{
+        height: 30px;
+        margin-top: 5px;
+    }
+
+    .navbar-nav>li>a {
+        font-size: 0.9em;
+    }
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width : 768px) {
+    .ml-header{
+        height: 180px;
+        background-size: 100% auto;
+    }
+
+    .ml-header-section-top {
+        height: 140px;
+    }
+
+    .masthead-black-bar {
+        height: 41px;
+        padding: 0;
+    }
+
+    .masthead-black-bar .nav>li a{
+        font-size: 0.8em;
+        padding: 0 5px;
+        font-weight: 500;
+    }
+
+    .masthead-black-bbar .nav>li a{
+        font-size: 1.2em;
+        padding: 10px 10px;
+    }
+
+    .masthead-black-bar ul li.about a:before {
+        font-size: 1em;
+    }
+
+    .masthead-black-bar ul li.training a:before {
+        font-size: 1em;
+    }
+
+    .masthead-black-bar ul li.research a:before {
+        font-size: 1em;
+    }
+
+    .masthead-black-bar ul li.services a:before {
+        font-size: 1em;
+    }
+
+    .ml-header .ml-logo{
+        font-size: 3em;
+        font-weight: lighter;
+        letter-spacing: 2px;
+        color: #fff;
+    }
+
+    .ml-header-section-bottom{
+        margin-right: -23px;
+        margin-left: -30px;
+    }
+
+    .masthead-black-bar .nav>li .small{
+        color: #c1c1c1;
+        margin-top: 2px;
+        margin-bottom: 15px;
+        padding: 0;
+    }
+
+    .navbar-right{
+        height: 40px;
+    }
+
+    .navbar-inverse .navbar-nav>.open>a:focus, .navbar-inverse .navbar-nav>.open>a:hover {
+        height: 41px;
+    }
+
+    .examples{
+        font-size: 1em;
+    }
+
+    .masthead-black-bar .button {
+        line-height: 20px;
+        font-size: 1.1em;
+    }
+
+    .masthead-black-bar .button, .masthead-black-bar .button.hover, .masthead-black-bar .button:focus, .masthead-black-bar .button:hover {
+        background-position-y: 5px;
+    }
+
+    .nav>li>a {
+        position: relative;
+        display: block;
+        padding: 9.3px 15px;
+    }
+
+    .cnav>li{
+        border-right: 1px solid #5f5f5f;
+    }
+
+    .cnav>li:first-of-type {
+        border-left: 1px solid #5f5f5f;
+    }
+
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) {
+    .navbar-nav>li>a {
+        font-size: 1em;
+    }
+
+    .ml-header-section-bottom{
+        margin-right: 0px;
+        margin-left: 0px;
+    }
+
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (min-width : 1200px) {
+    .navbar-nav>li>a {
+        font-size: 1em;
+    }
+}
