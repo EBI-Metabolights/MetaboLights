@@ -54,6 +54,15 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
+                            <a id="claimStudies" href="#" target="_blank" class="btn btn-default btn-md form-control ml--noborder">
+                                <i class="thorOrcIdSpan">
+                                    <img src="img/orcid_bw.png"></i>&nbsp;
+                                Batch Claim studies to ORCID
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
                             <a href="<spring:url value="myAccount"/>" class="btn btn-default btn-md form-control ml--noborder">
                                 <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;
                                 <spring:message code="menu.myAccountCaps" />
@@ -99,6 +108,39 @@
         });
 
     </script>
+    <script>
+        function getStudyIdsForClaimPrioritization() {
+            var token = {
+                token : "<c:out value="${token}"/>"
+            }
+            console.log("json  token = " + token['token']);
+            console.log(JSON.stringify(token));
+            $.ajax({
+                cache: false,
+                url: "/metabolights/webservice/studyids",
+                type: 'post',
+                contentType: "application/json",
+                data: JSON.stringify(token),
+                success: function (studyIdList) {
+                    var ebiClaimAllMetaboLightsUrl = "https://www.ebi.ac.uk/ebisearch/search.ebi?db=metabolights&query=domain_source:metabolights";
+                    if(studyIdList['content'].length > 0){
+                        var idsQueryPart = "&id:/MTBLS("
+                        for (var i = 0; i < studyIdList['content'].length; i++) {
+                            var studyId =    studyIdList['content'][i];
+                            var ids = studyId.split("S");
+                            idsQueryPart += ids[1]+ "|"
+                        }
+                        idsQueryPart += ")";
+                        document.getElementById("claimStudies").href= ebiClaimAllMetaboLightsUrl + idsQueryPart;
+                       }
+                    else{
+                        document.getElementById("claimStudies").href= ebiClaimAllMetaboLightsUrl;
+                    }
+                }
+            });
+        }
+        getStudyIdsForClaimPrioritization();
+ </script>
 </sec:authorize>
 <br><br>
 <sec:authorize ifAnyGranted="ROLE_SUPER_USER">
@@ -146,3 +188,4 @@
         </div>
     </div>
 </sec:authorize>
+
