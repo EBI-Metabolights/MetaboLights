@@ -760,6 +760,31 @@ ol.progtrckr li.progtrckr-todo:before {
     padding: 0px 20px 0px 20px;
 }
 
+.bb{
+    border-bottom: 1px solid #f3f3f3;
+    padding-bottom: 10px;
+    margin-bottom: 3px;
+}
+
+.study--description--small {
+    height: 100px;
+    overflow:hidden;
+    margin-bottom: 8px;
+}
+
+
+#metExploreContainer{
+    min-height: 500px;
+}
+
+#metExploreContainer iframe{
+    position: absolute !important;
+}
+
+.study--description--big {
+    height: auto;
+}
+
 .study--subtitle{
     color: #2c3e50;
     font-size: 16px;
@@ -820,8 +845,6 @@ table.maf.clean {
     text-decoration: none;
     border-top: 1px solid #F5F5F5;
     border-bottom: 1px solid #F5F5F5;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
     color: #000;
     border-radius: 0;
     background-color: #F5F5F5;
@@ -1167,19 +1190,26 @@ html.fontface i.icon-conceptual, html.fontface input.icon-conceptual, html.fontf
     }
 
     .masthead-black-bar {
-        height: 41px;
+        height: 40px;
         padding: 0;
+    }
+
+    .masthead-black-bar .navbar-nav{
+        height: 40px;
     }
 
     .masthead-black-bar .nav>li a{
         font-size: 0.8em;
         padding: 0 5px;
-        font-weight: 500;
     }
 
     .masthead-black-bbar .nav>li a{
         font-size: 1.2em;
         padding: 10px 10px;
+    }
+
+    .navbar-inverse .navbar-nav>li>a:focus, .navbar-inverse .navbar-nav>li>a:hover {
+        border: none;
     }
 
     .masthead-black-bar ul li.about a:before {

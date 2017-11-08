@@ -113,7 +113,7 @@
                 <div class="panel nbr panel-success">
                     <div class="panel-body text-center">
                         <span class="icon icon-generic dp36 text-success" data-icon="g"></span>
-                        <h4 class="section-heading text-success">Refernce Layer</h4>
+                        <h4 class="section-heading text-success">Reference Layer</h4>
                         <p class="section-text">
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos et eum eveniet id laborum omni
                         </p>

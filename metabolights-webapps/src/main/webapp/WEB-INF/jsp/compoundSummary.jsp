@@ -14,9 +14,7 @@
         <div class="row">
             <h4>
                 <div class="col-md-9">
-                    <div class="row">
-                        <a class="capitalize" href="${compound.accession}">${compound.name}</a>
-                    </div>
+                    <a class="capitalize" href="${compound.accession}">${compound.name}</a>
                 </div>
                 <div class="col-md-3">
                     <div class="row">

@@ -104,26 +104,28 @@
 <div class="ml-header clearfix">
     <div class="container">
         <div class="ml-header-section-top">
-            <div class="row">
-                <div class="col-md-7 col-sm-6">
-                    <div class="alpha logo-title" id="local-title">
-                        <a class="ml-logo" href="index" title="Back to MetaboLights homepage">
-                            <img src="/metabolights/img/MetaboLightsLogo.png" alt="MetaboLights" width="64" height="64" />MetaboLights
-                        </a>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-7 col-sm-6">
+                        <div class="alpha logo-title" id="local-title">
+                            <a class="ml-logo" href="index" title="Back to MetaboLights homepage">
+                                <img src="/metabolights/img/MetaboLightsLogo.png" alt="MetaboLights" width="64" height="64" />MetaboLights
+                            </a>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-5 col-sm-6">
-                    <form id="local-search" name="local-search" action="/metabolights/search" method="post">
-                        <div class="input-group">
-                            <input type="text" class="form-control">
-                            <span class="input-group-btn">
+                    <div class="col-md-5 col-sm-6">
+                        <form id="local-search" name="local-search" action="/metabolights/search" method="post">
+                            <div class="input-group">
+                                <input type="text" class="form-control">
+                                <span class="input-group-btn">
                             <input type="submit" name="submit" value="Search" class="btn btn-secondary">
                     </span>
-                        </div>
-                        <small class="hidden-xs">
-                            <span class="examples">Examples: <a href="/metabolights/search?freeTextQuery=alanine">Alanine</a>, <a href="/metabolights/search?freeTextQuery=Homo sapiens">Homo sapiens</a>, <a href="/metabolights/search?freeTextQuery=urine">Urine</a>, <a href="/metabolights/search?freeTextQuery=MTBLS1">MTBLS1</a></span>
-                        </small>
-                    </form>
+                            </div>
+                            <small class="hidden-xs">
+                                <span class="examples">Examples: <a href="/metabolights/search?freeTextQuery=alanine">Alanine</a>, <a href="/metabolights/search?freeTextQuery=Homo sapiens">Homo sapiens</a>, <a href="/metabolights/search?freeTextQuery=urine">Urine</a>, <a href="/metabolights/search?freeTextQuery=MTBLS1">MTBLS1</a></span>
+                            </small>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -150,7 +152,7 @@
                                 <li><a href="/metabolights/contact">Give us feedback</a></li>
                                 <li><a href="/metabolights/about">About</a></li>
                                     </ul>
-                                <ul class="nav navbar-nav navbar-right">
+                                <ul class="nav navbar-nav cnav navbar-right">
                                     <li><a href="/metabolights/presubmit">Submit Study</a></li>
                                     <li><a href="/metabolights/login">Login</a></li>
                                 </ul>
@@ -172,7 +174,7 @@
                                       </ul>
                                     </li>
                                 </ul>
-                                <ul class="nav navbar-nav navbar-right">
+                                <ul class="nav navbar-nav cnav navbar-right">
                                     <li><a href="/metabolights/presubmit">Submit Study</a></li>
                                     <li><a href="/metabolights/login">Login</a></li>
                                 </ul>

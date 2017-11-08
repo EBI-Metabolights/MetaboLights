@@ -30,12 +30,8 @@
 <link rel="stylesheet" href="cssrl/jqpagination.css" type="text/css"/>
 <script type="text/javascript" src="javascript/jquery-highlight.js"></script>
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
-
 <div id="app">
-    <div class="row">
+    <div class="">
         <div class="col-md-12">
             <h4>
                 <%-- Error --%>

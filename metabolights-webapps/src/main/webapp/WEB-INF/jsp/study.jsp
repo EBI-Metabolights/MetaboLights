@@ -68,6 +68,52 @@
         </h5>
     </div>
     <div class="study-description-wrapper">
+        <c:if test="${not empty study.description}">
+            <p class="study--subtitle"><b>Study Description</b></p>
+            <div class="description--wrapper">
+                <div class="study--description--small">
+                    <p class="study--description">${study.description}</p>
+                </div>
+                <a class="expand--description" href="#">Click to read more</a>
+            </div>
+            <script>
+                if ($('.study--description').height() < 128) {
+                    $('.study--description--small').toggleClass('study--description--small study--description--big');
+                    $('.expand--description').addClass("hidden");
+                }
+                $('.description--wrapper').find('a[href="#"]').on('click', function (e) {
+                    e.preventDefault();
+                    $(this).closest('.description--wrapper').find('.study--description--small').toggleClass('study--description--small study--description--big');
+                    $('.expand--description').addClass("hidden");
+                });
+            </script>
+        </c:if>
+    </div>
+    <div class="study--infopanel col-md-12">
+        <div class="row bb">
+            <div class="col-md-8">
+                <p><i class="fa fa-user"></i>&nbsp;<spring:message code="ref.msg.CitationAuthors"/>:
+                    <c:forEach var="contact" items="${study.contacts}" varStatus="loopStatus">
+                        <c:if test="${loopStatus.index ne 0}">, </c:if>
+                        <span id="aff" <c:if test="${not empty contact.affiliation}">title="${contact.affiliation}"</c:if>>
+                        <strong>${contact.firstName}&nbsp;${contact.lastName}</strong>
+                    </span>
+                    </c:forEach>
+                </p>
+            </div>
+            <div class="col-md-4">
+                <p>
+                    <span class="pull-right">
+                        <c:forEach var="user" items="${liteStudy.users}" varStatus="loopStatus">
+                            <c:if test="${loopStatus.index ne 0}">
+                                <c:set var="submitters" value="${submitters},${user.userName}" />
+                            </c:if>
+                        </c:forEach>
+                        <i class="fa fa-envelope">&nbsp;</i><a href="mailto:${liteStudy.users[0].userName}?subject=<spring:message code="msg.emailStudyLinkSubject"/>&nbsp;${liteStudy.studyIdentifier}&cc=${submitters}"> Contact Submitter</a>&emsp;
+                    </span>
+                </p>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-9 pt10">
                 <%@include file="studyActions.jsp" %>
@@ -115,6 +161,7 @@
                     <button type="button" class="btn btn-default quicklinks files--tab" data-destination="files"><i
                             class="ml--icons fa fa-download pull-left"></i> Download Study files
                     </button>
+
                     <c:if test="${study.studyStatus.descriptiveName eq 'Public'}">
                         <button class="btn btn-default nbr dropdown-toggle orcid-dropdown" type="button" id="dropdownMenuButton"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -201,6 +248,9 @@
                             </div>
                         </div>
                     </c:if>
+                    <button type="button" id="tourButton" class="btn nbr btn-default">
+                        <i class="fa fa-lg fa-bullhorn"></i>
+                    </button>
                 </div>
             </div>
             <div class="col-md-3 pt5">
@@ -239,64 +289,6 @@
                     </p>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <hr class="nmb">
-        </div>
-        <c:if test="${not empty study.description}">
-            <p class="study--subtitle"><b>Study Description</b></p>
-            <div class="description--wrapper">
-                <div class="study--description--small">
-                    <p class="study--description">${study.description}</p>
-                </div>
-                <a class="expand--description" href="#">Click to read more</a>
-            </div>
-            <script>
-                if ($('.study--description').height() < 128) {
-                    $('.study--description--small').toggleClass('study--description--small study--description--big');
-                    $('.expand--description').addClass("hidden");
-                }
-                $('.description--wrapper').find('a[href="#"]').on('click', function (e) {
-                    e.preventDefault();
-                    $(this).closest('.description--wrapper').find('.study--description--small').toggleClass('study--description--small study--description--big');
-                    $('.expand--description').addClass("hidden");
-                });
-            </script>
-        </c:if>
-    </div>
-    <div class="study--infopanel col-md-12">
-        <div class="row">
-            <div class="col-md-8">
-                <p><i class="fa fa-user"></i>&nbsp;<spring:message code="ref.msg.CitationAuthors"/>:
-                    <c:forEach var="contact" items="${study.contacts}" varStatus="loopStatus">
-                        <c:if test="${loopStatus.index ne 0}">, </c:if>
-                        <span id="aff" <c:if test="${not empty contact.affiliation}">title="${contact.affiliation}"</c:if>>
-                        <strong>${contact.firstName}&nbsp;${contact.lastName}</strong>
-                    </span>
-                    </c:forEach>
-                </p>
-
-            </div>
-            <div class="col-md-4">
-                <p>
-                    <span class="pull-right">
-                        <a id="tourButton" class="btn btn-xs btn-default">
-                            <i class="fa fa-lg fa-bullhorn"></i>
-                        </a>
-                    </span>
-                    <span class="pull-right">
-                        <c:forEach var="user" items="${liteStudy.users}" varStatus="loopStatus">
-                            <c:if test="${loopStatus.index ne 0}">
-                                <c:set var="submitters" value="${submitters},${user.userName}" />
-                            </c:if>
-                        </c:forEach>
-                        <i class="fa fa-envelope">&nbsp;</i><a href="mailto:${liteStudy.users[0].userName}?subject=<spring:message code="msg.emailStudyLinkSubject"/>&nbsp;${liteStudy.studyIdentifier}&cc=${submitters}"> Contact</a>&emsp;
-                    </span>
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <br>
         </div>
     </div>
     <div class="tabs--wrapper">
@@ -422,7 +414,20 @@
                                     </div>
                                 </div>
                             </c:if>
-
+                            <c:if test="${not empty study.factors}">
+                                <div class="col-md-12">
+                                    <div class="panel nbr panel-default">
+                                        <div class="panel-heading"><span class="glyphicon glyphicon-tags"
+                                                                         aria-hidden="true"></span>&nbsp;
+                                            <spring:message code="label.experimentalFactors"/></div>
+                                        <div class="panel-body">
+                                            <c:forEach var="fv" items="${study.factors}">
+                                                <p>${fv.name}</p>
+                                            </c:forEach>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:if>
                             <c:if test="${not empty study.publications}">
                                 <div class="col-md-12">
                                     <div class="panel nbr panel-default">
@@ -455,20 +460,6 @@
                                                             </c:when>
                                                             <c:otherwise>${pub.title}</c:otherwise>
                                                         </c:choose>
-                                            </c:forEach>
-                                        </div>
-                                    </div>
-                                </div>
-                            </c:if>
-                            <c:if test="${not empty study.factors}">
-                                <div class="col-md-12">
-                                    <div class="panel nbr panel-default">
-                                        <div class="panel-heading"><span class="glyphicon glyphicon-tags"
-                                                                         aria-hidden="true"></span>&nbsp;
-                                            <spring:message code="label.experimentalFactors"/></div>
-                                        <div class="panel-body">
-                                            <c:forEach var="fv" items="${study.factors}">
-                                                <p>${fv.name}</p>
                                             </c:forEach>
                                         </div>
                                     </div>
@@ -1200,51 +1191,46 @@
                             <div class="row">
                                 <div class="col-md-12" id="metexplore-wrapper">
                                     <h4 class="well nbr">Pathways - Assay&nbsp;<c:if
-                                            test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if></h4>
-
-                                    <div class="well col-md-12">
-                                        <div class="">
-                                            <label>&emsp;&emsp;Select Pathway(s)</label><br>
-                                            <div class="col-xs-12">
+                                            test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if>
+                                    </h4>
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                                <label>&emsp;&emsp;Select Pathway(s)</label><br>
                                                 <div class="form-group">
                                                     <select class="selectpicker form-control" id="metPathwaysSelect"
                                                             multiple data-live-search="true">
                                                     </select>
                                                 </div>
-                                            </div>
-                                                <%--<div class="col-md-1">--%>
-                                                <%--<div class="form-group">--%>
-                                                <%--<a class="btn btn-success ml--button form-control"--%>
-                                                <%--id="loadPathways" role="button">Load</a>--%>
-                                                <%--</div>--%>
-                                                <%--</div>--%>
                                         </div>
-                                        <div class="col-md-12">
-                                            <div class="col-md-12">
-                                                <div id="metExploreContainer">
-                                                </div>
-                                            </div>
-                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div id="metExploreContainer"></div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <hr>
                                     </div>
                                 </div>
                                 <div class="col-md-12" id="metPathwaysMappingDataContainer">
-                                    <div class="">
-                                        <br>
-                                        <div class="well">
-                                            <h4>MetExplore Pathways Mapping</h4>
+                                    <div>
+                                        <h4>MetExplore Pathways Mapping</h4>
+                                        <div class="panel nbr panel-default">
+                                            <div class="panel-body">
+                                                <table class="table" id="metExploreTable">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>DB Identifier</th>
+                                                        <th>Mapped Metabolite(s)</th>
+                                                        <!-- <th>p value</th> -->
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody id="metPathwaysMappingDataTable">
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
-                                        <table class="table" id="metExploreTable">
-                                            <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>DB Identifier</th>
-                                                <th>Mapped Metabolite(s)</th>
-                                                <!-- <th>p value</th> -->
-                                            </tr>
-                                            </thead>
-                                            <tbody id="metPathwaysMappingDataTable">
-                                            </tbody>
-                                        </table>
                                     </div>
                                 </div>
                                 <div class="col-md-12" style="display: none;" id="noPathwaysFound">
@@ -1258,6 +1244,10 @@
         </div>
     </div>
 </div>
+
+<a href="#" class="scrollToTop" style="display: inline;"><i class="fa fa-arrow-up"></i></a>
+
+<div id="chebiInfo"></div>
 
 <div class="modal fade" id="shareStudy" role="dialog">
     <div class="modal-dialog">

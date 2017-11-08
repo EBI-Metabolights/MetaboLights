@@ -175,25 +175,6 @@ body{
     font-size: 14px;
 }
 
-.study--description--small {
-    height: 100px;
-    overflow:hidden;
-    margin-bottom: 8px;
-}
-
-.study--description--big {
-    height: auto;
-}
-
-.study--description--big p{
-    padding: 0px 15px;
-}
-
-.study--description--small p{
-    padding: 0px 15px;
-}
-
-
 
 .study--infopanel p{
     padding: 0;
@@ -273,13 +254,6 @@ a:link.hyperlinks{
 
 
 
-#metExploreContainer{
-    min-height: 500px;
-}
-
-#metExploreContainer iframe{
-    position: absolute !important;
-}
 
 a:link.btn-ok{
     color: #fff !important;

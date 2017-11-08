@@ -29,9 +29,7 @@
         <h4>
             <div class="row">
                 <div class="col-md-10">
-                   <div class="row">
-                       <a class="nb" href="${liteStudy.studyIdentifier}"><strong>${liteStudy.title}</strong></a>
-                   </div>
+                    <a class="nb" href="${liteStudy.studyIdentifier}"><strong>${liteStudy.title}</strong></a>
                 </div>
                 <div class="col-md-2">
                     <div class="row">
