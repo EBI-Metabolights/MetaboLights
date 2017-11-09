@@ -44,7 +44,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="form-group">
                             <a href="<spring:url value="mysubmissions"/>" class="btn btn-default btn-md form-control ml--noborder">
                                 <i class="fa fa-list-alt" aria-hidden="true"></i>&nbsp;
@@ -61,7 +61,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="form-group">
                             <a href="<spring:url value="myAccount"/>" class="btn btn-default btn-md form-control ml--noborder">
                                 <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;
@@ -69,7 +69,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="form-group">
                             <a href="<spring:url value="/j_spring_security_logout"/>" class="btn btn-default btn-md form-control ml--noborder">
                                 <i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;
@@ -113,8 +113,6 @@
             var token = {
                 token : "<c:out value="${token}"/>"
             }
-            console.log("json  token = " + token['token']);
-            console.log(JSON.stringify(token));
             $.ajax({
                 cache: false,
                 url: "/metabolights/webservice/studyids",
@@ -122,15 +120,19 @@
                 contentType: "application/json",
                 data: JSON.stringify(token),
                 success: function (studyIdList) {
-                    var ebiClaimAllMetaboLightsUrl = "https://www.ebi.ac.uk/ebisearch/search.ebi?db=metabolights&query=domain_source:metabolights";
+                    var ebiClaimAllMetaboLightsUrl = "https://www.ebi.ac.uk/ebisearch/search.ebi?db=metabolights&query=";
                     if(studyIdList['content'].length > 0){
-                        var idsQueryPart = "&id:/MTBLS("
+                        var idsQueryPart = "id:/MTBLS("
                         for (var i = 0; i < studyIdList['content'].length; i++) {
                             var studyId =    studyIdList['content'][i];
                             var ids = studyId.split("S");
-                            idsQueryPart += ids[1]+ "|"
+                           if(i != studyIdList['content'].length - 1){
+                               idsQueryPart += ids[1]+ "|"
+                           }  else{
+                               idsQueryPart += ids[1];
+                           }
                         }
-                        idsQueryPart += ")";
+                        idsQueryPart += ")/";
                         document.getElementById("claimStudies").href= ebiClaimAllMetaboLightsUrl + idsQueryPart;
                        }
                     else{

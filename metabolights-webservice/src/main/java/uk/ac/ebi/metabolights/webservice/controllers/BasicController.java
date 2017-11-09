@@ -50,7 +50,6 @@ import java.util.Set;
  * Time: 17:11
  */
 @Controller
-//@RequestMapping("user")
 public class BasicController {
 
     protected static final Logger logger = LoggerFactory.getLogger(BasicController.class);
