@@ -99,6 +99,9 @@
                             </span>
                         </h5>
                     </div>
+                    <div  class="pull-right">
+                        <a target="_blank" href="https://www.ebi.ac.uk/ebisearch/search.ebi?db=metabolights&query=domain_source:metabolights"><h4>Batch Claim Studies to ORCID</h4></a>
+                    </div>
                 </div>
                 <div id="highlight-plugin">
                     <c:forEach var="hit" items="${hits}">

@@ -21,66 +21,119 @@
 
 package uk.ac.ebi.metabolights.webservice.controllers;
 
+import org.jose4j.json.internal.json_simple.JSONObject;
+import org.jose4j.json.internal.json_simple.parser.JSONParser;
+import org.jose4j.json.internal.json_simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
+import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.webservice.security.SpringUser;
+import uk.ac.ebi.metabolights.webservice.services.UserServiceImpl;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * User: conesa
  * Date: 10/02/15
  * Time: 17:11
  */
+@Controller
 public class BasicController {
 
-	protected static final Logger logger = LoggerFactory.getLogger(BasicController.class);
+    protected static final Logger logger = LoggerFactory.getLogger(BasicController.class);
 
-	public static User getUser(){
+    @RequestMapping(value = "/studyids", method = RequestMethod.POST)
+    @ResponseBody
+    public static RestResponse getStudyIDs(@RequestBody String data, HttpServletResponse response) {
 
-		User user ;
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (!auth.getPrincipal().equals(new String("anonymousUser"))){
+        // parse login data fields
+        JSONParser parser = new JSONParser();
+        JSONObject loginData = null;
 
-			 user = ((SpringUser) auth.getPrincipal()).getMetaboLightsUser();
+        try {
+            loginData = (JSONObject) parser.parse(data);
+        } catch (ParseException e) {
 
-		} else {
+        }
 
-			user = new User();
-			user.setUserName(auth.getPrincipal().toString());
-		}
+        String token = (String) loginData.get("token");
 
-		return user;
-	}
+//        User user = getUser();
+        List studyIds = new ArrayList<>();
+        RestResponse restResponse = new RestResponse();
 
-	@ExceptionHandler
-	@ResponseBody
-	public RestResponse handleException(Exception e) {
+        // check if the user exists and valid
+        UserServiceImpl usi = null;
 
-		RestResponse response = new RestResponse(e);
+        try {
+            usi = new UserServiceImpl();
+        } catch (DAOException e) {
+            response.setStatus(Response.Status.FORBIDDEN.getStatusCode());
+            return restResponse;
+        }
 
-		response.setMessage(explainErrorMessage(e));
+        User user = usi.lookupByToken(token);
+        Set<LiteStudy> studies = user.getStudies();
+        for (LiteStudy study : studies) {
+            studyIds.add(study.getStudyIdentifier());
+        }
+        restResponse.setContent(studyIds);
+        return restResponse;
+    }
 
-		// The error in some cases can't be serialized and therefore an exception is triggered: avoid it
-		Exception error = new Exception(e.getMessage());
+    public static User getUser() {
 
-		response.setErr(error);
+        User user;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!auth.getPrincipal().equals(new String("anonymousUser"))) {
 
-		return response;
+            user = ((SpringUser) auth.getPrincipal()).getMetaboLightsUser();
 
-	}
+        } else {
 
-	private String explainErrorMessage(Exception e) {
+            user = new User();
+            user.setUserName(auth.getPrincipal().toString());
+        }
 
-		String explanation;
+        return user;
+    }
 
-		explanation = e.getMessage();
+    @ExceptionHandler
+    @ResponseBody
+    public RestResponse handleException(Exception e) {
 
-		return explanation;
-	}
+        RestResponse response = new RestResponse(e);
+
+        response.setMessage(explainErrorMessage(e));
+
+        // The error in some cases can't be serialized and therefore an exception is triggered: avoid it
+        Exception error = new Exception(e.getMessage());
+
+        response.setErr(error);
+
+        return response;
+
+    }
+
+    private String explainErrorMessage(Exception e) {
+
+        String explanation;
+
+        explanation = e.getMessage();
+
+        return explanation;
+    }
 
 }

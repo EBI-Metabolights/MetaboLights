@@ -80,7 +80,7 @@ public class StudyController extends BasicController{
     private DatabaseDAO dbd;
 
 	private final static Logger logger = LoggerFactory.getLogger(StudyController.class.getName());
-    private final String chebiWSUrl = "http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl";
+    private final String chebiWSUrl = "https://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl";
 
 	private StudyDAO studyDAO;
     private SpeciesDAO speciesDAO;

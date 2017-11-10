@@ -62,7 +62,8 @@ select 'Topsubmitters', u.firstname||' '||u.lastname, count(s.acc), count(s.acc)
 from studies s, study_user s2u, users u
 where
   s.id = s2u.studyid and
-  s2u.userid = u.id
+  s2u.userid = u.id and
+  s.status != 0 -- Ignore submitted
   group by u.firstname||' '||u.lastname
   having count(s.acc) >= 5
   order by 3 desc;
