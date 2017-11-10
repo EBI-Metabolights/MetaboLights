@@ -122,7 +122,8 @@
                     </span>
                             </div>
                             <small class="hidden-xs">
-                                <span class="examples">Examples: <a href="/metabolights/search?freeTextQuery=alanine">Alanine</a>, <a href="/metabolights/search?freeTextQuery=Homo sapiens">Homo sapiens</a>, <a href="/metabolights/search?freeTextQuery=urine">Urine</a>, <a href="/metabolights/search?freeTextQuery=MTBLS1">MTBLS1</a></span>
+                                <span class="examples">Examples: <a href="/metabolights/search?freeTextQuery=alanine">Alanine</a>, <a href="/metabolights/search?freeTextQuery=Homo sapiens">Homo sapiens</a>, <a href="/metabolights/search?freeTextQuery=urine">Urine</a>, <a href="/metabolights/search?freeTextQuery=MTBLS1">MTBLS1</a>
+                                <br><a href="/metabolights/advancedsearch" target="_blank">Try our advanced Search</a></span>
                             </small>
                         </form>
                     </div>
