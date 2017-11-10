@@ -190,12 +190,7 @@ body{
     padding: 0 !important;
 }
 
-.collapse{
-    min-height: 36px;
-    min-width: 36px;
-    height: auto;
-    width: auto;
-}
+
 
 
 
@@ -319,19 +314,7 @@ a:link.btn-ok{
     margin-bottom: 10px;
 }
 
-.ssh{
-    padding: 5px 10px;
-    font-weight: lighter;
-    margin-bottom: 0;
-}
 
-.ml-pagination{
-    margin: 0;
-}
-
-[v-cloak] {
-    display: none;
-}
 
 .ml-compoundbox{
     background-color: #F1F1F4;

@@ -17,7 +17,7 @@
                     <a class="capitalize" href="${compound.accession}">${compound.name}</a>
                 </div>
                 <div class="col-md-3">
-                    <div class="row">
+                    <div>
                         <span class="pull-right">
                     <div class="btn-group" role="group" aria-label="...">
                         <c:if test="${compound.hasSpecies}">

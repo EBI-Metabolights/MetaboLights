@@ -32,7 +32,7 @@
                     <a class="nb" href="${liteStudy.studyIdentifier}"><strong>${liteStudy.title}</strong></a>
                 </div>
                 <div class="col-md-2">
-                    <div class="row">
+                    <div>
                         <span class="pull-right">
                             <div class="btn-group" role="group" aria-label="...">
                                 <c:if test="${!(liteStudy.studyStatus == 'PUBLIC')}">

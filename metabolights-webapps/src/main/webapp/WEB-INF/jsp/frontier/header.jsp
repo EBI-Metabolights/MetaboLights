@@ -47,7 +47,7 @@
                                         <h6>Connect to another EMBL location</h6>
                                     </div>
                                 </div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-5 np">
                                         <div class="columns small-5 padding-bottom-medium">
                                             <a class="np" href="http://www.embl.de/">Heidelberg</a>
                                             <div class="small">Main laboratory</div>
@@ -61,7 +61,7 @@
                                             <div class="small">Mouse biology</div>
                                         </div>
                                     </div>
-                                    <div class="col-md-7">
+                                    <div class="col-md-7 np">
                                         <div class="columns small-7 padding-bottom-medium">
                                             <a class="np" href="http://www.embl-barcelona.es/">Barcelona</a>
                                             <div class="small">Tissue biology and disease <br> modelling</div>

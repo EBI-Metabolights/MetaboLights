@@ -302,7 +302,7 @@ a span.link-pdf {
 }
 
 .dropdown-menu-large {
-    padding: 20px 0px;
+    padding: 15px 20px;
 }
 .dropdown-menu-large > li > ul {
     padding: 0;
@@ -373,20 +373,28 @@ a span.link-pdf {
 
 .dark p{
     margin-bottom: 1rem;
-    font-size: 1.2em;
+    font-size: 1.1em;
     text-rendering: optimizeLegibility;
     padding-top: 10px;
     line-height: 1.6;
+    margin-top: 0;
 }
 
 .dark a{
     border-bottom-width: 1px !important;
     border-bottom-color: inherit;
-    font-size: 80%;
     line-height: inherit;
+    font-weight: normal !important;
+    padding: 0 !important;
     color: #fff;
+    font-size: 1em !important;
     border-color: #fff !important;
 }
+
+.dark ul{
+    padding: 0;
+}
+
 
 .scrollToTop{
     padding: 15px 20px;
@@ -605,6 +613,8 @@ a.more:after, a.read-more:after, a.readmore:after {
     margin-bottom: 0;
     border-bottom: 1px solid #f1f1f4;
 }
+
+
 
 .np{
     padding: 0;
@@ -839,12 +849,11 @@ table.maf.clean {
 .scrollStyle
 {
     overflow-x:auto;
+    margin-top: 2px;
 }
 
 .nav>li>a:focus, .nav>li>a:hover {
     text-decoration: none;
-    border-top: 1px solid #F5F5F5;
-    border-bottom: 1px solid #F5F5F5;
     color: #000;
     border-radius: 0;
     background-color: #F5F5F5;
@@ -1003,6 +1012,13 @@ table.maf.clean {
     stroke-width: 1px;
 }
 
+.collapse{
+    min-height: 36px;
+    min-width: 36px;
+    height: auto;
+    width: auto;
+}
+
 .overlay {
     background-color: #f8f8f8;
 }
@@ -1035,6 +1051,22 @@ table.maf.clean {
     stroke: #125789;
     stroke-width: 1px;
 }
+
+
+[v-cloak] {
+    display: none;
+}
+
+.ssh{
+    padding: 5px 10px;
+    font-weight: lighter;
+    margin-bottom: 0;
+}
+
+.ml-pagination{
+    margin: 0;
+}
+
 
 /*circle .leaf { fill: #E2AF7B; stroke: #E2AF7B; stroke-width: 2px; }*/
 

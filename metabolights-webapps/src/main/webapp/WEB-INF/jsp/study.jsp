@@ -39,12 +39,12 @@
     <div class="study--header">
         <ol class="progtrckr" data-progtrckr-steps="${(fn:length(studyStatuses))-1}">
             <c:set var="statusInitial" value="${studyStatuses[0]}"/>
-            <li class="progtrckr-done" title="${statusInitial.description}">${statusInitial.descriptiveName}</li><%--
+            <li class="progtrckr-done node" data-content="${statusInitial.description}" data-toggle="popover" data-html="true" data-placement="bottom">${statusInitial.descriptiveName}</li><%--
          --%><c:choose>
             <c:when test="${study.studyStatus eq studyStatuses[4]}"><%--
         --%><c:forEach begin="1" end="3" var="status" items="${studyStatuses}"><%--
             --%>
-            <li class="progtrckr-todo" title="${status.description}">${status.descriptiveName}</li><%--
+            <li class="progtrckr-todo node" data-content="${status.description}" data-toggle="popover" data-html="true" data-placement="bottom">${status.descriptiveName}</li><%--
          --%></c:forEach><%--
         --%></ol>
         </c:when>
@@ -52,11 +52,11 @@
         --%><c:forEach begin="1" end="3" var="status" items="${studyStatuses}"><%--
         --%><c:if test="${status gt study.studyStatus}"><%--
             --%>
-            <li class="progtrckr-todo" title="${status.description}">${status.descriptiveName}</li><%--
+            <li class="progtrckr-todo node" data-content="${status.description}" data-toggle="popover" data-html="true" data-placement="bottom">${status.descriptiveName}</li><%--
         --%></c:if><%--
         --%><c:if test="${status le study.studyStatus}"><%--
             --%>
-            <li class="progtrckr-done" title="${status.description}">${status.descriptiveName}</li><%--
+            <li class="progtrckr-done node" data-content="${status.description}" data-toggle="popover" data-html="true" data-placement="bottom">${status.descriptiveName}</li><%--
         --%></c:if><%--
         --%></c:forEach><%--
         --%></ol><%--
@@ -69,7 +69,7 @@
     </div>
     <div class="study-description-wrapper">
         <c:if test="${not empty study.description}">
-            <p class="study--subtitle"><b>Study Description</b></p>
+            <p class="study--subtitle"><b>Abstract</b></p>
             <div class="description--wrapper">
                 <div class="study--description--small">
                     <p class="study--description">${study.description}</p>
@@ -93,13 +93,8 @@
         <div class="row bb">
             <div class="col-md-8">
                 <p><i class="fa fa-user"></i>&nbsp;<spring:message code="ref.msg.CitationAuthors"/>:
-                    <c:forEach var="contact" items="${study.contacts}" varStatus="loopStatus">
-                        <c:if test="${loopStatus.index ne 0}">, </c:if>
-                        <span id="aff" <c:if test="${not empty contact.affiliation}">title="${contact.affiliation}"</c:if>>
-                        <strong>${contact.firstName}&nbsp;${contact.lastName}</strong>
-                    </span>
-                    </c:forEach>
-                </p>
+                    <c:forEach var="contact" items="${study.contacts}" varStatus="loopStatus"><span class="node" <c:if test="${not empty contact.affiliation}">data-content="<div style='min-width: 400px;'><b>Affiliation:</b><br>${contact.affiliation}</div>"</c:if> data-toggle="popover" data-html="true" data-placement="bottom"><strong><c:out value="${fn:trim(contact.firstName)}"></c:out>&nbsp;<c:out value="${fn:trim(contact.lastName)}"></c:out><c:if test="${loopStatus.index ne (fn:length(study.contacts) - 1)}">,</c:if></strong></span>
+                    </c:forEach></p>
             </div>
             <div class="col-md-4">
                 <p>
@@ -159,7 +154,7 @@
                         <spring:message code="label.study.share"/>
                     </button>
                     <button type="button" class="btn btn-default quicklinks files--tab" data-destination="files"><i
-                            class="ml--icons fa fa-download pull-left"></i> Download Study files
+                            class="ml--icons fa fa-download pull-left"></i> Download files
                     </button>
 
                     <c:if test="${study.studyStatus.descriptiveName eq 'Public'}">
@@ -387,8 +382,7 @@
                             <c:if test="${not empty study.organism}">
                                 <div class="col-md-12">
                                     <div class="panel nbr panel-default">
-                                        <div class="panel-heading"><span class="glyphicon glyphicon-globe"
-                                                                         aria-hidden="true"></span>&nbsp;
+                                        <div class="panel-heading">
                                             <spring:message code="label.organisms"/></div>
                                         <div class="panel-body">
                                             <c:forEach var="org" items="${study.organism}">
@@ -422,7 +416,7 @@
                                             <spring:message code="label.experimentalFactors"/></div>
                                         <div class="panel-body">
                                             <c:forEach var="fv" items="${study.factors}">
-                                                <p>${fv.name}</p>
+                                                <p class="capitalize">${fv.name}</p>
                                             </c:forEach>
                                         </div>
                                     </div>
@@ -460,6 +454,7 @@
                                                             </c:when>
                                                             <c:otherwise>${pub.title}</c:otherwise>
                                                         </c:choose>
+                                                <br>
                                             </c:forEach>
                                         </div>
                                     </div>
@@ -485,7 +480,11 @@
                                         <c:choose>
                                             <c:when test="${not empty protocol.description}">
                                                 <tr>
-                                                    <td class="tableitem">${protocol.name}</td>
+                                                    <td class="tableitem">
+                                                            <span class="node text-primary"  data-content="Protocol description text" data-toggle="popover" data-html="true" data-placement="bottom">
+                                                                    ${protocol.name}
+                                                            </span>
+                                                    </td>
                                                     <td id="protocoldesc" class="tableitem">${protocol.description}</td>
                                                 </tr>
                                             </c:when>
@@ -548,12 +547,14 @@
                                     </h5>
                                     <h5><spring:message code="label.measurement"/>: <b>${assay.measurement}</b></h5>
                                     <h5><spring:message code="label.technology"/>: <b>${assay.technology}
-                                        <c:if test="${fn:contains(assay.technology,'NMR')}">
-                                            <span aria-hidden="true" class="icon2-NMRLogo"></span>
-                                        </c:if>
-                                        <c:if test="${fn:contains(assay.technology,'mass')}">
-                                            <span aria-hidden="true" class="icon2-MSLogo"></span>
-                                        </c:if></b></h5>
+                                        </b>
+                                        <%--<c:if test="${fn:contains(assay.technology,'NMR')}">--%>
+                                            <%--<span aria-hidden="true" class="icon2-NMRLogo"></span>--%>
+                                        <%--</c:if>--%>
+                                        <%--<c:if test="${fn:contains(assay.technology,'mass')}">--%>
+                                            <%--<span aria-hidden="true" class="icon2-MSLogo"></span>--%>
+                                        <%--</c:if>--%>
+                                    </h5>
                                     <h5><spring:message code="label.platform"/>:<b> ${assay.platform}</b></h5>
                                 </div>
                                 <br/>
@@ -657,12 +658,13 @@
                                             class="icon icon-fileformats" data-icon="v">${assay.fileName}</span></a></b>
                                     </h5>
                                     <h5><spring:message code="label.technology"/>: <b>${assay.technology}
-                                        <c:if test="${fn:contains(assay.technology,'NMR')}">
-                                            <span aria-hidden="true" class="icon2-NMRLogo"></span>
-                                        </c:if>
-                                        <c:if test="${fn:contains(assay.technology,'mass')}">
-                                            <span aria-hidden="true" class="icon2-MSLogo"></span>
-                                        </c:if></b></h5>
+                                        </b></h5>
+                                    <%--<c:if test="${fn:contains(assay.technology,'NMR')}">--%>
+                                        <%--<span aria-hidden="true" class="icon2-NMRLogo"></span>--%>
+                                    <%--</c:if>--%>
+                                    <%--<c:if test="${fn:contains(assay.technology,'mass')}">--%>
+                                        <%--<span aria-hidden="true" class="icon2-MSLogo"></span>--%>
+                                    <%--</c:if>--%>
                                     <h5><spring:message code="label.platform"/>:<b> ${assay.platform}</b></h5>
                                 </div>
                                 <br/>
@@ -767,7 +769,7 @@
                                         <a class="noLine" rel="nofollow"
                                            href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/requestFtpFolder"
                                            title="<spring:message code="label.requestFtpFolder"/>">
-                                            <span class="icon icon-functional" data-icon="D"/><spring:message
+                                            <span class="icon icon-functional" data-icon="D"/>&nbsp;<spring:message
                                                 code="label.requestFtpFolder"/>
                                         </a>
                                         &nbsp;|&nbsp;
@@ -779,7 +781,7 @@
                                     <a class="noLine" rel="nofollow"
                                        href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/${study.studyIdentifier}${token}"
                                        title="<spring:message code="label.downloadstudy"/>">
-                                        <span class="icon icon-functional" data-icon="="/><spring:message
+                                        <span class="icon icon-functional" data-icon="="/>&nbsp;<spring:message
                                             code="label.downloadstudy"/>
                                     </a>
                                     &nbsp;|&nbsp;
@@ -789,7 +791,7 @@
                                     <a class="noLine"
                                        href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/${study.studyIdentifier}"
                                        title="<spring:message code="label.viewAllFiles"/>">
-                                        <span class="icon icon-generic" data-icon="x"/><spring:message
+                                        <span class="icon icon-generic" data-icon="x"/>&nbsp;<spring:message
                                             code="label.viewAllFiles"/>
                                     </a>
                                     &nbsp;|&nbsp;
@@ -798,7 +800,7 @@
                                 <a class="noLine" rel="nofollow"
                                    href="${pageContext.request.contextPath}/${study.studyIdentifier}/files/metadata${token}"
                                    title="<spring:message code="label.downloadstudyMetadata"/>">
-                                        <span class="icon icon-functional" data-icon="="><spring:message
+                                        <span class="icon icon-functional" data-icon="=">&nbsp;<spring:message
                                                 code="label.downloadstudyMetadata"/>
                                 </a>
                                 &nbsp;
@@ -1206,12 +1208,13 @@
                                     <div class="col-md-12">
                                         <div id="metExploreContainer"></div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <hr>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <hr>
+                                        </div>
                                     </div>
                                 </div>
+
                                 <div class="col-md-12" id="metPathwaysMappingDataContainer">
                                     <div>
                                         <h4>MetExplore Pathways Mapping</h4>
@@ -1301,6 +1304,10 @@
 
 <script type="text/javascript" src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="//cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.colVis.min.js"></script>
+
+
 <script type="text/javascript"
         src="${pageContext.request.contextPath}/javascript/dataTables.conditionalPaging.js"></script>
 
@@ -1568,13 +1575,27 @@
             });
         }
 
-        $('.assayTable').DataTable();
+        $('.assayTable').DataTable( {
+            dom: 'Bfrtip',
+            columnDefs: [
+                {
+                    targets: 1,
+                    className: 'noVis'
+                }
+            ],
+            buttons: [
+                {
+                    extend: 'colvis',
+                    columns: ':not(.noVis)'
+                }
+            ]
+        });
 
         $('.validationsTable').DataTable({
             "bPaginate": false
         });
 
-        $('.assayTable').wrap('<div class="scrollStyle" />');
+        $('.assayTable').wrap('<div class="scrollStyle row" />');
 
         $('.dataTable').DataTable();
 
