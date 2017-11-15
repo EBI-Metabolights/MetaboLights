@@ -157,12 +157,8 @@
                             class="ml--icons fa fa-download pull-left"></i> Download files
                     </button>
                      <c:if test="${study.studyStatus.descriptiveName eq 'Public'}">
-                         <button class="btn btn-default orcidclaimfeature" type="button"
-                                 id="dropdownMenuButton"
-                                 data-toggle="popover"
-                                 data-html="true"
-                                 data-container="body"
-                                 data-content='<%@include file="orcidClaims.jsp" %>'
+                         <button class="btn btn-default popover-toggle" type="button"
+                                 id="orcidPopover"
                          >
                              <i class="thorOrcIdSpan">
                                  <img src="//www.ebi.ac.uk/europepmc/thor/resources/orcid-id.png" value="What is ORCID?"
@@ -171,198 +167,79 @@
                              ORCID Claims
                          </button>
                      </c:if>
-
-                    <%--<c:if test="${study.studyStatus.descriptiveName eq 'Public'}">--%>
-                        <%--<button class="btn btn-default dropdown-toggle orcid-dropdown" type="button" id="dropdownMenuButton"--%>
-                                <%--data-toggle="dropdown">--%>
-                            <%--<i class="thorOrcIdSpan">--%>
-                                <%--<img src="//www.ebi.ac.uk/europepmc/thor/resources/orcid-id.png" value="What is ORCID?"--%>
-                                     <%--width="15" height="15" data-pin-nopin="true">--%>
-                            <%--</i>--%>
-                            <%--ORCID Claims--%>
-                        <%--</button>--%>
-                        <%--<div class="dropdown-menu orcid-dropdown" aria-labelledby="dropdownMenuButton">--%>
-                            <%--<div class="thor_div_showIf_notSigned">--%>
-                                <%--<div class="panel panel-info" style="margin: -6px 0px -8px -1px;">--%>
-                                    <%--<div class="panel-heading thor_div_showIf_datasetAlreadyClaimedList">--%>
-                                        <%--You can <a href="#" class="thor_a_generate_signinLink">sign-in--%>
-                                        <%--to--%>
-                                        <%--ORCID</a> to claim your data--%>
-                                    <%--</div>--%>
-                                    <%--<div class="panel-body">--%>
-                                        <%--<div class="row existingClaimants" style="padding-left: 1em;">--%>
-                                        <%--</div>--%>
-                                        <%--<c:if test="${userApiToken ne 'MetaboLights-anonymous'}">--%>
-                                            <%--<c:if test="${empty userOrcidID}">--%>
-                                                <%--<br>--%>
-                                                <%--<div class="row">--%>
-                                                    <%--<div class="panel panel-warning">--%>
-                                                        <%--<div class="panel-body"> You can <a--%>
-                                                                <%--href="${pageContext.request.contextPath}/myAccount"--%>
-                                                                <%--target="_blank">Update your MTBLS account</a> with ORCID--%>
+                        <div id="orcidPopoverDiv" style="display: none;">
+                            <div class="thor_div_showIf_notSigned">
+                                <div class="panel panel-info">
+                                    <div class="panel-heading thor_div_showIf_datasetAlreadyClaimedList">
+                                        You can <a href="#" class="thor_a_generate_signinLink"><strong>sign-in
+                                        to
+                                        ORCID</strong></a> to claim your data
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row existingClaimants" style="padding-left: 1em;">
+                                        </div>
+                                        <c:if test="${userApiToken ne 'MetaboLights-anonymous'}">
+                                            <c:if test="${empty userOrcidID}">
+                                                <br>
+                                                <div class="row">
+                                                    <%--<div class="panel panel-default">--%>
+                                                        <div class="panel-body"> You can <a
+                                                                href="${pageContext.request.contextPath}/myAccount"
+                                                                target="_blank">Update your MTBLS account</a> with ORCID
                                                         <%--</div>--%>
-                                                    <%--</div>--%>
-                                                <%--</div>--%>
-                                            <%--</c:if>--%>
-                                        <%--</c:if>--%>
-                                    <%--</div>--%>
-                                    <%--<div class="panel-footer">--%>
-                                        <%--<input type="checkbox" class="thor_checkbox_rememberMe_cookie">--%>
-                                        <%--<a target="_blank" href="https://orcid.org/"><i>ORCID</i></a> <i> can Remember me on--%>
-                                        <%--this--%>
-                                        <%--computer </i>--%>
-                                    <%--</div>--%>
-                                <%--</div>--%>
-                            <%--</div>--%>
-                            <%--<div class="thor_div_showIf_signedIn">--%>
-                                <%--<div class="panel panel-warning" style="margin: -6px 0px -8px -1px;">--%>
-                                    <%--<div class="panel-heading thor_div_showIf_datasetAlreadyClaimedList">--%>
+                                                    </div>
+                                                </div>
+                                            </c:if>
+                                        </c:if>
+                                    </div>
+                                    <div class="panel-footer">
+                                        <input type="checkbox" class="thor_checkbox_rememberMe_cookie">
+                                        <a target="_blank" href="https://orcid.org/"><i>ORCID</i></a> <i> can Remember me on
+                                        this
+                                        computer </i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="thor_div_showIf_signedIn">
+                                <div class="panel panel-info">
+                                    <div class="panel-heading thor_div_showIf_datasetAlreadyClaimedList">
+                                        You have signed in as <label class="thor_label_show_userName"></label>
+                                       <div class="thor_div_showIf_datasetNotClaimed">
+                                            You can <a href="#"
+                                                       class="thor_a_generate_claimLink"><strong>claim ${study.studyIdentifier}</strong></a>
+                                            into your ORCID.
+                                        </div>
+                                        <div class="small thor_div_showIf_datasetAlreadyClaimed">
+                                            You have claimed <strong>${study.studyIdentifier}</strong> into your ORCID.
+                                        </div>
 
-                                        <%--<div class="row">--%>
-                                            <%--You have signed in as <label--%>
-                                                <%--class="thor_label_show_userName"></label>--%>
-                                        <%--</div>--%>
-                                        <%--<div class="row thor_div_showIf_datasetNotClaimed">--%>
-                                            <%--You can <a href="#"--%>
-                                                       <%--class="thor_a_generate_claimLink"><strong>claim ${study.studyIdentifier}</strong></a>--%>
-                                            <%--into your ORCID.--%>
-                                        <%--</div>--%>
-                                        <%--<div class="row small thor_div_showIf_datasetAlreadyClaimed">--%>
-                                            <%--You have claimed <strong>${study.studyIdentifier}</strong> into your ORCID.--%>
-                                        <%--</div>--%>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row existingClaimants" style="padding-left: 1em;">
 
-                                    <%--</div>--%>
-                                    <%--<div class="panel-body">--%>
-                                        <%--<div class="row existingClaimants" style="padding-left: 1em;">--%>
+                                        </div>
+                                        <c:if test="${userApiToken ne 'MetaboLights-anonymous'}">
+                                            <c:if test="${empty userOrcidID}">
+                                                <br>
+                                                <div class="row">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-body"> You can <a
+                                                                href="${pageContext.request.contextPath}/myAccount"
+                                                                target="_blank">Update your MTBLS account</a> with ORCID
+                                                        </div>
+                                                    </div>
 
-                                        <%--</div>--%>
-                                        <%--<c:if test="${userApiToken ne 'MetaboLights-anonymous'}">--%>
-                                            <%--<c:if test="${empty userOrcidID}">--%>
-                                                <%--<br>--%>
-                                                <%--<div class="row">--%>
-                                                    <%--<div class="panel panel-warning">--%>
-                                                        <%--<div class="panel-body"> You can <a--%>
-                                                                <%--href="${pageContext.request.contextPath}/myAccount"--%>
-                                                                <%--target="_blank">Update your MTBLS account</a> with ORCID--%>
-                                                        <%--</div>--%>
-                                                    <%--</div>--%>
+                                                </div>
+                                            </c:if>
+                                        </c:if>
+                                    </div>
+                                    <div class="panel-footer">
+                                        <a href="#" class="thor_a_generate_logoutLink"><i>Logout from ORCID</i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                                                <%--</div>--%>
-                                            <%--</c:if>--%>
-                                        <%--</c:if>--%>
-                                    <%--</div>--%>
-                                    <%--<div class="panel-footer">--%>
-                                        <%--<a href="#" class="thor_a_generate_logoutLink"><i>Logout from ORCID</i></a>--%>
-                                    <%--</div>--%>
-                                <%--</div>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                        <%--<button class="btn btn-default nbr" type="button" data-toggle="modal" data-target="#orcidpopup">--%>
-                            <%--<i class="thorOrcIdSpan">--%>
-                                <%--<img src="//www.ebi.ac.uk/europepmc/thor/resources/orcid-id.png" value="What is ORCID?"--%>
-                                     <%--width="15" height="15" data-pin-nopin="true">--%>
-                            <%--</i>--%>
-                            <%--ORCID Claims--%>
-                        <%--</button>--%>
-                         <%--&lt;%&ndash;todo changes within this block&ndash;%&gt;--%>
-
-                        <%--<div class="modal fade" id="orcidpopup" role="dialog">--%>
-                            <%--<div class="modal-dialog">--%>
-                                <%--<!-- Modal content-->--%>
-                                <%--<div class="modal-content nbr">--%>
-                                    <%--<div class="modal-header">--%>
-                                        <%--<button type="button" class="close" data-dismiss="modal">&times;</button>--%>
-                                        <%--<h4 class="modal-title">--%>
-                                            <%--Claim MetaboLights studies to ORCID--%>
-                                        <%--</h4>--%>
-                                    <%--</div>--%>
-                                    <%--<div class="modal-body">--%>
-                                        <%--<div class="thor_div_showIf_notSigned">--%>
-                                            <%--<div class="panel panel-info" style="margin: -6px 0px -8px -1px;">--%>
-                                                <%--<div class="panel-heading thor_div_showIf_datasetAlreadyClaimedList">--%>
-                                                    <%--You can <a href="#" class="thor_a_generate_signinLink">sign-in--%>
-                                                    <%--to--%>
-                                                    <%--ORCID</a> to claim your data--%>
-                                                <%--</div>--%>
-                                                <%--<div class="panel-body">--%>
-                                                    <%--<div class="row">--%>
-                                                        <%--<div class="existingClaimants"></div>--%>
-                                                    <%--</div>--%>
-                                                    <%--<c:if test="${userApiToken ne 'MetaboLights-anonymous'}">--%>
-                                                        <%--<c:if test="${empty userOrcidID}">--%>
-                                                            <%--<br>--%>
-                                                            <%--<div class="row">--%>
-                                                                <%--<div class="panel panel-warning">--%>
-                                                                    <%--<div class="panel-body"> You can <a--%>
-                                                                            <%--href="${pageContext.request.contextPath}/myAccount"--%>
-                                                                            <%--target="_blank">Update your MTBLS account</a> with ORCID--%>
-                                                                    <%--</div>--%>
-                                                                <%--</div>--%>
-                                                            <%--</div>--%>
-                                                        <%--</c:if>--%>
-                                                    <%--</c:if>--%>
-                                                <%--</div>--%>
-                                                <%--<div class="panel-footer">--%>
-                                                    <%--<input type="checkbox" class="thor_checkbox_rememberMe_cookie">--%>
-                                                    <%--<a target="_blank" href="https://orcid.org/"><i>ORCID</i></a> <i> can Remember me on--%>
-                                                    <%--this--%>
-                                                    <%--computer </i>--%>
-                                                <%--</div>--%>
-                                            <%--</div>--%>
-                                        <%--</div>--%>
-                                        <%--<div class="thor_div_showIf_signedIn">--%>
-                                            <%--<div class="panel panel-warning" style="margin: -6px 0px -8px -1px;">--%>
-                                                <%--<div class="panel-heading thor_div_showIf_datasetAlreadyClaimedList">--%>
-
-                                                    <%--<div class="row">--%>
-                                                        <%--You have signed in as <label--%>
-                                                            <%--class="thor_label_show_userName"></label>--%>
-                                                    <%--</div>--%>
-                                                    <%--<div class="row thor_div_showIf_datasetNotClaimed">--%>
-                                                        <%--You can <a href="#"--%>
-                                                                   <%--class="thor_a_generate_claimLink"><strong>claim ${study.studyIdentifier}</strong></a>--%>
-                                                        <%--into your ORCID.--%>
-                                                    <%--</div>--%>
-                                                    <%--<div class="row small thor_div_showIf_datasetAlreadyClaimed">--%>
-                                                        <%--You have claimed <strong>${study.studyIdentifier}</strong> into your ORCID.--%>
-                                                    <%--</div>--%>
-
-                                                <%--</div>--%>
-                                                <%--<div class="panel-body">--%>
-                                                    <%--<div class="row">--%>
-                                                          <%--<div class="existingClaimants"></div>--%>
-                                                    <%--</div>--%>
-                                                    <%--<c:if test="${userApiToken ne 'MetaboLights-anonymous'}">--%>
-                                                        <%--<c:if test="${empty userOrcidID}">--%>
-                                                            <%--<br>--%>
-                                                            <%--<div class="row">--%>
-                                                                <%--<div class="panel panel-warning">--%>
-                                                                    <%--<div class="panel-body"> You can <a--%>
-                                                                            <%--href="${pageContext.request.contextPath}/myAccount"--%>
-                                                                            <%--target="_blank">Update your MTBLS account</a> with ORCID--%>
-                                                                    <%--</div>--%>
-                                                                <%--</div>--%>
-
-                                                            <%--</div>--%>
-                                                        <%--</c:if>--%>
-                                                    <%--</c:if>--%>
-                                                <%--</div>--%>
-                                                <%--<div class="panel-footer">--%>
-                                                    <%--<a href="#" class="thor_a_generate_logoutLink"><i>Logout from ORCID</i></a>--%>
-                                                <%--</div>--%>
-                                            <%--</div>--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
-                                    <%--<div class="modal-footer">--%>
-                                        <%--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>--%>
-                                    <%--</div>--%>
-                                <%--</div>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-
-                        <%--&lt;%&ndash;todo changes within this block&ndash;%&gt;--%>
-
-                    <%--</c:if>--%>
                     <button type="button" id="tourButton" class="btn nbr btn-default">
                         <i class="fa fa-lg fa-bullhorn"></i>
                     </button>
@@ -406,6 +283,7 @@
             </div>
         </div>
     </div>
+
     <div class="tabs--wrapper">
         <div>
             <!-- Nav tabs -->
@@ -1955,6 +1833,31 @@
 
         thorApplicationNamespace.loadClaimingInfo();
 
+        $('#orcidPopover').popover({
+            html : true,
+            container: 'body',
+            content: function() {
+                return $('#orcidPopoverDiv').html();
+            }
+        });
+
+        $('#orcidPopover').on('shown.bs.popover', function () {
+            thorApplicationNamespace.loadClaimingInfo();
+        })
+
+        $('body').on('click', function (e) {
+            $('#orcidPopover').each(function () {
+                // hide any open popovers when the anywhere else in the body is clicked
+                if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                    $(this).popover('hide');
+                }
+            });
+        });
+
+        $('#orcidPopover').on('hidden.bs.popover', function (e) {
+            $(e.target).data("bs.popover").inState = { click: false, hover: false, focus: false }
+        });
+
         $(document).on('click', '.dropdown-menu', function (e) {
             e.stopPropagation();
         });
@@ -1989,24 +1892,29 @@
                                     userOrcName += " " + orchidRespData['orcid-search-results']['orcid-search-result'][uli]['orcid-profile']['orcid-bio']['personal-details']['family-name']['value'];
                                 }
                                 var claimedStudies = getMatchingMtblsOrcidClaims(userOrcId);
-                                claimListText  += '<a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="Studies Claimed"\
-                                data-content=\'' + claimedStudies +  '\' ' +
-                                    'data-html="true" class="popup-ajax">'
-                                    + userOrcName + '</a><br>';
+//                                claimListText  += '<a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="Studies Claimed"\
+//                                data-content=\'' + claimedStudies +  '\' ' +
+//                                    'data-html="true" class="popup-ajax">'
+//                                    + userOrcName + '</a><br>';
+
+                                claimListText  += '<a target="_blank" href="//orcid.org/' + userOrcId +'">'
+                                    + userOrcName + '<br>' + claimedStudies + '</a><br>';
                             }
+//                            $(function (){
+//                                $(".popup-ajax").popover({placement:'right', container:'body'});
+//                            });
                         }
+                        claimListText += '</p>';
+                        $('.existingClaimants').html('<p style="padding-left: 1em;"><strong>Existing ORCID Claims</strong></p><br>' + claimListText);
                     }else {
-                        claimListText  +=   '<p class="text-center">None so far</p>';
+                        $('.existingClaimants').html('<p style="padding-left: 1em;"><strong>Existing ORCID Claims</strong> <br> None so far</p>');
                     }
-                    claimListText += '</p>';
-                    $('.existingClaimants').html('<p style="padding-left: 1em;"><strong>Existing ORCID Claims</strong></p><br>' + claimListText);
-                    $(function (){
-                        $(".popup-ajax").popover({placement:'right'});
-                    });
 
                 }
             });
         }
+
+
 
 
         getOrcidClaimList();
@@ -2023,7 +1931,7 @@
                     }
                 }
             }
-            matchingIdsContent += '<br><a target="_blank" class="small" href="//orcid.org/' + orcidToMatch+'">View ORCID profile</a><br>';
+//            matchingIdsContent += '<br><a target="_blank" class="small" href="//orcid.org/' + orcidToMatch+'">View ORCID profile</a>';
             return matchingIdsContent;
         }
     });
