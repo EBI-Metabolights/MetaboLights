@@ -1315,7 +1315,7 @@
 <script type="text/javascript" src="/metabolights/javascript/Biojs.ChEBICompound.js"
         charset="utf-8"></script>
 
-<script src="https://www.ebi.ac.uk/europepmc/thor/resources/js/dataclaiming/ebithor-claiming.1.2.js"></script>
+<script src="${orcidServiceUrl}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.11.0/js/bootstrap-tour.min.js"></script>
 
 <script>

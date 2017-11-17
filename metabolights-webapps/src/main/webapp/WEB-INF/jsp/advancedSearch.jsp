@@ -38,15 +38,15 @@
         <%--<h1>HELLO</h1>--%>
     </div>
     <%--<div class="row">--%>
-        <%--<div><a href="${pageContext.request.contextPath}/${studyId}" class="btn btn-primary pull-right"--%>
-                <%--role="button"><span style="color:white;">Go back to ${studyId}</span></a></div>--%>
+    <%--<div><a href="${pageContext.request.contextPath}/${studyId}" class="btn btn-primary pull-right"--%>
+    <%--role="button"><span style="color:white;">Go back to ${studyId}</span></a></div>--%>
     <%--</div>--%>
 </div>
 
-<script type="text/javascript" src="inline.5ff79d9d5cc46eb6f6dc.bundle.js"></script>
+<script type="text/javascript" src="inline.b9fd8bb2ec670f386b86.bundle.js"></script>
 <script type="text/javascript" src="polyfills.ed762e38550b1ba74505.bundle.js"></script>
 <script type="text/javascript" src="vendor.f1967bd5c017fba09684.bundle.js"></script>
-<script type="text/javascript" src="main.6358c413deefc3a9591e.bundle.js"></script>
+<script type="text/javascript" src="main.e85d9eb496249df761ee.bundle.js"></script>
 
 
 
