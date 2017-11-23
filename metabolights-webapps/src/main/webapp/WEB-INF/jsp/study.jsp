@@ -241,7 +241,6 @@
                                 </div>
                             </div>
                         </div>
-                  </div>
                 </div>
             </div>
             <div class="col-md-3 pt5">
@@ -1888,6 +1887,11 @@
 
         $('#orcidPopover').on('hidden.bs.popover', function (e) {
             $(e.target).data("bs.popover").inState = { click: false, hover: false, focus: false }
+        });
+
+        // Bind resize event
+        $(window).bind('resize', function(){
+            $('#orcidPopover').popover('show');
         });
 
         $(document).on('click', '.dropdown-menu', function (e) {
