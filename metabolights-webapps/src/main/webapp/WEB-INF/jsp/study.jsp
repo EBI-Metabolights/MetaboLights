@@ -149,10 +149,12 @@
                             </button>
                         </c:if>
                     </div>
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#shareStudy">
-                        <i class="fa fa-link"></i>&nbsp;
-                        <spring:message code="label.study.share"/>
-                    </button>
+                    <c:if test="${(study.studyStatus == 'PUBLIC') || (study.studyStatus == 'INREVIEW') || curator}">
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#shareStudy">
+                            <i class="fa fa-link"></i>&nbsp;
+                            <spring:message code="label.study.share"/>
+                        </button>
+                    </c:if>
                     <button type="button" class="btn btn-default quicklinks files--tab" data-destination="files"><i
                             class="ml--icons fa fa-download pull-left"></i> Download files
                     </button>
@@ -239,11 +241,7 @@
                                 </div>
                             </div>
                         </div>
-
-                    <button type="button" id="tourButton" class="btn nbr btn-default">
-                        <i class="fa fa-lg fa-bullhorn"></i>
-                    </button>
-                </div>
+                  </div>
             </div>
             <div class="col-md-3 pt5">
                 <div class="col-md-12">
@@ -283,7 +281,6 @@
             </div>
         </div>
     </div>
-
     <div class="tabs--wrapper">
         <div>
             <!-- Nav tabs -->
@@ -592,8 +589,7 @@
 
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        <h4><span class="icon icon-functional" data-icon="A"></span><spring:message
-                                                code="label.data"/></h4>
+                                        <h4><span class="icon icon-functional" data-icon="A"></span> Instrumentation</h4>
                                     </div>
 
                                     <div class="panel-body">
@@ -1248,6 +1244,10 @@
 
 <a href="#" class="scrollToTop" style="display: inline;"><i class="fa fa-arrow-up"></i></a>
 
+<a id="tourButton" class="btn nbr btn-default" style="display: inline;" >
+    <i class="fa fa-lg fa-binoculars"></i>
+</a>
+
 <div id="chebiInfo"></div>
 
 <div class="modal fade" id="shareStudy" role="dialog">
@@ -1259,15 +1259,33 @@
                 <h4 class="modal-title"><spring:message code="label.study.share"/></h4>
             </div>
             <div class="modal-body">
-                <h5><spring:message code="title.study.paper.link"/></h5>
-                <p><spring:message code="label.study.paper.link"/></p>
-                <p><input class="form-control" type="text" value="${fullContextPath}/${study.studyIdentifier}"
-                          readonly/></p>
-                <c:if test="${(study.studyStatus == 'INREVIEW') || curator}">
+                <c:if test="${(study.studyStatus == 'INREVIEW')}">
                     <h5><spring:message code="title.study.private.link"/></h5>
-                    <p><spring:message code="label.study.private.link"/></p>
-                    <p><input class="form-control" type="text"
-                              value="${fullContextPath}/reviewer${study.obfuscationCode}" readonly/></p>
+                    <p><small><spring:message code="label.study.private.link"/></small></p>
+                    <p>
+                    <div class="input-group">
+                        <input type="text" class="form-control" value="${fullContextPath}/reviewer${study.obfuscationCode}" readonly>
+                        <span class="input-group-btn">
+                        <button class="btn btn-default ml--clipboard" data-clipboard-text="${fullContextPath}/reviewer${study.obfuscationCode}" type="button">
+                            <i class="fa fa-lg fa-clipboard"></i>
+                        </button>
+                      </span>
+                    </div>
+                    </p>
+                </c:if>
+                <c:if test="${(study.studyStatus == 'PUBLIC')}">
+                    <h5><spring:message code="title.study.paper.link"/></h5>
+                    <p><small><spring:message code="label.study.paper.link"/></small></p>
+                    <p>
+                    <div class="input-group">
+                        <input type="text" class="form-control" value="${fullContextPath}/${study.studyIdentifier}" readonly>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default ml--clipboard" data-clipboard-text="${fullContextPath}/${study.studyIdentifier}" type="button">
+                                <i class="fa fa-lg fa-clipboard"></i>
+                            </button>
+                          </span>
+                    </div>
+                    </p>
                 </c:if>
             </div>
             <div class="modal-footer">
@@ -1317,9 +1335,21 @@
 
 <script src="${orcidServiceUrl}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.11.0/js/bootstrap-tour.min.js"></script>
+<script src="${pageContext.request.contextPath}/javascript/Notifier.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
 
 <script>
     $(document).ready(function () {
+
+        var clipboard = new Clipboard('.ml--clipboard');
+        clipboard.on('success', function(e) {
+            Notifier.success("Successful", e.trigger.id + " Copied to clipboard!");
+        });
+
+        clipboard.on('error', function(e) {
+            console.error('Action:', e.action);
+            console.error('Trigger:', e.trigger);
+        });
 
         var tour = new Tour({
             steps: [
@@ -1584,7 +1614,8 @@
             buttons: [
                 {
                     extend: 'colvis',
-                    columns: ':not(.noVis)'
+                    columns: ':not(.noVis)',
+                    text: "Customise view"
                 }
             ]
         });
