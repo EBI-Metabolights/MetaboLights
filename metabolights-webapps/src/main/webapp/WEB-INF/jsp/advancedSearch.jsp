@@ -28,27 +28,18 @@
 
 <base href="${pageContext.request.contextPath}/advsearch/">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<%--<link rel="icon" type="image/x-icon" href="favicon.ico">--%>
-<%--todo change styles--%>
 
 <div class="container">
     <br>
     <div class="row">
         <mtbls-adv-search></mtbls-adv-search>
-        <%--<h1>HELLO</h1>--%>
     </div>
-    <%--<div class="row">--%>
-    <%--<div><a href="${pageContext.request.contextPath}/${studyId}" class="btn btn-primary pull-right"--%>
-    <%--role="button"><span style="color:white;">Go back to ${studyId}</span></a></div>--%>
-    <%--</div>--%>
 </div>
 
-<script type="text/javascript" src="inline.b9fd8bb2ec670f386b86.bundle.js"></script>
+<script type="text/javascript" src="inline.b00fe021be0d95983774.bundle.js"></script>
 <script type="text/javascript" src="polyfills.ed762e38550b1ba74505.bundle.js"></script>
 <script type="text/javascript" src="vendor.f1967bd5c017fba09684.bundle.js"></script>
-<script type="text/javascript" src="main.e85d9eb496249df761ee.bundle.js"></script>
-
-
+<script type="text/javascript" src="main.b057b279f635197330b4.bundle.js"></script>
 
 
 
