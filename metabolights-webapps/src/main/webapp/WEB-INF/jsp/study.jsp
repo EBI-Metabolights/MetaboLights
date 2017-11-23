@@ -1891,7 +1891,10 @@
 
         // Bind resize event
         $(window).bind('resize', function(){
-            $('#orcidPopover').popover('show');
+            var isVisible = $('#orcidPopover').data('bs.popover').tip().hasClass('in');
+            if(isVisible){
+                $('#orcidPopover').popover('show');
+            }
         });
 
         $(document).on('click', '.dropdown-menu', function (e) {
