@@ -404,13 +404,31 @@ a span.link-pdf {
     color: #333;
     text-decoration: none;
     position:fixed;
-    bottom:50px;
+    bottom:120px;
     right:50px;
     border-radius: 4px;
     border: 1px solid #F5F5F5;
     display:none;
 }
 .scrollToTop:hover{
+    text-decoration:none;
+}
+
+#tourButton{
+    padding: 15px 18px;
+    text-align:center;
+    background: rgba(255,255,255, 0.7);
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+    position:fixed;
+    bottom:50px;
+    right:50px;
+    border-radius: 4px;
+    border: 1px solid #F5F5F5;
+}
+
+#tourButton:hover{
     text-decoration:none;
 }
 
