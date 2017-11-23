@@ -66,7 +66,7 @@
     <c:if test="${pageContext.request.serverPort ne 80}">
         <c:set var="port" value=":${pageContext.request.serverPort}"/>
     </c:if>
-    <c:set scope="request" var="fullContextPath" value="http://${pageContext.request.serverName}${port}${pageContext.request.contextPath}"/>
+    <c:set scope="request" var="fullContextPath" value="https://${pageContext.request.serverName}${port}${pageContext.request.contextPath}"/>
 
     <%-- Add Google Analytics to the prod instance only   --%>
     <c:if test="${pageContext.request.serverName=='www.ebi.ac.uk'}" >

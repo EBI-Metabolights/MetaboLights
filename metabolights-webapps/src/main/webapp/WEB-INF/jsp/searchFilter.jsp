@@ -158,7 +158,7 @@ facets[].facet.lines[].FacetLine.checked
                                     <c:forEach var="times" begin="0" end="1" step="1">
                                         <c:set var="checkedItems" value="0"/>
                                         <c:forEach var="line" items="${facet.lines}">
-                                            <c:if test="${ not empty line.value and line.value != 'NA' and line.value != 'N/A' }">
+                                            <c:if test="${ not empty line.value and line.value != 'NA' and line.value != 'N/A' and line.value !='blank' and line.value !='Blank' }">
                                                 <c:if test='${(line.checked and (times == 0)) or (!line.checked and (times == 1))}'>
                                                     <c:if test='${(line.checked and (times == 0))}'>
                                                         <c:set var="checkedItems" value="${checkedItems + 1}"/>
