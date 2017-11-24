@@ -149,12 +149,6 @@
                             </button>
                         </c:if>
                     </div>
-                    <c:if test="${(study.studyStatus == 'PUBLIC') || (study.studyStatus == 'INREVIEW') || curator}">
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#shareStudy">
-                            <i class="fa fa-link"></i>&nbsp;
-                            <spring:message code="label.study.share"/>
-                        </button>
-                    </c:if>
                     <button type="button" class="btn btn-default quicklinks files--tab" data-destination="files"><i
                             class="ml--icons fa fa-download pull-left"></i> Download files
                     </button>
@@ -245,6 +239,10 @@
                             </div>
                         </div>
                     </c:if>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#shareStudy">
+                        <i class="fa fa-link"></i>&nbsp;
+                        <spring:message code="label.study.share"/>
+                    </button>
                 </div>
             </div>
             <div class="col-md-3 pt5">
@@ -1263,7 +1261,7 @@
                 <h4 class="modal-title"><spring:message code="label.study.share"/></h4>
             </div>
             <div class="modal-body">
-                <c:if test="${(study.studyStatus == 'INREVIEW')}">
+                <c:if test="${(study.studyStatus == 'INREVIEW') || curator}">
                     <h5><spring:message code="title.study.private.link"/></h5>
                     <p><small><spring:message code="label.study.private.link"/></small></p>
                     <p>
@@ -1276,8 +1274,9 @@
                       </span>
                     </div>
                     </p>
+                    <br>
                 </c:if>
-                <c:if test="${(study.studyStatus == 'PUBLIC')}">
+                <c:if test="${(study.studyStatus == 'PUBLIC') || curator}">
                     <h5><spring:message code="title.study.paper.link"/></h5>
                     <p><small><spring:message code="label.study.paper.link"/></small></p>
                     <p>

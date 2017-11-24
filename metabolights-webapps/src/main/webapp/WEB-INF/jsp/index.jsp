@@ -87,60 +87,61 @@
                 </p>
                 <br>
                 <a class="more" href="https://www.ebi.ac.uk/training/online/course/metabolights-quick-tour-0">Quick tour</a>
+                <div>&nbsp;</div>
             </div>
         </div>
         <br>
         <div class="row col">
             <div class="col-md-4">
                 <div class="panel nbr panel-primary">
-                    <div class="panel-body text-center">
-                        <span class="icon icon-generic dp36 text-primary" data-icon="e"></span>
+                    <div class="panel-body text-center"><br>
+                        <i class="fa fa-2x  text-primary fa-book"></i><br><br>
                         <h4 class="section-heading text-primary">Study</h4>
                         <p class="section-text">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos et eum eveniet id laborum omni
-                        </p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                        </p> <br>
                     </div>
                     <div class="custom-footer text-center">
                         <ul>
-                            <li><a href="studies">Browse</a></li>
-                            <li><a href="presubmit">Upload</a></li>
-                            <li><a href="studies">Advanced search</a></li>
+                            <li><a href="studies"><b>Browse</b></a></li>
+                            <li><a href="studies"><b>Advanced search</b></a></li>
+                            <li><a href="presubmit"><b>Labs</b></a></li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="panel nbr panel-success">
-                    <div class="panel-body text-center">
-                        <span class="icon icon-generic dp36 text-success" data-icon="g"></span>
-                        <h4 class="section-heading text-success">Reference Layer</h4>
+                    <div class="panel-body text-center"><br>
+                        <i class="fa fa-2x fa-database text-success"></i><br><br>
+                        <h4 class="section-heading text-success">Compound Library</h4>
                         <p class="section-text">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos et eum eveniet id laborum omni
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos.
                         </p>
                     </div>
                     <div class="custom-footer text-center">
                         <ul>
-                            <li><a href="compounds">Compounds</a></li>
-                            <li><a href="species">Species</a></li>
-                            <li><a href="analysis">Analysis</a></li>
+                            <li><a href="compounds"><b>Compounds</b></a></li>
+                            <li><a href="species"><b>Species</b></a></li>
+                            <li><a href="analysis"><b>Analysis</b></a></li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="panel nbr panel-danger">
-                    <div class="panel-body text-center">
-                        <span class="icon icon-generic dp36 text-danger" data-icon="t"></span>
+                    <div class="panel-body text-center"><br>
+                        <i class="fa fa-2x fa-user-circle text-danger"></i><br><br>
                         <h4 class="section-heading text-danger">Training</h4>
                         <p class="section-text">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos et eum eveniet id laborum omni
+                            Lorem ipsum dolor sit amet, adipisicing elit. Dignissimos et um omni
                         </p>
                     </div>
                     <div class="custom-footer text-center">
                         <ul>
-                            <li><a href="">Webinar</a></li>
-                            <li><a href="https://www.ebi.ac.uk/training/online/topic/metabolomics">Conferences</a></li>
-                            <li><a href="https://www.ebi.ac.uk/training/online/course/metabolights-quick-tour-0" target="_blank">quick tour</a></li>
+                            <li><a href=""><b>Webinar</b></a></li>
+                            <li><a href="https://www.ebi.ac.uk/training/online/topic/metabolomics"><b>Conferences</b></a></li>
+                            <li><a href="https://www.ebi.ac.uk/training/online/course/metabolights-quick-tour-0" target="_blank"><b>Quick tour</b></a></li>
                         </ul>
                     </div>
                 </div>
@@ -156,12 +157,16 @@
                 </div>
             </div>
         </div>
-        <div class="panel nbr panel-warning">
+        <div class="panel nbr panel-primary">
             <div class="panel-heading">
-                Latest News
+                Contribute to MetaboLights
             </div>
             <div class="panel-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, unde.
+                <a href="/presubmit" class="more"><b>Upload Study</b></a>
+                <div class="row">
+                    <hr>
+                </div>
+                Upload reference spectra to MetaboLights - Compounds Reference Library<br><a href="#" class="more">more</a>
             </div>
         </div>
     </div>
