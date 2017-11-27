@@ -105,6 +105,7 @@
                             </c:if>
                         </c:forEach>
                         <i class="fa fa-envelope">&nbsp;</i><a href="mailto:${liteStudy.users[0].userName}?subject=<spring:message code="msg.emailStudyLinkSubject"/>&nbsp;${liteStudy.studyIdentifier}&cc=${submitters}"> Contact Submitter</a>&emsp;
+                        <c:if test="${userHasEditRights eq true}"> &nbsp;<i class="fa fa-pencil"></i><a id="redirectToEditorPage" style="cursor: pointer">&nbsp;Quick edit</a> </c:if>
                     </span>
                 </p>
             </div>

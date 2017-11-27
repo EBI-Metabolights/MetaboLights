@@ -319,6 +319,7 @@ public class EntryController extends AbstractController {
         mav.addObject("userOrcidID", user.getOrcId());
 		mav.addObject("orcidServiceUrl", orcidServiceURL);
         mav.addObject("orcidRetrieveClaimsServiceUrl", orcidRetreiveClaimsServiceURL);
+        mav.addObject("userHasEditRights", canEdit(user, study));
 
 
         return mav;
@@ -383,6 +384,14 @@ public class EntryController extends AbstractController {
         }
 
         return false;
+    }
+
+    private static boolean canEdit(MetabolightsUser user, LiteStudy study) {
+        if (user.isCurator()) {
+            return true;
+        } else {
+            return doesUserOwnsTheStudy(user.getUserName(), study);
+        }
     }
 
 }
