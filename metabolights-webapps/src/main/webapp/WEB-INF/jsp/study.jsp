@@ -149,12 +149,6 @@
                             </button>
                         </c:if>
                     </div>
-                    <c:if test="${(study.studyStatus == 'PUBLIC') || (study.studyStatus == 'INREVIEW') || curator}">
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#shareStudy">
-                            <i class="fa fa-link"></i>&nbsp;
-                            <spring:message code="label.study.share"/>
-                        </button>
-                    </c:if>
                     <button type="button" class="btn btn-default quicklinks files--tab" data-destination="files"><i
                             class="ml--icons fa fa-download pull-left"></i> Download files
                     </button>
