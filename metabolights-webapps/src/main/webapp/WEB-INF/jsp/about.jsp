@@ -20,109 +20,102 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
-
-<div class="container-fluid">
-        <div class="col-md-12">
-            <h3 class="heading"><spring:message code="msg.metabolights" /></h3>
+<div class="col-md-12">
+    <h3 class="heading"><spring:message code="msg.metabolights" /></h3>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <p class="description">
+            <spring:message code="msg.metabolightsAbout1" />
+            <spring:message code="msg.metabolightsAbout2" />
+        </p>
+    </div>
+    <div class="col-md-4">
+        <p class="description"><spring:message code="msg.metabolightsAbout3" /></p>
+    </div>
+    <div class="col-md-4">
+        <p class="description"><spring:message code="msg.metabolightsAbout4" /></p>
+    </div>
+</div>
+<div class="row">
+    <div>&nbsp;</div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <div class="well nbr">
+            <a href="<spring:url value="contact"/>"><b><spring:message code="label.contact"/></b></a><br>
+            <a href="<spring:url value="statistics"/>"><spring:message code="label.stats"/></a><br>
+            <a href="<spring:url value="advisoryboard"/>"><spring:message code="label.sab"/></a><br>
+            <a href="<spring:url value="acknowledgements"/>">Acknowledgements</a><br>
         </div>
-        <div class="row">
-            <div class="col-md-4">
-                <p class="description">
-                    <spring:message code="msg.metabolightsAbout1" />
-                    <spring:message code="msg.metabolightsAbout2" />
-                </p>
-            </div>
-            <div class="col-md-4">
-                <p class="description"><spring:message code="msg.metabolightsAbout3" /></p>
-            </div>
-            <div class="col-md-4">
-                <p class="description"><spring:message code="msg.metabolightsAbout4" /></p>
-            </div>
+    </div>
+    <div class="col-md-4">
+        <div class="well nbr">
+            <p><strong>Follow us on </strong><br><br>
+                <span class="bigfont">
+                    <a href="https://twitter.com/metabolights" class="icon icon-socialmedia" data-icon="T"></a>
+                </span>
+            </p>
+            <br><br>
         </div>
-        <div class="row">
-            <div>&nbsp;</div>
-        </div>
-        <div class="row">
-                <div class="col-md-8">
-                    <div class="well">
-                        <p><a href="<spring:url value="contact"/>"><strong><spring:message code="label.contact"/></strong></a></p>
-                        <p><a href="<spring:url value="statistics"/>"><strong><spring:message code="label.stats"/></strong></a></p>
-                        <p><a href="<spring:url value="advisoryboard"/>"><strong><spring:message code="label.sab"/></strong></a></p>
-                        <p><a href="<spring:url value="acknowledgements"/>"><strong>Acknowledgements</strong></a></p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="well">
-                        <p><strong>Follow us on </strong><br><br>
-                            <span class="bigfont">
-                                <a href="https://twitter.com/metabolights" class="icon icon-socialmedia" data-icon="T"></a>
-                            </span>
-                        </p>
-                        <br><br>
-                    </div>
-                </div>
-            </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-success">
-                    <div class="panel-heading">Citing MetaboLights</div>
-                    <div class="panel-body">
-                        <span class="pubauthor">Kenneth Haug, Reza M. Salek, Pablo Conesa, Janna Hastings, Paula de Matos, Mark Rijnbeek, Tejasvi Mahendrakar, Mark Williams, Steffen Neumann, Philippe Rocca-Serra, Eamonn Maguire, Alejandra Gonz&aacute;lez-Beltr&aacute;n, Susanna-Assunta Sansone, Julian L. Griffin and Christoph Steinbeck.</span><br/>
-                        <a target="_blank" href="http://nar.oxfordjournals.org/content/41/D1/D781" class="pubtitle">MetaboLights-- an open-access general-purpose repository for metabolomics studies and associated meta-data.</a><br/>
-                        <span class="pubjournal">Nucl. Acids Res. (2013) doi: 10.1093/nar/gks1004</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="panel panel-warning">
-                    <div class="panel-heading">
-                        Licensing
-                    </div>
-                    <div class="panel-body">
-                        All data is governed by the EMBL-EBI's <a href="http://www.ebi.ac.uk/about/terms-of-use" target="_blank">Terms of use</a> and all <a href="https://github.com/EBI-Metabolights" target="_blank">code</a> is licensed under <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a>.
-                    </div>
-                </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel nbr panel-success">
+            <div class="panel-heading">Citing MetaboLights</div>
+            <div class="panel-body">
+                <span class="pubauthor">Kenneth Haug, Reza M. Salek, Pablo Conesa, Janna Hastings, Paula de Matos, Mark Rijnbeek, Tejasvi Mahendrakar, Mark Williams, Steffen Neumann, Philippe Rocca-Serra, Eamonn Maguire, Alejandra Gonz&aacute;lez-Beltr&aacute;n, Susanna-Assunta Sansone, Julian L. Griffin and Christoph Steinbeck.</span><br/>
+                <a target="_blank" href="http://nar.oxfordjournals.org/content/41/D1/D781" class="pubtitle">MetaboLights-- an open-access general-purpose repository for metabolomics studies and associated meta-data.</a><br/>
+                <span class="pubjournal">Nucl. Acids Res. (2013) doi: 10.1093/nar/gks1004</span>
             </div>
         </div>
     </div>
-    <hr>
-    <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <a class="noLine"><img src="img/phenomenal.png" style = "height: 60px;" alt="PhenoMeNal"/></a>
-                    <div class="clearfix">&nbsp;</div>
-                    <p>PhenoMeNal (Phenome and Metabolome aNalysis) is a comprehensive and standardised e-infrastructure that supports the data processing and analysis pipelines for molecular phenotype data generated by metabolomics applications.</p>
-                    <%--<a href="http://www.cosmos-fp7.eu/"><img src="img/cosmosSmall_0.png" style = "height: 60px;" alt="COSMOS"/></a>--%>
-                    <%--<p><spring:message code="msg.about.cosmos"/></p>--%>
-
-                </div>
-                <div class="col-md-6">
-                    <a class="noLine" href="<spring:message code="url.isatools"/>"><img src="img/softwaresuitelogo2.png" style = "height: 60px;" alt="isatab"/></a>
-                    <p><spring:message code="msg.metabolightsAbout6" /></p>
-                </div>
+    <div class="col-md-12">
+        <div class="panel nbr panel-warning">
+            <div class="panel-heading">
+                Licensing
             </div>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-12">
-                <p><spring:message code="msg.metabolightsAbout10" /></p>
-                <a class="noLine" href="http://github.com/ISA-tools/OntoMaton" target="_blank"><img src="http://isatools.files.wordpress.com/2012/07/ontomaton.png?w=250"/></a>
-                <a class="noLine" href="<spring:message code="url.isatools"/>" target="_blank"><img src="http://isatab.sourceforge.net/assets/img/tools/tools-table-images/isacreator.png"/></a>
-                <p><spring:message code="msg.metabolightsAbout15" /></p>
+            <div class="panel-body">
+                All data is governed by the EMBL-EBI's <a href="http://www.ebi.ac.uk/about/terms-of-use" target="_blank">Terms of use</a> and all <a href="https://github.com/EBI-Metabolights" target="_blank">code</a> is licensed under <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a>.
             </div>
         </div>
     </div>
-    <hr>
-    <div class="row" id="support-journals" href="#publishers">
+</div>
+<hr>
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <a class="noLine"><img src="img/phenomenal.png" style = "height: 60px;" alt="PhenoMeNal"/></a>
+            <div class="clearfix">&nbsp;</div>
+            <p>PhenoMeNal (Phenome and Metabolome aNalysis) is a comprehensive and standardised e-infrastructure that supports the data processing and analysis pipelines for molecular phenotype data generated by metabolomics applications.</p>
+            <%--<a href="http://www.cosmos-fp7.eu/"><img src="img/cosmosSmall_0.png" style = "height: 60px;" alt="COSMOS"/></a>--%>
+            <%--<p><spring:message code="msg.about.cosmos"/></p>--%>
+
+        </div>
+        <div class="col-md-6">
+            <a class="noLine" href="<spring:message code="url.isatools"/>"><img src="img/softwaresuitelogo2.png" style = "height: 60px;" alt="isatab"/></a>
+            <p><spring:message code="msg.metabolightsAbout6" /></p>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-md-12">
         <div class="col-md-12">
+            <p><spring:message code="msg.metabolightsAbout10" /></p>
+            <a class="noLine" href="http://github.com/ISA-tools/OntoMaton" target="_blank"><img src="http://isatools.files.wordpress.com/2012/07/ontomaton.png?w=250"/></a>
+            <a class="noLine" href="<spring:message code="url.isatools"/>" target="_blank"><img src="http://isatab.sourceforge.net/assets/img/tools/tools-table-images/isacreator.png"/></a>
+            <p><spring:message code="msg.metabolightsAbout15" /></p>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="row" id="support-journals" href="#publishers">
+    <div class="col-md-12">
+        <div class="col-md-12">
+            <p><spring:message code="msg.metaboLightsAbout17"/></p>
             <div class="col-md-12">
-                <p><spring:message code="msg.metaboLightsAbout17"/></p>
-                <div class="col-md-12">
                 <a class="noLine" href="http://www.nature.com/sdata/policies/repositories"><img src="img/support-journals/scientificData.png" style = "height: 40px;" alt="Nature Scientific Data"/></a>
                 <%--<a href="https://academic.oup.com/gigascience/pages/instructions_to_authors"><img src="img/support-journals/gigaScience.png" style = "height: 40px;" alt="Giga Science"/></a>--%>
                 <a class="noLine" href="https://www.biomedcentral.com/"><img src="img/support-journals/biomedCentral.png" style = "height: 40px;" alt="BioMed Central"/></a>
@@ -133,19 +126,20 @@
                 <a class="noLine" href="http://link.springer.com/journal/11306"><img src="img/support-journals/metabolomics.png" style = "height: 40px;" alt="Springer Link - Metabolomics"/></a>
                 <a class="noLine" href="http://journal.frontiersin.org/journal/molecular-biosciences/section/metabolomics#author-guidelines"><img src="img/support-journals/frontiers.png" style = "height: 40px;" alt="Frontiers"/></a>
                 <a class="noLine" href="http://www.mdpi.com/journal/metabolites"><img src="img/support-journals/metabolites.png" style = "height: 60px;" alt="Metabolites"/></a>
-                </div>
-                <p><spring:message code="msg.metaboLightsAbout18"/></p>
             </div>
+            <p><spring:message code="msg.metaboLightsAbout18"/></p>
         </div>
     </div>
-    <hr>
-    <div class="row">
+</div>
+<hr>
+<div class="row">
+    <div class="col-md-12">
         <div class="col-md-12">
-            <div class="col-md-12">
-                <a class="noLine" href="http://www.bbsrc.ac.uk/research/grants-search/AwardDetails/?FundingReference=BB%2fL024152%2f1"><img src="img/bbsrcLarge.png" alt="BBSCR"/></a>
-                &nbsp;&nbsp;&nbsp; <img src="img/EMBL_EBI_logo_180pixels_RGB.jpg" alt="EMBL"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="http://www.metabolomics.bioc.cam.ac.uk/metabolomics/"><img src="img/camLogo.png" alt="UC"/></a>
-                <br/>
-                <p><spring:message code="msg.metabolightsAbout5"/></p>
-            </div>
+            <a class="noLine" href="http://www.bbsrc.ac.uk/research/grants-search/AwardDetails/?FundingReference=BB%2fL024152%2f1"><img src="img/bbsrcLarge.png" alt="BBSCR"/></a>
+            &nbsp;&nbsp;&nbsp; <img src="img/EMBL_EBI_logo_180pixels_RGB.jpg" alt="EMBL"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="http://www.metabolomics.bioc.cam.ac.uk/metabolomics/"><img src="img/camLogo.png" alt="UC"/></a>
+            <br/>
+            <p><spring:message code="msg.metabolightsAbout5"/></p>
         </div>
     </div>
+</div>
+<br><br>

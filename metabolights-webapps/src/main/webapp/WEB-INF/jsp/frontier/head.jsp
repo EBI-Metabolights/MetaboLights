@@ -25,6 +25,7 @@
 <head>
   	<meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="MetaboLights metabolomics experiments" />
     <meta name="author" content="The MetaboLights team" />
     <meta http-equiv="Content-Language" content="en-GB" />
@@ -32,19 +33,22 @@
     <meta name="no-email-collection" content="http://www.unspam.com/noemailcollection/" />
     <meta name="keywords" content="metabolite, metabolites, metabolism, metabolic, metabonomics, metabolomics, metabolomics study, metabolomics experiment, metabolic pathway, metabolite database, cosmos" />
 
-    <link rel="stylesheet" href="//www.ebi.ac.uk/inc/css/userstyles.css" type="text/css">
-	<link rel="stylesheet" href="//www.ebi.ac.uk/inc/css/contents.css" type="text/css">
-    <link rel="stylesheet" href="//www.ebi.ac.uk/web_guidelines/css/compliance/mini/ebi-fluid-embl.css">
-    <link rel="stylesheet" href='<spring:url value="/cssrl/test-scheme.css"/>' type="text/css" media="screen">
+    <link rel="stylesheet" href="http://www.ebi.ac.uk/inc/css/userstyles.css" type="text/css">
+	<link rel="stylesheet" href="http://www.ebi.ac.uk/inc/css/contents.css" type="text/css">
+    <link rel="stylesheet" href="https://www.ebi.ac.uk/web_guidelines/EBI-Icon-fonts/v1.1/fonts.css">
 
-    <link rel="stylesheet" type="text/css" href='<spring:url value="/cssrl/metabolights_test.css"/>' media="screen" />
     <link rel="stylesheet" type="text/css" href='<spring:url value="/cssrl/jquery-ui-1.9.2.custom.min.css"/>' media="all" />
     <link rel="stylesheet" type="text/css" href='<spring:url value="/cssrl/icons.css"/>' media="all" />
-    <link rel="stylesheet" type="text/css" href='<spring:url value="/css/metabolights.css"/>'>
     <link rel="stylesheet" type="text/css" href='<spring:url value="/cssrl/iconfont/font_style.css"/>'/>
 
     <%--<link rel="stylesheet" type="text/css" href='<spring:url value="/cssrl/movingboxes.css"/>' media="screen" />--%>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.10/css/dataTables.bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="/metabolights/css/ChEBICompound.css" type="text/css"/>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.11.0/css/bootstrap-tour.min.css">
 
     <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.js" ></script>
     <script type="text/javascript" src="//code.jquery.com/ui/1.9.2/jquery-ui.min.js" charset="utf-8"></script>
@@ -62,7 +66,7 @@
     <c:if test="${pageContext.request.serverPort ne 80}">
         <c:set var="port" value=":${pageContext.request.serverPort}"/>
     </c:if>
-    <c:set scope="request" var="fullContextPath" value="http://${pageContext.request.serverName}${port}${pageContext.request.contextPath}"/>
+    <c:set scope="request" var="fullContextPath" value="https://${pageContext.request.serverName}${port}${pageContext.request.contextPath}"/>
 
     <%-- Add Google Analytics to the prod instance only   --%>
     <c:if test="${pageContext.request.serverName=='www.ebi.ac.uk'}" >
@@ -71,12 +75,10 @@
                 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
                     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
             })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
             ga('create', 'UA-60886861-1', 'auto');
             ga('send', 'pageview');
-
         </script>
     </c:if>
 
+    <link rel="stylesheet" type="text/css" href='<spring:url value="/css/ml.css"/>' media="screen" />
 </head>
-                                                                                                                                  p

@@ -24,108 +24,118 @@
   ~
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
-<div class="ml-studybox row">
-    <div class="col-md-12 ml-study-heading">
-        <div class="col-md-12">
-            <a class="nb " href="${liteStudy.studyIdentifier}"><strong>${liteStudy.title}</strong></a>
-                <span class="pull-right">
-                    <c:if test="${!(liteStudy.studyStatus == 'PUBLIC')}">
-                        <small data-toggle="tooltip"
-                               data-placement="bottom"
-                               title="${liteStudy.studyStatus.description}">
-                            <span class="label label-danger">
-                                <i class="fa fa-key"></i>
-                                &nbsp;<spring:message code="label.expPrivate"/>
-                            </span>
-                        </small>
-                    </c:if>
-                    <c:if test="${(liteStudy.studyStatus == 'PUBLIC')}">
-                        <small data-toggle="tooltip"
-                               data-placement="bottom"
-                               title="${liteStudy.studyStatus.description}">
-                                <i class="fa fa-globe"></i>
-                        </small>
-                    </c:if>
-                            <c:if test="${liteStudy.validations.status == 'RED'}">
-                                <span class="btn btn-sm"
-                                      data-toggle="tooltip"
-                                      data-placement="bottom"
-                                      title="Mandatory​ information is missing">
-                                    <span class="redTrafficL"></span>&nbsp;
-                                </span>
-                            </c:if>
-                            <c:if test="${liteStudy.validations.status == 'AMBER'}">
-                                <span class="btn btn-sm"
-                                      data-toggle="tooltip"
-                                      data-placement="bottom"
-                                      title="Optional fields are missing">
-                                <span class="amberTrafficL"></span>&nbsp;</span>
-                            </c:if>
-                            <c:if test="${liteStudy.validations.status == 'GREEN'}">
-                                <span class="btn btn-sm"
-                                      data-toggle="tooltip"
-                                      data-placement="bottom"
-                                      title="All Mandatory and Optional fields are present">
-                                    <span class="greenTrafficL"></span>&nbsp;
-                                </span>
-                            </c:if>
-                    <c:if test="${(liteStudy.studyStatus == 'PUBLIC')}">
-                    <small>
-                        <span @click="studyQuickView('${liteStudy.studyIdentifier}')"><i class="fa fa-expand"></i></span>
-
-                    </small>
-                    </c:if>
-                </span>
-            <%--<span class="pull-right  btn-xs btn"--%>
-            <%--data-toggle="modal"--%>
-            <%--data-target=".bs-example-modal-lg"--%>
-            <%--data-toggle="tooltip"--%>
-            <%--data-placement="bottom"--%>
-            <%--title="Quick&nbsp;view">--%>
-            <%--<i class="fa fa-expand"></i>--%>
-            <%--</span>--%>
-        </div>
+<div class="panel panel-default cpanel nbr">
+    <div class="panel-heading nbr">
+        <h4>
+            <div class="row">
+                <div class="col-md-10">
+                    <a class="nb" href="${liteStudy.studyIdentifier}"><strong>${liteStudy.title}</strong></a>
+                </div>
+                <div class="col-md-2">
+                    <div>
+                        <span class="pull-right">
+                            <div class="btn-group" role="group" aria-label="...">
+                                <c:if test="${!(liteStudy.studyStatus == 'PUBLIC')}">
+                                    <span data-toggle="tooltip"
+                                          data-placement="bottom"
+                                          title="${liteStudy.studyStatus.description}"
+                                          class="btn btn-default btn-xs">
+                                        <span class="label label-danger">
+                                                <i class="fa fa-key"></i>
+                                                &nbsp;<spring:message code="label.expPrivate"/>
+                                        </span>
+                                    </span>
+                                </c:if>
+                                <c:if test="${(liteStudy.studyStatus == 'PUBLIC')}">
+                                    <span data-toggle="tooltip"
+                                          data-placement="bottom"
+                                          title="${liteStudy.studyStatus.description}"
+                                          class="pointer btn btn-default btn-xs">
+                                        <i class="fa fa-globe"></i>
+                                    </span>
+                                </c:if>
+                                <c:if test="${(liteStudy.studyStatus == 'PUBLIC')}">
+                                    &nbsp;
+                                    <span data-toggle="tooltip"
+                                          data-placement="bottom"
+                                          title="Quick view" @click="studyQuickView('${liteStudy.studyIdentifier}')"
+                                          class="pointer btn btn-default btn-xs">
+                                        <i class="fa fa-eye"></i>
+                                    </span>
+                                </c:if>
+                            </div>
+                            <%--<c:if test="${liteStudy.validations.status == 'RED'}">--%>
+                                 <%--<span class="btn btn-sm"--%>
+                                       <%--data-toggle="tooltip"--%>
+                                       <%--data-placement="bottom"--%>
+                                       <%--title="Mandatory​ information is missing">--%>
+                                     <%--<span class="redTrafficL"></span>&nbsp;--%>
+                                 <%--</span>--%>
+                            <%--</c:if>--%>
+                            <%--<c:if test="${liteStudy.validations.status == 'AMBER'}">--%>
+                                 <%--<span class="btn btn-sm"--%>
+                                       <%--data-toggle="tooltip"--%>
+                                       <%--data-placement="bottom"--%>
+                                       <%--title="Optional fields are missing">--%>
+                                     <%--<span class="amberTrafficL"></span>&nbsp;--%>
+                                 <%--</span>--%>
+                            <%--</c:if>--%>
+                            <%--<c:if test="${liteStudy.validations.status == 'GREEN'}">--%>
+                                <%--<span class="btn btn-sm"--%>
+                                      <%--data-toggle="tooltip"--%>
+                                      <%--data-placement="bottom"--%>
+                                      <%--title="All Mandatory and Optional fields are present">--%>
+                                    <%--<span class="greenTrafficL"></span>&nbsp;--%>
+                                <%--</span>--%>
+                            <%--</c:if>--%>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </h4>
     </div>
-    <div class="ml-study-content col-md-12 ">
-        <div class="row">
+    <div class="panel-body">
             <div class="col-md-6">
+                <div class="row">
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <tbody>
-                            <tr>
-                                <td><i  class="fa fa-anchor" aria-hidden="true"></i>&nbsp;Study Identifier</td>
-                                <td><a href="${liteStudy.studyIdentifier}">
-                                    ${liteStudy.studyIdentifier}
-                                </a></td>
-                            </tr>
-                            <c:if test="${!liteStudy.publicStudy}">
+                        <tr>
+                            <td><i  class="fa fa-anchor" aria-hidden="true"></i>&nbsp;Study Identifier</td>
+                            <td><a href="${liteStudy.studyIdentifier}">
+                                ${liteStudy.studyIdentifier}
+                            </a></td>
+                        </tr>
+                        <c:if test="${!liteStudy.publicStudy}">
                             <tr>
                                 <td><i data-toggle="tooltip"
                                        data-placement="bottom"
                                        title="Release date" class="fa fa-calendar"></i>&nbsp;Release Date</td>
                                 <td><fmt:formatDate pattern="dd-MMM-yyyy" value="${liteStudy.studyPublicReleaseDate}"/></td>
                             </tr>
-                            </c:if>
-                            <tr>
-                                <td><i data-toggle="tooltip"
-                                       data-placement="bottom"
-                                       title="Study size" class="fa fa-hdd-o" aria-hidden="true"></i>&nbsp;Study Size</td>
-                                <td>${liteStudy.studyHumanReadable}</td>
-                            </tr>
-                            <tr>
-                                <td><i class="fa fa-user"></i>&nbsp;Submitted by</td>
-                                <td><c:forEach var="owner" items="${liteStudy.users}">
-                                    <a href="searchUserStudies?users.fullName=${owner.fullName}">${owner.fullName}</a>
-                                    <a href="mailto:${owner.userName}?subject=<spring:message code="msg.emailStudyLinkSubject"/>&nbsp;${liteStudy.studyIdentifier}"><i
-                                            class="fa fa-envelope-o" aria-hidden="true"></i>
-                                    </a>
-                                </c:forEach></td>
-                            </tr>
+                        </c:if>
+                        <tr>
+                            <td><i data-toggle="tooltip"
+                                   data-placement="bottom"
+                                   title="Study size" class="fa fa-hdd-o" aria-hidden="true"></i>&nbsp;Study Size</td>
+                            <td>${liteStudy.studyHumanReadable}</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa fa-user"></i>&nbsp;Submitted by</td>
+                            <td><c:forEach var="owner" items="${liteStudy.users}">
+                                <a href="searchUserStudies?users.fullName=${owner.fullName}">${owner.fullName}</a>
+                                <a href="mailto:${owner.userName}?subject=<spring:message code="msg.emailStudyLinkSubject"/>&nbsp;${liteStudy.studyIdentifier}"><i
+                                        class="fa fa-envelope-o" aria-hidden="true"></i>
+                                </a>
+                            </c:forEach></td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
+                </div>
             </div>
             <div class="col-md-6">
+                <div class="row">
                 <table class="table table-bordered">
                     <tbody>
                     <tr>
@@ -163,7 +173,24 @@
                     </tr>
                     </tbody>
                 </table>
+                </div>
             </div>
-        </div>
+            <div v-if="hasGalaxyDetails != ''" class="col-md-12" v-cloak>
+                <div class="row">
+                    <div class="alert alert-success" role="alert">
+                        <form :action="hasGalaxyDetails" method="POST">
+                            <div class="checkbox">
+                                <label>
+                                <input type="checkbox" value="true" name="download_rawfiles"> Download raw files
+                                </label><br>
+                            </div>
+                            <input type="HIDDEN" name="tool_id" :value="toolId">
+                            <input type="HIDDEN" name="URL" :value="URL">
+                            <input type="hidden"  value="${liteStudy.studyIdentifier}" name="study_id">
+                            <input type="submit"  class="btn btn-default btn-xs" name="metabolights_doGalaxyQuery" id="metabolights_doGalaxyQuery" value="Export data to Galaxy">
+                        </form>
+                    </div>
+                </div>
+            </div>
     </div>
 </div>

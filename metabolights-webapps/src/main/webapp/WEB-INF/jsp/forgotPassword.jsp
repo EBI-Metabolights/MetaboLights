@@ -33,7 +33,7 @@
 		<div class="col-md-6 col-md-offset-3">
 			<div class="ml--loginContainer">
 				<div class="ml-loginpanelhead">
-					<h4><spring:message code="msg.pwReset" /></h4>
+					<h5><spring:message code="msg.pwReset" /></h5>
 				</div>
 				<div class="ml-loginpanelbody">
 					<div class="row">
@@ -47,8 +47,8 @@
 								</span>
 							</div>
 							<div class="form-group">
-								<input name="submit" type="submit" class="submit" value="<spring:message code="label.resetPw"/>"/>
-								<input name="cancel" type="button" class="submit cancel" value="<spring:message code="label.cancel"/>" onclick="location.href='index'"/>
+								<input name="submit" type="submit" class="submit btn-primary btn form-control" value="<spring:message code="label.resetPw"/>"/>
+								<%--<input name="cancel" type="button" class="submit cancel" value="<spring:message code="label.cancel"/>" onclick="location.href='index'"/>--%>
 							</div>
 						</form:form>
 						<c:if test="${not empty message}">
