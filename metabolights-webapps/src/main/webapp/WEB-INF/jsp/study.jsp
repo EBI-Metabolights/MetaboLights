@@ -1862,6 +1862,12 @@
 </script>
 <script>
     $(document).ready(function () {
+        $('#redirectToEditorPage').click(function(){
+            var token = "${userApiToken}";
+            localStorage.setItem("apiToken", token);
+//                            window.location.href = ;
+            window.open("${pageContext.request.contextPath}/studyeditor?studyId=${study.studyIdentifier}");
+        })
 
         thorApplicationNamespace.loadClaimingInfo();
 
