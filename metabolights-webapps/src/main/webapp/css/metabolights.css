@@ -259,6 +259,11 @@ a:link.btn-ok{
     width: 15px;
 }
 
+#orcidPopoverDiv{
+    width:300px;
+    height:300px;
+}
+
 .mini--banner{
 
 }

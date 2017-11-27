@@ -89,7 +89,7 @@ public class MetabolightsWsClient {
 
 
 
-    private String metabolightsWsUrl = "http://www.ebi.ac.uk/metabolights/webservice/";
+    private String metabolightsWsUrl = "https://www.ebi.ac.uk/metabolights/webservice/";
     private static final String STUDY_PATH = "study/";
 
     private String tokenHeaderName = DEAFULT_TOKEN_HEADER;

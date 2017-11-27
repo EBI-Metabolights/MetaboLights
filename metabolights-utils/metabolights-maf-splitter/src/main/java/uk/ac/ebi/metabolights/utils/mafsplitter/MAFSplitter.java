@@ -56,6 +56,7 @@ public class MAFSplitter {
     private static CSVReader reader;
     private static List<String[]> allLines = new ArrayList<String[]>();
     private static List<String[]> allNewLines = new ArrayList<String[]>();
+    private static String[] headerRow;
 
     public static CSVReader getReader() {
         return reader;
@@ -215,7 +216,8 @@ public class MAFSplitter {
                     allNewLines.add(modifedRow);  //add the new modified line
                 }
             } else {
-                    allNewLines.add(nextLine); //No pipeline or incorrect number, moving on nothing to see here....
+                //TODO, https://www.pivotaltracker.com/story/show/142041611
+                allNewLines.add(nextLine); //No pipeline or incorrect number of pipes. Move on nothing to see here....
             }
 
         }
