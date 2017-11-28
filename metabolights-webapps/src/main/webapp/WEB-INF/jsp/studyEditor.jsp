@@ -23,14 +23,14 @@
 <base href="${pageContext.request.contextPath}/ngeditor/">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <%--<link rel="icon" type="image/x-icon" href="favicon.ico">--%>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<%--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"--%>
+<%--integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">--%>
 
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-<link rel="stylesheet" media="screen"
-      href="https://cdnjs.cloudflare.com/ajax/libs/handsontable/0.32.0/handsontable.full.css">
+<%--<!-- Optional theme -->--%>
+<%--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"--%>
+<%--integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">--%>
+<%--<link rel="stylesheet" media="screen"--%>
+<%--href="https://cdnjs.cloudflare.com/ajax/libs/handsontable/0.32.0/handsontable.full.css">--%>
 <link href="styles.32b2992df6194aa895ed.bundle.css" rel="stylesheet"/>
 
 <div class="container">
@@ -43,10 +43,12 @@
     </div>
 </div>
 
-<script type="text/javascript" src="inline.dbe1047e749c22bf9fdb.bundle.js"></script>
+<script type="text/javascript" src="inline.0d300bd660855f42dde2.bundle.js"></script>
 <script type="text/javascript" src="polyfills.63929c2b04758c996018.bundle.js"></script>
 <script type="text/javascript" src="vendor.4d9b987a0f2849e3adcf.bundle.js"></script>
-<script type="text/javascript" src="main.afd80ca45d9dc74bf3f3.bundle.js"></script>
+<script type="text/javascript" src="main.73e177674572c931e148.bundle.js"></script>
+
+
 
 
 
