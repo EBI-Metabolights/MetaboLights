@@ -33,20 +33,26 @@
 <%--href="https://cdnjs.cloudflare.com/ajax/libs/handsontable/0.32.0/handsontable.full.css">--%>
 <link href="styles.32b2992df6194aa895ed.bundle.css" rel="stylesheet"/>
 
-<div class="container">
-    <div class="row">
-        <app-study-editor studyID="${studyId}"></app-study-editor>
-    </div>
-    <div class="row">
-        <div><a href="${pageContext.request.contextPath}/${studyId}" class="btn btn-primary pull-right"
-                role="button"><span style="color:white;">Go back to ${studyId}</span></a></div>
-    </div>
-</div>
+<%--<div class="container">--%>
+<%--<div class="row">--%>
+<%--<app-study-editor studyID="${studyId}"></app-study-editor>--%>
+<%--</div>--%>
+<%--<div class="row">--%>
+<%--<div><a href="${pageContext.request.contextPath}/${studyId}" class="btn btn-primary pull-right"--%>
+<%--role="button"><span style="color:white;">Go back to ${studyId}</span></a></div>--%>
+<%--</div>--%>
+<%--</div>--%>
+<app-study-editor studyID="${studyId}"></app-study-editor>
+<div><a href="${pageContext.request.contextPath}/${studyId}" class="btn btn-primary pull-right"
+        role="button"><span style="color:white;">Go back to ${studyId}</span></a></div>
 
-<script type="text/javascript" src="inline.0d300bd660855f42dde2.bundle.js"></script>
+<script type="text/javascript" src="inline.fd1c10b66e462527f638.bundle.js"></script>
 <script type="text/javascript" src="polyfills.63929c2b04758c996018.bundle.js"></script>
 <script type="text/javascript" src="vendor.4d9b987a0f2849e3adcf.bundle.js"></script>
-<script type="text/javascript" src="main.73e177674572c931e148.bundle.js"></script>
+<script type="text/javascript" src="main.61f6345456064166711c.bundle.js"></script>
+
+
+
 
 
 
