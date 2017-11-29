@@ -71,7 +71,7 @@
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
-                            <a href="<spring:url value="/j_spring_security_logout"/>" class="btn btn-default btn-md form-control ml--noborder">
+                            <a id="userLoggingOut" href="<spring:url value="/j_spring_security_logout"/>" class="btn btn-default btn-md form-control ml--noborder">
                                 <i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;
                                 <spring:message code="menu.logoutCaps" />
                             </a>
@@ -143,6 +143,11 @@
         }
         getStudyIdsForClaimPrioritization();
  </script>
+    <script>
+        $('#userLoggingOut').click(function () {
+            localStorage.removeItem("apiToken");
+        })
+    </script>
 </sec:authorize>
 <br><br>
 <sec:authorize ifAnyGranted="ROLE_SUPER_USER">

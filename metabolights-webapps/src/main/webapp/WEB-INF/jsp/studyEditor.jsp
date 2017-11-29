@@ -42,14 +42,21 @@
 <%--role="button"><span style="color:white;">Go back to ${studyId}</span></a></div>--%>
 <%--</div>--%>
 <%--</div>--%>
+<c:if test="${setApiToken eq true}">
 <app-study-editor studyID="${studyId}"></app-study-editor>
+</c:if>
+<c:if test="${setApiToken eq false}">
+    <H2>Permission denied to edit ${studyId}</H2>
+</c:if>
 <div><a href="${pageContext.request.contextPath}/${studyId}" class="btn btn-primary pull-right"
         role="button"><span style="color:white;">Go back to ${studyId}</span></a></div>
 
-<script type="text/javascript" src="inline.fd1c10b66e462527f638.bundle.js"></script>
+<script type="text/javascript" src="inline.f3a8c0335573c8a91cec.bundle.js"></script>
 <script type="text/javascript" src="polyfills.63929c2b04758c996018.bundle.js"></script>
 <script type="text/javascript" src="vendor.4d9b987a0f2849e3adcf.bundle.js"></script>
-<script type="text/javascript" src="main.61f6345456064166711c.bundle.js"></script>
+<script type="text/javascript" src="main.993e0dfb9c53bf7ce876.bundle.js"></script>
+
+
 
 
 
