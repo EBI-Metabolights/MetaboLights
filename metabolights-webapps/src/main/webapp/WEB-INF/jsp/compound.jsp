@@ -242,7 +242,7 @@
                                             </div>
                                             <div class="clearfix"></div><div class="clearfix"></div>
 
-                                            <div class="col-md-12  ml_tr_th">
+                                            <div class="col-md-12  ml_tr_th" v-if="mtblc.externalIds.length > 0">
                                                 <div class="col-md-12 ml_trc"><b><h4>External Links</h4></b></div>
                                             </div>
                                             <div class="col-md-12 ml_tr" v-for="id in mtblc.externalIds">
