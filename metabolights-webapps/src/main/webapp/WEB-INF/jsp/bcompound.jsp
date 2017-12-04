@@ -205,7 +205,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="tab-pane" id="c">
+                                                    <div class="tab-pane" v-if="externalids.length > 0" id="c">
                                                         <div class="panel panel-default">
                                                             <div class="panel-heading">
                                                                 External Links
