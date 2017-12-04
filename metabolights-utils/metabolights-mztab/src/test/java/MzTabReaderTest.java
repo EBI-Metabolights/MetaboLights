@@ -19,6 +19,7 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 
+import junit.framework.TestCase;
 import org.isatools.isacreator.spreadsheet.model.TableReferenceObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +29,7 @@ import uk.ac.ebi.metabolights.utils.mztab.*;
 
 import java.io.File;
 
-public class MzTabReaderTest {
+public class MzTabReaderTest extends TestCase {
 
     MzTabReader mzTabReader = new MzTabReader();
     CreateMetaboliteAssignment createMetaboliteAssignment = new CreateMetaboliteAssignment();

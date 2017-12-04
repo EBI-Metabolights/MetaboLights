@@ -87,6 +87,16 @@
         <put-attribute name="body" value="/WEB-INF/jsp/metabolightsLabs.jsp" />
     </definition>
 
+    <definition name="advancedSearch"  extends="default">
+        <put-attribute name="title" value="MetaboLights Advanced Search" />
+        <put-attribute name="body" value="/WEB-INF/jsp/advancedSearch.jsp" />
+    </definition>
+
+    <definition name="studyeditor"  extends="default">
+        <put-attribute name="title" value="MetaboLights Online Editor" />
+        <put-attribute name="body" value="/WEB-INF/jsp/studyEditor.jsp" />
+    </definition>
+
     <definition name="referencespectraupload" extends="default">
         <put-attribute name="title" value="Compound Reference Spectra Upload Page" />
         <put-attribute name="body" value="/WEB-INF/jsp/uploadReferenceSpectra.jsp" />

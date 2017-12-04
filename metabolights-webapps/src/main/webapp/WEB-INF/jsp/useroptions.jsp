@@ -44,7 +44,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="form-group">
                             <a href="<spring:url value="mysubmissions"/>" class="btn btn-default btn-md form-control ml--noborder">
                                 <i class="fa fa-list-alt" aria-hidden="true"></i>&nbsp;
@@ -54,15 +54,24 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
+                            <a id="claimStudies" href="#" target="_blank" class="btn btn-default btn-md form-control ml--noborder">
+                                <i class="thorOrcIdSpan">
+                                    <img src="img/orcid_bw.png"></i>&nbsp;
+                                Batch Claim studies to ORCID
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
                             <a href="<spring:url value="myAccount"/>" class="btn btn-default btn-md form-control ml--noborder">
                                 <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;
                                 <spring:message code="menu.myAccountCaps" />
                             </a>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="form-group">
-                            <a href="<spring:url value="/j_spring_security_logout"/>" class="btn btn-default btn-md form-control ml--noborder">
+                            <a id="userLoggingOut" href="<spring:url value="/j_spring_security_logout"/>" class="btn btn-default btn-md form-control ml--noborder">
                                 <i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;
                                 <spring:message code="menu.logoutCaps" />
                             </a>
@@ -98,6 +107,46 @@
             });
         });
 
+    </script>
+    <script>
+        function getStudyIdsForClaimPrioritization() {
+            var token = {
+                token : "<c:out value="${token}"/>"
+            }
+            $.ajax({
+                cache: false,
+                url: "/metabolights/webservice/studyids",
+                type: 'post',
+                contentType: "application/json",
+                data: JSON.stringify(token),
+                success: function (studyIdList) {
+                    var ebiClaimAllMetaboLightsUrl = "https://www.ebi.ac.uk/ebisearch/search.ebi?db=metabolights&query=";
+                    if(studyIdList['content'].length > 0){
+                        var idsQueryPart = "id:/MTBLS("
+                        for (var i = 0; i < studyIdList['content'].length; i++) {
+                            var studyId =    studyIdList['content'][i];
+                            var ids = studyId.split("S");
+                           if(i != studyIdList['content'].length - 1){
+                               idsQueryPart += ids[1]+ "|"
+                           }  else{
+                               idsQueryPart += ids[1];
+                           }
+                        }
+                        idsQueryPart += ")/";
+                        document.getElementById("claimStudies").href= ebiClaimAllMetaboLightsUrl + idsQueryPart;
+                       }
+                    else{
+                        document.getElementById("claimStudies").href= ebiClaimAllMetaboLightsUrl;
+                    }
+                }
+            });
+        }
+        getStudyIdsForClaimPrioritization();
+ </script>
+    <script>
+        $('#userLoggingOut').click(function () {
+            localStorage.removeItem("apiToken");
+        })
     </script>
 </sec:authorize>
 <br><br>
@@ -146,3 +195,4 @@
         </div>
     </div>
 </sec:authorize>
+
