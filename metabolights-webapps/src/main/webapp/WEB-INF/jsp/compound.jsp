@@ -309,7 +309,7 @@
                                                         </div>
                                                     </div>
                                                     <div v-if="selectedPathway" class="well no-padding">
-                                                        <iframe :src="'http://www.wikipathways.org/wpi/PathwayWidget.php?id='+selectedPathway" frameborder="0" width="98%" height="500px" seamless="seamless" scrolling="no"></iframe>
+                                                        <iframe :src="'//www.wikipathways.org/wpi/PathwayWidget.php?id='+selectedPathway" frameborder="0" width="98%" height="500px" seamless="seamless" scrolling="no"></iframe>
                                                     </div>
                                                 </div>
                                                 <div role="tabpanel" class="tab-pane" id="kegg">
@@ -742,7 +742,7 @@
 
             var w = document.getElementById("diagramHolder").offsetWidth;
             var diagram = Reactome.Diagram.create({
-                "proxyPrefix" : "/metabolights/RheaAndReactomeProxy?url=http://www.reactome.org/",
+                "proxyPrefix" : "/metabolights/RheaAndReactomeProxy?url=https://www.reactome.org/",
                 "placeHolder" : "diagramHolder",
                 "width" : w,
                 "height" : 500
