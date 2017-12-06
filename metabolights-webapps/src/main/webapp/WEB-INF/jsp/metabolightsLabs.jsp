@@ -39,6 +39,15 @@
 <script type="text/javascript" src="assets/aspera/ml-aspera-config.js" charset="utf-8"></script>
 <script type="text/javascript" src="assets/aspera/ml-aspera.js" charset="utf-8"></script>
 <script type="text/javascript" src="assets/aspera/install.js" charset="utf-8"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-110351649-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-110351649-1');
+</script>
 
 <app-root>
     <div class="page-wrapper vc">
