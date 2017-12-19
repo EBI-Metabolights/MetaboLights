@@ -62,6 +62,8 @@ import uk.ac.ebi.metabolights.webservice.client.models.MixedSearchResult;
 import uk.ac.ebi.metabolights.webservice.client.models.ReactionsList;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -373,7 +375,6 @@ public class MetabolightsWsClientTest {
 	@Test
 	public void testGetMetabolites(){
 
-
 		RestResponse<MetaboliteAssignment> metabolitesResponse = wsClient.getMetabolites(PUBLIC_STUDY, 1);
 
 		assertNull("WS.getMetabolites returned an error", metabolitesResponse.getErr());
@@ -456,8 +457,6 @@ public class MetabolightsWsClientTest {
 
 	@Test
 	public void testGetCompound() throws Exception {
-
-
 		RestResponse<Compound> response = wsClient.getCompound(COMPOUND);
 
 		// We should get the compound
@@ -469,8 +468,6 @@ public class MetabolightsWsClientTest {
 
 	@Test
 	public void testGetReactions() throws Exception {
-
-
 		RestResponse<ReactionsList> response = wsClient.getCompoundReactions(COMPOUND);
 
 		// We should get the a list of reactions
@@ -481,8 +478,6 @@ public class MetabolightsWsClientTest {
 
 	@Test
 	public void testGetCitations() throws Exception {
-
-
 		RestResponse<CitationsList> response = wsClient.getCompoundCitations(COMPOUND);
 
 		// We should get the a list of citations
@@ -497,6 +492,34 @@ public class MetabolightsWsClientTest {
 		RestResponse<ArrayListOfStrings> response = wsClient.updateMetaboliteStudyMappings();
 		System.out.println(response.getContent());
 	}
+
+	@Test
+    public void testGetNumberOfMAFs() {
+
+        Map<Integer,Integer> mafs = wsClient.getAssayOrderAndNumberOfMAFs(PUBLIC_STUDY);
+        Map<Integer,Integer> mafMap = new HashMap<>();
+        mafMap.put(1,1);       //Only one assay (1) and one MAF (1) in MTBLS1
+        assertEquals(mafMap,mafs);
+
+    }
+
+    @Test
+    public void testGetMetabolitesJSON() {
+        Map<Integer,Integer> mafs = wsClient.getAssayOrderAndNumberOfMAFs(PUBLIC_STUDY);
+        String jsonMaf = null;
+
+        for (Map.Entry<Integer, Integer> entry : mafs.entrySet()) {
+            Integer assayNumber = entry.getKey();
+            Integer maf = entry.getValue();
+
+            if (maf == 1)
+                jsonMaf = wsClient.getMetabolitesJSON(PUBLIC_STUDY, assayNumber);
+
+        }
+
+        assertNotNull(jsonMaf);
+
+    }
 
 
 

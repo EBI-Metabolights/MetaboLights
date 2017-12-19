@@ -47,6 +47,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.referencelayer.model.Compound;
+import uk.ac.ebi.metabolights.repository.model.Assay;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.Study;
@@ -62,9 +63,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * User: conesa
@@ -99,9 +98,7 @@ public class MetabolightsWsClient {
         this.metabolightsWsUrl = metabolightsWsUrl;
     }
 
-    public MetabolightsWsClient() {
-    }
-
+    public MetabolightsWsClient() {}
 
     public String getMetabolightsWsUrl() {
         return metabolightsWsUrl;
@@ -128,10 +125,9 @@ public class MetabolightsWsClient {
     }
 
     private String makeRequest(String path, String method) {
-
        return makeRequestSendingData(path,null,method);
-
     }
+
     private String makeRequestSendingData(String path, Object dataToSend, String method) {
 
         logger.debug("Making a {} request to {}", method,path);
@@ -210,17 +206,15 @@ public class MetabolightsWsClient {
         return makeRequestSendingData(path, data, "PUT");
     }
 
-    private String makeDeleteRequest(String path) {return makeRequestSendingData(path, null,"DELETE");
-    }
-    private String makeDeleteRequest(String path, Object data) {return makeRequestSendingData(path, data,"DELETE");
-    }
+    private String makeDeleteRequest(String path) {return makeRequestSendingData(path, null,"DELETE");  }
+
+    private String makeDeleteRequest(String path, Object data) {return makeRequestSendingData(path, data,"DELETE"); }
 
     private String makeGetRequest(String path) {
         return makeRequest(path, "GET");
     }
 
     private HttpURLConnection getHttpURLConnection(String path, String method) throws IOException {
-
 
         URL url = new URL(metabolightsWsUrl + path);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -306,13 +300,41 @@ public class MetabolightsWsClient {
     private String getQueuePath(String action) {
         return QUEUE_PATH + action;
     }
-    public RestResponse<MetaboliteAssignment> getMetabolites(String studyIdentifier, int assayNumber) {
 
+    /**
+     * @param studyIdentifier
+     * @return Order of the assay, and if this assay has a MAF file. Use this number to iterate over the annotation tables(MAFs)
+     */
+    public Map<Integer,Integer> getAssayOrderAndNumberOfMAFs(String studyIdentifier){
+        RestResponse<Study> restStudy = getStudy(studyIdentifier);
+        Study study = restStudy.getContent();
+        Map<Integer,Integer> mafMap = new HashMap<Integer,Integer>(); //Number of the assay and if the assay has a MAF(0 or 1)
+        if (study != null) {
+
+            for (int i = 0; i < study.getAssays().size(); i++) {
+                Assay assay = study.getAssays().get(i);
+                MetaboliteAssignment metaboliteAssignment = assay.getMetaboliteAssignment();
+                if (metaboliteAssignment != null)
+                    mafMap.put(i+1,1);   //Yes, this assay has a MAF. We start the numbering at 1 so increment from 0
+                else mafMap.put(i+1,0);  //No MAF
+            }
+
+        }
+
+        return mafMap;
+
+    }
+
+    public String getMetabolitesJSON(String studyIdentifier, int assayNumber){
         String path = getStudyPath(studyIdentifier) + "/assay/" + assayNumber + "/maf";
-
         // Make the request
         String response = makeGetRequest(path);
 
+        return response;
+    }
+
+    public RestResponse<MetaboliteAssignment> getMetabolites(String studyIdentifier, int assayNumber) {
+        String response = getMetabolitesJSON(studyIdentifier,assayNumber);
         return deserializeJSONString(response, MetaboliteAssignment.class);
 
     }
@@ -533,22 +555,6 @@ public class MetabolightsWsClient {
         return restResponse.getContent();
 
     }
-
-// It doesn't work since the user is anonymous and elastic search module always apply a security filter returning only owned private studies or Public ones.
-// If the study is private this will not work.
-//    public LiteStudy searchStudybyObfuscationCode(String obfuscationCode){
-//
-//        RestResponse<StudySearchResult> response = (RestResponse<StudySearchResult>) searchStudyWithResponse(obfuscationCode, "obfuscationCode");
-//
-//
-//        if (response.getContent().getResults().size() == 0) {
-//            return null;
-//        } else {
-//            return response.getContent().getResults().iterator().next();
-//        }
-//
-//    }
-
 
     public RestResponse<Compound> getCompound(String compoundIdentifier) {
 

@@ -23,7 +23,7 @@ $$
    ) sub;
 $$
 LANGUAGE 'sql' IMMUTABLE;
- 
+
 CREATE AGGREGATE median(NUMERIC) (
   SFUNC=array_append,
   STYPE=NUMERIC[],
@@ -74,8 +74,8 @@ insert into ml_stats(page_section, str_name, str_value, sort_order)
 select 'Stats_size', to_char(submissiondate,'YYYY-MM'), sum(sum(studysize)) over (order by to_char(submissiondate,'YYYY-MM')),'0' from studies
 group by to_char(submissiondate,'YYYY-MM') order by to_char(submissiondate,'YYYY-MM') asc;
 
-insert into ml_stats(page_section, str_name, str_value, sort_order)  
-select 'Stats_number', to_char(submissiondate,'YYYY-MM'), sum(count(*)) over (order by to_char(submissiondate,'YYYY-MM')), '0' 
+insert into ml_stats(page_section, str_name, str_value, sort_order)
+select 'Stats_number', to_char(submissiondate,'YYYY-MM'), sum(count(*)) over (order by to_char(submissiondate,'YYYY-MM')), '0'
 from studies where status != 4
 group by to_char(submissiondate,'YYYY-MM') order by to_char(submissiondate,'YYYY-MM') asc;
 
@@ -97,5 +97,7 @@ insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats
 insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_number','2013-12','41','0');
 insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_number','2014-01','41','0');
 insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_number','2014-04','50','0');
+
+update users set status = 2 where status = 1;
 
 \q
