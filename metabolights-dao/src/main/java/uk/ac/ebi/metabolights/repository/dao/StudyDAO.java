@@ -306,12 +306,17 @@ public class StudyDAO {
         // Get the folder where the study is.
         File studyFolder = getStudyFolder(studyIdentifier);
 
-        try {
-            FileUtils.deleteDirectory(studyFolder);
-        } catch (IOException e) {
-            logger.error("Study " + studyIdentifier + " could not be deleted; .nfs files locking. Trying again in 5 seconds");
-            TimeUnit.SECONDS.sleep(5);
-            FileUtils.deleteDirectory(studyFolder);
+        boolean success = false;
+        int delay = 60, loops = 0;
+        while (!success || loops == 5) {
+            try {
+                loops++;
+                FileUtils.deleteDirectory(studyFolder);
+                success = true; // Folder was deleted
+            } catch (IOException e) {
+                logger.error("Study " + studyIdentifier + " could not be deleted; .nfs files locking. Trying again in "+delay+" seconds");
+                TimeUnit.SECONDS.sleep(delay);
+            }
         }
 
         // Delete the data from the database
