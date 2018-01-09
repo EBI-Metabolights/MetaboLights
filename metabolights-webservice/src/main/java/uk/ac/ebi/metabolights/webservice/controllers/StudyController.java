@@ -21,6 +21,7 @@
 package uk.ac.ebi.metabolights.webservice.controllers;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
-import uk.ac.ebi.chebi.webapps.chebiWS.model.*;
+import uk.ac.ebi.chebi.webapps.chebiWS.model.ChebiWebServiceFault_Exception;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.Entity;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.*;
 import uk.ac.ebi.metabolights.referencelayer.model.CrossReference;
@@ -41,7 +42,6 @@ import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.*;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
@@ -51,7 +51,6 @@ import uk.ac.ebi.metabolights.webservice.services.EmailService;
 import uk.ac.ebi.metabolights.webservice.services.IndexingService;
 import uk.ac.ebi.metabolights.webservice.utils.FileUtil;
 import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
-
 
 import javax.naming.NamingException;
 import javax.xml.namespace.QName;
@@ -137,7 +136,7 @@ public class StudyController extends BasicController{
         if (chebiWS == null)
             try {
                 logger.info("Starting a new instance of the ChEBI ChebiWebServiceClient");
-                chebiWS = new ChebiWebServiceClient(new URL(chebiWSUrl),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
+                chebiWS = new ChebiWebServiceClient(new URL(chebiWSUrl),new QName("https://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
             } catch (MalformedURLException e) {
                 logger.error("Error instanciating a new ChebiWebServiceClient "+ e.getMessage());
             }
@@ -446,12 +445,12 @@ public class StudyController extends BasicController{
 				liteStudyMap.put("title", study.getTitle());
 				liteStudyMap.put("description", study.getDescription());
 				response.setContent(liteStudyMap);
-			}else{
+			} else {
 				response.setMessage("Study is not public");
 				logger.error("Can't get the study requested " + studyIdentifier + ". Study is not public");
 			}
 
-			if(study==null){
+			if (study==null){
 				response.setMessage("Study not found");
 				logger.error("Can't get the study requested " + studyIdentifier);
 			}
@@ -485,7 +484,7 @@ public class StudyController extends BasicController{
 			}
 
 			response.setContent(study);
-			if(study==null){
+			if(study == null){
 				response.setMessage("Study not found");
 				logger.error("Can't get the study requested " + studyIdentifier);
 			}
@@ -496,16 +495,14 @@ public class StudyController extends BasicController{
 			response.setErr(e);
 		}
 
-		return  response;
+		return response;
 
 	}
 
 	private uk.ac.ebi.metabolights.repository.dao.StudyDAO getStudyDAO() throws DAOException {
 
 		if (studyDAO == null){
-
 			studyDAO = DAOFactory.getInstance().getStudyDAO();
-
 		}
 		return studyDAO;
 	}
@@ -513,7 +510,6 @@ public class StudyController extends BasicController{
 	@RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/assay/{assayIndex}/maf")
 	@ResponseBody
 	public RestResponse<MetaboliteAssignment> getMetabolites(@PathVariable("studyIdentifier") String studyIdentifier, @PathVariable("assayIndex") String assayIndex) throws DAOException {
-
 
 		logger.info("Requesting maf file of the assay " + assayIndex + " of the study " + studyIdentifier + " to the webservice");
 
@@ -523,13 +519,37 @@ public class StudyController extends BasicController{
         return new RestResponse<MetaboliteAssignment>(getMAFContentFrom(response,assayIndex));
 	}
 
+
+    private String serializeObject(Object objectToSerialize) {
+        logger.debug("Serializing object to a Json string:" + objectToSerialize.getClass());
+
+        // Get the mapper
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            return mapper.writeValueAsString(objectToSerialize);
+        } catch (IOException e) {
+            logger.error("Can't serialize " + objectToSerialize.getClass());
+        }
+
+        return null;
+    }
+
+    @RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/assay/{assayIndex}/jsonmaf")
+    @ResponseBody
+    public String getMetabolitesJSON(@PathVariable("studyIdentifier") String studyIdentifier, @PathVariable("assayIndex") String assayIndex) throws DAOException {
+
+        logger.info("Requesting maf file of the assay " + assayIndex + " of the study " + studyIdentifier + " to the webservice");
+        RestResponse<Study> response = getStudy(studyIdentifier, true, null);
+        return serializeObject(getMAFContentFrom(response,assayIndex));
+    }
+
 	private MetaboliteAssignment getMAFContentFrom(RestResponse<Study> response, String assayIndex){
 		// Get the assay based on the index
 		Assay assay = response.getContent().getAssays().get(Integer.parseInt(assayIndex)-1);
 
 		MzTabDAO mzTabDAO = new MzTabDAO();
 		MetaboliteAssignment metaboliteAssignment = new MetaboliteAssignment();
-
 
 		String filePath = assay.getMetaboliteAssignment().getMetaboliteAssignmentFileName();
 
@@ -578,7 +598,7 @@ public class StudyController extends BasicController{
 	 */
 	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}", method= RequestMethod.DELETE)
 	@ResponseBody
-	public RestResponse<Boolean> deleteStudy(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException, IsaTabException, IndexingFailureException, IOException {
+	public RestResponse<Boolean> deleteStudy(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException, IsaTabException, IndexingFailureException, IOException, InterruptedException {
 
 		User user = getUser();
 

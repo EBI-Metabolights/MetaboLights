@@ -236,7 +236,8 @@ public class UserAccountController extends AbstractController{
 		if (user!=null && user.getStatus().equals(MetabolightsUser.UserStatus.NEW)
 				&& numericSequence(user.getDbPassword()).equals(key)   ) {
 			//Set user status to Verified
-			user.setStatus(MetabolightsUser.UserStatus.VERIFIED);
+			//user.setStatus(MetabolightsUser.UserStatus.VERIFIED);
+            user.setStatus(MetabolightsUser.UserStatus.ACTIVE); //Ken, 20171219, changed to Active right away as we keep missing the account requests
 			userService.update(user);
 			mav.addObject("message", PropertyLookup.getMessage("msg.verifiedAccount")+" "+userName+".");
 
@@ -244,6 +245,9 @@ public class UserAccountController extends AbstractController{
 	    	String uniqueURLParameter=numericSequence(user.getDbPassword());
 	    	String activationURL=activateNewAccountUrl+"?usrId="+user.getUserId() +"&key="+uniqueURLParameter;
 			emailService.sendNewAccountAlert(user,activationURL);
+
+            //Ken, 20171219. Also, Notify user that account has been activated
+            emailService.sendAccountHasbeenActivated(user);
 		}
 		return mav;
 	}
