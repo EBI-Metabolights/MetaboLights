@@ -41,7 +41,7 @@
                                 <div class="tab-content" id="displayMol">
                                     <div role="tabpanel" class="tab-pane active" id="2d">
                                         <%--<h5>Structure</h5><br>--%>
-                                        <img :src="mtblc.imageUrl" class="metabolite-image"/>
+                                        <img :src="mtblc.imageUrl" class="metabolite-image img-responsive"/>
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="3d">
                                         <div id="3dDisplay" style="position: relative;"></div>

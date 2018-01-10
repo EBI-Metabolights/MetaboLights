@@ -1041,6 +1041,10 @@ table.maf.clean {
     background-color: #f8f8f8;
 }
 
+.icon2-MSLogo, .icon2-NMRLogo{
+    font-size: 110%;
+}
+
 /*.node circle { fill: #fff; stroke: #804D19; stroke-width: 2px; }*/
 .node text {
     font-size: 14px;
@@ -1083,6 +1087,12 @@ table.maf.clean {
 
 .ml-pagination{
     margin: 0;
+}
+
+.blpl{
+    border-left: 1px solid #eaeaea;
+    padding-left: 20px;
+    min-height: 180px;
 }
 
 

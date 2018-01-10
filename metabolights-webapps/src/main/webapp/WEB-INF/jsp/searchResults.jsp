@@ -235,31 +235,26 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.0/axios.min.js"></script>
+
 <script>
-    $(".grey").on('shown.bs.collapse', function () {
-        var active = $(this).attr('id');
-        $.cookie(active, "1");
-        var panels = $.cookie(); //get all cookies
-        //console.log(panels);
-    });
-
-    $(".grey").on('hidden.bs.collapse', function () {
-        var active = $(this).attr('id');
-        $.removeCookie(active);
-        var panels = $.cookie(); //get all cookies
-        //console.log(panels);
-    });
-
     $(document).ready(function () {
+        $(".grey").on('shown.bs.collapse', function () {
+            var active = $(this).attr('id');
+            $.cookie(active, "1");
+        });
+
+        $(".grey").on('hidden.bs.collapse', function () {
+            var active = $(this).attr('id');
+            $.removeCookie(active);
+        });
+
         var panels = $.cookie(); //get all cookies
-        //console.log(panels);
         for (var panel in panels) { //<-- panel is the name of the cookie
             if ($("#" + panel).hasClass('grey')) // check if this is a panel
             {
                 $("#" + panel).collapse("show");
             }
         }
-
         $('[data-toggle="tooltip"]').tooltip();
     });
 

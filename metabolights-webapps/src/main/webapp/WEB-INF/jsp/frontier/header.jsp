@@ -141,7 +141,7 @@
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                            <span class="hidden-sm">
+                            <span class="hidden-sm hidden-md">
                                 <ul class="nav navbar-nav cnav">
                                 <li><a href="/metabolights/index">Home</a></li>
                                 <li><a href="/metabolights/studies">Browse Studies</a></li>
@@ -158,7 +158,7 @@
                                     <li><a href="/metabolights/login">Login</a></li>
                                 </ul>
                             </span>
-                            <span class="hidden-md hidden-xs hidden-lg">
+                            <span class="hidden-xs hidden-lg">
                                 <ul class="nav navbar-nav cnav">
                                     <li><a href="/metabolights/index">Home</a></li>
                                     <li><a href="/metabolights/studies">Browse Studies</a></li>

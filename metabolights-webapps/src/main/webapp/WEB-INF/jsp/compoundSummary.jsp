@@ -19,31 +19,31 @@
                 <div class="col-md-3">
                     <div>
                         <span class="pull-right">
-                    <div class="btn-group" role="group" aria-label="...">
-                        <c:if test="${compound.hasSpecies}">
-                            <button type="button" class="btn btn-default btn-xs"><span class="icon icon-species forSpecies" data-icon="R" title="Species"></span></button>
-                        </c:if>
-                            <c:if test="${compound.hasPathways}">
-                                <button type="button" class="btn btn-default btn-xs"><span class="icon icon-conceptual forConceptual" data-icon="y" title="Pathways"></span></button>
+                        <div class="btn-group" role="group" aria-label="...">
+                            <c:if test="${compound.hasSpecies}">
+                                <a href="/metabolights/${compound.accession}#biology" type="button" class="btn btn-default btn-xs"><span class="icon icon-species forSpecies" data-icon="R" title="Species"></span></a>
                             </c:if>
+                                <c:if test="${compound.hasPathways}">
+                                    <a href="/metabolights/${compound.accession}#pathways" type="button" class="btn btn-default btn-xs"><span class="icon icon-conceptual forConceptual" data-icon="y" title="Pathways"></span></a>
+                                </c:if>
 
-                            <c:if test="${compound.hasReactions}">
-                                <button type="button" class="btn btn-default btn-xs"><span class="icon icon-chemistry forChemistry" data-icon="R" title="Reactions"></span></button>
-                            </c:if>
+                                <c:if test="${compound.hasReactions}">
+                                    <a href="/metabolights/${compound.accession}#reactions" type="button" class="btn btn-default btn-xs"><span class="icon icon-chemistry forChemistry" data-icon="R" title="Reactions"></span></a>
+                                </c:if>
 
-                            <c:if test="${compound.hasNMR}">
-                                <button type="button" class="btn btn-default btn-xs"><span class="icon2-NMRLogo icon2-biggerFonts" data-icon="*" title="NMR"></span></button>
-                            </c:if>
+                                <c:if test="${compound.hasNMR}">
+                                    <a href="/metabolights/${compound.accession}#NMR" type="button" class="btn btn-default btn-xs"><span class="icon2-NMRLogo" data-icon="*" title="NMR"></span></a>
+                                </c:if>
 
-                            <c:if test="${compound.hasMS}">
-                                <button type="button" class="btn btn-default btn-xs"><span class="icon2-MSLogo icon2-biggerFonts" data-icon=")" title="MS"></span></button>
-                            </c:if>
+                                <c:if test="${compound.hasMS}">
+                                    <a href="/metabolights/${compound.accession}#MS" type="button" class="btn btn-default btn-xs"><span class="icon2-MSLogo" data-icon=")" title="MS"></span></a>
+                                </c:if>
 
-                            <c:if test="${compound.hasLiterature}">
-                                <button type="button" class="btn btn-default btn-xs"><span class="icon icon-conceptual forConceptual" data-icon="l" title="Literature"></span></button>
-                            </c:if>
-                        </div>
-                    </span>
+                                <c:if test="${compound.hasLiterature}">
+                                    <a href="/metabolights/${compound.accession}#literature" type="button" class="btn btn-default btn-xs"><span class="icon icon-conceptual forConceptual" data-icon="l" title="Literature"></span></a>
+                                </c:if>
+                            </div>
+                        </span>
                     </div>
                 </div>
             </h4>
@@ -60,7 +60,7 @@
         </div>
         <div class="col-md-9">
             <div class="row">
-                <h4 class="">
+                <h4 class="blpl">
                     <p>
                         <span class="compound-label">COMPOUND ACCESSION</span>
                         <br>

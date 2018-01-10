@@ -66,7 +66,7 @@
                                     <div role="tabpanel" class="tab-pane active" id="2d">
                                         <%--<h5>Structure</h5><br>--%>
                                         <img src="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=${compound.mc.chebiId}&dimensions=600&transbg=true"
-                                             class="metabolite-image thumbnail"/>
+                                             class="metabolite-image img-responsive thumbnail"/>
 
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="3d">

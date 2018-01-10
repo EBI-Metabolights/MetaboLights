@@ -134,7 +134,7 @@ facets[].facet.lines[].FacetLine.checked
                                     <c:otherwise>${facet.name}</c:otherwise>
                                 </c:choose>
                             </c:set>
-                            <a data-toggle="collapse" href="#filter_${loop.index}" aria-expanded="false" aria-controls="filter_${loop.index}">
+                            <a data-toggle="collapse" href="#filter_${loop.index}" class="facet-category" aria-expanded="false" aria-controls="filter_${loop.index}">
                                 <h5 class="category-heading">
                                         ${caption}
                                     <span class="pull-right text-muted">
@@ -202,4 +202,3 @@ facets[].facet.lines[].FacetLine.checked
     </form>
 </div>
 <%--</c:if>--%>
-&nbsp;
