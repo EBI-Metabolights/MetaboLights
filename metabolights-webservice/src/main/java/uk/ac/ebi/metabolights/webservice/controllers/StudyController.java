@@ -49,10 +49,14 @@ import uk.ac.ebi.metabolights.webservice.models.StudyRestResponse;
 import uk.ac.ebi.metabolights.webservice.services.AppContext;
 import uk.ac.ebi.metabolights.webservice.services.EmailService;
 import uk.ac.ebi.metabolights.webservice.services.IndexingService;
+import uk.ac.ebi.metabolights.webservice.services.UserServiceImpl;
 import uk.ac.ebi.metabolights.webservice.utils.FileUtil;
 import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
 
 import javax.naming.NamingException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.Response;
 import javax.xml.namespace.QName;
 import java.io.BufferedReader;
 import java.io.File;
@@ -1005,6 +1009,119 @@ public class StudyController extends BasicController{
 
 		return response;
 	}
+
+	/**
+	 * Returns list of  Metabolites identified in the given Metabolights Study - MTBLSX
+	 *
+	 * @param   studyIdentifier
+	 * @return  ChebiIds Array
+	 * @author  CS76
+	 * @date    20160108
+	 */
+
+	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/getPermissions", method= RequestMethod.POST)
+	@ResponseBody
+	public RestResponse<String> getPermissions(@PathVariable("studyIdentifier") String studyIdentifier, HttpServletRequest request, HttpServletResponse response) throws DAOException {
+
+		logger.info("Requesting " + studyIdentifier + "permission rights");
+
+        RestResponse<String> restResponse = new RestResponse<String>();
+
+        // check if the user exists and valid
+        UserServiceImpl usi = null;
+
+        try {
+
+            usi = new UserServiceImpl();
+
+            String token = request.getParameter("token");
+
+            User user = usi.lookupByToken(token);
+
+            if (user.getEmail() == null || token == null){
+
+                Study study = getStudyDAO().getStudy(studyIdentifier);
+
+                if(study.getStudyStatus() == Study.StudyStatus.PUBLIC){
+
+                    restResponse.setContent( "{ \"read\" : true, \"write\": false  }" );
+
+                    return restResponse;
+
+                }else {
+
+                    restResponse.setContent( "{ \"read\" : false, \"write\": false  }"  );
+
+                    response.setStatus(Response.Status.FORBIDDEN.getStatusCode());
+
+                    return restResponse;
+                }
+
+            }else{
+
+                if (user.isCurator()){
+
+                    restResponse.setContent( "{ \"read\" : true, \"write\": true  }" );
+
+                    return restResponse;
+
+                }else{
+
+                    Study study = getStudyDAO().getStudy(studyIdentifier);
+
+                    boolean userOwnstudy = doesUserOwnsTheStudy(user.getUserName(), study);
+
+                    if (userOwnstudy && study.getStudyStatus() == Study.StudyStatus.SUBMITTED){
+
+                        restResponse.setContent( "{ \"read\" : true, \"write\": true  }"  );
+
+                        return restResponse;
+
+                    }else if(userOwnstudy && study.getStudyStatus() != Study.StudyStatus.SUBMITTED){
+
+                        restResponse.setContent( "{ \"read\" : true, \"write\": false  }" );
+
+                        return restResponse;
+
+                    }else if(!userOwnstudy && study.getStudyStatus() == Study.StudyStatus.PUBLIC){
+
+                        restResponse.setContent( "{ \"read\" : true, \"write\": false  }"  );
+
+                        return restResponse;
+
+                    }
+
+                }
+
+            }
+
+        } catch (DAOException e) {
+
+            response.setStatus(Response.Status.FORBIDDEN.getStatusCode());
+
+            return restResponse;
+
+        } catch (IsaTabException e) {
+
+            e.printStackTrace();
+
+        }
+
+        restResponse.setContent( "{ 'read' : false, 'write': false  }"  );
+
+        return restResponse;
+	}
+
+    private static boolean doesUserOwnsTheStudy(String userName, LiteStudy study) {
+
+        for (User user : study.getUsers()) {
+            if (user.getUserName().equals(userName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
 
 
