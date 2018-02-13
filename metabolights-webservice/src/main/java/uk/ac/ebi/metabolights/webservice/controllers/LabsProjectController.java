@@ -29,10 +29,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by venkata on 22/08/2016.
@@ -397,7 +395,7 @@ public class LabsProjectController {
 
         if (mllJob == null){
 
-            String[] commands = {"ssh", "ebi-login-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_mzml2isa.sh", "--token", user.getApiToken(), "--project " , mllProject.getId(), "--env", "dev"};
+            String[] commands = {"ssh", "ebi-cli-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_mzml2isa.sh", "--token", user.getApiToken(), "--project " , mllProject.getId(), "--env", "dev"};
 
             MLLJob pJob = executeCommand(commands, mllProject, null);
 
@@ -409,7 +407,7 @@ public class LabsProjectController {
 
         }else{
 
-            String[] commands = {"ssh", "ebi-login-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_mzml2isa.sh", "--token", user.getApiToken(), "--project " , mllProject.getId(), "--env", "dev", "--job" , mllJob.getJobId() };
+            String[] commands = {"ssh", "ebi-cli-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_mzml2isa.sh", "--token", user.getApiToken(), "--project " , mllProject.getId(), "--env", "dev", "--job" , mllJob.getJobId() };
 
             MLLJob pJob = executeCommand(commands, mllProject, mllJob);
 
@@ -431,6 +429,219 @@ public class LabsProjectController {
 
         return restResponse;
 
+    }
+
+    /**
+     * Authenticate user and convert the mzML2isa
+     * @param data
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "convertNMRMLToISA", method = RequestMethod.POST)
+    @ResponseBody
+    public RestResponse<String> convertNMRMLToISA(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) {
+
+        RestResponse<String> restResponse = new RestResponse<String>();
+
+        User user = SecurityUtil.validateJWTToken(data);
+
+        if(user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
+
+            restResponse.setContent("invalid");
+
+            response.setStatus(403);
+
+            return restResponse;
+
+        }
+
+        JSONObject serverRequest = SecurityUtil.parseRequest(data);
+
+        String projectId = (String) serverRequest.get("id");
+
+        String jobID = (String) serverRequest.get("jobId");
+
+        String root = PropertiesUtil.getProperty("userSpace");
+
+
+        MetaboLightsLabsWorkspaceDAO metaboLightsLabsWorkspaceDAO = new MetaboLightsLabsWorkspaceDAO(user, root);
+
+        MLLWorkSpace mllWorkSpace = metaboLightsLabsWorkspaceDAO.getMllWorkSpace();
+
+        MLLProject mllProject =  mllWorkSpace.getProject(projectId);
+
+        MLLJob mllJob = null;
+
+        if(jobID != null) {
+            mllJob = mllProject.getJob(jobID);
+        }
+
+        if (mllJob == null){
+
+            String[] commands = {"ssh", "ebi-cli-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_nmrml2isa.sh", "--token", user.getApiToken(), "--project " , mllProject.getId(), "--env", "dev"};
+
+            MLLJob pJob = executeCommand(commands, mllProject, null);
+
+            mllProject.saveJob(pJob);
+
+            mllWorkSpace.appendOrUpdateProject(mllProject);
+
+            restResponse.setContent(pJob.getAsJSON());
+
+        }else{
+
+            String[] commands = {"ssh", "ebi-cli-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_nmrml2isa.sh", "--token", user.getApiToken(), "--project " , mllProject.getId(), "--env", "dev", "--job" , mllJob.getJobId() };
+
+            MLLJob pJob = executeCommand(commands, mllProject, mllJob);
+
+            if (pJob == null){
+
+                restResponse.setMessage("Job submission unsuccessful. Please check the logs for more details");
+
+                response.setStatus(500);
+
+            }
+
+            mllProject.saveJob(pJob);
+
+            mllWorkSpace.appendOrUpdateProject(mllProject);
+
+            restResponse.setContent(pJob.getAsJSON());
+
+        }
+
+        return restResponse;
+
+    }
+
+    /**
+     * Submit the project as a metabolights study
+     * @param data (User_API_TOKEN)
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "submitProject", method = RequestMethod.POST)
+    @ResponseBody
+    public RestResponse<String> submitMetaboLightsStudy(@RequestBody String data, HttpServletResponse response) throws IOException {
+
+        RestResponse<String> restResponse = new RestResponse<String>();
+
+        JSONObject serverRequest = SecurityUtil.parseRequest(data);
+
+        String projectId = (String) serverRequest.get("project_id");
+
+        User user = SecurityUtil.validateJWTToken(data);
+
+        if (user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
+
+            restResponse.setContent("invalid");
+
+            response.setStatus(403);
+
+            return restResponse;
+
+        }
+
+        if (user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
+
+            logger.info("User with the token doesnt exist. Aborting the request");
+
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User doesnt exist error!");
+
+            return restResponse;
+
+        }
+
+        String root = PropertiesUtil.getProperty("userSpace");
+
+        MetaboLightsLabsProjectDAO metaboLightsLabsProjectDAO = new MetaboLightsLabsProjectDAO(user, projectId, root );
+
+        MLLProject mllProject = metaboLightsLabsProjectDAO.getMllProject();
+
+        if(mllProject != null){
+
+            // Check if the project has the istatab files
+
+            String projectLocation = PropertiesUtil.getProperty("userSpace") + user.getApiToken() + File.separator + mllProject.getId();
+
+            boolean hasInvestigationFile = false;
+            boolean hasMAFFile = false;
+            boolean hasAssayFile = false;
+
+            for (String file: FileUtil.listFileTree(new File(projectLocation))) {
+
+                if(file.contains("i_")){
+
+                    hasInvestigationFile = true;
+
+                }else if(file.contains("m_")){
+
+                    hasMAFFile = true;
+
+                }else if(file.contains("a_")){
+
+                    hasAssayFile = true;
+
+                }
+
+            }
+
+            if (hasInvestigationFile && hasMAFFile && hasAssayFile){
+
+                // <projectID>~<usertoken>~<studyid>~<releasedate>~<zipfilename>.zip
+
+                Calendar cal = Calendar.getInstance();
+                Date today = cal.getTime();
+                cal.add(Calendar.YEAR, 1); // to get previous year add -1
+                Date nextYear = cal.getTime();
+                String releaseDate =  new SimpleDateFormat("yyyyMMdd").format(nextYear);
+                String submittedZipFileName = "";
+
+                if(mllProject.getStudyId() != null && mllProject.getStudyId() != ""){
+                    submittedZipFileName =  user.getApiToken() + "~" + mllProject.getStudyId() + "~" + releaseDate + "~LABS_" + projectId  + ".zip";
+                }else{
+                    mllProject.setBusy(true);
+                    mllProject.save();
+                    submittedZipFileName  =  user.getApiToken() + "~~" + releaseDate + "~LABS_" + projectId  + ".zip";
+                }
+
+                // submit the job to the cluster
+                String queueFolderLocation = "";
+                String[] commands = {"ssh", "ebi-cli-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/submit_labs_project.sh", "--token", user.getApiToken(), "--project " , mllProject.getId(), "--zip", submittedZipFileName, "--location", projectLocation, "--env", "dev"};
+
+                MLLJob pJob = executeCommand(commands, mllProject, null);
+
+                if(pJob != null){
+                    mllProject.saveJob(pJob);
+                    restResponse.setContent(pJob.getAsJSON());
+                }else{
+                    JSONObject output = SecurityUtil.parseRequest("Submitted project as MetaboLights Study".replace("u'","\"").replace("'", "\""));
+                    pJob = new MLLJob(projectId, projectId + "_LABS_STUDY_SUMISSION", "DONE", output);
+                    mllProject.saveJob(pJob);
+                    restResponse.setContent(pJob.getAsJSON());
+                    return restResponse;
+                }
+
+            }else{
+
+                response.setStatus(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+                restResponse.setContent("Isa tab files missing. INVESTIGATION FILE: " + (hasInvestigationFile ? "true" : "false") + "MAF FILE: " + (hasMAFFile ? "true" : "false") + "ASSAY FILE: " + (hasAssayFile ? "true" : "false"));
+                return restResponse;
+
+            }
+
+        }else{
+
+            response.setStatus(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+
+            return restResponse;
+
+        }
+
+        response.setStatus(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+
+        return restResponse;
     }
 
     /**

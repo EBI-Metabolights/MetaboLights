@@ -25,6 +25,7 @@ public class MLLProject {
     private FileHandler fh;
     private String Id;
     private String Title;
+    private String StudyId;
     private String Description;
     private MLLUser Owner;
     private String Settings;
@@ -114,6 +115,10 @@ public class MLLProject {
     public void setJobs(List<MLLJob> jobs) {
         Jobs = jobs;
     }
+
+    public String getStudyId() { return StudyId; }
+
+    public void setStudyId(String studyId) { StudyId = studyId; }
 
     public MLLProject(){}
 
