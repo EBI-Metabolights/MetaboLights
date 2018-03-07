@@ -49,10 +49,14 @@ import uk.ac.ebi.metabolights.webservice.models.StudyRestResponse;
 import uk.ac.ebi.metabolights.webservice.services.AppContext;
 import uk.ac.ebi.metabolights.webservice.services.EmailService;
 import uk.ac.ebi.metabolights.webservice.services.IndexingService;
+import uk.ac.ebi.metabolights.webservice.services.UserServiceImpl;
 import uk.ac.ebi.metabolights.webservice.utils.FileUtil;
 import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
 
 import javax.naming.NamingException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.Response;
 import javax.xml.namespace.QName;
 import java.io.BufferedReader;
 import java.io.File;
@@ -516,7 +520,7 @@ public class StudyController extends BasicController{
 		// Get the study....
 		// TODO: optimize this, since we are loading the whole study to get the MAF file name of one of the assay, and maf file can be loaded having only the maf
 		RestResponse<Study> response = getStudy(studyIdentifier, true, null);
-        return new RestResponse<MetaboliteAssignment>(getMAFContentFrom(response,assayIndex));
+        return new RestResponse<MetaboliteAssignment>(getMAFContentFromAssay(response,assayIndex));
 	}
 
 
@@ -541,29 +545,39 @@ public class StudyController extends BasicController{
 
         logger.info("Requesting maf file of the assay " + assayIndex + " of the study " + studyIdentifier + " to the webservice");
         RestResponse<Study> response = getStudy(studyIdentifier, true, null);
-        return serializeObject(getMAFContentFrom(response,assayIndex));
+        return serializeObject(getMAFContentFromAssay(response,assayIndex));
     }
 
-	private MetaboliteAssignment getMAFContentFrom(RestResponse<Study> response, String assayIndex){
+    @RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/assay/{assayIndex}/jsonmaf/{fileName}")
+    @ResponseBody
+    public String getMetabolitesJSON(@PathVariable("studyIdentifier") String studyIdentifier, @PathVariable("assayIndex") String assayIndex, @PathVariable("fileName") String fileName) {
+
+        logger.info("Requesting maf file " + fileName + " as part of the assay " + assayIndex + " of study " + studyIdentifier + " from the webservice");
+        return serializeObject(getMAFContentOnFilename(fileName));
+    }
+
+	private MetaboliteAssignment getMAFContentFromAssay(RestResponse<Study> response, String assayIndex){
 		// Get the assay based on the index
 		Assay assay = response.getContent().getAssays().get(Integer.parseInt(assayIndex)-1);
-
-		MzTabDAO mzTabDAO = new MzTabDAO();
-		MetaboliteAssignment metaboliteAssignment = new MetaboliteAssignment();
-
-		String filePath = assay.getMetaboliteAssignment().getMetaboliteAssignmentFileName();
-
-		if (filePath != null && !filePath.isEmpty()) {
-			if (checkFileExists(filePath)) {
-				logger.info("MAF file found, starting to read data from " + filePath);
-				metaboliteAssignment = mzTabDAO.mapMetaboliteAssignmentFile(filePath);
-			} else {
-				logger.error("MAF file " + filePath + " does not exist!");
-				metaboliteAssignment.setMetaboliteAssignmentFileName("ERROR: " + filePath + " does not exist!");
-			}
-		}
-		return metaboliteAssignment;
+		return getMAFContentOnFilename(assay.getMetaboliteAssignment().getMetaboliteAssignmentFileName());
 	}
+
+    private MetaboliteAssignment getMAFContentOnFilename(String filePath){
+
+        MzTabDAO mzTabDAO = new MzTabDAO();
+        MetaboliteAssignment metaboliteAssignment = new MetaboliteAssignment();
+
+        if (filePath != null && !filePath.isEmpty()) {
+            if (checkFileExists(filePath)) {
+                logger.info("MAF file found, starting to read data from " + filePath);
+                metaboliteAssignment = mzTabDAO.mapMetaboliteAssignmentFile(filePath);
+            } else {
+                logger.error("MAF file " + filePath + " does not exist!");
+                metaboliteAssignment.setMetaboliteAssignmentFileName("ERROR: " + filePath + " does not exist!");
+            }
+        }
+        return metaboliteAssignment;
+    }
 
 	@RequestMapping("obfuscationcode/{obfuscationcode}/assay/{assayIndex}/maf")
 	@ResponseBody
@@ -573,7 +587,7 @@ public class StudyController extends BasicController{
         // Get the study....
 		// TODO: optimize this, since we are loading the whole study to get the MAF file name of one of the assay, and maf file can be loaded having only the maf
 		RestResponse<Study> response = getStudy(null, true, obfuscationCode);
-		return new RestResponse<MetaboliteAssignment>(getMAFContentFrom(response,assayIndex));
+		return new RestResponse<MetaboliteAssignment>(getMAFContentFromAssay(response,assayIndex));
 	}
 
 
@@ -733,7 +747,7 @@ public class StudyController extends BasicController{
 	 *
 	 * @param studyId
 	 * @param user
-	 * @return
+	 * @return obfuscationCode from the study
 	 * @throws DAOException
 	 * @author jrmacias
 	 * @date 20151112
@@ -1005,6 +1019,119 @@ public class StudyController extends BasicController{
 
 		return response;
 	}
+
+	/**
+	 * Returns list of  Metabolites identified in the given Metabolights Study - MTBLSX
+	 *
+	 * @param   studyIdentifier
+	 * @return  ChebiIds Array
+	 * @author  CS76
+	 * @date    20160108
+	 */
+
+	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/getPermissions", method= RequestMethod.POST)
+	@ResponseBody
+	public RestResponse<String> getPermissions(@PathVariable("studyIdentifier") String studyIdentifier, HttpServletRequest request, HttpServletResponse response) throws DAOException {
+
+		logger.info("Requesting " + studyIdentifier + "permission rights");
+
+        RestResponse<String> restResponse = new RestResponse<String>();
+
+        // check if the user exists and valid
+        UserServiceImpl usi = null;
+
+        try {
+
+            usi = new UserServiceImpl();
+
+            String token = request.getParameter("token");
+
+            User user = usi.lookupByToken(token);
+
+            if (user.getEmail() == null || token == null){
+
+                Study study = getStudyDAO().getStudy(studyIdentifier);
+
+                if(study.getStudyStatus() == Study.StudyStatus.PUBLIC){
+
+                    restResponse.setContent( "{ \"read\" : true, \"write\": false  }" );
+
+                    return restResponse;
+
+                }else {
+
+                    restResponse.setContent( "{ \"read\" : false, \"write\": false  }"  );
+
+                    response.setStatus(Response.Status.FORBIDDEN.getStatusCode());
+
+                    return restResponse;
+                }
+
+            }else{
+
+                if (user.isCurator()){
+
+                    restResponse.setContent( "{ \"read\" : true, \"write\": true  }" );
+
+                    return restResponse;
+
+                }else{
+
+                    Study study = getStudyDAO().getStudy(studyIdentifier);
+
+                    boolean userOwnstudy = doesUserOwnsTheStudy(user.getUserName(), study);
+
+                    if (userOwnstudy && study.getStudyStatus() == Study.StudyStatus.SUBMITTED){
+
+                        restResponse.setContent( "{ \"read\" : true, \"write\": true  }"  );
+
+                        return restResponse;
+
+                    }else if(userOwnstudy && study.getStudyStatus() != Study.StudyStatus.SUBMITTED){
+
+                        restResponse.setContent( "{ \"read\" : true, \"write\": false  }" );
+
+                        return restResponse;
+
+                    }else if(!userOwnstudy && study.getStudyStatus() == Study.StudyStatus.PUBLIC){
+
+                        restResponse.setContent( "{ \"read\" : true, \"write\": false  }"  );
+
+                        return restResponse;
+
+                    }
+
+                }
+
+            }
+
+        } catch (DAOException e) {
+
+            response.setStatus(Response.Status.FORBIDDEN.getStatusCode());
+
+            return restResponse;
+
+        } catch (IsaTabException e) {
+
+            e.printStackTrace();
+
+        }
+
+        restResponse.setContent( "{ 'read' : false, 'write': false  }"  );
+
+        return restResponse;
+	}
+
+    private static boolean doesUserOwnsTheStudy(String userName, LiteStudy study) {
+
+        for (User user : study.getUsers()) {
+            if (user.getUserName().equals(userName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
 
 
