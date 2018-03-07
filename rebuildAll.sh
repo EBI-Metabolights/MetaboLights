@@ -6,6 +6,8 @@ export DEPLOY=" install -DskipTests=true"
 #export DEPLOY=" deploy -DskipTests=true"
 export MVNOPTS=""
 #export MVNOPTS="--offline"
+
+#/usr/local/elastic/bin/stop.sh
 cd $ML
 
 #cd metabolights-utils
@@ -60,3 +62,11 @@ echo ""
 echo "    scp metabolights-webapps/target/metabolights-webapp-*.war ebi-login:/nfs/www-prod/web_hx2/cm/metabolights/deploy/metabolights-webapp-test.war "
 echo "    scp metabolights-webservice/target/metabolights-webservice-*.war ebi-login:/nfs/www-prod/web_hx2/cm/metabolights/deploy/metabolights-webservice-test.war "
 echo "    ------------------- "
+#read -n1 -r -p "Start Elasticsearch?..." key
+
+#if [ "$key" = 'y' ]; then
+  /usr/local/elastic/bin/start.sh
+#else
+#  /usr/local/elastic/bin/stop.sh
+#fi
+

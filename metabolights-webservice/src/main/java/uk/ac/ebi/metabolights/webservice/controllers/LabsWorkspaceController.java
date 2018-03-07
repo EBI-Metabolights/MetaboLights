@@ -1,6 +1,7 @@
 package uk.ac.ebi.metabolights.webservice.controllers;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jose4j.json.internal.json_simple.parser.JSONParser;
@@ -13,6 +14,8 @@ import org.jose4j.lang.JoseException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.security.access.method.P;
 import uk.ac.ebi.metabolights.repository.model.*;
 import org.springframework.stereotype.Controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,6 +25,7 @@ import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestBody;
+import uk.ac.ebi.metabolights.webservice.utils.FileUtil;
 import uk.ac.ebi.metabolights.webservice.utils.SecurityUtil;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -118,6 +122,69 @@ public class LabsWorkspaceController {
         }
 
         restResponse.setContent(getWorkspaceProjects(user));
+
+        return restResponse;
+
+    }
+
+
+    /**
+     * Fetch the list of projects in a workspace
+     * @param data (User_API_TOKEN)
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "mapStudy", method = RequestMethod.POST)
+    @ResponseBody
+    public RestResponse<String> mapMetaboLightsStudyToLabsProject(@RequestBody String data, HttpServletResponse response) throws IOException {
+
+        RestResponse<String> restResponse = new RestResponse<>();
+
+        JSONObject serverRequest = SecurityUtil.parseRequest(data);
+
+        String userToken = (String) serverRequest.get("token");
+        String projectId = (String) serverRequest.get("projectId");
+        String studyId = (String) serverRequest.get("studyId");
+
+        User user = authenticateUser(userToken);
+
+        if (user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
+
+            logger.info("User with the token doesnt exist. Aborting the request");
+
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User doesn't exist error!");
+
+            return restResponse;
+
+        }
+
+        MLLWorkSpace mllWorkSpace = getWorkspaceInfo(user);
+
+        if (mllWorkSpace == null) {
+
+            logger.warn("Error fetching the workspace info associated with the user");
+
+            response.setStatus(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+
+            return restResponse;
+
+        }
+
+        MLLProject mllProject = mllWorkSpace.getProject(projectId);
+
+        if(mllProject != null){
+
+            mllProject.setStudyId(studyId);
+
+            mllProject.setBusy(false);
+
+            mllProject.save();
+
+            mllWorkSpace.appendOrUpdateProject(mllProject);
+
+            restResponse.setContent("study mapped successfully");
+
+        }
 
         return restResponse;
 

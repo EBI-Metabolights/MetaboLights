@@ -71,7 +71,7 @@ public class MetaboLightsLabsProjectDAO {
         Process p;
 
         try {
-            String[] commands = {"ssh", "ebi-login-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/priv_ftp_sync_step1.sh -s dev"};
+            String[] commands = {"ssh", "ebi-cli-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/priv_ftp_sync_step1.sh -s dev"};
             p = Runtime.getRuntime().exec(commands);
             BufferedReader br = new BufferedReader(
                     new InputStreamReader(p.getInputStream()));

@@ -7,6 +7,7 @@ import org.jose4j.json.internal.json_simple.JSONObject;
 import uk.ac.ebi.metabolights.utils.json.FileUtils;
 import uk.ac.ebi.metabolights.utils.json.LabsUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 
@@ -110,9 +111,17 @@ public class MLLJob {
 
         try {
 
-            err = FileUtils.file2String(userRoot + "mzml2isaJob" + "." + this.getJobId() + ".err" );
+            if(FileUtils.checkFileExists(userRoot + "mzml2isaJob" + "." + this.getJobId() + ".err" )){
+                err = FileUtils.file2String(userRoot + "mzml2isaJob" + "." + this.getJobId() + ".err" );
+            }else{
+                err = FileUtils.file2String(userRoot + "nmrml2isaJob" + "." + this.getJobId() + ".err" );
+            }
 
-            output = FileUtils.file2String(userRoot + "mzml2isaJob" + "." + this.getJobId() + ".out" ).replace("","");
+            if(FileUtils.checkFileExists(userRoot + "mzml2isaJob" + "." + this.getJobId() + ".out")){
+                output = FileUtils.file2String( userRoot + "mzml2isaJob" + "." + this.getJobId() + ".out").replace("","");
+            }else{
+                output = FileUtils.file2String( userRoot + "nmrml2isaJob" + "." + this.getJobId() + ".out").replace("","");
+            }
 
         } catch (IOException e) {
 

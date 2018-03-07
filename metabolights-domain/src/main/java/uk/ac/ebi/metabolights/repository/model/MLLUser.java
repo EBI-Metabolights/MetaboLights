@@ -133,6 +133,7 @@ public class MLLUser {
         this.role = role;
     }
 
+    @JsonIgnore
     public String getApiToken() {
         return apiToken;
     }
