@@ -60,7 +60,7 @@ public class SecurityUtil {
 
     }
 
-    private static User getUser(String jwt, String email){
+    public static User getUser(String jwt, String email){
         try {
 
             UserServiceImpl usi = new UserServiceImpl();
