@@ -618,3 +618,112 @@ a:link.btn-ok{
 .input-group .form-control:last-child, .input-group-addon:last-child, .input-group-btn:first-child > .btn-group:not(:first-child) > .btn, .input-group-btn:first-child > .btn:not(:first-child), .input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group > .btn, .input-group-btn:last-child > .dropdown-toggle {
     margin-top: 3px !important;
 }
+
+
+.elixir-ribbon .elixir-logo-kite {
+    margin-top: 8px !important;
+}
+
+.elixir-ribbon h5 {
+    font-size: 1.8rem  !important;
+    padding-top: 10px !important;
+}
+
+.elixir-ribbon{
+    padding: 0.5rem 0 !important;
+}
+
+/* footer */
+.global-footer {
+    border-top: 5px solid #eee;
+    padding: 1rem 0;
+}
+
+.global-footer .ebi-logo {
+    display: block;
+    height: 53px;
+    width: 89%;
+    background-image: url(//www.ebi.ac.uk/web_guidelines/EBI-Framework/v1.2/images/logos/EMBL-EBI/EMBL_EBI_Logo_black.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-left: -.25rem;
+    position: relative;
+    top: 8px;
+}
+
+.global-footer h5 {
+    margin-top: 1.25rem;
+    margin-bottom: 5px;
+    font-size: 1.2em;
+    font-family: "Helvetica Neue",Helvetica,Roboto,Arial,sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    color: inherit;
+    line-height: 1.4;
+}
+
+.label.services-color, .services-color, .services-color a, .services-color a:hover, .services-color a:visited, .services-color cite, .services-color h3, .services-color h4, a.services-color, a:hover.services-color {
+    color: #389198 !important;
+}
+
+.label.research-color, .research-color, .research-color a, .research-color a:hover, .research-color a:visited, .research-color cite, .research-color h3, .research-color h4, a.research-color, a:hover.research-color {
+    color: #6dab49 !important;
+}
+
+.label.training-color, .training-color, .training-color a, .training-color a:hover, .training-color a:visited, .training-color cite, .training-color h3, .training-color h4, a.training-color, a:hover.training-color {
+    color: #e9b400 !important;
+}
+
+.industry-color, .industry-color a, .industry-color a:hover, .industry-color a:visited, .industry-color cite, .industry-color h3, .industry-color h4, .label.industry-color, a.industry-color, a:hover.industry-color {
+    color: #0086b4 !important;
+}
+
+.ebi-color, .ebi-color a, .ebi-color a:hover, .ebi-color a:visited, .ebi-color cite, .ebi-color h3, .ebi-color h4, .label.ebi-color, a.ebi-color, a:hover.ebi-color {
+    color: #007c82 !important;
+}
+
+a.more:after, a.read-more:after, a.readmore:after {
+    content: " >";
+    font-family: "EBI-Functional";
+    font-size: .85em;
+}
+
+.ebi-footer-meta{
+    margin-top: 2rem;
+}
+
+.global-footer ul {
+    margin-left: 0;
+    font-size: 95%;
+    list-style: none;
+}
+
+.global-footer a {
+    color: #666;
+}
+
+.global-footer ul > li{
+    display: list-item;
+    text-align: -webkit-match-parent;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.global-footer ul li a:hover{
+    background-color: transparent;
+    text-decoration: none;
+    border-bottom-width: 1px;
+    border-bottom-style: dotted;
+    border-radius: 0;
+    border-bottom-color: #F1F1F4;
+}
+
+
+.popup-ajax:focus,.popup-ajax:active {
+    outline: none !important;
+}
+
+.global-footer p {
+    margin: 0 0 5px;
+    font-size: 1em;
+}

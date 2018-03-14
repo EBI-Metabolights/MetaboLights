@@ -724,7 +724,7 @@
             target: 'BioJSReaction',
             id: this.selectedReaction,
             proxyUrl: '/metabolights/RheaAndReactomeProxy',
-            rheaWsUrl: "http://www.rhea-db.org/rest/1.0/ws/reaction/cmlreact/"
+            rheaWsUrl: "https://www.rhea-db.org/rest/1.0/ws/reaction/cmlreact/"
         });
 
     });
