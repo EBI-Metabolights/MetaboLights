@@ -520,7 +520,7 @@ public class StudyController extends BasicController{
 		// Get the study....
 		// TODO: optimize this, since we are loading the whole study to get the MAF file name of one of the assay, and maf file can be loaded having only the maf
 		RestResponse<Study> response = getStudy(studyIdentifier, true, null);
-        return new RestResponse<MetaboliteAssignment>(getMAFContentFrom(response,assayIndex));
+        return new RestResponse<MetaboliteAssignment>(getMAFContentFromAssay(response,assayIndex));
 	}
 
 
@@ -545,29 +545,39 @@ public class StudyController extends BasicController{
 
         logger.info("Requesting maf file of the assay " + assayIndex + " of the study " + studyIdentifier + " to the webservice");
         RestResponse<Study> response = getStudy(studyIdentifier, true, null);
-        return serializeObject(getMAFContentFrom(response,assayIndex));
+        return serializeObject(getMAFContentFromAssay(response,assayIndex));
     }
 
-	private MetaboliteAssignment getMAFContentFrom(RestResponse<Study> response, String assayIndex){
+    @RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/assay/{assayIndex}/jsonmaf/{fileName}")
+    @ResponseBody
+    public String getMetabolitesJSON(@PathVariable("studyIdentifier") String studyIdentifier, @PathVariable("assayIndex") String assayIndex, @PathVariable("fileName") String fileName) {
+
+        logger.info("Requesting maf file " + fileName + " as part of the assay " + assayIndex + " of study " + studyIdentifier + " from the webservice");
+        return serializeObject(getMAFContentOnFilename(fileName));
+    }
+
+	private MetaboliteAssignment getMAFContentFromAssay(RestResponse<Study> response, String assayIndex){
 		// Get the assay based on the index
 		Assay assay = response.getContent().getAssays().get(Integer.parseInt(assayIndex)-1);
-
-		MzTabDAO mzTabDAO = new MzTabDAO();
-		MetaboliteAssignment metaboliteAssignment = new MetaboliteAssignment();
-
-		String filePath = assay.getMetaboliteAssignment().getMetaboliteAssignmentFileName();
-
-		if (filePath != null && !filePath.isEmpty()) {
-			if (checkFileExists(filePath)) {
-				logger.info("MAF file found, starting to read data from " + filePath);
-				metaboliteAssignment = mzTabDAO.mapMetaboliteAssignmentFile(filePath);
-			} else {
-				logger.error("MAF file " + filePath + " does not exist!");
-				metaboliteAssignment.setMetaboliteAssignmentFileName("ERROR: " + filePath + " does not exist!");
-			}
-		}
-		return metaboliteAssignment;
+		return getMAFContentOnFilename(assay.getMetaboliteAssignment().getMetaboliteAssignmentFileName());
 	}
+
+    private MetaboliteAssignment getMAFContentOnFilename(String filePath){
+
+        MzTabDAO mzTabDAO = new MzTabDAO();
+        MetaboliteAssignment metaboliteAssignment = new MetaboliteAssignment();
+
+        if (filePath != null && !filePath.isEmpty()) {
+            if (checkFileExists(filePath)) {
+                logger.info("MAF file found, starting to read data from " + filePath);
+                metaboliteAssignment = mzTabDAO.mapMetaboliteAssignmentFile(filePath);
+            } else {
+                logger.error("MAF file " + filePath + " does not exist!");
+                metaboliteAssignment.setMetaboliteAssignmentFileName("ERROR: " + filePath + " does not exist!");
+            }
+        }
+        return metaboliteAssignment;
+    }
 
 	@RequestMapping("obfuscationcode/{obfuscationcode}/assay/{assayIndex}/maf")
 	@ResponseBody
@@ -577,7 +587,7 @@ public class StudyController extends BasicController{
         // Get the study....
 		// TODO: optimize this, since we are loading the whole study to get the MAF file name of one of the assay, and maf file can be loaded having only the maf
 		RestResponse<Study> response = getStudy(null, true, obfuscationCode);
-		return new RestResponse<MetaboliteAssignment>(getMAFContentFrom(response,assayIndex));
+		return new RestResponse<MetaboliteAssignment>(getMAFContentFromAssay(response,assayIndex));
 	}
 
 
@@ -737,7 +747,7 @@ public class StudyController extends BasicController{
 	 *
 	 * @param studyId
 	 * @param user
-	 * @return
+	 * @return obfuscationCode from the study
 	 * @throws DAOException
 	 * @author jrmacias
 	 * @date 20151112
