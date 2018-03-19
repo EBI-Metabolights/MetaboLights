@@ -44,6 +44,7 @@ package uk.ac.ebi.metabolights.webservice.client;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.referencelayer.model.Compound;
@@ -229,6 +230,84 @@ public class MetabolightsWsClient {
         conn.setRequestProperty(tokenHeaderName, userToken);
 
         return conn;
+    }
+
+    public String mapStudyToLabsProject(String study, String projectId, String userToken, String host) {
+
+        logger.debug("Sending request to labs webservice to map metabolights study to labs project");
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        ObjectNode jsonObject = mapper.createObjectNode();
+
+        String json = jsonObject.put("studyId", study).put("projectId", projectId).put("token", userToken).toString();
+
+        String response =  makeRequestSendingDataToDev("labs-workspace/mapStudy", json, "POST", host);
+
+        return response;
+    }
+
+    private String makeRequestSendingDataToDev(String path, Object dataToSend, String method, String host) {
+
+        logger.debug("Making a {} request to {}", method,path);
+
+        try {
+
+            URL url = new URL(host + "webservice/" + path);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod(method);
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setRequestProperty(tokenHeaderName, userToken);
+            conn.setRequestProperty("content-type", "application/json");
+            conn.setDoOutput(true);
+
+            if (dataToSend != null) {
+                String json = null;
+                if (!(dataToSend instanceof String)) {
+                    json = serializeObject(dataToSend);
+                } else {
+                    json = (String) dataToSend;
+                }
+                OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
+                out.write(json);
+                out.close();
+            }
+
+            // Read response
+            if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                throw new RuntimeException("MetaboLights Java WS client: " + conn.getURL().toString() + "(" + method + ") request failed : HTTP error code : "
+                        + conn.getResponseCode());
+            }
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    (conn.getInputStream())));
+
+            String message = org.apache.commons.io.IOUtils.toString(br);
+
+            conn.disconnect();
+
+            return message;
+
+        } catch (MalformedURLException e) {
+
+            RestResponse response = new RestResponse();
+            response.setMessage("Malformed url: " + path);
+            response.setErr(e);
+            logger.error(response.getMessage(), e);
+
+            return serializeObject(response);
+
+
+        } catch (IOException e) {
+
+            RestResponse response = new RestResponse();
+            response.setMessage("IO exception while trying to reach " + path);
+            response.setErr(e);
+            logger.error(response.getMessage(), e);
+
+            return serializeObject(response);
+
+        }
     }
 
     public RestResponse<Study> getStudy(String studyIdentifier) {
