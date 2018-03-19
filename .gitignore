@@ -271,3 +271,6 @@ metabolights-webapps/src/main/webapp/WEB-INF/lib/wstx-asl-3.2.9.jar
 metabolights-webapps/src/main/webapp/WEB-INF/lib/xmlbeans-2.5.0.jar
 metabolights-webapps/src/main/webapp/WEB-INF/lib/XmlSchema-1.4.7.jar
 metabolights-webapps/src/main/webapp/WEB-INF/lib/xpp3-1.1.4c.jar
+metabolights-webapps/src/main/webapp/META-INF/
+metabolights-webapps/src/main/webapp/WEB-INF/classes/
+metabolights-webapps/src/main/webapp/WEB-INF/lib/
