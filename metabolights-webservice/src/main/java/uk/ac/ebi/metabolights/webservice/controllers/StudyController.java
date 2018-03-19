@@ -799,24 +799,6 @@ public class StudyController extends BasicController{
 
 		// send FTP folder details by email
 		String subject = "Requested Study upload folder.";
-//		StringBuilder body = new StringBuilder().append("We are happy to inform you that your FTP folder for study ")
-//				.append("<b>").append(studyIdentifier).append("</b>")
-//				.append(" has been successfully created and is now ready for use. To access, please use your favorite FTP client with the following account details:").append('\n').append('\n')
-//				.append('\t').append("user: ")
-//				.append("<b>").append(privateFTPUser).append("</b>").append('\n')
-//				.append('\t').append("password: ")
-//				.append("<b>").append(privateFTPPass).append("</b>").append('\n')
-//				.append('\t').append("server: ")
-//				.append("<b>").append(privateFTPServer).append("</b>").append('\n')
-//				.append('\t').append("remote folder: ")
-//				.append("<b>").append(ftp_path).append(ftpFolder).append("</b>").append('\n')
-//				.append('\n')
-//				.append("Please, note that the remote folder needs to be entirely typed, as the folder is not browsable. So use ")
-//				.append("\"").append("<b>").append("cd ").append(ftp_path).append(ftpFolder).append("</b>").append("\"").append(" to access your private folder.")
-//				.append(" More extensive instructions can be found here: ").append(linkFTPUploadDoc)
-//				.append('\n').append('\n')
-//				.append("We would be grateful for any feedback on the upload procedure and any issues you may find.")
-//				.append('\n');
 		StringBuilder body = new StringBuilder().append("We are happy to inform you that your upload folder for study ")
 				.append("<b>").append(studyIdentifier).append("</b>")
 				.append(" has been successfully created and is now ready for use. You can use either FTP or Aspera Client to upload your study files.").append('\n').append('\n')
@@ -836,7 +818,7 @@ public class StudyController extends BasicController{
 				.append('\n')
 				.append("<b>").append("Using Aspera Client:").append("</b>").append('\n')
 				.append("You can also use the high-speed Aspera client to upload with the same username and password listed above using the command below.\n" +
-						"ascp -QT -L-  -l 300M your_local_data_folder mtblight@ah01.ebi.ac.uk:").append(ftp_path).append(ftpFolder)
+						"ascp -QT -P 33001 -L-  -l 300M your_local_data_folder mtblight@hx-fasp-1.ebi.ac.uk:").append(ftp_path).append(ftpFolder)
 				.append('\n')
 				.append('\n')
 				.append(" Detailed Instructions on data upload through FTP/Aspera is available here: ").append(linkFTPUploadDoc)
