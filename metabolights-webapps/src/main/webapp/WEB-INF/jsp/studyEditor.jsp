@@ -51,10 +51,10 @@
 <div><a href="${pageContext.request.contextPath}/${studyId}" class="btn btn-primary pull-right"
         role="button"><span style="color:white;">Go back to ${studyId}</span></a></div>
 
-<script type="text/javascript" src="inline.bc237751263bde910b3e.bundle.js"></script>
+<script type="text/javascript" src="inline.c96db06710c628c6ab74.bundle.js"></script>
 <script type="text/javascript" src="polyfills.63929c2b04758c996018.bundle.js"></script>
 <script type="text/javascript" src="vendor.4d9b987a0f2849e3adcf.bundle.js"></script>
-<script type="text/javascript" src="main.b9ce140e354164637e8a.bundle.js"></script>
+<script type="text/javascript" src="main.12a84195718b4d4d8f94.bundle.js"></script>
 
 
 
