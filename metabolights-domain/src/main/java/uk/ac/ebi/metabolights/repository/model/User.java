@@ -84,6 +84,7 @@ public class User {
 
 	private AppRole role;
 
+	@JsonIgnore
 	private String apiToken = java.util.UUID.randomUUID().toString();
 
 	private String orcid;

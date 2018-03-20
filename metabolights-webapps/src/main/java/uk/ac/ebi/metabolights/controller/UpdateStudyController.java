@@ -178,7 +178,13 @@ public class UpdateStudyController extends AbstractController {
 		mav.addObject("message", msg);
 		mav.addObject("action", action);
 		mav.addObject("submitText", submitText);
-        mav.addObject("releaseDate", getStudy(study).getStudyPublicReleaseDate());
+		try {
+			mav.addObject("releaseDate", getStudy(study).getStudyPublicReleaseDate());
+		}catch (Exception e){
+			String message = "Error fetching the release date from the investigation file (Add release date and submited date to the investigation file in the study)." + study + "\n" + e.getMessage();
+			logger.error(message);
+			throw new Exception(e.getMessage());
+		}
 		mav.addObject("studyCheck", getStudy(study));
 		return mav;
 	}

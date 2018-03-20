@@ -201,10 +201,15 @@
         <put-attribute name="body" value="/WEB-INF/jsp/tools.jsp" />
     </definition>
 
-    <definition name="compoundsDashboard" extends="default">
-        <put-attribute name="title" value="Compounds Dashboard" />
-        <put-attribute name="body" value="/WEB-INF/jsp/compoundsDashboard.jsp" />
+    <definition name="parallelCoordinates" extends="default">
+        <put-attribute name="title" value="Parallel Coordinates" />
+        <put-attribute name="body" value="/WEB-INF/jsp/parallelCoordinates.jsp" />
     </definition>
+
+    <!--<definition name="compoundsDashboard" extends="default">ƒ-->
+        <!--<put-attribute name="title" value="Compounds Dashboard" />-->
+        <!--<put-attribute name="body" value="/WEB-INF/jsp/compoundsDashboard.jsp" />-->
+    <!--</definition>-->
 
     <definition name="users" extends="default">
         <put-attribute name="title" value="User admin" />

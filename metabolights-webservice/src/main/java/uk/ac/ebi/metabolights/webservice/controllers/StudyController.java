@@ -21,6 +21,7 @@
 package uk.ac.ebi.metabolights.webservice.controllers;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
-import uk.ac.ebi.chebi.webapps.chebiWS.model.*;
+import uk.ac.ebi.chebi.webapps.chebiWS.model.ChebiWebServiceFault_Exception;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.Entity;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.*;
 import uk.ac.ebi.metabolights.referencelayer.model.CrossReference;
@@ -41,7 +42,6 @@ import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.*;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
@@ -49,14 +49,19 @@ import uk.ac.ebi.metabolights.webservice.models.StudyRestResponse;
 import uk.ac.ebi.metabolights.webservice.services.AppContext;
 import uk.ac.ebi.metabolights.webservice.services.EmailService;
 import uk.ac.ebi.metabolights.webservice.services.IndexingService;
+import uk.ac.ebi.metabolights.webservice.services.UserServiceImpl;
 import uk.ac.ebi.metabolights.webservice.utils.FileUtil;
 import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
 
-
 import javax.naming.NamingException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.Response;
 import javax.xml.namespace.QName;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
@@ -78,7 +83,7 @@ public class StudyController extends BasicController{
     private DatabaseDAO dbd;
 
 	private final static Logger logger = LoggerFactory.getLogger(StudyController.class.getName());
-    private final String chebiWSUrl = "http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl";
+    private final String chebiWSUrl = "https://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl";
 
 	private StudyDAO studyDAO;
     private SpeciesDAO speciesDAO;
@@ -135,7 +140,7 @@ public class StudyController extends BasicController{
         if (chebiWS == null)
             try {
                 logger.info("Starting a new instance of the ChEBI ChebiWebServiceClient");
-                chebiWS = new ChebiWebServiceClient(new URL(chebiWSUrl),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
+                chebiWS = new ChebiWebServiceClient(new URL(chebiWSUrl),new QName("https://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
             } catch (MalformedURLException e) {
                 logger.error("Error instanciating a new ChebiWebServiceClient "+ e.getMessage());
             }
@@ -169,6 +174,37 @@ public class StudyController extends BasicController{
 		return response;
 
 	}
+
+    @RequestMapping({"/parallelCoordinatesData"})
+    @ResponseBody
+    public RestResponse getFactorsDistribution(@RequestParam("study") String study){
+
+        String ftpUrl = "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/derived/parallel_coordinates/factorsDistribution.json";
+
+        study = study.replace("\"","");
+
+        if(study != null && !study.isEmpty()){
+            ftpUrl = "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/derived/parallel_coordinates/" + study + ".json";
+        }
+
+        StringBuffer sbf = new StringBuffer();
+
+        try {
+            URL url = new URL(ftpUrl);
+            BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+            String inputLine;
+            while ( (inputLine = in.readLine()) != null) sbf.append(inputLine);
+            in.close();
+        } catch (MalformedURLException e) {
+        } catch (IOException e) {
+        }
+
+        RestResponse restResponse = new RestResponse();
+
+        restResponse.setContent(sbf.toString());
+
+        return restResponse;
+    }
 
 	@RequestMapping("listWithDetails")
 	@ResponseBody
@@ -413,12 +449,12 @@ public class StudyController extends BasicController{
 				liteStudyMap.put("title", study.getTitle());
 				liteStudyMap.put("description", study.getDescription());
 				response.setContent(liteStudyMap);
-			}else{
+			} else {
 				response.setMessage("Study is not public");
 				logger.error("Can't get the study requested " + studyIdentifier + ". Study is not public");
 			}
 
-			if(study==null){
+			if (study==null){
 				response.setMessage("Study not found");
 				logger.error("Can't get the study requested " + studyIdentifier);
 			}
@@ -452,7 +488,7 @@ public class StudyController extends BasicController{
 			}
 
 			response.setContent(study);
-			if(study==null){
+			if(study == null){
 				response.setMessage("Study not found");
 				logger.error("Can't get the study requested " + studyIdentifier);
 			}
@@ -463,16 +499,14 @@ public class StudyController extends BasicController{
 			response.setErr(e);
 		}
 
-		return  response;
+		return response;
 
 	}
 
 	private uk.ac.ebi.metabolights.repository.dao.StudyDAO getStudyDAO() throws DAOException {
 
 		if (studyDAO == null){
-
 			studyDAO = DAOFactory.getInstance().getStudyDAO();
-
 		}
 		return studyDAO;
 	}
@@ -481,36 +515,69 @@ public class StudyController extends BasicController{
 	@ResponseBody
 	public RestResponse<MetaboliteAssignment> getMetabolites(@PathVariable("studyIdentifier") String studyIdentifier, @PathVariable("assayIndex") String assayIndex) throws DAOException {
 
-
 		logger.info("Requesting maf file of the assay " + assayIndex + " of the study " + studyIdentifier + " to the webservice");
 
 		// Get the study....
 		// TODO: optimize this, since we are loading the whole study to get the MAF file name of one of the assay, and maf file can be loaded having only the maf
 		RestResponse<Study> response = getStudy(studyIdentifier, true, null);
-        return new RestResponse<MetaboliteAssignment>(getMAFContentFrom(response,assayIndex));
+        return new RestResponse<MetaboliteAssignment>(getMAFContentFromAssay(response,assayIndex));
 	}
 
-	private MetaboliteAssignment getMAFContentFrom(RestResponse<Study> response, String assayIndex){
+
+    private String serializeObject(Object objectToSerialize) {
+        logger.debug("Serializing object to a Json string:" + objectToSerialize.getClass());
+
+        // Get the mapper
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            return mapper.writeValueAsString(objectToSerialize);
+        } catch (IOException e) {
+            logger.error("Can't serialize " + objectToSerialize.getClass());
+        }
+
+        return null;
+    }
+
+    @RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/assay/{assayIndex}/jsonmaf")
+    @ResponseBody
+    public String getMetabolitesJSON(@PathVariable("studyIdentifier") String studyIdentifier, @PathVariable("assayIndex") String assayIndex) throws DAOException {
+
+        logger.info("Requesting maf file of the assay " + assayIndex + " of the study " + studyIdentifier + " to the webservice");
+        RestResponse<Study> response = getStudy(studyIdentifier, true, null);
+        return serializeObject(getMAFContentFromAssay(response,assayIndex));
+    }
+
+    @RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/assay/{assayIndex}/jsonmaf/{fileName}")
+    @ResponseBody
+    public String getMetabolitesJSON(@PathVariable("studyIdentifier") String studyIdentifier, @PathVariable("assayIndex") String assayIndex, @PathVariable("fileName") String fileName) {
+
+        logger.info("Requesting maf file " + fileName + " as part of the assay " + assayIndex + " of study " + studyIdentifier + " from the webservice");
+        return serializeObject(getMAFContentOnFilename(fileName));
+    }
+
+	private MetaboliteAssignment getMAFContentFromAssay(RestResponse<Study> response, String assayIndex){
 		// Get the assay based on the index
 		Assay assay = response.getContent().getAssays().get(Integer.parseInt(assayIndex)-1);
-
-		MzTabDAO mzTabDAO = new MzTabDAO();
-		MetaboliteAssignment metaboliteAssignment = new MetaboliteAssignment();
-
-
-		String filePath = assay.getMetaboliteAssignment().getMetaboliteAssignmentFileName();
-
-		if (filePath != null && !filePath.isEmpty()) {
-			if (checkFileExists(filePath)) {
-				logger.info("MAF file found, starting to read data from " + filePath);
-				metaboliteAssignment = mzTabDAO.mapMetaboliteAssignmentFile(filePath);
-			} else {
-				logger.error("MAF file " + filePath + " does not exist!");
-				metaboliteAssignment.setMetaboliteAssignmentFileName("ERROR: " + filePath + " does not exist!");
-			}
-		}
-		return metaboliteAssignment;
+		return getMAFContentOnFilename(assay.getMetaboliteAssignment().getMetaboliteAssignmentFileName());
 	}
+
+    private MetaboliteAssignment getMAFContentOnFilename(String filePath){
+
+        MzTabDAO mzTabDAO = new MzTabDAO();
+        MetaboliteAssignment metaboliteAssignment = new MetaboliteAssignment();
+
+        if (filePath != null && !filePath.isEmpty()) {
+            if (checkFileExists(filePath)) {
+                logger.info("MAF file found, starting to read data from " + filePath);
+                metaboliteAssignment = mzTabDAO.mapMetaboliteAssignmentFile(filePath);
+            } else {
+                logger.error("MAF file " + filePath + " does not exist!");
+                metaboliteAssignment.setMetaboliteAssignmentFileName("ERROR: " + filePath + " does not exist!");
+            }
+        }
+        return metaboliteAssignment;
+    }
 
 	@RequestMapping("obfuscationcode/{obfuscationcode}/assay/{assayIndex}/maf")
 	@ResponseBody
@@ -520,7 +587,7 @@ public class StudyController extends BasicController{
         // Get the study....
 		// TODO: optimize this, since we are loading the whole study to get the MAF file name of one of the assay, and maf file can be loaded having only the maf
 		RestResponse<Study> response = getStudy(null, true, obfuscationCode);
-		return new RestResponse<MetaboliteAssignment>(getMAFContentFrom(response,assayIndex));
+		return new RestResponse<MetaboliteAssignment>(getMAFContentFromAssay(response,assayIndex));
 	}
 
 
@@ -545,7 +612,7 @@ public class StudyController extends BasicController{
 	 */
 	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}", method= RequestMethod.DELETE)
 	@ResponseBody
-	public RestResponse<Boolean> deleteStudy(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException, IsaTabException, IndexingFailureException, IOException {
+	public RestResponse<Boolean> deleteStudy(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException, IsaTabException, IndexingFailureException, IOException, InterruptedException {
 
 		User user = getUser();
 
@@ -680,7 +747,7 @@ public class StudyController extends BasicController{
 	 *
 	 * @param studyId
 	 * @param user
-	 * @return
+	 * @return obfuscationCode from the study
 	 * @throws DAOException
 	 * @author jrmacias
 	 * @date 20151112
@@ -732,24 +799,6 @@ public class StudyController extends BasicController{
 
 		// send FTP folder details by email
 		String subject = "Requested Study upload folder.";
-//		StringBuilder body = new StringBuilder().append("We are happy to inform you that your FTP folder for study ")
-//				.append("<b>").append(studyIdentifier).append("</b>")
-//				.append(" has been successfully created and is now ready for use. To access, please use your favorite FTP client with the following account details:").append('\n').append('\n')
-//				.append('\t').append("user: ")
-//				.append("<b>").append(privateFTPUser).append("</b>").append('\n')
-//				.append('\t').append("password: ")
-//				.append("<b>").append(privateFTPPass).append("</b>").append('\n')
-//				.append('\t').append("server: ")
-//				.append("<b>").append(privateFTPServer).append("</b>").append('\n')
-//				.append('\t').append("remote folder: ")
-//				.append("<b>").append(ftp_path).append(ftpFolder).append("</b>").append('\n')
-//				.append('\n')
-//				.append("Please, note that the remote folder needs to be entirely typed, as the folder is not browsable. So use ")
-//				.append("\"").append("<b>").append("cd ").append(ftp_path).append(ftpFolder).append("</b>").append("\"").append(" to access your private folder.")
-//				.append(" More extensive instructions can be found here: ").append(linkFTPUploadDoc)
-//				.append('\n').append('\n')
-//				.append("We would be grateful for any feedback on the upload procedure and any issues you may find.")
-//				.append('\n');
 		StringBuilder body = new StringBuilder().append("We are happy to inform you that your upload folder for study ")
 				.append("<b>").append(studyIdentifier).append("</b>")
 				.append(" has been successfully created and is now ready for use. You can use either FTP or Aspera Client to upload your study files.").append('\n').append('\n')
@@ -769,7 +818,7 @@ public class StudyController extends BasicController{
 				.append('\n')
 				.append("<b>").append("Using Aspera Client:").append("</b>").append('\n')
 				.append("You can also use the high-speed Aspera client to upload with the same username and password listed above using the command below.\n" +
-						"ascp -QT -L-  -l 300M your_local_data_folder mtblight@ah01.ebi.ac.uk:").append(ftp_path).append(ftpFolder)
+						"ascp -QT -P 33001 -L-  -l 300M your_local_data_folder mtblight@hx-fasp-1.ebi.ac.uk:").append(ftp_path).append(ftpFolder)
 				.append('\n')
 				.append('\n')
 				.append(" Detailed Instructions on data upload through FTP/Aspera is available here: ").append(linkFTPUploadDoc)
@@ -952,6 +1001,119 @@ public class StudyController extends BasicController{
 
 		return response;
 	}
+
+	/**
+	 * Returns list of  Metabolites identified in the given Metabolights Study - MTBLSX
+	 *
+	 * @param   studyIdentifier
+	 * @return  ChebiIds Array
+	 * @author  CS76
+	 * @date    20160108
+	 */
+
+	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/getPermissions", method= RequestMethod.POST)
+	@ResponseBody
+	public RestResponse<String> getPermissions(@PathVariable("studyIdentifier") String studyIdentifier, HttpServletRequest request, HttpServletResponse response) throws DAOException {
+
+		logger.info("Requesting " + studyIdentifier + "permission rights");
+
+        RestResponse<String> restResponse = new RestResponse<String>();
+
+        // check if the user exists and valid
+        UserServiceImpl usi = null;
+
+        try {
+
+            usi = new UserServiceImpl();
+
+            String token = request.getParameter("token");
+
+            User user = usi.lookupByToken(token);
+
+            if (user.getEmail() == null || token == null){
+
+                Study study = getStudyDAO().getStudy(studyIdentifier);
+
+                if(study.getStudyStatus() == Study.StudyStatus.PUBLIC){
+
+                    restResponse.setContent( "{ \"read\" : true, \"write\": false  }" );
+
+                    return restResponse;
+
+                }else {
+
+                    restResponse.setContent( "{ \"read\" : false, \"write\": false  }"  );
+
+                    response.setStatus(Response.Status.FORBIDDEN.getStatusCode());
+
+                    return restResponse;
+                }
+
+            }else{
+
+                if (user.isCurator()){
+
+                    restResponse.setContent( "{ \"read\" : true, \"write\": true  }" );
+
+                    return restResponse;
+
+                }else{
+
+                    Study study = getStudyDAO().getStudy(studyIdentifier);
+
+                    boolean userOwnstudy = doesUserOwnsTheStudy(user.getUserName(), study);
+
+                    if (userOwnstudy && study.getStudyStatus() == Study.StudyStatus.SUBMITTED){
+
+                        restResponse.setContent( "{ \"read\" : true, \"write\": true  }"  );
+
+                        return restResponse;
+
+                    }else if(userOwnstudy && study.getStudyStatus() != Study.StudyStatus.SUBMITTED){
+
+                        restResponse.setContent( "{ \"read\" : true, \"write\": false  }" );
+
+                        return restResponse;
+
+                    }else if(!userOwnstudy && study.getStudyStatus() == Study.StudyStatus.PUBLIC){
+
+                        restResponse.setContent( "{ \"read\" : true, \"write\": false  }"  );
+
+                        return restResponse;
+
+                    }
+
+                }
+
+            }
+
+        } catch (DAOException e) {
+
+            response.setStatus(Response.Status.FORBIDDEN.getStatusCode());
+
+            return restResponse;
+
+        } catch (IsaTabException e) {
+
+            e.printStackTrace();
+
+        }
+
+        restResponse.setContent( "{ 'read' : false, 'write': false  }"  );
+
+        return restResponse;
+	}
+
+    private static boolean doesUserOwnsTheStudy(String userName, LiteStudy study) {
+
+        for (User user : study.getUsers()) {
+            if (user.getUserName().equals(userName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
 
 

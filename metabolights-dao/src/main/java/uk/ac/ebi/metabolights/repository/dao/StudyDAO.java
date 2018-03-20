@@ -34,7 +34,6 @@ import uk.ac.ebi.metabolights.repository.model.Backup;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.User;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
 import uk.ac.ebi.metabolights.repository.security.SecurityService;
 import uk.ac.ebi.metabolights.repository.utils.FileAuditUtil;
@@ -44,6 +43,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static uk.ac.ebi.metabolights.repository.dao.filesystem.StudyDAO.getStudyFolder;
 
@@ -288,9 +288,9 @@ public class StudyDAO {
     }
 
 
-    public void delete(String studyIdentifier, String apiToken) throws DAOException, IOException {
+    public void delete(String studyIdentifier, String apiToken) throws DAOException, IOException, InterruptedException {
 
-        // Security: Check if the user can add a study... it will throw and exception if not authorised
+        // Security: Check if the user can delete a study... it will throw and exception if not authorised
         User user = SecurityService.userDeletingStudy(studyIdentifier, apiToken);
 
         logger.info("Deleting study {}, requested by {}", studyIdentifier, user.getFullName());
@@ -306,7 +306,18 @@ public class StudyDAO {
         // Get the folder where the study is.
         File studyFolder = getStudyFolder(studyIdentifier);
 
-        FileUtils.deleteDirectory(studyFolder);
+        boolean success = false;
+        int delay = 60, loops = 0;
+        while (!success || loops == 5) {
+            try {
+                loops++;
+                FileUtils.deleteDirectory(studyFolder);
+                success = true; // Folder was deleted
+            } catch (IOException e) {
+                logger.error("Study " + studyIdentifier + " could not be deleted; .nfs files locking. Trying again in "+delay+" seconds");
+                TimeUnit.SECONDS.sleep(delay);
+            }
+        }
 
         // Delete the data from the database
         dbDAO.delete(dbData);

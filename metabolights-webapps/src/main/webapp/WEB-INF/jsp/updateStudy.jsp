@@ -24,7 +24,6 @@
   --%>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
 
@@ -259,6 +258,7 @@
 						<div class="col-md-4">
 							<div class="panel panel-default">
 								<div class="panel-heading"><span class="glyphicon glyphicon-list"
+								<div class="panel-heading"><span class="glyphicon glyphicon-list"
 																 aria-hidden="true"></span>&nbsp;
 									<spring:message code="label.studyDesign"/></div>
 								<div class="panel-body">
@@ -294,7 +294,6 @@
 	</div>
 </div>
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.10/vue.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.17/vue-resource.js"></script>

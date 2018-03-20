@@ -3,7 +3,6 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
 
@@ -104,7 +103,7 @@
                                 </span>
                                 <span class="right">
                                     <div class="btn-group" role="group" aria-label="">
-                                        <a target="_blank" href="${pageContext.request.contextPath}/webservice/beta/compound/{{ mtblc.id }}" class="btn btn-default btn-xs"><i class="fa fa-save"></i> JSON</a>
+                                        <a target="_blank" :href="'${pageContext.request.contextPath}/webservice/beta/compound/'+mtblc.id" class="btn btn-default btn-xs"><i class="fa fa-save"></i> JSON</a>
                                         <!-- <div class="btn-group" role="group">
                                             <button type="button" class="btn btn-default btn-xs" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share"></i> Share</button>
                                             <ul class="dropdown-menu">
@@ -112,9 +111,9 @@
                                                 <li><a href="#"></a></li>
                                             </ul>
                                         </div> -->
-                                        <a href="${pageContext.request.contextPath}/referencespectraupload?cid=${compoundId}" class="btn btn-default btn-xs"><i class="fa fa-upload"></i> Upload Spectra </a>
+                                        <a :href="'${pageContext.request.contextPath}/referencespectraupload?cid=${compoundId}'" class="btn btn-default btn-xs"><i class="fa fa-upload"></i> Upload Spectra </a>
                                         <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#discussionModal"><i class="fa fa-comment"></i> Discussion</button>
-                                        <a target="_blank" href="${pageContext.request.contextPath}/contact" class="btn btn-default btn-xs"><i class="fa fa-question"></i> Help</a>
+                                        <a target="_blank" :href="'${pageContext.request.contextPath}/contact'" class="btn btn-default btn-xs"><i class="fa fa-question"></i> Help</a>
                                     </div>
                                 </span>
 
@@ -132,7 +131,7 @@
                                              */
 
                                             var disqus_config = function () {
-                                                this.page.url = "http://www.ebi.ac.uk/metabolights/${compoundId}";  // Replace PAGE_URL with your page's canonical URL variable
+                                                this.page.url = "//www.ebi.ac.uk/metabolights/${compoundId}";  // Replace PAGE_URL with your page's canonical URL variable
                                                 this.page.identifier = "${compoundId}"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
                                             };
 
@@ -174,8 +173,6 @@
                                             <h4>
                                                 {{ mtblc.definition }}
                                             </h4>
-
-                                            {{mtblc.flags.hasSpecies}}
                                         </div>
                                         <div class="met-panel col-md-12">
 
@@ -186,10 +183,10 @@
                                             <div class="col-md-12 ml_tr">
                                                 <div class="col-md-3 ml_trc ml_trh">MetaboLights Identifier</div>
                                                 <div class="col-md-9 ml_trc">
-                                                    <p v-for="iupac in mtblc.iupacNames" class="label-spaced">{{ mtblc.id }}</p>
+                                                    <p class="label-spaced">{{ mtblc.id }}</p>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12 ml_tr">
+                                            <div class="col-md-12 ml_tr" v-if="mtblc.iupacNames.length > 0">
                                                 <div class="col-md-3 ml_trc ml_trh">IUPAC Names</div>
                                                 <div class="col-md-9 ml_trc">
                                                     <p v-for="iupac in mtblc.iupacNames" class="label-spaced">{{ iupac }},</p>
@@ -235,7 +232,7 @@
                                                 <div class="col-md-3 ml_trc ml_trh">SMILES</div>
                                                 <div class="col-md-9 ml_trc">{{ mtblc.smiles }}</div>
                                             </div>
-                                            <div class="col-md-12 ml_tr">
+                                            <div class="col-md-12 ml_tr" v-if="mtblc.synonyms.length && mtblc.synonyms.length > 0">
                                                 <div class="col-md-3 ml_trc ml_trh">Synonymns</div>
                                                 <div class="col-md-9 ml_trc">
                                                     <div id="ml--synonyms">
@@ -261,10 +258,15 @@
                                                 <div class="col-md-12 ml_trc"><b><h4>Species</h4></b></div>
                                             </div>
                                             <div class="col-md-12 ml_tr" v-for="id in mtblc.species">
-                                                <div class="col-md-3 ml_trc"><b>{{ $key }}</b></div>
+                                                <div class="col-md-3 ml_trc"><p class="bnStyling"><b><i>{{ $key }}</i></b></p></div>
                                                 <div class="col-md-9 ml_trc">
                                                     <p v-for="source in id">
-                                                        <span>{{{ source.SpeciesAccession }}}</span>&emsp;<span>{{{ source.SourceAccession }}}</span>
+                                                        <span v-if="isStudy(source.SpeciesAccession)">
+                                                            <a target="_blank" :href="'/metabolights/'+source.SpeciesAccession"><span>{{{ source.SpeciesAccession }}}</span></a>&emsp;<a @click="showMAFDetails(source)" ><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                                        </span>
+                                                        <span v-else>
+                                                            <span>{{{ source.SpeciesAccession }}}</span>&emsp;<span>{{{ source.SourceAccession }}}</span>
+                                                        </span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -302,12 +304,12 @@
                                                         <div class="alert alert-info" role="alert">
                                                             This metabolite has been identified in the following MetaboLights studies.
                                                             <span v-for="map in selectedWPSpeciesStudyMap">
-                                                                <a href="http://www.ebi.ac.uk/metabolights/{{ map.SpeciesAccession }}" target="_blank">{{ map.SpeciesAccession }}</a>&nbsp;
+                                                                <a :href="'//www.ebi.ac.uk/metabolights/'+map.SpeciesAccession" target="_blank">{{ map.SpeciesAccession }}</a>&nbsp;
                                                             </span>
                                                         </div>
                                                     </div>
                                                     <div v-if="selectedPathway" class="well no-padding">
-                                                        <iframe src="http://www.wikipathways.org/wpi/PathwayWidget.php?id={{selectedPathway}}" frameborder="0" width="98%" height="500px" seamless="seamless" scrolling="no"></iframe>
+                                                        <iframe :src="'//www.wikipathways.org/wpi/PathwayWidget.php?id='+selectedPathway" frameborder="0" width="98%" height="500px" seamless="seamless" scrolling="no"></iframe>
                                                     </div>
                                                 </div>
                                                 <div role="tabpanel" class="tab-pane" id="kegg">
@@ -318,7 +320,7 @@
                                                     <div v-if="selectedKEGGPathway">
                                                         <br>
                                                         <span class='zoom' id="kegg--img">
-                                                            <img src='http://www.kegg.jp/kegg/pathway/ko/{{selectedKEGGPathway}}.png' class="img-responsive">
+                                                            <img :src="'http://www.kegg.jp/kegg/pathway/ko/'+selectedKEGGPathway+'.png'" class="img-responsive">
                                                         </span>
                                                     </div>
                                                     <div class="clearfix"></div>
@@ -433,7 +435,7 @@
                                                                     </span>
                                                                     <hr>
                                                                     <h5 class="ml_sp_title">
-                                                                        <a href="http://splash.fiehnlab.ucdavis.edu/">Splash - The Spectral Hash Identifier</a> <span class="pull-right" id="splash-container">{{ spectra.splash.splash }}</span>
+                                                                        <a href="//splash.fiehnlab.ucdavis.edu/">Splash - The Spectral Hash Identifier</a> <span class="pull-right" id="splash-container">{{ spectra.splash.splash }}</span>
 
                                                                     </h5>
                                                                 </div>
@@ -449,7 +451,7 @@
                                     </div>
 
                                     <div role="tabpanel" class="tab-pane" id="citations">
-                                        <h4><b><a href="http://europepmc.org/">Europe PubMed Central results</a></b></h4>
+                                        <h4><b><a href="//europepmc.org/">Europe PubMed Central results</a></b></h4>
                                         <hr>
                                         <div v-for="citation in mtblc.citations">
                                             <div class="panel panel-default" id="panel1">
@@ -462,12 +464,69 @@
                                                     <p><small><b>Abstract: </b>{{ citation.abstract }}</small></p>
                                                         <div v-if="citation.doi != 'NA'">
                                                             <hr>
-                                                            <p><b>DOI: </b> <a href="http://dx.doi.org/{{citation.doi}}" target="_blank">{{ citation.doi }}</a></p>
+                                                            <p><b>DOI: </b> <a :href="'//dx.doi.org/'+citation.doi" target="_blank">{{ citation.doi }}</a></p>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="modal-maf" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-md">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button " class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title">
+                                            Metabolite Identification Details
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table table-bordered table-hover" v-if="selectedMAFEntry">
+                                            <tbody>
+                                            <tr>
+                                                <td>Study Id</td>
+                                                <td>{{ selectedMAFEntry.SpeciesAccession }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Species</td>
+                                                <td>{{ selectedMAFEntry.Species }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Assay Id</td>
+                                                <td>{{ selectedMAFEntry.Assay }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>MAF Details</td>
+                                                <td>
+                                                    <span v-for="(index, prop) in selectedMAFEntry.MAFEntry">
+                                                        <span v-if="prop != ''">
+                                                            <span v-if="prop">
+                                                                <span v-if="index == 'sampleMeasurements'">
+                                                                    <span>Sample Measurements</span><br>
+                                                                    <span v-for="(type,measurement) in prop">
+                                                                        <span v-if="measurement['sampleName'] != ''">
+                                                                            <span v-if="measurement['value'] == ''">
+                                                                                {{ measurement['sampleName'] }}:&emsp;<b> - </b><br>
+                                                                            </span>
+                                                                            <span v-else>
+                                                                                {{ measurement['sampleName'] }}:&emsp;<b>{{ measurement['value'] }}</b><br>
+                                                                            </span>
+                                                                        </span>
+                                                                    </span>
+                                                                </span>
+                                                                <span v-else>
+                                                                    {{index}}:&emsp;<b>{{ prop }}</b><br>
+                                                                </span>
+                                                            </span>
+                                                        </span>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -480,24 +539,27 @@
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.10/vue.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.17/vue-resource.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
 
 <script src="${pageContext.request.contextPath}/javascript/Notifier.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
 
 
-<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.js" charset="utf-8"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.Rheaction.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/st.min.js" charset="utf-8"></script>
 
 
-<script type="text/javascript" language="javascript" src="http://www.reactome.org/DiagramJs/diagram/diagram.nocache.js"></script>
+<script type="text/javascript" language="javascript" src="//www.reactome.org/DiagramJs/diagram/diagram.nocache.js"></script>
 
 <script src="https://wzrd.in/bundle/biojs-vis-keggviewer@1.1.2"></script>
 
@@ -507,6 +569,16 @@
 <script>
 
     jQuery.noConflict();
+
+    $(document).ready(function() {
+        if(location.hash) {
+            $('.nav-tabs a[href="' + location.hash + '"]').tab('show');
+        }
+        $(document.body).on("click", "a[data-toggle]", function(event) {
+            location.hash = this.getAttribute("href");
+            getHash();
+        });
+    });
 
     var data = {
         compound: '${compoundId}',
@@ -530,7 +602,8 @@
         synonymsCount: 0,
         msSpectra: [],
         nmrSpectra: [],
-        selectedWPSpeciesStudyMap: []
+        selectedWPSpeciesStudyMap: [],
+        selectedMAFEntry: null
     }
 
     var vm = new Vue({
@@ -591,6 +664,17 @@
             },
             toggleLoading: function(){
                 this.loading = !this.loading;
+            },
+            isStudy: function(id){
+                if (id.includes("MTBLS")){
+                    return true;
+                }
+                return false;
+            },
+            showMAFDetails: function(details){
+                this.selectedMAFEntry = details;
+                console.log(this.selectedMAFEntry);
+                $('#modal-maf').modal('show');
             }
         },
         ready: function(){
@@ -598,8 +682,8 @@
             this.$http.get('${pageContext.request.contextPath}/webservice/beta/compound/'+ this.compound, function (data, status, request) {
                 this.$set('mtblc', data);
                 this.mtblc['chebiId'] = this.mtblc['id'].replace("MTBLC", "");
-                this.mtblc['imageUrl'] = "http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=" + this.mtblc['chebiId'] + "&dimensions=600&transbg=true";
-                this.mtblc['imageUrlLarge'] = "http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=" + this.mtblc['chebiId'] + "&dimensions=1000&transbg=true";
+                this.mtblc['imageUrl'] = "//www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=" + this.mtblc['chebiId'] + "&dimensions=600&transbg=true";
+                this.mtblc['imageUrlLarge'] = "//www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=" + this.mtblc['chebiId'] + "&dimensions=1000&transbg=true";
                 this.load3DMolecule();
                 this.loading = false;
                 var clipboard = new Clipboard('.ml--clipboard');
@@ -658,7 +742,7 @@
 
             var w = document.getElementById("diagramHolder").offsetWidth;
             var diagram = Reactome.Diagram.create({
-                "proxyPrefix" : "/metabolights/RheaAndReactomeProxy?url=http://www.reactome.org/",
+                "proxyPrefix" : "/metabolights/RheaAndReactomeProxy?url=https://www.reactome.org/",
                 "placeHolder" : "diagramHolder",
                 "width" : w,
                 "height" : 500
@@ -710,7 +794,7 @@
         });
         this.NMRarray.remove();
         this.NMRarray.add(this.selectedNMRSpectra.map(function(spec){
-            return spec.url;
+            return spec.url.replace("http","https");
         }));
     })
 
@@ -729,15 +813,7 @@
 
     });
 
-    $(document).ready(function() {
-        if(location.hash) {
-            $('.nav-tabs a[href="' + location.hash + '"]').tab('show');
-        }
-        $(document.body).on("click", "a[data-toggle]", function(event) {
-            location.hash = this.getAttribute("href");
-            getHash();
-        });
-    });
+
     $(window).on('popstate', function() {
         var anchor = location.hash || $("a[data-toggle=tab]").first().attr("href");
         $('a[href=' + anchor + ']').tab('show');

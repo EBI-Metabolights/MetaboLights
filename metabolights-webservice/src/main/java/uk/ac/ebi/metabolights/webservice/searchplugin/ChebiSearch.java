@@ -111,18 +111,23 @@ public class ChebiSearch implements Serializable, Cloneable, Callable<CompoundSe
 
     private String processFromulaWithCharge(Entity chebiEntity) {
         if (thisChebiResultisValid(chebiEntity.getFormulae())) {
-            String formula = chebiEntity.getFormulae().get(0).getData();
-            String charge = chebiEntity.getCharge();
-            if (!charge.equals("0")) {
-                if (charge.equals("+1")) {
-                    formula = formula + "+";
-                } else if (charge.equals("-1")) {
-                    formula = formula + "-";
-                } else {
-                    formula = formula + charge;
+            try {
+                String formula = chebiEntity.getFormulae().get(0).getData();
+                String charge = chebiEntity.getCharge();
+                if (!charge.equals("0")) {
+                    if (charge.equals("+1")) {
+                        formula = formula + "+";
+                    } else if (charge.equals("-1")) {
+                        formula = formula + "-";
+                    } else {
+                        formula = formula + charge;
+                    }
                 }
+                return formula;
+
+            } catch (Exception e) {
+                return null;
             }
-            return formula;
         }
         return null;
     }

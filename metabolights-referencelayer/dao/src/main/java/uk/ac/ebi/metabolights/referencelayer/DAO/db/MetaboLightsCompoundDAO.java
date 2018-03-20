@@ -322,6 +322,7 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
         String name = rs.getString("NAME");
         String description = rs.getString("DESCRIPTION");
         String inchi = rs.getString("INCHI");
+        String inchikey = rs.getString("INCHIKEY");
         String chebiId = rs.getString("TEMP_ID");
         String iupacNames = rs.getString("IUPAC_NAMES");
         String formula = rs.getString("FORMULA");
@@ -338,6 +339,7 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
         compound.setName(name);
         compound.setDescription(description);
         compound.setInchi(inchi);
+        compound.setInchikey(inchikey);
         compound.setChebiId(chebiId);
         compound.setFormula(formula);
         compound.setIupacNames(iupacNames);
@@ -408,6 +410,7 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
             stm.setInt(12, ((compound.getHasNMR()) ? 1 : 0));
             stm.setInt(13, ((compound.getHasMS()) ? 1 : 0));
             stm.setDate(14, compound.getUpdatedDate());
+            stm.setString(15, compound.getInchikey());
 
 			stm.executeUpdate();
 
@@ -460,7 +463,8 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
             stm.setInt(12, ((compound.getHasNMR()) ? 1 : 0));
             stm.setInt(13, ((compound.getHasMS()) ? 1 : 0));
             stm.setDate(14, compound.getUpdatedDate());
-            stm.setLong(15, compound.getId());
+            stm.setString(15, compound.getInchikey());
+            stm.setLong(16, compound.getId());
 
 			stm.executeUpdate();
 

@@ -48,7 +48,11 @@ public class Utilities {
             Collection<CompoundSearchResult> chemSpiderCompounds = extract(chemSpiderResults);
             if (!chemSpiderCompounds.isEmpty()) {
                 if (chemSpiderCompounds.size() == 1) {
-                    totalSearchResults.addAll(chemSpiderCompounds);
+                    for (CompoundSearchResult compound : chemSpiderCompounds) {
+                        if (hit(compound.getName(), compoundName)) {
+                            totalSearchResults.add(compound);
+                        }
+                    }
                 } else {
                     for (CompoundSearchResult compound : chemSpiderCompounds) {
                         if (hit(compound.getName(), compoundName)) {

@@ -450,8 +450,10 @@ METABOLIGHTS.FileControl.prototype.download = function (source, path) {
                 "rate_policy": conf.rate_policy,
                 "remote_host": conf.remote_download_host,
                 "remote_user": conf.remote_download_user,
+                "fasp_port": conf.fasp_port,
                 "resume": 'sparse_checksum', // "none","attributes","sparse_checksum","full_checksum"
-                "ssh_port": 22,
+                "ssh_port": 33001,
+                "tcp_port": 33001,
                 "target_rate_kbps": conf.target_rate_kbps
             }
         });
@@ -588,7 +590,8 @@ METABOLIGHTS.FileControl.prototype.upload = function (paths, destination, fcObj)
                 "remote_user": conf.remote_upload_user,
                 "remote_password": conf.remote_upload_password,
                 "resume": 'sparse_checksum', // "none","attributes","sparse_checksum","full_checksum"
-                "ssh_port": 22,
+                "ssh_port": 33001,
+                "tcp_port": 33001,
                 "target_rate_kbps": conf.target_rate_kbps
             }
         });

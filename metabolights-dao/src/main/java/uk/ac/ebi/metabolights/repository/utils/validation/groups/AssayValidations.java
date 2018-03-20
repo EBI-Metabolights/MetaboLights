@@ -108,11 +108,14 @@ public class AssayValidations implements IValidationProcess {
             List<String> fileFields = getFileFieldsExceptMAFFrom(assay.getAssayTable().getFields());
             List<String> fileColumnsThatAreEmpty = new ArrayList<>();
             for (String fileField : fileFields) {
-                if (!thisFileColumnHasFilesReferenced(fileField, assay.getAssayTable().getData())) {
-                    fileColumnsThatAreEmpty.add(fileField);
+                if (Utilities.getfieldName(fileField).equalsIgnoreCase("free induction decay data file") ||
+                        Utilities.getfieldName(fileField).equalsIgnoreCase("raw spectral data file")) {
+                    if (!thisFileColumnHasFilesReferenced(fileField, assay.getAssayTable().getData())) {
+                        fileColumnsThatAreEmpty.add(fileField);
+                    }
                 }
             }
-            if (fileColumnsThatAreEmpty.size() == fileFields.size()) {
+            if (fileColumnsThatAreEmpty.size() > 0) {
                 validation.setPassedRequirement(false);
                 validation.setMessage(getErrMessage(assay, fileColumnsThatAreEmpty));
                 return validation;
@@ -131,6 +134,23 @@ public class AssayValidations implements IValidationProcess {
             }
         }
         return fileFields;
+    }
+
+    private static List<String> getRawFileFieldsFrom(LinkedHashMap<String, Field> tableFields) {
+        List<String> fileFields = getFileFieldsFrom(tableFields);
+        List<String> rawFileFields = new ArrayList<String>();
+        if(!fileFields.isEmpty()){
+              for(String fileField : fileFields){
+//                  if(!Utilities.getfieldName(fileField).equalsIgnoreCase("derived spectral data file")){
+//                     rawFileFields.add(fileField);
+//                  }
+                  if(Utilities.getfieldName(fileField).equalsIgnoreCase("free induction decay data file")
+                          || Utilities.getfieldName(fileField).equalsIgnoreCase("raw spectral data file") ){
+                      rawFileFields.add(fileField);
+                  }
+              }
+        }
+        return rawFileFields;
     }
 
 
@@ -214,7 +234,7 @@ public class AssayValidations implements IValidationProcess {
 
     private static List<String> filesThatHasnoPhysicalReference(List<String> allFilesList, List<Assay> assays) {
         List<String> noPhysicalReference = new ArrayList<>();
-        HashSet<String> filesThatAreReferencedInAssays = getFilesThatAreReferencedInAssays(assays);
+        HashSet<String> filesThatAreReferencedInAssays = getFilesThatAreReferencedInAssays(assays, true);
         for (String uniqueFileName : filesThatAreReferencedInAssays) {
             if (!Utilities.match(uniqueFileName, allFilesList)) {
                 noPhysicalReference.add(uniqueFileName);
@@ -223,10 +243,16 @@ public class AssayValidations implements IValidationProcess {
         return noPhysicalReference;
     }
 
-    private static HashSet<String> getFilesThatAreReferencedInAssays(List<Assay> assays) {
+    private static HashSet<String> getFilesThatAreReferencedInAssays(List<Assay> assays, boolean ignoreDerivedDataFile) {
         HashSet<String> uniqueFileNamesReferencedInAssays = new HashSet();
         for (Assay assay : assays) {
-            List<String> fileFields = getFileFieldsFrom(assay.getAssayTable().getFields());
+            List<String> fileFields = new ArrayList<>();
+            if(!ignoreDerivedDataFile){
+                 fileFields = getFileFieldsFrom(assay.getAssayTable().getFields());
+            }
+            else{
+                fileFields = getRawFileFieldsFrom(assay.getAssayTable().getFields());
+            }
             //int[] indexesToBeLookedUpon = getAllIndexes(fileFields);
             for (int i = 0; i < fileFields.size(); i++) {
                 if (thisFileColumnHasFilesReferenced(fileFields.get(i), assay.getAssayTable().getData())) {
@@ -275,7 +301,7 @@ public class AssayValidations implements IValidationProcess {
         validation.setId(ValidationIdentifier.ASSAY_CORRECT_RAW_FILE.getID());
         HashSet<String> incorrectFormat = new HashSet<>();
 
-        HashSet<String> filesThatAreReferencedInAssays = getFilesThatAreReferencedInAssays(study.getAssays());
+        HashSet<String> filesThatAreReferencedInAssays = getFilesThatAreReferencedInAssays(study.getAssays(), true);
         for (String file : filesThatAreReferencedInAssays) {
             try {
                 if(!file.startsWith("m_")){

@@ -123,7 +123,7 @@
         <repository>
             <id>chebi-repo-snapshot</id>
             <name>ChEBI Repository</name>
-            <url>http://www.ebi.ac.uk/~biobabel/maven2_repo</url>
+            <url>https://www.ebi.ac.uk/~biobabel/maven2_repo</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>

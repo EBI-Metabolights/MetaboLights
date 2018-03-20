@@ -28,17 +28,16 @@
   --%>
 
 <!--<link rel="stylesheet" href="${pageContefxt.request.contextPath}/cssrl/iconfont/font_fstyle.css" type="text/css"/>-->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css"/>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/dataTables.bootstrap.min.css"/>
-<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.10/css/dataTables.bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/ChEBICompound.css" type="text/css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/css/bootstrap-tour.css"
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/css/bootstrap-tour.css"
       type="text/css"/>
 
 <link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/css/bootstrap-select.min.css">
+      href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/css/bootstrap-select.min.css">
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.js" charset="utf-8"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.ChEBICompound.js"
@@ -50,7 +49,7 @@
 <script type="text/javascript"
         src="${pageContext.request.contextPath}/javascript/MetExplore/metExploreViz/metexploreviz.js"
         charset="utf-8"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="${orcidServiceUrl}"></script>
 
 
@@ -103,10 +102,6 @@
 
 </script>
 
-<script>
-    thorApplicationNamespace.createWorkOrcId('${study.title}', 'data-set', '${releaseYear}', 'http://www.ebi.ac.uk/metabolights/${study.studyIdentifier}', '${study.description}','METABOLIGHTS');
-    thorApplicationNamespace.addWorkIdentifier('other-id', '${study.studyIdentifier}');
-</script>
 
 <%--<c:set var="readOnly" value="${!fn:contains(servletPath,study.studyIdentifier)}"/>--%>
 
@@ -139,7 +134,7 @@
 
 <div class="container-fluid">
 
-    <div class="study--wrapper col-md-12">
+    <div class="study--wrapper col-md-12 clearfix">
         <h2 class="study--title col-md-12">
             <span class="study--id" id="mStudyId">${study.studyIdentifier}:</span>&nbsp;
             ${study.title}
@@ -253,99 +248,101 @@
                 <button type="button" class="btn btn-default quicklinks files--tab" data-destination="files"><i
                         class="ml--icons fa fa-download pull-left"></i> Download Study files
                 </button>
-                <c:choose>
-                    <c:when test="${userApiToken eq 'MetaboLights-anonymous'}">
-                        <button type="button" class="btn btn-default"
-                                title="To Claim this study login into MetaboLights and link your ORCID account"
-                                onclick="location.href ='login'">
-                            <i class="thorOrcIdSpan">
-                                <img src="//www.ebi.ac.uk/europepmc/thor/resources/orcid-id.png" value="What is ORCID?"
-                                     width="15" height="15" data-pin-nopin="true">
-                            </i> Claim this study to ORCID
-                        </button>
-                    </c:when>
-                    <c:otherwise>
-                        <c:choose>
-                            <c:when test="${not empty userOrcidID}">
-                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="thorOrcIdSpan">
-                                        <img src="//www.ebi.ac.uk/europepmc/thor/resources/orcid-id.png" value="What is ORCID?"
-                                             width="15" height="15" data-pin-nopin="true">
-                                    </i>
-                                    Claim this study to ORCID
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <div class="thor_div_showIf_notSigned">
-                                        <table>
-                                            <tr>
-                                                <td class="thor_div_showIf_datasetAlreadyClaimedList">
-                                                    <div id="claimants" class="existingClaimants">
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>You can <a href="#" class="thor_a_generate_signinLink">sign-in to
-                                                    ORCID</a> to claim
-                                                    your
-                                                    data
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><input type="checkbox" class="thor_checkbox_rememberMe_cookie">
-                                                    Remember
-                                                    me on this computer
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
 
-                                    <div class="thor_div_showIf_signedIn">
-                                        <table>
-                                            <tr>
-                                                <td class="thor_div_showIf_datasetAlreadyClaimedList">
-                                                    <div id="claimants1" class="existingClaimants">
-                                                    </div>
-                                                </td>
-                                            </tr>
+                <c:if test="${study.studyStatus.descriptiveName eq 'Public'}">
 
-                                            <tr>
-                                                <td>You have signed in as <label
-                                                        class="thor_label_show_userName"></label></td>
-                                            </tr>
-                                            <tr style="display:none" class="thor_div_showIf_datasetNotClaimed">
-                                                <td>You can <a href="#"
-                                                               class="thor_a_generate_claimLink">claim ${study.studyIdentifier}</a>
-                                                    into your ORCID.
-                                                </td>
-                                            </tr>
-                                            <tr style="display:none" class="thor_div_showIf_datasetAlreadyClaimed">
-                                                <td>You have claimed ${study.studyIdentifier} into your ORCID.
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="#" class="thor_a_generate_logoutLink"><i>logout</i></a>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
+                    <button class="btn btn-default dropdown-toggle orcid-dropdown" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="thorOrcIdSpan">
+                            <img src="//www.ebi.ac.uk/europepmc/thor/resources/orcid-id.png" value="What is ORCID?"
+                                 width="15" height="15" data-pin-nopin="true">
+                        </i>
+                        ORCID Claims
+                    </button>
+                    <div class="dropdown-menu orcid-dropdown" aria-labelledby="dropdownMenuButton">
+                        <div class="thor_div_showIf_notSigned">
+
+                            <div class="panel panel-warning" style="margin: -6px 0px -8px -1px;">
+                                <div class="panel-heading thor_div_showIf_datasetAlreadyClaimedList">
+
+                                                You can <a href="#" class="thor_a_generate_signinLink">sign-in
+                                                to
+                                                ORCID</a> to claim your data
+
                                 </div>
+                                <div class="panel-body">
 
-                            </c:when>
-                            <c:otherwise>
-                                <button class="btn btn-default" type="button"
-                                        title="Link your ORCID id to your MetaboLights account to claim this study"
-                                        onclick="location.href='myAccount'">
-                                    <i class="thorOrcIdSpan">
-                                        <img src="//www.ebi.ac.uk/europepmc/thor/resources/orcid-id.png" value="What is ORCID?"
-                                             width="15" height="15" data-pin-nopin="true">
-                                    </i>
-                                    Update your ORCID ID
-                                </button>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:otherwise>
-                </c:choose>
+                                    <div class="row existingClaimants">
+                                    </div>
+
+                                    <c:if test="${userApiToken ne 'MetaboLights-anonymous'}">
+                                        <c:if test="${empty userOrcidID}">
+                                            <br>
+                                            <div class="row">
+                                                <div class="panel panel-warning">
+                                                    <div class="panel-body"> You can <a
+                                                            href="${pageContext.request.contextPath}/myAccount"
+                                                            target="_blank">Update your MTBLS account</a> with ORCID
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </c:if>
+                                    </c:if>
+                                </div>
+                                <div class="panel-footer">
+                                    <input type="checkbox" class="thor_checkbox_rememberMe_cookie">
+                                    <a target="_blank" href="https://orcid.org/"><i>ORCID</i></a> <i> can Remember me on
+                                    this
+                                    computer </i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="thor_div_showIf_signedIn">
+
+                            <div class="panel panel-warning" style="margin: -6px 0px -8px -1px;">
+                                <div class="panel-heading thor_div_showIf_datasetAlreadyClaimedList">
+
+                                                <div class="row">
+                                                    You have signed in as <label
+                                                        class="thor_label_show_userName"></label>
+                                                </div>
+                                                <div class="row thor_div_showIf_datasetNotClaimed">
+                                                    You can <a href="#"
+                                                               class="thor_a_generate_claimLink"><strong>claim ${study.studyIdentifier}</strong></a>
+                                                    into your ORCID.
+                                                </div>
+                                                <div class="row small thor_div_showIf_datasetAlreadyClaimed">
+                                                    You have claimed <strong>${study.studyIdentifier}</strong> into your ORCID.
+                                                </div>
+
+                                </div>
+                                <div class="panel-body">
+                                     <div class="row existingClaimants">
+
+                                     </div>
+                                    <c:if test="${userApiToken ne 'MetaboLights-anonymous'}">
+                                        <c:if test="${empty userOrcidID}">
+                                            <br>
+                                            <div class="row">
+                                                <div class="panel panel-warning">
+                                                    <div class="panel-body"> You can <a
+                                                            href="${pageContext.request.contextPath}/myAccount"
+                                                            target="_blank">Update your MTBLS account</a> with ORCID
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </c:if>
+                                    </c:if>
+                                </div>
+                                <div class="panel-footer">
+                                   <a href="#" class="thor_a_generate_logoutLink"><i>Logout from ORCID</i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </c:if>
 
 
             </div>
@@ -361,7 +358,7 @@
 
             <script>
 
-                if ($('.study--description').height() < 128){
+                if ($('.study--description').height() < 128) {
                     $('.study--description--small').toggleClass('study--description--small study--description--big');
                     $('.expand--description').addClass("hidden");
                 }
@@ -516,7 +513,7 @@
                                                         <c:set var="DOIValue" value="${pub.doi}"/>
                                                         <c:choose>
                                                             <c:when test="${not empty pub.pubmedId}">
-                                                                <a href="http://europepmc.org/abstract/MED/${pub.pubmedId}"
+                                                                <a href="//europepmc.org/abstract/MED/${pub.pubmedId}"
                                                                    target="_blank">${pub.title}</a>
                                                             </c:when>
                                                             <c:when test="${not empty pub.doi}">
@@ -530,7 +527,7 @@
                                                                 </c:if>
                                                                 <c:if test="${not fn:contains(DOIValue, 'dx.doi')}">
                                                                     <a target="_blank"
-                                                                       href="http://dx.doi.org/${DOIValue}">${pub.title}</a>
+                                                                       href="//dx.doi.org/${DOIValue}">${pub.title}</a>
                                                                 </c:if>
                                                             </c:when>
                                                             <c:otherwise>${pub.title}</c:otherwise>
@@ -610,7 +607,7 @@
                                             <c:if test="${cell.field.header eq 'Sample Name'}">
                                                 <c:if test="${fn:startsWith(cellvalue, 'SAMEA')}">
                                                     <c:set var="cellvalue"
-                                                           value="<a href='http://www.ebi.ac.uk/biosamples/sample/${cellvalue}'>${cellvalue}</a>"/>
+                                                           value="<a href='//www.ebi.ac.uk/biosamples/sample/${cellvalue}'>${cellvalue}</a>"/>
                                                 </c:if>
                                             </c:if>
                                             <td>${cellvalue}</td>
@@ -801,7 +798,7 @@
                                                                         <c:if test="${cell.field.header eq 'Sample Name'}">
                                                                             <c:if test="${fn:startsWith(cellvalue, 'SAMEA')}">
                                                                                 <c:set var="cellvalue"
-                                                                                       value="<a href='http://www.ebi.ac.uk/biosamples/sample/${cell.value}'>${cell.value}</a>"/>
+                                                                                       value="<a href='//www.ebi.ac.uk/biosamples/sample/${cell.value}'>${cell.value}</a>"/>
                                                                             </c:if>
                                                                         </c:if>
                                                                         <td>${cellvalue}</td>
@@ -908,7 +905,7 @@
                                                                         <c:if test="${cell.field.header eq 'Sample Name'}">
                                                                             <c:if test="${fn:startsWith(cellvalue, 'SAMEA')}">
                                                                                 <c:set var="cellvalue"
-                                                                                       value="<a href='http://www.ebi.ac.uk/biosamples/sample/${cell.value}'>${cell.value}</a>"/>
+                                                                                       value="<a href='//www.ebi.ac.uk/biosamples/sample/${cell.value}'>${cell.value}</a>"/>
                                                                             </c:if>
                                                                         </c:if>
                                                                         <td>${cellvalue}</td>
@@ -936,26 +933,26 @@
                         <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
                             <div role="tabpanel" class="tab-pane" id="metpathways">
 
-                                <div class="col-md-12">
+                                <div class="col-md-12" id="metexplore-wrapper">
                                     <h3 class="well">Pathways - Assay&nbsp;<c:if
                                             test="${fn:length(study.assays) gt 1}">&nbsp;${assay.assayNumber}</c:if></h3>
 
                                     <div class="well col-md-12">
                                         <div class="">
                                             <label>&emsp;&emsp;Select Pathway(s)</label><br>
-                                            <div class="col-xs-11">
+                                            <div class="col-xs-12">
                                                 <div class="form-group">
                                                     <select class="selectpicker form-control" id="metPathwaysSelect"
                                                             multiple data-live-search="true">
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-1">
-                                                <div class="form-group">
-                                                    <a class="btn btn-success ml--button form-control"
-                                                       id="loadPathways" role="button">Load</a>
-                                                </div>
-                                            </div>
+                                                <%--<div class="col-md-1">--%>
+                                                <%--<div class="form-group">--%>
+                                                <%--<a class="btn btn-success ml--button form-control"--%>
+                                                <%--id="loadPathways" role="button">Load</a>--%>
+                                                <%--</div>--%>
+                                                <%--</div>--%>
                                         </div>
 
 
@@ -971,8 +968,7 @@
                                 </div>
 
 
-                                <div class="col-md-12">
-                                    <div id="metPathwaysMappingDataContainer">
+                                    <div class="col-md-12" id="metPathwaysMappingDataContainer">
                                         <div class="">
                                             <br>
                                             <div class="well">
@@ -992,9 +988,12 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
 
+                                <div class="col-md-12" style="display: none;" id="noPathwaysFound">
+                                    <h5 class="well"><i class="fa fa fa-info-circle"></i>&nbsp;No pathways have been found for the metabolites in this study.</h5>
+                                </div>
                             </div>
+
                         </c:forEach>
                     </c:if>
 
@@ -1021,6 +1020,7 @@
                                                 <span class="icon icon-functional" data-icon="D"/><spring:message
                                                     code="label.requestFtpFolder"/>
                                             </a>
+                                            &nbsp;|&nbsp;
                                         </sec:authorize>
                                     </c:if>
                                     &nbsp;
@@ -1071,7 +1071,17 @@
                                 </div>
                                 <div id="noAspera" class="noAspera"></div>
 
-                                <h4><spring:message code="label.fileListTableExplanation"/></h4>
+                                <div class="clearfix">
+                                    <h4><spring:message code="label.fileListTableExplanation"/>
+                                        <span style="border-bottom: 1px solid #ccc; border-radius: 4px;"
+                                              class="pull-right">
+                                            <small><a class="btn btn-success btn-xs text-white" target="_blank"
+                                                      href="/metabolights/parallelCoordinates?study=${study.studyIdentifier}"><i
+                                                    class="fa fa-filter"
+                                                    aria-hidden="true"></i>&nbsp; Subset</a></small>
+                                        </span>
+                                    </h4>
+                                </div>
                                 <div class="input-group">
                                     <input class="inputDiscrete form-control" id="fileSelector" type="text"
                                            placeholder="<spring:message code='label.fileList.Input.placeholder'/>">
@@ -1397,20 +1407,21 @@
     </div>
 </div>
 
-<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://cdn.rawgit.com/flatlogic/bootstrap-tabcollapse/master/bootstrap-tabcollapse.js"></script>
+<script type="text/javascript"
+        src="//cdn.rawgit.com/flatlogic/bootstrap-tabcollapse/master/bootstrap-tabcollapse.js"></script>
 <script type="text/javascript" charset="utf-8">
     $('#study--tab').tabCollapse();
 </script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="//cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js"></script>
 <script type="text/javascript"
         src="${pageContext.request.contextPath}/javascript/dataTables.conditionalPaging.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/js/bootstrap-select.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/js/bootstrap-select.min.js"></script>
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/js/i18n/defaults-*.min.js"></script>-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/js/bootstrap-tour.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/js/bootstrap-tour.js"></script>
 
 <script type="text/javascript">
     // Instance the tour
@@ -1525,6 +1536,9 @@
         $('.selectpicker').selectpicker({
             style: 'btn-info'
         });
+        $('.selectpicker').on('change', function () {
+            loadPathways($('.selectpicker').selectpicker('val'));
+        });
 
         function loadData(target) {
             if (target == '#metpathways') {
@@ -1546,12 +1560,14 @@
             $.ajax({
                 url: url,
                 type: 'GET',
+
                 dataType: 'json',
                 success: function (data) {
-                    metExploreDataJSONObj = JSON.parse(data.content);
+                    metExploreDataJSONObj = JSON.parse(data.content.replace("NaN", 0));
                     //console.log(metExploreDataJSONObj)
                     var selectedValue;
                     var select = document.getElementById("metPathwaysSelect");
+                    var pathwayExists = false;
                     for (var key in metExploreDataJSONObj.pathwayList) {
                         var pathway = metExploreDataJSONObj.pathwayList[key]
                         if (pathway.mappedMetabolite > 0) {
@@ -1567,6 +1583,7 @@
 
                                 $('#metPathwaysMappingDataTable').append('<tr><td>' + pathway.name + '</td><td>' + pathway.dbIdentifier + ' (' + pathway.numberOfMetabolite + ')</td><td>' + pathway.mappedMetabolite + '</td></tr>');
                             }
+                            pathwayExists = true;
                         }
                     }
 
@@ -1575,8 +1592,12 @@
                     });
                     $('.selectpicker').selectpicker('refresh');
                     $('.selectpicker').selectpicker('val', selectedValue);
-                    loadPathways(selectedValue);
-                    hidePleaseWait();
+
+                    if(pathwayExists){
+                        loadPathways(selectedValue);
+                    }else{
+                        displayNoPathwaysFound();
+                    }
 
                 },
                 error: function (request, error) {
@@ -1585,40 +1606,44 @@
             });
         }
 
+        function displayNoPathwaysFound(){
+            hidePleaseWait();
+            $('#noPathwaysFound').toggle();
+            $('#metPathwaysMappingDataContainer').hide();
+            $('#metexplore-wrapper').hide();
+        }
+
 
         $('#loadPathways').on('click', function () {
             //alert();
-            showPleaseWait();
-            //console.log($('.selectpicker').selectpicker('val'));
-            loadPathways($('.selectpicker').selectpicker('val'));
             hidePleaseWait();
         });
 
         function loadPathways(ids) {
-            MetExploreViz.onloadMetExploreViz(function () {
-                var url = "http://metexplore.toulouse.inra.fr:8080/metExploreWebService/mapping/graphresult/38285/filteredbypathway?pathwayidlist=(" + ids.toString() + ")";
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    async: false,
-                    dataType: 'json',
-                    success: function (data) {
-                        loadPathwayData(JSON.stringify(data))
-                    },
-                    error: function (request, error) {
-                        alert("Request: " + JSON.stringify(request));
-                    }
-                });
+            if (ids != undefined){
+                MetExploreViz.onloadMetExploreViz(function () {
+                    var url = "//metexplore.toulouse.inra.fr/metExploreWebService/mapping/graphresult/38285/filteredbypathway?pathwayidlist=(" + ids.toString() + ")";
+                    $.ajax({
+                        url: url,
+                        type: 'GET',
+                        async: false,
+                        dataType: 'json',
+                        success: function (data) {
+                            loadPathwayData(JSON.stringify(data));
+                            hidePleaseWait();
+                        },
+                        error: function (request, error) {
+                            alert("Request: " + JSON.stringify(request));
+                        }
+                    });
 
-            });
+                });
+            }
         }
 
 
         function loadPathwayData(myJsonString) {
-
-
             MetExploreViz.onloadMetExploreViz(function () {
-
                 metExploreViz.GraphPanel.refreshPanel(myJsonString,
                     function () {
                         metExploreViz.onloadSession(function () {
@@ -1659,7 +1684,6 @@
             }
 
 
-
             $.ajax({
                 url: mafUrl,
                 dataType: "html",
@@ -1673,7 +1697,7 @@
                     width: '400px',
                     height: '300px',
                     proxyUrl: undefined,
-                    chebiDetailsUrl: 'http://www.ebi.ac.uk/webservices/chebi/2.0/test/getCompleteEntity?chebiId='
+                    chebiDetailsUrl: '//www.ebi.ac.uk/webservices/chebi/2.0/test/getCompleteEntity?chebiId='
                 });
 
                 $('#chebiInfo').hide();
@@ -1716,7 +1740,7 @@
                     if (metaboliteId.indexOf("CHEBI:") == 0) {
                         var offset = metlink.offset();
                         var mouseX = offset.left + metlink.outerWidth() + 20;
-                        var mouseY = offset.top-200;
+                        var mouseY = offset.top - 200;
                         chebiId = metaboliteId;
                         $('#chebiInfo img:last-child').remove;
                         $('#chebiInfo').css({
@@ -1731,14 +1755,14 @@
                     }
                 }
 
-                $(document).on('mouseenter','.metLink', function (e) {
+                $(document).on('mouseenter', '.metLink', function (e) {
                     // I'm assuming you don't want to stomp on an existing timer
                     if (!metLinkTimer) {
                         metLinkTimer = setTimeout(function () {
                             loadMetabolite(e);
                         }, 500); // Or whatever value you want
                     }
-                }).on('mouseleave','.metLink', function () {
+                }).on('mouseleave', '.metLink', function () {
                     // Cancel the timer if it hasn't already fired
                     if (metLinkTimer) {
                         clearTimeout(metLinkTimer);
@@ -1810,41 +1834,116 @@
     $(document).ready(function () {
 
         thorApplicationNamespace.loadClaimingInfo();
-        //claim list
+
+
+        $(document).on('click', '.dropdown-menu', function (e) {
+            e.stopPropagation();
+        });
+
+
+        var orcidMtblsClaims;
+            $.ajax({
+                cache: false,
+                url: "//www.ebi.ac.uk/europepmc/thor/api/dataclaiming/findDatabaseClaims/METABOLIGHTS",
+                dataType: "json",
+                success: function (orchidRespData) {
+                    orcidMtblsClaims = orchidRespData['lstDatabaseClaims'];
+                }
+            });
+
+
+
         function getOrcidClaimList() {
             $.ajax({
                 cache: false,
                 url: "${orcidRetrieveClaimsServiceUrl}:${study.studyIdentifier}",
                 dataType: "json",
                 success: function (orchidRespData) {
-                    //console.log(orchidRespData);
-                    var claimListText = "";
-                    if (orchidRespData['orcid-search-results']['num-found'] > 0) {
-
+                    var claimListText = '<div class="row"> \
+                                <div class="panel panel-warning">  \
+                                    <div class="panel-body">';
+//                    console.log(orchidRespData);
+                    var resultsNumber = orchidRespData['orcid-search-results']['num-found'];
+                    if (resultsNumber > 0) {
                         if (typeof thorApplicationNamespace != 'undefined') {
                             for (var uli = 0; uli < orchidRespData['orcid-search-results']['num-found']; uli++) {
-                                var userOrcId = orchidRespData['orcid-search-results']['orcid-search-result'][uli]['orcid-profile']['orcid-identifier']['path'];
-                                claimListText += '<a href="http://europepmc.org/search?query=AUTHORID:\'' + userOrcId + '\'&sortby=Date">' + userOrcId + '</a><br>';
+                                if(resultsNumber === 1 ){
+                                    var userOrcId = orchidRespData['orcid-search-results']['orcid-search-result']['orcid-profile']['orcid-identifier']['path'];
+                                    var userOrcName = orchidRespData['orcid-search-results']['orcid-search-result']['orcid-profile']['orcid-bio']['personal-details']['given-names']['value'];
+                                    userOrcName += " " + orchidRespData['orcid-search-results']['orcid-search-result']['orcid-profile']['orcid-bio']['personal-details']['family-name']['value'];
+                                }else{
+                                    var userOrcId = orchidRespData['orcid-search-results']['orcid-search-result'][uli]['orcid-profile']['orcid-identifier']['path'];
+                                    var userOrcName = orchidRespData['orcid-search-results']['orcid-search-result'][uli]['orcid-profile']['orcid-bio']['personal-details']['given-names']['value'];
+                                    userOrcName += " " + orchidRespData['orcid-search-results']['orcid-search-result'][uli]['orcid-profile']['orcid-bio']['personal-details']['family-name']['value'];
+                                }
+                                var claimedStudies = getMatchingMtblsOrcidClaims(userOrcId);
+                                claimListText  += '<a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="Studies Claimed"\
+                                data-content=\'' + claimedStudies +  '\' ' +
+                                     'data-html="true" class="popup-ajax">'
+                                + userOrcName + '</a><br>';
                             }
                         }
+                    }else {
+                        claimListText  +=   '<p class="text-center"><pre>None so far</pre></p>';
                     }
-                    if (claimListText != "") {
-                        $('.existingClaimants').html('<strong>Existing claims</strong><br>' + claimListText);
-//                        $('.existingClaimants').html(claimListText);
-//                    $('.thor_div_showIf_datasetAlreadyClaimedList').show();
-                    }
-                    else {
-                        claimListText += 'None so far';
-//                        $('.existingClaimants').html(claimListText);
-                        $('.existingClaimants').html('<strong>Existing claims</strong>&nbsp;:&nbsp;' + claimListText);
-                    }
+                    claimListText +=  '</div></div></div>';
+                    $('.existingClaimants').html('Existing ORCID Claims<br>' + claimListText);
+                    $(function (){
+                        $(".popup-ajax").popover({placement:'right'});
+                    });
 
                 }
             });
         }
 
+
         getOrcidClaimList();
 
+        function  getMatchingMtblsOrcidClaims(orcidToMatch){
+            var matchingIdsContent = "";
+            for (var uli = 0; uli < orcidMtblsClaims.length; uli++) {
+                var userOrcId = orcidMtblsClaims[uli]['orcId'];
+                if(userOrcId === orcidToMatch){
+                    var externalIdentifiers = orcidMtblsClaims[uli]['workExternalIdentifiers'];
+                    if(externalIdentifiers.length > 0){
+                        var mtblsid = externalIdentifiers[0]['workExternalIdentifierId'];
+                        matchingIdsContent += '<a target="_blank" class="small" href="${pageContext.request.contextPath}/' + mtblsid + '">' + mtblsid + '</a><br>';
+                    }
+                }
+            }
+            matchingIdsContent += '<br><a target="_blank" class="small" href="//orcid.org/' + orcidToMatch+'">View ORCID profile</a><br>';
+            return matchingIdsContent;
+        }
+
+        function getMtblsOrcidClaims(orcidToMatch) {
+            var claimListText = "";
+            $.ajax({
+                cache: false,
+                url: "//www.ebi.ac.uk/europepmc/thor/api/dataclaiming/findDatabaseClaims/METABOLIGHTS",
+                dataType: "json",
+                success: function (orchidRespData) {
+                    console.log(orchidRespData);
+                    if (orchidRespData['lstDatabaseClaims'].length > 0) {
+                        if (typeof thorApplicationNamespace != 'undefined') {
+                            console.log("entering..")
+                            for (var uli = 0; uli < orchidRespData['lstDatabaseClaims'].length; uli++) {
+                                var userOrcId = orchidRespData['lstDatabaseClaims'][uli]['orcId'];
+                                if(userOrcId === orcidToMatch){
+                                    var externalIdentifiers = orchidRespData['lstDatabaseClaims'][uli]['workExternalIdentifiers'];
+                                    if(externalIdentifiers.length > 0){
+                                       var mtblsid = externalIdentifiers[0]['workExternalIdentifierId'];
+                                        claimListText += '<a target="_blank" class="small" href="${pageContext.request.contextPath}/' + mtblsid + '">' + mtblsid + '</a><br>';
+                                        console.log("claims text " +  claimListText)
+                                        return claimListText;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+        }
         var asperaLoaded = false;
 
         $(function () {
@@ -1917,4 +2016,17 @@
         }
 
     });
+</script>
+<script>
+    var title = "${study.title}";
+    var description = "${study.description}";
+    var editedTitle = title.replace(/[']/g, '');
+    var editedDescription = description.replace(/[']/g, '');
+    thorApplicationNamespace.createWorkOrcId(editedTitle, 'data-set', '${releaseYear}', '//www.ebi.ac.uk/metabolights/${study.studyIdentifier}', editedDescription, 'METABOLIGHTS');
+    thorApplicationNamespace.addWorkIdentifier('other-id', '${study.studyIdentifier}');
+
+    $(function () {
+        $('[data-toggle="popover"]').popover();
+    })
+
 </script>

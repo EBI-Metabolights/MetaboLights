@@ -172,7 +172,6 @@ public class CompoundController extends BasicController {
     @RequestMapping(value = COMPOUND_MAPPING + "/getStudies")
     @ResponseBody
     private String getStudies(@PathVariable(COMPOUND_VAR) String compound) {
-
         return compound;
     }
 

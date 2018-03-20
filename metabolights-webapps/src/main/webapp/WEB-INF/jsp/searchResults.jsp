@@ -31,7 +31,6 @@
 <script type="text/javascript" src="javascript/jquery-highlight.js"></script>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
 
@@ -246,7 +245,6 @@
 </div>
 
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <%--<c:if test="${empty searchResponses}">--%>
 <%--<script>$("body").addClass("noresults")</script>--%>
 <%--<section class="grid_16 alpha">--%>
@@ -270,11 +268,11 @@
 <%--</c:if>--%>
 
 <%--</c:if>--%>
-
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.10/vue.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.17/vue-resource.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.0/axios.min.js"></script>
 <script>
     $(".grey").on('shown.bs.collapse', function () {
         var active = $(this).attr('id');
@@ -302,7 +300,6 @@
 
         $('[data-toggle="tooltip"]').tooltip();
     });
-
 </script>
 
 <c:if test="${!empty query.text}">
@@ -316,7 +313,18 @@
         el: '#app',
         data: {
             selectedStudy: null,
-            study: null
+            study: {},
+            hasGalaxyDetails: null,
+            toolId: null,
+            URL: null
+        },
+        mounted: function() {
+            this.$nextTick(function () {
+                this.hasGalaxyDetails = decodeURIComponent(this.getUrlParameter('GALAXY_URL', window.location))
+                console.log(this.hasGalaxyDetails)
+                this.toolId = this.getUrlParameter('tool_id', window.location)
+                this.URL = window.location.origin;
+            })
         },
         methods: {
             studyQuickView: function (id) {
@@ -324,15 +332,23 @@
                 this.getStudyDetails();
             },
             getStudyDetails: function () {
-                this.$http.get('${pageContext.request.contextPath}/webservice/study/' + this.selectedStudy, function (data, status, request) {
-                    this.study = data.content;
-                    console.log(data.content);
-                    $('#myModal').modal('show');
-                }).error(function (data, status, request) {
-                    console.log(data);
-                    console.log(status);
-                    console.log(request);
-                });
+                var that = this;
+                axios.get('${pageContext.request.contextPath}/webservice/study/' + this.selectedStudy)
+                    .then(function (response){
+                        that.study = response.data.content;
+                        $('#myModal').modal('show');
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            getUrlParameter: function(name, url){
+                if (!url) url = location.href;
+                name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+                var regexS = "[\\?&]"+name+"=([^&#]*)";
+                var regex = new RegExp( regexS );
+                var results = regex.exec( url );
+                return results == null ? null : results[1];
             }
         },
         filters: {
@@ -367,6 +383,5 @@
             }
         });
     });
-
 
 </script>

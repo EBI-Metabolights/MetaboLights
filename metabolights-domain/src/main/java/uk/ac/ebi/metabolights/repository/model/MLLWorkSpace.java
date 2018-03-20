@@ -3,7 +3,7 @@ package uk.ac.ebi.metabolights.repository.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.minidev.json.JSONObject;
+import org.jose4j.json.internal.json_simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.utils.json.FileUtils;
@@ -100,7 +100,7 @@ public class MLLWorkSpace {
 
     public MLLWorkSpace(User mlOwner, String root) {
 
-        this.WorkspaceLocation = root +  File.separator + mlOwner.getApiToken();
+        this.WorkspaceLocation = root +  mlOwner.getApiToken();
 
         String workspaceInfoLocation = this.WorkspaceLocation + File.separator + "workspace.info";
 
@@ -115,12 +115,20 @@ public class MLLWorkSpace {
                 MLLWorkSpace tempMllWorkSpace = mapper.readValue(json, MLLWorkSpace.class);
 
                 this.Owner = tempMllWorkSpace.getOwner();
-                this.CreatedAt = tempMllWorkSpace.getCreatedAt();
-                this.WorkspaceLocation = tempMllWorkSpace.getWorkspaceLocation();
-                this.UpdatedAt = tempMllWorkSpace.getUpdatedAt();
-                this.Projects = tempMllWorkSpace.getProjects();
-                this.Settings = tempMllWorkSpace.getSettings();
 
+                if(this.Owner == null){
+
+                    this.Owner = new MLLUser(mlOwner);
+
+                    this.save();
+
+                }
+
+                this.CreatedAt = tempMllWorkSpace.getCreatedAt();
+                this.WorkspaceLocation = tempMllWorkSpace.getWorkspaceLocation().replace("//","/");
+                this.UpdatedAt = tempMllWorkSpace.getUpdatedAt();
+                this.Settings = tempMllWorkSpace.getSettings();
+                this.Projects = tempMllWorkSpace.getProjects();
 
             } catch (IOException e) {
 
@@ -193,6 +201,43 @@ public class MLLWorkSpace {
     private Boolean saveProject(MLLProject mllProject){
 
         Projects.add(mllProject);
+
+        return this.save();
+
+    }
+
+    @JsonIgnore
+    public Boolean setProperty(String property, String value){
+
+        JSONObject settingsObject = LabsUtils.parseRequest(this.getSettings());
+
+        settingsObject.put(property, value);
+
+        this.setSettings(settingsObject.toJSONString());
+
+        return this.save();
+
+    }
+
+    @JsonIgnore
+    public String getSettings(String property){
+
+        JSONObject settingsObject = LabsUtils.parseRequest(this.getSettings());
+
+        if(settingsObject.containsKey(property)){
+            return settingsObject.get(property).toString();
+        }
+
+        return null;
+
+    }
+
+    @JsonIgnore
+    public Boolean deleteProject(MLLProject mllProject){
+
+        Projects.remove(mllProject);
+
+        FileUtils.deleteDir(new File(mllProject.getProjectLocation()));
 
         return this.save();
 

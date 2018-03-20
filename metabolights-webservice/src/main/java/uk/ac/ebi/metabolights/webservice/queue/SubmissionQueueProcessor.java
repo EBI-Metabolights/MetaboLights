@@ -32,6 +32,7 @@ import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.search.service.imp.es.ElasticSearchService;
+import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 import uk.ac.ebi.metabolights.webservice.services.AppContext;
 import uk.ac.ebi.metabolights.webservice.utils.FileUtil;
 import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
@@ -78,7 +79,9 @@ public class SubmissionQueueProcessor {
 				return;
 			}
 
-			// Move it to the process folder
+			String labsProjectId = null;
+
+					// Move it to the process folders
 			si.moveFileTo(SubmissionQueue.getProcessFolder(), false);
 
 			// If it's a new study
@@ -87,7 +90,21 @@ public class SubmissionQueueProcessor {
 				Study newStudy = create();
 
 				// Inform the user and team.
-				AppContext.getEmailService().sendQueuedStudySubmitted(newStudy, si.getOriginalFileName());
+				if (si.getOriginalFileName().contains("LABS_")){
+
+					labsProjectId = si.getOriginalFileName().replace("LABS_", "").replace(".zip", "");
+					String userID = si.getUserToken();
+
+					AppContext.getEmailService().sendQueuedStudySubmitted(newStudy, si.getOriginalFileName());
+
+                    MetabolightsWsClient mwsClient  = new MetabolightsWsClient();
+
+                    mwsClient.mapStudyToLabsProject(newStudy.getStudyIdentifier(), labsProjectId, userID, PropertiesUtil.getProperty("EBIHost"));
+
+				}else{
+					AppContext.getEmailService().sendQueuedStudySubmitted(newStudy, si.getOriginalFileName());
+				}
+
 			}
 			// It's then an update
 			else if (si.getSubmissionType() == SubissionType.UPDATE) {

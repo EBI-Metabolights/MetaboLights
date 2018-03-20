@@ -18,6 +18,8 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 
+
+
 .Share_study{
     font-size: 0.7em !important;
     color: #209AD6;
@@ -190,7 +192,6 @@ body{
 }
 
 .study--description{
-    padding: 0px 15px;
     font-size: 14px;
 }
 
@@ -202,6 +203,14 @@ body{
 
 .study--description--big {
     height: auto;
+}
+
+.study--description--big p{
+    padding: 0px 15px;
+}
+
+.study--description--small p{
+    padding: 0px 15px;
 }
 
 .study--infopanel{
@@ -619,21 +628,323 @@ a:link.btn-ok{
     margin-top: 3px !important;
 }
 
-
-.elixir-ribbon .elixir-logo-kite {
-    margin-top: 8px !important;
+.global-footer {
+    border-top: 5px solid #eee;
+    padding-top: .5rem;
 }
 
-.elixir-ribbon h5 {
-    font-size: 1.8rem  !important;
+.global-footer .ebi-logo {
+    display: block;
+    height: 53px;
+    width: 89%;
+    background-image: url(//www.ebi.ac.uk/web_guidelines/EBI-Framework/v1.2/images/logos/EMBL-EBI/EMBL_EBI_Logo_black.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-left: -.25rem;
+    position: relative;
+    top: 8px;
+}
+
+.global-footer h5 {
+    margin-top: 1.25rem;
+    margin-bottom: 5px;
+    font-size: 1.2em;
+    font-family: "Helvetica Neue",Helvetica,Roboto,Arial,sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    color: inherit;
+    line-height: 1.4;
+}
+
+.label.services-color, .services-color, .services-color a, .services-color a:hover, .services-color a:visited, .services-color cite, .services-color h3, .services-color h4, a.services-color, a:hover.services-color {
+    color: #389198 !important;
+}
+
+.label.research-color, .research-color, .research-color a, .research-color a:hover, .research-color a:visited, .research-color cite, .research-color h3, .research-color h4, a.research-color, a:hover.research-color {
+    color: #6dab49 !important;
+}
+
+.label.training-color, .training-color, .training-color a, .training-color a:hover, .training-color a:visited, .training-color cite, .training-color h3, .training-color h4, a.training-color, a:hover.training-color {
+    color: #e9b400 !important;
+}
+
+.industry-color, .industry-color a, .industry-color a:hover, .industry-color a:visited, .industry-color cite, .industry-color h3, .industry-color h4, .label.industry-color, a.industry-color, a:hover.industry-color {
+    color: #0086b4 !important;
+}
+
+.ebi-color, .ebi-color a, .ebi-color a:hover, .ebi-color a:visited, .ebi-color cite, .ebi-color h3, .ebi-color h4, .label.ebi-color, a.ebi-color, a:hover.ebi-color {
+    color: #007c82 !important;
+}
+
+a.more:after, a.read-more:after, a.readmore:after {
+    content: " >";
+    font-family: "EBI-Functional";
+    font-size: .85em;
+}
+
+.galaxy-panel{
+    background-color: transparent!important;
+    border: 1px solid #ddd;
+    margin-bottom: 0px !important;
+}
+
+#ebi-footer-meta{
+    margin-top: 1rem;
+}
+
+#global-footer ul li {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+#global-footer ul li a:hover{
+    background-color: transparent;
+    text-decoration: none;
+    border-bottom-width: 1px;
+    border-bottom-style: dotted;
+    border-radius: 0;
+    border-bottom-color: #F1F1F4;
+}
+
+.navbar {
+    min-height: 0 !important;
+    margin-bottom: 0px !important;
+    border: none !important;
+    border-radius: 0 !important;
+    font-size: 1.2rem;
+}
+
+.navbar-inverse {
+    background-color: inherit !important;
+    border-color: inherit !important;
+}
+
+.navbar-nav>li>a {
     padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    line-height: 20px !important;
 }
 
-.elixir-ribbon{
-    padding: 0.5rem 0 !important;
+.nav>li>a {
+    position: relative !important;
+    display: block !important;
+    padding: 8px 15px !important;
 }
 
-/* footer */
+.masthead-black-bar {
+    background-color: #333;
+}
+
+.masthead-black-bar ul li.home a:before {
+    font-family: 'EBI-Generic';
+    content: 'H ';
+}
+
+.masthead-black-bar ul li.services a:before {
+    font-family: 'EBI-Generic';
+    content: '( ';
+}
+
+.masthead-black-bar ul li.research a:before {
+    font-family: 'EBI-Generic';
+    content: ') ';
+}
+
+.masthead-black-bar ul li.training a:before {
+    font-family: 'EBI-Generic';
+    content: 't ';
+}
+
+.masthead-black-bar ul li.about a:before {
+    font-family: 'EBI-Generic';
+    content: 'i ';
+}
+
+.masthead-black-bar a:hover,.masthead-black-bar a:focus,.masthead-black-bar a:active {
+    border-bottom: none !important;
+}
+
+.masthead-black-bar a,.masthead-black-bar  a:link,.masthead-black-bar  a:visited {
+    border-bottom-width: 0;
+    border-bottom-style: none;
+    border-bottom-color: transparent;
+}
+
+.masthead-black-bar ul li.services a:active, .masthead-black-bar ul li.services a:focus, .masthead-black-bar ul li.services a:hover {
+    background-color: #389198;
+}
+
+.masthead-black-bar ul li.research a:active, .masthead-black-bar ul li.research a:focus, .masthead-black-bar ul li.research a:hover {
+    background-color: #6dab49;
+}
+
+.masthead-black-bar ul li.training a:active, .masthead-black-bar ul li.training a:focus, .masthead-black-bar ul li.training a:hover {
+    background-color: #e9b400;
+}
+
+.masthead-black-bar ul li.about a:active, .masthead-black-bar ul li.about a:focus, .masthead-black-bar ul li.about a:hover, .masthead-black-bar ul li.about-us a:active, .masthead-black-bar ul li.about-us a:focus, .masthead-black-bar ul li.about-us a:hover {
+    background-color: #389198;
+}
+
+img:not(.imagecache-screenshot-carousel-img) {
+    height: inherit !important;
+}
+
+.masthead-black-bar .button, .masthead-black-bar .button.hover, .masthead-black-bar .button:focus, .masthead-black-bar .button:hover {
+    background: no-repeat 4px 50% url(//www.ebi.ac.uk/web_guidelines/EBI-Framework/v1.2/images/logos/EMBL-EBI/EMBL_EBI_Logo_white.svg);
+    padding-left: 108px;
+    background-size: 100px;
+    padding-right: 17px;
+    height: 34px;
+    line-height: 12px;
+}
+
+.masthead-black-bar .button {
+    padding-left: 108px;
+    background-size: 100px;
+    padding-right: 17px;
+    width: 185px;
+    height: 34px;
+    line-height: 11px;
+}
+
+.dropdown-large {
+    position: static !important;
+}
+.dropdown-menu-large {
+    padding: 20px 0px;
+}
+.dropdown-menu-large > li > ul {
+    padding: 0;
+    margin: 0;
+}
+.dropdown-menu-large > li > ul > li {
+    list-style: none;
+}
+.dropdown-menu-large > li > ul > li > a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.428571429;
+    color: #333333;
+    white-space: normal;
+}
+.dropdown-menu-large > li ul > li > a:hover,
+.dropdown-menu-large > li ul > li > a:focus {
+    text-decoration: none;
+    color: #262626;
+    background-color: #f5f5f5;
+}
+.dropdown-menu-large .disabled > a,
+.dropdown-menu-large .disabled > a:hover,
+.dropdown-menu-large .disabled > a:focus {
+    color: #999999;
+}
+.dropdown-menu-large .disabled > a:hover,
+.dropdown-menu-large .disabled > a:focus {
+    text-decoration: none;
+    background-color: transparent;
+    background-image: none;
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+    cursor: not-allowed;
+}
+.dropdown-menu-large .dropdown-header {
+    color: #428bca;
+    font-size: 18px;
+}
+@media (max-width: 768px) {
+    .dropdown-menu-large {
+        margin-left: 0 ;
+        margin-right: 0 ;
+    }
+    .dropdown-menu-large > li {
+        margin-bottom: 30px;
+    }
+    .dropdown-menu-large > li:last-child {
+        margin-bottom: 0;
+    }
+    .dropdown-menu-large .dropdown-header {
+        padding: 3px 15px !important;
+    }
+}
+
+.green{
+    border-radius: 0 !important;
+    background-color: #007c82 !important;
+    background-image: url(//www.ebi.ac.uk/web_guidelines/EBI-Framework/v1.2/images/map.png) !important;
+    background-position: 100% 100% !important;
+    background-repeat: no-repeat !important;
+    color: #fff !important;
+    height: 23em !important;
+    padding-right: 0.7rem;
+    min-width: 45.9375em !important;
+}
+
+
+.green p{
+    margin-bottom: 1rem;
+    font-size: inherit;
+    line-height: 1.6;
+    text-rendering: optimizeLegibility;
+    padding-top: 10px;
+}
+
+.green a{
+    border-bottom-width: 1px !important;
+    border-bottom-style: dotted !important;
+    border-bottom-color: inherit;
+    font-size: 80%;
+    line-height: inherit;
+    color: #fff;
+    border-color: #fff !important;
+}
+
+.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:focus, .navbar-inverse .navbar-nav>.open>a:hover {
+    color: #fff;
+    background-color: #888 !important;
+}
+
+.padding-bottom-medium{
+    padding-bottom: 0.5em;
+}
+
+.padding-bottom-medium a{
+    font-size: 1.6rem;
+    margin-bottom: 0.2rem;
+    font-weight: normal;
+}
+
+.padding-bottom-medium a:hover{
+    color: #fff;
+}
+
+.padding-bottom-medium .small{
+    color: #fff;
+}
+
+
+.nmr{
+    background-color: #FFB520;
+}
+
+.ms{
+    background-color: #216BD6;
+}
+
+.both{
+    background-color: #FE446D;
+}
+
+
+.text-white{
+    color: #fff !important;
+}
+
+.popup-ajax:focus,.popup-ajax:active {
+    outline: none !important;
+}
+
 .global-footer {
     border-top: 5px solid #eee;
     padding: 1rem 0;
@@ -726,4 +1037,17 @@ a.more:after, a.read-more:after, a.readmore:after {
 .global-footer p {
     margin: 0 0 5px;
     font-size: 1em;
+}
+
+.elixir-ribbon .elixir-logo-kite {
+    margin-top: 8px !important;
+}
+
+.elixir-ribbon h5 {
+    font-size: 1.8rem  !important;
+    padding-top: 10px !important;
+}
+
+.elixir-ribbon{
+    padding: 0.5rem 0 !important;
 }

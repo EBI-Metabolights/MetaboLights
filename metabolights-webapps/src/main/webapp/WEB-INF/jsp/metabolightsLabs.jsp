@@ -26,15 +26,44 @@
 <base href="${pageContext.request.contextPath}/labs/">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+<link href='https://fonts.googleapis.com/css?family=Miriam+Libre:400,700|Source+Sans+Pro:200,400,700,600,400italic,700italic' rel='stylesheet' type='text/css'>
+
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.js" ></script>
+<script type="text/javascript" src="//code.jquery.com/ui/1.9.2/jquery-ui.min.js" charset="utf-8"></script>
+
+<script type="text/javascript" src="assets/aspera/asperaweb-4.js" charset="utf-8"></script>
+<script type="text/javascript" src="assets/aspera/connectinstaller-4.js" charset="utf-8"></script>
+<script type="text/javascript" src="assets/aspera/jquery-ui.js" charset="utf-8"></script>
+<script type="text/javascript" src="assets/aspera/jquery-namespace.js" charset="utf-8"></script>
+<script type="text/javascript" src="assets/aspera/ml-aspera-config.js" charset="utf-8"></script>
+<script type="text/javascript" src="assets/aspera/ml-aspera.js" charset="utf-8"></script>
+<script type="text/javascript" src="assets/aspera/install.js" charset="utf-8"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-110351649-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-110351649-1');
+</script>
+
 <app-root>
-    <div class="spinner">
-        <div class="bounce1"></div>
-        <div class="bounce2"></div>
-        <div class="bounce3"></div>
+    <div class="page-wrapper vc">
+      <span>
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+      </span>
     </div>
 </app-root>
 
-<script type="text/javascript" src="inline.js"></script>
-<script type="text/javascript" src="styles.9c4623e50e91af63c06c.bundle.js"></script>
-<script type="text/javascript" src="scripts.5fd5b1b6d5381a7392a4.bundle.js"></script>
-<script type="text/javascript" src="main.3eb96af5334a480341a5.bundle.js"></script>
+<script type="text/javascript" src="inline.bundle.js"></script>
+<script type="text/javascript" src="polyfills.bundle.js"></script>
+<script type="text/javascript" src="scripts.bundle.js"></script>
+<script type="text/javascript" src="styles.bundle.js"></script>
+<script type="text/javascript" src="vendor.bundle.js"></script>
+<script type="text/javascript" src="main.bundle.js"></script>

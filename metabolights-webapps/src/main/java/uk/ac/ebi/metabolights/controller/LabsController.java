@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class LabsController extends AbstractController {
 
-    @RequestMapping(value = {"/labs", "/labs/login" })
+    @RequestMapping(value = {"/labs", "/labs/login",  "/labs/workspace",  "/labs/workspace/dashboard", "/labs/workspace/projects", "/labs/workspace/projects", "/labs/workspace/project" , "/labs/workspace/project/*", "/labs/workspace/settings"   })
     public ModelAndView showLabsPage(HttpServletRequest request) {
 
         ModelAndView mav = AppContext.getMAVFactory().getSimpleFrontierMav("labs");

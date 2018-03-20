@@ -52,7 +52,7 @@ import java.io.File;
 import java.net.URL;
 import java.sql.Connection;
 
-public class ImporterTests extends TestCase{
+public class ImporterTests extends TestCase {
 
 	protected static final Logger LOGGER = LoggerFactory.getLogger(ImporterTests.class);
 
@@ -95,7 +95,7 @@ public class ImporterTests extends TestCase{
         //rli.setImportOptions(ReferenceLayerImporter.ImportOptions.REFRESH_MET_SPECIES);
 
 		// By deafeult use "metabolite"
-		String chebiId = rli.getChebiIDRoot();
+		//String chebiId = rli.getChebiIDRoot();
 
 		// Bile Acid metabolites
 		//String chebiId = "CHEBI:48887";
@@ -104,17 +104,18 @@ public class ImporterTests extends TestCase{
 		//String chebiId = "CHEBI:76924";
 
         // Human metabolite
-        //String chebiId = "CHEBI:77746";
+        String chebiId = "CHEBI:77746";
 
 		//String chebiId = "CHEBI:72058";
 
 		rli.setChebiIDRoot(chebiId);
 
-//		rli.setImportOptions(ReferenceLayerImporter.ImportOptions.ALL-ReferenceLayerImporter.ImportOptions.UPDATE_EXISTING_MET);
+		//rli.setImportOptions(ReferenceLayerImporter.ImportOptions.ALL-ReferenceLayerImporter.ImportOptions.UPDATE_EXISTING_MET);
+        rli.setImportOptions(ReferenceLayerImporter.ImportOptions.ALL);
         rli.importMetabolitesFromChebi();
 
-
 	}
+
     public void testImportFromTSV() throws Exception {
 
         ReferenceLayerImporter rli = new ReferenceLayerImporter(connectionProvider);
@@ -125,8 +126,6 @@ public class ImporterTests extends TestCase{
 
 		// Duplicated human (NCBI + NEWT)
 		//URL url = ImporterTests.class.getClassLoader().getResource("more_compounds_chebi_ids.tsv");
-
-
 
 
 		// List from Ken's SQL query in CHEBI to get D- and L alanine....zwiterions not included:
@@ -158,13 +157,11 @@ public class ImporterTests extends TestCase{
 		// To test import of "human metabolite"
 		rli.chebiID2MetaboLights("CHEBI:4167");
 
-
 	}
 
 	public void testRefresh() throws Exception {
 
 		ReferenceLayerImporter rli = new ReferenceLayerImporter(connectionProvider);
-
 
 		//rli.setImportOptions(ReferenceLayerImporter.ImportOptions.ALL);
 		rli.refreshMTBLC();

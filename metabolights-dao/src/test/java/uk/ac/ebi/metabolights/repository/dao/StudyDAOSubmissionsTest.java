@@ -116,7 +116,7 @@ public class StudyDAOSubmissionsTest extends DAOTest {
 
 	}
 
-	public void testDeletion(Study readStudy) throws IOException, DAOException, IsaTabException {
+	public void testDeletion(Study readStudy) throws IOException, DAOException, IsaTabException, InterruptedException {
 
 		// Test delete by anonymous
 		try {

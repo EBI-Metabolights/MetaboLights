@@ -39,7 +39,7 @@
         <module>metabolights-search</module>
     </modules>
     <properties>
-        <com.fasterxml.jackson.version>2.4.3</com.fasterxml.jackson.version>
+        <com.fasterxml.jackson.version>2.8.9</com.fasterxml.jackson.version>
     </properties>
     <build>
         <extensions>
@@ -113,17 +113,17 @@
         <repository>
             <id>ebi-repo</id>
             <name>The EBI repository</name>
-            <url>http://www.ebi.ac.uk/~maven/m2repo</url>
+            <url>https://www.ebi.ac.uk/~maven/m2repo</url>
         </repository>
         <repository>
             <id>chebi-repo-snapshot</id>
             <name>ChEBI Repository</name>
-            <url>http://www.ebi.ac.uk/~biobabel/maven2_repo</url>
+            <url>https://www.ebi.ac.uk/~biobabel/maven2_repo</url>
         </repository>
         <repository>
             <id>chebi-snapshot-repo-snapshot</id>
             <name>ChEBI Repository</name>
-            <url>http://www.ebi.ac.uk/~biobabel/maven2_repo</url>
+            <url>https://www.ebi.ac.uk/~biobabel/maven2_repo</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
@@ -133,6 +133,10 @@
             <name>codehaus-mule-repo</name>
             <url>http://repository-master.mulesoft.org/nexus/content/groups/public/</url>
             <layout>default</layout>
+        </repository>
+        <repository>
+            <id>nexus-ebi-release-repo</id>
+            <url>http://www.ebi.ac.uk/Tools/maven/repos/content/groups/ebi-repo/</url>
         </repository>
         <repository>
             <id>stax-ex-fix</id>
