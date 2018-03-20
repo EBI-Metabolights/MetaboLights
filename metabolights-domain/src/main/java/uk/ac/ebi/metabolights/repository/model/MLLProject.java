@@ -183,26 +183,30 @@ public class MLLProject {
     @JsonIgnore
     public Boolean saveJob(MLLJob mllJob){
 
-        if (this.Jobs == null){
+        if(mllJob != null){
+            if (this.Jobs == null){
 
-            this.Jobs = new ArrayList<MLLJob>();
+                this.Jobs = new ArrayList<MLLJob>();
 
-        }
-
-        int i = 0;
-        boolean exist = false;
-        for(MLLJob job : this.Jobs) {
-            if(job.getJobId().equalsIgnoreCase(mllJob.getJobId())){
-               exist = true;
-               break;
             }
-            i++;
-        }
 
-        if(exist){
-            this.Jobs.set(i, mllJob);
+            int i = 0;
+            boolean exist = false;
+            for(MLLJob job : this.Jobs) {
+                if(job.getJobId().equalsIgnoreCase(mllJob.getJobId())){
+                    exist = true;
+                    break;
+                }
+                i++;
+            }
+
+            if(exist){
+                this.Jobs.set(i, mllJob);
+            }else{
+                this.Jobs.add(mllJob);
+            }
         }else{
-            this.Jobs.add(mllJob);
+            return false;
         }
 
         return this.save();

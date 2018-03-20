@@ -3,7 +3,7 @@ package uk.ac.ebi.metabolights.repository.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.minidev.json.JSONObject;
+import org.jose4j.json.internal.json_simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.utils.json.FileUtils;
@@ -203,6 +203,32 @@ public class MLLWorkSpace {
         Projects.add(mllProject);
 
         return this.save();
+
+    }
+
+    @JsonIgnore
+    public Boolean setProperty(String property, String value){
+
+        JSONObject settingsObject = LabsUtils.parseRequest(this.getSettings());
+
+        settingsObject.put(property, value);
+
+        this.setSettings(settingsObject.toJSONString());
+
+        return this.save();
+
+    }
+
+    @JsonIgnore
+    public String getSettings(String property){
+
+        JSONObject settingsObject = LabsUtils.parseRequest(this.getSettings());
+
+        if(settingsObject.containsKey(property)){
+            return settingsObject.get(property).toString();
+        }
+
+        return null;
 
     }
 

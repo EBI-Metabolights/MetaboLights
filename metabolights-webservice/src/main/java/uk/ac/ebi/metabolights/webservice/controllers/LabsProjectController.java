@@ -395,19 +395,29 @@ public class LabsProjectController {
 
         if (mllJob == null){
 
-            String[] commands = {"ssh", "ebi-cli-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_mzml2isa.sh", "--token", user.getApiToken(), "--project " , mllProject.getId(), "--env", "dev"};
+            String[] commands = {"ssh", "ebi-cli-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_mzml2isa.sh", "--token", user.getApiToken(), "--project" , mllProject.getId(), "--env", "dev"};
 
             MLLJob pJob = executeCommand(commands, mllProject, null);
 
-            mllProject.saveJob(pJob);
+            if (pJob == null){
 
-            mllWorkSpace.appendOrUpdateProject(mllProject);
+                restResponse.setMessage("Job submission unsuccessful. Please check the logs for more details");
 
-            restResponse.setContent(pJob.getAsJSON());
+                response.setStatus(500);
+
+            }else{
+
+                mllProject.saveJob(pJob);
+
+                mllWorkSpace.appendOrUpdateProject(mllProject);
+
+                restResponse.setContent(pJob.getAsJSON());
+
+            }
 
         }else{
 
-            String[] commands = {"ssh", "ebi-cli-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_mzml2isa.sh", "--token", user.getApiToken(), "--project " , mllProject.getId(), "--env", "dev", "--job" , mllJob.getJobId() };
+            String[] commands = {"ssh", "ebi-cli-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_mzml2isa.sh", "--token", user.getApiToken(), "--project" , mllProject.getId(), "--env", "dev", "--job" , mllJob.getJobId() };
 
             MLLJob pJob = executeCommand(commands, mllProject, mllJob);
 
@@ -417,13 +427,15 @@ public class LabsProjectController {
 
                 response.setStatus(500);
 
+            }else{
+
+                mllProject.saveJob(pJob);
+
+                mllWorkSpace.appendOrUpdateProject(mllProject);
+
+                restResponse.setContent(pJob.getAsJSON());
+
             }
-
-            mllProject.saveJob(pJob);
-
-            mllWorkSpace.appendOrUpdateProject(mllProject);
-
-            restResponse.setContent(pJob.getAsJSON());
 
         }
 
@@ -479,19 +491,30 @@ public class LabsProjectController {
 
         if (mllJob == null){
 
-            String[] commands = {"ssh", "ebi-cli-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_nmrml2isa.sh", "--token", user.getApiToken(), "--project " , mllProject.getId(), "--env", "dev"};
+            String[] commands = {"ssh", "ebi-cli-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_nmrml2isa.sh", "--token", user.getApiToken(), "--project" , mllProject.getId(), "--env", "dev"};
 
             MLLJob pJob = executeCommand(commands, mllProject, null);
 
-            mllProject.saveJob(pJob);
+            if (pJob == null) {
 
-            mllWorkSpace.appendOrUpdateProject(mllProject);
+                restResponse.setMessage("Job submission unsuccessful. Please check the logs for more details");
 
-            restResponse.setContent(pJob.getAsJSON());
+                response.setStatus(500);
+
+            }else{
+
+                mllProject.saveJob(pJob);
+
+                mllWorkSpace.appendOrUpdateProject(mllProject);
+
+                restResponse.setContent(pJob.getAsJSON());
+
+            }
+
 
         }else{
 
-            String[] commands = {"ssh", "ebi-cli-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_nmrml2isa.sh", "--token", user.getApiToken(), "--project " , mllProject.getId(), "--env", "dev", "--job" , mllJob.getJobId() };
+            String[] commands = {"ssh", "ebi-cli-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/convert_nmrml2isa.sh", "--token", user.getApiToken(), "--project" , mllProject.getId(), "--env", "dev", "--job" , mllJob.getJobId() };
 
             MLLJob pJob = executeCommand(commands, mllProject, mllJob);
 
@@ -501,14 +524,14 @@ public class LabsProjectController {
 
                 response.setStatus(500);
 
+            }else{
+
+                mllProject.saveJob(pJob);
+
+                mllWorkSpace.appendOrUpdateProject(mllProject);
+
+                restResponse.setContent(pJob.getAsJSON());
             }
-
-            mllProject.saveJob(pJob);
-
-            mllWorkSpace.appendOrUpdateProject(mllProject);
-
-            restResponse.setContent(pJob.getAsJSON());
-
         }
 
         return restResponse;
@@ -608,7 +631,7 @@ public class LabsProjectController {
 
                 // submit the job to the cluster
                 String queueFolderLocation = "";
-                String[] commands = {"ssh", "ebi-cli-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/submit_labs_project.sh", "--token", user.getApiToken(), "--project " , mllProject.getId(), "--zip", submittedZipFileName, "--location", projectLocation, "--env", "dev"};
+                String[] commands = { "ssh", "ebi-cli-001", "/nfs/www-prod/web_hx2/cm/metabolights/scripts/submit_labs_project.sh", "--token", user.getApiToken(), "--project" , mllProject.getId(), "--zip", submittedZipFileName, "--location", projectLocation, "--env", "dev"};
 
                 MLLJob pJob = executeCommand(commands, mllProject, null);
 
@@ -786,6 +809,10 @@ public class LabsProjectController {
                 if (jobLogDetails.contains("Successfully completed")){
 
                     mllJob.setStatus("DONE");
+
+                }else if(jobLogDetails.contains("Exited with exit code 1.")) {
+
+                    mllJob.setStatus("EXITED");
 
                 }else{
 
