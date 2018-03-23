@@ -165,23 +165,23 @@
                 </table>
             </div>
         </div>
-        <div v-if="hasGalaxyDetails != 'null'" class="col-md-12">
-            <div class="row">
-                <div class="panel panel-body galaxy-panel">
-                    <form :action="hasGalaxyDetails" method="POST">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" value="true" name="download_rawfiles"> Download raw files
-                            </label><br>
-                        </div>
-                        <input type="HIDDEN" name="tool_id" :value="toolId">
-                        <input type="HIDDEN" name="URL" :value="URL">
-                        <input type="hidden"  value="${liteStudy.studyIdentifier}" name="study_id">
-                        <input type="submit"  class="btn btn-default btn-xs" name="metabolights_doGalaxyQuery" id="metabolights_doGalaxyQuery" value="Export data to Galaxy">
-                    </form>
-                </div>
-            </div>
-        </div>
+        <%--<div v-if="hasGalaxyDetails != 'null'" class="col-md-12">--%>
+            <%--<div class="row">--%>
+                <%--<div class="panel panel-body galaxy-panel">--%>
+                    <%--<form :action="hasGalaxyDetails" method="POST">--%>
+                        <%--<div class="checkbox">--%>
+                            <%--<label>--%>
+                                <%--<input type="checkbox" value="true" name="download_rawfiles"> Download raw files--%>
+                            <%--</label><br>--%>
+                        <%--</div>--%>
+                        <%--<input type="HIDDEN" name="tool_id" :value="toolId">--%>
+                        <%--<input type="HIDDEN" name="URL" :value="URL">--%>
+                        <%--<input type="hidden"  value="${liteStudy.studyIdentifier}" name="study_id">--%>
+                        <%--<input type="submit"  class="btn btn-default btn-xs" name="metabolights_doGalaxyQuery" id="metabolights_doGalaxyQuery" value="Export data to Galaxy">--%>
+                    <%--</form>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
     </div>
 </div>
 <script>
