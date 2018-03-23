@@ -157,10 +157,10 @@
             </div>
             <div class="panel-body">
                 <a href="presubmit" class="more"><b>Upload Study</b></a>
-                <div class="row">
-                    <hr>
-                </div>
-                Upload reference spectra to MetaboLights - Compounds Reference Library<br><a href="#" class="more">more</a>
+                <%--<div class="row">--%>
+                    <%--<hr>--%>
+                <%--</div>--%>
+                <%--Upload reference spectra to MetaboLights - Compounds Reference Library<br><a href="#" class="more">more</a>--%>
             </div>
         </div>
     </div>
