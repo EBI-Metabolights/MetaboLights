@@ -28,31 +28,39 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
 
 <div class="container-fluid">
-    <div class="col-md-12">
-        <h3 class="heading text-center"><c:if test="${!empty user}">Hi ${user.firstName}. </c:if><spring:message code="msg.submCredentialsShort" /></h3>
+    <div class="row">
+        &nbsp;
     </div>
-    <div class="col-md-12">
-        <div>&nbsp;</div>
-        <div class="col-md-4 col-md-offset-1">
-            <div class="bigbutton maincolorI">
-                <a href="submittoqueue">
-                    <span class="bigfont"><spring:message code="label.submitNewStudy"/></span><br/>
-                    <span><spring:message code="label.submitNewStudySub"/></span>
-                </a>
+    <div class="panel panel-default">
+        <div class="panel-header">
+            <h3 class="heading text-center"><c:if test="${!empty user}">Hi ${user.firstName}. </c:if><spring:message code="msg.submCredentialsShort" /></h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12">
+                &nbsp;
+            </div>
+            <div class="col-md-5 col-md-offset-1">
+                <div class="bigbutton maincolorI">
+                    <a class="btn btn-lg btn-primary" href="submittoqueue">
+                        <span class="bigfont"><b><spring:message code="label.submitNewStudy"/></b></span><br/>
+                        <span><small><spring:message code="label.submitNewStudySub"/></small></span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4 col-md-offset-1">
+                <div class="bigbutton seccolorI">
+                    <a class="btn btn-lg btn-primary" href="mysubmissions?status=PRIVATE">
+                        <span class="bigfont"><b><spring:message	code="label.updateOldStudy"/></b></span></br>
+                        <span><small><spring:message code="label.updateOldStudySub"/></small></span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-12">
+                &nbsp;
             </div>
         </div>
-        <div class="col-md-4 col-md-offset-2">
-            <div class="bigbutton seccolorI">
-                <a href="mysubmissions?status=PRIVATE">
-                    <span class="bigfont"><spring:message	code="label.updateOldStudy"/></span></br>
-                    <span><spring:message code="label.updateOldStudySub"/></span>
-                </a>
-            </div>
+        <div class="panel-footer">
+            <p class="text-center"><spring:message code="msg.metabolightsAbout11" /></p>
         </div>
-    </div>
-    <div>&nbsp;</div>
-    <div>&nbsp;</div>
-    <div class="col-md-12">
-        <p class="text-center"><spring:message code="msg.metabolightsAbout11" /></p>
     </div>
 </div>
