@@ -1121,6 +1121,24 @@ html.fontface i.icon-conceptual, html.fontface input.icon-conceptual, html.fontf
     content: attr(data-icon);
 }
 
+.elixir-ribbon .elixir-logo-kite {
+    margin-top: 8px !important;
+}
+
+.elixir-ribbon h5 {
+    font-size: 1.8rem  !important;
+    padding-top: 10px !important;
+}
+
+.elixir-ribbon{
+    padding: 0.5rem 0 !important;
+}
+
+#elixir-banner .column{
+    padding-left: 2em;
+    padding-top: 0.5em;
+}
+
 @media only screen and (min-width : 320px) {
     .masthead-black-bar {
         height: 50px;
