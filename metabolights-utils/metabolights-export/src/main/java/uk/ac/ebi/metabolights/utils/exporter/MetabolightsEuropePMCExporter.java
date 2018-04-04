@@ -1,13 +1,13 @@
 /*
  * EBI MetaboLights - http://www.ebi.ac.uk/metabolights
- * Cheminformatics and Metabolism group
+ * Metabolism team
  *
- * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Trust Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
+ * European Bioinformatics Institute (EMBL-EBI), European Molecular Biology Laboratory, Wellcome Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom
  *
- * Last modified: 2015-Apr-22
+ * Last modified: 2018-Apr-04
  * Modified by:   kenneth
  *
- * Copyright 2015 EMBL - European Bioinformatics Institute
+ * Copyright 2018 EMBL - European Bioinformatics Institute
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ import java.io.File;
 
 
 public class MetabolightsEuropePMCExporter {
-    
+
     private final static String ML_BASE_URL = "https://www.ebi.ac.uk/metabolights";
     private static String xmlFileName = null;
     private static DocumentBuilderFactory dbf = null;
