@@ -1059,7 +1059,7 @@ public class StudyController extends BasicController{
 
                 }else{
 
-                    Study study = getStudyDAO().getStudy(studyIdentifier);
+                    Study study = getStudyDAO().getStudy(studyIdentifier,user.getApiToken());
 
                     boolean userOwnstudy = doesUserOwnsTheStudy(user.getUserName(), study);
 
