@@ -216,6 +216,9 @@ public class MetabolightsEuropePMCExporter {
                 for (Publication publication : study.getPublications()) {
                     if (hasValue(publication.getDoi()))
                         entry.appendChild(addGenericElement("doi", tidyNonPrintChars(publication.getDoi(),"doi")));
+
+                    if (hasValue(publication.getPubmedId()))
+                        entry.appendChild(addGenericElement("pubmed", tidyNonPrintChars(publication.getPubmedId(),"pubmed")));
                 }
 
                 //Add the complete study to the entry section
