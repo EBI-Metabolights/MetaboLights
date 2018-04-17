@@ -413,6 +413,16 @@ a:link.hyperlinks{
     border-radius: 6px 0 6px 6px;
 }
 
+.vc{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.vh100{
+    height: 100px;
+}
+
 
 a:link.btn-ok{
     color: #fff !important;

@@ -6,7 +6,7 @@
 jQuery.namespace( 'METABOLIGHTS' );
 
 METABOLIGHTS.ConfigFileControl = {
-    remote_upload_host: 'ahx-fasp-1.ebi.ac.uk',
+    remote_upload_host: 'hx-fasp-1.ebi.ac.uk',
     remote_upload_user: 'UPLOAD_USERNAME',
     remote_upload_password: 'UPLOAD_PASSWORD',
     remote_download_host: 'fasp.ebi.ac.uk',
