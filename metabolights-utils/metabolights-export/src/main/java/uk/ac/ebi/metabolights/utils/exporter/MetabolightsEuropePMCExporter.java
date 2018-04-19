@@ -142,7 +142,7 @@ public class MetabolightsEuropePMCExporter {
         if (!validateParams(args)){
             System.out.println("Usage:");
             System.out.println("    Parameter 1: The name of the Europe PMC export xml export file (Mandatory)");
-            System.out.println("    Parameter 5: The URL of the MetaboLights Web Service");
+            System.out.println("    Parameter 2: The URL of the MetaboLights Web Service");
             System.out.println();
         } else {
 
@@ -215,10 +215,10 @@ public class MetabolightsEuropePMCExporter {
 
                 for (Publication publication : study.getPublications()) {
                     if (hasValue(publication.getDoi()))
-                        entry.appendChild(addGenericElement("doi", tidyNonPrintChars(publication.getDoi(),"doi")));
+                        entry.appendChild(addGenericElement("doi", tidyDoi(publication.getDoi())));
 
                     if (hasValue(publication.getPubmedId()))
-                        entry.appendChild(addGenericElement("pubmed", tidyNonPrintChars(publication.getPubmedId(),"pubmed")));
+                        entry.appendChild(addGenericElement("pubmed", tidyPubmed(publication.getPubmedId())));
                 }
 
                 //Add the complete study to the entry section
@@ -244,6 +244,7 @@ public class MetabolightsEuropePMCExporter {
 
     private static String tidyDoi(String doi){
         String tidyStr = doi.toLowerCase();
+        tidyStr = tidyNonPrintChars(tidyStr, "doi");
 
         tidyStr = tidyStr.replaceAll("http://","").replaceFirst("dx.", "");
         tidyStr = tidyStr.replaceAll("doi.org/","");
@@ -257,6 +258,7 @@ public class MetabolightsEuropePMCExporter {
     private static String tidyPubmed(String pubmed){
         String tidyStr = pubmed.toLowerCase();
 
+        tidyStr = tidyNonPrintChars(tidyStr, "pubmed");
         tidyStr = tidyStr.replaceAll("none","");
         tidyStr = tidyStr.replaceAll("na","");
         tidyStr = tidyStr.replaceAll("n/a","");
