@@ -54,7 +54,7 @@ public class RheaAndReactomeProxy extends HttpServlet {
         getContent(request, response);
     }
 
-    @RequestMapping({"/RheaAndReactomeProxy"})
+    @RequestMapping({"/RheaAndReactomeProxy","/SwaggerProxy"})
     public static void getContent(HttpServletRequest request, HttpServletResponse response) {
         try {
             String reqUrl = request.getParameter("url");
@@ -63,11 +63,21 @@ public class RheaAndReactomeProxy extends HttpServlet {
                 response.setStatus(404);
             }
 
-            if (!reqUrl.contains("rhea-db.org") && !reqUrl.contains("reactome.org")) return;
+            if (!reqUrl.contains("rhea-db.org") && !reqUrl.contains("reactome.org") && !reqUrl.contains("/mtbls/ws/")) return;
+
 
             URL url = new URL(reqUrl);
+
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setDoOutput(true);
+
+            if (reqUrl.contains("/mtbls/ws/")){
+                String user_token = request.getHeader("user_token");
+                logger.info("Proxy request to Swagger server " + url + ", with user_token " + user_token);
+                con.setRequestProperty("user_token",user_token);
+                con.setRequestProperty("api_key",user_token);
+            }
+
             con.setRequestMethod(request.getMethod());
             int clength = request.getContentLength();
             if (clength > 0) {
