@@ -63,15 +63,18 @@ public class RheaAndReactomeProxy extends HttpServlet {
                 response.setStatus(404);
             }
 
-            if (!reqUrl.contains("rhea-db.org") && !reqUrl.contains("reactome.org") && !reqUrl.contains("/mtbls/ws/")) return;
+            if (!reqUrl.contains("rhea-db.org") && !reqUrl.contains("reactome.org") && !reqUrl.contains("mtbls/ws/")) return;
 
 
             URL url = new URL(reqUrl);
 
+            if (reqUrl.contains("mtbls/ws/"))
+                url = new URL("http://localhost:5000/" + reqUrl);   //TODO, JNDI, "swaggerhost"
+
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setDoOutput(true);
 
-            if (reqUrl.contains("/mtbls/ws/")){
+            if (reqUrl.contains("mtbls/ws/")){
                 String user_token = request.getHeader("user_token");
                 logger.info("Proxy request to Swagger server " + url + ", with user_token " + user_token);
                 con.setRequestProperty("user_token",user_token);
