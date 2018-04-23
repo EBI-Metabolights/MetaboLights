@@ -69,7 +69,7 @@ public class RheaAndReactomeProxy extends HttpServlet {
             URL url = new URL(reqUrl);
 
             if (reqUrl.contains("mtbls/ws/"))
-                url = new URL("http://localhost:5000/" + reqUrl);   //TODO, JNDI, "swaggerhost"
+                url = new URL("http://localhost:5000/" + reqUrl);   //TODO, add JNDI parameter "swaggerhost"
 
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setDoOutput(true);

@@ -48,6 +48,7 @@ public class MetabolightsEuropePMCExporter {
     private static String[] allStudies = null;
     private static String WSCLIENT_URL = ML_BASE_URL + "/webservice/";
     private static MetabolightsWsClient wsClient;
+    private static String metaboLightsId = "1234";
 
     public MetabolightsEuropePMCExporter(){}
 
@@ -205,12 +206,12 @@ public class MetabolightsEuropePMCExporter {
 
                 Study study = getStudy(studyAcc);
                 Element entry = doc.createElement("link");
-                entry.setAttribute("providerId", "MetaboLightsIDValue");
+                entry.setAttribute("providerId", metaboLightsId);   //TODO, change to final id
 
                 //Add the sub tree "additional_fields"
                 Element additionalField = doc.createElement("resource");
                 entry.appendChild(additionalField);
-                additionalField.appendChild(addGenericElement("title", tidyNonPrintChars(study.getTitle(),"title")));
+                additionalField.appendChild(addGenericElement("title", tidyNonPrintChars(studyAcc + ": " + study.getTitle(),"title")));
                 additionalField.appendChild(addGenericElement("url", ML_BASE_URL + "/" + studyAcc ));
 
                 for (Publication publication : study.getPublications()) {
