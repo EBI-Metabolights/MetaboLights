@@ -15,12 +15,13 @@ public class NumberUtils {
     public static String getHumanReadableByteSize(BigDecimal sizeInBytes) {
 
         String humanReadableSize = "";
+        double blockSize = 1024.0;
 
-        double kb = sizeInBytes.doubleValue() / 1024.0;
-        double mb = kb / 1024.0;
-        double gb = mb / 1024.0;
-        double tb = gb / 1024.0;
-                                                    
+        double kb = sizeInBytes.doubleValue() / blockSize;
+        double mb = kb / blockSize;
+        double gb = mb / blockSize;
+        double tb = gb / blockSize;
+
         if (tb > 1) {
             humanReadableSize = formatter.format(tb).concat("TB");
         } else if (gb > 1) {

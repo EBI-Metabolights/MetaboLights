@@ -215,11 +215,16 @@ public class MetabolightsEuropePMCExporter {
                 additionalField.appendChild(addGenericElement("url", ML_BASE_URL + "/" + studyAcc ));
 
                 for (Publication publication : study.getPublications()) {
-                    if (hasValue(publication.getDoi()))
+
+                    if (hasValue(publication.getPubmedId())) {   // If we have PubMed id, do not add doi
+                        //Add the sub tree "record"
+                        Element recordField = doc.createElement("record");
+                        entry.appendChild(recordField);
+                        recordField.appendChild(addGenericElement("source", "MED"));
+                        recordField.appendChild(addGenericElement("id", tidyPubmed(publication.getPubmedId())));
+                    } else if (hasValue(publication.getDoi()))
                         entry.appendChild(addGenericElement("doi", tidyDoi(publication.getDoi())));
 
-                    if (hasValue(publication.getPubmedId()))
-                        entry.appendChild(addGenericElement("pubmed", tidyPubmed(publication.getPubmedId())));
                 }
 
                 //Add the complete study to the entry section
