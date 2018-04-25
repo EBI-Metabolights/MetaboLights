@@ -10,8 +10,6 @@ public class NumberUtils {
 
     static final DecimalFormat formatter = new DecimalFormat("0.00");
 
-
-
     public static String getHumanReadableByteSize(BigDecimal sizeInBytes) {
 
         String humanReadableSize = "";
@@ -29,7 +27,7 @@ public class NumberUtils {
         } else if (mb > 1) {
             humanReadableSize = formatter.format(mb).concat("MB");
         } else if (kb > 1) {
-            humanReadableSize = formatter.format(mb).concat("KB");
+            humanReadableSize = formatter.format(kb).concat("KB");
         } else {
             humanReadableSize = formatter.format(sizeInBytes).concat("Bytes");
         }
