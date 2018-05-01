@@ -18,11 +18,15 @@ create table curation_log_temp as
         to_char(s.submissiondate,'YYYYMM') as submonth
       from studies s where 1 = 2
       order by acc_short asc;
+ 
+alter table curation_log_temp alter column studysize type bigint;
+alter table curation_log_temp alter column nmr_size type bigint;
+alter table curation_log_temp alter column ms_size type bigint;
 
 DO $$
 BEGIN
 
-  FOR i_acc in 1..800 LOOP
+  FOR i_acc in 1..1000 LOOP
    insert into curation_log_temp(acc, acc_short) values('MTBLS'||i_acc, i_acc);
   END LOOP;
  
@@ -66,7 +70,7 @@ BEGIN
   update curation_log_temp set ms_size = (studysize-12000),       nmr_size = 12000 where acc='MTBLS103';
   update curation_log_temp set ms_size = (studysize-355000),     nmr_size = 355000 where acc='MTBLS336';
   update curation_log_temp set ms_size = (studysize-45000000), nmr_size = 45000000 where acc='MTBLS353';
-  
+
 END
 $$;      
       
@@ -81,12 +85,12 @@ CREATE TABLE ebi_reporting (
 insert into ebi_reporting(ms_nmr, submonth, size) 
 select 'ms' , submonth, sum(sum(ms_size)) over (order by submonth) 
 from curation_log_temp
-group by submonth order by submonth asc;
+group by submonth order by submonth desc;
 
 insert into ebi_reporting(ms_nmr, submonth, size) 
 select 'nmr', submonth, sum(sum(nmr_size)) over (order by submonth) 
 from curation_log_temp
-group by submonth order by submonth asc;
+group by submonth order by submonth desc;
 
 delete from ebi_reporting where submonth is null;
 
