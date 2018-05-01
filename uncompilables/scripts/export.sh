@@ -1,6 +1,5 @@
-#!/usr/bin/env bash
 JAVA=/etc/alternatives/jre_1.7.0/bin/java
-JAR_FILE=metabolights-export-1.1-SNAPSHOT.jar
+JAR_FILE=metabolights-export-1.1-SNAPSHOT-deps.jar
 WS_URL=https://www.ebi.ac.uk/metabolights/webservice/
 FTP_DIR=/ebi/ftp/pub/databases/metabolights/eb-eye
 EBEYE_FILE=eb-eye_metabolights_complete.xml

@@ -145,6 +145,19 @@ public class MetabolightsEuropePMCExporter {
 
     public static void main(String[] args) {
 
+        /** Profile file must also exist in the ftp upload directory:
+         * <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+         * <providers>
+         *  <provider>
+         *    <id>1782</id>
+         *    <resourceName>MetaboLights</resourceName>
+         *    <description>SMetaboLights is a database for Metabolomics experiments and derived information/description>
+         *    <email>metabolights-help@ebi.ac.uk</email>
+         *  </provider>
+         * </providers>
+         */
+
+
         if (!validateParams(args)){
             System.out.println("Usage:");
             System.out.println("    Parameter 1: The name of the Europe PMC export xml export file (Mandatory)");
