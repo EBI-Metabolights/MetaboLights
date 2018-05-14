@@ -159,8 +159,13 @@ public class MzTabDAO {
 
     private String getValue(String columnEntry, int index){
         if(columnEntry.isEmpty()) return "";
-        String[] values = columnEntry.split("\\|");
-        return values.length==1 ? values[0] :values[index];
+
+        if (columnEntry.contains("\\|")) {
+            String[] values = columnEntry.split("\\|");
+            return values.length == 1 ? values[0] : values[index];
+        }
+
+        return "";
     }
 
 
