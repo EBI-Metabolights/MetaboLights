@@ -39,9 +39,17 @@ public class DescriptionConstants {
     public static final String STUDY_FACTORS = "Study factors used in the experiment";
     public static final String PROTOCOLS_ALL = "Comprehensive Experimental protocol";
     public static final String PROTOCOLS_MINIMUM = "Minimal Experimental protocol";
-    public static final String PROTOCOLS_SAMPLE_COLLECTION = "Sample Collection protocol";
+    public static final String PROTOCOLS_SAMPLE_COLLECTION = "Sample Collection protocol description";
     public static final String PROTOCOLS_TEXT = "Protocols text successfully parsed";
+    public static final String PROTOCOLS_EXTRACTION = "Extraction protocol description";
+    public static final String PROTOCOLS_DATA_EXTRACTION = "Data transformation protocol description";
+
     public static final String MAF_PROTOCOLS = "Metabolite Identification protocol description";
+    public static final String MS_PROTOCOLS_CROMA = "Chromatography protocol description";
+    public static final String MS_PROTOCOLS_MASS_SPEC = "Mass spectrometry protocol description";
+    public static final String NMR_PROTOCOLS_SPECTROSCOPY = "NMR spectroscopy protocol description";
+    public static final String NMR_PROTOCOLS_NMR_ASSAY = "NMR assay protocol description";
+    public static final String NMR_PROTOCOLS_NMR_SAMPLE = "NMR sample protocol description";
 
 
     public static final String ASSAYS = "Assay(s)";
