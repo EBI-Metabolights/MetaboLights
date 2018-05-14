@@ -43,6 +43,8 @@ public class DescriptionConstants {
     public static final String PROTOCOLS_TEXT = "Protocols text successfully parsed";
     public static final String PROTOCOLS_EXTRACTION = "Extraction protocol description";
     public static final String PROTOCOLS_DATA_EXTRACTION = "Data transformation protocol description";
+    public static final String PROTOCOLS_HISTOLOGY = "Histology protocol description";
+    public static final String PROTOCOLS_PREPARATION = "Preparation protocol description";
 
     public static final String MAF_PROTOCOLS = "Metabolite Identification protocol description";
     public static final String MS_PROTOCOLS_CROMA = "Chromatography protocol description";
@@ -50,6 +52,9 @@ public class DescriptionConstants {
     public static final String NMR_PROTOCOLS_SPECTROSCOPY = "NMR spectroscopy protocol description";
     public static final String NMR_PROTOCOLS_NMR_ASSAY = "NMR assay protocol description";
     public static final String NMR_PROTOCOLS_NMR_SAMPLE = "NMR sample protocol description";
+    public static final String NMR_PROTOCOLS_NMR_MRI = "Magnetic resonance imaging protocol description";
+    public static final String NMR_PROTOCOLS_IN_VIVO_MRS = "In vivo magnetic resonance spectroscopy protocol description";
+    public static final String NMR_PROTOCOLS_NMR_IN_VIVO_ASSAY = "In vivo magnetic resonance assay protocol description";
 
 
     public static final String ASSAYS = "Assay(s)";

@@ -4,16 +4,13 @@ import uk.ac.ebi.metabolights.repository.model.Assay;
 import uk.ac.ebi.metabolights.repository.model.Protocol;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Group;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Requirement;
+import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.ValidationIdentifier;
 import uk.ac.ebi.metabolights.repository.utils.validation.DescriptionConstants;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Requirement;
 import uk.ac.ebi.metabolights.repository.utils.validation.Utilities;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by kalai on 01/10/15.
@@ -27,29 +24,42 @@ public class ProtocolValidations implements IValidationProcess {
     }
 
     public Collection<Validation> getValidations(Study study) {
+        Boolean imaging = isImagingStudy(study);
         Collection<Validation> protocolValidations = new LinkedList<>();
         Validation minimumProtocolValidation = getMinimumProtocolValidation(study);
         protocolValidations.add(minimumProtocolValidation);
         protocolValidations.add(getComprehensiveProtocolValidation(study));
-        protocolValidations.add(getMandatoryCollectionProtocolValidation(study, "Extraction", DescriptionConstants.PROTOCOLS_EXTRACTION, ValidationIdentifier.PROTOCOLS_EXTRACTION));   //Protocol "Extraction"
+        if (!imaging){
+            protocolValidations.add(getMandatoryCollectionProtocolValidation(study, "Extraction", DescriptionConstants.PROTOCOLS_EXTRACTION, ValidationIdentifier.PROTOCOLS_EXTRACTION));   //Protocol "Extraction"
+        }
         protocolValidations.add(getMandatoryCollectionProtocolValidation(study, "Data transformation", DescriptionConstants.PROTOCOLS_DATA_EXTRACTION, ValidationIdentifier.PROTOCOLS_DATA_EXTRACTION));   //Protocol "Data transformation"
         protocolValidations.add(getMandatoryCollectionProtocolValidation(study, "Metabolite identification", DescriptionConstants.MAF_PROTOCOLS, ValidationIdentifier.MAF_PROTOCOLS));   //Protocol "Metabolite identification"
 
         List<Assay> assays = study.getAssays();
 
+
         for (int i = 0; i < assays.size(); i++) {
             Assay assay = assays.get(i);
             if (assay.getTechnology().equals("mass spectrometry")){
                 protocolValidations.add(getMandatoryCollectionProtocolValidation(study, "Mass spectrometry", DescriptionConstants.MS_PROTOCOLS_MASS_SPEC, ValidationIdentifier.MS_PROTOCOLS_MASS_SPEC));   //Protocol "Mass spectrometry"
-                protocolValidations.add(getMandatoryCollectionProtocolValidation(study, "Chromatography", DescriptionConstants.MS_PROTOCOLS_CROMA, ValidationIdentifier.MS_PROTOCOLS_CROMA));    //Protocol "Chromatography"
+                if (imaging){ //MS Imaging
+                    protocolValidations.add(getMandatoryCollectionProtocolValidation(study, "Histology", DescriptionConstants.PROTOCOLS_HISTOLOGY, ValidationIdentifier.PROTOCOLS_HISTOLOGY));   //Protocol "Histology"
+                    protocolValidations.add(getMandatoryCollectionProtocolValidation(study, "Preparation", DescriptionConstants.PROTOCOLS_PREPARATION, ValidationIdentifier.PROTOCOLS_PREPARATION));   //Protocol "Preparation"
+                } else {
+                    protocolValidations.add(getMandatoryCollectionProtocolValidation(study, "Chromatography", DescriptionConstants.MS_PROTOCOLS_CROMA, ValidationIdentifier.MS_PROTOCOLS_CROMA));    //Protocol "Chromatography"}
+                }
             } else if (assay.getTechnology().equals("NMR spectroscopy")) {
-                protocolValidations.add(getMandatoryCollectionProtocolValidation(study, "NMR sample", DescriptionConstants.NMR_PROTOCOLS_NMR_SAMPLE, ValidationIdentifier.NMR_PROTOCOLS_NMR_SAMPLE));   //Protocol "NMR sample"
-                protocolValidations.add(getMandatoryCollectionProtocolValidation(study, "NMR spectroscopy", DescriptionConstants.NMR_PROTOCOLS_SPECTROSCOPY, ValidationIdentifier.NMR_PROTOCOLS_SPECTROSCOPY));   //Protocol  "NMR spectroscopy"
-                protocolValidations.add(getMandatoryCollectionProtocolValidation(study, "NMR assay", DescriptionConstants.NMR_PROTOCOLS_NMR_ASSAY, ValidationIdentifier.NMR_PROTOCOLS_NMR_ASSAY));   //Protocol "NMR assay"
+                if (imaging){  //Magnetic resonance imaging
+                    protocolValidations.add(getMandatoryCollectionProtocolValidation(study, "Magnetic resonance imaging", DescriptionConstants.NMR_PROTOCOLS_NMR_MRI, ValidationIdentifier.NMR_PROTOCOLS_NMR_MRI));   //Protocol "Magnetic resonance imaging"
+                    protocolValidations.add(getMandatoryCollectionProtocolValidation(study, "In vivo magnetic resonance spectroscopy", DescriptionConstants.NMR_PROTOCOLS_IN_VIVO_MRS, ValidationIdentifier.NMR_PROTOCOLS_IN_VIVO_MRS));   //Protocol  "In vivo magnetic resonance spectroscopy"
+                    protocolValidations.add(getMandatoryCollectionProtocolValidation(study, "In vivo magnetic resonance assay", DescriptionConstants.NMR_PROTOCOLS_NMR_IN_VIVO_ASSAY, ValidationIdentifier.NMR_PROTOCOLS_NMR_IN_VIVO_ASSAY));   //Protocol "In vivo magnetic resonance assay"
+                } else {
+                    protocolValidations.add(getMandatoryCollectionProtocolValidation(study, "NMR sample", DescriptionConstants.NMR_PROTOCOLS_NMR_SAMPLE, ValidationIdentifier.NMR_PROTOCOLS_NMR_SAMPLE));   //Protocol "NMR sample"
+                    protocolValidations.add(getMandatoryCollectionProtocolValidation(study, "NMR spectroscopy", DescriptionConstants.NMR_PROTOCOLS_SPECTROSCOPY, ValidationIdentifier.NMR_PROTOCOLS_SPECTROSCOPY));   //Protocol  "NMR spectroscopy"
+                    protocolValidations.add(getMandatoryCollectionProtocolValidation(study, "NMR assay", DescriptionConstants.NMR_PROTOCOLS_NMR_ASSAY, ValidationIdentifier.NMR_PROTOCOLS_NMR_ASSAY));   //Protocol "NMR assay"
+                }
             }
         }
-
-
 
 
         if (!study.getSampleTable().getData().isEmpty()) {
@@ -58,7 +68,8 @@ public class ProtocolValidations implements IValidationProcess {
         if (!study.getProtocols().isEmpty()) {
             protocolValidations.add(protocolsDecodeIsSuccessfulValidation(study));
         }
-        return protocolValidations;
+
+        return new LinkedHashSet<>(protocolValidations); //Return unique values only;
 
     }
 
@@ -152,6 +163,17 @@ public class ProtocolValidations implements IValidationProcess {
         }
 
         return validation;
+    }
+
+    public Boolean isImagingStudy(Study study){
+
+        if (protocolIsPresent(study, "Magnetic resonance imaging"))  //Is this an NMR imaging study?
+            return true;
+
+        if (protocolIsPresent(study, "Histology"))  //Is this an NMR imaging study?
+            return true;
+
+        return false;
     }
 
     public static boolean metaboliteIdentificationProtocolIsPresent(Study study) {
