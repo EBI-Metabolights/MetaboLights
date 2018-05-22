@@ -2,18 +2,17 @@ Dear {1},
 
 Thank you for your interest in MetaboLights
 
-Your new MetaboLights account "{0}" has been activated.
+Your new MetaboLights account "{0}" has been activated and is ready to use.
 
 Here is a quick start guide, but please let us know on metabolights-help@ebi.ac.uk if we can help you further.
 
 Quick start guide:
-- We use ISAcreator to capture metabolomics metadata and raw files, which needs to be downloaded and installed. You can download a complete package from our ftp link here (ftp://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip)
-- Once downloaded and unzipped, look at the examples in the ISAcreator directory and use one as a template to speed up metadata filling. Please use "run_WIN.cmd" to run on Windows, "run_MAC.command" on Mac or "run_LINUX.sh" on Linux, this will preserve all special characters
+- We use our own version of ISAcreator to capture metabolomics metadata and raw files, which needs to be downloaded and installed. You can download a complete package from our ftp link here: ftp://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip
+- Once downloaded and unzipped, go to the ISAcreatorMetaboLights directory and use one of the supplied scripts to start ISAcreator. Please use "run_WIN.cmd" on Windows, "run_MAC.command" on Mac or "run_LINUX.sh" on Linux, this is a requirement to pass online validation and will preserve all special characters
+- Before you start creating a new study, please read our comprehensive documentation and steps of how to create and set up a new study: https://www.ebi.ac.uk/metabolights/help
 - Our submission page is at http://www.ebi.ac.uk/metabolights/presubmit
 
-For more documentation have a look at:
-- quick demo: http://www.ebi.ac.uk/training/online/course/metabolights-quick-tour/what-metabolights
-- Detailed document and steps: https://www.ebi.ac.uk/metabolights/help
+If you would like to occasionally receive general announcements emails from MetaboLights, please subscribe to our MetaboLights-Announce email distribution list here: https://listserver.ebi.ac.uk/mailman/listinfo/metabolights-announce
 
 
 Best wishes

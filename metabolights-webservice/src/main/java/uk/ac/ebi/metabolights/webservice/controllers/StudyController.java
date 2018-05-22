@@ -1015,7 +1015,7 @@ public class StudyController extends BasicController{
 	@ResponseBody
 	public RestResponse<String> getPermissions(@PathVariable("studyIdentifier") String studyIdentifier, HttpServletRequest request, HttpServletResponse response) throws DAOException {
 
-		logger.info("Requesting " + studyIdentifier + "permission rights");
+		logger.info("Requesting " + studyIdentifier + " permission rights");
 
         RestResponse<String> restResponse = new RestResponse<String>();
 

@@ -36,6 +36,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class MetabolightsEuropePMCExporter {
@@ -48,6 +50,10 @@ public class MetabolightsEuropePMCExporter {
     private static String[] allStudies = null;
     private static String WSCLIENT_URL = ML_BASE_URL + "/webservice/";
     private static MetabolightsWsClient wsClient;
+    private static String metaboLightsId = "1782";
+    private static final String pmid = "PMID", doi = "DOI", totals = "totalNumber";
+    private static Boolean hasPublication = false, hasPMID = false;
+    private static Map<String, Integer> studyPubs = new HashMap();
 
     public MetabolightsEuropePMCExporter(){}
 
@@ -106,7 +112,7 @@ public class MetabolightsEuropePMCExporter {
 
     private static String[] getStudiesList(){
         RestResponse<String[]> response = getWsClient().getAllStudyAcc();
-        //return new String[]{"MTBLS528","MTBLS124"};
+        //return new String[]{"MTBLS43","MTBLS93","MTBLS124","MTBLS59","MTBLS146"};
         return response.getContent();
     }
 
@@ -137,12 +143,25 @@ public class MetabolightsEuropePMCExporter {
         return true;
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
+
+        /** Profile file must also exist in the ftp upload directory:
+         * <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+         * <providers>
+         *  <provider>
+         *    <id>1782</id>
+         *    <resourceName>MetaboLights</resourceName>
+         *    <description>SMetaboLights is a database for Metabolomics experiments and derived information/description>
+         *    <email>metabolights-help@ebi.ac.uk</email>
+         *  </provider>
+         * </providers>
+         */
+
 
         if (!validateParams(args)){
             System.out.println("Usage:");
             System.out.println("    Parameter 1: The name of the Europe PMC export xml export file (Mandatory)");
-            System.out.println("    Parameter 5: The URL of the MetaboLights Web Service");
+            System.out.println("    Parameter 2: The URL of the MetaboLights Web Service");
             System.out.println();
         } else {
 
@@ -194,35 +213,88 @@ public class MetabolightsEuropePMCExporter {
         return s;
     }
 
+    private static void checkStudy(Study study){
+
+        Integer pmids = 0, dois = 0;
+
+        for (Publication publication : study.getPublications()) {
+            if (checkPMIDPublication(publication)) {
+                pmids++;
+                hasPublication = true;
+            }
+
+            if (hasValue(publication.getDoi())) {
+                dois++;
+                hasPublication = true;
+            }
+        }
+
+        if (dois > 0)
+            studyPubs.put(doi, dois);
+
+        if (pmids > 0)
+            studyPubs.put(pmid, pmids);
+
+        if (hasPublication)
+            System.out.println(study.getStudyIdentifier() + " : has publications. PMIDs: " + pmids + ", DOIs: " + dois );
+
+    }
+
+    private static Boolean checkPMIDPublication(Publication publication){
+        if (hasValue(publication.getPubmedId()))
+            return true;
+
+        return false;
+
+    }
+
+
     private static void addStudies(Element entries){
         //First, add the surrounding <entries> tags
 
         //Add all the public studies
         for (String studyAcc : allStudies){
-            try{
-
-                System.out.println("Processing study " + studyAcc);
-
+            try {
+                hasPublication = false;
+                hasPMID = false;
                 Study study = getStudy(studyAcc);
-                Element entry = doc.createElement("link");
-                entry.setAttribute("providerId", "MetaboLightsIDValue");
 
-                //Add the sub tree "additional_fields"
-                Element additionalField = doc.createElement("resource");
-                entry.appendChild(additionalField);
-                additionalField.appendChild(addGenericElement("title", tidyNonPrintChars(study.getTitle(),"title")));
-                additionalField.appendChild(addGenericElement("url", ML_BASE_URL + "/" + studyAcc ));
+                checkStudy(study); //Does this study have publications? And which type, doi and/or pmid?
 
-                for (Publication publication : study.getPublications()) {
-                    if (hasValue(publication.getDoi()))
-                        entry.appendChild(addGenericElement("doi", tidyNonPrintChars(publication.getDoi(),"doi")));
+                if (hasPublication) {
 
-                    if (hasValue(publication.getPubmedId()))
-                        entry.appendChild(addGenericElement("pubmed", tidyNonPrintChars(publication.getPubmedId(),"pubmed")));
+                    for (Publication publication : study.getPublications()) {
+                        Element entry = doc.createElement("link");
+                        entry.setAttribute("providerId", metaboLightsId);   //TODO, change to final id
+
+                        //Add the sub tree "additional_fields"
+                        Element additionalField = doc.createElement("resource");
+                        entry.appendChild(additionalField);
+                        additionalField.appendChild(addGenericElement("title", tidyNonPrintChars(studyAcc + ": " + study.getTitle(), "title")));
+                        additionalField.appendChild(addGenericElement("url", ML_BASE_URL + "/" + studyAcc));
+
+
+                        if (checkPMIDPublication(publication)) {   // If we have PubMed id, do not add doi
+                            System.out.println(studyAcc + " : Adding PMID ");
+                            //Add the sub tree "record"
+                            Element recordField = doc.createElement("record");
+                            entry.appendChild(recordField);
+                            recordField.appendChild(addGenericElement("source", "MED"));
+                            recordField.appendChild(addGenericElement("id", tidyPubmed(publication.getPubmedId())));
+                        } else if (!checkPMIDPublication(publication)) {
+                            if (!hasValue(publication.getDoi())) //Check that we really have a value for the doi
+                                break;
+
+                            System.out.println(studyAcc + " : Adding DOI ");
+                            entry.appendChild(addGenericElement("doi", tidyDoi(publication.getDoi())));
+                        }
+
+                        //Add the complete study to the entry section when we have a publication
+                        entries.appendChild(entry);
+                    }
                 }
-
-                //Add the complete study to the entry section
-                entries.appendChild(entry);
+                else
+                    System.out.println(studyAcc + " : --- No publication, skipping ");
 
             } catch (Exception e){
                 System.out.println(e.getMessage());
@@ -244,6 +316,7 @@ public class MetabolightsEuropePMCExporter {
 
     private static String tidyDoi(String doi){
         String tidyStr = doi.toLowerCase();
+        tidyStr = tidyNonPrintChars(tidyStr, "doi");
 
         tidyStr = tidyStr.replaceAll("http://","").replaceFirst("dx.", "");
         tidyStr = tidyStr.replaceAll("doi.org/","");
@@ -257,6 +330,7 @@ public class MetabolightsEuropePMCExporter {
     private static String tidyPubmed(String pubmed){
         String tidyStr = pubmed.toLowerCase();
 
+        tidyStr = tidyNonPrintChars(tidyStr, "pubmed");
         tidyStr = tidyStr.replaceAll("none","");
         tidyStr = tidyStr.replaceAll("na","");
         tidyStr = tidyStr.replaceAll("n/a","");

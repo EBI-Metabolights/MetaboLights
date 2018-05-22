@@ -48,6 +48,7 @@ import javax.servlet.http.HttpSession;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -57,7 +58,7 @@ import java.util.Date;
 /**
  * Controls multi part file upload as described in Reference Documentation 3.0,
  * chapter "15.8 Spring's multipart (fileupload) support".
- * 
+ *
  * @author conesa
  */
 @Controller
@@ -107,11 +108,11 @@ public class SubmissionQueueController extends AbstractController {
 
         return mav;
     }
-	
+
 	@RequestMapping(value = { "/submittoqueue" })
 	public ModelAndView preSubmit(HttpServletRequest request) {
 		MetabolightsUser user = null;
-		
+
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("submittoqueue"); // Call the Submission form page
 		if (request.getUserPrincipal() != null)
 			user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
@@ -130,8 +131,8 @@ public class SubmissionQueueController extends AbstractController {
                 mav.addObject("users", userService.getAll());
             }
 		}
-		
-		
+
+
 		return mav;
 	}
 
@@ -144,7 +145,7 @@ public class SubmissionQueueController extends AbstractController {
 
         return o;
     }
-	
+
 	@RequestMapping(value = "/queueExperiment", method = RequestMethod.POST)
 	public ModelAndView queueExperiment(
 			@RequestParam(required = true ,value = "file") MultipartFile file,
@@ -152,12 +153,12 @@ public class SubmissionQueueController extends AbstractController {
 			@RequestParam(required=false,value="study") String study,
             @RequestParam(required=false,value="owner") String ownerId,
 			@RequestParam(required=false,value="validated", defaultValue ="false") boolean validated,
-			HttpServletRequest request) 
+			HttpServletRequest request)
 		throws Exception {
 
 		//Start the submission process...
 	    logger.info("Queue Experiment. Start");
-	    
+
         StringBuffer messageBody = new StringBuffer();
         String hostName = java.net.InetAddress.getLocalHost().getHostName();
         messageBody.append("Study submission started from machine " + hostName);
@@ -183,7 +184,7 @@ public class SubmissionQueueController extends AbstractController {
 
 			if (publicDate.isEmpty())
 				throw new BIIException(PropertyLookup.getMessage("BIISubmit.dateEmpty"));
-			
+
 			if (!file.getOriginalFilename().toLowerCase().endsWith("zip"))
 				throw new BIIException(PropertyLookup.getMessage("BIISubmit.fileExtension"));
 
@@ -195,7 +196,7 @@ public class SubmissionQueueController extends AbstractController {
             Date publicDateD;
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
             publicDateD = sdf.parse(publicDate);               //Date from the form
-            
+
             // Extend the message...
           	messageBody.append("\nFileName: " + file.getOriginalFilename() );
 
@@ -210,27 +211,27 @@ public class SubmissionQueueController extends AbstractController {
     			messageBody.append("\nSTUDY: " + study);
     		}
     		messageBody.append("\nPublic Release Date: " + publicDate);
-    		
-    		
+
+
             logger.info("Queueing study");
 			SubmissionItem si = new SubmissionItem(file, submitter.getApiToken(), publicDateD, study, false);
-            
+
 			// Submit the item to the queue...
             si.submitToQueue();
-            
+
             messageBody.append("\n\n File Successfully queued.");
-            
+
             logger.info("Queued study. Adding data to session");
 			HttpSession httpSession = request.getSession();
 			httpSession.setAttribute("itemQueued", "msg.studyQueueSuccesfully");
-			
+
 			// Cannot load the queue
 			emailService.sendQueuedStudyEmail(submitter.getEmail(),si.getOriginalFileName() , FileUtils.byteCountToDisplaySize(si.getFileQueued().length()), si.getPublicReleaseDate(), hostName, study);
-			
+
 
 	    	return new ModelAndView("redirect:itemQueued");
-	    	
-		} catch (BIIException e){
+
+		} catch (BIIException e) {
 
             ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("submitError");
             logger.error("Submission exception", e);
@@ -238,8 +239,15 @@ public class SubmissionQueueController extends AbstractController {
             mav.addObject("studyId", study);
             return mav;
 
-        } catch (Exception e){
-			
+        } catch (IOException e){
+            ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("submitError");
+            System.out.println("Could not find file or stale file handler ");
+            logger.error("Submission exception", e);
+            mav.addObject("error", e);
+            mav.addObject("studyId", study);
+            return mav;
+        } catch (Exception e) {
+
             ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("submitError");
             logger.error("Submission exception",e);
             mav.addObject("error", e);
@@ -250,7 +258,7 @@ public class SubmissionQueueController extends AbstractController {
             emailService.sendSimpleEmail( "queueExperiment FAILED in " + hostName + " by " + actualUser.getUserName() , messageBody.toString());
 
             return mav;
-		
+
         }
 	}
 
@@ -329,7 +337,7 @@ public class SubmissionQueueController extends AbstractController {
 
 
     }
-	
+
 	/**
 	 * Redirection after a user has successfully submitted. This prevents double submit with F5.
 	 */
