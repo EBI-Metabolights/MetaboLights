@@ -2028,5 +2028,105 @@
     $(function () {
         $('[data-toggle="popover"]').popover();
     })
-
 </script>
+<c:if test="${(study.studyStatus == 'INCURATION')}">
+    <feedback inline-template>
+        <div>
+            <div id="feedbackModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="feedbackModal">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Feedback</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label>Overall experience *</label>
+                                    <div class="cc-selector">
+                                        <input id="happy" type="radio" v-model="experience" name="experience" value="happy" />
+                                        <label class="cc happy" for="happy"></label>
+
+                                        <input id="neutral" type="radio" name="experience" v-model="experience" value="neutral" />
+                                        <label class="cc neutral" for="neutral"></label>
+
+                                        <input id="sad" type="radio" name="experience" v-model="experience" value="sad" />
+                                        <label class="cc sad" for="sad"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Comments</label>
+                                    <textarea v-model="comments" checked="checked" class="form-control" rows="3"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <span class="pull-left">
+                                <button type="button" data-dismiss="modal" class="btn btn-sm btn-default">Ask me later</button>
+                            </span>
+                            <button :disabled="!isValid" @click="sendFeedback()" type="button" class="btn btn-sm btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </feedback>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script>
+        Vue.component('feedback', {
+            data: function () {
+                return {
+                    experience: 'happy',
+                    comments: ''
+                }
+            },
+            created () {
+                this.getFeedback();
+            },
+            methods: {
+                getFeedback: function () {
+                    axios.post('${pageContext.request.contextPath}/webservice/study/${study.studyIdentifier}/feedback', {
+                    },{
+                        headers: { 'user_token': '${userApiToken}' }
+                    }).then(function (response) {
+                        if(!response.data.content){
+                            $('#feedbackModal').modal('show')
+                        }
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                },
+                sendFeedback: function () {
+                    axios.post('${pageContext.request.contextPath}/webservice/study/${study.studyIdentifier}/feedback', {
+                        'experience' : this.experience,
+                        'comments' : this.comments,
+                    },{
+                        headers: { 'user_token': '${userApiToken}' }
+                    }).then(function (response) {
+                        if(response.data.content){
+                            alert("Thank you for your valuable feedback.")
+                            $('#feedbackModal').modal('hide')
+                        }else{
+                            alert("Error saving the feedback. Please try again later")
+                        }
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                }
+            },
+            computed: {
+                isValid: function () {
+                    if(this.experience != null){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }
+            }
+        })
+        var feedbackVM = new Vue({
+            el: 'body',
+            data: {
+            }
+        })
+    </script>
+</c:if>

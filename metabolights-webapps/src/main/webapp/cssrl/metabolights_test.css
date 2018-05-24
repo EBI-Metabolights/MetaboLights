@@ -919,3 +919,52 @@ ol.progtrckr li.progtrckr-todo:before {
     content: "\0025EF";
     color: #bbb;
 }
+
+.cc-selector input{
+    margin:0;padding:0;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+}
+
+.sad{background-image:url(../img/sad.png);}
+.neutral{background-image:url(../img/neutral.png);}
+.happy{background-image:url(../img/happy.png);}
+
+.cc-selector input:active +.cc{opacity: .9;}
+.cc-selector input:checked +.cc{
+    -webkit-filter: none;
+    -moz-filter: none;
+    filter: none;
+}
+.cc{
+    cursor:pointer;
+    background-size:contain;
+    background-repeat:no-repeat;
+    display:inline-block;
+    width:50px;height:50px;
+    margin: 20px;
+    -webkit-transition: all 100ms ease-in;
+    -moz-transition: all 100ms ease-in;
+    transition: all 100ms ease-in;
+    -webkit-filter: brightness(1.8) grayscale(1) opacity(.7);
+    -moz-filter: brightness(1.8) grayscale(1) opacity(.7);
+    filter: brightness(1.8) grayscale(1) opacity(.7);
+}
+.cc:hover{
+    -webkit-filter: brightness(1.2) grayscale(.5) opacity(.9);
+    -moz-filter: brightness(1.2) grayscale(.5) opacity(.9);
+    filter: brightness(1.2) grayscale(.5) opacity(.9);
+}
+
+.bar {
+    fill: steelblue;
+}
+
+.bar:hover {
+    fill: brown;
+}
+
+.axis--x path {
+    display: none;
+}

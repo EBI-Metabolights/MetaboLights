@@ -22,6 +22,9 @@
 package uk.ac.ebi.metabolights.webservice.utils;
 
 import org.apache.commons.io.IOUtils;
+import org.jose4j.json.internal.json_simple.JSONObject;
+import org.jose4j.json.internal.json_simple.parser.JSONParser;
+import org.jose4j.json.internal.json_simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.webservice.services.PropertyLookUpService;
