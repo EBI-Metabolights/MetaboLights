@@ -88,7 +88,9 @@ public class LabsWorkspaceController {
 
         }
 
-        restResponse.setContent(mllWorkSpace.getAsJSON());
+        restResponse.setContent(mllWorkSpace.getAsJSON().replace("\"", "'").replace("\\\\", ""));
+
+        restResponse.setMessage("Successfully initialised");
 
         response.setHeader("Access-Control-Allow-Origin", "*");
 
@@ -125,7 +127,9 @@ public class LabsWorkspaceController {
 
         }
 
-        restResponse.setContent(getWorkspaceProjects(user));
+        restResponse.setContent(getWorkspaceProjects(user).replace("\"", "'"));
+
+        restResponse.setMessage("Request successful");
 
         return restResponse;
 
@@ -416,21 +420,7 @@ public class LabsWorkspaceController {
 
         JSONObject serverRequest = SecurityUtil.parseRequest(data);
 
-        String title = (String) serverRequest.get("title");
-
-        String url = (String) serverRequest.get("url");
-
-        String apikey = (String) serverRequest.get("apikey");
-
-        String description = (String) serverRequest.get("description");
-
-        String delete = (String) serverRequest.get("delete");
-
         User user = SecurityUtil.validateJWTToken(data);
-
-        String property = (String) serverRequest.get("property");
-
-        String propertyValue = (String) serverRequest.get("propertyValue");
 
         if (user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
 
@@ -444,88 +434,106 @@ public class LabsWorkspaceController {
 
         logger.info("User exists. Fetching workspace information");
 
+
         MLLWorkSpace mllWorkSpace = getWorkspaceInfo(user);
 
-        if(property.equalsIgnoreCase("galaxy")){
+        String property = (String) serverRequest.get("property");
 
-            JSONObject jsonobject = SecurityUtil.parseRequest(mllWorkSpace.getSettings());
+        if (property != null){
+            if(property.equalsIgnoreCase("galaxy")){
 
-            JSONArray galaxyInstances = null;
-            try {
-                if(jsonobject.containsKey(property)) {
-                    galaxyInstances = (JSONArray) new JSONParser().parse(jsonobject.get(property).toString());
-                }else{
-                    galaxyInstances = null;
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+                String title = (String) serverRequest.get("title");
 
-            JSONObject newGalaxyInstance = new JSONObject();
+                String url = (String) serverRequest.get("url");
 
-            newGalaxyInstance.put("name", title);
-            newGalaxyInstance.put("url", url);
-            newGalaxyInstance.put("apikey", apikey);
-            newGalaxyInstance.put("description", description);
+                String apikey = (String) serverRequest.get("apikey");
 
-            if (galaxyInstances == null){
+                String description = (String) serverRequest.get("description");
 
-                galaxyInstances = new JSONArray();
-                galaxyInstances.add(newGalaxyInstance);
+                JSONObject jsonobject = SecurityUtil.parseRequest(mllWorkSpace.getSettings());
 
-            }else{
-
-                boolean instanceExist = false;
-                int instancePosition = 0;
-                int selectedInstancePosition = 0;
-                for(Object instance: galaxyInstances){
-
-                    JSONObject jsonObject = (JSONObject) instance;
-
-                    if (jsonObject.get("url").toString().equalsIgnoreCase(url)){
-                        jsonObject.put("name", title);
-                        jsonObject.put("url", url);
-                        jsonObject.put("apikey", apikey);
-                        jsonObject.put("description", description);
-                        instanceExist = true;
-                        selectedInstancePosition = instancePosition;
+                JSONArray galaxyInstances = null;
+                try {
+                    if(jsonobject.containsKey(property)) {
+                        galaxyInstances = (JSONArray) new JSONParser().parse(jsonobject.get(property).toString());
+                    }else{
+                        galaxyInstances = null;
                     }
-
-                    instancePosition = instancePosition + 1;
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
 
-                if(!instanceExist){
+                JSONObject newGalaxyInstance = new JSONObject();
 
+                newGalaxyInstance.put("name", title);
+                newGalaxyInstance.put("url", url);
+                newGalaxyInstance.put("apikey", apikey);
+                newGalaxyInstance.put("description", description);
+
+                if (galaxyInstances == null){
+
+                    galaxyInstances = new JSONArray();
                     galaxyInstances.add(newGalaxyInstance);
 
-                    restResponse.setMessage("Instance added successfully!");
-
-                    response.setStatus(200);
-
                 }else{
 
-                    if(delete != null && delete.equalsIgnoreCase("deleteGalaxyInstance")){
+                    boolean instanceExist = false;
+                    int instancePosition = 0;
+                    int selectedInstancePosition = 0;
+                    for(Object instance: galaxyInstances){
 
-                        galaxyInstances.remove(selectedInstancePosition);
+                        JSONObject jsonObject = (JSONObject) instance;
 
+                        if (jsonObject.get("url").toString().equalsIgnoreCase(url)){
+                            jsonObject.put("name", title);
+                            jsonObject.put("url", url);
+                            jsonObject.put("apikey", apikey);
+                            jsonObject.put("description", description);
+                            instanceExist = true;
+                            selectedInstancePosition = instancePosition;
+                        }
+
+                        instancePosition = instancePosition + 1;
                     }
+
+                    if(!instanceExist){
+
+                        galaxyInstances.add(newGalaxyInstance);
+
+                        restResponse.setMessage("Instance added successfully!");
+
+                        response.setStatus(200);
+
+                    }else{
+
+                        String delete = (String) serverRequest.get("delete");
+
+                        if(delete != null && delete.equalsIgnoreCase("deleteGalaxyInstance")){
+
+                            galaxyInstances.remove(selectedInstancePosition);
+
+                        }
+                    }
+
                 }
+                mllWorkSpace.setProperty(property, galaxyInstances.toString());
+
+            }else if(property != null && !property.equalsIgnoreCase("galaxy")){
+
+                String propertyValue = (String) serverRequest.get("propertyValue");
+
+                mllWorkSpace.setProperty(property, propertyValue);
+
+                restResponse.setMessage("Task successful!");
+
+                response.setStatus(200);
 
             }
-            mllWorkSpace.setProperty(property, galaxyInstances.toString());
-
-        }else if(property != null && !property.equalsIgnoreCase("galaxy")){
-
-            mllWorkSpace.setProperty(property, propertyValue);
-
-            restResponse.setMessage("Task successful!");
-
-            response.setStatus(200);
-
         }
 
-        return restResponse;
+        restResponse.setContent(mllWorkSpace.getSettings());
 
+        return restResponse;
     }
 
     /**
@@ -633,7 +641,7 @@ public class LabsWorkspaceController {
 
         MLLProject mllProject = (new MetaboLightsLabsProjectDAO(mllWorkSpace, title, description, null)).getMllProject();
 
-        restResponse.setContent(mapper.writeValueAsString(mllProject));
+        restResponse.setContent(mapper.writeValueAsString(mllProject).replace("\"", "'"));
 
         return restResponse;
 

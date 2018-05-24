@@ -128,8 +128,12 @@ public class LabsProjectController {
         try {
 
             User mlUser = null;
-
-            JSONObject aseraSettings = (JSONObject) parser.parse(mllProject.getAsperaSettings());
+            JSONObject asperaSettings = null;
+            if(mllProject.getAsperaSettings() == null){
+                asperaSettings = new JSONObject();
+            }else{
+                asperaSettings = (JSONObject) parser.parse(mllProject.getAsperaSettings());
+            }
 
             if (mllProject.getOwner().getApiToken() == null){
 
@@ -139,19 +143,19 @@ public class LabsProjectController {
 
                 mlUser = usi.getUserById(email);
 
-                aseraSettings.put("asperaURL", mlUser.getApiToken() + File.separator + mllProject.getId());
+                asperaSettings.put("asperaURL", mlUser.getApiToken() + File.separator + mllProject.getId());
 
             } else {
 
-                aseraSettings.put("asperaURL", mllProject.getOwner().getApiToken() + File.separator + mllProject.getId());
+                asperaSettings.put("asperaURL", mllProject.getOwner().getApiToken() + File.separator + mllProject.getId());
 
             }
 
-            aseraSettings.put("asperaUser", PropertiesUtil.getProperty("asperaUser"));
+            asperaSettings.put("asperaUser", PropertiesUtil.getProperty("asperaUser"));
 
-            aseraSettings.put("asperaSecret", PropertiesUtil.getProperty("asperaSecret"));
+            asperaSettings.put("asperaSecret", PropertiesUtil.getProperty("asperaSecret"));
 
-            mllProject.setAsperaSettings(aseraSettings.toJSONString());
+            mllProject.setAsperaSettings(asperaSettings.toJSONString().replace("\"", "'"));
 
         } catch (ParseException e) {
 
@@ -161,7 +165,8 @@ public class LabsProjectController {
             e.printStackTrace();
         }
 
-        restResponse.setContent(mllProject.getAsJSON());
+        restResponse.setContent(mllProject.getAsJSON().replace("\"", "'"));
+        restResponse.setMessage("Success");
 
         return restResponse;
 
@@ -196,26 +201,34 @@ public class LabsProjectController {
 
         String projectId = (String) serverRequest.get("id");
 
-        String title = (String) serverRequest.get("title");
-
-        String description = (String) serverRequest.get("description");
+        if(projectId == null){
+            response.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
+            return restResponse;
+        }
 
         String root = PropertiesUtil.getProperty("userSpace");
-
 
         MLLWorkSpace mllWorkSpace = new MLLWorkSpace(user, root);
 
         MLLProject mllProject = mllWorkSpace.getProject(projectId);
 
-        mllProject.setTitle(title);
+        String title = (String) serverRequest.get("title");
 
-        mllProject.setDescription(description);
+        if(title != null){
+            mllProject.setTitle(title);
+        }
+
+        String description = (String) serverRequest.get("description");
+
+        if(description != null){
+            mllProject.setDescription(description);
+        }
 
         mllProject.save();
 
         mllWorkSpace.appendOrUpdateProject(mllProject);
 
-        restResponse.setContent(mllProject.getAsJSON());
+        restResponse.setContent(mllProject.getAsJSON().replace("\"", "'"));
 
         return restResponse;
 
@@ -335,6 +348,11 @@ public class LabsProjectController {
 
         List<String> files = (List<String>)serverRequest.get("files");
 
+        if(files == null){
+            response.setStatus(Response.Status.BAD_REQUEST.getStatusCode());
+            return restResponse;
+        }
+
         String root = PropertiesUtil.getProperty("userSpace");
 
         MetaboLightsLabsProjectDAO metaboLightsLabsProjectDAO = new MetaboLightsLabsProjectDAO(user, projectId, root );
@@ -376,10 +394,19 @@ public class LabsProjectController {
 
         String projectId = (String) serverRequest.get("id");
 
+        if(projectId == null) {
+
+            restResponse.setContent("invalid");
+
+            response.setStatus(403);
+
+            return restResponse;
+
+        }
+
         String jobID = (String) serverRequest.get("jobId");
 
         String root = PropertiesUtil.getProperty("userSpace");
-
 
         MetaboLightsLabsWorkspaceDAO metaboLightsLabsWorkspaceDAO = new MetaboLightsLabsWorkspaceDAO(user, root);
 
@@ -438,6 +465,8 @@ public class LabsProjectController {
             }
 
         }
+
+        restResponse.setMessage("success");
 
         return restResponse;
 
@@ -724,6 +753,8 @@ public class LabsProjectController {
             restResponse.setContent(getJobDetails(mllJob, root));
 
         }
+
+        restResponse.setMessage("success");
 
         return restResponse;
 
