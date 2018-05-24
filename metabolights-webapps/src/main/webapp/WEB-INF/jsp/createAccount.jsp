@@ -36,7 +36,7 @@
 					</small></p>
 				</div>
 				<div class="ml-loginpanelbody">
-					<div class="row">
+					<div class="">
 						<c:if test="${not empty fromsubmit}">
 							<p><strong><spring:message code="msg.submHeader"/></strong></p>
 						</c:if>
@@ -55,7 +55,7 @@
 							<jsp:include page="accountFormFields.jsp" />
 
 						<div class="form-group">
-							<label class="checkbox-inline"><input type="checkbox" id="TandC"/><small><a href="http://www.ebi.ac.uk/Information/termsofuse.html"><spring:message code="msg.T&CAcceptance" /></a></small></label><br>
+							<label class="checkbox-inline"><input type="checkbox" id="TandC"/><small><spring:message code="msg.T&CAcceptance" /> - <a href="http://www.ebi.ac.uk/Information/termsofuse.html"> Terms of use</a>. I agree to EMBL-EBI MetaboLights cookie policy and the limited processing of my personal data as outlined in <a target="_blank" href="https://www.ebi.ac.uk/data-protection/privacy-notice/metaboflow">Privacy Notice</a>.</small></label><br>
 							<span class="error" id="TandCerror"/>
 						</div>
 
