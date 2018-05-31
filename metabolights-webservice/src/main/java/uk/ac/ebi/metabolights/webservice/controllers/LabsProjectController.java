@@ -578,7 +578,7 @@ public class LabsProjectController {
 
         String root = PropertiesUtil.getProperty("userSpace");
 
-        MetaboLightsLabsProjectDAO metaboLightsLabsProjectDAO = new MetaboLightsLabsProjectDAO(user, projectId, root);
+        MetaboLightsLabsProjectDAO metaboLightsLabsProjectDAO = new MetaboLightsLabsProjectDAO(user, projectId, root );
 
         MLLProject mllProject = metaboLightsLabsProjectDAO.getMllProject();
 
@@ -626,8 +626,6 @@ public class LabsProjectController {
                 }else{
                     mllProject.setBusy(true);
                     mllProject.save();
-                    MLLWorkSpace mllWorkSpace = new MLLWorkSpace(user, root);
-                    mllWorkSpace.appendOrUpdateProject(mllProject);
                     submittedZipFileName  =  user.getApiToken() + "~~" + releaseDate + "~LABS_" + projectId  + ".zip";
                 }
 
@@ -804,7 +802,7 @@ public class LabsProjectController {
 
             String code = output.get("code").toString();
 
-            if (code.isEmpty() || code.equalsIgnoreCase("UNKNOWN")){
+            if (code.isEmpty()){
 
                 String jobLogDetails = getJobDetails(mllJob, null);
 

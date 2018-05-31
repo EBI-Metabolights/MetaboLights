@@ -21,7 +21,9 @@
   --%>
 
 <div class="col-md-12">
-    <h3 class="heading"><spring:message code="msg.metabolights" /></h3>
+    <div class="row">
+        <h3 class="heading"><spring:message code="msg.metabolights" /></h3>
+    </div>
 </div>
 <div class="row">
     <div class="col-md-4">
@@ -114,19 +116,40 @@
 <div class="row" id="support-journals" href="#publishers">
     <div class="col-md-12">
         <div class="col-md-12">
-            <p><spring:message code="msg.metaboLightsAbout17"/></p>
+            <p><spring:message code="msg.metaboLightsAbout17"/></p><br>
             <div class="col-md-12">
-                <a class="noLine" href="http://www.nature.com/sdata/policies/repositories"><img src="img/support-journals/scientificData.png" style = "height: 40px;" alt="Nature Scientific Data"/></a>
-                <%--<a href="https://academic.oup.com/gigascience/pages/instructions_to_authors"><img src="img/support-journals/gigaScience.png" style = "height: 40px;" alt="Giga Science"/></a>--%>
-                <a class="noLine" href="https://www.biomedcentral.com/"><img src="img/support-journals/biomedCentral.png" style = "height: 40px;" alt="BioMed Central"/></a>
-                <a class="noLine" href="http://journals.plos.org/plosbiology/s/data-availability#loc-recommended-repositories"><img src="img/support-journals/Plos-biology.png" style = "height: 40px;" alt="PLOS Biology"/></a>
-                <a class="noLine" href="http://msb.embopress.org/authorguide#datadeposition"><img src="img/support-journals/EMBO-press.png" style = "height: 40px;" alt="EMBO press"/></a>
-                <a class="noLine" href="https://wellcomeopenresearch.org/for-authors/data-guidelines"><img src="img/support-journals/wellcome.png" style = "height: 100px;" alt="Wellcome Trust Open Research"/></a>
-                <a class="noLine" href="https://f1000research.com/for-authors/data-guidelines"><img src="img/support-journals/F1000-research.png" style = "height: 40px;" alt="F1000 Research"/></a>
-                <a class="noLine" href="http://link.springer.com/journal/11306"><img src="img/support-journals/metabolomics.png" style = "height: 40px;" alt="Springer Link - Metabolomics"/></a>
-                <a class="noLine" href="http://journal.frontiersin.org/journal/molecular-biosciences/section/metabolomics#author-guidelines"><img src="img/support-journals/frontiers.png" style = "height: 40px;" alt="Frontiers"/></a>
-                <a class="noLine" href="http://www.mdpi.com/journal/metabolites"><img src="img/support-journals/metabolites.png" style = "height: 60px;" alt="Metabolites"/></a>
+                <div class="col-md-3 vc vh100">
+                    <a class="noLine" href="http://www.nature.com/sdata/policies/repositories"><img src="img/support-journals/scientificData.png" class="img-responsive" alt="Nature Scientific Data"/></a>
+                </div>
+                <div class="col-md-3 vc vh100">
+                    <a class="noLine" href="https://www.biomedcentral.com/"><img src="img/support-journals/biomedCentral.png" style = "height: 40px;" alt="BioMed Central"/></a>
+                </div>
+                <div class="col-md-3 vc vh100">
+                    <a class="noLine" href="http://journals.plos.org/plosbiology/s/data-availability#loc-recommended-repositories"><img src="img/support-journals/Plos-biology.png" style = "height: 40px;" alt="PLOS Biology"/></a>
+                </div>
+                <div class="col-md-3 vc vh100">
+                    <a class="noLine" href="http://msb.embopress.org/authorguide#datadeposition"><img src="img/support-journals/EMBO-press.png" style = "height: 40px;" alt="EMBO press"/></a>
+                </div>
+                <div class="col-md-3 vc vh100">
+                    <a class="noLine" href="https://wellcomeopenresearch.org/for-authors/data-guidelines"><img src="img/support-journals/wellcome.png" style = "height: 100px;" alt="Wellcome Trust Open Research"/></a>
+                </div>
+                <div class="col-md-3 vc vh100">
+                    <a class="noLine" href="https://f1000research.com/for-authors/data-guidelines"><img src="img/support-journals/F1000-research.png" style = "height: 40px;" alt="F1000 Research"/></a>
+                </div>
+                <div class="col-md-3 vc vh100">
+                    <a class="noLine" href="http://link.springer.com/journal/11306"><img src="img/support-journals/metabolomics.png" style = "height: 40px;" alt="Springer Link - Metabolomics"/></a>
+                </div>
+                <div class="col-md-3 vc vh100">
+                    <a class="noLine" href="http://journal.frontiersin.org/journal/molecular-biosciences/section/metabolomics#author-guidelines"><img src="img/support-journals/frontiers.png" style = "height: 40px;" alt="Frontiers"/></a>
+                </div>
+                <div class="col-md-3 vc vh100">
+                    <a class="noLine" href="http://www.mdpi.com/journal/metabolites/instructions#suppmaterials"><img src="img/support-journals/metabolites.png" style = "height: 40px;" alt="Metabolites"/></a>
+                </div>
+                <div class="col-md-3 vc vh100">
+                    <a class="noLine" href="http://www.mdpi.com/journal/data/instructions#suppmaterials"><img src="img/support-journals/data.png" style = "height: 40px;" alt="data"/></a>
+                </div>
             </div>
+            <div class="clearfix">&nbsp;</div>
             <p><spring:message code="msg.metaboLightsAbout18"/></p>
         </div>
     </div>

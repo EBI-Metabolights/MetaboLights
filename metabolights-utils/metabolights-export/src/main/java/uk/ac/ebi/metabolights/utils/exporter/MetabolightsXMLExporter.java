@@ -147,8 +147,8 @@ public class MetabolightsXMLExporter {
 
     private static String[] getStudiesList(){
         RestResponse<String[]> response = getWsClient().getAllStudyAcc();
-        //return new String[]{"MTBLS1", "MTBLS2"};
-        //return new String[]{"MTBLS124"};
+//        return new String[]{"MTBLS291"};
+//        //return new String[]{"MTBLS124"};
         return response.getContent();
     }
 
@@ -525,8 +525,11 @@ public class MetabolightsXMLExporter {
             }
         }
 
-
-    }
+        for (User user: study.getUsers()){
+            if (hasValue(user.getOrcid()))
+                crossRefs.appendChild(createChildElement(REF, user.getOrcid(), "ORCID"));
+        }
+   }
 
     private static String tidyNonPrintChars(String s, String description){
         String clean = s.replaceAll("\\p{C}", "");

@@ -97,7 +97,7 @@ public class RheaAndReactomeProxy extends HttpServlet {
                     con.getOutputStream().write(idata, 0, clength);
                 }
             }catch(Exception e){
-                e.printStackTrace();
+              e.printStackTrace();
             }
             BufferedReader rd = new BufferedReader(
                     new InputStreamReader(con.getInputStream(), "UTF-8"));

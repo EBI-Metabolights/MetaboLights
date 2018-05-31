@@ -10,15 +10,15 @@ public class NumberUtils {
 
     static final DecimalFormat formatter = new DecimalFormat("0.00");
 
-
-
-    public static String getHumanReadableByteSize(BigDecimal sizeInKiloBytes) {
+    public static String getHumanReadableByteSize(BigDecimal sizeInBytes) {
 
         String humanReadableSize = "";
+        double blockSize = 1024.0;
 
-        double mb = sizeInKiloBytes.doubleValue() / 1024.0;
-        double gb = sizeInKiloBytes.doubleValue() / 1048576.0;
-        double tb = sizeInKiloBytes.doubleValue() / 1073741824.0;
+        double kb = sizeInBytes.doubleValue() / blockSize;
+        double mb = kb / blockSize;
+        double gb = mb / blockSize;
+        double tb = gb / blockSize;
 
         if (tb > 1) {
             humanReadableSize = formatter.format(tb).concat("TB");
@@ -26,8 +26,10 @@ public class NumberUtils {
             humanReadableSize = formatter.format(gb).concat("GB");
         } else if (mb > 1) {
             humanReadableSize = formatter.format(mb).concat("MB");
+        } else if (kb > 1) {
+            humanReadableSize = formatter.format(kb).concat("KB");
         } else {
-            humanReadableSize = formatter.format(sizeInKiloBytes).concat("KB");
+            humanReadableSize = formatter.format(sizeInBytes).concat("Bytes");
         }
         return humanReadableSize;
     }

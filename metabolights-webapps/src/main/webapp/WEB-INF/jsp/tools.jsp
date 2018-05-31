@@ -24,143 +24,162 @@
   --%>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/metabolights_test.css" type="text/css"/>
+<script src="https://d3js.org/d3.v4.min.js"></script>
 
 <div class="container-fluid ml-wrapper">
-            <div class="col-md-9">
-                <div id="app">
-                    <div class="col-md-12 row">
-                        <a name="#studyLiterature"><h2 class="row">Curator tools page</h2></a>
-                        <hr>
-                        <div id="el">
-                            <div class="form-group">
-                            <select id="ss" v-model="selected" class="form-control">
-                                <option v-for="option in options" v-bind:value="option.value">
-                                    {{ option.text }}
-                                </option>
-                            </select>
+    <feedback inline-template>
+        <div class="col-md-12">
+            <h3>User feedback</h3>
+            <hr>
+            <div class="">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="panel panel-warning">
+                            <div class="panel-heading">
+                                <h5>Rating overview</h5>
                             </div>
-                            <hr>
-                            <div class="section-content">
-                                <table class="mltable table table-bordered">
-                                    <thead>
-                                    <tr>
-                                        <th>Study</th>
-                                        <th>Study Description</th>
-                                        <th>Study Protocols</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="literaturebody">
-                                    <tr>
-                                        <td colspan="4"> <p class="text-center">Select a study</p> </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                            <div class="panel-body">
+                                <br>
+                                <div class="col-md-12">
+                                    <div class="col-md-4 text-center">
+                                        <img src="/metabolights/img/sad.png" style="width: 50px;"><br><br>
+                                        <p class="text-center"> {{sadPercentage}} %</p>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <img src="/metabolights/img/neutral.png" style="width: 50px;"><br><br>
+                                        <p class="text-center"> {{neutralPercentage}}%</p>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <img src="/metabolights/img/happy.png" style="width: 50px;"><br><br>
+                                        <p class="text-center"> {{happyPercentage}}%</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
+                        <%--<div class="panel panel-default">--%>
+                            <%--<div class="panel-heading">--%>
+                                <%--<h5>Overview</h5>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
                     </div>
-
-                    <div class="col-md-12 row">
-                        <a name="studiesList"><h2 class="row">Studies List <small class="pull-right text-muted"><i><a href="#top">Back to top</a></i></small></h2></a>
-                        <hr>
-                        <div class="section-content">
-                            <div class="col-md-12">
-                                <ul class="list-group" >
-                                    <div id="studieslist"></div>
-                                    <li class="list-group-item"  v-for="dstudies in studiesWithDetails">{{ dstudies.id }} <br> <b>{{ dstudies.title }}</b> <hr> {{ dstudies.description }}</li>
-                                </ul>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Select study</label>
+                            <select @change="setSelectedStudy(selectedStudyId)" v-model="selectedStudyId" class="form-control">
+                                <option selected value="">Please choose a study</option>
+                                <option v-for="(study, $key) in studies" :value="$key">{{ $key }}</option>
+                            </select>
+                            <span v-if="selectedStudyId">
+                            <hr>
+                            <div v-if="selectedStudy" class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h6>{{ selectedStudyId }}</h6>
+                                </div>
+                                <div class="panel-body">
+                                    <p>
+                                        <small class="text-muted"><i>Experience</i></small>
+                                        <br><br>
+                                        <span v-if="selectedStudy.experience === 'neutral'">
+                                            <img src="/metabolights/img/neutral.png" style="width: 50px;">
+                                        </span>
+                                        <span v-if="selectedStudy.experience === 'sad'">
+                                            <img src="/metabolights/img/neutral.png" style="width: 50px;">
+                                        </span>
+                                        <span v-if="selectedStudy.experience === 'happy'">
+                                            <img src="/metabolights/img/happy.png" style="width: 50px;">
+                                        </span>
+                                    </p>
+                                    <p>
+                                        <small class="text-muted"><i>Comments</i></small>
+                                        <br>
+                                        {{ selectedStudy.comments }}
+                                    </p>
+                                    <p>
+                                        <small class="text-muted"><i>Submitted at</i></small>
+                                        <br>
+                                        {{ selectedStudy.created_at }}
+                                    </p>
+                                </div>
                             </div>
+                        </span>
                         </div>
                     </div>
                 </div>
             </div>
-        <div class="col-md-3">
-            <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm">
-                <ul class="nav bs-docs-sidenav">
-                    <li class="active"> <a href="#studyLiterature">Study Literature</a></li>
-                    <li> <a href="#studiesList">Studies List</a></li>
-                </ul>
-            </nav>
         </div>
+    </feedback>
 </div>
 <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.10/vue.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.17/vue-resource.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
 <script>
-
-
-    var vm = new Vue({
-        http: {
-            headers: {
-                'user_token' : '6996ca30-672c-4cda-9a0e-d113d640776f'
+    Vue.component('feedback', {
+        data: function () {
+            return {
+                studies: {},
+                selectedStudy : null,
+                sadPercentage: 0,
+                happyPercentage: 0,
+                neutralPercentage: 0
             }
         },
-        el: '#app',
-        data: {
-            selected: '1',
-            options: [],
-            studies: [],
-            studiesWithDetails: []
+        created () {
+            this.getFeedback();
         },
         methods: {
-            loadStudyLiterature: function () {
-                $('#literaturebody').html('<tr><td colspan="3"><p class="text-center"><img src="${pageContext.request.contextPath}/img/beta_loading.gif"></p></td></tr>');
-                this.$http.get('//www.ebi.ac.uk/metabolights/webservice/study/MTBLS'+this.selected+'/full', function (data, status, request) {
-                    var studyDescription = data['content']['description'];
-                    var studyProtocols = data['content']['protocols'];
-                    var sprot = '';
-                    for (var j = 0; j < studyProtocols.length; j++) {
-                        sprot = sprot + studyProtocols[j]['name'] + '</br>' + studyProtocols[j]['description'] + '<hr>'
+            getFeedback: function () {
+                var that = this
+                axios.post('${pageContext.request.contextPath}/webservice/study/feedback', {
+                },{
+                    headers: { 'user_token': '${userApiToken}' }
+                }).then(function (response) {
+                    if(response.data.content){
+                        var data = JSON.parse(response.data.message)
+                        that.studies = data
+                        that.calculatePercentage()
+                        that.drawChart()
                     }
-                    var htmldata = '<tr><td>MTBLS'+this.selected+'</td><td>'+ studyDescription +'</td><td>'+sprot+'</td></tr>';
-                    $('#literaturebody').html(htmldata);
-                }).error(function (data, status, request) {
-                    $('#literaturebody').html("<tr><td colspan='3'> <p class='text-center'>error loading studies literature</p></td></tr>");
-                });
-
-            },
-            sortByKey: function(array, key) {
-                return array.sort(function(a, b) {
-                    var x = a[key]; var y = b[key];
-                    return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+                }).catch(function (error) {
+                    console.log(error);
                 });
             },
-                loadStudyWithDetails: function(){
-                    $('#studieslist').html('<tr><td colspan="3"><p class="text-center"><img src="${pageContext.request.contextPath}/img/beta_loading.gif"></p></td></tr>');
-                    this.$http.get('//ves-ebi-8d:8080/metabolights/webservice/study/listWithDetails', function (data, status, request) {
-                        this.studiesWithDetails = data['content'];
-                        $('#studieslist').html("");
-                    }).error(function (data, status, request) {
-                        $('#studieslist').html("<tr><td colspan='3'> <p class='text-center'>error loading studies list</p></td></tr>");
-                    });
-                }
-        },
+            setSelectedStudy(study) {
+                this.selectedStudy = this.studies[study]
+            },
+            calculatePercentage(){
+                var total = 0
+                var sad = 0
+                var neutral = 0
+                var happy = 0
 
-        ready: function() {
-            this.$http.get('//www.ebi.ac.uk/metabolights/webservice/study/list', function (data, status, request) {
-                this.studies = data['content'];
-                for(var i in this.studies) {
-                    var item = parseInt(this.studies[i].replace("MTBLS", ""));
-                    this.options.push({
-                        "value" : item,
-                        "text" : "MTBLS" + item
-                    });
+                for (var study in this.studies) {
+                    var tempStudy = this.studies[study]
+                    if(tempStudy.experience === 'sad') {
+                        sad = sad + 1
+                    }
+                    if(tempStudy.experience === 'neutral') {
+                        neutral = neutral + 1
+                    }
+                    if(tempStudy.experience === 'happy') {
+                        happy = happy + 1
+                    }
+                    total = total + 1
                 }
-                this.options = this.sortByKey(this.options, 'value');
-            }).error(function (data, status, request) {
-                alert('error loading studies list');
-            });
-            this.loadStudyLiterature();
-            this.loadStudyWithDetails();
+
+                this.sadPercentage = Math.round((sad / total) * 100 * 100) / 100
+                this.neutralPercentage = Math.round((neutral / total) * 100 * 100) / 100
+                this.happyPercentage = Math.round((happy / total) * 100 * 100) / 100
+            },
+            drawChart(){
+            }
         }
     })
-
-    vm.$watch('selected', function (val) {
-        this.loadStudyLiterature();
+    var feedbackVM = new Vue({
+        el: 'body',
+        data: {
+        }
     })
-
-
-
 </script>

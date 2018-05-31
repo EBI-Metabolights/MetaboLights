@@ -43,25 +43,25 @@ import java.net.URL;
  *
  */
 public class StyleMAVFactory {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(StyleMAVFactory.class);
-	
+
 	// URLs to make the requests
 	private String headerURL;
 	private String localHeaderURL;
 	private String footerURL;
-	
-	// JSON configuration
-    private Resource jsonConfig;
-    private String jsonConfigS;
 
-    // Returned html elements
+	// JSON configuration
+	private Resource jsonConfig;
+	private String jsonConfigS;
+
+	// Returned html elements
 	private String header;
 	private String localheader;
 	private String footer;
 
-    private @Value("#{staticHeaderFooter}") boolean staticHeaderFooter;
-	
+	private @Value("#{staticHeaderFooter}") boolean staticHeaderFooter;
+
 
 	/**
 	 * @return the footerURL
@@ -104,76 +104,76 @@ public class StyleMAVFactory {
 	public void setLocalHeaderURL(String localHeaderURL) {
 		this.localHeaderURL = localHeaderURL;
 	}
-	
+
 	public void setJsonConfig(Resource jsonConfig) {
-    	this.jsonConfig = jsonConfig;
-    }
+		this.jsonConfig = jsonConfig;
+	}
 
 	private String getHtml(String requestUrl){
-	    StringBuffer sbf = new StringBuffer();
-	    
-	    //Access the page
-        try {
-                URL url = new URL(requestUrl);
-                BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-                String inputLine;
-                while ( (inputLine = in.readLine()) != null) sbf.append(inputLine);
-                in.close();
-        } catch (Exception e) {
-        	logger.info("Failed to get HTML from: " + requestUrl + "\n." + e.getMessage());
-        }
-        
-        return sbf.toString();
+		StringBuffer sbf = new StringBuffer();
+
+		//Access the page
+		try {
+			URL url = new URL(requestUrl);
+			BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+			String inputLine;
+			while ( (inputLine = in.readLine()) != null) sbf.append(inputLine);
+			in.close();
+		} catch (Exception e) {
+			logger.info("Failed to get HTML from: " + requestUrl + "\n." + e.getMessage());
+		}
+
+		return sbf.toString();
 	}
-		
+
 	private String getHtmlPost(String requestUrl, String jsonObject) {
-		
-		
+
+
 		HttpURLConnection conn = null;
-		
+
 		String response= "";
-		
-	    try {
-	    
-	    	
+
+		try {
+
+
 			URL url = new URL(requestUrl);
 			conn = (HttpURLConnection) url.openConnection();
 			conn.setDoOutput(true);
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-	 
-			
-	 
+
+
+
 			OutputStream os = conn.getOutputStream();
 			os.write(jsonObject.getBytes());
 			os.flush();
-	 
+
 			if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
 				throw new RuntimeException("Failed : HTTP error code : "
-					+ conn.getResponseCode());
+						+ conn.getResponseCode());
 			}
-	 
+
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					(conn.getInputStream())));
-			
-			
+
+
 			String output;
 			logger.info("Output from Server .... \n");
 			while ((output = br.readLine()) != null) {
 				response = response + output;
 			}
-	 
-	 
-	        
-	    }catch (Exception ex) {
-	        // handle exception here
-	    } finally {
-	    	if (conn != null) conn.disconnect();
-	    }
-		
-		
-	    return response;
-		
+
+
+
+		}catch (Exception ex) {
+			// handle exception here
+		} finally {
+			if (conn != null) conn.disconnect();
+		}
+
+
+		return response;
+
 	}
 
 	public ModelAndView getFrontierMav(String name) {
@@ -261,12 +261,11 @@ public class StyleMAVFactory {
                     "  </div>\n" +
                     "</footer>";
         }
-	
 		ModelAndView mav = new ModelAndView (name);
 		mav.addObject("frontierheader", header);
 		mav.addObject("localfrontierheader", localheader);
 		mav.addObject("frontierfooter", footer);
-		
+
 		return mav;
 	}
 
@@ -279,57 +278,57 @@ public class StyleMAVFactory {
 	}
 
 	public ModelAndView getFrontierMav(String name, String modelName, Object objectModel) {
-		
+
 		ModelAndView mav=  getFrontierMav(name);
-		
+
 		mav.addObject(modelName, objectModel);
-		
+
 		return mav;
 	}
-	
+
 	private String getFooter(){
 		return getHtml(footerURL);
 	}
 	private String getHeader(){
 		return getHtml(headerURL);
-		
+
 	}
 
 	private String getJsonConfigS()  {
-	
+
 		if (jsonConfigS == null){
-			
+
 			BufferedReader reader = null;
-			
-			try {		
-		
+
+			try {
+
 				reader = new BufferedReader(new FileReader(jsonConfig.getFile()));
-				
+
 				StringBuilder stringBuilder = new StringBuilder();
 				String ls = System.getProperty("line.separator");
-		
-			    String line;
-			    while ((line = reader.readLine()) != null) {
-			        stringBuilder.append(line);
-			        //stringBuilder.append(ls);
-			    }
-	
-				// Populate the string 
+
+				String line;
+				while ((line = reader.readLine()) != null) {
+					stringBuilder.append(line);
+					//stringBuilder.append(ls);
+				}
+
+				// Populate the string
 				jsonConfigS = stringBuilder.toString();
-	
+
 			} catch (Exception e) {
 				// Log the exception
 				logger.info("Failed to read JSON file " + jsonConfig.getFilename() + "\n." + e.getMessage());
-				
+
 				// In the worse case continue with an empty parameter as json object.
 				jsonConfigS = "";
-	
+
 			} finally {
 				//if (reader != null) reader.close();
 			}
-	
+
 		}
-		
-	    return jsonConfigS; 
+
+		return jsonConfigS;
 	}
 }

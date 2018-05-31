@@ -21,18 +21,24 @@
 
 package uk.ac.ebi.metabolights.webservice.utils;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.jose4j.json.internal.json_simple.JSONObject;
+import org.jose4j.json.internal.json_simple.parser.JSONParser;
+import org.jose4j.json.internal.json_simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.webservice.services.PropertyLookUpService;
-import static java.nio.file.StandardCopyOption.*;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.file.*;
-import java.nio.file.attribute.*;
+import java.nio.file.attribute.PosixFileAttributeView;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.UserPrincipalLookupService;
 import java.util.*;
+
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 
 public class FileUtil {
@@ -41,18 +47,18 @@ public class FileUtil {
 
 	public static void replace (String fileToSearchIn, String textToSearch, String textToReplace) throws IOException{
 		String text;
-		
+
 		//Get the file into a string
 		text = file2String(fileToSearchIn);
-		
+
 		//Replace the content
 		text = StringUtils.replace(text, textToSearch, textToReplace);
-		
+
 		//Save the file
 		String2File(text, fileToSearchIn);
-		
-		
+
 	}
+
 	/**
 	 * Returns a string with the contents of a file.
 	 * @param fileToUse
@@ -82,6 +88,7 @@ public class FileUtil {
         //Return the String
         return text;
 	}
+
 	/**
 	 * Takes the String passed and saves it in a file
 	 * @param text: Text to save
@@ -92,16 +99,17 @@ public class FileUtil {
 
 		//instantiate a FileWriter
         FileWriter writer = new FileWriter(fileToSave);
-        
+
         //Write the text
         writer.write(text);
-        
+
         //Close the writer
         writer.close();
 	}
+
 	/**
 	 * Deletes all fileNames and subdirectories under dir.
-	 * 
+	 *
 	 * @param dir to delete
 	 * @return Returns true if all deletions were successful.
 	 * If a deletion fails, the method stops attempting to delete and returns false.
@@ -130,7 +138,7 @@ public class FileUtil {
 	public static boolean fileExists(String path, boolean throwException) throws FileNotFoundException{
 
 		return fileExists(new File(path), throwException);
-		
+
 	}
 
 	public static boolean filesExists(File[] files, boolean throwException) throws FileNotFoundException{
@@ -141,7 +149,7 @@ public class FileUtil {
 			if (fileExists(file, true))
 			{
 				return false;
-			};
+			}
 		}
 
 		return true;
@@ -153,7 +161,6 @@ public class FileUtil {
 		boolean result = file.exists();
 
 		if (throwException && !result){
-
 			throw new FileNotFoundException ("Path (" + file.getAbsolutePath() + ") not found.");
 		}
 
@@ -173,8 +180,8 @@ public class FileUtil {
 
 		streamFile(file,response,contenType);
 
-
 	}
+
 	public static void streamFile(File file, HttpServletResponse response, String contentType ){
 
 		try {
@@ -306,7 +313,8 @@ public class FileUtil {
 				File.separator + fileName);
 
 		try {
-			Files.move(filePath, studyPath, ATOMIC_MOVE);
+			//Files.move(filePath, studyPath, ATOMIC_MOVE); //Atomic only works if the mountpoints are the same filesystem
+            Files.move(filePath, studyPath, REPLACE_EXISTING);
 			result = true;
 		} catch (IOException ex) {
 			logger.error("Error: can't move the file. {}", ex.getMessage());

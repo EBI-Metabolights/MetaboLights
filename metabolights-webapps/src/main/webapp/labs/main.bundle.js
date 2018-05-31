@@ -309,12 +309,21 @@ var _a, _b;
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LabsURL; });
 var environment = "dev";
+<<<<<<< HEAD
 var domain = "http://localhost:8080/metabolights/";
 if (environment == "prod") {
     domain = "https://www.ebi.ac.uk/metabolights/";
 }
 else if (environment == "dev") {
     domain = "http://wwwdev.ebi.ac.uk/metabolights/";
+=======
+var domain = "//localhost:8080/metabolights/";
+if (environment == "prod") {
+    domain = "//www.ebi.ac.uk/metabolights/";
+}
+else if (environment == "dev") {
+    domain = "//wwwdev.ebi.ac.uk/metabolights/";
+>>>>>>> development_backup
 }
 var LabsURL = {};
 LabsURL['domain'] = domain;

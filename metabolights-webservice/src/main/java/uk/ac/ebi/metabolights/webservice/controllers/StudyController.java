@@ -22,6 +22,7 @@ package uk.ac.ebi.metabolights.webservice.controllers;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jose4j.json.internal.json_simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,7 @@ import uk.ac.ebi.metabolights.webservice.services.IndexingService;
 import uk.ac.ebi.metabolights.webservice.services.UserServiceImpl;
 import uk.ac.ebi.metabolights.webservice.utils.FileUtil;
 import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
+import uk.ac.ebi.metabolights.webservice.utils.SecurityUtil;
 
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
@@ -66,6 +68,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -406,6 +409,108 @@ public class StudyController extends BasicController{
 
 		return restResponse;
 
+	}
+
+	/**
+	 * Study feedback operations
+	 * @param studyIdentifier
+	 * @param feedback
+	 * @return
+	 */
+	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/feedback", method= RequestMethod.POST)
+	@ResponseBody
+	public RestResponse<Boolean> studyFeedback(@PathVariable("studyIdentifier") String studyIdentifier, @RequestBody String feedback) {
+
+		RestResponse<Boolean> restResponse = new RestResponse<>();
+
+		String feedbackFile = PropertiesUtil.getProperty("feedbackLocation") + File.separator + "fb.json";
+
+        JSONObject feedbackObject = null;
+
+        try {
+            String feedbackData = FileUtil.file2String(feedbackFile);
+            feedbackObject = SecurityUtil.parseRequest(feedbackData);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+		try {
+			User user = getUser();
+
+			studyDAO= getStudyDAO();
+
+			if (feedbackObject.containsKey(studyIdentifier)) {
+                JSONObject studyFeedback = (JSONObject) feedbackObject.get(studyIdentifier);
+                restResponse.setContent(true);
+                restResponse.setMessage(studyFeedback.toJSONString());
+            }else{
+                restResponse.setContent(false);
+                restResponse.setMessage("Feedback doesnt exist");
+                // check if user exist
+                if (doesUserOwnsTheStudy(user.getUserName(), studyDAO.getStudy(studyIdentifier, user.getApiToken())) || user.isCurator()){
+					// user owns the study or is curator
+					if(!feedbackObject.containsKey(studyIdentifier)){
+						// user feedback doesnt exist
+						JSONObject userFeedbackObject = new JSONObject();
+						JSONObject inputData = SecurityUtil.parseRequest(feedback);
+						if(inputData.containsKey("experience") && inputData.containsKey("comments")){
+							userFeedbackObject.put("experience", inputData.get("experience"));
+							userFeedbackObject.put("comments",  inputData.get("comments"));
+							userFeedbackObject.put("created_at", new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()));
+							feedbackObject.put(studyIdentifier, userFeedbackObject);
+							FileUtil.String2File(feedbackObject.toJSONString(),feedbackFile);
+							restResponse.setContent(true);
+							restResponse.setMessage(feedbackObject.toJSONString());
+						}
+					}else{
+						restResponse.setContent(true);
+						restResponse.setMessage(feedbackObject.get(studyIdentifier).toString());
+					}
+				}
+            }
+
+		} catch (Exception e) {
+
+			restResponse.setMessage("Error fetching study feedback: " + e.getMessage());
+			restResponse.setErr(e);
+		}
+
+		return restResponse;
+
+	}
+
+	/**
+	 * Study feedback operations
+	 * @return
+	 */
+	@RequestMapping(value = "/feedback",method= RequestMethod.POST)
+	@ResponseBody
+	public RestResponse<Boolean> feedback() {
+		RestResponse<Boolean> restResponse = new RestResponse<>();
+		String feedbackFile = PropertiesUtil.getProperty("feedbackLocation") + File.separator + "fb.json";
+		JSONObject feedbackObject = null;
+		try {
+			String feedbackData = FileUtil.file2String(feedbackFile);
+			feedbackObject = SecurityUtil.parseRequest(feedbackData);
+		} catch (IOException e) {
+			restResponse.setMessage("Error fetching feedback details: " + e.getMessage());
+			restResponse.setErr(e);
+		}
+		try {
+			User user = getUser();
+			if (user.isCurator()) {
+				restResponse.setContent(true);
+				restResponse.setMessage(feedbackObject.toJSONString());
+			}else{
+				restResponse.setContent(false);
+				restResponse.setMessage("User doesnt have the right permissions to view this");
+			}
+
+		} catch (Exception e) {
+			restResponse.setMessage("Error fetching study feedback: " + e.getMessage());
+			restResponse.setErr(e);
+		}
+		return restResponse;
 	}
 
 

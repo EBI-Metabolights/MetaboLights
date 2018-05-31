@@ -21,6 +21,7 @@
 
 /* Style cancellations from other css with less priority
 /* --- Links --- */
+
 a.noLine,
 .bigbutton a {
 
@@ -874,6 +875,48 @@ ol.progtrckr li.progtrckr-todo:before {
 
 #search-extras {
  top: -50px;
+}
+
+.wrong:before{
+
+    content: "\002718";
+    font-weight: bold;
+}
+
+.mandatory {
+    color: red;
+}
+.optional {
+    color: darkorange;
+}
+.ok {
+    color: green;
+}
+
+.override {
+    color: darkorange;
+}
+
+.ok:before{
+    content: "\002713";
+    font-weight: bold;
+}
+
+.redTrafficL::before{
+    content: "\0025C9";
+    color: red;
+}
+.amberTrafficL::before{
+    content: "\0025C9";
+    color: darkorange;
+}
+.greenTrafficL::before{
+    content: "\0025C9";
+    color: green;
+}
+.offTrafficL::before{
+    content: "\0025EF";
+    color: #bbb;
 }
 
 

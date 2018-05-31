@@ -18,8 +18,8 @@ cd $studyfolder
 sum=0;
 size=""
 
-for value in $(du -s */)
-
+#for value in $(du -s */)
+for value in $(du -s -B1 */)
 do
 if [ $sum -eq 0 ]; then
    size=${value}

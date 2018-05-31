@@ -235,7 +235,6 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.0/axios.min.js"></script>
-
 <script>
     $(document).ready(function () {
         $(".grey").on('shown.bs.collapse', function () {
@@ -257,7 +256,6 @@
         }
         $('[data-toggle="tooltip"]').tooltip();
     });
-
 </script>
 
 <c:if test="${!empty query.text}">
@@ -272,7 +270,8 @@
         data: {
             selectedStudy: null,
             study: {},
-            hasGalaxyDetails: '',
+
+            hasGalaxyDetails: null,
             toolId: null,
             URL: null
         },
@@ -285,6 +284,9 @@
                 this.toolId = this.getUrlParameter('tool_id', window.location)
                 this.URL = window.location.origin;
                 console.log(this.hasGalaxyDetails);
+                this.hasGalaxyDetails = decodeURIComponent(this.getUrlParameter('GALAXY_URL', window.location))
+                this.toolId = this.getUrlParameter('tool_id', window.location)
+                this.URL = window.location.origin;
             })
         },
         methods: {
@@ -344,6 +346,5 @@
             }
         });
     });
-
 
 </script>

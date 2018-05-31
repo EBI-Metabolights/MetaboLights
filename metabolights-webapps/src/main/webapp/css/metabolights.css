@@ -249,6 +249,16 @@ a:link.hyperlinks{
 
 
 
+.vc{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.vh100{
+    height: 100px;
+}
+
 
 a:link.btn-ok{
     color: #fff !important;

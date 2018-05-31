@@ -244,8 +244,8 @@ public class FileDispatcherController extends AbstractController {
 
         streamFile(file,response,contenType);
 
-
     }
+
     public static void streamFile(File file, HttpServletResponse response, String contentType ){
 
         try {
