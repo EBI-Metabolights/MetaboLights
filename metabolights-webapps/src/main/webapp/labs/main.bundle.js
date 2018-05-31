@@ -309,21 +309,12 @@ var _a, _b;
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LabsURL; });
 var environment = "dev";
-<<<<<<< HEAD
-var domain = "http://localhost:8080/metabolights/";
-if (environment == "prod") {
-    domain = "https://www.ebi.ac.uk/metabolights/";
-}
-else if (environment == "dev") {
-    domain = "http://wwwdev.ebi.ac.uk/metabolights/";
-=======
 var domain = "//localhost:8080/metabolights/";
 if (environment == "prod") {
     domain = "//www.ebi.ac.uk/metabolights/";
 }
 else if (environment == "dev") {
     domain = "//wwwdev.ebi.ac.uk/metabolights/";
->>>>>>> development_backup
 }
 var LabsURL = {};
 LabsURL['domain'] = domain;
@@ -632,7 +623,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/shared/top-nav/top-nav.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar fixed-top navbar-toggleable-md navbar-inverse bg-inverse\">\n    <button class=\"navbar-toggler navbar-toggler-right\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarNavDropdown\" aria-controls=\"navbarNavDropdown\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n        <span class=\"navbar-toggler-icon\"></span>\n    </button>\n    <a class=\"navbar-brand\" href=\"#\">\n        <img src=\"assets/img/logo.png\" class=\"logo\">&nbsp;MetaboLights Labs <sup class=\"text-muted\">Beta</sup>\n    </a>\n    <div id=\"navbarNavDropdown\" class=\"navbar-collapse collapse\">\n        <ul class=\"navbar-nav mr-auto\">\n            <!-- <li class=\"nav-item active\">\n                <a class=\"nav-link\" href=\"#\">Home <span class=\"sr-only\">(current)</span></a>\n            </li>\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" href=\"#\">Features</a>\n            </li>\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" href=\"#\">Pricing</a>\n            </li> -->\n        </ul>\n        <ul class=\"navbar-nav\">\n            <li class=\"nav-item dropdown\">\n                  <a class=\"nav-link dropdown-toggle\" id=\"supportedContentDropdown\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                  <i class=\"fa fa-fw fa-user\"></i></a>\n                  <div class=\"dropdown-menu dropdown-menu-right\" aria-labelledby=\"supportedContentDropdown\">\n                    <a routerLink=\"/workspace/settings\" class=\"dropdown-item\"><i class=\"fa fa-fw fa-cogs\"></i>&nbsp;Settings</a>\n                    <a class=\"dropdown-item\" (click)=\"logOut()\" ><i class=\"fa fa-fw fa-sign-out\"></i>&nbsp;Log out</a>\n                </div>\n            </li>\n        </ul>\n    </div>\n</nav>"
+module.exports = "<nav class=\"navbar fixed-top navbar-toggleable-md navbar-inverse bg-inverse\">\n    <button class=\"navbar-toggler navbar-toggler-right\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarNavDropdown\" aria-controls=\"navbarNavDropdown\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n        <span class=\"navbar-toggler-icon\"></span>\n    </button>\n    <a class=\"navbar-brand\" href=\"#\">\n        <img src=\"assets/img/logo.png\" class=\"logo\">&nbsp;MetaboLights Labs <sup class=\"text-muted\">Beta</sup>\n    </a>\n    <div id=\"navbarNavDropdown\" class=\"navbar-collapse collapse\">\n        <ul class=\"navbar-nav mr-auto\">\n            <!-- <li class=\"nav-item active\">\n                <a class=\"nav-link\" href=\"#\">Home <span class=\"sr-only\">(current)</span></a>\n            </li>\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" href=\"#\">Features</a>\n            </li>\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" href=\"#\">Pricing</a>\n            </li> -->\n        </ul>\n        <ul class=\"navbar-nav\">\n            <li class=\"nav-item dropdown\">\n                  <a class=\"nav-link dropdown-toggle\" id=\"supportedContentDropdown\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                  <i class=\"fa fa-fw fa-user\"></i></a>\n                  <div class=\"dropdown-menu dropdown-menu-right\" aria-labelledby=\"supportedContentDropdown\">\n                    <a routerLink=\"/workspace/settings\" class=\"dropdown-item\"><i class=\"fa fa-fw fa-cogs\"></i>&nbsp;Settings</a>\n                    <a class=\"dropdown-item\" (click)=\"logOut()\" ><i class=\"fa fa-fw fa-sign-out\"></i>&nbsp;Log out</a>\n                </div>\n            </li>\n        </ul>\n    </div>\n</nav>\n<div id=\"data-protection-message-configuration\"\n     data-message='This website requires cookies, and the limited processing of your personal data in order to function. By using the site you are agreeing to this as outlined in our <a target=\"_blank\" href=\"https://www.ebi.ac.uk/data-protection/privacy-notice/metabolights\" class=\"white-color\">Privacy Notice</a>.'\n     data-service-id=\"MetaboLights\" data-data-protection-version=\"0.1\"></div>\n"
 
 /***/ }),
 

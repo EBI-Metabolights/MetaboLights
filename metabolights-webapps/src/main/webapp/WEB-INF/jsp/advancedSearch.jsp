@@ -28,12 +28,8 @@
 
 <base href="${pageContext.request.contextPath}/advsearch/">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<br>
 <br>
 <mtbls-adv-search></mtbls-adv-search>
-
-
 <script type="text/javascript" src="inline.bbda9ef628b502737376.bundle.js"></script>
 <script type="text/javascript" src="polyfills.ed762e38550b1ba74505.bundle.js"></script>
 <script type="text/javascript" src="vendor.f1967bd5c017fba09684.bundle.js"></script>

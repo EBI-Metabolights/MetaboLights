@@ -29,6 +29,7 @@
 <script type="text/javascript" src="javascript/jquery.jqpagination.min.js"></script>
 <link rel="stylesheet" href="cssrl/jqpagination.css" type="text/css"/>
 <script type="text/javascript" src="javascript/jquery-highlight.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
 
 <div id="app">
     <div class="">
@@ -233,8 +234,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.0/axios.min.js"></script>
+<%--<script src="https://cdn.jsdelivr.net/npm/vue"></script>--%>
+<%--<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.0/axios.min.js"></script>--%>
 <script>
     $(document).ready(function () {
         $(".grey").on('shown.bs.collapse', function () {
@@ -264,72 +265,72 @@
 </c:if>
 
 
-<script>
-    var app = new Vue({
-        el: '#app',
-        data: {
-            selectedStudy: null,
-            study: {},
+<%--<script>--%>
+    <%--var app = new Vue({--%>
+        <%--el: '#app',--%>
+        <%--data: {--%>
+            <%--selectedStudy: null,--%>
+            <%--study: {},--%>
 
-            hasGalaxyDetails: null,
-            toolId: null,
-            URL: null
-        },
-        mounted: function() {
-            this.$nextTick(function () {
-                var galaxyURL = decodeURIComponent(this.getUrlParameter('GALAXY_URL', window.location));
-                if (galaxyURL != 'null'){
-                    this.hasGalaxyDetails = galaxyURL
-                }
-                this.toolId = this.getUrlParameter('tool_id', window.location)
-                this.URL = window.location.origin;
-                console.log(this.hasGalaxyDetails);
-                this.hasGalaxyDetails = decodeURIComponent(this.getUrlParameter('GALAXY_URL', window.location))
-                this.toolId = this.getUrlParameter('tool_id', window.location)
-                this.URL = window.location.origin;
-            })
-        },
-        methods: {
-            studyQuickView: function (id) {
-                this.selectedStudy = id;
-                this.getStudyDetails();
-            },
-            getStudyDetails: function () {
-                var that = this;
-                axios.get('${pageContext.request.contextPath}/webservice/study/' + this.selectedStudy)
-                    .then(function (response){
-                        that.study = response.data.content;
-                        $('#myModal').modal('show');
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            },
-            getUrlParameter: function(name, url){
-                if (!url) url = location.href;
-                name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
-                var regexS = "[\\?&]"+name+"=([^&#]*)";
-                var regex = new RegExp( regexS );
-                var results = regex.exec( url );
-                return results == null ? null : results[1];
-            }
-        },
-        filters: {
-            formatDate: function (value) {
-                var a = new Date(value);
-                var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-                var year = a.getFullYear();
-                var month = months[a.getMonth()];
-                var date = a.getDate();
-                var hour = a.getHours();
-                var min = a.getMinutes();
-                var sec = a.getSeconds();
-                var time = date + ' ' + month + ' ' + year ;
-                return time;
-            }
-        }
-    })
-</script>
+            <%--hasGalaxyDetails: null,--%>
+            <%--toolId: null,--%>
+            <%--URL: null--%>
+        <%--},--%>
+        <%--mounted: function() {--%>
+            <%--this.$nextTick(function () {--%>
+                <%--var galaxyURL = decodeURIComponent(this.getUrlParameter('GALAXY_URL', window.location));--%>
+                <%--if (galaxyURL != 'null'){--%>
+                    <%--this.hasGalaxyDetails = galaxyURL--%>
+                <%--}--%>
+                <%--this.toolId = this.getUrlParameter('tool_id', window.location)--%>
+                <%--this.URL = window.location.origin;--%>
+                <%--console.log(this.hasGalaxyDetails);--%>
+                <%--this.hasGalaxyDetails = decodeURIComponent(this.getUrlParameter('GALAXY_URL', window.location))--%>
+                <%--this.toolId = this.getUrlParameter('tool_id', window.location)--%>
+                <%--this.URL = window.location.origin;--%>
+            <%--})--%>
+        <%--},--%>
+        <%--methods: {--%>
+            <%--studyQuickView: function (id) {--%>
+                <%--this.selectedStudy = id;--%>
+                <%--this.getStudyDetails();--%>
+            <%--},--%>
+            <%--getStudyDetails: function () {--%>
+                <%--var that = this;--%>
+                <%--axios.get('${pageContext.request.contextPath}/webservice/study/' + this.selectedStudy)--%>
+                    <%--.then(function (response){--%>
+                        <%--that.study = response.data.content;--%>
+                        <%--$('#myModal').modal('show');--%>
+                    <%--})--%>
+                    <%--.catch(function (error) {--%>
+                        <%--console.log(error);--%>
+                    <%--});--%>
+            <%--},--%>
+            <%--getUrlParameter: function(name, url){--%>
+                <%--if (!url) url = location.href;--%>
+                <%--name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");--%>
+                <%--var regexS = "[\\?&]"+name+"=([^&#]*)";--%>
+                <%--var regex = new RegExp( regexS );--%>
+                <%--var results = regex.exec( url );--%>
+                <%--return results == null ? null : results[1];--%>
+            <%--}--%>
+        <%--},--%>
+        <%--filters: {--%>
+            <%--formatDate: function (value) {--%>
+                <%--var a = new Date(value);--%>
+                <%--var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];--%>
+                <%--var year = a.getFullYear();--%>
+                <%--var month = months[a.getMonth()];--%>
+                <%--var date = a.getDate();--%>
+                <%--var hour = a.getHours();--%>
+                <%--var min = a.getMinutes();--%>
+                <%--var sec = a.getSeconds();--%>
+                <%--var time = date + ' ' + month + ' ' + year ;--%>
+                <%--return time;--%>
+            <%--}--%>
+        <%--}--%>
+    <%--})--%>
+<%--</script>--%>
 
 <script>
 

@@ -43,12 +43,12 @@
                 <br>--%>
 
                 <div class="ml-loginpanelhead">
-                    <h3 class="text-center"><img style="height: 50px;" src="${pageContext.request.contextPath}/img/MetaboLightsLogo.png">&nbsp;MetaboLights</h3>
+                    <h3 class="text-center">MetaboLights Login</h3>
                 </div>
 
                     <div class="ml-loginpanelbody">
                 <c:if test="${not empty fromsubmit}">
-                    <p><strong><spring:message code="msg.submHeader"/></strong></p>
+                    <p class="error"><strong><spring:message code="msg.submHeader"/></strong></p>
                 </c:if>
 
                 <form name="loginForm" action="<c:url value='j_spring_security_check'/>" method="post">
@@ -61,12 +61,12 @@
                     </c:if>
 
                     <div class="form-group">
-                        <label><spring:message code="label.email" /></label>
+                        <label><spring:message code="label.email"></spring:message><sup>*</sup></label>
                         <input class="form-control" type='text' name='j_username'/>
                     </div>
 
                     <div class="form-group">
-                        <label><spring:message code="label.password" /></label>
+                        <label><spring:message code="label.password" /><sup>*</sup></label>
                         <input class="form-control" type='password' name='j_password'/>
                     </div>
 

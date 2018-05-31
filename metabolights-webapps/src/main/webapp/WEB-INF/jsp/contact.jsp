@@ -2,6 +2,10 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
+<link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
+
     <%--
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
@@ -61,8 +65,8 @@
 							<span class="error"><form:errors path="message" /></span>
 						</div>
 						<div class="form-group">
-							<input name="submit" type="submit" class='submit' value="<spring:message code="label.submit"/>" />
-							<input name="cancel" type="button" class='submit cancel' value="<spring:message code="label.cancel"/>" onclick="location.href='index'"/>
+							<input name="submit" type="submit" class='submit btn btn-primary' value="<spring:message code="label.submit"/>" />
+							<input name="cancel" type="button" class='submit cancel btn btn-default' value="<spring:message code="label.cancel"/>" onclick="location.href='index'"/>
 						</div>
 					</form:form>
 

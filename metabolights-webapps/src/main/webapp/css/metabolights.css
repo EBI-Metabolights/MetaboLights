@@ -33,6 +33,94 @@ body{
     margin: 0 auto !important;
 }
 
+.error{
+    color: red;
+}
+
+#search-extras {
+    top: 0px;
+}
+
+#search-extras.expander #ebi_search_results {
+    position: absolute;
+    z-index: 500;
+    right: 4px;
+    box-shadow: -1px 0px 20px 0px #666;
+    min-width: 275px;
+}
+
+#search-extras #ebi_search_results h3 {
+    cursor: pointer;
+}
+
+#search-extras #ebi_search_results h3.slideToggle:hover {
+    background-color: #333;
+    color: white;
+}
+
+.loading {
+    background: url(/web_guidelines/images/global/ajax-loader.gif) no-repeat 99%;
+}
+
+.shortcuts h3 {
+    border-bottom: 0 none;
+    font-size: 130%;
+    line-height: inherit;
+    background-color: #DDD;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 7px;
+    padding-right: 30px;
+}
+
+.shortcuts>div, div.highlight {
+    width: auto;
+    background: #ededed;
+    padding-bottom: 10px;
+    margin: 0 9px 9px 9px;
+    overflow: visible;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+#search-extras #ebi_search_results ul {
+    list-style: none;
+    padding-left: 9px;
+}
+
+#search-extras #ebi_search_results p {
+    margin-top: 0px;
+    background: #ededed;
+    padding: 5px;
+}
+
+#search-extras #ebi_search_results ul a:link, #search-extras #ebi_search_results ul a:visited {
+    margin-bottom: 3px;
+}
+.shortcuts>div ul li a {
+    display: block;
+    border-bottom-color: #ccc;
+}
+
+#ebi_search_results li {
+    word-wrap: break-word;
+}
+
+html.fontface .icon-functional:before {
+    font-family: 'EBI-Functional';
+    font-size: 100%;
+    color: #bbb;
+    content: attr(data-icon);
+    margin: 0 0.3em 0 0;
+}
+
+:after, :before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
 .metabolite-title{
     background-color: #f1f1f4;
     padding: 10px 10px;

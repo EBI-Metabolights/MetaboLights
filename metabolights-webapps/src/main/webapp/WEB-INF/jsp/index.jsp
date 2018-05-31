@@ -102,7 +102,7 @@
                     <div class="custom-footer text-center">
                         <ul>
                             <li><a href="studies"><b>Browse</b></a></li>
-                            <li><a href="advancedsearch"><b>Advanced search</b></a></li>
+                            <li><a href="advancedsearch"><b>ORCID search</b></a></li>
                             <li><a href="labs"><b>Labs</b></a></li>
                         </ul>
                     </div>
