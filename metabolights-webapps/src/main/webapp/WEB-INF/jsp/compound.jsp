@@ -112,45 +112,45 @@
                                             </ul>
                                         </div> -->
                                         <a :href="'${pageContext.request.contextPath}/referencespectraupload?cid=${compoundId}'" class="btn btn-default btn-xs"><i class="fa fa-upload"></i> Upload Spectra </a>
-                                        <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#discussionModal"><i class="fa fa-comment"></i> Discussion</button>
+                                        <%--<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#discussionModal"><i class="fa fa-comment"></i> Discussion</button>--%>
                                         <a target="_blank" :href="'${pageContext.request.contextPath}/contact'" class="btn btn-default btn-xs"><i class="fa fa-question"></i> Help</a>
                                     </div>
                                 </span>
 
                         </div>
 
-                        <div class="modal fade" id="discussionModal" tabindex="-1" role="dialog" aria-labelledby="discussionModal">
-                            <div class="modal-dialog disqus-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-body">
-                                        <div id="disqus_thread"></div>
-                                        <script>
-                                            /**
-                                             *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-                                             *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
-                                             */
+                        <%--<div class="modal fade" id="discussionModal" tabindex="-1" role="dialog" aria-labelledby="discussionModal">--%>
+                            <%--<div class="modal-dialog disqus-dialog" role="document">--%>
+                                <%--<div class="modal-content">--%>
+                                    <%--<div class="modal-body">--%>
+                                        <%--<div id="disqus_thread"></div>--%>
+                                        <%--<script>--%>
+                                            <%--/**--%>
+                                             <%--*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.--%>
+                                             <%--*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables--%>
+                                             <%--*/--%>
 
-                                            var disqus_config = function () {
-                                                this.page.url = "//www.ebi.ac.uk/metabolights/${compoundId}";  // Replace PAGE_URL with your page's canonical URL variable
-                                                this.page.identifier = "${compoundId}"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-                                            };
+                                            <%--var disqus_config = function () {--%>
+                                                <%--this.page.url = "//www.ebi.ac.uk/metabolights/${compoundId}";  // Replace PAGE_URL with your page's canonical URL variable--%>
+                                                <%--this.page.identifier = "${compoundId}"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable--%>
+                                            <%--};--%>
 
-                                            (function() {  // DON'T EDIT BELOW THIS LINE
-                                                var d = document, s = d.createElement('script');
+                                            <%--(function() {  // DON'T EDIT BELOW THIS LINE--%>
+                                                <%--var d = document, s = d.createElement('script');--%>
 
-                                                s.src = '//metabolights.disqus.com/embed.js';
+                                                <%--s.src = '//metabolights.disqus.com/embed.js';--%>
 
-                                                s.setAttribute('data-timestamp', +new Date());
-                                                (d.head || d.body).appendChild(s);
-                                            })();
-                                        </script>
-                                        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+                                                <%--s.setAttribute('data-timestamp', +new Date());--%>
+                                                <%--(d.head || d.body).appendChild(s);--%>
+                                            <%--})();--%>
+                                        <%--</script>--%>
+                                        <%--<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>--%>
 
 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                    <%--</div>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
                         <div class="met-content">
                             <div class="card">
                                 <ul class="nav nav-tabs" role="tablist">
@@ -362,7 +362,7 @@
 
                                         <div v-if="selectedReaction">
                                             <br>
-                                            <p><i class="fa fa-link"></i>&nbsp;</i><i>Source: </i><a target="_blank" :href="'http://www.rhea-db.org/reaction?id=RHEA:'+selectedReaction">Rhea: {{ selectedReaction }}</a></p>
+                                            <p><i class="fa fa-link"></i>&nbsp;</i><i>Source: </i><a target="_blank" :href="'https://www.rhea-db.org/reaction?id=RHEA:'+selectedReaction">Rhea: {{ selectedReaction }}</a></p>
                                             <!-- <div class="ml_trc grey"><b><h4>{{ selectedReactionData.name }}</h4></b></div> -->
                                             <div class="col-md-12" id="BioJSReaction"></div>
                                             <div class="clearfix">&nbsp;</div>
@@ -680,6 +680,7 @@
         ready: function(){
             this.loading = true;
             this.$http.get('${pageContext.request.contextPath}/webservice/beta/compound/'+ this.compound, function (data, status, request) {
+            // this.$http.get('http://ves-ebi-8d:8080/metabolights/webservice/beta/compound/'+ this.compound, function (data, status, request) {
                 this.$set('mtblc', data);
                 this.mtblc['chebiId'] = this.mtblc['id'].replace("MTBLC", "");
                 this.mtblc['imageUrl'] = "//www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=" + this.mtblc['chebiId'] + "&dimensions=600&transbg=true";

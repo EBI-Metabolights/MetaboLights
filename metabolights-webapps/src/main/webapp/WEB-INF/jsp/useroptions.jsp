@@ -173,6 +173,14 @@
                             </a>
                         </div>
                     </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <a href="<spring:url value="tools"/>" class="btn btn-default btn-md form-control ml--noborder">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;
+                                <spring:message code="menu.toolsCaps" />
+                            </a>
+                        </div>
+                    </div>
                     <%--<div class="col-md-3">--%>
                         <%--<div class="form-group">--%>
                             <%--<a href="<spring:url value="tools"/>" class="btn btn-default btn-md form-control ml--noborder">--%>
