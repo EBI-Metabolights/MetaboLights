@@ -587,16 +587,33 @@ public class LabsWorkspaceController {
 
         }
 
+        Boolean cloneProject = false;
 
-        Boolean cloneProject = (Boolean) serverRequest.get("cloneProject");
+        int cloneType = (int) Integer.parseInt(serverRequest.get("cloneType").toString());
+
+        String studyId = null;
+
+        Boolean byPass = false;
+
+        if(cloneType != 0){
+            byPass = true;
+            cloneProject = true;
+            if(cloneType == 1){
+                studyId = (String) serverRequest.get("studyId");
+            }else if(cloneType == 2){
+                studyId = "MTBLS121";
+            }else if(cloneType == 3){
+                studyId = "MTBLS130";
+            }else if(cloneType == 4){
+                studyId = "MTBLS122";
+            }else if(cloneType == 5){
+                studyId = "MTBLS135";
+            }
+        }
 
         ObjectMapper mapper = new ObjectMapper();
 
-
         if (cloneProject) {
-
-            String studyId = (String) serverRequest.get("studyId");
-
             if (studyId != null || studyId.matches(METABOLIGHTS_ID_REG_EXP)) {
 
                 logger.info("Cloning study: " + studyId);
@@ -605,24 +622,58 @@ public class LabsWorkspaceController {
 
                     studyDAO = getStudyDAO();
 
-                    Study study =  studyDAO.getStudy(studyId, user.getApiToken());
+                    Study study = null;
 
-                    MLLProject mllProject = (new MetaboLightsLabsProjectDAO(mllWorkSpace, title, description, study)).getMllProject();
+                    if(!byPass){
+                        study =  studyDAO.getStudy(studyId, user.getApiToken());
+                    }else{
 
-                    mllProject.log("Cloning study: " + studyId);
+                        String configUserToken = PropertiesUtil.getProperty("teamToken");
 
-                    restResponse.setContent(mapper.writeValueAsString(mllProject));
+                        study =  studyDAO.getStudy(studyId, configUserToken);
+                    }
 
-                    return restResponse;
+                    if(study != null){
 
+                        MLLProject mllProject = (new MetaboLightsLabsProjectDAO(mllWorkSpace, title, description, study)).getMllProject();
+
+                        mllProject.log("Cloning study: " + studyId);
+
+                        restResponse.setContent(mapper.writeValueAsString(mllProject));
+
+                        return restResponse;
+
+                    }else{
+
+                        logger.warn("User might be trying to clone others private study");
+
+                        restResponse.setMessage("Cloning study failed: User might not have the right permission");
+
+                        response.setStatus(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+
+                        return restResponse;
+
+                    }
 
                 } catch (DAOException e) {
 
-                    e.printStackTrace();
+                    logger.warn("User might be trying to clone others private study");
+
+                    restResponse.setMessage("Cloning study failed: User might not have the right permission");
+
+                    response.setStatus(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+
+                    return restResponse;
 
                 } catch (IsaTabException e) {
 
-                    e.printStackTrace();
+                    logger.warn("ISATab Exception");
+
+                    restResponse.setMessage("ISA Tab exception. Please check the study is redering properly");
+
+                    response.setStatus(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+
+                    return restResponse;
 
                 }
 
