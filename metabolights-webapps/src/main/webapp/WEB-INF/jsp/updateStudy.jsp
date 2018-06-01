@@ -117,7 +117,7 @@
 
 </script>
 
-<div class="container-fluid" id="app">
+<div id="app">
 	<div class="col-md-12">
 		<c:if test="${not empty title}">
 			<h2><c:out value="${title}"/></h2>
@@ -127,29 +127,26 @@
 		</c:if>
 	</div>
 	<div class="col-md-12">
-		<div class="col-md-4">
-			<c:if test="${not empty ftpLocation}">
-				<button href="${ftpLocation}" class="btn btn-primary">
-					<i class="fa fa-download"></i>&nbsp;<spring:message code="label.ftpDownload" />
-				</button>
-			</c:if>
-		</div>
+		<br>
+		<c:if test="${not empty ftpLocation}">
+			<button href="${ftpLocation}" class="btn btn-primary">
+				<i class="fa fa-download"></i>&nbsp;<spring:message code="label.ftpDownload" />
+			</button>
+		</c:if>
 	</div>
 	<div class="col-md-12">
 		<br>
-		<p><span class="ui-state-highlight ui-corner-all"><spring:message code="msg.contactMetabolightsAboutReleaseDate" /></span></p>
+		<p><span class="ui-state-highlight ui-corner-all">&emsp;<spring:message code="msg.contactMetabolightsAboutReleaseDate" />&emsp;</span></p>
 	</div>
 	<div class="col-md-12">
-		<div class="col-md-12">
-			<c:if test="${not empty liteStudy}">
-				<br/>
-				<c:set var="nopublish" value="true"/>
-				<%@include file="studySummary.jsp" %>
-			</c:if>
-		</div>
+		<c:if test="${not empty liteStudy}">
+			<br/>
+			<c:set var="nopublish" value="true"/>
+			<%@include file="studySummary.jsp" %>
+		</c:if>
 	</div>
 	<div class="col-md-12">
-		<br><br>
+		<br>
 		<div class="col-md-6 col-md-offset-3 well">
 			<c:if test="${empty updated}">
 				<form method="post" action="${action}" enctype="multipart/form-data" name="uf" id="updateStudyForm" onsubmit="return submitStudy()">
@@ -157,7 +154,6 @@
 					<input type="hidden" value="${study}" name="study"/>
 
 					<c:if test="${isUpdateMode}">
-
 						<div class="form-group">
 							<label for="studyfile"><spring:message code="label.isatabZipFile" /></label>
 							<input type="file" class="form-control" name="file" id="studyfile" />
@@ -166,24 +162,25 @@
 					</c:if>
 
 					<div class="form-group">
-						<label for="studyfile"><spring:message code="label.publicDate"/>:</label>
-						<input type="text" name="pickdate" id="datepicker" readonly="readonly" size="12" placeholder="<fmt:formatDate pattern="dd-MMM-yyyy" value="${releaseDate}"/>"/>
-						<input type="image" src="img/ebi-icons/16px/calendar.png" onclick="return toggleDate()" />
+						<label><spring:message code="label.publicDate"/>:</label><br>
+						<div class="input-group">
+							<input class="form-control" type="text" name="pickdate" id="datepicker" readonly="readonly" size="12" placeholder="<fmt:formatDate pattern="dd-MMM-yyyy" value="${releaseDate}"/>"/>
+							<div class="input-group-addon"><input type="image" src="img/ebi-icons/16px/calendar.png" onclick="return toggleDate()" /></div>
+						</div>
 						<span id="dateError" class="error"></span>
 					</div>
 
 					<div class="form-group">
-						<label for="studyfile"><spring:message code="msg.confirmValidation" />:</label>
-						<input type="checkbox" name="validated"/>
+						<label><input type="checkbox" name="validated"/>&emsp;<spring:message code="msg.confirmValidation" /></label>
 					</div>
 
 					<div id="hideableButtons" class="form-group">
-						<input name="submit" type="submit" class="submit" value="${submitText}">
-						<input name="cancel" type="button" class="submit cancel" value="<spring:message code="label.cancel"/>" onclick="location.href='index'">
+						<input name="submit" type="submit" class="submit btn btn-primary" value="${submitText}">
+						<input name="cancel" type="button" class="submit cancel btn btn-default" value="<spring:message code="label.cancel"/>" onclick="location.href='index'">
 					</div>
 
 					<div id="hourglass">
-						<img src="img/wait.gif" alt="Please wait"/>&nbsp;<b><spring:message code="msg.pleaseWaitForUpload"/></b>
+						<img src="img/wait.gif" alt="Please wait"/>&emsp;<b><spring:message code="msg.pleaseWaitForUpload"/></b>
 					</div>
 
 					<c:if test="${not empty validationmsg}">
