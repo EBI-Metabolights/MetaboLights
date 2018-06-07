@@ -32,7 +32,7 @@
 
         <div class="col-md-6">
             <div class="ml-row row">
-                <div class="col-md-8"><strong>Overview</strong></div>
+                <div class="col-md-8 mt10"><strong>Overview</strong></div>
                 <div class="col-md-3">
                     <a class="btn btn-default" target="_blank" href="https://docs.google.com/document/d/1gNITtVK_Ikwa14HDfPG04OfqbMo7NbnuulR4yjaZePo/edit?usp=sharing"><img style="height: 16px !important" src="${pageContext.request.contextPath}/img/gd-icon.png"></a>
                     <a class="btn btn-default" target="_blank" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/MetaboLights%20Tutorial%20-%200%20-%20Thank%20You%20and%20Overview.pdf">
@@ -42,56 +42,56 @@
             </div>
 
             <div class="ml-row row">
-                <div class="col-md-8"><strong>Download&nbsp;and&nbsp;setup&nbsp;ISAcreator</strong></div>
+                <div class="col-md-8 mt10"><strong>Download&nbsp;and&nbsp;setup&nbsp;ISAcreator</strong></div>
                 <div class="col-md-3">
                     <a class="btn btn-default" target="_blank" href="https://docs.google.com/document/d/1iXfJ3VmXXvubxpSnSIj5vzJpsXE1ZNxOwcwovFYwPxs/edit?usp=sharing"><img style="height: 16px !important" src="${pageContext.request.contextPath}/img/gd-icon.png"></a>
                     <a class="btn btn-default" target="_blank" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/MetaboLights%20Tutorial%20-%201%20-%20Download%20and%20setup%20ISAcreator.pdf"> <span class="link-pdf"></span></a>
                 </div>
             </div>
             <div class="ml-row row">
-                <div class="col-md-8"><strong>Setup&nbsp;and&nbsp;create&nbsp;NMR&nbsp;study</strong></div>
+                <div class="col-md-8 mt10"><strong>Setup&nbsp;and&nbsp;create&nbsp;NMR&nbsp;study</strong></div>
                 <div class="col-md-3">
                     <a class="btn btn-default" target="_blank" href="https://docs.google.com/document/d/17DjTZRv-MAuRFDqkLPu3_3xC7dExA7VIi0QEtBNpbGY/edit?usp=sharing"><img style="height: 16px !important" src="${pageContext.request.contextPath}/img/gd-icon.png"></a>
                     <a class="btn btn-default" target="_blank" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/MetaboLights%20Tutorial%20-%202A%20-%20NMR%20Assay.pdf"> <span class="link-pdf"></span></a>
                 </div>
             </div>
             <div class="ml-row row">
-                <div class="col-md-8"><strong>Setup&nbsp;and&nbsp;create&nbsp;GC/MS&nbsp;study</strong></div>
+                <div class="col-md-8 mt10"><strong>Setup&nbsp;and&nbsp;create&nbsp;GC/MS&nbsp;study</strong></div>
                 <div class="col-md-3">
                     <a class="btn btn-default" target="_blank" href="https://docs.google.com/document/d/1s7X5tLF0q0tXm76LMbBovW1NReOdmWoOGLO3bm7xm6E/edit?usp=sharing"><img style="height: 16px !important" src="${pageContext.request.contextPath}/img/gd-icon.png"></a>
                     <a class="btn btn-default" target="_blank" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/MetaboLights%20Tutorial%20-%202B%20-%20GC%20MS%20Assay.pdf"> <span class="link-pdf"></span></a>
                 </div>
             </div>
             <div class="ml-row row">
-                <div class="col-md-8"><strong>Setup&nbsp;and&nbsp;create&nbsp;LC/MS&nbsp;study</strong></div>
+                <div class="col-md-8 mt10"><strong>Setup&nbsp;and&nbsp;create&nbsp;LC/MS&nbsp;study</strong></div>
                 <div class="col-md-3">
                     <a class="btn btn-default" target="_blank" href="https://docs.google.com/document/d/1QIAwwt9yMZuZMi3sYaRnaHkW9BVgimgIBbF0lec7tu0/edit?usp=sharing"><img style="height: 16px !important" src="${pageContext.request.contextPath}/img/gd-icon.png"></a>
                     <a class="btn btn-default" target="_blank" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/MetaboLights%20Tutorial%20-%202C%20-%20LCMS%20Assay.pdf"> <span class="link-pdf"></span></a>
                 </div>
             </div>
             <div class="ml-row row">
-                <div class="col-md-8"><strong>Submit&nbsp;your&nbsp;study&nbsp;to&nbsp;MetaboLights</strong></div>
+                <div class="col-md-8 mt10"><strong>Submit&nbsp;your&nbsp;study&nbsp;to&nbsp;MetaboLights</strong></div>
                 <div class="col-md-3">
                     <a class="btn btn-default" target="_blank" href="https://docs.google.com/document/d/1Gnv0pvYpbYOY1pv-XZKXanCYMNIlMhPgVUEHCJ4gm98/edit?usp=sharing"><img style="height: 16px !important" src="${pageContext.request.contextPath}/img/gd-icon.png"></a>
                     <a class="btn btn-default" target="_blank" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/MetaboLights%20Tutorial%20-%203%20-%20Login%20and%20submit%20to%20MetaboLights.pdf"> <span class="link-pdf"></span></a>
                 </div>
             </div>
             <div class="ml-row row">
-                <div class="col-md-8"><strong>Curation&nbsp;status&nbsp;and&nbsp;automatic&nbsp;validations</strong></div>
+                <div class="col-md-8 mt10"><strong>Curation&nbsp;status&nbsp;and&nbsp;automatic&nbsp;validations</strong></div>
                 <div class="col-md-3">
                     <a class="btn btn-default" target="_blank" href="https://docs.google.com/document/d/1eNF4Gho0BMxst5ZAj1awrWP4QRFBLW8ycwhiIqHoYk8/edit?usp=sharing"><img style="height: 16px !important" src="${pageContext.request.contextPath}/img/gd-icon.png"></a>
                     <a class="btn btn-default" target="_blank" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/MetaboLights%20Tutorial%20-%204%20-%20MetaboLights%20automatic%20validation.pdf"> <span class="link-pdf"></span></a>
                 </div>
             </div>
             <div class="ml-row row">
-                <div class="col-md-8"><strong>Frequently&nbsp;asked&nbsp;questions&nbsp;(FAQ)</strong></div>
+                <div class="col-md-8 mt10"><strong>Frequently&nbsp;asked&nbsp;questions&nbsp;(FAQ)</strong></div>
                 <div class="col-md-3">
                     <a class="btn btn-default" target="_blank" href="https://docs.google.com/document/d/15rSS6Mrj2Aj_uMyh4-3n8RJzAdWi1uoHsaKkxqPyC4I/edit?usp=sharing"><img style="height: 16px !important" src="${pageContext.request.contextPath}/img/gd-icon.png"></a>
                     <a class="btn btn-default" target="_blank" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/MetaboLights%20Tutorial%20-%20FAQ.pdf"> <span class="link-pdf"></span></a>
                 </div>
             </div>
             <div class="ml-row row">
-                <div class="col-md-8"><strong>常见问题与回答</strong></div>
+                <div class="col-md-8 mt10"><strong>常见问题与回答</strong></div>
                 <div class="col-md-3">
                     <a class="btn btn-default" target="_blank" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/MetaboLights 常见问题与回答20170224.pdf"> <span class="link-pdf"></span></a>
                 </div>
@@ -115,5 +115,5 @@
         </div>
     </div>
 
-
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 

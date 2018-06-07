@@ -292,17 +292,9 @@ a:link.hyperlinks{
     font-size: 100% !important;
 }
 
-
-
-.row {
-    padding: 0 10px;
-}
 .clickable {
     cursor: pointer;
 }
-
-
-
 
 .ml--loading{
     min-height: 50vh;

@@ -95,15 +95,12 @@
                     </div>
                     <div class="col-md-9">
                         <div class="banner">
-                            <h2>{{ mtblc['name'] }}</h2>
+                            <h2>{{ mtblc.id }}: {{ mtblc['name'] }}</h2>
                         </div>
                         <div class="mini--banner col-md-12">
-                                <span class="left text-muted ml--identifier">
-                                   {{ mtblc.id }}
-                                </span>
-                                <span class="right">
+                                <span>
                                     <div class="btn-group" role="group" aria-label="">
-                                        <a target="_blank" :href="'${pageContext.request.contextPath}/webservice/beta/compound/'+mtblc.id" class="btn btn-default btn-xs"><i class="fa fa-save"></i> JSON</a>
+                                        <a target="_blank" :href="'${pageContext.request.contextPath}/webservice/beta/compound/'+mtblc.id" class="btn btn-default btn-xs"><i class="fa fa-save"></i> Export</a>
                                         <!-- <div class="btn-group" role="group">
                                             <button type="button" class="btn btn-default btn-xs" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share"></i> Share</button>
                                             <ul class="dropdown-menu">
@@ -111,7 +108,7 @@
                                                 <li><a href="#"></a></li>
                                             </ul>
                                         </div> -->
-                                        <a :href="'${pageContext.request.contextPath}/referencespectraupload?cid=${compoundId}'" class="btn btn-default btn-xs"><i class="fa fa-upload"></i> Upload Spectra </a>
+                                        <a :href="'${pageContext.request.contextPath}/referencespectraupload?cid=${compoundId}'" class="btn btn-default btn-xs"><i class="fa fa-upload"></i> Upload Reference Spectra </a>
                                         <%--<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#discussionModal"><i class="fa fa-comment"></i> Discussion</button>--%>
                                         <a target="_blank" :href="'${pageContext.request.contextPath}/contact'" class="btn btn-default btn-xs"><i class="fa fa-question"></i> Help</a>
                                     </div>
@@ -180,16 +177,20 @@
                                             <div class="col-md-12  ml_tr_th">
                                                 <div class="col-md-12 ml_trc"><b><h4>Identification</h4></b></div>
                                             </div>
-                                            <div class="col-md-12 ml_tr">
-                                                <div class="col-md-3 ml_trc ml_trh">MetaboLights Identifier</div>
-                                                <div class="col-md-9 ml_trc">
-                                                    <p class="label-spaced">{{ mtblc.id }}</p>
-                                                </div>
-                                            </div>
+                                            <%--<div class="col-md-12 ml_tr">--%>
+                                                <%--<div class="col-md-3 ml_trc ml_trh">MetaboLights Identifier</div>--%>
+                                                <%--<div class="col-md-9 ml_trc">--%>
+                                                    <%--<p class="label-spaced">{{ mtblc.id }}</p>--%>
+                                                <%--</div>--%>
+                                            <%--</div>--%>
                                             <div class="col-md-12 ml_tr" v-if="mtblc.iupacNames.length > 0">
                                                 <div class="col-md-3 ml_trc ml_trh">IUPAC Names</div>
                                                 <div class="col-md-9 ml_trc">
-                                                    <p v-for="iupac in mtblc.iupacNames" class="label-spaced">{{ iupac }},</p>
+                                                    <p v-for="iupac in mtblc.iupacNames" class="label-spaced">{{ iupac }}
+                                                        <span v-if="mtblc.iupacNames[mtblc.iupacNames.length - 1] != iupac">
+                                                            ,
+                                                        </span>
+                                                    </p>
                                                 </div>
                                             </div>
                                             <div class="col-md-12 ml_tr">
@@ -197,17 +198,17 @@
                                                 <div class="col-md-9 ml_trc">{{ mtblc.formula }}</div>
                                             </div>
                                             <div class="col-md-12 ml_tr">
-                                                <div class="col-md-3 ml_trc ml_trh">Average Mass</div>
+                                                <div class="col-md-3 ml_trc ml_trh">Mass</div>
                                                 <div class="col-md-9 ml_trc">{{ mtblc.averagemass }}</div>
                                             </div>
                                             <div class="col-md-12 ml_tr">
-                                                <div class="col-md-3 ml_trc ml_trh">Exact Mass</div>
+                                                <div class="col-md-3 ml_trc ml_trh">Monoisotopic Mass</div>
                                                 <div class="col-md-9 ml_trc">{{ mtblc.exactmass }}</div>
                                             </div>
-                                            <div class="col-md-12 ml_tr">
-                                                <div class="col-md-3 ml_trc ml_trh">Molecular Weight</div>
-                                                <div class="col-md-9 ml_trc">{{ mtblc.molweight }}</div>
-                                            </div>
+                                            <%--<div class="col-md-12 ml_tr">--%>
+                                                <%--<div class="col-md-3 ml_trc ml_trh">Molecular Weight</div>--%>
+                                                <%--<div class="col-md-9 ml_trc">{{ mtblc.molweight }}</div>--%>
+                                            <%--</div>--%>
                                             <div class="col-md-12 ml_tr">
                                                 <div class="col-md-3 ml_trc ml_trh">Charge</div>
                                                 <div class="col-md-9 ml_trc">{{ mtblc.charge }}</div>
@@ -242,13 +243,13 @@
                                             </div>
                                             <div class="clearfix"></div><div class="clearfix"></div>
 
-                                            <div class="col-md-12  ml_tr_th" v-if="mtblc.externalIds.length > 0">
-                                                <div class="col-md-12 ml_trc"><b><h4>External Links</h4></b></div>
-                                            </div>
-                                            <div class="col-md-12 ml_tr" v-for="id in mtblc.externalIds">
-                                                <div class="col-md-3 ml_trc ml_trh">{{ $key }}</div>
-                                                <div class="col-md-9 ml_trc">{{{ id }}}</div>
-                                            </div>
+                                            <%--<div class="col-md-12  ml_tr_th" v-if="mtblc.externalIds.length > 0">--%>
+                                                <%--<div class="col-md-12 ml_trc"><b><h4>External Links</h4></b></div>--%>
+                                            <%--</div>--%>
+                                            <%--<div class="col-md-12 ml_tr" v-for="id in mtblc.externalIds">--%>
+                                                <%--<div class="col-md-3 ml_trc ml_trh">{{ $key }}</div>--%>
+                                                <%--<div class="col-md-9 ml_trc">{{{ id }}}</div>--%>
+                                            <%--</div>--%>
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>
@@ -262,9 +263,10 @@
                                                 <div class="col-md-9 ml_trc">
                                                     <p v-for="source in id">
                                                         <span v-if="isStudy(source.SpeciesAccession)">
-                                                            <a target="_blank" :href="'/metabolights/'+source.SpeciesAccession"><span>{{{ source.SpeciesAccession }}}</span></a>&emsp;<a @click="showMAFDetails(source)" ><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                                            <a target="_blank" :href="'/metabolights/'+source.SpeciesAccession"><span>{{{ source.SpeciesAccession }}}</span></a>&emsp;
+                                                            <a @click="showMAFDetails(source)" ><i class="fa fa-info-circle" aria-hidden="true"></i></a>
                                                         </span>
-                                                        <span v-else>
+                                                        <span v-if="!isStudy(source.SpeciesAccession) && !isStudy(source.SourceAccession)">
                                                             <span>{{{ source.SpeciesAccession }}}</span>&emsp;<span>{{{ source.SourceAccession }}}</span>
                                                         </span>
                                                     </p>
@@ -349,11 +351,8 @@
                                                 </div>
                                                 <div class="clearfix"></div>
                                             </div>
-
                                         </div>
-
                                     </div>
-
                                     <div role="tabpanel" class="tab-pane" id="reactions">
                                         <label>Select Reaction</label>
                                         <select id="reactionsSelect" class="form-control selectpicker" v-model="selectedReaction" data-live-search="true">
@@ -436,7 +435,6 @@
                                                                     <hr>
                                                                     <h5 class="ml_sp_title">
                                                                         <a href="//splash.fiehnlab.ucdavis.edu/">Splash - The Spectral Hash Identifier</a> <span class="pull-right" id="splash-container">{{ spectra.splash.splash }}</span>
-
                                                                     </h5>
                                                                 </div>
                                                             </div>
@@ -564,7 +562,7 @@
 <script src="https://wzrd.in/bundle/biojs-vis-keggviewer@1.1.2"></script>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/3Dmol-min.js"></script>
-<script id="dsq-count-scr" src="//metabolights.disqus.com/count.js" async></script>
+<%--<script id="dsq-count-scr" src="//metabolights.disqus.com/count.js" async></script>--%>
 
 <script>
 

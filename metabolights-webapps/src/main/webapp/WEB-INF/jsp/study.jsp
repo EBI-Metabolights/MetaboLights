@@ -116,7 +116,7 @@
                 <div class="btn-group" role="group" aria-label="...">
                     <div class="btn-group" role="group">
                         <c:if test="${fn:length(study.assays) eq 1}">
-                            <button type="button" class="btn btn-default nbr dropdown-toggle quicklinks" data-assayid="1"
+                            <button type="button" class="btn btn-default nbr mt10 dropdown-toggle quicklinks" data-assayid="1"
                                     data-destination="assay<c:if test="${fn:length(study.assays) gt 0}">${assay.assayNumber}</c:if>"
                                     <c:if test="${(empty study.assays[0].metaboliteAssignment) and ( empty study.assays[0].metaboliteAssignment.metaboliteAssignmentFileName) }">disabled</c:if> >
                                 <i class="ml--icons fa fa-fire pull-left"></i> View Metabolites
@@ -126,7 +126,7 @@
                             </button>
                         </c:if>
                         <c:if test="${fn:length(study.assays) gt 1}">
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu mt10">
                                 <c:forEach var="assay" items="${study.assays}" varStatus="loopAssays">
                                     <li>
                                         <c:if test="${(not empty assay.metaboliteAssignment) and (not empty assay.metaboliteAssignment.metaboliteAssignmentFileName) }">
@@ -142,7 +142,7 @@
                                     </li>
                                 </c:forEach>
                             </ul>
-                            <button type="button" class="btn btn-default nbr dropdown-toggle" data-toggle="dropdown"
+                            <button type="button" class="btn btn-default nbr mt10 dropdown-toggle" data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false"
                                     <c:if test="${mafExist ne true}">disabled</c:if>>
                                 <i class="ml--icons fa fa-fire pull-left"></i> View Metabolites
@@ -150,11 +150,11 @@
                             </button>
                         </c:if>
                     </div>
-                    <button type="button" class="btn btn-default quicklinks files--tab" data-destination="files"><i
+                    <button type="button" class="btn btn-default mt10 quicklinks files--tab" data-destination="files"><i
                             class="ml--icons fa fa-download pull-left"></i> Download files
                     </button>
                      <c:if test="${study.studyStatus.descriptiveName eq 'Public'}">
-                         <button class="btn btn-default popover-toggle" type="button"
+                         <button class="btn btn-default mt10 popover-toggle" type="button"
                                  id="orcidPopover"
                          >
                              <i class="thorOrcIdSpan">
@@ -236,7 +236,7 @@
                                 </div>
                             </div>
                         </div>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#shareStudy">
+                    <button type="button" class="btn mt10 btn-primary" data-toggle="modal" data-target="#shareStudy">
                         <i class="fa fa-link"></i>&nbsp;
                         <spring:message code="label.study.share"/>
                     </button>
@@ -246,7 +246,7 @@
             <div class="col-md-3 pt5">
                 <div class="col-md-12">
                     <p class="row">
-                    <span class="pull-right node" data-toggle="popover" data-html="true" data-placement="bottom" data-content="<div style='width: 300px;'> Submission date: <b><fmt:formatDate value="${study.studySubmissionDate}" pattern="dd-MMM-yyyy"/></b> <br> Update date: <b><fmt:formatDate value="${study.updateDate}" pattern="dd-MMM-yyyy"/></b></div>">
+                    <span class="pull-right mt10 node" data-toggle="popover" data-html="true" data-placement="bottom" data-content="<div style='width: 300px;'> Submission date: <b><fmt:formatDate value="${study.studySubmissionDate}" pattern="dd-MMM-yyyy"/></b> <br> Update date: <b><fmt:formatDate value="${study.updateDate}" pattern="dd-MMM-yyyy"/></b></div>">
                         <i class="fa fa-calendar"></i>&nbsp;
                     <%--<c:if test="${not empty study.studySubmissionDate}">--%>
                     <%--<spring:message code="label.subDate"/>: <strong--%>

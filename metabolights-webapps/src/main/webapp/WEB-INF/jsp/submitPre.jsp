@@ -39,20 +39,38 @@
             <div class="col-md-12">
                 &nbsp;
             </div>
-            <div class="col-md-5 col-md-offset-1">
-                <div class="bigbutton maincolorI">
-                    <a class="btn btn-lg btn-primary" href="submittoqueue">
-                        <span class="bigfont"><b><spring:message code="label.submitNewStudy"/></b></span><br/>
-                        <span><small><spring:message code="label.submitNewStudySub"/></small></span>
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-4 col-md-offset-1">
-                <div class="bigbutton seccolorI">
-                    <a class="btn btn-lg btn-primary" href="mysubmissions?status=PRIVATE">
-                        <span class="bigfont"><b><spring:message	code="label.updateOldStudy"/></b></span></br>
-                        <span><small><spring:message code="label.updateOldStudySub"/></small></span>
-                    </a>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-2 ">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p>
+                                <h4><span class="bigfont"><b><spring:message code="label.submitNewStudy"/></b></span></h4>
+                                <span><small><spring:message code="label.submitNewStudySub"/></small></span>
+                                </p>
+                                <br>
+                                <a href="submittoqueue" class="btn btn-success">
+                                    Submit now
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p>
+                                <h4>
+                                    <span class="bigfont"><b><spring:message	code="label.updateOldStudy"/></b></span>
+                                </h4>
+                                <span><small><spring:message code="label.updateOldStudySub"/></small></span>
+                                </p>
+                                <br>
+                                <a href="mysubmissions?status=PRIVATE" class="btn btn-primary">
+                                    Update now
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-12">
@@ -64,3 +82,4 @@
         </div>
     </div>
 </div>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

@@ -36,7 +36,6 @@
 					<h5><spring:message code="msg.pwReset" /></h5>
 				</div>
 				<div class="ml-loginpanelbody">
-					<div class="row">
 						<form:form name="resetForm" action="resetPassword" method="post" commandName="emailAddress" >
 							<div class="form-group">
 								<label><spring:message code="label.email" /></label>
@@ -56,7 +55,6 @@
 							  <c:out value="${message}" />
 						  </span>
 						</c:if>
-					</div>
 				</div>
 			</div>
 		</div>

@@ -29,59 +29,57 @@
 
 <sec:authorize ifAnyGranted="ROLE_SUBMITTER">
     <sec:authentication var="token" property="principal.apiToken" />
-    <div class="container">
-        <br><br>
+        <br>
         <div class="panel panel-info">
             <div class="panel-heading">Hi <sec:authentication property="principal.firstName" />, <spring:message code="msg.useroptions" /></div>
             <div class="panel-body">
                 <div class="clearfix">&nbsp;</div>
                 <div class="col-md-12">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <a target="_blank" id="labsLink" class="btn btn-default btn-md form-control ml--noborder">
-                                <i class="fa fa-tachometer" aria-hidden="true"></i>&nbsp;
-                                <spring:message code="menu.myWorkspaceCap" />
-                            </a>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <a target="_blank" id="labsLink" class="btn btn-default btn-md form-control ml--noborder">
+                                    <i class="fa fa-tachometer" aria-hidden="true"></i>&nbsp;
+                                    <spring:message code="menu.myWorkspaceCap" />
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <a href="<spring:url value="mysubmissions"/>" class="btn btn-default btn-md form-control ml--noborder">
-                                <i class="fa fa-list-alt" aria-hidden="true"></i>&nbsp;
-                                <spring:message code="menu.myStudiesCap" />
-                            </a>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <a href="<spring:url value="mysubmissions"/>" class="btn btn-default btn-md form-control ml--noborder">
+                                    <i class="fa fa-list-alt" aria-hidden="true"></i>&nbsp;
+                                    <spring:message code="menu.myStudiesCap" />
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <a id="claimStudies" href="#" target="_blank" class="btn btn-default btn-md form-control ml--noborder">
-                                <i class="thorOrcIdSpan">
-                                    <img src="img/orcid_bw.png"></i>&nbsp;
-                                Batch Claim studies to ORCID
-                            </a>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <a id="claimStudies" href="#" target="_blank" class="btn btn-default btn-md form-control ml--noborder">
+                                    <i class="thorOrcIdSpan">
+                                        <img src="img/orcid_bw.png"></i>&nbsp;Batch Claim Studies
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <a href="<spring:url value="myAccount"/>" class="btn btn-default btn-md form-control ml--noborder">
-                                <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;
-                                <spring:message code="menu.myAccountCaps" />
-                            </a>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <a href="<spring:url value="myAccount"/>" class="btn btn-default btn-md form-control ml--noborder">
+                                    <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;
+                                    <spring:message code="menu.myAccountCaps" />
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <a id="userLoggingOut" href="<spring:url value="/j_spring_security_logout"/>" class="btn btn-default btn-md form-control ml--noborder">
-                                <i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;
-                                <spring:message code="menu.logoutCaps" />
-                            </a>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <a id="userLoggingOut" href="<spring:url value="/j_spring_security_logout"/>" class="btn btn-default btn-md form-control ml--noborder">
+                                    <i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;
+                                    <spring:message code="menu.logoutCaps" />
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="clearfix">&nbsp;</div>
             </div>
         </div>
-    </div>
     <script>
         $(function () {
             var token = {
@@ -149,58 +147,57 @@
         })
     </script>
 </sec:authorize>
-<br><br>
+<br>
 <sec:authorize ifAnyGranted="ROLE_SUPER_USER">
-    <div class="container">
         <div class="panel panel-success">
             <div class="panel-heading"><spring:message code="msg.useroptionscurator" /></div>
             <div class="panel-body">
                 <div class="clearfix">&nbsp;</div>
                 <div class="col-md-12">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <a href="<spring:url value="config"/>" class="btn btn-default btn-md form-control ml--noborder">
-                                <i class="fa fa-cog" aria-hidden="true"></i>&nbsp;
-                                <spring:message code="menu.configCaps" />
-                            </a>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <a href="<spring:url value="config"/>" class="btn btn-default btn-md form-control ml--noborder">
+                                    <i class="fa fa-cog" aria-hidden="true"></i>&nbsp;
+                                    <spring:message code="menu.configCaps" />
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <a href="<spring:url value="users"/>" class="btn btn-default btn-md form-control ml--noborder">
-                                <i class="fa fa-users" aria-hidden="true"></i>&nbsp;
-                                <spring:message code="menu.usersCaps" />
-                            </a>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <a href="<spring:url value="users"/>" class="btn btn-default btn-md form-control ml--noborder">
+                                    <i class="fa fa-users" aria-hidden="true"></i>&nbsp;
+                                    <spring:message code="menu.usersCaps" />
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <a href="<spring:url value="tools"/>" class="btn btn-default btn-md form-control ml--noborder">
-                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;
-                                <spring:message code="menu.toolsCaps" />
-                            </a>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <a href="<spring:url value="tools"/>" class="btn btn-default btn-md form-control ml--noborder">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;
+                                    <spring:message code="menu.toolsCaps" />
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <%--<div class="col-md-3">--%>
-                        <%--<div class="form-group">--%>
+                            <%--<div class="col-md-3">--%>
+                            <%--<div class="form-group">--%>
                             <%--<a href="<spring:url value="tools"/>" class="btn btn-default btn-md form-control ml--noborder">--%>
-                                <%--<i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;--%>
-                                <%--<spring:message code="menu.toolsCaps" />--%>
+                            <%--<i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;--%>
+                            <%--<spring:message code="menu.toolsCaps" />--%>
                             <%--</a>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="col-md-3">--%>
-                        <%--<div class="form-group">--%>
+                            <%--</div>--%>
+                            <%--</div>--%>
+                            <%--<div class="col-md-3">--%>
+                            <%--<div class="form-group">--%>
                             <%--<a href="<spring:url value="compoundsDashboard"/>" class="btn btn-default btn-md form-control ml--noborder">--%>
-                                <%--<i class="fa fa-dashboard" aria-hidden="true"></i>&nbsp;--%>
-                                <%--<spring:message code="menu.compoundsDashboard" />--%>
+                            <%--<i class="fa fa-dashboard" aria-hidden="true"></i>&nbsp;--%>
+                            <%--<spring:message code="menu.compoundsDashboard" />--%>
                             <%--</a>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
+                            <%--</div>--%>
+                            <%--</div>--%>
+                    </div>
                 </div>
-                <div class="clearfix">&nbsp;</div>
             </div>
         </div>
-    </div>
 </sec:authorize>
-
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

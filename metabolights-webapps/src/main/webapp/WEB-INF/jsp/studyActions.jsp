@@ -19,7 +19,7 @@
 <%--If editable--%>
 <c:if test="${readOnly eq false}">
     <span class="dropdown">
-        <button id="dLabel" type="button" class="btn btn-primary nbr" data-toggle="dropdown" data-target="#" href="#">
+        <button id="dLabel" type="button" class="btn btn-primary nbr mt10" data-toggle="dropdown" data-target="#" href="#">
             <i class="fa fa-cogs"></i> Actions <span class="caret"></span>
         </button>&nbsp;
         <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">

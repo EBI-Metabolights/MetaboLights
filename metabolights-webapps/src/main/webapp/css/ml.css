@@ -632,7 +632,13 @@ a.more:after, a.read-more:after, a.readmore:after {
     border-bottom: 1px solid #f1f1f4;
 }
 
+.mt5{
+    margin-top: 5px;
+}
 
+.mt10{
+    margin-top: 10px;
+}
 
 .np{
     padding: 0;
@@ -1176,6 +1182,18 @@ html.fontface i.icon-conceptual, html.fontface input.icon-conceptual, html.fontf
     filter: brightness(1.2) grayscale(.5) opacity(.9);
 }
 
+.btn-group>.btn:last-child:not(:first-child), .btn-group>.dropdown-toggle:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-radius: 0;
+}
+
+@media only screen and (max-width : 320px) {
+    .pull-right {
+        float: left !important;
+    }
+}
+
 @media only screen and (min-width : 320px) {
     .masthead-black-bar {
         height: 50px;
@@ -1196,6 +1214,7 @@ html.fontface i.icon-conceptual, html.fontface input.icon-conceptual, html.fontf
     .ebi-logo{
         height: 25px;
         margin-top: 5px;
+        margin-left: 10px;
     }
 
     .masthead-black-bar .nav {
@@ -1246,9 +1265,8 @@ html.fontface i.icon-conceptual, html.fontface input.icon-conceptual, html.fontf
     }
 
     .ml-header .ml-logo{
-        font-size: 1.9em;
+        font-size: 2em;
         font-weight: normal;
-        letter-spacing: 1px;
         color: #fff;
     }
 
@@ -1266,6 +1284,46 @@ html.fontface i.icon-conceptual, html.fontface input.icon-conceptual, html.fontf
         margin-left: -15px;
     }
 
+    .navbar{
+        z-index: 1000;
+    }
+
+    ol.progtrckr li {
+        display: inline-block;
+        text-align: center;
+        font-size: 0.75em;
+        line-height: 3em;
+    }
+
+    #tourButton {
+        padding: 5px 8px;
+        text-align: center;
+        background: rgba(255,255,255, 0.7);
+        font-weight: bold;
+        color: #333;
+        text-decoration: none;
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        border-radius: 4px;
+        border: 1px solid #F5F5F5;
+        font-size: 1em;
+    }
+
+    .scrollToTop {
+        padding: 5px 12px;
+        text-align: center;
+        background: rgba(255,255,255, 0.7);
+        font-weight: bold;
+        color: #333;
+        text-decoration: none;
+        position: fixed;
+        bottom: 50px;
+        right: 10px;
+        border-radius: 4px;
+        border: 1px solid #F5F5F5;
+        display: none;
+    }
 }
 
 /* Extra Small Devices, Phones */

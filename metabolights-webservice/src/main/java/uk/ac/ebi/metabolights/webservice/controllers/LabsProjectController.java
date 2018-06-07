@@ -610,7 +610,7 @@ public class LabsProjectController {
 
             }
 
-            if (hasInvestigationFile && hasMAFFile && hasAssayFile){
+            if (hasInvestigationFile && hasAssayFile){
 
                 // <projectID>~<usertoken>~<studyid>~<releasedate>~<zipfilename>.zip
 
