@@ -39,29 +39,25 @@
     <div class="study--header">
         <ol class="progtrckr" data-progtrckr-steps="${(fn:length(studyStatuses))-1}">
             <c:set var="statusInitial" value="${studyStatuses[0]}"/>
-            <li class="progtrckr-done node" data-content="${statusInitial.description}" data-toggle="popover" data-html="true" data-placement="bottom">${statusInitial.descriptiveName}</li><%--
-         --%><c:choose>
-            <c:when test="${study.studyStatus eq studyStatuses[4]}"><%--
-        --%><c:forEach begin="1" end="3" var="status" items="${studyStatuses}"><%--
-            --%>
-            <li class="progtrckr-todo node" data-content="${status.description}" data-toggle="popover" data-html="true" data-placement="bottom">${status.descriptiveName}</li><%--
-         --%></c:forEach><%--
-        --%></ol>
+            <li class="progtrckr-done node" data-content="${statusInitial.description}" data-toggle="popover" data-html="true" data-placement="bottom">${statusInitial.descriptiveName}</li>
+            <c:choose>
+            <c:when test="${study.studyStatus eq studyStatuses[4]}">
+            <c:forEach begin="1" end="3" var="status" items="${studyStatuses}">
+            <li class="progtrckr-todo node" data-content="${status.description}" data-toggle="popover" data-html="true" data-placement="bottom">${status.descriptiveName}</li></c:forEach>
+        </ol>
         </c:when>
-        <c:otherwise><%--
-        --%><c:forEach begin="1" end="3" var="status" items="${studyStatuses}"><%--
-        --%><c:if test="${status gt study.studyStatus}"><%--
-            --%>
-            <li class="progtrckr-todo node" data-content="${status.description}" data-toggle="popover" data-html="true" data-placement="bottom">${status.descriptiveName}</li><%--
-        --%></c:if><%--
-        --%><c:if test="${status le study.studyStatus}"><%--
-            --%>
-            <li class="progtrckr-done node" data-content="${status.description}" data-toggle="popover" data-html="true" data-placement="bottom">${status.descriptiveName}</li><%--
-        --%></c:if><%--
-        --%></c:forEach><%--
-        --%></ol><%--
-        --%></c:otherwise><%--
-        --%></c:choose>
+        <c:otherwise>
+            <c:forEach begin="1" end="3" var="status" items="${studyStatuses}">
+                <c:if test="${status gt study.studyStatus}">
+            <li class="progtrckr-todo node" data-content="${status.description}" data-toggle="popover" data-html="true" data-placement="bottom">${status.descriptiveName}</li>
+                </c:if>
+                <c:if test="${status le study.studyStatus}">
+            <li class="progtrckr-done node" data-content="${status.description}" data-toggle="popover" data-html="true" data-placement="bottom">${status.descriptiveName}</li>
+                </c:if>
+            </c:forEach>
+            </ol>
+        </c:otherwise>
+        </c:choose>
         <h5 class="study--title">
             <span class="study--id" id="mStudyId">${study.studyIdentifier}:</span>
             ${study.title}
@@ -386,8 +382,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                             </c:if>
                             <c:if test="${not empty study.descriptors}">
                                 <div class="col-md-12">
@@ -476,7 +470,7 @@
                                             <c:when test="${not empty protocol.description}">
                                                 <tr>
                                                     <td class="tableitem">
-                                                            <span class="node text-primary"  data-content="Protocol description text" data-toggle="popover" data-html="true" data-placement="bottom">
+                                                            <span class="node text-primary">
                                                                     ${protocol.name}
                                                             </span>
                                                     </td>
@@ -1244,9 +1238,9 @@
 
 <a href="#" class="scrollToTop" style="display: inline;"><i class="fa fa-arrow-up"></i></a>
 
-<a id="tourButton" class="btn nbr btn-default" style="display: inline;" >
-    <i class="fa fa-lg fa-binoculars"></i>
-</a>
+<%--<a id="tourButton" class="btn nbr btn-default" style="display: inline;" >--%>
+    <%--<i class="fa fa-lg fa-binoculars"></i>--%>
+<%--</a>--%>
 
 <div id="chebiInfo"></div>
 
