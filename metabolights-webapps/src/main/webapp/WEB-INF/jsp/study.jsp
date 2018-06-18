@@ -168,7 +168,7 @@
                             <div class="thor_div_showIf_notSigned">
                                 <div class="panel panel-info">
                                     <div class="panel-heading thor_div_showIf_datasetAlreadyClaimedList">
-                                        You can <a href="#" class="thor_a_generate_signinLink"><strong>sign-in
+                                        You must <a href="#" class="thor_a_generate_signinLink"><strong>sign-in
                                         to
                                         ORCID</strong></a> to claim your data
                                     </div>
