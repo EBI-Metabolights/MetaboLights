@@ -10,10 +10,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import uk.ac.ebi.metabolights.repository.model.AppRole;
+import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.webservice.queue.SubmissionQueueManager;
 import uk.ac.ebi.metabolights.webservice.utils.FileUtil;
 import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
+import uk.ac.ebi.metabolights.webservice.utils.SecurityUtil;
 import uk.ac.ebi.metabolights.webservice.utils.Zipper;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +26,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.zip.ZipOutputStream;
 
 /**
@@ -79,50 +83,46 @@ public class QueueController extends BasicController {
 	@RequestMapping(value = "uploadFile", method = RequestMethod.POST,consumes = {"multipart/form-data"})
 	@ResponseBody
 	public RestResponse<String> uploadFile(
+			HttpServletRequest request,
 			@RequestParam(required = true ,value = "file") MultipartFile file,
 			@RequestParam(required=true,value="publicDate") String publicDate,
-			@RequestParam(required=true,value="study") String study,
-			@RequestParam(required=true,value="apiKey") String apiKey) throws Exception {
+			@RequestParam(required=true,value="study") String studyID) throws Exception {
 
 		RestResponse restResponse = new RestResponse();
+		User user = SecurityUtil.validateJWTToken(request);
 
+
+		if (user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
+			restResponse.setContent("Authentication failed ");
+			return restResponse;
+		}
 
 		String FILE_NAME_SEP = "~";
-		//SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
-	//	String date = publicDate == null?"":sdf.format(publicDate);
-
-		Calendar cal = Calendar.getInstance();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-		String timeStamp = sdf.format(cal.getTime());
-
-		String fileName = apiKey + FILE_NAME_SEP + study + FILE_NAME_SEP + timeStamp + FILE_NAME_SEP + FilenameUtils.removeExtension(file.getOriginalFilename());
+		String fileName = user.getApiToken() + FILE_NAME_SEP + studyID + FILE_NAME_SEP + publicDate + FILE_NAME_SEP +
+                FilenameUtils.removeExtension(file.getOriginalFilename()) + "_" + FileUtil.getCurrentTimeStamp() ;
 
 		String uploadDirectory = PropertiesUtil.getProperty("uploadDirectory") + "queue/";
 		// create zip with pattern in ondemand folder
 		// move multipart file to onto the zip folder
-		// move the zip folder to the upload directory or the queue
+		// move the zip folder to the upload directory/queue
 
 		String zipFile = zipOnDemandLocation + fileName + ".zip";
 		String zipFileFolder = zipOnDemandLocation + fileName ;
 
 		if (!FileUtil.fileExists(zipFileFolder))  // Just to be sure that the file *doesn't already* exist
-		{File zip_file_folder = new File(zipFileFolder);
-		zip_file_folder.mkdir();
-		file.transferTo(new File(zip_file_folder + File.separator + file.getOriginalFilename()));
-
+		{
+		    File zip_file_folder = new File(zipFileFolder);
+	    	zip_file_folder.mkdir();
+	     	file.transferTo(new File(zip_file_folder + File.separator + file.getOriginalFilename()));
 			Zipper.zip(zipFileFolder, zipFile);
 
 			FileUtils.deleteDirectory(zip_file_folder);
 			FileUtils.moveFileToDirectory(new File(zipFile),new File(uploadDirectory), false);
-
+            restResponse.setMessage("Success");
+		}else{
+			restResponse.setMessage("Something went wrong, Please try again!");
 		}
-
-
-
-
-		restResponse.setMessage("Success");
-
 		return restResponse;
 	}
 
