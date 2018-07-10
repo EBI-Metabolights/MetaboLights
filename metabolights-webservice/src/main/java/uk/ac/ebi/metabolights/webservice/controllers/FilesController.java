@@ -22,12 +22,14 @@ package uk.ac.ebi.metabolights.webservice.controllers;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.filefilter.RegexFileFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import uk.ac.ebi.metabolights.repository.model.AppRole;
 import uk.ac.ebi.metabolights.repository.model.User;
@@ -38,7 +40,8 @@ import uk.ac.ebi.metabolights.webservice.utils.SecurityUtil;
 import uk.ac.ebi.metabolights.webservice.utils.Zipper;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 
 @Controller
 @RequestMapping("dataFiles")
@@ -46,6 +49,8 @@ public class FilesController {
 
     private @Value("#{ondemand}")
     String zipOnDemandLocation;
+    public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
+    protected static final Logger logger = LoggerFactory.getLogger(FilesController.class);
 
     @RequestMapping(value = "uploadFile", method = RequestMethod.POST,consumes = {"multipart/form-data"})
     @ResponseBody
@@ -92,5 +97,149 @@ public class FilesController {
         }
         return restResponse;
     }
+    
+    @RequestMapping(value = "/download/{studyId:" + METABOLIGHTS_ID_REG_EXP + "}/{fileNamePattern:.+}", method = RequestMethod.GET)
+    public void downloadSingleFile(HttpServletRequest request,
+                              @PathVariable("studyId") String studyId,
+                              @PathVariable("fileNamePattern") String fileNamePattern,
+                              HttpServletResponse response) {
+
+        if(isValidUser(request)){
+            if (fileNamePattern== null || fileNamePattern.isEmpty())
+            {
+                fileNamePattern = "";
+            } else if ("metadata".equals(fileNamePattern)){
+                fileNamePattern =  ".*\\.txt|.*.\\.tsv|.*\\.maf";
+            }
+            streamFile(studyId,fileNamePattern,response);
+        }  else{
+            response.setStatus(401);
+            return;
+        }
+    }
+
+    @RequestMapping(value = "/downloadAll/{studyId:" + METABOLIGHTS_ID_REG_EXP + "}", method = RequestMethod.GET)
+    @ResponseBody
+    public void downloadWholeStudy(HttpServletRequest request,
+                              @PathVariable("studyId") String studyId, HttpServletResponse response) {
+
+        if(isValidUser(request)){
+            streamFile(studyId,"",response);
+        }  else{
+            response.setStatus(401);
+            return;
+        }
+    }
+
+    private boolean isValidUser(HttpServletRequest request){
+        User user = SecurityUtil.validateJWTToken(request);
+        return (user != null && !user.getRole().equals(AppRole.ANONYMOUS));
+    }
+
+    // Stream the file or folder to the response
+    private void streamFile(String studyId, String fileNamePattern, HttpServletResponse response) {
+
+        try{
+            File[] files = null;
+            File fileToStream;
+
+            // Get the complete path for the study folder
+            File studyFolder = getPathForFile(studyId, fileNamePattern);
+
+            // if file is null...
+            if (studyFolder == null) {
+
+                logger.info("File requested not found: Filename was '" + fileNamePattern + "' for the study " + studyId);
+                response.setStatus(404);
+                return;
+            }
+
+            // If file name is NOT empty...then we have to look for the pattern.
+            if (!fileNamePattern.equals("")) {
+
+                FileFilter filter = new RegexFileFilter(fileNamePattern);
+                files = studyFolder.listFiles(filter);
+            } else {
+
+                files = new File[1];
+                files[0] = studyFolder;
+            }
+
+            // Create a zip file if apply:
+            fileToStream = Zipper.createZipFile(zipOnDemandLocation, files, studyId);
+
+            // Now we have a file (normal file, or zipped folder)
+            // We need to stream it...
+
+            streamFile(fileToStream, response);
+
+        } catch (Exception e){
+            logger.error(e.getMessage());
+            response.setStatus(500);
+        }
+    }
+
+
+    private File getPathForFile(String studyId, String fileName){
+
+        File file = null;
+
+        if(!fileName.isEmpty()){
+             file = new File (PropertiesUtil.getProperty("studiesLocation") + studyId +"/" + fileName);
+        } else{
+            file = file = new File (PropertiesUtil.getProperty("studiesLocation") + studyId);
+        }
+
+        if (file.exists()) {
+            return new File (PropertiesUtil.getProperty("studiesLocation") + studyId);
+        }
+        // File not found
+        return null;
+
+    }
+
+    // Get the file, stream to browser
+    // Stream a file to the browser
+    public static void streamFile(File file, HttpServletResponse response){
+
+        // get the extension
+        String extension = StringUtils.getFilenameExtension(file.getName());
+
+        // let the browser know the type of file
+        String contentType = "application/" + extension;
+
+        streamFile(file,response,contentType);
+
+    }
+
+    public static void streamFile(File file, HttpServletResponse response, String contentType ){
+
+        try {
+
+            // get your file as InputStream
+            InputStream is = new FileInputStream(file);
+
+            // let the browser know the type of file
+            response.setContentType(contentType);
+
+            // Specify the file name
+            response.setHeader( "Content-Disposition", "filename=" + file.getName()   );
+            response.addHeader("Access-Control-Expose-Headers", "Content-Disposition" );
+           
+            // copy it to response's OutputStream
+            IOUtils.copy(is, response.getOutputStream());
+
+            response.flushBuffer();
+
+        } catch (FileNotFoundException e) {
+            logger.info("Can't stream file "+ file.getAbsolutePath() + "!, File not found.");
+            response.setStatus(404);
+        } catch (IOException ex) {
+            logger.info("Error writing file to output stream. Filename was '"+ file.getAbsolutePath() + "'");
+            response.setStatus(500);
+        }
+
+    }
+
 
 }

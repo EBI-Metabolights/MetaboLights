@@ -35,6 +35,9 @@ import org.apache.commons.compress.utils.IOUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -323,5 +326,44 @@ public static void unzip(String strZipFile, String folder) throws IOException {
 	}
 
 }
+	//Create the requested zip file based on the study folder
+	public static File createZipFile( String zipOnDemandLocation, File[] files, String studyId) throws IOException {
+
+		String zipFile="";
+
+		// If there is only one file, and it matches the studyId...
+		if (files.length == 1 && files[0].getName().equals(studyId) )
+		{
+			// User wanrts all the data...keep it in the zipondemand location for future requests
+			zipFile = zipOnDemandLocation + files[0].getName() + ".zip";
+
+			// Change File[] with the list of files.
+			files = files[0].listFiles();
+
+		} else {
+
+			String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+
+			zipFile = studyId + "_" +  timeStamp;
+
+			zipFile = zipOnDemandLocation + zipFile + ".zip";
+
+		}
+
+
+
+		if (!FileUtil.fileExists(zipFile))  // Just to be sure that the file *doesn't already* exist
+			Zipper.zip(files, zipFile);
+
+
+		File file = new File(zipFile);
+
+		//Set the last access timestamp, this will stop the cron job removing the file as being old
+		Date date = new Date();
+		file.setLastModified(date.getTime());
+
+		return file;
+
+	}
 
 }
