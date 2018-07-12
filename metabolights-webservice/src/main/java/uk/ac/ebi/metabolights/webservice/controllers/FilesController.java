@@ -116,6 +116,55 @@ public class FilesController {
         }
         return restResponse;
     }
+
+    @RequestMapping(value = "uploadFileToQueue", method = RequestMethod.POST,consumes = {"multipart/form-data"})
+    @ResponseBody
+    public RestResponse<String> uploadFileToQueue(
+            HttpServletRequest request,
+            @RequestParam(required = true ,value = "file") MultipartFile file,
+            @RequestParam(required=true,value="publicDate") String publicDate,
+            @RequestParam(required=true,value="study") String studyID) throws Exception {
+
+        RestResponse restResponse = new RestResponse();
+        User user = SecurityUtil.validateJWTToken(request);
+
+        if (isValidUser(user)) {
+
+            String FILE_NAME_SEP = "~";
+            String fileName = "";
+
+            if(FilenameUtils.getExtension(file.getOriginalFilename()).equalsIgnoreCase("zip")){
+               fileName = user.getApiToken() + FILE_NAME_SEP + studyID + FILE_NAME_SEP + publicDate + FILE_NAME_SEP +
+                    FilenameUtils.removeExtension(file.getOriginalFilename()) + "_" + FileUtil.getCurrentTimeStamp() + ".zip";
+            }  else{
+                fileName = user.getApiToken() + FILE_NAME_SEP + studyID + FILE_NAME_SEP + publicDate + FILE_NAME_SEP +
+                         FilenameUtils.getName(file.getOriginalFilename());
+            }
+
+            String uploadDirectory = PropertiesUtil.getProperty("uploadDirectory") + "queue/";
+
+            //create file name with pattern on queue.
+            // transfer file contents to the queue folder
+            // set message
+            // within queue model, make sure unzipped files are processed
+
+            String toBeQueuedFile = uploadDirectory + fileName;
+
+            if (!FileUtil.fileExists(toBeQueuedFile))  // Just to be sure that the file *doesn't already* exist
+            {
+                file.transferTo(new File(toBeQueuedFile));
+                restResponse.setMessage("Success");
+            }else{
+                restResponse.setMessage("Something went wrong, Please try again!");
+            }
+            return restResponse;
+
+        }  else{
+            restResponse.setContent("Authentication failed ");
+            return restResponse;
+        }
+
+    }
     
     @RequestMapping(value = "/download/{studyId:" + METABOLIGHTS_ID_REG_EXP + "}/{fileNamePattern:.+}", method = RequestMethod.GET)
     public void downloadSingleFile(HttpServletRequest request,
@@ -153,6 +202,10 @@ public class FilesController {
     private boolean isValidUser(HttpServletRequest request){
         User user = SecurityUtil.validateJWTToken(request);
         return (user != null && !user.getRole().equals(AppRole.ANONYMOUS));
+    }
+
+    private boolean isValidUser(User user){
+       return (user != null && !user.getRole().equals(AppRole.ANONYMOUS));
     }
 
     // Stream the file or folder to the response
