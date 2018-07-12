@@ -20,6 +20,7 @@
 
 package uk.ac.ebi.metabolights.webservice.controllers;
 
+import org.apache.commons.compress.compressors.FileNameUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
@@ -86,7 +87,25 @@ public class FilesController {
         {
             File zip_file_folder = new File(zipFileFolder);
             zip_file_folder.mkdir();
-            file.transferTo(new File(zip_file_folder + File.separator + file.getOriginalFilename()));
+            String destinationFileName =  zip_file_folder + File.separator + file.getOriginalFilename();
+            file.transferTo(new File(destinationFileName));
+            if(FilenameUtils.isExtension(destinationFileName,"zip")){
+                Zipper.unzip2(destinationFileName);
+                File unzippedStudyDirectory = new File(zip_file_folder + File.separator
+                        + FilenameUtils.removeExtension(file.getOriginalFilename()));
+                if(unzippedStudyDirectory.isDirectory()){
+                     for(File subFile : unzippedStudyDirectory.listFiles()){
+                        if(subFile.isFile()){
+                            FileUtils.moveFileToDirectory(subFile,zip_file_folder,false);
+                        } else{
+                            FileUtils.moveDirectoryToDirectory(subFile,zip_file_folder,false);
+                        }
+                     }
+                }
+                FileUtils.deleteDirectory(unzippedStudyDirectory);
+                new File(destinationFileName).delete();
+
+            }
             Zipper.zip(zipFileFolder, zipFile);
 
             FileUtils.deleteDirectory(zip_file_folder);
