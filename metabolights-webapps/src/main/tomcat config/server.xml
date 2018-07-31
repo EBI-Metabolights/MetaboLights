@@ -60,5 +60,6 @@
 
     <!-- Queue -->
     <Environment name="queueRunner" value="xxxx" type="java.lang.String"/>
+    <Environment name="queueFolder" value="/nfs/www-prod/web_hx2/cm/metabolights/xxxx/upload/queue" type="java.lang.String"/>
 
 </GlobalNamingResources>

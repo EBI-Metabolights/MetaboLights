@@ -231,6 +231,41 @@ public class StudyController extends BasicController{
 		return studyDAO.getListWithDetails(getUser().getApiToken());
 	}
 
+    @RequestMapping("studyListOnUserToken")
+    @ResponseBody
+    public List<String> getAllStudiesOnUserToken(@RequestParam("userToken") String userToken) throws DAOException {
+
+        logger.info("Requesting a list of all private studies for a given user");
+
+        RestResponse<String[]> response = new RestResponse<>();
+
+        studyDAO = getStudyDAO();
+        List<String> studyList;
+
+        try {
+            studyList = studyDAO.getPrivateStudyListForUser(userToken);
+        } catch (DAOException e) {
+            logger.error("Can't get the list of studies", e);
+            response.setMessage("Can't get the study requested.");
+            response.setErr(e);
+        }
+
+        return studyDAO.getPrivateStudyListForUser(userToken);
+    }
+
+    @RequestMapping("getQueueFolder")
+    @ResponseBody
+    public String getQueueFolder() throws DAOException {
+
+        logger.info("Requesting the current upload queue folder");
+
+        return PropertiesUtil.getProperty("queueFolder");
+
+    }
+
+
+
+
 	@RequestMapping("goinglive/{days}")
 	@ResponseBody
 	public RestResponse<String[]> getAllStudyIdentifiersGoingLive(@PathVariable("days") int numberOfDays) throws DAOException {

@@ -134,6 +134,10 @@ public class StudyDAO {
         return dbDAO.getStudyListForUser(userToken);
     }
 
+    public List<String> getPrivateStudyListForUser(String userToken) throws DAOException {
+        return dbDAO.getPrivateStudyListForUser(userToken);
+    }
+
     public String getListWithDetails(String userToken) throws DAOException {
 
         List<String> studies = dbDAO.getStudyListForUser(userToken);

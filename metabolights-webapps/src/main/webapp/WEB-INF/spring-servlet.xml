@@ -119,6 +119,7 @@
     <jee:jndi-lookup id="OrcidClaimServiceURL" jndi-name="java:comp/env/OrcidClaimServiceURL"/>
     <jee:jndi-lookup id="OrcidLinkServiceURL" jndi-name="java:comp/env/OrcidLinkServiceURL"/>
     <jee:jndi-lookup id="OrcidRetreiveClaimsURL" jndi-name="java:comp/env/OrcidRetreiveClaimsURL"/>
+    <jee:jndi-lookup id="queueFolder"                 jndi-name="java:comp/env/queueFolder" />
 
 
     <!--  register the application properties -->
