@@ -559,7 +559,7 @@
 
 <script type="text/javascript" language="javascript" src="//www.reactome.org/DiagramJs/diagram/diagram.nocache.js"></script>
 
-<script src="https://wzrd.in/bundle/biojs-vis-keggviewer@1.1.2"></script>
+<!--script src="https://wzrd.in/bundle/biojs-vis-keggviewer@1.1.2"></script-->
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/3Dmol-min.js"></script>
 <%--<script id="dsq-count-scr" src="//metabolights.disqus.com/count.js" async></script>--%>

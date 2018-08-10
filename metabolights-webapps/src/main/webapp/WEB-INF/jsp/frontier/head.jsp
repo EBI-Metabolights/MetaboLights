@@ -33,8 +33,8 @@
     <meta name="no-email-collection" content="http://www.unspam.com/noemailcollection/" />
     <meta name="keywords" content="metabolite, metabolites, metabolism, metabolic, metabonomics, metabolomics, metabolomics study, metabolomics experiment, metabolic pathway, metabolite database, cosmos" />
 
-    <link rel="stylesheet" href="http://www.ebi.ac.uk/inc/css/userstyles.css" type="text/css">
-	<link rel="stylesheet" href="http://www.ebi.ac.uk/inc/css/contents.css" type="text/css">
+    <link rel="stylesheet" href="//www.ebi.ac.uk/inc/css/userstyles.css" type="text/css">
+	<link rel="stylesheet" href="//www.ebi.ac.uk/inc/css/contents.css" type="text/css">
     <link rel="stylesheet" href="https://www.ebi.ac.uk/web_guidelines/EBI-Icon-fonts/v1.1/fonts.css">
 
     <link rel="stylesheet" type="text/css" href='<spring:url value="/cssrl/jquery-ui-1.9.2.custom.min.css"/>' media="all" />
