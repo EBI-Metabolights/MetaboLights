@@ -36,6 +36,7 @@ import java.nio.file.*;
 import java.nio.file.attribute.PosixFileAttributeView;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.UserPrincipalLookupService;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
@@ -458,5 +459,9 @@ public class FileUtil {
 		result = true;
 
 		return result;
+	}
+
+	public static String getCurrentTimeStamp() {
+		return new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
 	}
 }

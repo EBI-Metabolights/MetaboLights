@@ -30,10 +30,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <br>
 <mtbls-adv-search></mtbls-adv-search>
-<script type="text/javascript" src="inline.bbda9ef628b502737376.bundle.js"></script>
-<script type="text/javascript" src="polyfills.ed762e38550b1ba74505.bundle.js"></script>
-<script type="text/javascript" src="vendor.f1967bd5c017fba09684.bundle.js"></script>
-<script type="text/javascript" src="main.af1be6037dfece1b7b53.bundle.js"></script>
+<script type="text/javascript" src="inline.bundle.js"></script>
+<script type="text/javascript" src="polyfills.bundle.js"></script>
+<script type="text/javascript" src="styles.bundle.js"></script>
+<script type="text/javascript" src="vendor.bundle.js"></script>
+<script type="text/javascript" src="main.bundle.js"></script>
+
+
 
 
 

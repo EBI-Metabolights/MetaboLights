@@ -23,6 +23,7 @@ package uk.ac.ebi.metabolights.webservice.queue;
 
 import org.apache.commons.compress.archivers.ArchiveException;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
@@ -74,9 +75,19 @@ public class SubmissionItem {
 
 	public File unzip() throws IOException, ArchiveException {
 
-		unzippedFolder = Zipper.unzip2(fileQueued.getAbsolutePath());
+	    if(!FilenameUtils.isExtension(fileQueued.getAbsolutePath(),"zip")){
+	       unzippedFolder = fileQueued;
+        }
+
+		else{
+            unzippedFolder = Zipper.unzip2(fileQueued.getAbsolutePath());
+        }
 
 		return unzippedFolder;
+	}
+
+	public void setUnzippedFolder(File submissionFolder){
+		unzippedFolder = submissionFolder;
 	}
 
 

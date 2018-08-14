@@ -62,6 +62,10 @@
         </property>
     </bean>
 
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="268435456"/>
+    </bean>
+
     <jee:jndi-lookup id="dataSource" jndi-name="dataSource" resource-ref="true" />
 
     <!--JNDI variable from tomcat context files-->
@@ -91,6 +95,7 @@
 
     <!-- Queue -->
     <jee:jndi-lookup id="queueRunner" jndi-name="java:comp/env/queueRunner"/>
+    <jee:jndi-lookup id="queueFolder" jndi-name="java:comp/env/queueFolder" />
 
     <jee:jndi-lookup id="userSpace" jndi-name="java:comp/env/userSpace"/>
 

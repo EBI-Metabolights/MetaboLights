@@ -23,10 +23,8 @@ package uk.ac.ebi.metabolights.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -38,7 +36,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.io.*;
 
 
 /**
@@ -49,8 +46,6 @@ import java.io.*;
 public class RheaAndReactomeProxy extends HttpServlet {
 
     private static Logger logger = LoggerFactory.getLogger(RheaAndReactomeProxy.class);
-    private static @Value("#{swaggerhost}")
-    String swaggerHost;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         getContent(request, response);
@@ -60,63 +55,38 @@ public class RheaAndReactomeProxy extends HttpServlet {
         getContent(request, response);
     }
 
-    @RequestMapping({"/RheaAndReactomeProxy", "/SwaggerProxy"})
+    @RequestMapping({"/RheaAndReactomeProxy"})
     public static void getContent(HttpServletRequest request, HttpServletResponse response) {
         try {
             String reqUrl = request.getParameter("url");
+            logger.info("Proxy url requested: " + reqUrl);
+
             if (reqUrl == null) {
                 logger.info("Proxy url empty or not allowed: " + reqUrl);
                 response.setStatus(404);
             }
 
-            if (!reqUrl.contains("rhea-db.org") && !reqUrl.contains("reactome.org") && !reqUrl.contains("mtbls/ws/"))
+            if (!reqUrl.contains("rhea-db.org") && !reqUrl.contains("reactome.org"))
                 return;
 
+            // Forwarding error as we cannot set SSL cert here, so switching back to http
+            reqUrl = reqUrl.replace("https:","http:");
+            logger.info("Proxy url rewritten to: " + reqUrl);
 
-            URL url;
-
-            if (reqUrl.contains("mtbls/ws/"))
-                url = new URL(PropertiesUtil.getProperty("swaggerhost") + reqUrl);
-            else {
-                url = new URL(reqUrl);
-            }
+            URL url = new URL(reqUrl);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setDoOutput(true);
             con.setRequestMethod(request.getMethod());
-
-            if (reqUrl.contains("mtbls/ws/")) {
-                String user_token = request.getHeader("user_token");
-                logger.info("Proxy request to Swagger server " + url + ", with user_token " + user_token);
-                con.setRequestProperty("user_token", user_token);
-                con.setRequestProperty("api_key", user_token);
-                con.setRequestProperty("Content-Type", "application/json");
-                con.setRequestProperty("Accept-Encoding", "gzip, deflate");
-                con.setRequestProperty("Content-Encoding", "gzip");
-                con.setRequestProperty("Accept", "application/json");
-            }
 
             try {
                 int clength = request.getContentLength();
                 if (clength > 0) {
                     con.setDoInput(true);
-                    if (reqUrl.contains("mtbls/ws/")) {
-                        BufferedReader bufferedReader = new BufferedReader(
-                                new InputStreamReader(request.getInputStream(), "UTF-8"));
-                        String line;
-                        OutputStreamWriter out = new OutputStreamWriter(
-                                con.getOutputStream());
-                        while ((line = bufferedReader.readLine()) != null) {
-                            out.write(line);
-                        }
-                        out.close();
-                        bufferedReader.close();
-                    } else {
-                        byte[] idata = new byte[clength];
-                        request.getInputStream().read(idata, 0, clength);
-                        con.getOutputStream().write(idata, 0, clength);
-                        request.getInputStream().close();
-                        con.getOutputStream().close();
-                    }
+                    byte[] idata = new byte[clength];
+                    request.getInputStream().read(idata, 0, clength);
+                    con.getOutputStream().write(idata, 0, clength);
+                    request.getInputStream().close();
+                    con.getOutputStream().close();
                 }
             } catch (Exception e) {
                 e.printStackTrace();

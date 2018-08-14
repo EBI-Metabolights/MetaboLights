@@ -114,6 +114,14 @@ public class FileAuditUtil {
 
 	}
 
+	private static String getOriginalUploadName(File fileToMove){
+		if(fileToMove!=null){
+			  String[] parts = fileToMove.getAbsolutePath().split("~");
+			  return parts[parts.length-1];
+		}
+		return "";
+	}
+
 	public static File moveFolderContentToAuditFolder(File folderWithFilesToMove, File auditedFolder , boolean copy) throws IOException {
 
 		File backUpFolder = getBackUpFolder(auditedFolder);

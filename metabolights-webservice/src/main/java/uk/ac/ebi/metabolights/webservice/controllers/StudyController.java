@@ -231,6 +231,41 @@ public class StudyController extends BasicController{
 		return studyDAO.getListWithDetails(getUser().getApiToken());
 	}
 
+    @RequestMapping("studyListOnUserToken")
+    @ResponseBody
+    public List<String> getAllStudiesOnUserToken() throws DAOException {
+
+        logger.info("Requesting a list of all private studies for a given user");
+
+        RestResponse<String[]> response = new RestResponse<>();
+
+        studyDAO = getStudyDAO();
+        List<String> studyList;
+
+        try {
+            studyList = studyDAO.getPrivateStudyListForUser(getUser().getApiToken());
+        } catch (DAOException e) {
+            logger.error("Can't get the list of studies ", e);
+            response.setMessage("Can't get the study requested.");
+            response.setErr(e);
+        }
+
+        return studyDAO.getPrivateStudyListForUser(getUser().getApiToken());
+    }
+
+    @RequestMapping("getQueueFolder")
+    @ResponseBody
+    public String getQueueFolder() throws DAOException {
+
+        logger.info("Requesting the current upload queue folder");
+
+        return PropertiesUtil.getProperty("queueFolder");
+
+    }
+
+
+
+
 	@RequestMapping("goinglive/{days}")
 	@ResponseBody
 	public RestResponse<String[]> getAllStudyIdentifiersGoingLive(@PathVariable("days") int numberOfDays) throws DAOException {
@@ -757,7 +792,7 @@ public class StudyController extends BasicController{
 	 * @author jrmacias
 	 * @date 20151012
 	 */
-	@PreAuthorize( "hasRole('ROLE_SUPER_USER')")
+	@PreAuthorize("hasRole('ROLE_SUPER_USER')")
 	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/deleteFiles", method= RequestMethod.POST)
 	@ResponseBody
 	public RestResponse<Boolean> deleteFiles(@PathVariable("studyIdentifier") String studyIdentifier,
@@ -866,8 +901,44 @@ public class StudyController extends BasicController{
 		return obfuscationCode;
 	}
 
+    /**
+     * Create a private upload folder for a Study using the API key, so the user can upload big files using ftp or Aspera.
+     *
+     * @param studyIdentifier
+     * @return
+     * @throws DAOException
+     * @author khaug
+     * @date 20180807
+     */
+    @RequestMapping("requestFtpFolderOnApiKey")
+    @ResponseBody
+    public RestResponse<String> createPrivateFtpFolderOnApiKey(@RequestParam(value = "studyIdentifier") String studyIdentifier, HttpServletRequest request)
+            throws DAOException, IOException, IsaTabException {
+
+        UserServiceImpl usi = null;
+        usi = new UserServiceImpl();
+        String token = request.getParameter("token");
+        User user = usi.lookupByToken(token);
+        logger.info("requestFtpFolderOnApiKey: User {} has requested a private upload folder for the study {}, using token {}", user.getUserName(), studyIdentifier, token);
+
+        // FTP folder is composed with the study identifier + the obfuscation code
+        String ftpFolder = studyIdentifier.toLowerCase() + "-" + getObfuscationCode(studyIdentifier, user);
+
+        // create the folder
+        FileUtil.createFtpFolder(ftpFolder);
+        RestResponse<String> restResponse = new RestResponse<>();
+        restResponse.setContent("Private upload folder for Study "+studyIdentifier);
+
+        // send FTP folder details by email
+        String userMessage = generateEmail(studyIdentifier, ftpFolder, user);
+        restResponse.setMessage(userMessage);
+
+        return restResponse;
+    }
+
+
 	/**
-	 * Create a private upload folder for a Study, so the user can upload big files using ftp.
+	 * Create a private upload folder for a Study, so the user can upload big files using ftp or Aspera.
 	 *
 	 * @param studyIdentifier
 	 * @return
@@ -881,17 +952,9 @@ public class StudyController extends BasicController{
 	public RestResponse<String> createPrivateFtpFolder(@PathVariable("studyIdentifier") String studyIdentifier)
 			throws DAOException, IOException, IsaTabException {
 
-		String privateFTPServer = PropertiesUtil.getProperty("privateFTPServer");	// ftp-private.ebi.ac.uk
-		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");
-		String privateFTPUser = PropertiesUtil.getProperty("privateFTPUser");		// mtblight
-		String privateFTPPass = PropertiesUtil.getProperty("privateFTPPass");		// gs4qYabh
-		String linkFTPUploadDoc = PropertiesUtil.getProperty("linkFTPUploadDoc");	// ...
-		// get the version of the app currently in use from the last part of the path
-		String[] ftp_paths = privateFTPRoot.split("/");
-		String ftp_path = "/"+ftp_paths[ftp_paths.length - 1]+"/";
+        User user = getUser();
 
-		User user = getUser();
-		logger.info("User {} has requested a private upload folder for the study {}", user.getUserName(),studyIdentifier);
+		logger.info("User {} has requested a private upload folder for the study {}", user.getUserName(), studyIdentifier);
 
 		// FTP folder is composed with the study identifier + the obfuscation code
 		String ftpFolder = studyIdentifier.toLowerCase() + "-" + getObfuscationCode(studyIdentifier, user);
@@ -903,39 +966,56 @@ public class StudyController extends BasicController{
 		restResponse.setMessage("Your requested upload folder is being created. Details for access will be mailed to you shortly.");
 
 		// send FTP folder details by email
-		String subject = "Requested Study upload folder.";
-		StringBuilder body = new StringBuilder().append("We are happy to inform you that your upload folder for study ")
-				.append("<b>").append(studyIdentifier).append("</b>")
-				.append(" has been successfully created and is now ready for use. You can use either FTP or Aspera Client to upload your study files.").append('\n').append('\n')
-				.append("<b>").append("Using FTP Client:").append("</b>").append('\n')
-				.append('\t').append("user: ")
-				.append("<b>").append(privateFTPUser).append("</b>").append('\n')
-				.append('\t').append("password: ")
-				.append("<b>").append(privateFTPPass).append("</b>").append('\n')
-				.append('\t').append("server: ")
-				.append("<b>").append(privateFTPServer).append("</b>").append('\n')
-				.append('\t').append("remote folder: ")
-				.append("<b>").append(ftp_path).append(ftpFolder).append("</b>").append('\n')
-				.append('\n')
-				.append("Please, note that the remote folder needs to be entirely typed, as the folder is not browsable. So use ")
-				.append("\"").append("<b>").append("cd ").append(ftp_path).append(ftpFolder).append("</b>").append("\"").append(" to access your private folder.")
-				.append('\n')
-				.append('\n')
-				.append("<b>").append("Using Aspera Client:").append("</b>").append('\n')
-				.append("You can also use the high-speed Aspera client to upload with the same username and password listed above using the command below.\n" +
-						"ascp -QT -P 33001 -L-  -l 300M your_local_data_folder mtblight@hx-fasp-1.ebi.ac.uk:").append(ftp_path).append(ftpFolder)
-				.append('\n')
-				.append('\n')
-				.append(" Detailed Instructions on data upload through FTP/Aspera is available here: ").append(linkFTPUploadDoc)
-				.append('\n').append('\n')
-				.append("We would be grateful for any feedback on the upload procedure and any issues you may find.")
-				.append('\n');
-		emailService.sendCreatedFTPFolderEmail(user.getEmail(),getSubmitterEmail(studyIdentifier,user), subject, body.toString());
-		logger.info("Private upload folder details sent to user: {}, by email: {} .", user.getUserName(), user.getEmail());
-		logger.info(subject);
+        generateEmail(studyIdentifier, ftpFolder, user);
 
 		return restResponse;
 	}
+
+	private String generateEmail(String studyIdentifier, String ftpFolder, User user) throws IsaTabException, DAOException {
+
+        String privateFTPServer = PropertiesUtil.getProperty("privateFTPServer");
+        String privateFTPRoot =   PropertiesUtil.getProperty("privateFTPRoot");
+        String privateFTPUser =   PropertiesUtil.getProperty("privateFTPUser");
+        String privateFTPPass =   PropertiesUtil.getProperty("privateFTPPass");
+        String linkFTPUploadDoc = PropertiesUtil.getProperty("linkFTPUploadDoc");
+        // get the version of the app currently in use from the last part of the path
+        String[] ftp_paths = privateFTPRoot.split("/");
+        String ftp_path = "/"+ftp_paths[ftp_paths.length - 1]+"/";
+
+        // send FTP folder details by email
+        String subject = "Requested Study upload folder.";
+        StringBuilder body = new StringBuilder().append("We are happy to inform you that your upload folder for study ")
+                .append("<b>").append(studyIdentifier).append("</b>")
+                .append(" has been successfully created and is now ready for use. You can use either FTP or Aspera Client to upload your study files.").append('\n').append('\n')
+                .append("<b>").append("Using FTP Client:").append("</b>").append('\n')
+                .append('\t').append("user: ")
+                .append("<b>").append(privateFTPUser).append("</b>").append('\n')
+                .append('\t').append("password: ")
+                .append("<b>").append(privateFTPPass).append("</b>").append('\n')
+                .append('\t').append("server: ")
+                .append("<b>").append(privateFTPServer).append("</b>").append('\n')
+                .append('\t').append("remote folder: ")
+                .append("<b>").append(ftp_path).append(ftpFolder).append("</b>").append('\n')
+                .append('\n')
+                .append("Please, note that the remote folder needs to be entirely typed, as the folder is not browsable. So use ")
+                .append("\"").append("<b>").append("cd ").append(ftp_path).append(ftpFolder).append("</b>").append("\"").append(" to access your private folder.")
+                .append('\n')
+                .append('\n')
+                .append("<b>").append("Using Aspera Client:").append("</b>").append('\n')
+                .append("You can also use the high-speed Aspera client to upload with the same username and password listed above using the command below.\n" +
+                        "ascp -QT -P 33001 -L-  -l 300M your_local_data_folder mtblight@hx-fasp-1.ebi.ac.uk:").append(ftp_path).append(ftpFolder)
+                .append('\n')
+                .append('\n')
+                .append(" Detailed Instructions on data upload through FTP/Aspera is available here: ").append(linkFTPUploadDoc)
+                .append('\n')
+                .append('\n');
+        logger.info("Sending upload folder details to " + user.getEmail());
+        emailService.sendCreatedFTPFolderEmail(user.getEmail(),getSubmitterEmail(studyIdentifier,user), subject, body.toString());
+        logger.info("Private upload folder details sent to user: {}, by email: {} .", user.getUserName(), user.getEmail());
+        logger.info(subject);
+
+        return body.toString();
+    }
 
 	/**
 	 * Move files from the Study private upload folder to its MetaboLights folder.
@@ -1120,7 +1200,7 @@ public class StudyController extends BasicController{
 	@ResponseBody
 	public RestResponse<String> getPermissions(@PathVariable("studyIdentifier") String studyIdentifier, HttpServletRequest request, HttpServletResponse response) throws DAOException {
 
-		logger.info("Requesting " + studyIdentifier + "permission rights");
+		logger.info("Requesting " + studyIdentifier + " permission rights");
 
         RestResponse<String> restResponse = new RestResponse<String>();
 
