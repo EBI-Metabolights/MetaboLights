@@ -134,14 +134,18 @@ facets[].facet.lines[].FacetLine.checked
                                     <c:otherwise>${facet.name}</c:otherwise>
                                 </c:choose>
                             </c:set>
-                            <a data-toggle="collapse" href="#filter_${loop.index}" class="facet-category" aria-expanded="false" aria-controls="filter_${loop.index}">
-                                <h5 class="category-heading">
-                                        ${caption}
-                                    <span class="pull-right text-muted">
+                            <c:if test="${facet.name!='validations.entries.statusExt'}">
+                                <c:if test="${facet.name!='validations.status'}">
+                                <a data-toggle="collapse" href="#filter_${loop.index}" class="facet-category" aria-expanded="false" aria-controls="filter_${loop.index}">
+                                    <h5 class="category-heading">
+                                            ${caption}
+                                        <span class="pull-right text-muted">
                                     <i class="fa fa-lg fa-arrow-circle-o-down"></i>
                                     </span>
-                                </h5>
-                            </a>
+                                    </h5>
+                                </a>
+                                </c:if>
+                            </c:if>
                             <div class="${loop.index == 0 ? 'grey' : 'grey collapse'}" id="filter_${loop.index}" >
                                 <c:if test="${fn:length(facet.lines) gt 5}">
                                     <div class="ui-widget">

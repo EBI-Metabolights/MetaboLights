@@ -54,15 +54,15 @@
                                         <i class="fa fa-globe"></i>
                                     </span>
                                 </c:if>
-                                <c:if test="${(liteStudy.studyStatus == 'PUBLIC')}">
-                                    &nbsp;
-                                    <span data-toggle="tooltip"
-                                          data-placement="bottom"
-                                          title="Quick view" @click="studyQuickView('${liteStudy.studyIdentifier}')"
-                                          class="pointer btn btn-default btn-xs">
-                                        <i class="fa fa-eye"></i>
-                                    </span>
-                                </c:if>
+                                <%--<c:if test="${(liteStudy.studyStatus == 'PUBLIC')}">--%>
+                                    <%--&nbsp;--%>
+                                    <%--<span data-toggle="tooltip"--%>
+                                          <%--data-placement="bottom"--%>
+                                          <%--title="Quick view" @click="studyQuickView('${liteStudy.studyIdentifier}')"--%>
+                                          <%--class="pointer btn btn-default btn-xs">--%>
+                                        <%--<i class="fa fa-eye"></i>--%>
+                                    <%--</span>--%>
+                                <%--</c:if>--%>
                             </div>
                             <%--<c:if test="${liteStudy.validations.status == 'RED'}">--%>
                                  <%--<span class="btn btn-sm"--%>

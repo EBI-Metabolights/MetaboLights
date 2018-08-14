@@ -29,7 +29,7 @@
     <div class="col-md-4">
         <p class="description">
             <spring:message code="msg.metabolightsAbout1" />
-            <spring:message code="msg.metabolightsAbout2" />
+            <%--<spring:message code="msg.metabolightsAbout2" />--%>
         </p>
     </div>
     <div class="col-md-4">
@@ -45,10 +45,13 @@
 <div class="row">
     <div class="col-md-8">
         <div class="well nbr">
-            <a href="<spring:url value="contact"/>"><b><spring:message code="label.contact"/></b></a><br>
-            <a href="<spring:url value="statistics"/>"><spring:message code="label.stats"/></a><br>
-            <a href="<spring:url value="advisoryboard"/>"><spring:message code="label.sab"/></a><br>
-            <a href="<spring:url value="acknowledgements"/>">Acknowledgements</a><br>
+            <b>
+                We are always looking at ways to improve MetaboLights. Please send your feedback in the form <a
+                    href="contact">here</a> or email us directly at <a href="mailto:metabolights-help@ebi.ac.uk ">metabolights-help@ebi.ac.uk</a>
+            </b><br><br>
+            <p><a href="<spring:url value="statistics"/>"><spring:message code="label.stats"/></a></p>
+            <p><a href="<spring:url value="advisoryboard"/>"><spring:message code="label.sab"/></a></p>
+            <%--<a href="<spring:url value="acknowledgements"/>">Acknowledgements</a><br>--%>
         </div>
     </div>
     <div class="col-md-4">
@@ -84,7 +87,6 @@
         </div>
     </div>
 </div>
-<hr>
 <div class="row">
     <div class="col-md-12">
         <div class="col-md-6">
@@ -101,17 +103,17 @@
         </div>
     </div>
 </div>
-<hr>
-<div class="row">
-    <div class="col-md-12">
-        <div class="col-md-12">
-            <p><spring:message code="msg.metabolightsAbout10" /></p>
-            <a class="noLine" href="http://github.com/ISA-tools/OntoMaton" target="_blank"><img src="http://isatools.files.wordpress.com/2012/07/ontomaton.png?w=250"/></a>
-            <a class="noLine" href="<spring:message code="url.isatools"/>" target="_blank"><img src="http://isatab.sourceforge.net/assets/img/tools/tools-table-images/isacreator.png"/></a>
-            <p><spring:message code="msg.metabolightsAbout15" /></p>
-        </div>
-    </div>
-</div>
+<%--<hr>--%>
+<%--<div class="row">--%>
+    <%--<div class="col-md-12">--%>
+        <%--<div class="col-md-12">--%>
+            <%--<p><spring:message code="msg.metabolightsAbout10" /></p>--%>
+            <%--<a class="noLine" href="http://github.com/ISA-tools/OntoMaton" target="_blank"><img src="http://isatools.files.wordpress.com/2012/07/ontomaton.png?w=250"/></a>--%>
+            <%--<a class="noLine" href="<spring:message code="url.isatools"/>" target="_blank"><img src="http://isatab.sourceforge.net/assets/img/tools/tools-table-images/isacreator.png"/></a>--%>
+            <%--<p><spring:message code="msg.metabolightsAbout15" /></p>--%>
+        <%--</div>--%>
+    <%--</div>--%>
+<%--</div>--%>
 <hr>
 <div class="row" id="support-journals" href="#publishers">
     <div class="col-md-12">
@@ -158,10 +160,14 @@
 <div class="row">
     <div class="col-md-12">
         <div class="col-md-12">
-            <a class="noLine" href="http://www.bbsrc.ac.uk/research/grants-search/AwardDetails/?FundingReference=BB%2fL024152%2f1"><img src="img/bbsrcLarge.png" alt="BBSCR"/></a>
-            &nbsp;&nbsp;&nbsp; <img src="img/EMBL_EBI_logo_180pixels_RGB.jpg" alt="EMBL"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="http://www.metabolomics.bioc.cam.ac.uk/metabolomics/"><img src="img/camLogo.png" alt="UC"/></a>
-            <br/>
-            <p><spring:message code="msg.metabolightsAbout5"/></p>
+            <%--<a class="noLine" href="http://www.bbsrc.ac.uk/research/grants-search/AwardDetails/?FundingReference=BB%2fL024152%2f1"><img src="img/bbsrcLarge.png" alt="BBSCR"/></a>--%>
+            <%--&nbsp;&nbsp;&nbsp; <img src="img/EMBL_EBI_logo_180pixels_RGB.jpg" alt="EMBL"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="http://www.metabolomics.bioc.cam.ac.uk/metabolomics/"><img src="img/camLogo.png" alt="UC"/></a>--%>
+            <%--<br/>--%>
+            <p>
+                The Metabolomics team's activities are supported by the <b>European Molecular Biology Laboratory (EMBL), Medical Research Council grant MR/L01632X/1, BBSRC grant BB/M027635/1, Wellcome Trust grant 202952/Z/16/Z, National Institutes of Health grant 1U54GM114833-01 and EC H2020 grants 634402 and 654241</b>.
+                <br><br>
+                Past funding includes BBSRC grants <b>BB/L024152/1, BB/I000933/1 and BB/N02342/1 and EC H2020 grant 654021</b>.
+            </p>
         </div>
     </div>
 </div>

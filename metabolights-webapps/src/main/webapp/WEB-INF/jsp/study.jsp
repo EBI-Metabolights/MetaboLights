@@ -489,7 +489,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <c:if test="${not empty study.sampleTable}">
-                                <table class="dataTable table table-striped table-bordered">
+                                <table class="dataTable scrollTable table table-striped table-bordered">
                                     <thead class='text_header'>
                                     <tr>
                                         <c:forEach var="fieldSet" items="${study.sampleTable.fields}">
@@ -1620,6 +1620,8 @@
         });
 
         $('.assayTable').wrap('<div class="scrollStyle row" />');
+        $('.scrollTable').wrap('<div class="scrollStyle row" />');
+
 
         $('.dataTable').DataTable();
 
@@ -1804,7 +1806,7 @@
         function loadPathways(ids) {
             if (ids != undefined){
                 MetExploreViz.onloadMetExploreViz(function () {
-                    var url = "//metexplore.toulouse.inra.fr:8080/metExploreWebService/mapping/graphresult/38285/filteredbypathway?pathwayidlist=(" + ids.toString() + ")";
+                    var url = "//metexplore.toulouse.inra.fr/metExploreWebService/mapping/graphresult/38285/filteredbypathway?pathwayidlist=(" + ids.toString() + ")";
                     $.ajax({
                         url: url,
                         type: 'GET',

@@ -83,7 +83,7 @@
                 <h3 class="metabolights-logo">MetaboLights</h3>
                 <p>MetaboLights is a database for Metabolomics experiments and derived information. The database is cross-species, cross-technique and covers metabolite structures and their reference spectra as well as their biological roles, locations and concentrations, and experimental data from metabolic experiments. MetaboLights is the recommended Metabolomics repository for a number of leading journals.
                     <br>
-                    <small><a target="_blank" href="https://www.ebi.ac.uk/about/people/claire-odonovan">More about MetaboLights</a></small>
+                    <small><a target="_blank" href="https://www.ebi.ac.uk/about/people/claire-odonovan">More about us</a></small>
                 </p>
                 <br>
                 <a class="more" href="https://www.ebi.ac.uk/training/online/course/metabolights-quick-tour-0">Quick tour</a>
@@ -101,9 +101,10 @@
                     </div>
                     <div class="custom-footer text-center">
                         <ul>
-                            <li><a href="studies"><b>Browse</b></a></li>
-                            <li><a href="advancedsearch"><b>ORCID search</b></a></li>
-                            <li><a href="labs"><b>Labs</b></a></li>
+                            <li class="vc vh50"><a href="studies"><b>Browse</b></a></li>
+                            <li class="vc vh50"><a href="advancedsearch"><b>ORCID search</b></a></li>
+                            <li class="vc vh50"><a><b>MetaboLights Labs</b>
+                                <br>&nbsp;<span class="label label-warning">Coming soon</span></a></li>
                         </ul>
                     </div>
                 </div>
@@ -117,9 +118,9 @@
                     </div>
                     <div class="custom-footer text-center">
                         <ul>
-                            <li><a href="compounds"><b>Compounds</b></a></li>
-                            <li><a href="species"><b>Species</b></a></li>
-                            <li><a href="analysis"><b>Analysis</b></a></li>
+                            <li class="vc vh50"><a href="compounds"><b>Compounds</b></a></li>
+                            <li class="vc vh50"><a href="species"><b>Species</b></a></li>
+                            <%--<li><a href="analysis"><b>Analysis</b></a></li>--%>
                         </ul>
                     </div>
                 </div>
@@ -133,9 +134,9 @@
                     </div>
                     <div class="custom-footer text-center">
                         <ul>
-                            <li><a href="https://www.ebi.ac.uk/training/online/about-train-online"><b>Webinar</b></a></li>
-                            <li><a href="https://www.ebi.ac.uk/training/online/topic/metabolomics"><b>Conferences</b></a></li>
-                            <li><a href="https://www.ebi.ac.uk/training/online/course/metabolights-quick-tour-0" target="_blank"><b>Quick tour</b></a></li>
+                            <%--<li><a href="https://www.ebi.ac.uk/training/online/about-train-online"><b>Webinar</b></a></li>--%>
+                            <li class="vc vh50"><a href="https://www.ebi.ac.uk/training/online/topic/metabolomics"><b>Training online</b></a></li>
+                            <li class="vc vh50"><a href="https://www.ebi.ac.uk/training/online/course/metabolights-quick-tour-0" target="_blank"><b>Quick tour</b></a></li>
                         </ul>
                     </div>
                 </div>
@@ -152,8 +153,8 @@
             </div>
         </div>
         <div class="panel nbr panel-primary">
-            <div class="panel-heading">
-                Contribute to MetaboLights
+            <div class="panel-heading nbtr">
+                Submit to MetaboLights
             </div>
             <div class="panel-body">
                 <a href="presubmit" class="more"><b>Upload Study</b></a>

@@ -21,7 +21,7 @@
 
 <%--${frontierheader}--%>
 <div class="masthead-black-bar masthead-black-bbar hidden-sm hidden-xs">
-    <nav class="navbar navbar-inverse">
+    <nav class="navbar navbar-inverse" style="z-index: 10000">
         <div class="container">
             <ul class="nav navbar-nav">
                 <li class="services"><a href="//www.ebi.ac.uk/services">Services</a></li>
@@ -147,7 +147,7 @@
                                 <li><a href="/metabolights/studies">Browse Studies</a></li>
                                 <li><a href="/metabolights/compounds">Browse Compounds</a></li>
                                 <li><a href="/metabolights/species">Browse Species</a></li>
-                                <li><a href="/metabolights/analysis">Analysis</a></li>
+                                <%--<li><a href="/metabolights/analysis">Analysis</a></li>--%>
                                 <li><a href="/metabolights/download">Download</a></li>
                                 <li><a href="/metabolights/help">Help</a></li>
                                 <li><a href="/metabolights/contact">Give us feedback</a></li>
@@ -167,7 +167,7 @@
                                     <li class="dropdown">
                                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">More <span class="caret"></span></a>
                                       <ul class="dropdown-menu">
-                                        <li><a href="/metabolights/analysis">Analysis</a></li>
+                                        <%--<li><a href="/metabolights/analysis">Analysis</a></li>--%>
                                         <li><a href="/metabolights/download">Download</a></li>
                                         <li><a href="/metabolights/help">Help</a></li>
                                         <li><a href="/metabolights/contact">Give us feedback</a></li>

@@ -38,9 +38,9 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <a target="_blank" id="labsLink" class="btn btn-default btn-md form-control ml--noborder">
+                                <a target="_blank" id="_labsLink" class="btn btn-default btn-md form-control ml--noborder">
                                     <i class="fa fa-tachometer" aria-hidden="true"></i>&nbsp;
-                                    <spring:message code="menu.myWorkspaceCap" />
+                                    <spring:message code="menu.myWorkspaceCap" />&nbsp;<span class="label label-warning">Coming soon</span>
                                 </a>
                             </div>
                         </div>
@@ -80,29 +80,67 @@
                 </div>
             </div>
         </div>
+        <div id="labsAlert" class="modal fade" tabindex="-1" role="dialog"
+             aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="row">
+                            <span class="col-md-10 col-md-offset-1 text-center">
+                                <br><br>
+                                <h2>MetaboLights Labs <sup class="text-primary"><small>BETA</small></sup></h2>
+                                <p>
+                                    Labs is currently in development phase (beta) and you will need a development account to access it.
+                                </p><br>
+                                <p>
+                                   <a href="https://wwwdev.ebi.ac.uk/metabolights/newAccount"> Not registered yet? Create a account</a>.
+                                </p>
+                                <br><br>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="pull-left btn btn-sm btn-default" data-dismiss="modal">
+                            Close
+                        </button>
+                        <a target="_blank" href="https://wwwdev.ebi.ac.uk/metabolights/labs/login" class="btn btn-success">
+                            Proceed
+                        </a>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
     <script>
         $(function () {
             var token = {
                 token : "<c:out value="${token}"/>"
             }
-            $('#labsLink').on('click', function () {
-                $.ajax({
-                    url: '/metabolights/webservice/labs/authenticateToken',
-                    type: 'post',
-                    contentType: "application/json",
-                    data: JSON.stringify(token),
-                    success: function (data, textStatus, response) {
-                        var jwt = response.getResponseHeader('jwt');
-                        var user = response.getResponseHeader('user');
-                        localStorage.setItem('jwt', jwt);
-                        localStorage.setItem('user', user);
-                        window.location.href = "/metabolights/labs";
-                    },
-                    error: function (request, status, error) {
-                        alert(request.responseText);
-                    }
+
+            var subdomain = window.location.href.split('.')[0];
+            if(subdomain == "https://www"){
+                $('#labsLink').on('click', function () {
+                    $('#labsAlert').modal('show');
                 });
-            });
+            }else{
+                $('#labsLink').on('click', function () {
+                    $.ajax({
+                        url: '/metabolights/webservice/labs/authenticateToken',
+                        type: 'post',
+                        contentType: "application/json",
+                        data: JSON.stringify(token),
+                        success: function (data, textStatus, response) {
+                            var jwt = response.getResponseHeader('jwt');
+                            var user = response.getResponseHeader('user');
+                            localStorage.setItem('jwt', jwt);
+                            localStorage.setItem('user', user);
+                            window.location.href = "/metabolights/labs";
+                        },
+                        error: function (request, status, error) {
+                            alert(request.responseText);
+                        }
+                    });
+                });
+            }
         });
 
     </script>
