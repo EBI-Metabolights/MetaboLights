@@ -70,7 +70,7 @@ public class RheaAndReactomeProxy extends HttpServlet {
                 return;
 
             // Forwarding error as we cannot set SSL cert here, so switching back to http
-            reqUrl = reqUrl.replace("https:","http:");
+            // reqUrl = reqUrl.replace("https:","http:");
             logger.info("Proxy url rewritten to: " + reqUrl);
 
             URL url = new URL(reqUrl);
