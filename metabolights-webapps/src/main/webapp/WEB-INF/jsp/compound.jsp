@@ -741,7 +741,7 @@
 
             var w = document.getElementById("diagramHolder").offsetWidth;
             var diagram = Reactome.Diagram.create({
-                "proxyPrefix" : "/metabolights/RheaAndReactomeProxy?url=https://www.reactome.org/",
+                "proxyPrefix" : "https://reactome.org",
                 "placeHolder" : "diagramHolder",
                 "width" : w,
                 "height" : 500
