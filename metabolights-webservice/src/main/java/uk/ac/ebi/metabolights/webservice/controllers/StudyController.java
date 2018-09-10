@@ -915,8 +915,7 @@ public class StudyController extends BasicController{
     public RestResponse<String> createPrivateFtpFolderOnApiKey(@RequestParam(value = "studyIdentifier") String studyIdentifier, HttpServletRequest request)
             throws DAOException, IOException, IsaTabException {
 
-        UserServiceImpl usi = null;
-        usi = new UserServiceImpl();
+        UserServiceImpl usi = new UserServiceImpl();
         String token = request.getParameter("token");
         User user = usi.lookupByToken(token);
         logger.info("requestFtpFolderOnApiKey: User {} has requested a private upload folder for the study {}, using token {}", user.getUserName(), studyIdentifier, token);
@@ -931,7 +930,7 @@ public class StudyController extends BasicController{
 
         // send FTP folder details by email
         String userMessage = generateEmail(studyIdentifier, ftpFolder, user);
-        restResponse.setMessage(userMessage);
+        restResponse.setMessage(ftpFolder);
 
         return restResponse;
     }
