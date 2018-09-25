@@ -160,6 +160,27 @@ public class StudyDAO {
         return mainObj.toJSONString();
     }
 
+    public String getCompleteStudyListForUserWithDetails(String userToken) throws DAOException {
+
+        List<String> studies = dbDAO.getCompleteStudyListForUser(userToken);
+
+        JSONArray ja = new JSONArray();
+
+        for(String study :studies){
+            Study tempStudy = dbDAO.findByAccession(study);
+            getStudyFromFileSystem(tempStudy, false);
+            JSONObject jo = new JSONObject();
+            jo.put("id",study);
+            jo.put("title", tempStudy.getTitle());
+            jo.put("description", tempStudy.getDescription());
+            ja.add(jo);
+        }
+
+        return ja.toJSONString();
+    }
+
+
+
     public List<String> getStudiesToGoLiveList(String userToken) throws DAOException {
         return dbDAO.getStudiesToGoLiveList(userToken);
     }

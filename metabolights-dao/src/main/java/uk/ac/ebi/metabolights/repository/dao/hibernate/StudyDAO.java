@@ -117,6 +117,22 @@ public class StudyDAO extends DAO <Study,StudyData>{
 		return studies;
 	}
 
+	public List<String> getCompleteStudyListForUser(String userToken) throws DAOException {
+
+		String query = "select distinct study.acc from " + StudyData.class.getSimpleName() + " study" +
+				" left join study.users user where user.apiToken=:apiToken ";
+
+		// Create an empty filter
+		Filter filter = new Filter();
+
+		// Add clause to where..
+		filter.fieldValuePairs.put("apiToken", userToken);
+
+		List<String> studies = this.getList(query, filter);
+
+		return studies;
+	}
+
     public List<String> getPrivateStudyListForUser(String userToken) throws DAOException {
 
         String query = "select distinct study.acc from " + StudyData.class.getSimpleName() + " study" +

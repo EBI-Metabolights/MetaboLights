@@ -84,7 +84,7 @@ public class LabsWorkspaceController {
 
         for ( MLLProject project : mllWorkSpace.getProjects() ) {
 
-            project.setAsperaSettings("{ \"asperaURL\" : \""+ user.getApiToken() + File.separator + project.getId() + "\", \"asperaUser\" : \""+ asperaUser + "\",  \"asperaServer\" : \"ah01.ebi.ac.uk\", \"asperaSecret\" :  \""+ asperaSecret + "\" }");
+            project.setAsperaSettings("{ \"asperaURL\" : \""+ user.getApiToken() + File.separator + project.getId() + "\", \"asperaUser\" : \""+ asperaUser + "\",  \"asperaServer\" : \"hx-fasp-1.ebi.ac.uk\", \"asperaSecret\" :  \""+ asperaSecret + "\" }");
 
         }
 
@@ -354,7 +354,7 @@ public class LabsWorkspaceController {
 
                     MLLProject mllProject = mllWorkSpace.getProject(projectId);
 
-                    mllProject.setAsperaSettings("{ \"asperaURL\" : \""+ user.getApiToken() + File.separator + mllProject.getId() + "\", \"asperaUser\" : \""+ asperaUser + "\",  \"asperaServer\" : \"ah01.ebi.ac.uk\", \"asperaSecret\" :  \""+ asperaSecret + "\" }");
+                    mllProject.setAsperaSettings("{ \"asperaURL\" : \""+ user.getApiToken() + File.separator + mllProject.getId() + "\", \"asperaUser\" : \""+ asperaUser + "\",  \"asperaServer\" : \"hx-fasp-1.ebi.ac.uk\", \"asperaSecret\" :  \""+ asperaSecret + "\" }");
 
                     restResponse.setContent(mllProject.getAsperaSettings());
 
@@ -369,7 +369,7 @@ public class LabsWorkspaceController {
 
             MLLProject mllProject = (new MetaboLightsLabsProjectDAO(mllWorkSpace)).getMllProject();
 
-            mllProject.setAsperaSettings("{ \"asperaURL\" : \""+ user.getApiToken() + File.separator + mllProject.getId() + "\", \"asperaUser\" : \""+ asperaUser + "\",  \"asperaServer\" : \"ah01.ebi.ac.uk\", \"asperaSecret\" :  \""+ asperaSecret + "\" }");
+            mllProject.setAsperaSettings("{ \"asperaURL\" : \""+ user.getApiToken() + File.separator + mllProject.getId() + "\", \"asperaUser\" : \""+ asperaUser + "\",  \"asperaServer\" : \"hx-fasp-1.ebi.ac.uk\", \"asperaSecret\" :  \""+ asperaSecret + "\" }");
 
             restResponse.setContent(mllProject.getAsperaSettings());
 

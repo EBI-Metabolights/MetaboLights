@@ -178,6 +178,29 @@ public class StudyController extends BasicController{
 
 	}
 
+	@RequestMapping("myStudies")
+	@ResponseBody
+	public RestResponse<String> getStudiesAssociatedWithUser() throws DAOException {
+
+		logger.info("Requesting a list of studies associated with the user from the webservice");
+
+		RestResponse<String> response = new RestResponse<>();
+
+		studyDAO = getStudyDAO();
+
+		try {
+			String studyListWithDetails = studyDAO.getCompleteStudyListForUserWithDetails(getUser().getApiToken());
+			response.setContent(studyListWithDetails);
+		} catch (DAOException e) {
+			logger.error("Can't get the list of studies", e);
+			response.setMessage("Can't get the study requested.");
+			response.setErr(e);
+		}
+
+		return response;
+
+	}
+
     @RequestMapping({"/parallelCoordinatesData"})
     @ResponseBody
     public RestResponse getFactorsDistribution(@RequestParam("study") String study){
