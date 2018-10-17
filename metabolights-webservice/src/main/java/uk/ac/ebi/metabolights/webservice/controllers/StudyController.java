@@ -947,13 +947,16 @@ public class StudyController extends BasicController{
         String ftpFolder = studyIdentifier.toLowerCase() + "-" + getObfuscationCode(studyIdentifier, user);
 
         // create the folder
-        FileUtil.createFtpFolder(ftpFolder);
-        RestResponse<String> restResponse = new RestResponse<>();
-        restResponse.setContent("Private upload folder for Study "+studyIdentifier);
+        String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");
+        File uploadFolder = new File(privateFTPRoot + File.separator + ftpFolder);
+        if (!uploadFolder.isDirectory()) {  //The folder does not exists
+            FileUtil.createFtpFolder(ftpFolder);
+            // send FTP folder details by email
+            String userMessage = generateEmail(studyIdentifier, ftpFolder, user);
+        }
 
-        // send FTP folder details by email
-        String userMessage = generateEmail(studyIdentifier, ftpFolder, user);
-        restResponse.setMessage(ftpFolder);
+        RestResponse<String> restResponse = new RestResponse<>();
+        restResponse.setMessage(uploadFolder.toString());
 
         return restResponse;
     }
