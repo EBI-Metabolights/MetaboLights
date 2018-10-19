@@ -22,9 +22,6 @@
 package uk.ac.ebi.metabolights.webservice.utils;
 
 import org.apache.commons.io.IOUtils;
-import org.jose4j.json.internal.json_simple.JSONObject;
-import org.jose4j.json.internal.json_simple.parser.JSONParser;
-import org.jose4j.json.internal.json_simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.webservice.services.PropertyLookUpService;
@@ -266,12 +263,14 @@ public class FileUtil {
 		// create the folder
 		File ftpFolder = new File(privateFTPRoot + File.separator + folder);
 		Path folderPath = ftpFolder.toPath();
-//		if (!ftpFolder.mkdir()) throw new IOException();
-		try{
-			ftpFolder.mkdir();
-		}                     catch(Exception e){
-			        e.printStackTrace();
-		}
+
+		if (!ftpFolder.isDirectory()){
+            try {
+                ftpFolder.mkdir();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
 		// set folder owner, group and access permissions
 		// 'chmod 770'
