@@ -1,0 +1,354 @@
+{
+   "isatab-configuration":{
+      "table-name":"metaboliteprofiling_nmr",
+      "isatab-assay-type":"nmr_spec_assay",
+      "measurement":{
+         "term-label":"metabolite profiling",
+         "term-accession":"http://purl.obolibrary.org/obo/OBI_0000366",
+         "source-abbreviation":"OBI"
+      },
+      "technology":{
+         "term-label":"NMR spectroscopy",
+         "term-accession":"http://purl.obolibrary.org/obo/OBI_0000623",
+         "source-abbreviation":"OBI"
+      },
+      "field":[
+         {
+            "header":"Sample Name",
+            "data-type":"String",
+            "is-file-field":"false",
+            "is-multiple-value":"true",
+            "is-required":"true",
+            "is-read-only":"false",
+            "is-forced-ontology":"false",
+            "description":"Samples represent major outputs resulting from a protocol application other than the special case outputs of Extract or a Labeled Extract",
+            "generated-value-template":"Samples.name"
+         },
+         {
+            "header":"Extraction",
+            "data-type":"Protocol",
+            "is-file-field":"false",
+            "is-multiple-value":"false",
+            "is-required":"true",
+            "is-read-only":"true",
+            "is-forced-ontology":"false",
+            "description":"References a defined protocol",
+            "list-values":"Extraction",
+            "generated-value-template":"protocolType.annotationValue"
+         },
+         {
+            "header":"Parameter Value[Extraction Method]",
+            "data-type":"String",
+            "is-file-field":"false",
+            "is-multiple-value":"false",
+            "is-required":"false",
+            "is-read-only":"false",
+            "is-forced-ontology":"false",
+            "description":"extraction method used. e.g methanol/chloroform extration (1:1 v/v)"
+         },
+         {
+            "header":"Extract Name",
+            "data-type":"String",
+            "is-file-field":"false",
+            "is-multiple-value":"false",
+            "is-required":"false",
+            "is-read-only":"false",
+            "is-forced-ontology":"false",
+            "description":"User-defined names for each portion of extracted material",
+            "generated-value-template":"Samples.extraction"
+         },
+         {
+            "header":"NMR sample",
+            "data-type":"Protocol",
+            "is-file-field":"false",
+            "is-multiple-value":"false",
+            "is-required":"true",
+            "is-read-only":"true",
+            "is-forced-ontology":"false",
+            "description":"References a defined protocol",
+            "list-values":"NMR sample",
+            "generated-value-template":"protocolType.annotationValue"
+         },
+         {
+            "header":"Parameter Value[NMR tube type]",
+            "data-type":"Ontology term",
+            "is-file-field":"false",
+            "is-multiple-value":"false",
+            "is-required":"false",
+            "is-read-only":"false",
+            "is-forced-ontology":"false",
+            "description":"e.g. 5 mm conventional, Shigemi, mircocell etc."
+         },
+         {
+            "header":"Parameter Value[Solvent]",
+            "data-type":"Ontology term",
+            "is-file-field":"false",
+            "is-multiple-value":"false",
+            "is-required":"false",
+            "is-read-only":"false",
+            "is-forced-ontology":"false",
+            "description":"D2O, CD3OD, CDCl3, etc"
+         },
+         {
+            "header":"Parameter Value[Sample pH]",
+            "data-type":"Double",
+            "is-file-field":"false",
+            "is-multiple-value":"false",
+            "is-required":"false",
+            "is-read-only":"false",
+            "is-forced-ontology":"false",
+            "description":"Sample pH e.g 7.4"
+         },
+         {
+            "header":"Parameter Value[Temperature]",
+            "data-type":"Double",
+            "is-file-field":"false",
+            "is-multiple-value":"false",
+            "is-required":"false",
+            "is-read-only":"false",
+            "is-forced-ontology":"false",
+            "description":"Sample temperature run in the magnet, in Kelvin"
+         },
+         {
+            "header":"unit-field",
+            "data-type":"Ontology term",
+            "is-file-field":"false",
+            "is-multiple-value":"false",
+            "is-read-only":"true",
+            "is-required":"true",
+            "is-forced-ontology":"true",
+            "description":"Temperature unit in Kelvin",
+            "belongs-to":"Parameter Value[Temperature]",
+            "recommended-ontologies":{
+               "ontology":{
+                  "id":"<?>",
+                  "abbreviation":"<?>",
+                  "name":"<?>",
+                  "version":"<?>"
+               }
+            }
+         },
+         {
+            "header":"Labeled Extract Name",
+            "data-type":"String",
+            "is-file-field":"false",
+            "is-multiple-value":"false",
+            "is-required":"false",
+            "is-read-only":"false",
+            "is-forced-ontology":"false",
+            "description":"Identifier for the labeled extract.",
+            "generated-value-template":"Samples.extraction-label"
+         },
+         {
+            "header":"Label",
+            "data-type":"Ontology term",
+            "is-file-field":"false",
+            "is-multiple-value":"false",
+            "is-required":"false",
+            "is-read-only":"false",
+            "is-forced-ontology":"false",
+            "description":"Indicates a chemical or biological marker or observed nucleus",
+            "recommended-ontologies":{
+               "ontology":{
+                  "id":"1007",
+                  "abbreviation":"CHEBI",
+                  "name":"Chemical entities of biological interest",
+                  "version":"40664"
+               }
+            }
+         },
+         {
+            "header":"NMR spectroscopy",
+            "data-type":"Protocol",
+            "is-file-field":"false",
+            "is-multiple-value":"false",
+            "is-required":"true",
+            "is-read-only":"true",
+            "is-forced-ontology":"false",
+            "description":"References a defined protocol",
+            "list-values":"NMR spectroscopy",
+            "generated-value-template":"protocolType.annotationValue"
+         },
+         {
+            "header":"Parameter Value[Instrument]",
+            "data-type":"Ontology term",
+            "is-file-field":"false",
+            "is-multiple-value":"false",
+            "is-required":"false",
+            "is-read-only":"false",
+            "is-forced-ontology":"false",
+            "description":"Name and model of the NMR instrument, e.g. Bruker Avance III, ..."
+         },
+         {
+            "header":"Parameter Value[NMR Probe]",
+            "data-type":"Ontology term",
+            "is-file-field":"false",
+            "is-multiple-value":"false",
+            "is-required":"false",
+            "is-read-only":"false",
+            "is-forced-ontology":"false",
+            "description":"Type of probe fitted to the spectroscope e.g. 10mm 31P, 5mm HCN coldprobe, 3mm flow-probe, etc."
+         },
+         {
+            "header":"Parameter Value[Number of transients]",
+            "data-type":"Integer",
+            "is-file-field":"false",
+            "is-multiple-value":"false",
+            "is-required":"false",
+            "is-read-only":"false",
+            "is-forced-ontology":"false",
+            "description":"Number of transients (scan) acquired for your experiment. e.g 128 or 256"
+         },
+         {
+            "header":"Parameter Value[Pulse sequence name]",
+            "data-type":"String",
+            "is-file-field":"false",
+            "is-multiple-value":"false",
+            "is-required":"false",
+            "is-read-only":"false",
+            "is-forced-ontology":"false",
+            "description":"Pulse sequence used to acquire the data, noesypr1d"
+         },
+         {
+            "header":"Parameter Value[Magnetic field strength]",
+            "data-type":"String",
+            "is-file-field":"false",
+            "is-multiple-value":"false",
+            "is-required":"false",
+            "is-hidden":"false",
+            "is-forced-ontology":"false",
+            "description":"a parameter expressed in tesla to report the strength of the field e.g 14.1 T Varian Inova ; 18.8 T Bruker Avance"
+         },
+         {
+            "header":"unit-field",
+            "data-type":"Ontology term",
+            "is-file-field":"false",
+            "is-multiple-value":"false",
+            "is-read-only":"true",
+            "is-required":"true",
+            "is-forced-ontology":"true",
+            "description":"unit in Tesla",
+            "belongs-to":"Parameter Value[Magnetic field strength]",
+            "recommended-ontologies":{
+               "ontology":{
+                  "id":"<?>",
+                  "abbreviation":"<?>",
+                  "name":"<?>",
+                  "version":"<?>"
+               }
+            }
+         },
+         {
+            "header":"Acquisition Parameter Data File",
+            "data-type":"String",
+            "is-file-field":"true",
+            "is-multiple-value":"true",
+            "is-required":"false",
+            "is-read-only":"false",
+            "is-forced-ontology":"false",
+            "description":"Name of the acquisition parameter data file gathered for this assay."
+         },
+         {
+            "header":"NMR assay",
+            "data-type":"Protocol",
+            "is-file-field":"false",
+            "is-multiple-value":"false",
+            "is-required":"true",
+            "is-read-only":"true",
+            "is-forced-ontology":"false",
+            "description":"References a defined protocol",
+            "list-values":"NMR assay",
+            "generated-value-template":"protocolType.annotationValue"
+         },
+         {
+            "header":"NMR Assay Name",
+            "data-type":"String",
+            "is-file-field":"false",
+            "is-multiple-value":"false",
+            "is-required":"true",
+            "is-read-only":"false",
+            "is-forced-ontology":"false",
+            "description":"User-defined name for a NMR assay.",
+            "generated-value-template":"Samples.name-Samples"
+         },
+         {
+            "header":"Free Induction Decay Data File",
+            "data-type":"String",
+            "is-file-field":"true",
+            "is-multiple-value":"true",
+            "is-required":"false",
+            "is-read-only":"false",
+            "is-forced-ontology":"false",
+            "description":"Name (or URI) of the free induction decay data file gathered for this assay."
+         },
+         {
+            "header":"Data transformation",
+            "data-type":"Protocol",
+            "is-file-field":"false",
+            "is-multiple-value":"false",
+            "is-required":"true",
+            "is-read-only":"true",
+            "is-forced-ontology":"false",
+            "description":"References a defined protocol",
+            "list-values":"Data transformation",
+            "generated-value-template":"protocolType.annotationValue"
+         },
+         {
+            "header":"Normalization Name",
+            "data-type":"String",
+            "is-file-field":"false",
+            "is-multiple-value":"false",
+            "is-required":"false",
+            "is-read-only":"false",
+            "is-forced-ontology":"false",
+            "description":"User-defined name for each normalization applied"
+         },
+         {
+            "header":"Derived Spectral Data File",
+            "data-type":"String",
+            "is-file-field":"true",
+            "is-multiple-value":"true",
+            "is-required":"false",
+            "is-read-only":"false",
+            "is-forced-ontology":"false",
+            "description":"Name of the derived data file generated from spectral data by an assay. Do not include any folder names, only the filename."
+         },
+         {
+            "header":"Metabolite identification",
+            "data-type":"Protocol",
+            "is-file-field":"false",
+            "is-multiple-value":"false",
+            "is-required":"true",
+            "is-read-only":"true",
+            "is-forced-ontology":"false",
+            "description":"References a defined protocol",
+            "list-values":"Metabolite identification",
+            "generated-value-template":"protocolType.annotationValue"
+         },
+         {
+            "header":"Data Transformation Name",
+            "data-type":"String",
+            "is-file-field":"false",
+            "is-multiple-value":"true",
+            "is-required":"false",
+            "is-read-only":"false",
+            "is-forced-ontology":"false",
+            "description":"User-defined name for each data transformation applied"
+         },
+         {
+            "header":"Metabolite Assignment File",
+            "data-type":"String",
+            "is-file-field":"true",
+            "is-multiple-value":"false",
+            "is-required":"false",
+            "is-read-only":"false",
+            "is-forced-ontology":"false",
+            "description":"Name of the metabolite assignment file gathered for this assay. Do not include any folder names, only the filename.",
+            "generated-value-template":"m_{assays.annotationValue} {assays.technologyType.annotationValue}_v2_maf.tsv"
+         }
+      ],
+      "structured-field":{
+         "name":"factors"
+      }
+   }
+}

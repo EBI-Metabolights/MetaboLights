@@ -62,6 +62,14 @@
         <put-attribute name="footer" value="" />
     </definition>
 
+    <definition name="editorLayout" template="/WEB-INF/jsp/frontier/editorLayout.jsp">
+        <put-attribute name="head" value="" />
+        <put-attribute name="header" value="" />
+        <put-attribute name="localheader" value="" />
+        <put-attribute name="body" value="" />
+        <put-attribute name="footer" value="" />
+    </definition>
+
 	<definition name="reflayersearch" extends="default">
 		<put-attribute name="title" value="Compound search" />
 		<put-attribute name="body" value="/WEB-INF/jsp/refLayerSearch.jsp" />
@@ -92,9 +100,9 @@
         <put-attribute name="body" value="/WEB-INF/jsp/advancedSearch.jsp" />
     </definition>
 
-    <definition name="studyeditor"  extends="default">
+    <definition name="editor"  extends="editorLayout">
         <put-attribute name="title" value="MetaboLights Online Editor" />
-        <put-attribute name="body" value="/WEB-INF/jsp/studyEditor.jsp" />
+        <put-attribute name="body" value="/WEB-INF/jsp/editor.jsp" />
     </definition>
 
     <definition name="referencespectraupload" extends="default">
@@ -320,6 +328,5 @@
     <definition name="wsMySubmissions" extends="wsSearchResult">
         <put-attribute name="title" value="My submissions" />
     </definition>
-
 
 </tiles-definitions>

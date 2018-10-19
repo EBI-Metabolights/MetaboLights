@@ -1,0 +1,595 @@
+{
+	"study": {
+		"identifier": {
+			"data-type": "string",
+			"sort-order": "1",
+			"is-required": "true",
+			"is-read-only": "true",
+			"is-hidden": "false",
+			"technique": "mass spectrometry|NMR spectroscopy",
+			"description": "Initially a user defined identifier for the study. This study id will be replaced with a MetaboLights ID (MTBLS) when uploaded to MetaboLights",
+			"placeholder": "MTBLS350",
+			"rules": [{
+				"condition": "min",
+				"value": "8",
+				"error": "Study identifier should be at least 8 characters long",
+				"type": "string"
+			},
+			{
+				"condition": "match",
+				"value": "MTBLS*",
+				"error": "Study identifier must start with MTBLS, followed by a number. Example: MTBLS350",
+				"type": "string"
+			}
+		]
+		},
+		"title": {
+			"data-type": "string",
+			"sort-order": "2",
+			"is-required": "true",
+			"is-read-only": "false",
+			"is-hidden": "false",
+			"technique": "mass spectrometry|NMR spectroscopy",
+			"description": "A title for the Study. Please use the same title as the first publication",
+			"placeholder": "Example: Metabolic study of Diabetes in Homo sapiens...",
+			"rules": [{
+				"condition": "min",
+				"value": "8",
+				"error": "Study title should be at least 8 characters long. Please use the same title as the first publication.",
+				"type": "string"
+			}]
+		},
+		"description": {
+			"data-type": "string",
+			"sort-order": "3",
+			"is-required": "true",
+			"is-read-only": "false",
+			"is-hidden": "false",
+			"technique": "mass spectrometry|NMR spectroscopy",
+			"description": "A brief description of the study aims. Please using the abstract of the publication",
+			"placeholder": "Please provide a description of your experiment, why not use the abstract of your paper",
+			"rules": [{
+				"condition": "min",
+				"value": "60",
+				"error": "Study description should be at least 60 characters long. Please using the abstract of the publication",
+				"type": "string"
+			}]
+		},
+		"people": {
+			"person": {
+				"sort-order": "6",
+				"lastName": {
+					"data-type": "string",
+					"sort-order": "1",
+					"is-required": "true",
+					"is-read-only": "false",
+					"is-hidden": "false",
+					"technique": "mass spectrometry|NMR spectroscopy",
+					"description": "The last name/surname of the contact",
+					"placeholder": "Doe",
+					"rules": [{
+						"condition": "min",
+						"value": "2",
+						"error": "The last name/surname of the contact. This should be a minimum of 2 characters long",
+						"type": "string"
+					}]
+				},
+				"firstName": {
+					"data-type": "string",
+					"sort-order": "3",
+					"is-required": "true",
+					"is-read-only": "false",
+					"is-hidden": "false",
+					"technique": "mass spectrometry|NMR spectroscopy",
+					"description": "The first name/forename of the contact",
+					"placeholder": "Joe",
+					"rules": [{
+						"condition": "min",
+						"value": "2",
+						"error": "The first name/forename of the contact. This should be a minimum of 2 characters long",
+						"type": "string"
+					}]
+				},
+				"midInitials": {
+					"data-type": "string",
+					"sort-order": "2",
+					"is-required": "false",
+					"is-read-only": "false",
+					"is-hidden": "false",
+					"technique": "mass spectrometry|NMR spectroscopy",
+					"description": "The mid initial of the contact.",
+					"placeholder": "M.",
+					"rules": [{
+						"condition": "min",
+						"value": "1",
+						"error": "The middle initial of the contact. This should be a minimum of 1 characters long",
+						"type": "string"
+					}]
+				},
+				"email": {
+					"data-type": "string",
+					"sort-order": "4",
+					"is-required": "false",
+					"is-read-only": "false",
+					"is-hidden": "false",
+					"technique": "mass spectrometry|NMR spectroscopy",
+					"description": "The email corresponding to this contact.",
+					"placeholder": "joe.doe@gmail.com, joe.doe@university.ac.uk",
+					"rules": [{
+						"condition": "min",
+						"value": "7",
+						"error": "Please provide an email address for the contact. This should be a minimum of 7 characters long",
+						"type": "string"
+					},
+					{
+						"condition": "pattern",
+						"value": "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$",
+						"error": "Please provide a valid email address for the contact. This should include something like 'name@something.somewhere'",
+						"type": "string"
+					}
+				]
+				},
+				"phone": {
+					"data-type": "string",
+					"sort-order": "5",
+					"is-required": "false",
+					"is-read-only": "false",
+					"is-hidden": "false",
+					"technique": "mass spectrometry|NMR spectroscopy",
+					"description": "An international phone number for this contact, if available.",
+					"placeholder": "+44 01223 494400, +1-202-555-0130",
+					"rules": [{
+						"condition": "min",
+						"value": "10",
+						"error": "Please provide an international phone number for this contact. This should be a minimum of 10 numbers long",
+						"type": "string"
+					}]
+				},
+				"fax": {
+					"data-type": "string",
+					"sort-order": "6",
+					"is-required": "false",
+					"is-read-only": "false",
+					"is-hidden": "true",
+					"technique": "mass spectrometry|NMR spectroscopy",
+					"description": "A fax number for this contact, if available.",
+					"placeholder": "+44 01223 494444, +1-202-555-0130",
+					"rules": [{
+						"condition": "min",
+						"value": "10",
+						"error": "Please provide an international Fax number for this contact. This should be a minimum of 10 numbers long",
+						"type": "string"
+					}]
+				},
+				"address": {
+					"data-type": "string",
+					"sort-order": "7",
+					"is-required": "false",
+					"is-read-only": "false",
+					"is-hidden": "false",
+					"technique": "mass spectrometry|NMR spectroscopy",
+					"description": "The address for this contact, preferably, their institution.",
+					"placeholder": "12 Street, Place, postcode, Country",
+					"rules": [{
+						"condition": "min",
+						"value": "30",
+						"error": "Please provide an institutional ddress for this contact. This should be a minimum of 30 characters long",
+						"type": "string"
+					}]
+				},
+				"affiliation": {
+					"data-type": "string",
+					"sort-order": "8",
+					"is-required": "false",
+					"is-read-only": "false",
+					"is-hidden": "false",
+					"technique": "mass spectrometry|NMR spectroscopy",
+					"description": "The affiliation for this contact.",
+					"placeholder": "Institute or Company Name",
+					"rules": [{
+						"condition": "min",
+						"value": "30",
+						"error": "Please provide an institutional affiliation for this contact. This should be a minimum of 30 characters long",
+						"type": "string"
+					}]
+				},
+				"roles": {
+					"data-type": "ontology",
+					"sort-order": "9",
+					"label": "User role",
+					"is-required": "false",
+					"is-read-only": "false",
+					"is-hidden": "false",
+					"technique": "mass spectrometry|NMR spectroscopy",
+					"description": "The role of the person in this Study.",
+					"placeholder": "Primary investigator",
+					"rules": [],
+					"recommended-ontologies": {
+						"is-forced-ontology": "false",
+						"ontology": {
+							"url": "http://ves-ebi-90.ebi.ac.uk:5000/metabolights/ws/studies/ontology?branch=roles&term="
+						}
+					}
+				}
+			}
+		},
+		"publications": {
+			"publication": {
+				"sort-order": "5",
+				"pubMedID": {
+					"data-type": "integer",
+					"sort-order": "1",
+					"is-required": "false",
+					"is-read-only": "false",
+					"is-hidden": "false",
+					"technique": "mass spectrometry|NMR spectroscopy",
+					"description": "The PubMed ID related to this publication if available (eg.18181111)",
+					"placeholder": "19567706",
+					"rules": [{
+						"condition": "min",
+						"value": "6",
+						"error": "Please only provide the id number, not prefixed with PMID:",
+						"type": "integer"
+					}]
+				},
+				"doi": {
+					"data-type": "string",
+					"sort-order": "2",
+					"is-required": "false",
+					"is-read-only": "false",
+					"is-hidden": "false",
+					"technique": "mass spectrometry|NMR spectroscopy",
+					"description": "The DOI related to this publication if available (eg. 10.1111/111111)",
+					"placeholder": "10.1105/tpc.109.066670",
+					"rules": [{
+						"condition": "pattern",
+						"value": "^10.\\d{4,9}/[-._;()/:A-Z0-9]+$",
+						"error": "Please only provide the DOI, not the URL/http address",
+						"type": "string"
+					}]
+				},
+				"authorList": {
+					"data-type": "string",
+					"sort-order": "4",
+					"is-required": "false",
+					"is-read-only": "false",
+					"is-hidden": "false",
+					"technique": "mass spectrometry|NMR spectroscopy",
+					"description": "The authors who contributed to this publication. As appears in the publication, do not include affiliation",
+					"placeholder": "Joe Doe, Jane Doe,....",
+					"rules": [{
+						"condition": "min",
+						"value": "10",
+						"error": "Please only a list of authors, separated by commas",
+						"type": "string"
+					}]
+				},
+				"title": {
+					"data-type": "string",
+					"sort-order": "3",
+					"is-required": "false",
+					"is-read-only": "false",
+					"is-hidden": "false",
+					"technique": "mass spectrometry|NMR spectroscopy",
+					"description": "The title of the publication.",
+					"placeholder": "The multifunctional enzyme ....",
+					"rules": [{
+						"condition": "min",
+						"value": "25",
+						"error": "Please provide the (tentaive) title of your publication. This should be a minimum of 25 characters long",
+						"type": "string"
+					}]
+				},
+				"status": {
+					"data-type": "ontology",
+					"sort-order": "9",
+					"label": "",
+					"is-required": "false",
+					"is-read-only": "false",
+					"is-hidden": "false",
+					"technique": "mass spectrometry|NMR spectroscopy",
+					"description": "The status of this publication, e.g. Published, Submitted, etc.",
+					"placeholder": "In preparation, Published, etc",
+					"rules": [{
+						"condition": "min",
+						"value": "5",
+						"error": "Please provide the publication status of your publication. This should be a minimum of 5 characters long",
+						"type": "string"
+					}],
+					"recommended-ontologies": {
+						"is-forced-ontology": "true",
+						"ontology": {
+							"url": "http://ves-ebi-90.ebi.ac.uk:5000/metabolights/ws/studies/ontology?branch=publication&term="
+						}
+					}
+				}
+			}
+		},
+		"studyDesignDescriptors": {
+			"data-type": "ontology",
+			"is-required": "true",
+			"is-read-only": "false",
+			"is-hidden": "false",
+			"technique": "mass spectrometry|NMR spectroscopy",
+			"description": "The type of study design being employed, Metabolomics/Metabonomics, Lipidomics, Metabolic Footprinting, Metabolic Fingerprinting, Targeted Profiling, Global Profiling.",
+			"placeholder": "Metabolomics, Lipidomics",
+			"rules": [{
+				"condition": "min",
+				"value": "5",
+				"error": "Please provide a valid ontology term for the factor. This should be a minimum of 5 characters long",
+				"type": "string"
+			}],
+			"recommended-ontologies": {
+				"is-forced-ontology": "false",
+				"ontology": {
+					"url": "http://ves-ebi-90.ebi.ac.uk:5000/metabolights/ws/studies/ontology?branch=design%20descriptor&term="
+				}
+			}
+		},
+		"protocols": {
+			"default": [
+				{
+					"title": "Extraction",
+					"sort-order": "2"
+				},
+				{
+					"title": "Chromatography",
+					"sort-order": "3"
+				},
+				{
+					"title": "Mass spectrometry",
+					"sort-order": "4"
+				},
+				{
+					"title": "NMR spectroscopy",
+					"sort-order": "5"
+				},
+				{
+					"title": "NMR sample",
+					"sort-order": "6"
+				},
+				{
+					"title": "NMR assay",
+					"sort-order": "7"
+				},
+				{
+					"title": "Data transformation",
+					"sort-order": "8"
+				},
+				{
+					"title": "Metabolite identification",
+					"sort-order": "9"
+				},
+				{
+					"title": "Sample collection",
+					"sort-order": "1"
+				}
+			],
+			"protocol": {
+				"name": {
+					"data-type": "string",
+					"sort-order": "3",
+					"is-required": "true",
+					"is-read-only": "false",
+					"is-hidden": "false",
+					"technique": "mass spectrometry|NMR spectroscopy",
+					"description": "The descriptive name of the protocol.",
+					"placeholder": "Protocol name",
+					"rules": [{
+						"condition": "min",
+						"value": "10",
+						"error": "Please provide the name of your protocol. This should be a minimum of 10 characters long",
+						"type": "string"
+					}]
+				},
+				"description": {
+					"data-type": "integer",
+					"sort-order": "1",
+					"is-required": "true",
+					"is-read-only": "false",
+					"is-hidden": "false",
+					"technique": "mass spectrometry|NMR spectroscopy",
+					"description": "A brief description of the protocol. Please using the protocol reported in the publication",
+					"placeholder": "Protocol description",
+					"rules": [{
+						"condition": "min",
+						"value": "60",
+						"error": "Study protocol description should be at least 60 characters long. Please using the protocol reported in the publication",
+						"type": "string"
+					}]
+				}
+			}
+		},
+		"factors": {
+			"factor": {
+				"sort-order": "5",
+				"factorName": {
+					"data-type": "string",
+					"sort-order": "1",
+					"is-required": "false",
+					"is-read-only": "false",
+					"is-hidden": "false",
+					"technique": "mass spectrometry|NMR spectroscopy",
+					"description": "The name of the Factor driving this study, e.g. Dose, Collection Time Point, Compound, and so forth",
+					"placeholder": "Dose, Genotype, Collection time point",
+					"rules": [{
+						"condition": "min",
+						"value": "5",
+						"error": "Please provide an descrition of the factor. This should be a minimum of 5 characters long",
+						"type": "string"
+					}]
+				},
+				"factorType": {
+					"data-type": "ontology",
+					"sort-order": "2",
+					"is-required": "true",
+					"is-read-only": "false",
+					"is-hidden": "false",
+					"technique": "mass spectrometry|NMR spectroscopy",
+					"description": "The type of the Factor driving this study, e.g. EFO:Dose (from Ontology), etc.",
+					"placeholder": "EFO:Dose",
+					"rules": [{
+						"condition": "min",
+						"value": "5",
+						"error": "Please provide a valid ontology term for the factor. This should be a minimum of 5 characters long",
+						"type": "string"
+					}],
+					"recommended-ontologies": {
+						"is-forced-ontology": "false",
+						"ontology": {
+							"url": "http://ves-ebi-90.ebi.ac.uk:5000/metabolights/ws/studies/ontology?branch=factors&term="
+						}
+					}
+				}
+			}
+		},
+		"samples": {
+			"default_order": [
+				{
+					"columnDef": "source",
+					"sticky": "false",
+					"header": "Source Name",
+					"conditional": false,
+					"cell": "(element) => element "
+				},
+				{
+					"columnDef": "protocol",
+					"sticky": "true",
+					"header": "Protocol REF",
+					"cell": "(element) => element.executesProtocol.name"
+				},
+				{
+					"columnDef": "sample",
+					"sticky": "true",
+					"header": "Sample Name",
+					"cell": "(element) => element.outputs[0].name"
+				}
+			],
+			"category": {
+				"data-type": "ontology",
+				"sort-order": "2",
+				"is-required": "true",
+				"is-read-only": "false",
+				"label": "Characterstic",
+				"is-hidden": "false",
+				"technique": "mass spectrometry|NMR spectroscopy",
+				"description": "Characterstic category type. Example: Organism, Organism part, Variant // this needs different examples",
+				"placeholder": "Example: Organism, Organism part, Variant",
+				"rules": [],
+				"recommended-ontologies": {
+					"is-forced-ontology": "false",
+					"ontology": {
+						"url": "http://ves-ebi-90.ebi.ac.uk:5000/metabolights/ws/studies/ontology?branch=factors&term="
+					}
+				}
+			},
+			"unit": {
+				"data-type": "ontology",
+				"sort-order": "2",
+				"is-required": "true",
+				"is-read-only": "false",
+				"label": "Add unit (if applicable)",
+				"is-hidden": "false",
+				"technique": "mass spectrometry|NMR spectroscopy",
+				"description": "Example: hour, percent, microliter etc.",
+				"placeholder": "hour, percent, UO:microliter etc.",
+				"rules": [],
+				"recommended-ontologies": {
+					"is-forced-ontology": "false",
+					"ontology": {
+						"url": "http://ves-ebi-90.ebi.ac.uk:5000/metabolights/ws/studies/ontology?branch=unit&term="
+					}
+				}
+			},
+			"samples": {
+				"label": "New sample names",
+				"data-type": "",
+				"sort-order": "",
+				"is-required": "true",
+				"is-read-only": "false",
+				"is-hidden": "false",
+				"technique": "mass spectrometry|NMR spectroscopy",
+				"description": "Please add sample names one per each line or add coma separated values",
+				"placeholder": "Sample1, Sample2 ...",
+				"rules": []
+			}
+		},
+		"assays": {
+			"assay": {
+				"default_order": [
+					{
+						"columnDef": "sample_name",
+						"sticky": "false",
+						"header": "Sample Name",
+						"conditional": false,
+						"cell": "(element) => element['extraction'] ?  element['extraction'].inputs[0].name : ''"
+					},
+					{
+						"columnDef": "protocol_extraction",
+						"sticky": "false",
+						"header": "Protocol REF",
+						"conditional": false,
+						"id": "extraction",
+						"cell": "(element) => element['extraction'] ? element['extraction'].executesProtocol.name : ''"
+					},
+					{
+						"columnDef": "protocol_chromatography",
+						"sticky": "false",
+						"header": "Protocol REF",
+						"conditional": false,
+						"id": "chromatography",
+						"cell": "(element) => element['chromatography'] ? element['chromatography'].executesProtocol.name : ''"
+					},
+					{
+						"columnDef": "protocol_mass_spectrometry",
+						"sticky": "false",
+						"header": "Protocol REF",
+						"conditional": true,
+						"id": "mass_spectrometry",
+						"cell": "(element) => element['mass_spectrometry'] ? element['mass_spectrometry'].executesProtocol.name : ''"
+					},
+					{
+						"columnDef": "ms_assay_name",
+						"sticky": "false",
+						"header": "MS Assay Name",
+						"conditional": true,
+						"cell": "(element) => element['mass_spectrometry'] ? element['mass_spectrometry'].name : ''"
+					},
+					{
+						"columnDef": "protocol_nmr_spectrometry",
+						"sticky": "false",
+						"header": "Protocol REF",
+						"conditional": true,
+						"id": "nmr_spectrometry",
+						"cell": "(element) => element['nmr_spectrometry'] ? element['nmr_spectrometry'].executesProtocol.name : ''"
+					},
+					{
+						"columnDef": "raw_spectral_data_file",
+						"sticky": "false",
+						"dataType" : "file",
+						"header": "Raw Spectral Data File",
+						"conditional": false,
+						"cell": "(element) => element['raw_spectral_data_file'].filename ? element['raw_spectral_data_file'].filename : ''"
+					},
+					{
+						"columnDef": "protocol_data_transformation",
+						"sticky": "false",
+						"header": "Protocol REF",
+						"conditional": false,
+						"id": "data_transformation",
+						"cell": "(element) => element['data_transformation'].executesProtocol.name ? element['data_transformation'].executesProtocol.name : ''"
+					},
+					{
+						"columnDef": "metabolite_assignment_file",
+						"sticky": "false",
+						"dataType" : "file",
+						"header": "Metabolite Assignment File",
+						"conditional": false,
+						"id": "metabolite_assignment_file",
+						"cell": "(element) => element['metabolite_assignment_file'].filename ? element['metabolite_assignment_file'].filename : ''"
+					}
+				]
+			}
+		}
+	}
+}

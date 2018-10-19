@@ -81,4 +81,3 @@
     </c:if>
     <link rel="stylesheet" type="text/css" href='<spring:url value="/css/ml.css"/>' media="screen" />
 </head>
-

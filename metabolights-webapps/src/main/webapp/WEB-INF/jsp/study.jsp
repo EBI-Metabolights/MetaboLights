@@ -1859,10 +1859,9 @@
 <script>
     $(document).ready(function () {
         $('#redirectToEditorPage').click(function(){
-            var token = "${userApiToken}";
-            localStorage.setItem("apiToken", token);
-//                            window.location.href = ;
-            window.open("${pageContext.request.contextPath}/studyeditor?studyId=${study.studyIdentifier}");
+            var editorToken = ${editorToken};
+            localStorage.setItem("user", JSON.stringify(editorToken));
+            window.open("${pageContext.request.contextPath}/editor/study/${study.studyIdentifier}","_blank",'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
         })
 
         thorApplicationNamespace.loadClaimingInfo();
