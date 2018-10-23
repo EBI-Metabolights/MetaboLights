@@ -309,8 +309,10 @@ public class FileDispatcherController extends AbstractController {
             String studyAccession = study.getStudyIdentifier();
             String studyStatus = study.getStudyStatus().getDescriptiveName();
 
-            if (studyStatus.equals("Public"))
+            if (studyStatus.equals("Public")) { //Not relevant for public studies
                 studyObfuscationCode = "0";
+                obfuscationCode = "0";
+            }
 
             // If the study is not PUBLIC, then all the id's have to match to stop users snooping on other studies
             if (!studyAccession.equals(studyId) || !studyObfuscationCode.equals(obfuscationCode)){
