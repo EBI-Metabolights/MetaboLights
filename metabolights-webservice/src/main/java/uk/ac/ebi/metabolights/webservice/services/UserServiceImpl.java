@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 import sun.misc.BASE64Encoder;
 import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
@@ -87,15 +88,12 @@ public class UserServiceImpl implements UserService{
 //	public List<User> getAll() {return null;}
 
 	@Override
-//	@Transactional(readOnly = true)
+	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String userToken) throws UsernameNotFoundException {
-
 		User user = getUser(userToken);
-
+		logger.info("Got User: " + user.getEmail());
 		SpringUser sUser = new SpringUser(user);
-
 		return sUser;
-
 	}
 
 

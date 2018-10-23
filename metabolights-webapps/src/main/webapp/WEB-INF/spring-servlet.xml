@@ -278,7 +278,7 @@
 
     <bean id="contactUsTemplate" class="org.springframework.mail.SimpleMailMessage">
       <property name="subject" value="MetaboLights Website General Request"/>
-      <property name="to"><list><value>${mtblAdminEmailAddress}</value></list></property>
+      <property name="to"><list><value>"metabolights-help@ebi.ac.uk"</value></list></property>
     </bean>
 
     <!--<bean id="queueManager" class="uk.ac.ebi.metabolights.model.queue.SubmissionQueueManager"/>-->

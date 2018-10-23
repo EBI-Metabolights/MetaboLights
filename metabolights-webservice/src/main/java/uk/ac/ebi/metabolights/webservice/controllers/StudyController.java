@@ -109,7 +109,7 @@ public class StudyController extends BasicController{
 	@ResponseBody
 	public StudyRestResponse getStudyByObfuscationCode(@PathVariable("obfuscationcode") String obfuscationCode) throws DAOException {
 
-		logger.info("Requesting study by obfuscation code " + obfuscationCode + " to the webservice");
+		logger.info("Requesting study by obfuscation code " + obfuscationCode + " from the webservice");
 
 
 		return getStudy(null, false, obfuscationCode);
@@ -1226,7 +1226,6 @@ public class StudyController extends BasicController{
 	public RestResponse<String> getPermissions(@PathVariable("studyIdentifier") String studyIdentifier, HttpServletRequest request, HttpServletResponse response) throws DAOException {
 
 		logger.info("Requesting " + studyIdentifier + " permission rights");
-
         RestResponse<String> restResponse = new RestResponse<String>();
 
         // check if the user exists and valid
@@ -1235,60 +1234,46 @@ public class StudyController extends BasicController{
         try {
 
             usi = new UserServiceImpl();
-
             String token = request.getParameter("token");
-
             User user = usi.lookupByToken(token);
+
+            Study study = getStudyDAO().getStudy(studyIdentifier, token);
+            String studyLocation = study.getStudyLocation();
+            String obfuscationCode = study.getObfuscationCode();
+            String studyStatus = study.getStudyStatus().getDescription();
+            String add_study_info = ", \"studyLocation\": \""+studyLocation+"\", \"obfuscationCode\": \""+obfuscationCode+"\", \"releaseDate\": \"" + study.getStudyPublicReleaseDate() + "\", \"submissionDate\": \""+ study.getStudySubmissionDate()+"\", \"studyStatus\": \""+studyStatus+"\"";
 
             if (user.getEmail() == null || token == null){
 
-                Study study = getStudyDAO().getStudy(studyIdentifier);
-
-                if(study.getStudyStatus() == Study.StudyStatus.PUBLIC){
-
-                    restResponse.setContent( "{ \"read\" : true, \"write\": false  }" );
-
+                if (study.getStudyStatus() == Study.StudyStatus.PUBLIC){
+                    restResponse.setContent( "{ \"read\" : true, \"write\": false" + add_study_info + " }" );
                     return restResponse;
-
-                }else {
-
-                    restResponse.setContent( "{ \"read\" : false, \"write\": false  }"  );
-
+                } else {
+                    restResponse.setContent( "{ \"read\" : false, \"write\": false" + add_study_info + "  }"  );
                     response.setStatus(Response.Status.FORBIDDEN.getStatusCode());
-
                     return restResponse;
                 }
 
-            }else{
+            } else {
 
                 if (user.isCurator()){
-
-                    restResponse.setContent( "{ \"read\" : true, \"write\": true  }" );
-
+                    restResponse.setContent( "{ \"read\" : true, \"write\": true" + add_study_info + " }" );
                     return restResponse;
+                } else {
 
-                }else{
-
-                    Study study = getStudyDAO().getStudy(studyIdentifier,user.getApiToken());
-
+                    //Study study = getStudyDAO().getStudy(studyIdentifier,user.getApiToken());
                     boolean userOwnstudy = doesUserOwnsTheStudy(user.getUserName(), study);
 
                     if (userOwnstudy && study.getStudyStatus() == Study.StudyStatus.SUBMITTED){
-
-                        restResponse.setContent( "{ \"read\" : true, \"write\": true  }"  );
-
+                        restResponse.setContent( "{ \"read\" : true, \"write\": true" + add_study_info + " }"  );
                         return restResponse;
 
-                    }else if(userOwnstudy && study.getStudyStatus() != Study.StudyStatus.SUBMITTED){
-
-                        restResponse.setContent( "{ \"read\" : true, \"write\": false  }" );
-
+                    } else if(userOwnstudy && study.getStudyStatus() != Study.StudyStatus.SUBMITTED){
+                        restResponse.setContent( "{ \"read\" : true, \"write\": false" + add_study_info + " }" );
                         return restResponse;
 
-                    }else if(!userOwnstudy && study.getStudyStatus() == Study.StudyStatus.PUBLIC){
-
-                        restResponse.setContent( "{ \"read\" : true, \"write\": false  }"  );
-
+                    } else if(!userOwnstudy && study.getStudyStatus() == Study.StudyStatus.PUBLIC){
+                        restResponse.setContent( "{ \"read\" : true, \"write\": false" + add_study_info + " }" );
                         return restResponse;
 
                     }
@@ -1298,18 +1283,14 @@ public class StudyController extends BasicController{
             }
 
         } catch (DAOException e) {
-
             response.setStatus(Response.Status.FORBIDDEN.getStatusCode());
-
             return restResponse;
-
         } catch (IsaTabException e) {
-
             e.printStackTrace();
-
         }
 
-        restResponse.setContent( "{ 'read' : false, 'write': false  }"  );
+        restResponse.setContent(
+                "{ 'read' : false, 'write': false, 'studyLocation': none, 'obfuscationCode': none, 'releaseDate': none, 'submissionDate': none, 'studyStatus': none }" );
 
         return restResponse;
 	}
