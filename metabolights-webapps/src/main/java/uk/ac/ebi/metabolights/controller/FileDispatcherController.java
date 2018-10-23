@@ -293,11 +293,26 @@ public class FileDispatcherController extends AbstractController {
 
             // Using the WebService-client to get the study //TODO, not the fastest, switch to direct access
             MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
-            RestResponse<Study> studyRestResponse = wsClient.getStudybyObfuscationCode(obfuscationCode);
-            Study study = studyRestResponse.getContent();
+
+            Study study = null;
+            RestResponse<Study> studyRestResponse = null;
+            if (obfuscationCode == null || obfuscationCode.equals("0")) {
+                logger.info("Obfuscation code is null or 0, getting the study by study id " + studyId);
+                studyRestResponse = wsClient.getStudy(studyId);
+            } else {
+                logger.info("Obfuscation code is " + obfuscationCode);
+                studyRestResponse = wsClient.getStudybyObfuscationCode(obfuscationCode);
+            }
+
+            study = studyRestResponse.getContent();
             String studyObfuscationCode = study.getObfuscationCode();
             String studyAccession = study.getStudyIdentifier();
+            String studyStatus = study.getStudyStatus().getDescriptiveName();
 
+            if (studyStatus.equals("Public"))
+                studyObfuscationCode = "0";
+
+            // If the study is not PUBLIC, then all the id's have to match to stop users snooping on other studies
             if (!studyAccession.equals(studyId) || !studyObfuscationCode.equals(obfuscationCode)){
                 logger.info("Unauthorised access for study " + studyId + " obfuscation code is for study " +studyAccession);
                 System.out.println("Unauthorised access for study " + studyId + " obfuscation code is for another study");
