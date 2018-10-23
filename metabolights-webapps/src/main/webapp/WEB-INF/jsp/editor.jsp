@@ -30,6 +30,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.js" ></script>
+<script type="text/javascript" src="//code.jquery.com/ui/1.9.2/jquery-ui.min.js" charset="utf-8"></script>
+
+<script type="text/javascript" src="./assets/aspera/asperaweb-4.js" charset="utf-8"></script>
+<script type="text/javascript" src="./assets/aspera/connectinstaller-4.js" charset="utf-8"></script>
+<script type="text/javascript" src="./assets/aspera/jquery-ui.js" charset="utf-8"></script>
+<script type="text/javascript" src="./assets/aspera/jquery-namespace.js" charset="utf-8"></script>
+<script type="text/javascript" src="./assets/aspera/ml-aspera-config.js" charset="utf-8"></script>
+<script type="text/javascript" src="./assets/aspera/ml-aspera.js" charset="utf-8"></script>
+<script type="text/javascript" src="./assets/aspera/install.js" charset="utf-8"></script>
+
+
 <%--<script>--%>
     <%--var editorToken = ${editorToken};--%>
     <%--localStorage.setItem("user", JSON.stringify(editorToken));--%>

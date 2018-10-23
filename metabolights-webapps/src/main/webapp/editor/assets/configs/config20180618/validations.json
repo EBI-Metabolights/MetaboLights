@@ -397,6 +397,27 @@
 						"error": "Study protocol description should be at least 60 characters long. Please using the protocol reported in the publication",
 						"type": "string"
 					}]
+				},
+				"parameterName": {
+					"data-type": "ontology",
+					"sort-order": "2",
+					"is-required": "true",
+					"is-read-only": "false",
+					"is-hidden": "false",
+					"description": "",
+					"placeholder": "Post Extraction / Derivatization",
+					"rules": [{
+						"condition": "min",
+						"value": "5",
+						"error": "Please provide a valid ontology term for the factor. This should be a minimum of 5 characters long",
+						"type": "string"
+					}],
+					"recommended-ontologies": {
+						"is-forced-ontology": "false",
+						"ontology": {
+							"url": "http://ves-ebi-90.ebi.ac.uk:5000/metabolights/ws/studies/ontology?branch=factors&term="
+						}
+					}
 				}
 			}
 		},
@@ -529,6 +550,7 @@
 						"sticky": "false",
 						"header": "Protocol REF",
 						"conditional": false,
+						"dataType" : "protocol",
 						"id": "extraction",
 						"cell": "(element) => element['extraction'] ? element['extraction'].executesProtocol.name : ''"
 					},
@@ -537,6 +559,7 @@
 						"sticky": "false",
 						"header": "Protocol REF",
 						"conditional": false,
+						"dataType" : "protocol",
 						"id": "chromatography",
 						"cell": "(element) => element['chromatography'] ? element['chromatography'].executesProtocol.name : ''"
 					},
@@ -545,6 +568,7 @@
 						"sticky": "false",
 						"header": "Protocol REF",
 						"conditional": true,
+						"dataType" : "protocol",
 						"id": "mass_spectrometry",
 						"cell": "(element) => element['mass_spectrometry'] ? element['mass_spectrometry'].executesProtocol.name : ''"
 					},
@@ -560,6 +584,7 @@
 						"sticky": "false",
 						"header": "Protocol REF",
 						"conditional": true,
+						"dataType" : "protocol",
 						"id": "nmr_spectrometry",
 						"cell": "(element) => element['nmr_spectrometry'] ? element['nmr_spectrometry'].executesProtocol.name : ''"
 					},
@@ -576,7 +601,17 @@
 						"sticky": "false",
 						"header": "Protocol REF",
 						"conditional": false,
+						"dataType" : "protocol",
 						"id": "data_transformation",
+						"cell": "(element) => element['data_transformation'].executesProtocol.name ? element['data_transformation'].executesProtocol.name : ''"
+					},
+					{
+						"columnDef": "metabolite_identification",
+						"sticky": "false",
+						"header": "Protocol REF",
+						"conditional": false,
+						"dataType" : "protocol",
+						"id": "metabolite_identification",
 						"cell": "(element) => element['data_transformation'].executesProtocol.name ? element['data_transformation'].executesProtocol.name : ''"
 					},
 					{
@@ -589,6 +624,18 @@
 						"cell": "(element) => element['metabolite_assignment_file'].filename ? element['metabolite_assignment_file'].filename : ''"
 					}
 				]
+			}
+		},
+		"upload": {
+			"aspera" : {
+				"user" : "mtblight",
+				"secret" : "gs4qYabh",
+				"server" : "hx-fasp-1.ebi.ac.uk"
+			},
+			"ftp" : {
+				"user" : "mtblight",
+				"secret" : "gs4qYabh",
+				"server" : "ftp-private.ebi.ac.uk"
 			}
 		}
 	}

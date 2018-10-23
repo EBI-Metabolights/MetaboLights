@@ -88,7 +88,7 @@ var AppRoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "@import \"https://cdn.materialdesignicons.com/2.1.19/css/materialdesignicons.min.css\";\n\n.card-heading{\n\tpadding: 10px 20px; \n\tmin-height: 3em;\n\tbox-shadow: 0 1px 2px rgba(10, 10, 10, 0.1);\n}\n"
+module.exports = "@import \"https://cdn.materialdesignicons.com/2.1.19/css/materialdesignicons.min.css\";\n\n.card-heading{\n\tpadding: 10px 20px; \n\tmin-height: 3em;\n\tbox-shadow: 0 1px 2px rgba(10, 10, 10, 0.1);\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvYXBwLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEscUZBQXFGOztBQUVyRjtDQUNDLG1CQUFtQjtDQUNuQixnQkFBZ0I7Q0FDaEIsNENBQTRDO0NBQzVDIiwiZmlsZSI6InNyYy9hcHAvYXBwLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJAaW1wb3J0IFwiaHR0cHM6Ly9jZG4ubWF0ZXJpYWxkZXNpZ25pY29ucy5jb20vMi4xLjE5L2Nzcy9tYXRlcmlhbGRlc2lnbmljb25zLm1pbi5jc3NcIjtcblxuLmNhcmQtaGVhZGluZ3tcblx0cGFkZGluZzogMTBweCAyMHB4OyBcblx0bWluLWhlaWdodDogM2VtO1xuXHRib3gtc2hhZG93OiAwIDFweCAycHggcmdiYSgxMCwgMTAsIDEwLCAwLjEpO1xufVxuIl19 */"
 
 /***/ }),
 
@@ -215,6 +215,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var ngx_wig__WEBPACK_IMPORTED_MODULE_57___default = /*#__PURE__*/__webpack_require__.n(ngx_wig__WEBPACK_IMPORTED_MODULE_57__);
 /* harmony import */ var _components_study_organisms_organisms_component__WEBPACK_IMPORTED_MODULE_58__ = __webpack_require__(/*! ./components/study/organisms/organisms.component */ "./src/app/components/study/organisms/organisms.component.ts");
 /* harmony import */ var _components_study_organisms_organism_organism_component__WEBPACK_IMPORTED_MODULE_59__ = __webpack_require__(/*! ./components/study/organisms/organism/organism.component */ "./src/app/components/study/organisms/organism/organism.component.ts");
+/* harmony import */ var _components_tour_tour_component__WEBPACK_IMPORTED_MODULE_60__ = __webpack_require__(/*! ./components/tour/tour.component */ "./src/app/components/tour/tour.component.ts");
+/* harmony import */ var _components_shared_upload_ftp_ftp_component__WEBPACK_IMPORTED_MODULE_61__ = __webpack_require__(/*! ./components/shared/upload/ftp/ftp.component */ "./src/app/components/shared/upload/ftp/ftp.component.ts");
+/* harmony import */ var _components_shared_upload_aspera_aspera_component__WEBPACK_IMPORTED_MODULE_62__ = __webpack_require__(/*! ./components/shared/upload/aspera/aspera.component */ "./src/app/components/shared/upload/aspera/aspera.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -285,6 +288,9 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
+
+
 var AppModule = /** @class */ (function () {
     function AppModule(ngRedux, devTools, ngReduxRouter) {
         var enhancers = (Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["isDevMode"])() && devTools.enhancer() != null) ? [devTools.enhancer()] : [];
@@ -328,7 +334,10 @@ var AppModule = /** @class */ (function () {
                 _components_console_console_component__WEBPACK_IMPORTED_MODULE_55__["ConsoleComponent"],
                 _components_shared_nav_bar_nav_bar_component__WEBPACK_IMPORTED_MODULE_56__["NavBarComponent"],
                 _components_study_organisms_organisms_component__WEBPACK_IMPORTED_MODULE_58__["OrganismsComponent"],
-                _components_study_organisms_organism_organism_component__WEBPACK_IMPORTED_MODULE_59__["OrganismComponent"]
+                _components_study_organisms_organism_organism_component__WEBPACK_IMPORTED_MODULE_59__["OrganismComponent"],
+                _components_tour_tour_component__WEBPACK_IMPORTED_MODULE_60__["TourComponent"],
+                _components_shared_upload_ftp_ftp_component__WEBPACK_IMPORTED_MODULE_61__["FtpComponent"],
+                _components_shared_upload_aspera_aspera_component__WEBPACK_IMPORTED_MODULE_62__["AsperaComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -454,7 +463,7 @@ var AuthGuard = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".is-vertical-center {\n  display: flex;\n  align-items: center;\n}\n\n.panel-block:hover{\n\tbackground-color: white;\n}\n\n.logout-link{\n\tfont-size: 0.8em;\n\tfloat: right;\n\tpadding: 3px 10px;\n\tbackground-color: #3676D9;\n\tmargin: 1px;\n\tcolor: #fff;\n\tmargin-top: -2em;\n}\n\n.logout-link:hover{\n\tbackground-color: #1f58ad;\n}"
+module.exports = ".is-vertical-center {\n  display: flex;\n  align-items: center;\n}\n\n.panel-block:hover{\n\tbackground-color: white;\n}\n\n.logout-link{\n\tfont-size: 0.8em;\n\tfloat: right;\n\tpadding: 3px 10px;\n\tbackground-color: #3676D9;\n\tmargin: 1px;\n\tcolor: #fff;\n\tmargin-top: -2em;\n}\n\n.logout-link:hover{\n\tbackground-color: #1f58ad;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9jb25zb2xlL2NvbnNvbGUuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLGNBQWM7RUFDZCxvQkFBb0I7Q0FDckI7O0FBRUQ7Q0FDQyx3QkFBd0I7Q0FDeEI7O0FBRUQ7Q0FDQyxpQkFBaUI7Q0FDakIsYUFBYTtDQUNiLGtCQUFrQjtDQUNsQiwwQkFBMEI7Q0FDMUIsWUFBWTtDQUNaLFlBQVk7Q0FDWixpQkFBaUI7Q0FDakI7O0FBRUQ7Q0FDQywwQkFBMEI7Q0FDMUIiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL2NvbnNvbGUvY29uc29sZS5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmlzLXZlcnRpY2FsLWNlbnRlciB7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG59XG5cbi5wYW5lbC1ibG9jazpob3Zlcntcblx0YmFja2dyb3VuZC1jb2xvcjogd2hpdGU7XG59XG5cbi5sb2dvdXQtbGlua3tcblx0Zm9udC1zaXplOiAwLjhlbTtcblx0ZmxvYXQ6IHJpZ2h0O1xuXHRwYWRkaW5nOiAzcHggMTBweDtcblx0YmFja2dyb3VuZC1jb2xvcjogIzM2NzZEOTtcblx0bWFyZ2luOiAxcHg7XG5cdGNvbG9yOiAjZmZmO1xuXHRtYXJnaW4tdG9wOiAtMmVtO1xufVxuXG4ubG9nb3V0LWxpbms6aG92ZXJ7XG5cdGJhY2tncm91bmQtY29sb3I6ICMxZjU4YWQ7XG59Il19 */"
 
 /***/ }),
 
@@ -567,7 +576,7 @@ var ConsoleComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".is-vertical-center {\n  display: flex;\n  align-items: center;\n}\n\n.display-message-wrapper{\n\tpadding: 5em;\n}\n\n.display-message-title{\n\tfont-size: 8em;\n\tdisplay: block;\n\tmargin-bottom: 0;\n\tline-height: 1em;\n}\n\n.display-message-content{\n\tfont-size: 1em;\n\ttext-transform:\tuppercase;\n\tletter-spacing: 0.5em;\n}"
+module.exports = ".is-vertical-center {\n  display: flex;\n  align-items: center;\n}\n\n.display-message-wrapper{\n\tpadding: 5em;\n}\n\n.display-message-title{\n\tfont-size: 8em;\n\tdisplay: block;\n\tmargin-bottom: 0;\n\tline-height: 1em;\n}\n\n.display-message-content{\n\tfont-size: 1em;\n\ttext-transform:\tuppercase;\n\tletter-spacing: 0.5em;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9lcnJvcnMvcGFnZS1ub3QtZm91bmQvcGFnZS1ub3QtZm91bmQuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLGNBQWM7RUFDZCxvQkFBb0I7Q0FDckI7O0FBRUQ7Q0FDQyxhQUFhO0NBQ2I7O0FBRUQ7Q0FDQyxlQUFlO0NBQ2YsZUFBZTtDQUNmLGlCQUFpQjtDQUNqQixpQkFBaUI7Q0FDakI7O0FBRUQ7Q0FDQyxlQUFlO0NBQ2YsMEJBQTBCO0NBQzFCLHNCQUFzQjtDQUN0QiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvZXJyb3JzL3BhZ2Utbm90LWZvdW5kL3BhZ2Utbm90LWZvdW5kLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuaXMtdmVydGljYWwtY2VudGVyIHtcbiAgZGlzcGxheTogZmxleDtcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbn1cblxuLmRpc3BsYXktbWVzc2FnZS13cmFwcGVye1xuXHRwYWRkaW5nOiA1ZW07XG59XG5cbi5kaXNwbGF5LW1lc3NhZ2UtdGl0bGV7XG5cdGZvbnQtc2l6ZTogOGVtO1xuXHRkaXNwbGF5OiBibG9jaztcblx0bWFyZ2luLWJvdHRvbTogMDtcblx0bGluZS1oZWlnaHQ6IDFlbTtcbn1cblxuLmRpc3BsYXktbWVzc2FnZS1jb250ZW50e1xuXHRmb250LXNpemU6IDFlbTtcblx0dGV4dC10cmFuc2Zvcm06XHR1cHBlcmNhc2U7XG5cdGxldHRlci1zcGFjaW5nOiAwLjVlbTtcbn0iXX0= */"
 
 /***/ }),
 
@@ -635,7 +644,7 @@ var PageNotFoundComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvZXJyb3JzL3NlcnZlci1lcnJvci9zZXJ2ZXItZXJyb3IuY29tcG9uZW50LmNzcyJ9 */"
 
 /***/ }),
 
@@ -698,7 +707,7 @@ var ServerErrorComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".modal-background {\n    background-color: rgba(255, 255, 255, 0.95);\n}\n"
+module.exports = ".modal-background {\n    background-color: rgba(255, 255, 255, 0.95);\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9sb2FkaW5nL2xvYWRpbmcuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtJQUNJLDRDQUE0QztDQUMvQyIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvbG9hZGluZy9sb2FkaW5nLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIubW9kYWwtYmFja2dyb3VuZCB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogcmdiYSgyNTUsIDI1NSwgMjU1LCAwLjk1KTtcbn1cbiJdfQ== */"
 
 /***/ }),
 
@@ -772,7 +781,7 @@ var LoadingComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".vertical-center{\n\tdisplay: flex;\n\theight: 100vh;\n\tjustify-content: center;\n\talign-items: center;\n}"
+module.exports = ".vertical-center{\n\tdisplay: flex;\n\theight: 100vh;\n\tjustify-content: center;\n\talign-items: center;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9sb2dpbi9sb2dpbi5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0NBQ0MsY0FBYztDQUNkLGNBQWM7Q0FDZCx3QkFBd0I7Q0FDeEIsb0JBQW9CO0NBQ3BCIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy9sb2dpbi9sb2dpbi5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLnZlcnRpY2FsLWNlbnRlcntcblx0ZGlzcGxheTogZmxleDtcblx0aGVpZ2h0OiAxMDB2aDtcblx0anVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG5cdGFsaWduLWl0ZW1zOiBjZW50ZXI7XG59Il19 */"
 
 /***/ }),
 
@@ -878,7 +887,7 @@ var DISABLE_LOADING = 'DISABLE_LOADING';
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "p{\n\tmargin-bottom: 10px;\n}"
+module.exports = "p{\n\tmargin-bottom: 10px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9zaGFyZWQvY29udGVudC9jb250ZW50LmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7Q0FDQyxvQkFBb0I7Q0FDcEIiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL3NoYXJlZC9jb250ZW50L2NvbnRlbnQuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbInB7XG5cdG1hcmdpbi1ib3R0b206IDEwcHg7XG59Il19 */"
 
 /***/ }),
 
@@ -976,7 +985,7 @@ var ContentComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvc2hhcmVkL2Rvd25sb2FkL2Rvd25sb2FkLmNvbXBvbmVudC5jc3MifQ== */"
 
 /***/ }),
 
@@ -987,7 +996,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<a (click)=\"download()\" class=\"button is-small is-light\">\n\t<mat-icon>cloud_download</mat-icon> Download\n</a>"
+module.exports = "<a target=\"_blank\" (click)=\"download()\" class=\"button is-small is-light\">\n\t<mat-icon>cloud_download</mat-icon> Download\n</a>"
 
 /***/ }),
 
@@ -1003,9 +1012,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DownloadComponent", function() { return DownloadComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _services_metabolights_metabolights_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../services/metabolights/metabolights.service */ "./src/app/services/metabolights/metabolights.service.ts");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! toastr */ "./node_modules/toastr/toastr.js");
-/* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(toastr__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _angular_redux_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular-redux/store */ "./node_modules/@angular-redux/store/lib/src/index.js");
+/* harmony import */ var _angular_redux_store__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_angular_redux_store__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! toastr */ "./node_modules/toastr/toastr.js");
+/* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(toastr__WEBPACK_IMPORTED_MODULE_4__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1019,43 +1030,56 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var DownloadComponent = /** @class */ (function () {
     function DownloadComponent(fb, metabolightsService) {
+        var _this = this;
         this.fb = fb;
         this.metabolightsService = metabolightsService;
+        this.domain = "";
+        this.code = "";
+        this.obfuscationCode.subscribe(function (value) {
+            _this.code = value;
+        });
     }
     DownloadComponent.prototype.ngOnInit = function () {
     };
     DownloadComponent.prototype.download = function () {
-        this.metabolightsService.downloadFile(this.file).subscribe(function (res) {
-            toastr__WEBPACK_IMPORTED_MODULE_3__["success"]("File downloaded successfully", "Success", {
-                "timeOut": "2500",
-                "positionClass": "toast-top-center",
-                "preventDuplicates": true,
-                "extendedTimeOut": 0,
-                "tapToDismiss": false
+        if (this.code && this.code != null) {
+            this.metabolightsService.downloadFile(this.file, this.code).subscribe(function (res) {
+                toastr__WEBPACK_IMPORTED_MODULE_4__["success"]("File downloaded successfully", "Success", {
+                    "timeOut": "2500",
+                    "positionClass": "toast-top-center",
+                    "preventDuplicates": true,
+                    "extendedTimeOut": 0,
+                    "tapToDismiss": false
+                });
+            }, function (err) {
+                toastr__WEBPACK_IMPORTED_MODULE_4__["error"]("Error downloading the file", "Error", {
+                    "timeOut": "2500",
+                    "positionClass": "toast-top-center",
+                    "preventDuplicates": true,
+                    "extendedTimeOut": 0,
+                    "tapToDismiss": false
+                });
             });
-        }, function (err) {
-            toastr__WEBPACK_IMPORTED_MODULE_3__["error"]("Error downloading the file", "Error", {
-                "timeOut": "2500",
-                "positionClass": "toast-top-center",
-                "preventDuplicates": true,
-                "extendedTimeOut": 0,
-                "tapToDismiss": false
-            });
-        });
+        }
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])('value'),
         __metadata("design:type", String)
     ], DownloadComponent.prototype, "file", void 0);
+    __decorate([
+        Object(_angular_redux_store__WEBPACK_IMPORTED_MODULE_2__["select"])(function (state) { return state.study.obfuscationCode; }),
+        __metadata("design:type", Object)
+    ], DownloadComponent.prototype, "obfuscationCode", void 0);
     DownloadComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'mtbls-download',
             template: __webpack_require__(/*! ./download.component.html */ "./src/app/components/shared/download/download.component.html"),
             styles: [__webpack_require__(/*! ./download.component.css */ "./src/app/components/shared/download/download.component.css")]
         }),
-        __metadata("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"], _services_metabolights_metabolights_service__WEBPACK_IMPORTED_MODULE_1__["MetabolightsService"]])
+        __metadata("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormBuilder"], _services_metabolights_metabolights_service__WEBPACK_IMPORTED_MODULE_1__["MetabolightsService"]])
     ], DownloadComponent);
     return DownloadComponent;
 }());
@@ -1071,7 +1095,7 @@ var DownloadComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".navbar {\n    min-height: 1.25rem !important;\n}\n"
+module.exports = ".navbar {\n    min-height: 1.25rem !important;\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9zaGFyZWQvbmF2LWJhci9uYXYtYmFyLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSwrQkFBK0I7Q0FDbEMiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL3NoYXJlZC9uYXYtYmFyL25hdi1iYXIuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5uYXZiYXIge1xuICAgIG1pbi1oZWlnaHQ6IDEuMjVyZW0gIWltcG9ydGFudDtcbn1cbiJdfQ== */"
 
 /***/ }),
 
@@ -1219,6 +1243,279 @@ function sharedReducer(state, action) {
 
 /***/ }),
 
+/***/ "./src/app/components/shared/upload/aspera/aspera.component.css":
+/*!**********************************************************************!*\
+  !*** ./src/app/components/shared/upload/aspera/aspera.component.css ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "button.is-fullwidth{\n\tpadding-top: 1rem;\n\tpadding-bottom: 1rem;\n\theight: auto !important;\n}\n\n.content-wrapper{\n\tmin-height: 40vh;\n}\n\n.vc{\n\tdisplay: flex;\n\talign-items: center;\n\tjustify-content: center;\n}\n\np{\n\tpadding: 10px 15px;\n}\n\ncode{\n\tdisplay: block;\n\tborder-radius: 4px;\n\tbackground-color: #333;\n\tpadding: 10px;\n\tletter-spacing: 0.1px;\n\tcolor: #ecf319;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9zaGFyZWQvdXBsb2FkL2FzcGVyYS9hc3BlcmEuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtDQUNDLGtCQUFrQjtDQUNsQixxQkFBcUI7Q0FDckIsd0JBQXdCO0NBQ3hCOztBQUVEO0NBQ0MsaUJBQWlCO0NBQ2pCOztBQUVEO0NBQ0MsY0FBYztDQUNkLG9CQUFvQjtDQUNwQix3QkFBd0I7Q0FDeEI7O0FBRUQ7Q0FDQyxtQkFBbUI7Q0FDbkI7O0FBRUQ7Q0FDQyxlQUFlO0NBQ2YsbUJBQW1CO0NBQ25CLHVCQUF1QjtDQUN2QixjQUFjO0NBQ2Qsc0JBQXNCO0NBQ3RCLGVBQWU7Q0FDZiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvc2hhcmVkL3VwbG9hZC9hc3BlcmEvYXNwZXJhLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJidXR0b24uaXMtZnVsbHdpZHRoe1xuXHRwYWRkaW5nLXRvcDogMXJlbTtcblx0cGFkZGluZy1ib3R0b206IDFyZW07XG5cdGhlaWdodDogYXV0byAhaW1wb3J0YW50O1xufVxuXG4uY29udGVudC13cmFwcGVye1xuXHRtaW4taGVpZ2h0OiA0MHZoO1xufVxuXG4udmN7XG5cdGRpc3BsYXk6IGZsZXg7XG5cdGFsaWduLWl0ZW1zOiBjZW50ZXI7XG5cdGp1c3RpZnktY29udGVudDogY2VudGVyO1xufVxuXG5we1xuXHRwYWRkaW5nOiAxMHB4IDE1cHg7XG59XG5cbmNvZGV7XG5cdGRpc3BsYXk6IGJsb2NrO1xuXHRib3JkZXItcmFkaXVzOiA0cHg7XG5cdGJhY2tncm91bmQtY29sb3I6ICMzMzM7XG5cdHBhZGRpbmc6IDEwcHg7XG5cdGxldHRlci1zcGFjaW5nOiAwLjFweDtcblx0Y29sb3I6ICNlY2YzMTk7XG59Il19 */"
+
+/***/ }),
+
+/***/ "./src/app/components/shared/upload/aspera/aspera.component.html":
+/*!***********************************************************************!*\
+  !*** ./src/app/components/shared/upload/aspera/aspera.component.html ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"field\">\n\t<div class=\"control\">\n\t\t<button (click)=\"openUploadModal()\" class=\"button is-outlined is-link is-fullwidth\">Aspera Upload</button>\n\t</div>\n\t<p class=\"help\">Aspera is a faster alternative to FTP and provides greater user control enabling individual transfer rates and bandwidth sharing to be set. (RECOMMENDED)</p>\n</div>\n<div class=\"modal\" [ngClass]=\"{'is-active': isAsperaUploadModalOpen}\">\n\t<div class=\"modal-background\"></div>\n\t<div class=\"modal-card\">\n\t\t<section class=\"modal-card-body\">\n\t\t\t<div class=\"tabs is-toggle is-fullwidth\">\n\t\t\t  <ul>\n\t\t\t     <li (click)=\"changeTab('plugin')\" [ngClass]=\"selectedTab == 'plugin' ? 'is-active' : ''\"><a>Aspera Connect web browser plug-in</a></li>\n\t\t\t    <li (click)=\"changeTab('commandline')\"  [ngClass]=\"selectedTab != 'plugin' ? 'is-active' : ''\"><a>Aspera Command line client</a></li>\n\t\t\t  </ul>\n\t\t\t</div>\n\t\t\t<span *ngIf=\"selectedTab == 'plugin'; else showCommandLine\">\n\t\t\t\t<div class=\"content-wrapper has-text-centered vc\">\n\t\t\t\t\t<div><br>\n\t\t\t\t\t\t<img src=\"assets/img/aspera.jpeg\" style=\"height: 100px\"><br><br>\n\t\t\t\t\t\t<button (click)=\"asperaUpload()\" class=\"button is-success\">Upload now</button>\n\t\t\t\t\t\t<br><br><br>\n\t\t\t\t\t\t<small class=\"has-text-grey\">\n\t\t\t\t\t\t\t<b><i>Install plugin from <a target=\"_blank\" href=\"https://downloads.asperasoft.com/en/downloads\">here</a></i></b>\n\t\t\t\t\t\t</small>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</span>\n\t\t\t<ng-template #showCommandLine>\n\t\t\t\t<div class=\"content-wrapper\">\n\t\t\t\t\t<code>\n\t\t\t\t\t\t$ ascp -QT -P 33001 -L- -l 300M < your_local_data_folder > mtblight@hx-fasp-1.ebi.ac.uk:{{ uploadLocation | async }}\n\t\t\t\t\t</code>\n\t\t\t\t\t<small>\n\t\t\t\t\t\t<br>\n\t\t\t\t\t\t<b>Step 1: Install Aspera ascp command line client</b><br>\n\t\t\t\t\t\tThe Aspera ascp command line client can be downloaded <i><a href=\"http://downloads.asperasoft.com/downloads\" target=\"_blank\">here</a></i>. Please select *Aspera Connect*. The ascp command line client is distributed as part of the aspera connect high-performance transfer browser plug-in and is free to use.<br><br>\n\t\t\t\t\t\t<b>Step 2: Navigate to the folder where the Aspera command line client program ascp is installed.</b><br>\n\t\t\t\t\t\tThe location of the 'ascp' program in the filesystem:<br>\n\t\t\t\t\t\t<span class=\"col-md-12\">\n\t\t\t\t\t\t\t<p><b>Mac:</b> on the desktop go <code>cd /Applications/Aspera\\ Connect.app/Contents/Resources/</code> there you'll see the command line utilities where you're going to use 'ascp'.</p>\n\t\t\t\t\t\t\t<p><b>Windows:</b> the downloaded files are a bit hidden. For instance in Windows7 the ascp.exe is located in the users home directory in: <code>AppData\\Local\\Programs\\Aspera\\Aspera Connect\\bin\\ascp.exe</code></p>\n\t\t\t\t\t\t\t<p><b>Linux:</b> should be in your user's home directory, <code>cd /home/username/.aspera/connect/bin/</code> there you'll see the command line utilities where you're going to use 'ascp'.</p>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t</small>\n\t\t\t\t</div>\n\t\t\t</ng-template>\t\n\t\t</section>\n\t\t<footer class=\"modal-card-foot\">\n\t\t\t<div class=\"columns is-gapless full-width\">\n\t\t\t\t<div class=\"column is-full has-text-right\">\n\t\t\t\t\t<button (click)='closeUploadModal()' class=\"button is-default\">Close</button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</footer>\n\t</div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/components/shared/upload/aspera/aspera.component.ts":
+/*!*********************************************************************!*\
+  !*** ./src/app/components/shared/upload/aspera/aspera.component.ts ***!
+  \*********************************************************************/
+/*! exports provided: AsperaComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AsperaComponent", function() { return AsperaComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _services_metabolights_metabolights_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../services/metabolights/metabolights.service */ "./src/app/services/metabolights/metabolights.service.ts");
+/* harmony import */ var _angular_redux_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular-redux/store */ "./node_modules/@angular-redux/store/lib/src/index.js");
+/* harmony import */ var _angular_redux_store__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_angular_redux_store__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var AsperaComponent = /** @class */ (function () {
+    function AsperaComponent(fb, metabolightsService) {
+        var _this = this;
+        this.fb = fb;
+        this.metabolightsService = metabolightsService;
+        this.isAsperaUploadModalOpen = false;
+        this.selectedTab = 'plugin';
+        this.validationsId = 'upload';
+        this.MIN_CONNECT_VERSION = "3.6.0.0";
+        this.CONNECT_AUTOINSTALL_LOCATION = "//d3gcli72yxqn2z.cloudfront.net/connect/v4";
+        this.uploadPath = '';
+        this.uploadLocation.subscribe(function (value) {
+            _this.uploadPath = value;
+        });
+        this.validations.subscribe(function (value) {
+            _this.validation = value[_this.validationsId];
+        });
+    }
+    AsperaComponent.prototype.ngOnInit = function () {
+    };
+    AsperaComponent.prototype.changeTab = function (id) {
+        this.selectedTab = id;
+    };
+    AsperaComponent.prototype.openUploadModal = function () {
+        this.isAsperaUploadModalOpen = true;
+    };
+    AsperaComponent.prototype.closeUploadModal = function () {
+        this.isAsperaUploadModalOpen = false;
+    };
+    AsperaComponent.prototype.asperaUpload = function () {
+        this.asperaWeb = new AW4.Connect({ sdkLocation: this.CONNECT_AUTOINSTALL_LOCATION, minVersion: this.MIN_CONNECT_VERSION });
+        var connectInstaller = new AW4.ConnectInstaller({ sdkLocation: this.CONNECT_AUTOINSTALL_LOCATION });
+        var statusEventListener = function (eventType, data) {
+            if (eventType === AW4.Connect.EVENT.STATUS && data == AW4.Connect.STATUS.INITIALIZING) {
+                connectInstaller.showLaunching();
+            }
+            else if (eventType === AW4.Connect.EVENT.STATUS && data == AW4.Connect.STATUS.FAILED) {
+                connectInstaller.showDownload();
+            }
+            else if (eventType === AW4.Connect.EVENT.STATUS && data == AW4.Connect.STATUS.OUTDATED) {
+                connectInstaller.showUpdate();
+            }
+            else if (eventType === AW4.Connect.EVENT.STATUS && data == AW4.Connect.STATUS.RUNNING) {
+                connectInstaller.connected();
+            }
+        };
+        this.asperaWeb.addEventListener(AW4.Connect.EVENT.STATUS, statusEventListener);
+        this.asperaWeb.initSession();
+        this.asperaWeb.showSelectFileDialog({
+            success: (function (dataTransferObj) {
+                this.buildUploadSpec(dataTransferObj);
+            }).bind(this),
+            error: function (error) {
+                alert(error);
+                console.error(error);
+            }
+        });
+    };
+    AsperaComponent.prototype.buildUploadSpec = function (dataTransferObj) {
+        var transferSpecs = [{
+                "aspera_connect_settings": {
+                    // allow_dialogs is true by default.
+                    // Added for clarity.
+                    "allow_dialogs": true,
+                    "back_link": location.href
+                },
+                "transfer_spec": {}
+            }];
+        var params = {};
+        var asperaSettings = this.validation.aspera;
+        params["remote_user"] = asperaSettings.user;
+        params["remote_password"] = asperaSettings.secret;
+        params['remote_host'] = asperaSettings.server;
+        // params['fasp_port'] = 33001;
+        params['target_rate_kbps'] = 45000;
+        params['min_rate_kbps'] = 0;
+        params['lock_policy'] = false;
+        params['lock_target_rate'] = false;
+        params['direction'] = "send";
+        params['lock_min_rate'] = false;
+        params['rate_policy'] = "fair";
+        params['cipher'] = "aes-128";
+        params['ssh_port'] = 33001;
+        transferSpecs[0]["transfer_spec"] = params;
+        transferSpecs[0]["transfer_spec"]['paths'] = [];
+        var files = dataTransferObj.dataTransfer.files;
+        for (var i = 0, length = files.length; i < length; i += 1) {
+            // Local path
+            var pathSet = { src: files[i].name };
+            var srcPath = pathSet.src || '';
+            var destPath = '';
+            var paths = transferSpecs[0]["transfer_spec"]['paths'];
+            if (!paths) {
+                transferSpecs[0]["transfer_spec"]['paths'] = [];
+            }
+            (transferSpecs[0]["transfer_spec"]['paths']).push({
+                'source': srcPath,
+                'destination': destPath
+            });
+        }
+        transferSpecs[0]["transfer_spec"]['destination_root'] = this.uploadPath;
+        var finalConfig = {};
+        finalConfig['transfer_specs'] = transferSpecs;
+        var requestId = this.asperaWeb.startTransfers(finalConfig, { success: function (data) {
+                console.log("Upload started");
+            } });
+    };
+    __decorate([
+        Object(_angular_redux_store__WEBPACK_IMPORTED_MODULE_2__["select"])(function (state) { return state.study.uploadLocation; }),
+        __metadata("design:type", Object)
+    ], AsperaComponent.prototype, "uploadLocation", void 0);
+    __decorate([
+        Object(_angular_redux_store__WEBPACK_IMPORTED_MODULE_2__["select"])(function (state) { return state.study.validations; }),
+        __metadata("design:type", Object)
+    ], AsperaComponent.prototype, "validations", void 0);
+    AsperaComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'mtbls-aspera',
+            template: __webpack_require__(/*! ./aspera.component.html */ "./src/app/components/shared/upload/aspera/aspera.component.html"),
+            styles: [__webpack_require__(/*! ./aspera.component.css */ "./src/app/components/shared/upload/aspera/aspera.component.css")]
+        }),
+        __metadata("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormBuilder"], _services_metabolights_metabolights_service__WEBPACK_IMPORTED_MODULE_1__["MetabolightsService"]])
+    ], AsperaComponent);
+    return AsperaComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/shared/upload/ftp/ftp.component.css":
+/*!****************************************************************!*\
+  !*** ./src/app/components/shared/upload/ftp/ftp.component.css ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "button.is-fullwidth{\n\tpadding-top: 1rem;\n\tpadding-bottom: 1rem;\n\theight: auto !important;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9zaGFyZWQvdXBsb2FkL2Z0cC9mdHAuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtDQUNDLGtCQUFrQjtDQUNsQixxQkFBcUI7Q0FDckIsd0JBQXdCO0NBQ3hCIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy9zaGFyZWQvdXBsb2FkL2Z0cC9mdHAuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbImJ1dHRvbi5pcy1mdWxsd2lkdGh7XG5cdHBhZGRpbmctdG9wOiAxcmVtO1xuXHRwYWRkaW5nLWJvdHRvbTogMXJlbTtcblx0aGVpZ2h0OiBhdXRvICFpbXBvcnRhbnQ7XG59Il19 */"
+
+/***/ }),
+
+/***/ "./src/app/components/shared/upload/ftp/ftp.component.html":
+/*!*****************************************************************!*\
+  !*** ./src/app/components/shared/upload/ftp/ftp.component.html ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"field\">\n\t<div class=\"control\">\n\t\t<button (click)=\"openUploadModal()\" class=\"button is-outlined is-link is-fullwidth\">Private FTP Upload</button>\n\t</div>\n\t<p class=\"help\">UNIX users - command line ftp or GUI FileZilla\n\t\t<br>\n\t\tWindows/MAC - GUI FileZilla</p>\n</div>\n\n<div class=\"modal\" [ngClass]=\"{'is-active': isFTPUploadModalOpen}\">\n\t<div class=\"modal-background\"></div>\n\t<div class=\"modal-card\">\n\t\t<header class=\"modal-card-head\">\n        \t<p class=\"modal-card-title\">FTP Upload folders / files</p>\n      \t</header>\n\t\t<section class=\"modal-card-body\">\n\t\t\tUsing FTP Client:\n\t\t\t<table class=\"table is-bordered is-striped is-narrow is-hoverable is-fullwidth\">\n\t\t      <tbody>\n\t\t        <tr>\n\t\t         \t<th>User</th>\n\t\t         \t<td>{{ (validations | async)[this.validationsId]['ftp']['user'] }}</td>\n\t\t        </tr>\n\t\t        <tr>\n\t\t          <th>Password</th>\n\t\t          <td>{{ (validations | async)[this.validationsId]['ftp']['secret'] }}</td>\n\t\t        </tr>\n\t\t        <tr>\n\t\t          <th>Server</th>\n\t\t          <td>{{ (validations | async)[this.validationsId]['ftp']['server'] }}</td>\n\t\t        </tr>\n\t\t        <tr>\n\t\t          <th>Remote folder</th>\n\t\t          <td>{{ uploadLocation | async }}</td>\n\t\t        </tr>\n\t\t      </tbody>\n\t\t    </table>\n\t\t</section>\n\t\t<footer class=\"modal-card-foot\">\n\t\t\t<div class=\"columns is-gapless full-width\">\n\t\t\t\t<div class=\"column is-full has-text-right\">\n\t\t\t\t\t<button (click)='closeUploadModal()' class=\"button is-default\">Close</button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</footer>\n\t</div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/components/shared/upload/ftp/ftp.component.ts":
+/*!***************************************************************!*\
+  !*** ./src/app/components/shared/upload/ftp/ftp.component.ts ***!
+  \***************************************************************/
+/*! exports provided: FtpComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FtpComponent", function() { return FtpComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _services_metabolights_metabolights_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../services/metabolights/metabolights.service */ "./src/app/services/metabolights/metabolights.service.ts");
+/* harmony import */ var _angular_redux_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular-redux/store */ "./node_modules/@angular-redux/store/lib/src/index.js");
+/* harmony import */ var _angular_redux_store__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_angular_redux_store__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var FtpComponent = /** @class */ (function () {
+    function FtpComponent(fb, metabolightsService) {
+        var _this = this;
+        this.fb = fb;
+        this.metabolightsService = metabolightsService;
+        this.isFTPUploadModalOpen = false;
+        this.validationsId = 'upload';
+        this.uploadPath = '';
+        this.uploadLocation.subscribe(function (value) {
+            _this.uploadPath = value;
+        });
+    }
+    FtpComponent.prototype.ngOnInit = function () {
+    };
+    FtpComponent.prototype.openUploadModal = function () {
+        this.isFTPUploadModalOpen = true;
+    };
+    FtpComponent.prototype.closeUploadModal = function () {
+        this.isFTPUploadModalOpen = false;
+    };
+    __decorate([
+        Object(_angular_redux_store__WEBPACK_IMPORTED_MODULE_2__["select"])(function (state) { return state.study.uploadLocation; }),
+        __metadata("design:type", Object)
+    ], FtpComponent.prototype, "uploadLocation", void 0);
+    __decorate([
+        Object(_angular_redux_store__WEBPACK_IMPORTED_MODULE_2__["select"])(function (state) { return state.study.validations; }),
+        __metadata("design:type", Object)
+    ], FtpComponent.prototype, "validations", void 0);
+    FtpComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'mtbls-ftp',
+            template: __webpack_require__(/*! ./ftp.component.html */ "./src/app/components/shared/upload/ftp/ftp.component.html"),
+            styles: [__webpack_require__(/*! ./ftp.component.css */ "./src/app/components/shared/upload/ftp/ftp.component.css")]
+        }),
+        __metadata("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormBuilder"], _services_metabolights_metabolights_service__WEBPACK_IMPORTED_MODULE_1__["MetabolightsService"]])
+    ], FtpComponent);
+    return FtpComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/components/shared/upload/upload.component.css":
 /*!***************************************************************!*\
   !*** ./src/app/components/shared/upload/upload.component.css ***!
@@ -1226,7 +1523,7 @@ function sharedReducer(state, action) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".upload-zone{\n\tmin-height: 40vh;\n\tbackground-color: #f1f1f4;\n\tborder: 2px dotted #cecece;\n\tborder-radius: 4px;\n}\n\n.upload-zone:hover{\n\tborder: 2px dotted #333;\n\tcursor: pointer;\n}\n\n.upload-zone p{\n\tpadding-top: 20vh;\n\ttext-align: center;\n\tcolor: #cecece;\n}"
+module.exports = ".upload-zone{\n\tmin-height: 10vh;\n\tbackground-color: #f1f1f4;\n\tborder: 2px dotted #cecece;\n\tborder-radius: 4px;\n\tdisplay: flex;\n\tjustify-content: center;\n\talign-items: center;\n}\n\n.upload-zone:hover{\n\tborder: 2px dotted #333;\n\tcursor: pointer;\n}\n\n.upload-zone p{\n\tpadding-top: 20vh;\n\ttext-align: center;\n\tcolor: #cecece;\n}\n\n.is-divider, .is-divider-vertical {\n    display: block;\n    position: relative;\n    border-top: .1rem solid #dbdbdb;\n    height: .1rem;\n    margin: 0 0 2rem 0;\n    text-align: center;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9zaGFyZWQvdXBsb2FkL3VwbG9hZC5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0NBQ0MsaUJBQWlCO0NBQ2pCLDBCQUEwQjtDQUMxQiwyQkFBMkI7Q0FDM0IsbUJBQW1CO0NBQ25CLGNBQWM7Q0FDZCx3QkFBd0I7Q0FDeEIsb0JBQW9CO0NBQ3BCOztBQUVEO0NBQ0Msd0JBQXdCO0NBQ3hCLGdCQUFnQjtDQUNoQjs7QUFFRDtDQUNDLGtCQUFrQjtDQUNsQixtQkFBbUI7Q0FDbkIsZUFBZTtDQUNmOztBQUVEO0lBQ0ksZUFBZTtJQUNmLG1CQUFtQjtJQUNuQixnQ0FBZ0M7SUFDaEMsY0FBYztJQUNkLG1CQUFtQjtJQUNuQixtQkFBbUI7Q0FDdEIiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL3NoYXJlZC91cGxvYWQvdXBsb2FkLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIudXBsb2FkLXpvbmV7XG5cdG1pbi1oZWlnaHQ6IDEwdmg7XG5cdGJhY2tncm91bmQtY29sb3I6ICNmMWYxZjQ7XG5cdGJvcmRlcjogMnB4IGRvdHRlZCAjY2VjZWNlO1xuXHRib3JkZXItcmFkaXVzOiA0cHg7XG5cdGRpc3BsYXk6IGZsZXg7XG5cdGp1c3RpZnktY29udGVudDogY2VudGVyO1xuXHRhbGlnbi1pdGVtczogY2VudGVyO1xufVxuXG4udXBsb2FkLXpvbmU6aG92ZXJ7XG5cdGJvcmRlcjogMnB4IGRvdHRlZCAjMzMzO1xuXHRjdXJzb3I6IHBvaW50ZXI7XG59XG5cbi51cGxvYWQtem9uZSBwe1xuXHRwYWRkaW5nLXRvcDogMjB2aDtcblx0dGV4dC1hbGlnbjogY2VudGVyO1xuXHRjb2xvcjogI2NlY2VjZTtcbn1cblxuLmlzLWRpdmlkZXIsIC5pcy1kaXZpZGVyLXZlcnRpY2FsIHtcbiAgICBkaXNwbGF5OiBibG9jaztcbiAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgYm9yZGVyLXRvcDogLjFyZW0gc29saWQgI2RiZGJkYjtcbiAgICBoZWlnaHQ6IC4xcmVtO1xuICAgIG1hcmdpbjogMCAwIDJyZW0gMDtcbiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XG59Il19 */"
 
 /***/ }),
 
@@ -1237,7 +1534,7 @@ module.exports = ".upload-zone{\n\tmin-height: 40vh;\n\tbackground-color: #f1f1f
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<a (click)=\"openUploadModal()\" class=\"button is-small is-light\">\n\t<mat-icon>cloud_upload</mat-icon> Upload\n</a>\n\n<div class=\"modal\" [ngClass]=\"{'is-active': isUploadModalOpen}\">\n\t<div class=\"modal-background\"></div>\n\t<div class=\"modal-card\">\n\t\t<section class=\"modal-card-body\">\n\t\t\t<div class=\"upload-zone has-text-center\">\n\t\t\t\t<p>Drag and drop files here</p>\n\t\t\t</div>\n\t\t</section>\n\t\t<footer class=\"modal-card-foot\">\n\t\t\t<div class=\"columns is-gapless full-width\">\n\t\t\t\t<div class=\"column is-half has-text-left\">\n\t\t\t\t\t<button (click)='closeUploadModal()' class=\"button is-info\">Cancel</button>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"column is-half has-text-right\">\n\t\t\t\t\t<button (click)='upload()' class=\"button is-success\">Upload now</button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</footer>\n\t</div>\n</div>"
+module.exports = "<a (click)=\"openUploadModal()\" class=\"button is-light\" [ngClass]=\"size\">\n\t<mat-icon>cloud_upload</mat-icon> Upload\n</a>\n<div class=\"modal\" [ngClass]=\"{'is-active': isUploadModalOpen}\">\n\t<div class=\"modal-background\"></div>\n\t<div class=\"modal-card\">\n\t\t<header class=\"modal-card-head\">\n        \t<p class=\"modal-card-title\">Upload folders / files</p>\n      \t</header>\n\t\t<section class=\"modal-card-body\" v-if=\"validations\">\n\t\t\t<mtbls-aspera></mtbls-aspera>\n\t\t\t<mtbls-ftp></mtbls-ftp>\n\t\t</section>\n\t\t<footer class=\"modal-card-foot\">\n\t\t\t<div class=\"columns is-gapless full-width\">\n\t\t\t\t<div class=\"column is-full has-text-right\">\n\t\t\t\t\t<button (click)='closeUploadModal()' class=\"button is-default\">Close</button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</footer>\n\t</div>\n</div>"
 
 /***/ }),
 
@@ -1254,8 +1551,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _services_metabolights_metabolights_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../services/metabolights/metabolights.service */ "./src/app/services/metabolights/metabolights.service.ts");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! toastr */ "./node_modules/toastr/toastr.js");
-/* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(toastr__WEBPACK_IMPORTED_MODULE_3__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1268,11 +1563,12 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
-
 var UploadComponent = /** @class */ (function () {
     function UploadComponent(fb, metabolightsService) {
         this.fb = fb;
         this.metabolightsService = metabolightsService;
+        this.mode = 'button';
+        this.size = 'is-small';
         this.isUploadModalOpen = false;
     }
     UploadComponent.prototype.ngOnInit = function () {
@@ -1283,25 +1579,14 @@ var UploadComponent = /** @class */ (function () {
     UploadComponent.prototype.closeUploadModal = function () {
         this.isUploadModalOpen = false;
     };
-    UploadComponent.prototype.upload = function () {
-        this.metabolightsService.uploadFile([]).subscribe(function (res) {
-            toastr__WEBPACK_IMPORTED_MODULE_3__["success"]("File uploaded successfully", "Success", {
-                "timeOut": "2500",
-                "positionClass": "toast-top-center",
-                "preventDuplicates": true,
-                "extendedTimeOut": 0,
-                "tapToDismiss": false
-            });
-        }, function (err) {
-            toastr__WEBPACK_IMPORTED_MODULE_3__["error"]("Error uploading the file", "Error", {
-                "timeOut": "2500",
-                "positionClass": "toast-top-center",
-                "preventDuplicates": true,
-                "extendedTimeOut": 0,
-                "tapToDismiss": false
-            });
-        });
-    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])('mode'),
+        __metadata("design:type", String)
+    ], UploadComponent.prototype, "mode", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])('size'),
+        __metadata("design:type", String)
+    ], UploadComponent.prototype, "size", void 0);
     UploadComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'mtbls-upload',
@@ -1321,7 +1606,7 @@ var UploadComponent = /** @class */ (function () {
 /*!*********************************************!*\
   !*** ./src/app/components/study/actions.ts ***!
   \*********************************************/
-/*! exports provided: SET_STUDY_IDENTIFIER, SET_STUDY_TITLE, SET_STUDY_ABSTRACT, SET_STUDY_SUBMISSION_DATE, SET_STUDY_RELEASE_DATE, SET_STUDY_PUBLICATIONS, UPDATE_STUDY_PUBLICATIONS, SET_STUDY_PEOPLE, UPDATE_STUDY_PEOPLE, LOAD_VALIDATION_RULES, SET_STUDY_DESIGN_DESCRIPTORS, UPDATE_STUDY_DESIGN_DESCRIPTORS, SET_STUDY_FACTORS, SET_STUDY_ORGANISMS, SET_STUDY_PROTOCOLS, UPDATE_STUDY_PROTOCOLS, UPDATE_STUDY_FACTORS, SET_STUDY_SAMPLES_TABLE, SET_STUDY_PROCESS_SEQUENCE, ADD_STUDY_PROCESS_SEQUENCE, ADD_STUDY_ASSAY, ADD_MAF, UPDATE_MAF_DATA, ADD_STUDY_ASSAY_TABLE */
+/*! exports provided: SET_STUDY_IDENTIFIER, SET_STUDY_TITLE, SET_STUDY_ABSTRACT, SET_STUDY_SUBMISSION_DATE, SET_STUDY_RELEASE_DATE, SET_STUDY_PUBLICATIONS, UPDATE_STUDY_PUBLICATIONS, SET_STUDY_PEOPLE, UPDATE_STUDY_PEOPLE, LOAD_VALIDATION_RULES, SET_STUDY_DESIGN_DESCRIPTORS, UPDATE_STUDY_DESIGN_DESCRIPTORS, SET_STUDY_FACTORS, SET_STUDY_ORGANISMS, SET_STUDY_PROTOCOLS, UPDATE_STUDY_PROTOCOLS, UPDATE_STUDY_FACTORS, SET_STUDY_SAMPLES_TABLE, SET_STUDY_PROCESS_SEQUENCE, ADD_STUDY_PROCESS_SEQUENCE, ADD_STUDY_ASSAY, ADD_MAF, UPDATE_MAF_DATA, ADD_STUDY_ASSAY_TABLE, SET_UPLOAD_LOCATION, SET_OBFUSCATION_CODE */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1350,6 +1635,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_MAF", function() { return ADD_MAF; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPDATE_MAF_DATA", function() { return UPDATE_MAF_DATA; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_STUDY_ASSAY_TABLE", function() { return ADD_STUDY_ASSAY_TABLE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_UPLOAD_LOCATION", function() { return SET_UPLOAD_LOCATION; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_OBFUSCATION_CODE", function() { return SET_OBFUSCATION_CODE; });
 var SET_STUDY_IDENTIFIER = 'SET_STUDY_IDENTIFIER';
 var SET_STUDY_TITLE = 'SET_STUDY_TITLE';
 var SET_STUDY_ABSTRACT = 'SET_STUDY_ABSTRACT';
@@ -1374,6 +1661,8 @@ var ADD_STUDY_ASSAY = 'ADD_STUDY_ASSAY';
 var ADD_MAF = 'ADD_MAF';
 var UPDATE_MAF_DATA = 'UPDATE_MAF_DATA';
 var ADD_STUDY_ASSAY_TABLE = 'ADD_STUDY_ASSAY_TABLE';
+var SET_UPLOAD_LOCATION = 'SET_UPLOAD_LOCATION';
+var SET_OBFUSCATION_CODE = 'SET_OBFUSCATION_CODE';
 
 
 /***/ }),
@@ -1385,7 +1674,7 @@ var ADD_STUDY_ASSAY_TABLE = 'ADD_STUDY_ASSAY_TABLE';
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "table {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -o-user-select: none;\n  -ms-user-select: none;\n      user-select: none;\n}\n\ntable {\n  width: 100%;\n}\n\ntable td, table th {\n  vertical-align: middle;\n}\n\nth.mat-sort-header-sorted {\n  color: black;\n}\n\nth div{\n  display: flex;\n}\n\n.column-editor-card{\n  min-width: 80vw !important;\n  min-height: 80vh;\n}\n\n.columns.is-vcentered {\n  align-items: center;\n}\n\n.columns.is-hcentered {\n  justify-content: center;\n  text-align: center;\n}\n\n.mt20{\n  margin-top: 20px;\n}\n\n.mb0{\n  margin-bottom: 0px;\n}\n\n.tab-wrapper{\n  min-height: 80vh;\n}\n\n.modal-card-title {\n  color: #979797;\n  font-size: 1.2rem;\n}\n\n.modal-card-title .highlight {\n  color: #000;\n}\n\n.options-wrapper{\n  border-left: 1px solid #f1f1f3;\n  min-height: 70vh;\n  padding-top: 10px !important;\n}\n\n.options-title{\n  border-bottom: 1px solid #f1f1f3;\n  padding: 15px !important;\n  font-weight: bold;\n  font-size: 1.1em;\n}\n\n.options{\n  padding: 15px;\n}\n\n.wrapper{\n  width: 100%;\n  overflow: auto;\n}\n\n.mat-form-field-infix {\n  border-top: none;\n}\n\ntd.mat-cell, td.mat-footer-cell, th.mat-header-cell {\n\tpadding-left: 20px;\n\tpadding-right: 12px;\n  box-shadow: 0 0 1px #dbdbdb;\n}\n\n.mat-table-sticky {\n  background-color: #fdfdfd;\n}\n\n.dropdown-divider {\n  background-color: #dbdbdb;\n  border: none;\n  display: block;\n  height: 1px;\n  margin: 0;\n}\n\n.dropdown-content {\n padding-bottom: 0rem; \n padding-top: 0rem; \n border-radius: 2px;\n}\n\na.dropdown-item {\n  padding-right: 1rem; \n}\n\n.column{\n  padding: 0;\n}\n\n.addon-tag{\n  padding-left: 0;\n  padding-right: 0;\n  border-left: 1px dotted #eaeaea;\n}\n\n.columns{\n  margin-right: 0px;\n  margin-left: 0px;\n}\n\n.row-selector{\n\twidth: 10px;\n}\n\n.table-selector{\n\twidth: 10px;\n}\n\n.selected{\n\tbackground-color: #333;\n  color: #fff;\n}\n\n.row-options-wrapper{\n\tposition: relative;\n}\n\n.row-options{\n\tposition: absolute;\n  left: -23px;\n  top: 0px;\n  height: 48px;\n}\n\n.table-icon {\n  padding-right: 10px;\n  padding-top: 12px;\n}\n\n.button{\n  margin-left: 2px;\n  margin-right: 2px;\n}\n\n.menu-bar{\n  margin-top: 10px;\n  margin-bottom: 0 !important;\n  align-items: baseline;\n}\n\n.menu-bar:first-child { \n  margin-left: -5px;\n}\n\n.menu-bar:last-child { \n  margin-right: -5px;\n}\n\n.button.is-light {\n  border-radius: 2px;\n}\n"
+module.exports = "table {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -o-user-select: none;\n  -ms-user-select: none;\n      user-select: none;\n}\n\ntable {\n  width: 100%;\n}\n\ntable td, table th {\n  vertical-align: middle;\n}\n\nth.mat-sort-header-sorted {\n  color: black;\n}\n\nth div{\n  display: flex;\n}\n\n.column-editor-card{\n  min-width: 80vw !important;\n  min-height: 80vh;\n}\n\n.columns.is-vcentered {\n  align-items: center;\n}\n\n.columns.is-hcentered {\n  justify-content: center;\n  text-align: center;\n}\n\n.mt20{\n  margin-top: 20px;\n}\n\n.mb0{\n  margin-bottom: 0px;\n}\n\n.tab-wrapper{\n  min-height: 80vh;\n}\n\n.modal-card-title {\n  color: #979797;\n  font-size: 1.2rem;\n}\n\n.modal-card-title .highlight {\n  color: #000;\n}\n\n.options-wrapper{\n  border-left: 1px solid #f1f1f3;\n  min-height: 70vh;\n  padding-top: 10px !important;\n}\n\n.options-title{\n  border-bottom: 1px solid #f1f1f3;\n  padding: 15px !important;\n  font-weight: bold;\n  font-size: 1.1em;\n}\n\n.options{\n  padding: 15px;\n}\n\n.wrapper{\n  width: 100%;\n  overflow: auto;\n}\n\n.mat-form-field-infix {\n  border-top: none;\n}\n\ntd.mat-cell, td.mat-footer-cell, th.mat-header-cell {\n\tpadding-left: 20px;\n\tpadding-right: 12px;\n  box-shadow: 0 0 1px #dbdbdb;\n}\n\n.mat-table-sticky {\n  background-color: #fdfdfd;\n}\n\n.dropdown-divider {\n  background-color: #dbdbdb;\n  border: none;\n  display: block;\n  height: 1px;\n  margin: 0;\n}\n\n.dropdown-content {\n padding-bottom: 0rem; \n padding-top: 0rem; \n border-radius: 2px;\n}\n\na.dropdown-item {\n  padding-right: 1rem; \n}\n\n.column{\n  padding: 0;\n}\n\n.addon-tag{\n  padding-left: 0;\n  padding-right: 0;\n  border-left: 1px dotted #eaeaea;\n}\n\n.columns{\n  margin-right: 0px;\n  margin-left: 0px;\n}\n\n.row-selector{\n\twidth: 10px;\n}\n\n.table-selector{\n\twidth: 10px;\n}\n\n.selected{\n\tbackground-color: #333;\n  color: #fff;\n}\n\n.row-options-wrapper{\n\tposition: relative;\n}\n\n.row-options{\n\tposition: absolute;\n  left: -23px;\n  top: 0px;\n  height: 48px;\n}\n\n.table-icon {\n  padding-right: 10px;\n  padding-top: 12px;\n}\n\n.button{\n  margin-left: 2px;\n  margin-right: 2px;\n}\n\n.menu-bar{\n  margin-top: 10px;\n  margin-bottom: 0 !important;\n  align-items: baseline;\n}\n\n.menu-bar:first-child { \n  margin-left: -5px;\n}\n\n.menu-bar:last-child { \n  margin-right: -5px;\n}\n\n.button.is-light {\n  border-radius: 2px;\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9zdHVkeS9hc3NheXMvYXNzYXkvYXNzYXkuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLDBCQUEwQjtFQUUxQix1QkFBdUI7RUFDdkIscUJBQXFCO0VBQ3JCLHNCQUFrQjtNQUFsQixrQkFBa0I7Q0FDbkI7O0FBRUQ7RUFDRSxZQUFZO0NBQ2I7O0FBRUQ7RUFDRSx1QkFBdUI7Q0FDeEI7O0FBRUQ7RUFDRSxhQUFhO0NBQ2Q7O0FBRUQ7RUFDRSxjQUFjO0NBQ2Y7O0FBRUQ7RUFDRSwyQkFBMkI7RUFDM0IsaUJBQWlCO0NBQ2xCOztBQUVEO0VBR0Usb0JBQW9CO0NBQ3JCOztBQUVEO0VBQ0Usd0JBQXdCO0VBQ3hCLG1CQUFtQjtDQUNwQjs7QUFFRDtFQUNFLGlCQUFpQjtDQUNsQjs7QUFFRDtFQUNFLG1CQUFtQjtDQUNwQjs7QUFFRDtFQUNFLGlCQUFpQjtDQUNsQjs7QUFFRDtFQUNFLGVBQWU7RUFDZixrQkFBa0I7Q0FDbkI7O0FBRUQ7RUFDRSxZQUFZO0NBQ2I7O0FBRUQ7RUFDRSwrQkFBK0I7RUFDL0IsaUJBQWlCO0VBQ2pCLDZCQUE2QjtDQUM5Qjs7QUFFRDtFQUNFLGlDQUFpQztFQUNqQyx5QkFBeUI7RUFDekIsa0JBQWtCO0VBQ2xCLGlCQUFpQjtDQUNsQjs7QUFFRDtFQUNFLGNBQWM7Q0FDZjs7QUFFRDtFQUNFLFlBQVk7RUFDWixlQUFlO0NBQ2hCOztBQUVEO0VBQ0UsaUJBQWlCO0NBQ2xCOztBQUVEO0NBQ0MsbUJBQW1CO0NBQ25CLG9CQUFvQjtFQUVuQiw0QkFBNEI7Q0FDN0I7O0FBRUQ7RUFDRSwwQkFBMEI7Q0FDM0I7O0FBRUQ7RUFDRSwwQkFBMEI7RUFDMUIsYUFBYTtFQUNiLGVBQWU7RUFDZixZQUFZO0VBQ1osVUFBVTtDQUNYOztBQUVEO0NBQ0MscUJBQXFCO0NBQ3JCLGtCQUFrQjtDQUNsQixtQkFBbUI7Q0FDbkI7O0FBRUQ7RUFDRSxvQkFBb0I7Q0FDckI7O0FBRUQ7RUFDRSxXQUFXO0NBQ1o7O0FBRUQ7RUFDRSxnQkFBZ0I7RUFDaEIsaUJBQWlCO0VBQ2pCLGdDQUFnQztDQUNqQzs7QUFFRDtFQUNFLGtCQUFrQjtFQUNsQixpQkFBaUI7Q0FDbEI7O0FBRUQ7Q0FDQyxZQUFZO0NBQ1o7O0FBRUQ7Q0FDQyxZQUFZO0NBQ1o7O0FBRUQ7Q0FDQyx1QkFBdUI7RUFDdEIsWUFBWTtDQUNiOztBQUVEO0NBQ0MsbUJBQW1CO0NBQ25COztBQUVEO0NBQ0MsbUJBQW1CO0VBQ2xCLFlBQVk7RUFDWixTQUFTO0VBQ1QsYUFBYTtDQUNkOztBQUVEO0VBQ0Usb0JBQW9CO0VBQ3BCLGtCQUFrQjtDQUNuQjs7QUFFRDtFQUNFLGlCQUFpQjtFQUNqQixrQkFBa0I7Q0FDbkI7O0FBRUQ7RUFDRSxpQkFBaUI7RUFDakIsNEJBQTRCO0VBQzVCLHNCQUFzQjtDQUN2Qjs7QUFFRDtFQUNFLGtCQUFrQjtDQUNuQjs7QUFFRDtFQUNFLG1CQUFtQjtDQUNwQjs7QUFFRDtFQUNFLG1CQUFtQjtDQUNwQiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvc3R1ZHkvYXNzYXlzL2Fzc2F5L2Fzc2F5LmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJ0YWJsZSB7XG4gIC13ZWJraXQtdXNlci1zZWxlY3Q6IG5vbmU7XG4gIC1raHRtbC11c2VyLXNlbGVjdDogbm9uZTtcbiAgLW1vei11c2VyLXNlbGVjdDogbm9uZTtcbiAgLW8tdXNlci1zZWxlY3Q6IG5vbmU7XG4gIHVzZXItc2VsZWN0OiBub25lO1xufVxuXG50YWJsZSB7XG4gIHdpZHRoOiAxMDAlO1xufVxuXG50YWJsZSB0ZCwgdGFibGUgdGgge1xuICB2ZXJ0aWNhbC1hbGlnbjogbWlkZGxlO1xufVxuXG50aC5tYXQtc29ydC1oZWFkZXItc29ydGVkIHtcbiAgY29sb3I6IGJsYWNrO1xufVxuXG50aCBkaXZ7XG4gIGRpc3BsYXk6IGZsZXg7XG59XG5cbi5jb2x1bW4tZWRpdG9yLWNhcmR7XG4gIG1pbi13aWR0aDogODB2dyAhaW1wb3J0YW50O1xuICBtaW4taGVpZ2h0OiA4MHZoO1xufVxuXG4uY29sdW1ucy5pcy12Y2VudGVyZWQge1xuICAtd2Via2l0LWJveC1hbGlnbjogY2VudGVyO1xuICAtbXMtZmxleC1hbGlnbjogY2VudGVyO1xuICBhbGlnbi1pdGVtczogY2VudGVyO1xufVxuXG4uY29sdW1ucy5pcy1oY2VudGVyZWQge1xuICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuXG4ubXQyMHtcbiAgbWFyZ2luLXRvcDogMjBweDtcbn1cblxuLm1iMHtcbiAgbWFyZ2luLWJvdHRvbTogMHB4O1xufVxuXG4udGFiLXdyYXBwZXJ7XG4gIG1pbi1oZWlnaHQ6IDgwdmg7XG59XG5cbi5tb2RhbC1jYXJkLXRpdGxlIHtcbiAgY29sb3I6ICM5Nzk3OTc7XG4gIGZvbnQtc2l6ZTogMS4ycmVtO1xufVxuXG4ubW9kYWwtY2FyZC10aXRsZSAuaGlnaGxpZ2h0IHtcbiAgY29sb3I6ICMwMDA7XG59XG5cbi5vcHRpb25zLXdyYXBwZXJ7XG4gIGJvcmRlci1sZWZ0OiAxcHggc29saWQgI2YxZjFmMztcbiAgbWluLWhlaWdodDogNzB2aDtcbiAgcGFkZGluZy10b3A6IDEwcHggIWltcG9ydGFudDtcbn1cblxuLm9wdGlvbnMtdGl0bGV7XG4gIGJvcmRlci1ib3R0b206IDFweCBzb2xpZCAjZjFmMWYzO1xuICBwYWRkaW5nOiAxNXB4ICFpbXBvcnRhbnQ7XG4gIGZvbnQtd2VpZ2h0OiBib2xkO1xuICBmb250LXNpemU6IDEuMWVtO1xufVxuXG4ub3B0aW9uc3tcbiAgcGFkZGluZzogMTVweDtcbn1cblxuLndyYXBwZXJ7XG4gIHdpZHRoOiAxMDAlO1xuICBvdmVyZmxvdzogYXV0bztcbn1cblxuLm1hdC1mb3JtLWZpZWxkLWluZml4IHtcbiAgYm9yZGVyLXRvcDogbm9uZTtcbn1cblxudGQubWF0LWNlbGwsIHRkLm1hdC1mb290ZXItY2VsbCwgdGgubWF0LWhlYWRlci1jZWxsIHtcblx0cGFkZGluZy1sZWZ0OiAyMHB4O1xuXHRwYWRkaW5nLXJpZ2h0OiAxMnB4O1xuICAtd2Via2l0LWJveC1zaGFkb3c6IDAgMCAxcHggI2RiZGJkYjtcbiAgYm94LXNoYWRvdzogMCAwIDFweCAjZGJkYmRiO1xufVxuXG4ubWF0LXRhYmxlLXN0aWNreSB7XG4gIGJhY2tncm91bmQtY29sb3I6ICNmZGZkZmQ7XG59XG5cbi5kcm9wZG93bi1kaXZpZGVyIHtcbiAgYmFja2dyb3VuZC1jb2xvcjogI2RiZGJkYjtcbiAgYm9yZGVyOiBub25lO1xuICBkaXNwbGF5OiBibG9jaztcbiAgaGVpZ2h0OiAxcHg7XG4gIG1hcmdpbjogMDtcbn1cblxuLmRyb3Bkb3duLWNvbnRlbnQge1xuIHBhZGRpbmctYm90dG9tOiAwcmVtOyBcbiBwYWRkaW5nLXRvcDogMHJlbTsgXG4gYm9yZGVyLXJhZGl1czogMnB4O1xufVxuXG5hLmRyb3Bkb3duLWl0ZW0ge1xuICBwYWRkaW5nLXJpZ2h0OiAxcmVtOyBcbn1cblxuLmNvbHVtbntcbiAgcGFkZGluZzogMDtcbn1cblxuLmFkZG9uLXRhZ3tcbiAgcGFkZGluZy1sZWZ0OiAwO1xuICBwYWRkaW5nLXJpZ2h0OiAwO1xuICBib3JkZXItbGVmdDogMXB4IGRvdHRlZCAjZWFlYWVhO1xufVxuXG4uY29sdW1uc3tcbiAgbWFyZ2luLXJpZ2h0OiAwcHg7XG4gIG1hcmdpbi1sZWZ0OiAwcHg7XG59XG5cbi5yb3ctc2VsZWN0b3J7XG5cdHdpZHRoOiAxMHB4O1xufVxuXG4udGFibGUtc2VsZWN0b3J7XG5cdHdpZHRoOiAxMHB4O1xufVxuXG4uc2VsZWN0ZWR7XG5cdGJhY2tncm91bmQtY29sb3I6ICMzMzM7XG4gIGNvbG9yOiAjZmZmO1xufVxuXG4ucm93LW9wdGlvbnMtd3JhcHBlcntcblx0cG9zaXRpb246IHJlbGF0aXZlO1xufVxuXG4ucm93LW9wdGlvbnN7XG5cdHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgbGVmdDogLTIzcHg7XG4gIHRvcDogMHB4O1xuICBoZWlnaHQ6IDQ4cHg7XG59XG5cbi50YWJsZS1pY29uIHtcbiAgcGFkZGluZy1yaWdodDogMTBweDtcbiAgcGFkZGluZy10b3A6IDEycHg7XG59XG5cbi5idXR0b257XG4gIG1hcmdpbi1sZWZ0OiAycHg7XG4gIG1hcmdpbi1yaWdodDogMnB4O1xufVxuXG4ubWVudS1iYXJ7XG4gIG1hcmdpbi10b3A6IDEwcHg7XG4gIG1hcmdpbi1ib3R0b206IDAgIWltcG9ydGFudDtcbiAgYWxpZ24taXRlbXM6IGJhc2VsaW5lO1xufVxuXG4ubWVudS1iYXI6Zmlyc3QtY2hpbGQgeyBcbiAgbWFyZ2luLWxlZnQ6IC01cHg7XG59XG5cbi5tZW51LWJhcjpsYXN0LWNoaWxkIHsgXG4gIG1hcmdpbi1yaWdodDogLTVweDtcbn1cblxuLmJ1dHRvbi5pcy1saWdodCB7XG4gIGJvcmRlci1yYWRpdXM6IDJweDtcbn1cbiJdfQ== */"
 
 /***/ }),
 
@@ -1396,7 +1685,7 @@ module.exports = "table {\n  -webkit-user-select: none;\n  -moz-user-select: non
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"card\" *ngIf=\"assayTable\">\n\t<header class=\"card-header\">\n\t\t<p class=\"card-header-title\">\n\t\t\tAssay\n\t\t</p>\n\t</header>\n\t<div class=\"card-content\">\n\t\t<div class=\"columns mb0 is-vcentered is-hcentered\">\n\t\t\t<div class=\"column is-12 is-paddingless\">\n\t\t\t\t<mat-form-field class=\"full-width bback\">\n\t\t\t\t\t<input (keydown)=\"onKeydown($event, $event.target.value)\" autocomplete=\"off\" matInput (keyup)=\"applyFilter($event.target.value)\" placeholder=\"Filter\">\n\t\t\t\t</mat-form-field>\n\t\t\t</div>\n\t\t</div>\n\t\t<div *ngIf=\"filters.length > 0\" class=\"field is-grouped is-grouped-multiline\">\n\t\t\t<div *ngFor=\"let filter of filters\" class=\"control\">\n\t\t\t\t<div class=\"tags has-addons\">\n\t\t\t\t\t<span class=\"tag is-link\">{{ filter }}</span>\n\t\t\t\t\t<a (click)=\"highlightFilteredRows(filter)\" class=\"tag addon-tag\"><mat-icon>control_camera</mat-icon></a>\n\t\t\t\t\t<a (click)=\"removeFilter(filter)\" class=\"tag is-delete\"></a>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"menu-bar columns\">  \n\t\t\t<span class=\"column fadeIn\">\n\t\t\t\t<a (click)=\"addRow()\" class=\"button is-small is-light\">\n\t\t\t\t\t<mat-icon>add</mat-icon> Row\n\t\t\t\t</a>&nbsp;\n\t\t\t\t<mtbls-upload></mtbls-upload>&nbsp;\n      \t\t\t<mtbls-download [value]=\"assayName\"></mtbls-download>\n\t\t\t\t<span *ngIf=\"selectedRows.length > 0\">\n\t\t\t\t\t<div class=\"dropdown is-hoverable\">\n\t\t\t\t\t\t<div class=\"dropdown-trigger\">\n\t\t\t\t\t\t\t<button class=\"button is-light is-small\" aria-haspopup=\"true\" aria-controls=\"dropdown-menu\"><mat-icon>file_copy</mat-icon>Copy</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"dropdown-menu\" id=\"dropdown-menu\" role=\"menu\">\n\t\t\t\t\t\t\t<div class=\"dropdown-content\">\n\t\t\t\t\t\t\t\t<a href=\"#\" class=\"dropdown-item\">\n\t\t\t\t\t\t\t\t\tPaste inplace\n\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t<hr class=\"dropdown-divider\">\n\t\t\t\t\t\t\t\t<a href=\"#\" class=\"dropdown-item\">\n\t\t\t\t\t\t\t\t\tPaste at the end\n\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<a (click)=\"openDeleteModal()\" class=\"button is-small is-light\">\n\t\t\t\t\t\t<mat-icon>delete</mat-icon> Delete\n\t\t\t\t\t</a>\n\t\t\t\t</span>\n\t\t\t</span>\n\t\t\t<span class=\"column fadeIn has-text-right\">\n\t\t\t\t<mat-paginator [pageSizeOptions]=\"[500, 1000, 2000]\" showFirstLastButtons></mat-paginator>\n\t\t\t</span>\n\t\t</div>\n\t\t<div class=\"wrapper mat-elevation-z1\">\n\t\t\t<table class=\"mat-elevation-z1\" [dataSource]=\"tableDataSource\" matSort mat-table>\n\t\t\t\t<ng-container matColumnDef=\"Select\" sticky>\n\t\t\t\t\t<th (click)=\"deSelect()\" class=\"clickable table-selector\" mat-header-cell *matHeaderCellDef></th>\n\t\t\t\t\t<td (click)=\"rowClick(row, $event)\" class=\"clickable row-selector hover-highlight\" mat-cell *matCellDef=\"let row\">\n\t\t\t\t\t\t<span class=\"row-options-wrapper\">\n\t\t\t\t\t\t\t<span class=\"row-options hover-button\">\n\t\t\t\t\t\t\t\t<mat-icon class=\"table-icon\">aspect_ratio</mat-icon>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t</td>\n\t\t\t\t</ng-container>\n\t\t\t\t<ng-container *ngFor=\"let column of assayTable.columns\" [sticky]=\"column.sticky\" [matColumnDef]=\"column.columnDef\">\n\t\t\t\t\t<th class=\"clickable hover-highlight\" mat-header-cell *matHeaderCellDef> \n\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t<span (click)=\"headerClick(column, $event)\">{{ column.header }} </span>\n\t\t\t\t\t\t\t<span mat-sort-header>&nbsp;</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</th>\n\t\t\t\t\t<td (dblclick)=\"editCell(row, column, $event)\" (click)=\"cellClick(row, column, $event)\" class=\"clickable\" [ngClass]=\"{'selected': isSelected(row, column)}\" mat-cell *matCellDef=\"let row\"> \n\t\t\t\t\t\t{{ row[column.header] }} \n\t\t\t\t\t</td>\n\t\t\t\t</ng-container>\n\t\t\t\t<tr mat-header-row *matHeaderRowDef=\"assayTable.displayedColumns\"></tr>\n\t\t\t\t<tr mat-row *matRowDef=\"let row; columns: assayTable.displayedColumns;\"></tr>\n\t\t\t</table>\n\t\t</div>\n\t</div>\n</div>\n\n<div class=\"modal\" [ngClass]=\"{'is-active': isEditModalOpen}\">\n\t<form *ngIf=\"form\" [formGroup]=\"form\">\n\t\t<div class=\"modal-background\"></div>\n\t\t<div class=\"modal-card\">\n\t\t\t<div *ngIf=\"isFormBusy\" class=\"load-bar\">\n\t\t\t\t<div class=\"bar\"></div>\n\t\t\t\t<div class=\"bar\"></div>\n\t\t\t\t<div class=\"bar\"></div>\n\t\t\t</div>\n\t\t\t<section class=\"modal-card-body\">\n\t\t\t\t<div class=\"field is-horizontal\">\n\t\t\t\t\t<div class=\"field-body\">\n\t\t\t\t\t\t<div class=\"field\">\n\t\t\t\t\t\t\t<div class=\"control\">\n\t\t\t\t\t\t\t\t<div *ngIf=\"isCellTypeFile; else cellInputField\">\n\t\t\t\t\t\t\t\t\t<mat-form-field class=\"full-width\">\n\t\t\t\t\t\t\t\t\t  <mat-select formControlName=\"cell\" placeholder=\"{{ formatCellTitle(selectedCell['column']['columnDef']) }}\">\n\t\t\t\t\t\t\t\t\t    <mat-option *ngFor=\"let file of files\" [value]=\"file.file\">\n\t\t\t\t\t\t\t\t\t      {{file.file}}\n\t\t\t\t\t\t\t\t\t    </mat-option>\n\t\t\t\t\t\t\t\t\t  </mat-select>\n\t\t\t\t\t\t\t\t\t</mat-form-field>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<ng-template #cellInputField>\n\t\t\t\t\t\t\t\t\t<label>{{ formatCellTitle(selectedCell['column']['columnDef']) }}</label>\n\t\t\t\t\t\t\t\t\t<mat-form-field class=\"full-width\">\n\t\t\t\t\t\t\t\t\t\t<input class=\"no-scroll\" \n\t\t\t\t\t\t\t\t\t\tformControlName=\"cell\"\n\t\t\t\t\t\t\t\t\t\tmatInput>\n\t\t\t\t\t\t\t\t\t\t<!-- <mat-hint>{{ fieldValidation('doi').description }}</mat-hint> -->\n\t\t\t\t\t\t\t\t\t\t<!-- <mat-error\n\t\t\t\t\t\t\t\t\t\t*ngIf=\"form.get('title').errors &&\n\t\t\t\t\t\t\t\t\t\tform.get('title').dirty &&\n\t\t\t\t\t\t\t\t\t\tform.get('title').errors.title\">\n\t\t\t\t\t\t\t\t\t\t{{ form.get('title').errors.title.error }}\n\t\t\t\t\t\t\t\t\t\t</mat-error> -->\n\t\t\t\t\t\t\t\t\t</mat-form-field>\n\t\t\t\t\t\t\t\t</ng-template>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</section>\n\t\t\t<footer class=\"modal-card-foot buttons is-right\">\n\t\t\t\t<button *ngIf=\"!form.pristine\" [disabled]=\"!form.valid || isFormBusy\" (click)='save()' class=\"button is-info\">\n\t\t\t\t\t<mat-spinner [diameter]=\"20\" [strokeWidth]=\"3\" *ngIf=\"isFormBusy\"></mat-spinner>\n\t\t\t\t\tSave\n\t\t\t\t</button>\n\t\t\t\t<button *ngIf=\"form.pristine\" (click)='closeEditModal()' class=\"button is-info\">OK</button>\n\t\t\t\t<button class=\"button\" [disabled]=\"isFormBusy\" (click)='closeEditModal()'>Cancel</button>\n\t\t\t</footer>\n\t\t</div>\n\t</form>\n</div>\n\n<div class=\"modal\" [ngClass]=\"{'is-active': isDeleteModalOpen}\">\n\t<div class=\"modal-background\"></div>\n\t<div class=\"modal-card\">\n\t\t<section class=\"modal-card-body\">\n\t\t\t<p>Are you sure you want to delete the selected rows?</p>\n\t\t</section>\n\t\t<footer class=\"modal-card-foot\">\n\t\t\t<div class=\"columns is-gapless full-width\">\n\t\t\t\t<div class=\"column is-half\">\n\t\t\t\t\t<button (click)='closeDelete()' class=\"button is-info\">Cancel</button>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"column is-half has-text-right\">\n\t\t\t\t\t<button (click)='deleteSelectedRows()' class=\"button is-danger\">OK! Delete Permanently</button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</footer>\n\t</div>\n</div>"
+module.exports = "<div class=\"card\" *ngIf=\"assayTable\">\n\t<header class=\"card-header\">\n\t\t<p class=\"card-header-title\">\n\t\t\tAssay\n\t\t</p>\n\t</header>\n\t<div class=\"card-content\">\n\t\t<div class=\"columns mb0 is-vcentered is-hcentered\">\n\t\t\t<div class=\"column is-12 is-paddingless\">\n\t\t\t\t<mat-form-field class=\"full-width bback\">\n\t\t\t\t\t<input (keydown)=\"onKeydown($event, $event.target.value)\" autocomplete=\"off\" matInput (keyup)=\"applyFilter($event.target.value)\" placeholder=\"Filter\">\n\t\t\t\t</mat-form-field>\n\t\t\t</div>\n\t\t</div>\n\t\t<div *ngIf=\"filters.length > 0\" class=\"field is-grouped is-grouped-multiline\">\n\t\t\t<div *ngFor=\"let filter of filters\" class=\"control\">\n\t\t\t\t<div class=\"tags has-addons\">\n\t\t\t\t\t<span class=\"tag is-link\">{{ filter }}</span>\n\t\t\t\t\t<a (click)=\"highlightFilteredRows(filter)\" class=\"tag addon-tag\"><mat-icon>control_camera</mat-icon></a>\n\t\t\t\t\t<a (click)=\"removeFilter(filter)\" class=\"tag is-delete\"></a>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"menu-bar columns\">  \n\t\t\t<span class=\"column fadeIn\">\n\t\t\t\t<a (click)=\"addRow()\" class=\"button is-small is-light\">\n\t\t\t\t\t<mat-icon>add</mat-icon> Row\n\t\t\t\t</a>&nbsp;\n\t\t\t\t<mtbls-upload></mtbls-upload>&nbsp;\n\t\t\t\t<span *ngIf=\"assayTable['name']\">\n      \t\t\t\t<mtbls-download [value]=\"assayTable['name']\"></mtbls-download>\n      \t\t\t</span>\n\t\t\t\t<span *ngIf=\"selectedRows.length > 0\">\n\t\t\t\t\t<div class=\"dropdown is-hoverable\">\n\t\t\t\t\t\t<div class=\"dropdown-trigger\">\n\t\t\t\t\t\t\t<button class=\"button is-light is-small\" aria-haspopup=\"true\" aria-controls=\"dropdown-menu\"><mat-icon>file_copy</mat-icon>Copy</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"dropdown-menu\" id=\"dropdown-menu\" role=\"menu\">\n\t\t\t\t\t\t\t<div class=\"dropdown-content\">\n\t\t\t\t\t\t\t\t<a href=\"#\" class=\"dropdown-item\">\n\t\t\t\t\t\t\t\t\tPaste inplace\n\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t<hr class=\"dropdown-divider\">\n\t\t\t\t\t\t\t\t<a href=\"#\" class=\"dropdown-item\">\n\t\t\t\t\t\t\t\t\tPaste at the end\n\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<a (click)=\"openDeleteModal()\" class=\"button is-small is-light\">\n\t\t\t\t\t\t<mat-icon>delete</mat-icon> Delete\n\t\t\t\t\t</a>\n\t\t\t\t</span>\n\t\t\t</span>\n\t\t\t<span class=\"column fadeIn has-text-right\">\n\t\t\t\t<mat-paginator [pageSizeOptions]=\"[500, 1000, 2000]\" showFirstLastButtons></mat-paginator>\n\t\t\t</span>\n\t\t</div>\n\t\t<div class=\"wrapper mat-elevation-z1\">\n\t\t\t<table class=\"mat-elevation-z1\" [dataSource]=\"tableDataSource\" matSort mat-table>\n\t\t\t\t<ng-container matColumnDef=\"Select\" sticky>\n\t\t\t\t\t<th (click)=\"deSelect()\" class=\"clickable table-selector\" mat-header-cell *matHeaderCellDef></th>\n\t\t\t\t\t<td (click)=\"rowClick(row, $event)\" class=\"clickable row-selector hover-highlight\" mat-cell *matCellDef=\"let row\">\n\t\t\t\t\t\t<span class=\"row-options-wrapper\">\n\t\t\t\t\t\t\t<span class=\"row-options hover-button\">\n\t\t\t\t\t\t\t\t<mat-icon class=\"table-icon\">aspect_ratio</mat-icon>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t</td>\n\t\t\t\t</ng-container>\n\t\t\t\t<ng-container *ngFor=\"let column of assayTable.columns\" [sticky]=\"column.sticky\" [matColumnDef]=\"column.columnDef\">\n\t\t\t\t\t<th class=\"clickable hover-highlight\" mat-header-cell *matHeaderCellDef> \n\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t<span (click)=\"headerClick(column, $event)\">{{ formatHeader(column.header) }} </span>\n\t\t\t\t\t\t\t<span mat-sort-header>&nbsp;</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</th>\n\t\t\t\t\t<td (dblclick)=\"editCell(row, column, $event)\" (click)=\"cellClick(row, column, $event)\" class=\"clickable\" [ngClass]=\"{'selected': isSelected(row, column)}\" mat-cell *matCellDef=\"let row\"> \n\t\t\t\t\t\t{{ row[column.header] }} \n\t\t\t\t\t</td>\n\t\t\t\t</ng-container>\n\t\t\t\t<tr mat-header-row *matHeaderRowDef=\"assayTable.displayedColumns\"></tr>\n\t\t\t\t<tr mat-row *matRowDef=\"let row; columns: assayTable.displayedColumns;\"></tr>\n\t\t\t</table>\n\t\t</div>\n\t</div>\n</div>\n\n<div class=\"modal\" [ngClass]=\"{'is-active': isEditModalOpen}\">\n\t<form *ngIf=\"form\" [formGroup]=\"form\">\n\t\t<div class=\"modal-background\"></div>\n\t\t<div class=\"modal-card\">\n\t\t\t<div *ngIf=\"isFormBusy\" class=\"load-bar\">\n\t\t\t\t<div class=\"bar\"></div>\n\t\t\t\t<div class=\"bar\"></div>\n\t\t\t\t<div class=\"bar\"></div>\n\t\t\t</div>\n\t\t\t<section class=\"modal-card-body\">\n\t\t\t\t<div class=\"field is-horizontal\">\n\t\t\t\t\t<div class=\"field-body\">\n\t\t\t\t\t\t<div class=\"field\">\n\t\t\t\t\t\t\t<div class=\"control\">\n\t\t\t\t\t\t\t\t<div *ngIf=\"isCellTypeFile; else cellTypeProtocol\">\n\t\t\t\t\t\t\t\t\t<mat-form-field class=\"full-width\">\n\t\t\t\t\t\t\t\t\t  <mat-select formControlName=\"cell\" placeholder=\"{{ formatCellTitle(selectedCell['column']['columnDef']) }}\">\n\t\t\t\t\t\t\t\t\t    <mat-option *ngFor=\"let file of files\" [value]=\"file.file\">\n\t\t\t\t\t\t\t\t\t      {{file.file}}\n\t\t\t\t\t\t\t\t\t    </mat-option>\n\t\t\t\t\t\t\t\t\t  </mat-select>\n\t\t\t\t\t\t\t\t\t</mat-form-field>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<ng-template #cellTypeProtocol>\n\t\t\t\t\t\t\t\t\t<div *ngIf=\"isCellTypeProtocol; else cellInputField\">\n\t\t\t\t\t\t\t\t\t\t<!-- <mat-form-field class=\"full-width\">\n\t\t\t\t\t\t\t\t\t\t  <mat-select formControlName=\"cell\" placeholder=\"{{ formatCellTitle(selectedCell['column']['columnDef']) }}\">\n\t\t\t\t\t\t\t\t\t\t    <mat-option *ngFor=\"let file of files\" [value]=\"file.file\">\n\t\t\t\t\t\t\t\t\t\t      {{file.file}}\n\t\t\t\t\t\t\t\t\t\t    </mat-option>\n\t\t\t\t\t\t\t\t\t\t  </mat-select>\n\t\t\t\t\t\t\t\t\t\t</mat-form-field> -->\n\t\t\t\t\t\t\t\t\t\thi hello\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<ng-template #cellInputField>\n\t\t\t\t\t\t\t\t\t\t<label>{{ formatCellTitle(selectedCell['column']['columnDef']) }}</label>\n\t\t\t\t\t\t\t\t\t\t<mat-form-field class=\"full-width\">\n\t\t\t\t\t\t\t\t\t\t\t<input class=\"no-scroll\" \n\t\t\t\t\t\t\t\t\t\t\tformControlName=\"cell\"\n\t\t\t\t\t\t\t\t\t\t\tmatInput>\n\t\t\t\t\t\t\t\t\t\t\t<!-- <mat-hint>{{ fieldValidation('doi').description }}</mat-hint> -->\n\t\t\t\t\t\t\t\t\t\t\t<!-- <mat-error\n\t\t\t\t\t\t\t\t\t\t\t*ngIf=\"form.get('title').errors &&\n\t\t\t\t\t\t\t\t\t\t\tform.get('title').dirty &&\n\t\t\t\t\t\t\t\t\t\t\tform.get('title').errors.title\">\n\t\t\t\t\t\t\t\t\t\t\t{{ form.get('title').errors.title.error }}\n\t\t\t\t\t\t\t\t\t\t\t</mat-error> -->\n\t\t\t\t\t\t\t\t\t\t</mat-form-field>\n\t\t\t\t\t\t\t\t\t</ng-template>\n\t\t\t\t\t\t\t\t</ng-template>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</section>\n\t\t\t<footer class=\"modal-card-foot buttons is-right\">\n\t\t\t\t<button *ngIf=\"!form.pristine\" [disabled]=\"!form.valid || isFormBusy\" (click)='save()' class=\"button is-info\">\n\t\t\t\t\t<mat-spinner [diameter]=\"20\" [strokeWidth]=\"3\" *ngIf=\"isFormBusy\"></mat-spinner>\n\t\t\t\t\tSave\n\t\t\t\t</button>\n\t\t\t\t<button *ngIf=\"form.pristine\" (click)='closeEditModal()' class=\"button is-info\">OK</button>\n\t\t\t\t<button class=\"button\" [disabled]=\"isFormBusy\" (click)='closeEditModal()'>Cancel</button>\n\t\t\t</footer>\n\t\t</div>\n\t</form>\n</div>\n\n<div class=\"modal\" [ngClass]=\"{'is-active': isDeleteModalOpen}\">\n\t<div class=\"modal-background\"></div>\n\t<div class=\"modal-card\">\n\t\t<section class=\"modal-card-body\">\n\t\t\t<p>Are you sure you want to delete the selected rows?</p>\n\t\t</section>\n\t\t<footer class=\"modal-card-foot\">\n\t\t\t<div class=\"columns is-gapless full-width\">\n\t\t\t\t<div class=\"column is-half\">\n\t\t\t\t\t<button (click)='closeDelete()' class=\"button is-info\">Cancel</button>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"column is-half has-text-right\">\n\t\t\t\t\t<button (click)='deleteSelectedRows()' class=\"button is-danger\">OK! Delete Permanently</button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</footer>\n\t</div>\n</div>"
 
 /***/ }),
 
@@ -1452,10 +1741,12 @@ var AssayComponent = /** @class */ (function () {
         this.selectedColumnValues = null;
         this.selectedCell = {};
         this.fileColumns = [];
+        this.protocolColumns = [];
         this.files = [];
         this.isDeleteModalOpen = false;
         this.isEditModalOpen = false;
         this.isCellTypeFile = false;
+        this.isCellTypeProtocol = false;
         this.validationsId = 'assays.assay';
     }
     AssayComponent.prototype.ngOnInit = function () {
@@ -1464,6 +1755,9 @@ var AssayComponent = /** @class */ (function () {
         this.validations.assay.default_order.forEach(function (col) {
             if (col.dataType == 'file') {
                 _this.fileColumns.push(col.header);
+            }
+            else if (col.dataType == 'protocol') {
+                _this.protocolColumns.push(col.header);
             }
         });
         this.metabolightsService.getStudyFiles().subscribe(function (data) {
@@ -1566,11 +1860,15 @@ var AssayComponent = /** @class */ (function () {
     };
     AssayComponent.prototype.editCell = function (row, column, event) {
         this.isCellTypeFile = false;
+        this.isCellTypeProtocol = false;
         this.isEditModalOpen = true;
         this.selectedCell['row'] = row;
         this.selectedCell['column'] = column;
         if (this.fileColumns.indexOf(column.header) > -1) {
             this.isCellTypeFile = true;
+        }
+        else if (this.protocolColumns.indexOf(column.header) > -1) {
+            this.isCellTypeProtocol = true;
         }
         this.form = this.fb.group({
             cell: [row[column.columnDef]],
@@ -1759,6 +2057,9 @@ var AssayComponent = /** @class */ (function () {
     AssayComponent.prototype.isObject = function (item) {
         return (typeof item === "object" && !Array.isArray(item) && item !== null);
     };
+    AssayComponent.prototype.formatHeader = function (term) {
+        return term.replace(/\.[^/.]+$/, "");
+    };
     Object.defineProperty(AssayComponent.prototype, "validation", {
         get: function () {
             if (this.validationsId.includes(".")) {
@@ -1819,7 +2120,7 @@ var AssayComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvc3R1ZHkvYXNzYXlzL2Fzc2F5cy5jb21wb25lbnQuY3NzIn0= */"
 
 /***/ }),
 
@@ -1917,7 +2218,7 @@ var AssaysComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvc3R1ZHkvZGVzY3JpcHRpb24vZGVzY3JpcHRpb24uY29tcG9uZW50LmNzcyJ9 */"
 
 /***/ }),
 
@@ -2100,7 +2401,7 @@ function ValidateStudyDescription(validation) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".tags .tag {\n    margin-bottom: 1rem;\n}"
+module.exports = ".tags .tag {\n    margin-bottom: 1rem;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9zdHVkeS9kZXNpZ24tZGVzY3JpcHRvcnMvZGVzaWduLWRlc2NyaXB0b3IvZGVzaWduLWRlc2NyaXB0b3IuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtJQUNJLG9CQUFvQjtDQUN2QiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvc3R1ZHkvZGVzaWduLWRlc2NyaXB0b3JzL2Rlc2lnbi1kZXNjcmlwdG9yL2Rlc2lnbi1kZXNjcmlwdG9yLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIudGFncyAudGFnIHtcbiAgICBtYXJnaW4tYm90dG9tOiAxcmVtO1xufSJdfQ== */"
 
 /***/ }),
 
@@ -2319,7 +2620,7 @@ var DesignDescriptorComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvc3R1ZHkvZGVzaWduLWRlc2NyaXB0b3JzL2Rlc2lnbi1kZXNjcmlwdG9ycy5jb21wb25lbnQuY3NzIn0= */"
 
 /***/ }),
 
@@ -2406,7 +2707,7 @@ var DesignDescriptorsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvc3R1ZHkvZmFjdG9ycy9mYWN0b3IvZmFjdG9yLmNvbXBvbmVudC5jc3MifQ== */"
 
 /***/ }),
 
@@ -2477,6 +2778,9 @@ var FactorComponent = /** @class */ (function () {
     FactorComponent.prototype.ngOnInit = function () {
         if (this.factor == null) {
             this.addNewFactor = true;
+            if (this.factorTypeComponent) {
+                this.factorTypeComponent.values = [];
+            }
         }
     };
     FactorComponent.prototype.onChanges = function () {
@@ -2493,6 +2797,9 @@ var FactorComponent = /** @class */ (function () {
     FactorComponent.prototype.openModal = function () {
         if (this.addNewFactor) {
             this.factor = new _models_mtbl_mtbls_mtbls_factor__WEBPACK_IMPORTED_MODULE_8__["MTBLSFactor"]();
+            if (this.factorTypeComponent) {
+                this.factorTypeComponent.values = [];
+            }
         }
         this.initialiseForm();
         this.isModalOpen = true;
@@ -2631,7 +2938,7 @@ var FactorComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvc3R1ZHkvZmFjdG9ycy9mYWN0b3JzLmNvbXBvbmVudC5jc3MifQ== */"
 
 /***/ }),
 
@@ -2710,7 +3017,7 @@ var FactorsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvc3R1ZHkvZmlsZXMvZmlsZS9maWxlLmNvbXBvbmVudC5jc3MifQ== */"
 
 /***/ }),
 
@@ -2773,7 +3080,7 @@ var FileComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "img{\n\theight: auto;\n}\n\n.panel-heading {\n    font-size: 1em;\n}\n\n.panel-block {\n    font-size: 0.9em;\n}\n\n.panel-block.is-active-file {\n    border-left: 2px solid #3273dc;\n}\n\n.upload-zone{\n\tmin-height: 100px;\n\tborder-radius: 4px;\n\tcolor: #dbdbdb;\n\tborder: 1px dashed #dbdbdb;\n\tmargin-bottom: 10px;\n\tpadding-top: 40px;\n\tcursor: pointer;\n}\n\n.upload-zone:hover {\n\tborder: 1px dashed #bababa;\n\tcolor: #333;\n}\n\n.is-divider, .is-divider-vertical {\n    display: block;\n    position: relative;\n    border-top: .1rem solid #dbdbdb;\n    height: .1rem;\n    margin: 0 0 2rem 0;\n    text-align: center;\n}"
+module.exports = "img{\n\theight: auto;\n}\n\n.panel-heading {\n    font-size: 1em;\n}\n\n.panel-block {\n    font-size: 0.9em;\n}\n\n.panel-block.is-active-file {\n    border-left: 2px solid #3273dc;\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9zdHVkeS9maWxlcy9maWxlcy5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0NBQ0MsYUFBYTtDQUNiOztBQUVEO0lBQ0ksZUFBZTtDQUNsQjs7QUFFRDtJQUNJLGlCQUFpQjtDQUNwQjs7QUFFRDtJQUNJLCtCQUErQjtDQUNsQyIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvc3R1ZHkvZmlsZXMvZmlsZXMuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbImltZ3tcblx0aGVpZ2h0OiBhdXRvO1xufVxuXG4ucGFuZWwtaGVhZGluZyB7XG4gICAgZm9udC1zaXplOiAxZW07XG59XG5cbi5wYW5lbC1ibG9jayB7XG4gICAgZm9udC1zaXplOiAwLjllbTtcbn1cblxuLnBhbmVsLWJsb2NrLmlzLWFjdGl2ZS1maWxlIHtcbiAgICBib3JkZXItbGVmdDogMnB4IHNvbGlkICMzMjczZGM7XG59XG4iXX0= */"
 
 /***/ }),
 
@@ -2784,7 +3091,7 @@ module.exports = "img{\n\theight: auto;\n}\n\n.panel-heading {\n    font-size: 1
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"columns is-mobile has-text-centered\">\n  <div class=\"column is-half\">\n    <div class=\"upload-zone\">\n      FTP Upload \n    </div>\n  </div>\n  <div class=\"column is-half\">\n    <div class=\"upload-zone\">\n      Aspera Upload\n    </div>\n  </div>\n</div>\n<div class=\"is-divider\" data-content=\"OR\"></div>\n<nav class=\"panel\">\n  <p class=\"panel-heading\">\n    <small>ISA METADATA</small>\n  </p>\n  <span *ngIf=\"metaFiles.length > 0; else noMetaData\">\n    <span *ngFor=\"let file of metaFiles\">\n      <a class=\"panel-block\" [ngClass]=\"file.status == 'active' ? 'is-active-file' : ''\">\n        <span class=\"panel-icon\">\n          <span *ngIf=\"isFolder(file); else fileIcon\">\n            <img src=\"assets/img/folder.png\">\n          </span>\n          <ng-template #fileIcon>\n            <img src=\"assets/img/file.png\">\n          </ng-template>\n        </span>\n        {{ file.file }}\n      </a>\n    </span>\n  </span>\n  <ng-template #noMetaData>\n    <a class=\"panel-block\">\n      No metadata files\n    </a>\n  </ng-template>\n</nav>\n<nav class=\"panel\">\n  <p class=\"panel-heading\">\n    <small>RAW FILES</small>\n  </p>\n  <span *ngIf=\"rawFiles.length > 0; else noRawFiles\">\n    <span *ngFor=\"let file of rawFiles\">\n      <a class=\"panel-block\" [ngClass]=\"file.status == 'active' ? 'is-active-file' : ''\">\n        <span class=\"panel-icon\">\n          <span *ngIf=\"isFolder(file); else fileIcon\">\n            <img src=\"assets/img/folder.png\">\n          </span>\n          <ng-template #fileIcon>\n            <img src=\"assets/img/file.png\">\n          </ng-template>\n        </span>\n        {{ file.file }}\n      </a>\n    </span>\n  </span>\n  <ng-template #noRawFiles>\n    <a class=\"panel-block\">\n      No raw files\n    </a>\n  </ng-template>\n</nav>\n<nav *ngIf=\"auditFiles.length > 0 || derivedFiles.length > 0\" class=\"panel\">\n  <p class=\"panel-heading\">\n    <small>INTERNAL AND DERIVED DATA</small>\n  </p>\n  <span *ngIf=\"auditFiles.length > 0\">\n      <span *ngFor=\"let file of auditFiles\">\n        <a class=\"panel-block\">\n          <span class=\"panel-icon\">\n            <span *ngIf=\"isFolder(file); else fileIcon\">\n              <img src=\"assets/img/folder.png\">\n            </span>\n            <ng-template #fileIcon>\n              <img src=\"assets/img/file.png\">\n            </ng-template>\n          </span>\n          {{ file.file }}\n        </a>\n      </span>\n  </span>\n  <span *ngIf=\"derivedFiles.length > 0\">\n    <span *ngFor=\"let file of derivedFiles\">\n      <a class=\"panel-block\">\n        <span class=\"panel-icon\">\n          <span *ngIf=\"isFolder(file); else fileIcon\">\n            <img src=\"assets/img/folder.png\">\n          </span>\n          <ng-template #fileIcon>\n            <img src=\"assets/img/file.png\">\n          </ng-template>\n        </span>\n        {{ file.file }}\n      </a>\n    </span>\n  </span>\n</nav>"
+module.exports = "<mtbls-upload [mode]=\"'button'\" [size]=\"'is'\" ></mtbls-upload>\n<div>&nbsp;</div>\n<nav class=\"panel\">\n  <p class=\"panel-heading\">\n    <small>ISA METADATA</small>\n    <span class=\"is-pulled-right\">\n      <mtbls-download [value]=\"'meta'\"></mtbls-download>\n    </span>\n  </p>\n  <span *ngIf=\"metaFiles.length > 0; else noMetaData\">\n    <span *ngFor=\"let file of metaFiles\">\n      <a class=\"panel-block\" [ngClass]=\"file.status == 'active' ? 'is-active-file' : ''\">\n        <span class=\"panel-icon\">\n          <span *ngIf=\"isFolder(file); else fileIcon\">\n            <img src=\"assets/img/folder.png\">\n          </span>\n          <ng-template #fileIcon>\n            <img src=\"assets/img/file.png\">\n          </ng-template>\n        </span>\n        {{ file.file }}\n      </a>\n    </span>\n  </span>\n  <ng-template #noMetaData>\n    <a class=\"panel-block\">\n      No metadata files\n    </a>\n  </ng-template>\n</nav>\n<nav class=\"panel\">\n  <p class=\"panel-heading\">\n    <small>RAW FILES</small>\n  </p>\n  <span *ngIf=\"rawFiles.length > 0; else noRawFiles\">\n    <span *ngFor=\"let file of rawFiles\">\n      <a class=\"panel-block\" [ngClass]=\"file.status == 'active' ? 'is-active-file' : ''\">\n        <span class=\"panel-icon\">\n          <span *ngIf=\"isFolder(file); else fileIcon\">\n            <img src=\"assets/img/folder.png\">\n          </span>\n          <ng-template #fileIcon>\n            <img src=\"assets/img/file.png\">\n          </ng-template>\n        </span>\n        {{ file.file }}\n      </a>\n    </span>\n  </span>\n  <ng-template #noRawFiles>\n    <a class=\"panel-block\">\n      No raw files\n    </a>\n  </ng-template>\n</nav>\n<nav *ngIf=\"auditFiles.length > 0 || derivedFiles.length > 0\" class=\"panel\">\n  <p class=\"panel-heading\">\n    <small>INTERNAL AND DERIVED DATA</small>\n  </p>\n  <span *ngIf=\"auditFiles.length > 0\">\n      <span *ngFor=\"let file of auditFiles\">\n        <a class=\"panel-block\">\n          <span class=\"panel-icon\">\n            <span *ngIf=\"isFolder(file); else fileIcon\">\n              <img src=\"assets/img/folder.png\">\n            </span>\n            <ng-template #fileIcon>\n              <img src=\"assets/img/file.png\">\n            </ng-template>\n          </span>\n          {{ file.file }}\n        </a>\n      </span>\n  </span>\n  <span *ngIf=\"derivedFiles.length > 0\">\n    <span *ngFor=\"let file of derivedFiles\">\n      <a class=\"panel-block\">\n        <span class=\"panel-icon\">\n          <span *ngIf=\"isFolder(file); else fileIcon\">\n            <img src=\"assets/img/folder.png\">\n          </span>\n          <ng-template #fileIcon>\n            <img src=\"assets/img/file.png\">\n          </ng-template>\n        </span>\n        {{ file.file }}\n      </a>\n    </span>\n  </span>\n</nav>\n<nav *ngIf=\"uploadFiles.length > 0\" class=\"panel\">\n  <p class=\"panel-heading\">\n    <small>UPLOADED FILES</small>\n    <span class=\"is-pulled-right\">\n      <a target=\"_blank\" (click)=\"copyFiles()\" class=\"button is-small is-light\">\n        <mat-icon>refresh</mat-icon> Copy files to study folder\n      </a>\n    </span>\n  </p>\n  <span *ngIf=\"uploadFiles.length > 0\">\n      <span *ngFor=\"let file of uploadFiles\">\n        <a class=\"panel-block\">\n          <span class=\"panel-icon\">\n            <span *ngIf=\"isFolder(file); else fileIcon\">\n              <img src=\"assets/img/folder.png\">\n            </span>\n            <ng-template #fileIcon>\n              <img src=\"assets/img/file.png\">\n            </ng-template>\n          </span>\n          {{ file.file }}\n        </a>\n      </span>\n  </span>\n  </nav>"
 
 /***/ }),
 
@@ -2818,10 +3125,13 @@ var FilesComponent = /** @class */ (function () {
         this.metaFiles = [];
         this.auditFiles = [];
         this.derivedFiles = [];
+        this.uploadFiles = [];
+        this.validationsId = 'upload';
     }
     FilesComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.metabolightsService.getStudyFiles().subscribe(function (data) {
+            _this.uploadFiles = data.upload;
             data.studyFiles.forEach(function (file) {
                 if (file.type == 'unknown' || file.type == 'compressed' || file.type == 'derived') {
                     _this.rawFiles.push(file);
@@ -2838,9 +3148,25 @@ var FilesComponent = /** @class */ (function () {
             });
         });
     };
+    FilesComponent.prototype.copyFiles = function () {
+        this.metabolightsService.copyFiles().subscribe(function (data) {
+            console.log(data);
+        });
+    };
     FilesComponent.prototype.isFolder = function (file) {
         return !(file.file.indexOf(".") > -1);
     };
+    Object.defineProperty(FilesComponent.prototype, "validation", {
+        get: function () {
+            return this.validations[this.validationsId];
+        },
+        enumerable: true,
+        configurable: true
+    });
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])('validations'),
+        __metadata("design:type", Object)
+    ], FilesComponent.prototype, "validations", void 0);
     FilesComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'mtbls-files',
@@ -2863,7 +3189,7 @@ var FilesComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "table {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -o-user-select: none;\n  -ms-user-select: none;\n      user-select: none;\n}\n\ntable {\n  width: 100%;\n}\n\ntable td, table th {\n  vertical-align: middle;\n}\n\nth.mat-sort-header-sorted {\n  color: black;\n}\n\nth div{\n  display: flex;\n}\n\n.column-editor-card{\n  min-width: 80vw !important;\n  min-height: 80vh;\n}\n\n.columns.is-vcentered {\n  align-items: center;\n}\n\n.columns.is-hcentered {\n  justify-content: center;\n  text-align: center;\n}\n\n.mt20{\n  margin-top: 20px;\n}\n\n.mb0{\n  margin-bottom: 0px;\n}\n\n.tab-wrapper{\n  min-height: 80vh;\n}\n\n.modal-card-title {\n  color: #979797;\n  font-size: 1.2rem;\n}\n\n.modal-card-title .highlight {\n  color: #000;\n}\n\n.options-wrapper{\n  border-left: 1px solid #f1f1f3;\n  min-height: 70vh;\n  padding-top: 10px !important;\n}\n\n.options-title{\n  border-bottom: 1px solid #f1f1f3;\n  padding: 15px !important;\n  font-weight: bold;\n  font-size: 1.1em;\n}\n\n.options{\n  padding: 15px;\n}\n\n.wrapper{\n  width: 100%;\n  overflow: auto;\n}\n\n.mat-form-field-infix {\n  border-top: none;\n}\n\ntd.mat-cell, td.mat-footer-cell, th.mat-header-cell {\n\tpadding-left: 20px;\n\tpadding-right: 12px;\n  box-shadow: 0 0 1px #dbdbdb;\n}\n\n.mat-table-sticky {\n  background-color: #fdfdfd;\n}\n\n.dropdown-divider {\n  background-color: #dbdbdb;\n  border: none;\n  display: block;\n  height: 1px;\n  margin: 0;\n}\n\n.dropdown-content {\n padding-bottom: 0rem; \n padding-top: 0rem; \n border-radius: 2px;\n}\n\na.dropdown-item {\n  padding-right: 1rem; \n}\n\n.column{\n  padding: 0;\n}\n\n.addon-tag{\n  padding-left: 0;\n  padding-right: 0;\n  border-left: 1px dotted #eaeaea;\n}\n\n.columns{\n  margin-right: 0px;\n  margin-left: 0px;\n}\n\n.row-selector{\n\twidth: 10px;\n}\n\n.table-selector{\n\twidth: 10px;\n}\n\n.selected{\n\tbackground-color: #333;\n  color: #fff;\n}\n\n.row-options-wrapper{\n\tposition: relative;\n}\n\n.row-options{\n\tposition: absolute;\n  left: -23px;\n  top: 0px;\n  height: 48px;\n}\n\n.table-icon {\n  padding-right: 10px;\n  padding-top: 12px;\n}\n\n.button{\n  margin-left: 2px;\n  margin-right: 2px;\n}\n\n.menu-bar{\n  margin-top: 10px;\n  margin-bottom: 0 !important;\n  align-items: baseline;\n}\n\n.menu-bar:first-child { \n  margin-left: -5px;\n}\n\n.menu-bar:last-child { \n  margin-right: -5px;\n}\n\n.button.is-light {\n  border-radius: 2px;\n}\n"
+module.exports = "table {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -o-user-select: none;\n  -ms-user-select: none;\n      user-select: none;\n}\n\ntable {\n  width: 100%;\n}\n\ntable td, table th {\n  vertical-align: middle;\n}\n\nth.mat-sort-header-sorted {\n  color: black;\n}\n\nth div{\n  display: flex;\n}\n\n.column-editor-card{\n  min-width: 80vw !important;\n  min-height: 80vh;\n}\n\n.columns.is-vcentered {\n  align-items: center;\n}\n\n.columns.is-hcentered {\n  justify-content: center;\n  text-align: center;\n}\n\n.mt20{\n  margin-top: 20px;\n}\n\n.mb0{\n  margin-bottom: 0px;\n}\n\n.tab-wrapper{\n  min-height: 80vh;\n}\n\n.modal-card-title {\n  color: #979797;\n  font-size: 1.2rem;\n}\n\n.modal-card-title .highlight {\n  color: #000;\n}\n\n.options-wrapper{\n  border-left: 1px solid #f1f1f3;\n  min-height: 70vh;\n  padding-top: 10px !important;\n}\n\n.options-title{\n  border-bottom: 1px solid #f1f1f3;\n  padding: 15px !important;\n  font-weight: bold;\n  font-size: 1.1em;\n}\n\n.options{\n  padding: 15px;\n}\n\n.wrapper{\n  width: 100%;\n  overflow: auto;\n}\n\n.mat-form-field-infix {\n  border-top: none;\n}\n\ntd.mat-cell, td.mat-footer-cell, th.mat-header-cell {\n\tpadding-left: 20px;\n\tpadding-right: 12px;\n  box-shadow: 0 0 1px #dbdbdb;\n}\n\n.mat-table-sticky {\n  background-color: #fdfdfd;\n}\n\n.dropdown-divider {\n  background-color: #dbdbdb;\n  border: none;\n  display: block;\n  height: 1px;\n  margin: 0;\n}\n\n.dropdown-content {\n padding-bottom: 0rem; \n padding-top: 0rem; \n border-radius: 2px;\n}\n\na.dropdown-item {\n  padding-right: 1rem; \n}\n\n.column{\n  padding: 0;\n}\n\n.addon-tag{\n  padding-left: 0;\n  padding-right: 0;\n  border-left: 1px dotted #eaeaea;\n}\n\n.columns{\n  margin-right: 0px;\n  margin-left: 0px;\n}\n\n.row-selector{\n\twidth: 10px;\n}\n\n.table-selector{\n\twidth: 10px;\n}\n\n.selected{\n\tbackground-color: #333;\n  color: #fff;\n}\n\n.row-options-wrapper{\n\tposition: relative;\n}\n\n.row-options{\n\tposition: absolute;\n  left: -23px;\n  top: 0px;\n  height: 48px;\n}\n\n.table-icon {\n  padding-right: 10px;\n  padding-top: 12px;\n}\n\n.button{\n  margin-left: 2px;\n  margin-right: 2px;\n}\n\n.menu-bar{\n  margin-top: 10px;\n  margin-bottom: 0 !important;\n  align-items: baseline;\n}\n\n.menu-bar:first-child { \n  margin-left: -5px;\n}\n\n.menu-bar:last-child { \n  margin-right: -5px;\n}\n\n.button.is-light {\n  border-radius: 2px;\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9zdHVkeS9tZXRhYm9saXRlcy9tYWYvbWFmLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSwwQkFBMEI7RUFFMUIsdUJBQXVCO0VBQ3ZCLHFCQUFxQjtFQUNyQixzQkFBa0I7TUFBbEIsa0JBQWtCO0NBQ25COztBQUVEO0VBQ0UsWUFBWTtDQUNiOztBQUVEO0VBQ0UsdUJBQXVCO0NBQ3hCOztBQUVEO0VBQ0UsYUFBYTtDQUNkOztBQUVEO0VBQ0UsY0FBYztDQUNmOztBQUVEO0VBQ0UsMkJBQTJCO0VBQzNCLGlCQUFpQjtDQUNsQjs7QUFFRDtFQUdFLG9CQUFvQjtDQUNyQjs7QUFFRDtFQUNFLHdCQUF3QjtFQUN4QixtQkFBbUI7Q0FDcEI7O0FBRUQ7RUFDRSxpQkFBaUI7Q0FDbEI7O0FBRUQ7RUFDRSxtQkFBbUI7Q0FDcEI7O0FBRUQ7RUFDRSxpQkFBaUI7Q0FDbEI7O0FBRUQ7RUFDRSxlQUFlO0VBQ2Ysa0JBQWtCO0NBQ25COztBQUVEO0VBQ0UsWUFBWTtDQUNiOztBQUVEO0VBQ0UsK0JBQStCO0VBQy9CLGlCQUFpQjtFQUNqQiw2QkFBNkI7Q0FDOUI7O0FBRUQ7RUFDRSxpQ0FBaUM7RUFDakMseUJBQXlCO0VBQ3pCLGtCQUFrQjtFQUNsQixpQkFBaUI7Q0FDbEI7O0FBRUQ7RUFDRSxjQUFjO0NBQ2Y7O0FBRUQ7RUFDRSxZQUFZO0VBQ1osZUFBZTtDQUNoQjs7QUFFRDtFQUNFLGlCQUFpQjtDQUNsQjs7QUFFRDtDQUNDLG1CQUFtQjtDQUNuQixvQkFBb0I7RUFFbkIsNEJBQTRCO0NBQzdCOztBQUVEO0VBQ0UsMEJBQTBCO0NBQzNCOztBQUVEO0VBQ0UsMEJBQTBCO0VBQzFCLGFBQWE7RUFDYixlQUFlO0VBQ2YsWUFBWTtFQUNaLFVBQVU7Q0FDWDs7QUFFRDtDQUNDLHFCQUFxQjtDQUNyQixrQkFBa0I7Q0FDbEIsbUJBQW1CO0NBQ25COztBQUVEO0VBQ0Usb0JBQW9CO0NBQ3JCOztBQUVEO0VBQ0UsV0FBVztDQUNaOztBQUVEO0VBQ0UsZ0JBQWdCO0VBQ2hCLGlCQUFpQjtFQUNqQixnQ0FBZ0M7Q0FDakM7O0FBRUQ7RUFDRSxrQkFBa0I7RUFDbEIsaUJBQWlCO0NBQ2xCOztBQUVEO0NBQ0MsWUFBWTtDQUNaOztBQUVEO0NBQ0MsWUFBWTtDQUNaOztBQUVEO0NBQ0MsdUJBQXVCO0VBQ3RCLFlBQVk7Q0FDYjs7QUFFRDtDQUNDLG1CQUFtQjtDQUNuQjs7QUFFRDtDQUNDLG1CQUFtQjtFQUNsQixZQUFZO0VBQ1osU0FBUztFQUNULGFBQWE7Q0FDZDs7QUFFRDtFQUNFLG9CQUFvQjtFQUNwQixrQkFBa0I7Q0FDbkI7O0FBRUQ7RUFDRSxpQkFBaUI7RUFDakIsa0JBQWtCO0NBQ25COztBQUVEO0VBQ0UsaUJBQWlCO0VBQ2pCLDRCQUE0QjtFQUM1QixzQkFBc0I7Q0FDdkI7O0FBRUQ7RUFDRSxrQkFBa0I7Q0FDbkI7O0FBRUQ7RUFDRSxtQkFBbUI7Q0FDcEI7O0FBRUQ7RUFDRSxtQkFBbUI7Q0FDcEIiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL3N0dWR5L21ldGFib2xpdGVzL21hZi9tYWYuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbInRhYmxlIHtcbiAgLXdlYmtpdC11c2VyLXNlbGVjdDogbm9uZTtcbiAgLWtodG1sLXVzZXItc2VsZWN0OiBub25lO1xuICAtbW96LXVzZXItc2VsZWN0OiBub25lO1xuICAtby11c2VyLXNlbGVjdDogbm9uZTtcbiAgdXNlci1zZWxlY3Q6IG5vbmU7XG59XG5cbnRhYmxlIHtcbiAgd2lkdGg6IDEwMCU7XG59XG5cbnRhYmxlIHRkLCB0YWJsZSB0aCB7XG4gIHZlcnRpY2FsLWFsaWduOiBtaWRkbGU7XG59XG5cbnRoLm1hdC1zb3J0LWhlYWRlci1zb3J0ZWQge1xuICBjb2xvcjogYmxhY2s7XG59XG5cbnRoIGRpdntcbiAgZGlzcGxheTogZmxleDtcbn1cblxuLmNvbHVtbi1lZGl0b3ItY2FyZHtcbiAgbWluLXdpZHRoOiA4MHZ3ICFpbXBvcnRhbnQ7XG4gIG1pbi1oZWlnaHQ6IDgwdmg7XG59XG5cbi5jb2x1bW5zLmlzLXZjZW50ZXJlZCB7XG4gIC13ZWJraXQtYm94LWFsaWduOiBjZW50ZXI7XG4gIC1tcy1mbGV4LWFsaWduOiBjZW50ZXI7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG59XG5cbi5jb2x1bW5zLmlzLWhjZW50ZXJlZCB7XG4gIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG59XG5cbi5tdDIwe1xuICBtYXJnaW4tdG9wOiAyMHB4O1xufVxuXG4ubWIwe1xuICBtYXJnaW4tYm90dG9tOiAwcHg7XG59XG5cbi50YWItd3JhcHBlcntcbiAgbWluLWhlaWdodDogODB2aDtcbn1cblxuLm1vZGFsLWNhcmQtdGl0bGUge1xuICBjb2xvcjogIzk3OTc5NztcbiAgZm9udC1zaXplOiAxLjJyZW07XG59XG5cbi5tb2RhbC1jYXJkLXRpdGxlIC5oaWdobGlnaHQge1xuICBjb2xvcjogIzAwMDtcbn1cblxuLm9wdGlvbnMtd3JhcHBlcntcbiAgYm9yZGVyLWxlZnQ6IDFweCBzb2xpZCAjZjFmMWYzO1xuICBtaW4taGVpZ2h0OiA3MHZoO1xuICBwYWRkaW5nLXRvcDogMTBweCAhaW1wb3J0YW50O1xufVxuXG4ub3B0aW9ucy10aXRsZXtcbiAgYm9yZGVyLWJvdHRvbTogMXB4IHNvbGlkICNmMWYxZjM7XG4gIHBhZGRpbmc6IDE1cHggIWltcG9ydGFudDtcbiAgZm9udC13ZWlnaHQ6IGJvbGQ7XG4gIGZvbnQtc2l6ZTogMS4xZW07XG59XG5cbi5vcHRpb25ze1xuICBwYWRkaW5nOiAxNXB4O1xufVxuXG4ud3JhcHBlcntcbiAgd2lkdGg6IDEwMCU7XG4gIG92ZXJmbG93OiBhdXRvO1xufVxuXG4ubWF0LWZvcm0tZmllbGQtaW5maXgge1xuICBib3JkZXItdG9wOiBub25lO1xufVxuXG50ZC5tYXQtY2VsbCwgdGQubWF0LWZvb3Rlci1jZWxsLCB0aC5tYXQtaGVhZGVyLWNlbGwge1xuXHRwYWRkaW5nLWxlZnQ6IDIwcHg7XG5cdHBhZGRpbmctcmlnaHQ6IDEycHg7XG4gIC13ZWJraXQtYm94LXNoYWRvdzogMCAwIDFweCAjZGJkYmRiO1xuICBib3gtc2hhZG93OiAwIDAgMXB4ICNkYmRiZGI7XG59XG5cbi5tYXQtdGFibGUtc3RpY2t5IHtcbiAgYmFja2dyb3VuZC1jb2xvcjogI2ZkZmRmZDtcbn1cblxuLmRyb3Bkb3duLWRpdmlkZXIge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiAjZGJkYmRiO1xuICBib3JkZXI6IG5vbmU7XG4gIGRpc3BsYXk6IGJsb2NrO1xuICBoZWlnaHQ6IDFweDtcbiAgbWFyZ2luOiAwO1xufVxuXG4uZHJvcGRvd24tY29udGVudCB7XG4gcGFkZGluZy1ib3R0b206IDByZW07IFxuIHBhZGRpbmctdG9wOiAwcmVtOyBcbiBib3JkZXItcmFkaXVzOiAycHg7XG59XG5cbmEuZHJvcGRvd24taXRlbSB7XG4gIHBhZGRpbmctcmlnaHQ6IDFyZW07IFxufVxuXG4uY29sdW1ue1xuICBwYWRkaW5nOiAwO1xufVxuXG4uYWRkb24tdGFne1xuICBwYWRkaW5nLWxlZnQ6IDA7XG4gIHBhZGRpbmctcmlnaHQ6IDA7XG4gIGJvcmRlci1sZWZ0OiAxcHggZG90dGVkICNlYWVhZWE7XG59XG5cbi5jb2x1bW5ze1xuICBtYXJnaW4tcmlnaHQ6IDBweDtcbiAgbWFyZ2luLWxlZnQ6IDBweDtcbn1cblxuLnJvdy1zZWxlY3Rvcntcblx0d2lkdGg6IDEwcHg7XG59XG5cbi50YWJsZS1zZWxlY3Rvcntcblx0d2lkdGg6IDEwcHg7XG59XG5cbi5zZWxlY3RlZHtcblx0YmFja2dyb3VuZC1jb2xvcjogIzMzMztcbiAgY29sb3I6ICNmZmY7XG59XG5cbi5yb3ctb3B0aW9ucy13cmFwcGVye1xuXHRwb3NpdGlvbjogcmVsYXRpdmU7XG59XG5cbi5yb3ctb3B0aW9uc3tcblx0cG9zaXRpb246IGFic29sdXRlO1xuICBsZWZ0OiAtMjNweDtcbiAgdG9wOiAwcHg7XG4gIGhlaWdodDogNDhweDtcbn1cblxuLnRhYmxlLWljb24ge1xuICBwYWRkaW5nLXJpZ2h0OiAxMHB4O1xuICBwYWRkaW5nLXRvcDogMTJweDtcbn1cblxuLmJ1dHRvbntcbiAgbWFyZ2luLWxlZnQ6IDJweDtcbiAgbWFyZ2luLXJpZ2h0OiAycHg7XG59XG5cbi5tZW51LWJhcntcbiAgbWFyZ2luLXRvcDogMTBweDtcbiAgbWFyZ2luLWJvdHRvbTogMCAhaW1wb3J0YW50O1xuICBhbGlnbi1pdGVtczogYmFzZWxpbmU7XG59XG5cbi5tZW51LWJhcjpmaXJzdC1jaGlsZCB7IFxuICBtYXJnaW4tbGVmdDogLTVweDtcbn1cblxuLm1lbnUtYmFyOmxhc3QtY2hpbGQgeyBcbiAgbWFyZ2luLXJpZ2h0OiAtNXB4O1xufVxuXG4uYnV0dG9uLmlzLWxpZ2h0IHtcbiAgYm9yZGVyLXJhZGl1czogMnB4O1xufVxuIl19 */"
 
 /***/ }),
 
@@ -2874,7 +3200,7 @@ module.exports = "table {\n  -webkit-user-select: none;\n  -moz-user-select: non
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"card\" *ngIf=\"maf\">\n\t<header class=\"card-header\">\n\t\t<p class=\"card-header-title\">\n\t\t\tMetabolite Identification File\n\t\t</p>\n\t</header>\n\t<div class=\"card-content\">\n\t\t<div class=\"columns mb0 is-vcentered is-hcentered\">\n\t\t\t<div class=\"column is-12 is-paddingless\">\n\t\t\t\t<mat-form-field class=\"full-width bback\">\n\t\t\t\t\t<input (keydown)=\"onKeydown($event, $event.target.value)\" autocomplete=\"off\" matInput (keyup)=\"applyFilter($event.target.value)\" placeholder=\"Filter\">\n\t\t\t\t</mat-form-field>\n\t\t\t</div>\n\t\t</div>\n\t\t<div *ngIf=\"filters.length > 0\" class=\"field is-grouped is-grouped-multiline\">\n\t\t\t<div *ngFor=\"let filter of filters\" class=\"control\">\n\t\t\t\t<div class=\"tags has-addons\">\n\t\t\t\t\t<span class=\"tag is-link\">{{ filter }}</span>\n\t\t\t\t\t<a (click)=\"highlightFilteredRows(filter)\" class=\"tag addon-tag\"><mat-icon>control_camera</mat-icon></a>\n\t\t\t\t\t<a (click)=\"removeFilter(filter)\" class=\"tag is-delete\"></a>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"menu-bar columns\">  \n\t\t\t<span class=\"column fadeIn\">\n\t\t\t\t<a (click)=\"addRow()\" class=\"button is-small is-light\">\n\t\t\t\t\t<mat-icon>add</mat-icon> Row\n\t\t\t\t</a>&nbsp;\n\t\t\t\t<mtbls-upload></mtbls-upload>&nbsp;\n      \t\t\t<mtbls-download [value]=\"maf.file\"></mtbls-download>\n\t\t\t\t<span *ngIf=\"selectedRows.length > 0\">\n\t\t\t\t\t<a (click)=\"openDeleteModal()\" class=\"button is-small is-light\">\n\t\t\t\t\t\t<mat-icon>delete</mat-icon> Delete\n\t\t\t\t\t</a>\n\t\t\t\t</span>\n\t\t\t</span>\n\t\t\t<span class=\"column fadeIn has-text-right\">\n\t\t\t\t<mat-paginator [pageSizeOptions]=\"[10, 100, 500]\" showFirstLastButtons></mat-paginator>\n\t\t\t</span>\n\t\t</div>\n\t\t<div class=\"wrapper mat-elevation-z1\">\n\t\t\t<table class=\"mat-elevation-z1\" matSort [dataSource]=\"tableDataSource\" mat-table>\n\t\t\t\t<ng-container matColumnDef=\"Select\" sticky>\n\t\t\t\t\t<th (click)=\"deSelect()\" class=\"clickable table-selector\" mat-header-cell *matHeaderCellDef></th>\n\t\t\t\t\t<td (dblclick)=\"openRowEditModal(row)\" (click)=\"rowClick(row, $event)\" class=\"clickable row-selector hover-highlight\" mat-cell *matCellDef=\"let row\">\n\t\t\t\t\t\t<span class=\"row-options-wrapper\">\n\t\t\t\t\t\t\t<span class=\"row-options hover-button\">\n\t\t\t\t\t\t\t\t<mat-icon class=\"table-icon\">aspect_ratio</mat-icon>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t</td>\n\t\t\t\t</ng-container>\n\t\t\t\t<ng-container *ngFor=\"let column of maf.columns\" [sticky]=\"column.sticky\" [matColumnDef]=\"column.columnDef\">\n\t\t\t\t\t<th class=\"clickable hover-highlight\" mat-header-cell *matHeaderCellDef>\n\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t<span (click)=\"headerClick(column, $event)\">{{ column.header }} </span>\n\t\t\t\t\t\t\t<span mat-sort-header>&nbsp;</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</th>\n\t\t\t\t\t<td (dblclick)=\"editCell(row, column, $event)\" (click)=\"cellClick(row, column, $event)\" class=\"clickable\" [ngClass]=\"{'selected': isSelected(row, column)}\" mat-cell *matCellDef=\"let row\"> \n\t\t\t\t\t\t{{ row[column.header] }} \n\t\t\t\t\t</td>\n\t\t\t\t</ng-container>\n\t\t\t\t<tr mat-header-row *matHeaderRowDef=\"maf.displayedColumns\"></tr>\n\t\t\t\t<tr mat-row *matRowDef=\"let row; columns: maf.displayedColumns;\"></tr>\n\t\t\t</table>\n\t\t</div>\n\t</div>\n</div>\n\n\n<div class=\"modal\" *ngIf=\"isRowEditModalOpen\" [ngClass]=\"{'is-active': isRowEditModalOpen}\">\n\t<form *ngIf=\"form\" [formGroup]=\"form\">\n\t\t<div class=\"modal-background\"></div>\n\t\t<div class=\"modal-card\">\n\t\t\t<div *ngIf=\"isFormBusy\" class=\"load-bar\">\n\t\t\t\t<div class=\"bar\"></div>\n\t\t\t\t<div class=\"bar\"></div>\n\t\t\t\t<div class=\"bar\"></div>\n\t\t\t</div>\n\t\t\t<section class=\"modal-card-body\">\n\t\t\t\t<div class=\"field is-horizontal\">\n\t\t\t\t\t<div class=\"field-body\">\n\t\t\t\t\t\t<div class=\"field\">\n\t\t\t\t\t\t\t<div class=\"control\">\n\t\t\t\t\t\t\t\t<label><small>Name</small></label>\n\t\t\t\t\t\t\t\t<mat-form-field class=\"full-width\">\n\t\t\t\t\t\t\t\t\t<input class=\"no-scroll\" \n\t\t\t\t\t\t\t\t\tformControlName=\"name\"\n\t\t\t\t\t\t\t\t\t(blur)=\"search('name')\"\n\t\t\t\t\t\t\t\t\tmatInput>\n\t\t\t\t\t\t\t\t\t<!-- <mat-hint>{{ fieldValidation('doi').description }}</mat-hint> -->\n\t\t\t\t\t\t\t\t\t<!-- <mat-error\n\t\t\t\t\t\t\t\t\t*ngIf=\"form.get('title').errors &&\n\t\t\t\t\t\t\t\t\tform.get('title').dirty &&\n\t\t\t\t\t\t\t\t\tform.get('title').errors.title\">\n\t\t\t\t\t\t\t\t\t{{ form.get('title').errors.title.error }}\n\t\t\t\t\t\t\t\t\t</mat-error> -->\n\t\t\t\t\t\t\t\t</mat-form-field>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"control\">\n\t\t\t\t\t\t\t\t<label><small>SMILES</small></label>\n\t\t\t\t\t\t\t\t<mat-form-field class=\"full-width\">\n\t\t\t\t\t\t\t\t\t<input class=\"no-scroll\" \n\t\t\t\t\t\t\t\t\tformControlName=\"smiles\"\n\t\t\t\t\t\t\t\t\t(blur)=\"search('smiles')\"\n\t\t\t\t\t\t\t\t\tmatInput>\n\t\t\t\t\t\t\t\t\t<!-- <mat-hint>{{ fieldValidation('doi').description }}</mat-hint> -->\n\t\t\t\t\t\t\t\t\t<!-- <mat-error\n\t\t\t\t\t\t\t\t\t*ngIf=\"form.get('title').errors &&\n\t\t\t\t\t\t\t\t\tform.get('title').dirty &&\n\t\t\t\t\t\t\t\t\tform.get('title').errors.title\">\n\t\t\t\t\t\t\t\t\t{{ form.get('title').errors.title.error }}\n\t\t\t\t\t\t\t\t\t</mat-error> -->\n\t\t\t\t\t\t\t\t</mat-form-field>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"control\">\n\t\t\t\t\t\t\t\t<label><small>InChI</small></label>\n\t\t\t\t\t\t\t\t<mat-form-field class=\"full-width\">\n\t\t\t\t\t\t\t\t\t<input class=\"no-scroll\" \n\t\t\t\t\t\t\t\t\tformControlName=\"inchi\"\n\t\t\t\t\t\t\t\t\t(blur)=\"search('inchi')\"\n\t\t\t\t\t\t\t\t\tmatInput>\n\t\t\t\t\t\t\t\t\t<!-- <mat-hint>{{ fieldValidation('doi').description }}</mat-hint> -->\n\t\t\t\t\t\t\t\t\t<!-- <mat-error\n\t\t\t\t\t\t\t\t\t*ngIf=\"form.get('title').errors &&\n\t\t\t\t\t\t\t\t\tform.get('title').dirty &&\n\t\t\t\t\t\t\t\t\tform.get('title').errors.title\">\n\t\t\t\t\t\t\t\t\t{{ form.get('title').errors.title.error }}\n\t\t\t\t\t\t\t\t\t</mat-error> -->\n\t\t\t\t\t\t\t\t</mat-form-field>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"control\">\n\t\t\t\t\t\t\t\t<label><small>Database Identifier</small></label>\n\t\t\t\t\t\t\t\t<mat-form-field class=\"full-width\">\n\t\t\t\t\t\t\t\t\t<input class=\"no-scroll\" \n\t\t\t\t\t\t\t\t\tformControlName=\"databaseId\"\n\t\t\t\t\t\t\t\t\t(blur)=\"search('databaseId')\"\n\t\t\t\t\t\t\t\t\tmatInput>\n\t\t\t\t\t\t\t\t\t<!-- <mat-hint>{{ fieldValidation('doi').description }}</mat-hint> -->\n\t\t\t\t\t\t\t\t\t<!-- <mat-error\n\t\t\t\t\t\t\t\t\t*ngIf=\"form.get('title').errors &&\n\t\t\t\t\t\t\t\t\tform.get('title').dirty &&\n\t\t\t\t\t\t\t\t\tform.get('title').errors.title\">\n\t\t\t\t\t\t\t\t\t{{ form.get('title').errors.title.error }}\n\t\t\t\t\t\t\t\t\t</mat-error> -->\n\t\t\t\t\t\t\t\t</mat-form-field>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</section>\n\t\t\t<footer class=\"modal-card-foot buttons is-right\">\n\t\t\t\t<button *ngIf=\"!form.pristine\" [disabled]=\"!form.valid || isFormBusy\" (click)='saveMultipleCells()' class=\"button is-info\">\n\t\t\t\t\t<mat-spinner [diameter]=\"20\" [strokeWidth]=\"3\" *ngIf=\"isFormBusy\"></mat-spinner>\n\t\t\t\t\tSave\n\t\t\t\t</button>\n\t\t\t\t<button *ngIf=\"form.pristine\" (click)='closeRowEditModal()' class=\"button is-info\">OK</button>\n\t\t\t\t<button class=\"button\" [disabled]=\"isFormBusy\" (click)='closeRowEditModal()'>Cancel</button>\n\t\t\t</footer>\n\t\t</div>\n\t</form>\n</div>\n\n<div class=\"modal\" *ngIf=\"isEditModalOpen\" [ngClass]=\"{'is-active': isEditModalOpen}\">\n\t<form *ngIf=\"form\" [formGroup]=\"form\">\n\t\t<div class=\"modal-background\"></div>\n\t\t<div class=\"modal-card\">\n\t\t\t<div *ngIf=\"isFormBusy\" class=\"load-bar\">\n\t\t\t\t<div class=\"bar\"></div>\n\t\t\t\t<div class=\"bar\"></div>\n\t\t\t\t<div class=\"bar\"></div>\n\t\t\t</div>\n\t\t\t<section class=\"modal-card-body\">\n\t\t\t\t<div class=\"field is-horizontal\">\n\t\t\t\t\t<div class=\"field-body\">\n\t\t\t\t\t\t<div class=\"field\">\n\t\t\t\t\t\t\t<div class=\"control\">\n\t\t\t\t\t\t\t\t<label>{{ formatCellTitle(selectedCell['column']['columnDef']) }}</label>\n\t\t\t\t\t\t\t\t<mat-form-field class=\"full-width\">\n\t\t\t\t\t\t\t\t\t<input class=\"no-scroll\" \n\t\t\t\t\t\t\t\t\tformControlName=\"cell\"\n\t\t\t\t\t\t\t\t\tmatInput>\n\t\t\t\t\t\t\t\t\t<!-- <mat-hint>{{ fieldValidation('doi').description }}</mat-hint> -->\n\t\t\t\t\t\t\t\t\t<!-- <mat-error\n\t\t\t\t\t\t\t\t\t*ngIf=\"form.get('title').errors &&\n\t\t\t\t\t\t\t\t\tform.get('title').dirty &&\n\t\t\t\t\t\t\t\t\tform.get('title').errors.title\">\n\t\t\t\t\t\t\t\t\t{{ form.get('title').errors.title.error }}\n\t\t\t\t\t\t\t\t\t</mat-error> -->\n\t\t\t\t\t\t\t\t</mat-form-field>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</section>\n\t\t\t<footer class=\"modal-card-foot buttons is-right\">\n\t\t\t\t<button *ngIf=\"!form.pristine\" [disabled]=\"!form.valid || isFormBusy\" (click)='saveCell()' class=\"button is-info\">\n\t\t\t\t\t<mat-spinner [diameter]=\"20\" [strokeWidth]=\"3\" *ngIf=\"isFormBusy\"></mat-spinner>\n\t\t\t\t\tSave\n\t\t\t\t</button>\n\t\t\t\t<button *ngIf=\"form.pristine\" (click)='closeEditModal()' class=\"button is-info\">OK</button>\n\t\t\t\t<button class=\"button\" [disabled]=\"isFormBusy\" (click)='closeEditModal()'>Cancel</button>\n\t\t\t</footer>\n\t\t</div>\n\t</form>\n</div>\n\n<div class=\"modal\" *ngIf=\"isDeleteModalOpen\"  [ngClass]=\"{'is-active': isDeleteModalOpen}\">\n\t<div class=\"modal-background\"></div>\n\t<div class=\"modal-card\">\n\t\t<section class=\"modal-card-body\">\n\t\t\t<p>Are you sure you want to delete the selected rows?</p>\n\t\t</section>\n\t\t<footer class=\"modal-card-foot\">\n\t\t\t<div class=\"columns is-gapless full-width\">\n\t\t\t\t<div class=\"column is-half\">\n\t\t\t\t\t<button (click)='closeDelete()' class=\"button is-info\">Cancel</button>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"column is-half has-text-right\">\n\t\t\t\t\t<button (click)='deleteSelectedRows()' class=\"button is-danger\">OK! Delete Permanently</button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</footer>\n\t</div>\n</div>"
+module.exports = "<div class=\"card\" *ngIf=\"maf\">\n\t<header class=\"card-header\">\n\t\t<p class=\"card-header-title\">\n\t\t\tMetabolite Identification File\n\t\t</p>\n\t</header>\n\t<div class=\"card-content\">\n\t\t<div class=\"columns mb0 is-vcentered is-hcentered\">\n\t\t\t<div class=\"column is-12 is-paddingless\">\n\t\t\t\t<mat-form-field class=\"full-width bback\">\n\t\t\t\t\t<input (keydown)=\"onKeydown($event, $event.target.value)\" autocomplete=\"off\" matInput (keyup)=\"applyFilter($event.target.value)\" placeholder=\"Filter\">\n\t\t\t\t</mat-form-field>\n\t\t\t</div>\n\t\t</div>\n\t\t<div *ngIf=\"filters.length > 0\" class=\"field is-grouped is-grouped-multiline\">\n\t\t\t<div *ngFor=\"let filter of filters\" class=\"control\">\n\t\t\t\t<div class=\"tags has-addons\">\n\t\t\t\t\t<span class=\"tag is-link\">{{ filter }}</span>\n\t\t\t\t\t<a (click)=\"highlightFilteredRows(filter)\" class=\"tag addon-tag\"><mat-icon>control_camera</mat-icon></a>\n\t\t\t\t\t<a (click)=\"removeFilter(filter)\" class=\"tag is-delete\"></a>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"menu-bar columns\">  \n\t\t\t<span class=\"column fadeIn\">\n\t\t\t\t<a (click)=\"addRow()\" class=\"button is-small is-light\">\n\t\t\t\t\t<mat-icon>add</mat-icon> Row\n\t\t\t\t</a>&nbsp;\n\t\t\t\t<mtbls-upload></mtbls-upload>&nbsp;\n      \t\t\t<span *ngIf=\"maf.file\">\n      \t\t\t\t<mtbls-download [value]=\"maf.file\"></mtbls-download>\n      \t\t\t</span>\n\t\t\t\t<span *ngIf=\"selectedRows.length > 0\">\n\t\t\t\t\t<a (click)=\"openDeleteModal()\" class=\"button is-small is-light\">\n\t\t\t\t\t\t<mat-icon>delete</mat-icon> Delete\n\t\t\t\t\t</a>\n\t\t\t\t</span>\n\t\t\t</span>\n\t\t\t<span class=\"column fadeIn has-text-right\">\n\t\t\t\t<mat-paginator [pageSizeOptions]=\"[100, 500, 1000]\" showFirstLastButtons></mat-paginator>\n\t\t\t</span>\n\t\t</div>\n\t\t<div class=\"wrapper mat-elevation-z1\">\n\t\t\t<table class=\"mat-elevation-z1\" matSort [dataSource]=\"tableDataSource\" mat-table>\n\t\t\t\t<ng-container matColumnDef=\"Select\" sticky>\n\t\t\t\t\t<th (click)=\"deSelect()\" class=\"clickable table-selector\" mat-header-cell *matHeaderCellDef></th>\n\t\t\t\t\t<td (dblclick)=\"openRowEditModal(row)\" (click)=\"rowClick(row, $event)\" class=\"clickable row-selector hover-highlight\" mat-cell *matCellDef=\"let row\">\n\t\t\t\t\t\t<span class=\"row-options-wrapper\">\n\t\t\t\t\t\t\t<span class=\"row-options hover-button\">\n\t\t\t\t\t\t\t\t<mat-icon class=\"table-icon\">aspect_ratio</mat-icon>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t</td>\n\t\t\t\t</ng-container>\n\t\t\t\t<ng-container *ngFor=\"let column of maf.columns\" [sticky]=\"column.sticky\" [matColumnDef]=\"column.columnDef\">\n\t\t\t\t\t<th class=\"clickable hover-highlight\" mat-header-cell *matHeaderCellDef>\n\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t<span (click)=\"headerClick(column, $event)\">{{ formatHeader(column.header) }} </span>\n\t\t\t\t\t\t\t<span mat-sort-header>&nbsp;</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</th>\n\t\t\t\t\t<td (dblclick)=\"editCell(row, column, $event)\" (click)=\"cellClick(row, column, $event)\" class=\"clickable\" [ngClass]=\"{'selected': isSelected(row, column)}\" mat-cell *matCellDef=\"let row\"> \n\t\t\t\t\t\t{{ row[column.header] }} \n\t\t\t\t\t</td>\n\t\t\t\t</ng-container>\n\t\t\t\t<tr mat-header-row *matHeaderRowDef=\"maf.displayedColumns\"></tr>\n\t\t\t\t<tr mat-row *matRowDef=\"let row; columns: maf.displayedColumns;\"></tr>\n\t\t\t</table>\n\t\t</div>\n\t</div>\n</div>\n\n\n<div class=\"modal\" *ngIf=\"isRowEditModalOpen\" [ngClass]=\"{'is-active': isRowEditModalOpen}\">\n\t<form *ngIf=\"form\" [formGroup]=\"form\">\n\t\t<div class=\"modal-background\"></div>\n\t\t<div class=\"modal-card\">\n\t\t\t<div *ngIf=\"isFormBusy\" class=\"load-bar\">\n\t\t\t\t<div class=\"bar\"></div>\n\t\t\t\t<div class=\"bar\"></div>\n\t\t\t\t<div class=\"bar\"></div>\n\t\t\t</div>\n\t\t\t<section class=\"modal-card-body\">\n\t\t\t\t<div class=\"field is-horizontal\">\n\t\t\t\t\t<div class=\"field-body\">\n\t\t\t\t\t\t<div class=\"field\">\n\t\t\t\t\t\t\t<div class=\"control\">\n\t\t\t\t\t\t\t\t<label><small>Name</small></label>\n\t\t\t\t\t\t\t\t<mat-form-field class=\"full-width\">\n\t\t\t\t\t\t\t\t\t<input class=\"no-scroll\" \n\t\t\t\t\t\t\t\t\tformControlName=\"name\"\n\t\t\t\t\t\t\t\t\t(blur)=\"search('name')\"\n\t\t\t\t\t\t\t\t\tmatInput>\n\t\t\t\t\t\t\t\t\t<!-- <mat-hint>{{ fieldValidation('doi').description }}</mat-hint> -->\n\t\t\t\t\t\t\t\t\t<!-- <mat-error\n\t\t\t\t\t\t\t\t\t*ngIf=\"form.get('title').errors &&\n\t\t\t\t\t\t\t\t\tform.get('title').dirty &&\n\t\t\t\t\t\t\t\t\tform.get('title').errors.title\">\n\t\t\t\t\t\t\t\t\t{{ form.get('title').errors.title.error }}\n\t\t\t\t\t\t\t\t\t</mat-error> -->\n\t\t\t\t\t\t\t\t</mat-form-field>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"control\">\n\t\t\t\t\t\t\t\t<label><small>SMILES</small></label>\n\t\t\t\t\t\t\t\t<mat-form-field class=\"full-width\">\n\t\t\t\t\t\t\t\t\t<input class=\"no-scroll\" \n\t\t\t\t\t\t\t\t\tformControlName=\"smiles\"\n\t\t\t\t\t\t\t\t\t(blur)=\"search('smiles')\"\n\t\t\t\t\t\t\t\t\tmatInput>\n\t\t\t\t\t\t\t\t\t<!-- <mat-hint>{{ fieldValidation('doi').description }}</mat-hint> -->\n\t\t\t\t\t\t\t\t\t<!-- <mat-error\n\t\t\t\t\t\t\t\t\t*ngIf=\"form.get('title').errors &&\n\t\t\t\t\t\t\t\t\tform.get('title').dirty &&\n\t\t\t\t\t\t\t\t\tform.get('title').errors.title\">\n\t\t\t\t\t\t\t\t\t{{ form.get('title').errors.title.error }}\n\t\t\t\t\t\t\t\t\t</mat-error> -->\n\t\t\t\t\t\t\t\t</mat-form-field>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"control\">\n\t\t\t\t\t\t\t\t<label><small>InChI</small></label>\n\t\t\t\t\t\t\t\t<mat-form-field class=\"full-width\">\n\t\t\t\t\t\t\t\t\t<input class=\"no-scroll\" \n\t\t\t\t\t\t\t\t\tformControlName=\"inchi\"\n\t\t\t\t\t\t\t\t\t(blur)=\"search('inchi')\"\n\t\t\t\t\t\t\t\t\tmatInput>\n\t\t\t\t\t\t\t\t\t<!-- <mat-hint>{{ fieldValidation('doi').description }}</mat-hint> -->\n\t\t\t\t\t\t\t\t\t<!-- <mat-error\n\t\t\t\t\t\t\t\t\t*ngIf=\"form.get('title').errors &&\n\t\t\t\t\t\t\t\t\tform.get('title').dirty &&\n\t\t\t\t\t\t\t\t\tform.get('title').errors.title\">\n\t\t\t\t\t\t\t\t\t{{ form.get('title').errors.title.error }}\n\t\t\t\t\t\t\t\t\t</mat-error> -->\n\t\t\t\t\t\t\t\t</mat-form-field>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"control\">\n\t\t\t\t\t\t\t\t<label><small>Database Identifier</small></label>\n\t\t\t\t\t\t\t\t<mat-form-field class=\"full-width\">\n\t\t\t\t\t\t\t\t\t<input class=\"no-scroll\" \n\t\t\t\t\t\t\t\t\tformControlName=\"databaseId\"\n\t\t\t\t\t\t\t\t\t(blur)=\"search('databaseId')\"\n\t\t\t\t\t\t\t\t\tmatInput>\n\t\t\t\t\t\t\t\t\t<!-- <mat-hint>{{ fieldValidation('doi').description }}</mat-hint> -->\n\t\t\t\t\t\t\t\t\t<!-- <mat-error\n\t\t\t\t\t\t\t\t\t*ngIf=\"form.get('title').errors &&\n\t\t\t\t\t\t\t\t\tform.get('title').dirty &&\n\t\t\t\t\t\t\t\t\tform.get('title').errors.title\">\n\t\t\t\t\t\t\t\t\t{{ form.get('title').errors.title.error }}\n\t\t\t\t\t\t\t\t\t</mat-error> -->\n\t\t\t\t\t\t\t\t</mat-form-field>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</section>\n\t\t\t<footer class=\"modal-card-foot buttons is-right\">\n\t\t\t\t<button *ngIf=\"!form.pristine\" [disabled]=\"!form.valid || isFormBusy\" (click)='saveMultipleCells()' class=\"button is-info\">\n\t\t\t\t\t<mat-spinner [diameter]=\"20\" [strokeWidth]=\"3\" *ngIf=\"isFormBusy\"></mat-spinner>\n\t\t\t\t\tSave\n\t\t\t\t</button>\n\t\t\t\t<button *ngIf=\"form.pristine\" (click)='closeRowEditModal()' class=\"button is-info\">OK</button>\n\t\t\t\t<button class=\"button\" [disabled]=\"isFormBusy\" (click)='closeRowEditModal()'>Cancel</button>\n\t\t\t</footer>\n\t\t</div>\n\t</form>\n</div>\n\n<div class=\"modal\" *ngIf=\"isEditModalOpen\" [ngClass]=\"{'is-active': isEditModalOpen}\">\n\t<form *ngIf=\"form\" [formGroup]=\"form\">\n\t\t<div class=\"modal-background\"></div>\n\t\t<div class=\"modal-card\">\n\t\t\t<div *ngIf=\"isFormBusy\" class=\"load-bar\">\n\t\t\t\t<div class=\"bar\"></div>\n\t\t\t\t<div class=\"bar\"></div>\n\t\t\t\t<div class=\"bar\"></div>\n\t\t\t</div>\n\t\t\t<section class=\"modal-card-body\">\n\t\t\t\t<div class=\"field is-horizontal\">\n\t\t\t\t\t<div class=\"field-body\">\n\t\t\t\t\t\t<div class=\"field\">\n\t\t\t\t\t\t\t<div class=\"control\">\n\t\t\t\t\t\t\t\t<label>{{ formatCellTitle(selectedCell['column']['columnDef']) }}</label>\n\t\t\t\t\t\t\t\t<mat-form-field class=\"full-width\">\n\t\t\t\t\t\t\t\t\t<input class=\"no-scroll\" \n\t\t\t\t\t\t\t\t\tformControlName=\"cell\"\n\t\t\t\t\t\t\t\t\tmatInput>\n\t\t\t\t\t\t\t\t\t<!-- <mat-hint>{{ fieldValidation('doi').description }}</mat-hint> -->\n\t\t\t\t\t\t\t\t\t<!-- <mat-error\n\t\t\t\t\t\t\t\t\t*ngIf=\"form.get('title').errors &&\n\t\t\t\t\t\t\t\t\tform.get('title').dirty &&\n\t\t\t\t\t\t\t\t\tform.get('title').errors.title\">\n\t\t\t\t\t\t\t\t\t{{ form.get('title').errors.title.error }}\n\t\t\t\t\t\t\t\t\t</mat-error> -->\n\t\t\t\t\t\t\t\t</mat-form-field>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</section>\n\t\t\t<footer class=\"modal-card-foot buttons is-right\">\n\t\t\t\t<button *ngIf=\"!form.pristine\" [disabled]=\"!form.valid || isFormBusy\" (click)='saveCell()' class=\"button is-info\">\n\t\t\t\t\t<mat-spinner [diameter]=\"20\" [strokeWidth]=\"3\" *ngIf=\"isFormBusy\"></mat-spinner>\n\t\t\t\t\tSave\n\t\t\t\t</button>\n\t\t\t\t<button *ngIf=\"form.pristine\" (click)='closeEditModal()' class=\"button is-info\">OK</button>\n\t\t\t\t<button class=\"button\" [disabled]=\"isFormBusy\" (click)='closeEditModal()'>Cancel</button>\n\t\t\t</footer>\n\t\t</div>\n\t</form>\n</div>\n\n<div class=\"modal\" *ngIf=\"isDeleteModalOpen\"  [ngClass]=\"{'is-active': isDeleteModalOpen}\">\n\t<div class=\"modal-background\"></div>\n\t<div class=\"modal-card\">\n\t\t<section class=\"modal-card-body\">\n\t\t\t<p>Are you sure you want to delete the selected rows?</p>\n\t\t</section>\n\t\t<footer class=\"modal-card-foot\">\n\t\t\t<div class=\"columns is-gapless full-width\">\n\t\t\t\t<div class=\"column is-half\">\n\t\t\t\t\t<button (click)='closeDelete()' class=\"button is-info\">Cancel</button>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"column is-half has-text-right\">\n\t\t\t\t\t<button (click)='deleteSelectedRows()' class=\"button is-danger\">OK! Delete Permanently</button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</footer>\n\t</div>\n</div>"
 
 /***/ }),
 
@@ -3001,6 +3327,9 @@ var MafComponent = /** @class */ (function () {
             }
         }
         return false;
+    };
+    MafComponent.prototype.formatHeader = function (term) {
+        return term.replace("_", " ");
     };
     MafComponent.prototype.rowClick = function (row, event) {
         this.selectedCells = [];
@@ -3206,11 +3535,9 @@ var MafComponent = /** @class */ (function () {
             displayedColumns.sort(function (a, b) {
                 return res.mafHeader[a] - res.mafHeader[b];
             });
-            _this.ngRedux.dispatch({ type: 'UPDATE_MAF_DATA', body: {
-                    'data': { 'file': _this.maf.file, 'data': res.mafData.rows, 'columnOrder': {}, 'columns': columns, 'displayedColumns': displayedColumns },
-                    'assay': _this.assay
-                } });
+            _this.getMAFData(_this.maf.file);
             _this.rowClick(_this.selectedCell['row'], null);
+            _this.form.markAsPristine();
         }, function (err) {
         });
     };
@@ -3239,10 +3566,7 @@ var MafComponent = /** @class */ (function () {
             displayedColumns.sort(function (a, b) {
                 return res.mafHeader[a] - res.mafHeader[b];
             });
-            _this.ngRedux.dispatch({ type: 'UPDATE_MAF_DATA', body: {
-                    'data': { 'file': _this.maf.file, 'data': res.mafData.rows, 'columnOrder': {}, 'columns': columns, 'displayedColumns': displayedColumns },
-                    'assay': _this.assay
-                } });
+            _this.getMAFData(_this.maf.file);
         }, function (err) {
         });
     };
@@ -3272,11 +3596,33 @@ var MafComponent = /** @class */ (function () {
             displayedColumns.sort(function (a, b) {
                 return res.mafHeader[a] - res.mafHeader[b];
             });
-            _this.ngRedux.dispatch({ type: 'UPDATE_MAF_DATA', body: {
-                    'data': { 'file': _this.maf.file, 'data': res.mafData.rows, 'columnOrder': {}, 'columns': columns, 'displayedColumns': displayedColumns },
-                    'assay': _this.assay
-                } });
+            _this.getMAFData(_this.maf.file);
         }, function (err) { });
+    };
+    MafComponent.prototype.getMAFData = function (maf) {
+        var _this = this;
+        var mafData;
+        return this.metabolightsService.getMAF(maf).subscribe(function (data) {
+            var columns = [];
+            Object.keys(data.mafHeader).forEach(function (key) {
+                var fn = "element['" + key + "']";
+                columns.push({
+                    "columnDef": key.toLowerCase().split(" ").join("_"),
+                    "sticky": "false",
+                    "header": key,
+                    "cell": function (element) { return eval(fn); }
+                });
+            });
+            var displayedColumns = columns.map(function (a) { return a.columnDef; });
+            displayedColumns.unshift("Select");
+            displayedColumns.sort(function (a, b) {
+                return parseInt(data.mafHeader[a]) - parseInt(data.mafHeader[b]);
+            });
+            mafData = { 'assay': _this.maf.assay, 'file': maf, 'data': data.mafData.rows, 'columnOrder': {}, 'columns': columns, 'displayedColumns': displayedColumns };
+            _this.ngRedux.dispatch({ type: 'UPDATE_MAF_DATA', body: {
+                    'maf': mafData
+                } });
+        });
     };
     MafComponent.prototype.closeDelete = function () {
         this.isDeleteModalOpen = false;
@@ -3297,10 +3643,6 @@ var MafComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])('value'),
         __metadata("design:type", Object)
     ], MafComponent.prototype, "maf", void 0);
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])('assay'),
-        __metadata("design:type", Object)
-    ], MafComponent.prototype, "assay", void 0);
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])('validations'),
         __metadata("design:type", Object)
@@ -3335,7 +3677,7 @@ var MafComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvc3R1ZHkvbWV0YWJvbGl0ZXMvbWV0YWJvbGl0ZXMuY29tcG9uZW50LmNzcyJ9 */"
 
 /***/ }),
 
@@ -3432,7 +3774,7 @@ var MetabolitesComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvc3R1ZHkvb250b2xvZ3kvb250b2xvZ3kuY29tcG9uZW50LmNzcyJ9 */"
 
 /***/ }),
 
@@ -3562,6 +3904,14 @@ var OntologyComponent = /** @class */ (function () {
         this.valueCtrl.setValue(null);
         this.triggerChanges();
     };
+    OntologyComponent.prototype.setValue = function (value) {
+        var _this = this;
+        this.allvalues.forEach(function (val) {
+            if (val.annotationValue == value) {
+                _this.values = [val];
+            }
+        });
+    };
     OntologyComponent.prototype.updateList = function () {
         var _this = this;
         var term = this.valueInput.nativeElement.value;
@@ -3629,7 +3979,7 @@ var OntologyComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".pointer{\n\tcursor: pointer;\n}\n\n.tag.is-info {\n    margin-right: 5px !important;\n    margin-top: 5px !important;\n}"
+module.exports = ".pointer{\n\tcursor: pointer;\n}\n\n.tag.is-info {\n    margin-right: 5px !important;\n    margin-top: 5px !important;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9zdHVkeS9vcmdhbmlzbXMvb3JnYW5pc20vb3JnYW5pc20uY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtDQUNDLGdCQUFnQjtDQUNoQjs7QUFFRDtJQUNJLDZCQUE2QjtJQUM3QiwyQkFBMkI7Q0FDOUIiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL3N0dWR5L29yZ2FuaXNtcy9vcmdhbmlzbS9vcmdhbmlzbS5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLnBvaW50ZXJ7XG5cdGN1cnNvcjogcG9pbnRlcjtcbn1cblxuLnRhZy5pcy1pbmZvIHtcbiAgICBtYXJnaW4tcmlnaHQ6IDVweCAhaW1wb3J0YW50O1xuICAgIG1hcmdpbi10b3A6IDVweCAhaW1wb3J0YW50O1xufSJdfQ== */"
 
 /***/ }),
 
@@ -3707,7 +4057,7 @@ var OrganismComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvc3R1ZHkvb3JnYW5pc21zL29yZ2FuaXNtcy5jb21wb25lbnQuY3NzIn0= */"
 
 /***/ }),
 
@@ -3785,7 +4135,7 @@ var OrganismsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvc3R1ZHkvcGVvcGxlL3Blb3BsZS5jb21wb25lbnQuY3NzIn0= */"
 
 /***/ }),
 
@@ -3866,7 +4216,7 @@ var PeopleComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvc3R1ZHkvcGVvcGxlL3BlcnNvbi9wZXJzb24uY29tcG9uZW50LmNzcyJ9 */"
 
 /***/ }),
 
@@ -4149,6 +4499,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ValidateRules", function() { return ValidateRules; });
 function ValidateRules(field, validation) {
     return function (control) {
+        var _a;
         var value = control.value;
         var invalid = false;
         var errorMessage = "";
@@ -4179,7 +4530,6 @@ function ValidateRules(field, validation) {
             return _a = {}, _a[field] = { 'error': errorMessage }, _a;
         }
         return null;
-        var _a;
     };
 }
 
@@ -4193,7 +4543,7 @@ function ValidateRules(field, validation) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".card-footer {\n    padding: 10px 20px;\n}"
+module.exports = ".card-footer {\n    padding: 10px 20px;\n}\n\nlabel{\n\tfont-size: 0.73em;\n    color: #666;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9zdHVkeS9wcm90b2NvbHMvcHJvdG9jb2wvcHJvdG9jb2wuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtJQUNJLG1CQUFtQjtDQUN0Qjs7QUFFRDtDQUNDLGtCQUFrQjtJQUNmLFlBQVk7Q0FDZiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvc3R1ZHkvcHJvdG9jb2xzL3Byb3RvY29sL3Byb3RvY29sLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuY2FyZC1mb290ZXIge1xuICAgIHBhZGRpbmc6IDEwcHggMjBweDtcbn1cblxubGFiZWx7XG5cdGZvbnQtc2l6ZTogMC43M2VtO1xuICAgIGNvbG9yOiAjNjY2O1xufSJdfQ== */"
 
 /***/ }),
 
@@ -4204,7 +4554,7 @@ module.exports = ".card-footer {\n    padding: 10px 20px;\n}"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<span *ngIf='protocol == null || addNewProtocol; else showProtocolDetails'>\n  <a class=\"button is-primary is-pulled-right is-small\" (click)='openModal()'>+ Add New Protocol</a>\n</span>\n<br>\n<ng-template #showProtocolDetails>\n<div class=\"card\">\n  <header class=\"card-heading hover-highlight\">\n    <span>\n      <p class=\"is-pulled-left\">\n        {{ protocol.name }}\n      </p>\n      <a class=\"button is-light is-pulled-right is-small hover-button\" (click)='openModal()'><mat-icon>edit</mat-icon> Edit Protocol</a>\n    </span>\n  </header>\n  <div class=\"card-content\">\n    <div class=\"content\">\n      <mtbls-content [count]=\"500\" [message]=\"'Protocol description not found.'\" [value]=\"protocol.description\"></mtbls-content>\n    </div>\n  </div>\n  <footer *ngIf=\"protocol.parameters.length > 0 && protocol.parameters[0].parameterName.annotationValue != ''\" class=\"card-footer\">\n    <span>\n      <div id=\"meta\" class=\"field is-grouped is-grouped-multiline\">\n        <div *ngFor=\"let parameter of protocol.parameters\">\n          <div *ngIf=\"parameter.parameterName.annotationValue != ''\" class=\"control\">\n            <div class=\"tags is-info has-addons\">\n              <span class=\"tag\">{{ parameter.parameterName.annotationValue }}</span>\n            </div>\n          </div>\n        </div>\n      </div>\n    </span>\n  </footer>\n</div>\n<br>\n</ng-template>\n\n<div class=\"modal\" [ngClass]=\"{'is-active': isDeleteModalOpen}\">\n  <div class=\"modal-background\"></div>\n  <div class=\"modal-card\">\n    <section class=\"modal-card-body\">\n      <p>Are you sure you want to delete?</p>\n    </section>\n    <footer class=\"modal-card-foot\">\n      <div class=\"columns is-gapless full-width\">\n        <div class=\"column is-half\">\n          <button (click)='closeDelete()' class=\"button is-info\">Cancel</button>\n        </div>\n        <div class=\"column is-half has-text-right\">\n          <button (click)='delete()' class=\"button is-danger\">OK! Delete Permanently</button>\n        </div>\n      </div>\n    </footer>\n  </div>\n</div>\n\n<div class=\"modal\" [ngClass]=\"{'is-active': isModalOpen}\">\n  <form *ngIf=\"form\" [formGroup]=\"form\">\n    <div class=\"modal-background\"></div>\n    <div class=\"modal-card vw80\">\n      <div *ngIf=\"isFormBusy\" class=\"load-bar\">\n        <div class=\"bar\"></div>\n        <div class=\"bar\"></div>\n        <div class=\"bar\"></div>\n      </div>\n      <section class=\"modal-card-body\">\n          <div class=\"field is-horizontal\">\n            <div class=\"field-body\">\n              <div class=\"field\">\n                <div class=\"control\">\n                  <mat-form-field class=\"full-width\">\n                        <textarea class=\"no-scroll\" \n                        formControlName=\"name\"\n                        [placeholder]=\"fieldValidation('name').placeholder\" \n                        matInput\n                        cdkAutosizeMinRows=\"1\"\n                        cdkAutosizeMaxRows=\"4\"\n                        cdkTextareaAutosize>\n                      </textarea>\n                      <mat-hint>{{ fieldValidation('name').description }}</mat-hint>\n                      <mat-error\n                      *ngIf=\"form.get('name').errors &&\n                      form.get('name').dirty &&\n                      form.get('name').errors.name\">\n                      {{ form.get('name').errors.name.error }}\n                    </mat-error>\n                  </mat-form-field>\n                  <div>&nbsp;</div>\n                  <span *ngIf=\"form.get('description')\">\n                  <!-- <mat-form-field class=\"full-width\"> -->\n                   <ngx-wig\n                   formControlName=\"description\"\n                   [placeholder]=\"fieldValidation('description').placeholder\" \n                   >\n                   </ngx-wig>\n                    <!-- <textarea class=\"no-scroll\" \n                    formControlName=\"description\"\n                    [placeholder]=\"fieldValidation('description').placeholder\" \n                    matInput\n                    cdkAutosizeMinRows=\"12\"\n                    cdkAutosizeMaxRows=\"12\"\n                    cdkTextareaAutosize>\n                    </textarea> -->\n                    <mat-hint>{{ fieldValidation('description').description }}</mat-hint>\n                    <mat-error\n                    *ngIf=\"form.get('description').errors &&\n                    form.get('description').dirty &&\n                    form.get('description').errors.description\">\n                    {{ form.get('description').errors.description.error }}\n                    </mat-error> \n                    </span>\n                   <!-- </mat-form-field> -->\n                </div>\n              </div>\n            </div>\n          </div>\n      </section>\n      <footer class=\"modal-card-foot buttons is-right\">\n        <div class=\"columns is-gapless full-width\">\n          <div class=\"column is-half\">\n            <button *ngIf=\"!addNewProtocol && !required\" class=\"button is-danger is-pulled-left\" (click)=\"confirmDelete()\"><mat-icon>delete_outline</mat-icon></button>\n          </div>\n          <div class=\"column is-half has-text-right\">\n            <button *ngIf=\"!form.pristine\" [disabled]=\"!form.valid || isFormBusy\" (click)='save()' class=\"button is-info\">\n              <mat-spinner [diameter]=\"20\" [strokeWidth]=\"3\" *ngIf=\"isFormBusy\"></mat-spinner>\n              Save\n            </button>\n            <button *ngIf=\"form.pristine\" (click)='closeModal()' class=\"button is-info\">OK</button>\n            <button class=\"button\" [disabled]=\"isFormBusy\" (click)='closeModal()'>Cancel</button>\n          </div>\n        </div>\n      </footer>\n    </div>\n  </form>\n</div>"
+module.exports = "<span *ngIf='protocol == null || addNewProtocol; else showProtocolDetails'>\n  <a class=\"button is-primary is-pulled-right is-small\" (click)='openModal(protocol)'>+ Add New Protocol</a>\n</span>\n<br>\n<ng-template #showProtocolDetails>\n  <div class=\"card\">\n    <header class=\"card-heading hover-highlight\">\n      <span>\n        <p class=\"is-pulled-left\">\n          {{ protocol.name }}\n        </p>\n        <a class=\"button is-light is-pulled-right is-small hover-button\" (click)='openModal(protocol)'><mat-icon>edit</mat-icon> Edit Protocol</a>\n      </span>\n    </header>\n    <div class=\"card-content\">\n      <div class=\"content\">\n        <mtbls-content [count]=\"500\" [message]=\"'Protocol description not found.'\" [value]=\"protocol.description\"></mtbls-content>\n      </div>\n    </div>\n    <footer *ngIf=\"protocol.parameters.length > 0 && protocol.parameters[0].parameterName.annotationValue != ''\" class=\"card-footer\">\n      <span>\n        <div id=\"meta\" class=\"field is-grouped is-grouped-multiline\">\n          <div *ngFor=\"let parameter of protocol.parameters\">\n            <div *ngIf=\"parameter.parameterName.annotationValue != ''\" class=\"control\">\n              <div class=\"tags is-info has-addons\">\n                <span class=\"tag\">{{ parameter.parameterName.annotationValue }}</span>\n              </div>\n            </div>\n          </div>\n        </div>\n      </span>\n    </footer>\n  </div>\n  <br>\n</ng-template>\n\n<div class=\"modal\" [ngClass]=\"{'is-active': isDeleteModalOpen}\">\n  <div class=\"modal-background\"></div>\n  <div class=\"modal-card\">\n    <section class=\"modal-card-body\">\n      <p>Are you sure you want to delete?</p>\n    </section>\n    <footer class=\"modal-card-foot\">\n      <div class=\"columns is-gapless full-width\">\n        <div class=\"column is-half\">\n          <button (click)='closeDelete()' class=\"button is-info\">Cancel</button>\n        </div>\n        <div class=\"column is-half has-text-right\">\n          <button (click)='delete()' class=\"button is-danger\">OK! Delete Permanently</button>\n        </div>\n      </div>\n    </footer>\n  </div>\n</div>\n\n<div class=\"modal\" [ngClass]=\"{'is-active': isModalOpen}\">\n  <form *ngIf=\"form\" [formGroup]=\"form\">\n    <div class=\"modal-background\"></div>\n    <div class=\"modal-card vw80\">\n      <div *ngIf=\"isFormBusy\" class=\"load-bar\">\n        <div class=\"bar\"></div>\n        <div class=\"bar\"></div>\n        <div class=\"bar\"></div>\n      </div>\n      <section class=\"modal-card-body\">\n          <div class=\"field is-horizontal\">\n            <div class=\"field-body\">\n              <div class=\"field\">\n                <div class=\"control\">\n                  <mat-form-field class=\"full-width\">\n                        <textarea class=\"no-scroll\" \n                        formControlName=\"name\"\n                        [placeholder]=\"fieldValidation('name').placeholder\" \n                        matInput\n                        cdkAutosizeMinRows=\"1\"\n                        cdkAutosizeMaxRows=\"4\"\n                        cdkTextareaAutosize>\n                      </textarea>\n                      <mat-hint>{{ fieldValidation('name').description }}</mat-hint>\n                      <mat-error\n                      *ngIf=\"form.get('name').errors &&\n                      form.get('name').dirty &&\n                      form.get('name').errors.name\">\n                      {{ form.get('name').errors.name.error }}\n                    </mat-error>\n                  </mat-form-field>\n                  <div>&nbsp;</div>\n                  <span *ngIf=\"form.get('description')\">\n                  <!-- <mat-form-field class=\"full-width\"> -->\n                   <ngx-wig\n                   formControlName=\"description\"\n                   matInput\n                   [placeholder]=\"fieldValidation('description').placeholder\" \n                   >\n                   </ngx-wig>\n                    <!-- <textarea class=\"no-scroll\" \n                    formControlName=\"description\"\n                    [placeholder]=\"fieldValidation('description').placeholder\" \n                    matInput\n                    cdkAutosizeMinRows=\"12\"\n                    cdkAutosizeMaxRows=\"12\"\n                    cdkTextareaAutosize>\n                    </textarea> -->\n                    <mat-hint>{{ fieldValidation('description').description }}</mat-hint>\n                    <mat-error\n                    *ngIf=\"form.get('description').errors &&\n                    form.get('description').dirty &&\n                    form.get('description').errors.description\">\n                    {{ form.get('description').errors.description.error }}\n                    </mat-error> \n                    </span>\n                   <!-- </mat-form-field> -->\n                </div>\n              </div>\n            </div>\n          </div>\n          <span *ngIf=\"!required\">\n            <div *ngIf=\"form && form.get('parameters').value && form.get('parameters').value.length > 0 && form.get('parameters').value[0].parameterName.annotationValue != ''; else newParameter\">\n              <span>\n                <div>\n                   <label>Protocol parameters</label>\n                </div>\n                <div class=\"field is-grouped is-grouped-multiline\">\n                  <div *ngFor=\"let parameter of form.get('parameters').value\">\n                    <div *ngIf=\"parameter.parameterName.annotationValue != ''\" class=\"control\">\n                      <div class=\"tags is-info has-addons\">\n                        <span class=\"tag is-link\">{{ parameter.parameterName.annotationValue }}</span>\n                        <a (click)=\"deleteParameter(parameter)\" class=\"tag is-delete\"></a>\n                      </div>\n                    </div>\n                  </div>\n                  <div class=\"tags is-info has-addons\">\n                    <span class=\"tag\">Add parameter</span>\n                    <a (click)=\"openParameterModal()\" class=\"tag is-success\"> \n                        <mat-icon class=\"mat-icon material-icons\" role=\"img\" aria-hidden=\"true\">library_add</mat-icon>\n                    </a>\n                  </div>\n                </div>\n              </span>\n            </div>\n            <ng-template #newParameter>\n              <div class=\"tags is-info has-addons\">\n                <span class=\"tag\">Add parameter</span>\n                <a (click)=\"openParameterModal()\" class=\"tag is-success\"> <mat-icon class=\"mat-icon material-icons\" role=\"img\" aria-hidden=\"true\">library_add</mat-icon> </a>\n              </div>\n            </ng-template>\n          </span>\n      </section>\n      <footer class=\"modal-card-foot buttons is-right\">\n        <div class=\"columns is-gapless full-width\">\n          <div class=\"column is-half\">\n            <button *ngIf=\"!addNewProtocol && !required\" class=\"button is-danger is-pulled-left\" (click)=\"confirmDelete()\"><mat-icon>delete_outline</mat-icon></button>\n          </div>\n          <div class=\"column is-half has-text-right\">\n            <button *ngIf=\"!form.pristine\" [disabled]=\"!form.valid || isFormBusy\" (click)='save()' class=\"button is-info\">\n              <mat-spinner [diameter]=\"20\" [strokeWidth]=\"3\" *ngIf=\"isFormBusy\"></mat-spinner>\n              Save\n            </button>\n            <button *ngIf=\"form.pristine\" (click)='closeModal()' class=\"button is-info\">OK</button>\n            <button class=\"button\" [disabled]=\"isFormBusy\" (click)='closeModal()'>Cancel</button>\n          </div>\n        </div>\n      </footer>\n    </div>\n  </form>\n</div>\n\n\n<div class=\"modal\" [ngClass]=\"{'is-active': isParameterModalOpen}\">\n  <div class=\"modal-background\"></div>\n  <div class=\"modal-card\">\n    <section class=\"modal-card-body\">\n      <mtbls-ontology #parameterName [validations]=\"fieldValidation('parameterName')\" [values]='[]' [inline]=\"true\"></mtbls-ontology>\n    </section>\n    <footer class=\"modal-card-foot\">\n      <div class=\"columns is-gapless full-width\">\n        <div class=\"column is-half\">\n          <button (click)='closeParameterModal()' class=\"button is-default\">Cancel</button>\n        </div>\n        <div class=\"column is-half has-text-right\">\n          <button [disabled]=\"!(parameterName.values.length > 0)\" (click)='addParameter()' class=\"button is-success\">Add parameter</button>\n        </div>\n      </div>\n    </footer>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -4226,8 +4576,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_redux_store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular-redux/store */ "./node_modules/@angular-redux/store/lib/src/index.js");
 /* harmony import */ var _angular_redux_store__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_angular_redux_store__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _protocol_validator__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./protocol.validator */ "./src/app/components/study/protocols/protocol/protocol.validator.ts");
-/* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! toastr */ "./node_modules/toastr/toastr.js");
-/* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(toastr__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _ontology_ontology_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./../../ontology/ontology.component */ "./src/app/components/study/ontology/ontology.component.ts");
+/* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! toastr */ "./node_modules/toastr/toastr.js");
+/* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(toastr__WEBPACK_IMPORTED_MODULE_8__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4245,6 +4596,7 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var ProtocolComponent = /** @class */ (function () {
     function ProtocolComponent(fb, metabolightsService, ngRedux) {
         this.fb = fb;
@@ -4253,7 +4605,9 @@ var ProtocolComponent = /** @class */ (function () {
         this.required = false;
         this.isModalOpen = false;
         this.isDeleteModalOpen = false;
+        this.isParameterModalOpen = false;
         this.isFormBusy = false;
+        this.selectedProtocol = null;
         this.addNewProtocol = false;
         this.validationsId = 'protocols.protocol';
     }
@@ -4270,21 +4624,66 @@ var ProtocolComponent = /** @class */ (function () {
         this.isDeleteModalOpen = false;
         this.isModalOpen = true;
     };
-    ProtocolComponent.prototype.openModal = function () {
+    ProtocolComponent.prototype.openModal = function (protocol) {
         this.initialiseForm();
+        if (this.protocol.parameters.length > 0) {
+            this.form.get('parameters').setValue(this.protocol.parameters);
+        }
+        else {
+            this.form.get('parameters').setValue([]);
+        }
+        this.selectedProtocol = protocol;
         this.isModalOpen = true;
     };
     ProtocolComponent.prototype.closeModal = function () {
         this.isModalOpen = false;
+        this.form.removeControl('description');
+    };
+    ProtocolComponent.prototype.openParameterModal = function () {
+        this.parameterName.values = [];
+        this.isParameterModalOpen = true;
+    };
+    ProtocolComponent.prototype.closeParameterModal = function () {
+        this.isParameterModalOpen = false;
+    };
+    ProtocolComponent.prototype.deleteParameter = function (parameter) {
+        var filteredParameters = this.form.get('parameters').value.filter(function (obj) {
+            return obj.parameterName.annotationValue !== parameter.parameterName.annotationValue;
+        });
+        if (filteredParameters) {
+            this.form.get('parameters').setValue(filteredParameters);
+            this.form.markAsDirty();
+        }
+    };
+    ProtocolComponent.prototype.addParameter = function () {
+        var parameter = new _models_mtbl_mtbls_mtbls_protocol__WEBPACK_IMPORTED_MODULE_3__["ProtocolParameter"]();
+        parameter.parameterName = this.parameterName.values[0];
+        if (this.form.get('parameters').value.length == 1 && this.form.get('parameters').value[0].parameterName.annotationValue == '') {
+            this.form.get('parameters').setValue([parameter]);
+        }
+        else if (this.form.get('parameters').value.length == 1 && this.form.get('parameters').value[0].parameterName.annotationValue != '') {
+            this.form.get('parameters').setValue(this.form.get('parameters').value.concat(parameter));
+        }
+        else if (this.form.get('parameters').value.length > 1) {
+            this.form.get('parameters').setValue(this.form.get('parameters').value.concat(parameter));
+        }
+        else {
+            this.form.get('parameters').setValue([parameter]);
+        }
+        this.isParameterModalOpen = false;
+        this.form.markAsDirty();
     };
     ProtocolComponent.prototype.initialiseForm = function () {
         this.isFormBusy = false;
+        this.form = null;
         if (this.protocol == null) {
             var mtblsProtocol = new _models_mtbl_mtbls_mtbls_protocol__WEBPACK_IMPORTED_MODULE_3__["MTBLSProtocol"]();
+            mtblsProtocol.parameters = [];
             this.protocol = mtblsProtocol;
         }
         this.form = this.fb.group({
             name: [{ value: this.protocol.name, disabled: this.required }, Object(_protocol_validator__WEBPACK_IMPORTED_MODULE_6__["ValidateRules"])('name', this.fieldValidation('name'))],
+            parameters: [this.protocol.parameters],
             description: [this.protocol.description, Object(_protocol_validator__WEBPACK_IMPORTED_MODULE_6__["ValidateRules"])('description', this.fieldValidation('description'))]
         });
     };
@@ -4293,8 +4692,9 @@ var ProtocolComponent = /** @class */ (function () {
         this.isFormBusy = true;
         if (!this.addNewProtocol) {
             this.metabolightsService.updateProtocol(this.protocol.name, this.compileBody()).subscribe(function (res) {
-                _this.form.removeControl('description');
                 _this.updateProtocols(res, 'Protocol updated.');
+                _this.form.removeControl('description');
+                _this.isModalOpen = false;
             }, function (err) {
                 _this.isFormBusy = false;
             });
@@ -4322,7 +4722,7 @@ var ProtocolComponent = /** @class */ (function () {
             });
         }
         else {
-            toastr__WEBPACK_IMPORTED_MODULE_7__["error"]("Cannot delete a default protocol", "Error", {
+            toastr__WEBPACK_IMPORTED_MODULE_8__["error"]("Cannot delete a default protocol", "Error", {
                 "timeOut": "2500",
                 "positionClass": "toast-top-center",
                 "preventDuplicates": true,
@@ -4342,7 +4742,7 @@ var ProtocolComponent = /** @class */ (function () {
         this.form.markAsPristine();
         this.initialiseForm();
         this.isModalOpen = true;
-        toastr__WEBPACK_IMPORTED_MODULE_7__["success"](message, "Success", {
+        toastr__WEBPACK_IMPORTED_MODULE_8__["success"](message, "Success", {
             "timeOut": "2500",
             "positionClass": "toast-top-center",
             "preventDuplicates": true,
@@ -4356,6 +4756,7 @@ var ProtocolComponent = /** @class */ (function () {
         mtblProtocol.description = this.getFieldValue('description');
         mtblProtocol.protocolType = new _models_mtbl_mtbls_common_mtbls_ontology__WEBPACK_IMPORTED_MODULE_4__["Ontology"]();
         mtblProtocol.protocolType.annotationValue = this.getFieldValue('name');
+        mtblProtocol.parameters = this.getFieldValue('parameters');
         return { "protocol": mtblProtocol.toJSON() };
     };
     Object.defineProperty(ProtocolComponent.prototype, "validation", {
@@ -4394,6 +4795,10 @@ var ProtocolComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])('validations'),
         __metadata("design:type", Object)
     ], ProtocolComponent.prototype, "validations", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])(_ontology_ontology_component__WEBPACK_IMPORTED_MODULE_7__["OntologyComponent"]),
+        __metadata("design:type", _ontology_ontology_component__WEBPACK_IMPORTED_MODULE_7__["OntologyComponent"])
+    ], ProtocolComponent.prototype, "parameterName", void 0);
     ProtocolComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'mtbls-protocol',
@@ -4421,6 +4826,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ValidateRules", function() { return ValidateRules; });
 function ValidateRules(field, validation) {
     return function (control) {
+        var _a;
         var value = control.value;
         var invalid = false;
         var errorMessage = "";
@@ -4453,7 +4859,6 @@ function ValidateRules(field, validation) {
             return _a = {}, _a[field] = { 'error': errorMessage }, _a;
         }
         return null;
-        var _a;
     };
 }
 
@@ -4467,7 +4872,7 @@ function ValidateRules(field, validation) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".mb10{\n\tmargin-bottom: 10px;\n}\n\n.mt5{\n\tmargin-top: 5px;\n}"
+module.exports = ".mb10{\n\tmargin-bottom: 10px;\n}\n\n.mt5{\n\tmargin-top: 5px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9zdHVkeS9wcm90b2NvbHMvcHJvdG9jb2xzLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7Q0FDQyxvQkFBb0I7Q0FDcEI7O0FBRUQ7Q0FDQyxnQkFBZ0I7Q0FDaEIiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL3N0dWR5L3Byb3RvY29scy9wcm90b2NvbHMuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5tYjEwe1xuXHRtYXJnaW4tYm90dG9tOiAxMHB4O1xufVxuXG4ubXQ1e1xuXHRtYXJnaW4tdG9wOiA1cHg7XG59Il19 */"
 
 /***/ }),
 
@@ -4576,7 +4981,7 @@ var ProtocolsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".publication-title{\n\tmin-height: 3.5em;\n\tfont-size: 1em;\n\tline-height: 1.55em;\n}\n\n.publication-authors{\n    min-height: 2.6em;\n}\n\n.custom-button{\n\tfloat: right;\n    right: 0;\n    height: 30px;\n    background-color: transparent !important;\n    border-color: transparent;\n    margin-right: -8px;\n}\n\n.box {\n    padding: 1.2rem 1.9rem 1.2rem 1.2rem;\n}\n\n.mat-icon {\n    height: 1em; \n}\n\na {\n    color: #000;\n    cursor: pointer;\n    text-decoration: none;\n}\n\na:hover {\n    color: #3273dc;\n    cursor: pointer;\n    text-decoration: none;\n}"
+module.exports = ".publication-title{\n\tmin-height: 3.5em;\n\tfont-size: 1em;\n\tline-height: 1.55em;\n}\n\n.publication-authors{\n    min-height: 2.6em;\n}\n\n.custom-button{\n\tfloat: right;\n    right: 0;\n    height: 30px;\n    background-color: transparent !important;\n    border-color: transparent;\n    margin-right: -8px;\n}\n\n.box {\n    padding: 1.2rem 1.9rem 1.2rem 1.2rem;\n}\n\n.mat-icon {\n    height: 1em; \n}\n\na {\n    color: #000;\n    cursor: pointer;\n    text-decoration: none;\n}\n\na:hover {\n    color: #3273dc;\n    cursor: pointer;\n    text-decoration: none;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9zdHVkeS9wdWJsaWNhdGlvbnMvcHVibGljYXRpb24vcHVibGljYXRpb24uY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtDQUNDLGtCQUFrQjtDQUNsQixlQUFlO0NBQ2Ysb0JBQW9CO0NBQ3BCOztBQUVEO0lBQ0ksa0JBQWtCO0NBQ3JCOztBQUVEO0NBQ0MsYUFBYTtJQUNWLFNBQVM7SUFDVCxhQUFhO0lBQ2IseUNBQXlDO0lBQ3pDLDBCQUEwQjtJQUMxQixtQkFBbUI7Q0FDdEI7O0FBRUQ7SUFDSSxxQ0FBcUM7Q0FDeEM7O0FBRUQ7SUFDSSxZQUFZO0NBQ2Y7O0FBRUQ7SUFDSSxZQUFZO0lBQ1osZ0JBQWdCO0lBQ2hCLHNCQUFzQjtDQUN6Qjs7QUFFRDtJQUNJLGVBQWU7SUFDZixnQkFBZ0I7SUFDaEIsc0JBQXNCO0NBQ3pCIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy9zdHVkeS9wdWJsaWNhdGlvbnMvcHVibGljYXRpb24vcHVibGljYXRpb24uY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5wdWJsaWNhdGlvbi10aXRsZXtcblx0bWluLWhlaWdodDogMy41ZW07XG5cdGZvbnQtc2l6ZTogMWVtO1xuXHRsaW5lLWhlaWdodDogMS41NWVtO1xufVxuXG4ucHVibGljYXRpb24tYXV0aG9yc3tcbiAgICBtaW4taGVpZ2h0OiAyLjZlbTtcbn1cblxuLmN1c3RvbS1idXR0b257XG5cdGZsb2F0OiByaWdodDtcbiAgICByaWdodDogMDtcbiAgICBoZWlnaHQ6IDMwcHg7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogdHJhbnNwYXJlbnQgIWltcG9ydGFudDtcbiAgICBib3JkZXItY29sb3I6IHRyYW5zcGFyZW50O1xuICAgIG1hcmdpbi1yaWdodDogLThweDtcbn1cblxuLmJveCB7XG4gICAgcGFkZGluZzogMS4ycmVtIDEuOXJlbSAxLjJyZW0gMS4ycmVtO1xufVxuXG4ubWF0LWljb24ge1xuICAgIGhlaWdodDogMWVtOyBcbn1cblxuYSB7XG4gICAgY29sb3I6ICMwMDA7XG4gICAgY3Vyc29yOiBwb2ludGVyO1xuICAgIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcbn1cblxuYTpob3ZlciB7XG4gICAgY29sb3I6ICMzMjczZGM7XG4gICAgY3Vyc29yOiBwb2ludGVyO1xuICAgIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcbn0iXX0= */"
 
 /***/ }),
 
@@ -4587,7 +4992,7 @@ module.exports = ".publication-title{\n\tmin-height: 3.5em;\n\tfont-size: 1em;\n
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<span *ngIf='publication == null || addNewPublication; else showPublicationDetails'>\n\t<a class=\"button is-light is-pulled-right is-small hover-button\" (click)='openModal()'>+ Add Publication</a>\n</span>\n<ng-template #showPublicationDetails>\n\t<a class=\"button is-small custom-button hover-button\" (click)='openModal()'>\n\t\t<mat-icon>edit</mat-icon>\n\t</a>\n\t<div>\n\t\t<article class=\"tile is-child box\">\n\t\t\t<div class=\"content\">\n\t\t\t\t<h4 class=\"publication-title\">\n\t\t\t\t\t<b>\n\t\t\t\t\t\t<a [href]=\"'//dx.doi.org/' + publication.doi\" target=\"_blank\">{{ publication.title | slice : 0 : 90 }}<span *ngIf=\"publication.title.length > 90\">...</span>\n\t\t\t\t\t\t</a>\n\t\t\t\t\t</b>\n\t\t\t\t</h4>\n\t\t\t\t<h6 class=\"publication-authors\">\n\t\t\t\t\t<small>\n\t\t\t\t\t\t<mat-icon>people</mat-icon> {{ publication.authorList | slice : 0 : 60 }}<span *ngIf=\"publication.authorList.length > 60\">...</span>\n\t\t\t\t\t</small>\n\t\t\t\t</h6>\n\t\t\t</div>\n\t\t</article>\n\t</div>\n</ng-template>\n<div class=\"modal\" [ngClass]=\"{'is-active': isTimeLineModalOpen}\">\n\t<div class=\"modal-background\"></div>\n\t<div class=\"modal-card\">\n\t\t<section class=\"modal-card-body\">\n\t\t\t<div class=\"timeline\">\n\t\t\t\t<div class=\"timeline-item\">\n\t\t\t\t\t<div class=\"timeline-marker\"></div>\n\t\t\t\t\t<div class=\"timeline-content\">\n\t\t\t\t\t\t<p class=\"heading\">January 2016</p>\n\t\t\t\t\t\t<p>Timeline content - Can include any HTML element</p>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"timeline-item\">\n\t\t\t\t\t<div class=\"timeline-marker is-image is-32x32\">\n\t\t\t\t\t\t<img src=\"http://bulma.io/images/placeholders/32x32.png\">\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"timeline-content\">\n\t\t\t\t\t\t<p class=\"heading\">February 2016</p>\n\t\t\t\t\t\t<p>Timeline content - Can include any HTML element</p>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<header class=\"timeline-header\">\n\t\t\t\t\t<span class=\"tag is-primary\">2017</span>\n\t\t\t\t</header>\n\t\t\t\t<div class=\"timeline-item\">\n\t\t\t\t\t<div class=\"timeline-marker is-icon\">\n\t\t\t\t\t\t<i class=\"fa fa-flag\"></i>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"timeline-content\">\n\t\t\t\t\t\t<p class=\"heading\">March 2017</p>\n\t\t\t\t\t\t<p>Timeline content - Can include any HTML element</p>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</section>\n\t\t<footer class=\"modal-card-foot\">\n\t\t\t<div class=\"columns is-gapless full-width\">\n\t\t\t\t<div class=\"column is-half\">\n\t\t\t\t</div>\n\t\t\t\t<div class=\"column is-half has-text-right\">\n\t\t\t\t\t<button (click)='closeHistory()' class=\"button is-info\">OK</button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</footer>\n\t</div>\n</div>\n\n<div class=\"modal\" [ngClass]=\"{'is-active': isDeleteModalOpen}\">\n\t<div class=\"modal-background\"></div>\n\t<div class=\"modal-card\">\n\t\t<section class=\"modal-card-body\">\n\t\t\t<p>Are you sure you want to delete?</p>\n\t\t</section>\n\t\t<footer class=\"modal-card-foot\">\n\t\t\t<div class=\"columns is-gapless full-width\">\n\t\t\t\t<div class=\"column is-half\">\n\t\t\t\t\t<button (click)='closeDelete()' class=\"button is-info\">Cancel</button>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"column is-half has-text-right\">\n\t\t\t\t\t<button (click)='delete()' class=\"button is-danger\">OK! Delete Permanently</button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</footer>\n\t</div>\n</div>\n\n<div class=\"modal\" [ngClass]=\"{'is-active': isUpdateTitleModalOpen}\">\n\t<div class=\"modal-background\"></div>\n\t<div class=\"modal-card\">\n\t\t<section class=\"modal-card-body\">\n\t\t\t<p>Are you sure you want to set publication title to be the study title?</p>\n\t\t</section>\n\t\t<footer class=\"modal-card-foot\">\n\t\t\t<div class=\"columns is-gapless full-width\">\n\t\t\t\t<div class=\"column is-half\">\n\t\t\t\t\t<button (click)='closeUpdateTitleModal()' class=\"button\">Cancel</button>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"column is-half has-text-right\">\n\t\t\t\t\t<button (click)='updateStudyTitle()' class=\"button is-success\">OK</button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</footer>\n\t</div>\n</div>\n\n<div class=\"modal\" [ngClass]=\"{'is-active': isUpdateAbstractModalOpen}\">\n\t<div class=\"modal-background\"></div>\n\t<div class=\"modal-card\">\n\t\t<section class=\"modal-card-body\">\n\t\t\t<p>Are you sure you want to set publication abstract to be the study abstract?</p>\n\t\t</section>\n\t\t<footer class=\"modal-card-foot\">\n\t\t\t<div class=\"columns is-gapless full-width\">\n\t\t\t\t<div class=\"column is-half\">\n\t\t\t\t\t<button (click)='closeUpdateTitleModal()' class=\"button\">Cancel</button>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"column is-half has-text-right\">\n\t\t\t\t\t<button (click)='updateStudyAbstract()' class=\"button is-success\">OK</button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</footer>\n\t</div>\n</div>\n\n<div class=\"modal\" [ngClass]=\"{'is-active': isModalOpen}\">\n\t<form *ngIf=\"form\" [formGroup]=\"form\">\n\t\t<div class=\"modal-background\"></div>\n\t\t<div class=\"modal-card vw80\">\n\t\t\t<div *ngIf=\"isFormBusy\" class=\"load-bar\">\n\t\t\t\t<div class=\"bar\"></div>\n\t\t\t\t<div class=\"bar\"></div>\n\t\t\t\t<div class=\"bar\"></div>\n\t\t\t</div>\n\t\t\t<section class=\"modal-card-body\">\n\t\t\t\t<mat-form-field class=\"full-width\">\n\t\t\t\t\t<textarea class=\"no-scroll\" \n\t\t\t\t\tformControlName=\"title\"\n\t\t\t\t\tmatInput\n\t\t\t\t\t[tabIndex]=\"1\"\n\t\t\t\t\tcdkAutosizeMinRows=\"3\"\n\t\t\t\t\tcdkAutosizeMaxRows=\"3\"\n\t\t\t\t\tcdkTextareaAutosize>\n\t\t\t\t</textarea>\n\t\t\t\t<mat-hint>{{ fieldValidation('title').description }}</mat-hint>\n\t\t\t\t<mat-error\n\t\t\t\t*ngIf=\"form.get('title').errors &&\n\t\t\t\tform.get('title').dirty &&\n\t\t\t\tform.get('title').errors.title\">\n\t\t\t\t{{ form.get('title').errors.title.error }}\n\t\t\t</mat-error>\n\t\t</mat-form-field>\n\t\t<mat-form-field class=\"full-width\">\n\t\t\t<textarea class=\"no-scroll\" \n\t\t\tformControlName=\"authorList\"\n\t\t\tmatInput\n\t\t\t[tabIndex]=\"2\"\n\t\t\tcdkAutosizeMinRows=\"1\"\n\t\t\tcdkAutosizeMaxRows=\"4\"\n\t\t\tcdkTextareaAutosize>\n\t\t</textarea>\n\t\t<mat-hint>{{ fieldValidation('authorList').description }}</mat-hint>\n\t\t<mat-error\n\t\t*ngIf=\"form.get('authorList').errors &&\n\t\tform.get('authorList').dirty &&\n\t\tform.get('authorList').errors.authorList\">\n\t\t{{ form.get('authorList').authorList.title.error }}\n\t</mat-error>\n</mat-form-field>\n<mat-form-field class=\"full-width\">\n\t<input class=\"no-scroll\" \n\tformControlName=\"doi\"\n\t[tabIndex]=\"3\"\n\t(blur)=\"getArticleFromDOI()\"\n\tmatInput>\n\t<mat-hint>{{ fieldValidation('doi').description }}</mat-hint>\n\t<mat-error\n\t*ngIf=\"form.get('doi').errors &&\n\tform.get('doi').dirty &&\n\tform.get('doi').errors.doi\">\n\t{{ form.get('doi').errors.doi.error }}\n</mat-error>\n</mat-form-field>\n<mat-form-field class=\"full-width\">\n\t<input class=\"no-scroll\" \n\t[tabIndex]=\"4\"\n\tformControlName=\"pubMedID\"\n\t(blur)=\"getArticleFromPubMedID()\"\n\tmatInput>\n\t<mat-hint>{{ fieldValidation('pubMedID').description }}</mat-hint>\n\t<mat-error\n\t*ngIf=\"form.get('pubMedID').errors &&\n\tform.get('pubMedID').dirty &&\n\tform.get('pubMedID').errors.pubMedID\">\n\t{{ form.get('pubMedID').errors.pubMedID.error }}\n</mat-error>\n</mat-form-field>\n<mtbls-ontology class=\"mt-20\" #publicationStatus [validations]=\"fieldValidation('status')\" (changed)=\"onChanges($event)\" [values]='[publication.status]' [inline]=\"true\"></mtbls-ontology>\n<div class=\"control\" *ngIf=\"publicationAbstract != ''\">\n\t<br>\n\t<label><small><b>Publication abstract</b></small></label><br>\n\t<p>\n\t<small>{{ publicationAbstract }}</small>\n\t</p>\n</div>\n</section>\n<footer class=\"modal-card-foot\">\n\t<div class=\"columns is-gapless full-width\">\n\t\t<div class=\"column is-two-third\">\n\t\t\t<button *ngIf=\"!addNewPublication\" [tabIndex]=\"-1\" class=\"button is-danger is-pulled-left\" (click)=\"confirmDelete()\"><mat-icon>delete_outline</mat-icon></button>\n\t\t\t<!-- <button class=\"button is-light is-pulled-left\" (click)='showHistory()' ><mat-icon>history</mat-icon></button> -->\n\t\t\t<button *ngIf=\"!addNewPublication\" [tabIndex]=\"-1\" class=\"button is-light is-pulled-left\" (click)='confirmTitleUpdate()'><small>Update title</small></button>\n\t\t\t<button *ngIf=\"!addNewPublication\" [tabIndex]=\"-1\" class=\"button is-light is-pulled-left\" (click)='confirmAbstractUpdate()'><small>Update abstract</small></button>\n\t\t</div>\n\t\t<div class=\"column is-one-third has-text-right\">\n\t\t\t<button *ngIf=\"!form.pristine\" [disabled]=\"!form.valid || isFormBusy\" (click)='save()' class=\"button is-info\">\n\t\t\t\t<mat-spinner [diameter]=\"20\" [strokeWidth]=\"3\" *ngIf=\"isFormBusy\"></mat-spinner>\n\t\t\t\tSave\n\t\t\t</button>\n\t\t\t<button *ngIf=\"form.pristine\" (click)='closeModal()' [tabIndex]=\"6\" class=\"button is-info\">OK</button>\n\t\t\t<button class=\"button\" [disabled]=\"isFormBusy\" [tabIndex]=\"7\" (click)='closeModal()'>Cancel</button>\n\t\t</div>\n\t</div>\n</footer>\n</div>\n</form>\n</div>"
+module.exports = "<span *ngIf='publication == null || addNewPublication; else showPublicationDetails'>\n\t<a class=\"button is-light is-pulled-right is-small hover-button\" (click)='openModal()'>+ Add Publication</a>\n</span>\n<ng-template #showPublicationDetails>\n\t<a class=\"button is-small custom-button hover-button\" (click)='openModal()'>\n\t\t<mat-icon>edit</mat-icon>\n\t</a>\n\t<div>\n\t\t<article class=\"tile is-child box\">\n\t\t\t<div class=\"content\">\n\t\t\t\t<h4 class=\"publication-title\">\n\t\t\t\t\t<b>\n\t\t\t\t\t\t<a [href]=\"'//dx.doi.org/' + publication.doi\" target=\"_blank\">{{ publication.title | slice : 0 : 90 }}<span *ngIf=\"publication.title.length > 90\">...</span>\n\t\t\t\t\t\t</a>\n\t\t\t\t\t</b>\n\t\t\t\t</h4>\n\t\t\t\t<h6 class=\"publication-authors\">\n\t\t\t\t\t<small>\n\t\t\t\t\t\t<mat-icon>people</mat-icon> {{ publication.authorList | slice : 0 : 60 }}<span *ngIf=\"publication.authorList.length > 60\">...</span>\n\t\t\t\t\t</small>\n\t\t\t\t</h6>\n\t\t\t</div>\n\t\t</article>\n\t</div>\n</ng-template>\n<div class=\"modal\" [ngClass]=\"{'is-active': isDeleteModalOpen}\">\n\t<div class=\"modal-background\"></div>\n\t<div class=\"modal-card\">\n\t\t<section class=\"modal-card-body\">\n\t\t\t<p>Are you sure you want to delete?</p>\n\t\t</section>\n\t\t<footer class=\"modal-card-foot\">\n\t\t\t<div class=\"columns is-gapless full-width\">\n\t\t\t\t<div class=\"column is-half\">\n\t\t\t\t\t<button (click)='closeDelete()' class=\"button is-info\">Cancel</button>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"column is-half has-text-right\">\n\t\t\t\t\t<button (click)='delete()' class=\"button is-danger\">OK! Delete Permanently</button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</footer>\n\t</div>\n</div>\n\n<div class=\"modal\" [ngClass]=\"{'is-active': isUpdateTitleModalOpen}\">\n\t<div class=\"modal-background\"></div>\n\t<div class=\"modal-card\">\n\t\t<section class=\"modal-card-body\">\n\t\t\t<p>Are you sure you want to set publication title to be the study title?</p>\n\t\t</section>\n\t\t<footer class=\"modal-card-foot\">\n\t\t\t<div class=\"columns is-gapless full-width\">\n\t\t\t\t<div class=\"column is-half\">\n\t\t\t\t\t<button (click)='closeUpdateTitleModal()' class=\"button\">Cancel</button>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"column is-half has-text-right\">\n\t\t\t\t\t<button (click)='updateStudyTitle()' class=\"button is-success\">OK</button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</footer>\n\t</div>\n</div>\n\n<div class=\"modal\" [ngClass]=\"{'is-active': isUpdateAbstractModalOpen}\">\n\t<div class=\"modal-background\"></div>\n\t<div class=\"modal-card\">\n\t\t<section class=\"modal-card-body\">\n\t\t\t<p>Are you sure you want to set publication abstract to be the study abstract?</p>\n\t\t</section>\n\t\t<footer class=\"modal-card-foot\">\n\t\t\t<div class=\"columns is-gapless full-width\">\n\t\t\t\t<div class=\"column is-half\">\n\t\t\t\t\t<button (click)='closeUpdateTitleModal()' class=\"button\">Cancel</button>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"column is-half has-text-right\">\n\t\t\t\t\t<button (click)='updateStudyAbstract()' class=\"button is-success\">OK</button>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</footer>\n\t</div>\n</div>\n\n<div class=\"modal\" [ngClass]=\"{'is-active': isModalOpen}\">\n\t<form *ngIf=\"form\" [formGroup]=\"form\">\n\t\t<div class=\"modal-background\"></div>\n\t\t<div class=\"modal-card vw80\">\n\t\t\t<div *ngIf=\"isFormBusy\" class=\"load-bar\">\n\t\t\t\t<div class=\"bar\"></div>\n\t\t\t\t<div class=\"bar\"></div>\n\t\t\t\t<div class=\"bar\"></div>\n\t\t\t</div>\n\t\t\t<section class=\"modal-card-body\">\n\t\t\t\t<mat-form-field class=\"full-width\">\n\t\t\t\t\t<textarea class=\"no-scroll\" \n\t\t\t\t\tformControlName=\"title\"\n\t\t\t\t\tmatInput\n\t\t\t\t\t[tabIndex]=\"1\"\n\t\t\t\t\tcdkAutosizeMinRows=\"3\"\n\t\t\t\t\tcdkAutosizeMaxRows=\"3\"\n\t\t\t\t\tcdkTextareaAutosize>\n\t\t\t\t</textarea>\n\t\t\t\t<mat-hint>{{ fieldValidation('title').description }}</mat-hint>\n\t\t\t\t<mat-error\n\t\t\t\t*ngIf=\"form.get('title').errors &&\n\t\t\t\tform.get('title').dirty &&\n\t\t\t\tform.get('title').errors.title\">\n\t\t\t\t{{ form.get('title').errors.title.error }}\n\t\t\t</mat-error>\n\t\t</mat-form-field>\n\t\t<mat-form-field class=\"full-width\">\n\t\t\t<textarea class=\"no-scroll\" \n\t\t\tformControlName=\"authorList\"\n\t\t\tmatInput\n\t\t\t[tabIndex]=\"2\"\n\t\t\tcdkAutosizeMinRows=\"1\"\n\t\t\tcdkAutosizeMaxRows=\"4\"\n\t\t\tcdkTextareaAutosize>\n\t\t</textarea>\n\t\t<mat-hint>{{ fieldValidation('authorList').description }}</mat-hint>\n\t\t<mat-error\n\t\t*ngIf=\"form.get('authorList').errors &&\n\t\tform.get('authorList').dirty &&\n\t\tform.get('authorList').errors.authorList\">\n\t\t{{ form.get('authorList').authorList.title.error }}\n\t</mat-error>\n</mat-form-field>\n<mat-form-field class=\"full-width\">\n\t<input class=\"no-scroll\" \n\tformControlName=\"doi\"\n\t[tabIndex]=\"3\"\n\t(blur)=\"getArticleFromDOI()\"\n\tmatInput>\n\t<mat-hint>{{ fieldValidation('doi').description }}</mat-hint>\n\t<mat-error\n\t*ngIf=\"form.get('doi').errors &&\n\tform.get('doi').dirty &&\n\tform.get('doi').errors.doi\">\n\t{{ form.get('doi').errors.doi.error }}\n</mat-error>\n</mat-form-field>\n<mat-form-field class=\"full-width\">\n\t<input class=\"no-scroll\" \n\t[tabIndex]=\"4\"\n\tformControlName=\"pubMedID\"\n\t(blur)=\"getArticleFromPubMedID()\"\n\tmatInput>\n\t<mat-hint>{{ fieldValidation('pubMedID').description }}</mat-hint>\n\t<mat-error\n\t*ngIf=\"form.get('pubMedID').errors &&\n\tform.get('pubMedID').dirty &&\n\tform.get('pubMedID').errors.pubMedID\">\n\t{{ form.get('pubMedID').errors.pubMedID.error }}\n</mat-error>\n</mat-form-field>\n<mtbls-ontology class=\"mt-20\" #publicationStatus [validations]=\"fieldValidation('status')\" (changed)=\"onChanges($event)\" [values]='[publication.status]' [inline]=\"true\"></mtbls-ontology>\n<div class=\"control\" *ngIf=\"publicationAbstract != ''\">\n\t<br>\n\t<label><small><b>Publication abstract</b></small></label><br>\n\t<p>\n\t<small>{{ publicationAbstract }}</small>\n\t</p>\n</div>\n</section>\n<footer class=\"modal-card-foot\">\n\t<div class=\"columns is-gapless full-width\">\n\t\t<div class=\"column is-two-third\">\n\t\t\t<button *ngIf=\"!addNewPublication\" [tabIndex]=\"-1\" class=\"button is-danger is-pulled-left\" (click)=\"confirmDelete()\"><mat-icon>delete_outline</mat-icon></button>\n\t\t\t<!-- <button class=\"button is-light is-pulled-left\" (click)='showHistory()' ><mat-icon>history</mat-icon></button> -->\n\t\t\t<button *ngIf=\"!addNewPublication\" [tabIndex]=\"-1\" class=\"button is-light is-pulled-left\" (click)='confirmTitleUpdate()'><small>Update title</small></button>\n\t\t\t<button *ngIf=\"!addNewPublication\" [tabIndex]=\"-1\" class=\"button is-light is-pulled-left\" (click)='confirmAbstractUpdate()'><small>Update abstract</small></button>\n\t\t</div>\n\t\t<div class=\"column is-one-third has-text-right\">\n\t\t\t<button *ngIf=\"!form.pristine\" [disabled]=\"!form.valid || isFormBusy\" (click)='save()' class=\"button is-info\">\n\t\t\t\t<mat-spinner [diameter]=\"20\" [strokeWidth]=\"3\" *ngIf=\"isFormBusy\"></mat-spinner>\n\t\t\t\tSave\n\t\t\t</button>\n\t\t\t<button *ngIf=\"form.pristine\" (click)='closeModal()' [tabIndex]=\"6\" class=\"button is-info\">OK</button>\n\t\t\t<button class=\"button\" [disabled]=\"isFormBusy\" [tabIndex]=\"7\" (click)='closeModal()'>Cancel</button>\n\t\t</div>\n\t</div>\n</footer>\n</div>\n</form>\n</div>"
 
 /***/ }),
 
@@ -4743,6 +5148,7 @@ var PublicationComponent = /** @class */ (function () {
             this.doiService.getArticleInfo(doiURL).subscribe(function (article) {
                 _this.setFieldValue('title', article.title.trim());
                 _this.setFieldValue('authorList', article.authorList.trim());
+                _this.statusComponent.setValue("Published");
             });
             this.europePMCService.getArticleInfo(doi.replace('http://dx.doi.org/', '')).subscribe(function (article) {
                 if (article.doi == doi) {
@@ -4794,21 +5200,32 @@ var PublicationComponent = /** @class */ (function () {
     };
     PublicationComponent.prototype.save = function () {
         var _this = this;
-        this.isFormBusy = true;
-        if (!this.addNewPublication) {
-            this.metabolightsService.updatePublication(this.publication.title, this.compileBody()).subscribe(function (res) {
-                _this.updatePublications(res, 'Publication updated.');
-            }, function (err) {
-                _this.isFormBusy = false;
+        if (this.statusComponent.values[0] == undefined) {
+            toastr__WEBPACK_IMPORTED_MODULE_11__["warning"]('Publication status cannot be empty', "Warning", {
+                "timeOut": "2500",
+                "positionClass": "toast-top-center",
+                "preventDuplicates": true,
+                "extendedTimeOut": 0,
+                "tapToDismiss": false
             });
         }
         else {
-            this.metabolightsService.savePublication(this.compileBody()).subscribe(function (res) {
-                _this.updatePublications(res, 'Publication saved.');
-                _this.isModalOpen = false;
-            }, function (err) {
-                _this.isFormBusy = false;
-            });
+            this.isFormBusy = true;
+            if (!this.addNewPublication) {
+                this.metabolightsService.updatePublication(this.publication.title, this.compileBody()).subscribe(function (res) {
+                    _this.updatePublications(res, 'Publication updated.');
+                }, function (err) {
+                    _this.isFormBusy = false;
+                });
+            }
+            else {
+                this.metabolightsService.savePublication(this.compileBody()).subscribe(function (res) {
+                    _this.updatePublications(res, 'Publication saved.');
+                    _this.isModalOpen = false;
+                }, function (err) {
+                    _this.isFormBusy = false;
+                });
+            }
         }
     };
     PublicationComponent.prototype.delete = function () {
@@ -4916,6 +5333,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ValidateRules", function() { return ValidateRules; });
 function ValidateRules(field, validation) {
     return function (control) {
+        var _a;
         var value = control.value;
         var invalid = false;
         var errorMessage = "";
@@ -4946,7 +5364,6 @@ function ValidateRules(field, validation) {
             return _a = {}, _a[field] = { 'error': errorMessage }, _a;
         }
         return null;
-        var _a;
     };
 }
 
@@ -4960,7 +5377,7 @@ function ValidateRules(field, validation) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".mb10{\n\tmargin-bottom: 15px;\n}\n\n.mt5{\n\tmargin-top: 10px;\n}"
+module.exports = ".mb10{\n\tmargin-bottom: 15px;\n}\n\n.mt5{\n\tmargin-top: 10px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9zdHVkeS9wdWJsaWNhdGlvbnMvcHVibGljYXRpb25zLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7Q0FDQyxvQkFBb0I7Q0FDcEI7O0FBRUQ7Q0FDQyxpQkFBaUI7Q0FDakIiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL3N0dWR5L3B1YmxpY2F0aW9ucy9wdWJsaWNhdGlvbnMuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5tYjEwe1xuXHRtYXJnaW4tYm90dG9tOiAxNXB4O1xufVxuXG4ubXQ1e1xuXHRtYXJnaW4tdG9wOiAxMHB4O1xufSJdfQ== */"
 
 /***/ }),
 
@@ -5040,7 +5457,7 @@ var PublicationsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".mat-calendar{ \n\tzoom:\"0.5\" \n}"
+module.exports = ".mat-calendar{ \n\tzoom:\"0.5\" \n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9zdHVkeS9yZWxlYXNlLWRhdGUvcmVsZWFzZS1kYXRlLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7Q0FDQyxVQUFVO0NBQ1YiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL3N0dWR5L3JlbGVhc2UtZGF0ZS9yZWxlYXNlLWRhdGUuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5tYXQtY2FsZW5kYXJ7IFxuXHR6b29tOlwiMC41XCIgXG59Il19 */"
 
 /***/ }),
 
@@ -5115,7 +5532,7 @@ var ReleaseDateComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "table {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -o-user-select: none;\n  -ms-user-select: none;\n      user-select: none;\n}\n\ntable {\n  width: 100%;\n}\n\ntable td, table th {\n  vertical-align: middle;\n}\n\nth.mat-sort-header-sorted {\n  color: black;\n}\n\nth div{\n  display: flex;\n}\n\n.mat-sort-header-arrow{\n    margin: 0 5px 0 15px !important;\n}\n\n.column-editor-card{\n  min-width: 80vw !important;\n  min-height: 80vh;\n}\n\n.columns.is-vcentered {\n  align-items: center;\n}\n\n.columns.is-hcentered {\n  justify-content: center;\n  text-align: center;\n}\n\n.mt20{\n  margin-top: 20px;\n}\n\n.mb0{\n  margin-bottom: 0px;\n}\n\n.tab-wrapper{\n  min-height: 80vh;\n}\n\n.modal-card-title {\n  color: #979797;\n  font-size: 1.2rem;\n}\n\n.modal-card-title .highlight {\n  color: #000;\n}\n\n.options-wrapper{\n  border-left: 1px solid #f1f1f3;\n  min-height: 70vh;\n  padding-top: 10px !important;\n}\n\n.options-title{\n  border-bottom: 1px solid #f1f1f3;\n  padding: 15px !important;\n  font-weight: bold;\n  font-size: 1.1em;\n}\n\n.options{\n  padding: 15px;\n}\n\n.wrapper{\n  width: 100%;\n  overflow: auto;\n}\n\n.mat-form-field-infix {\n  border-top: none;\n}\n\ntd.mat-cell, td.mat-footer-cell, th.mat-header-cell {\n\tpadding-left: 20px;\n\tpadding-right: 12px;\n  box-shadow: 0 0 1px #dbdbdb;\n}\n\n.mat-table-sticky {\n  background-color: #fdfdfd;\n}\n\n.dropdown-divider {\n  background-color: #dbdbdb;\n  border: none;\n  display: block;\n  height: 1px;\n  margin: 0;\n}\n\n.dropdown-content {\n padding-bottom: 0rem; \n padding-top: 0rem; \n border-radius: 2px;\n}\n\na.dropdown-item {\n  padding-right: 1rem; \n}\n\n.column{\n  padding: 0;\n}\n\n.addon-tag{\n  padding-left: 0;\n  padding-right: 0;\n  border-left: 1px dotted #eaeaea;\n}\n\n.columns{\n  margin-right: 0px;\n  margin-left: 0px;\n}\n\n.row-selector{\n\twidth: 10px;\n}\n\n.table-selector{\n\twidth: 10px;\n}\n\n.selected{\n\tbackground-color: #333;\n  color: #fff;\n}\n\n.row-options-wrapper{\n\tposition: relative;\n}\n\n.row-options{\n\tposition: absolute;\n  left: -23px;\n  top: 0px;\n  height: 48px;\n}\n\n.table-icon {\n  padding-right: 10px;\n  padding-top: 12px;\n}\n\n.button{\n  margin-left: 2px;\n  margin-right: 2px;\n}\n\n.menu-bar{\n  margin-top: 10px;\n  margin-bottom: 0 !important;\n  align-items: baseline;\n}\n\n.menu-bar:first-child { \n  margin-left: -5px;\n}\n\n.menu-bar:last-child { \n  margin-right: -5px;\n}\n\n.button.is-light {\n  border-radius: 2px;\n}\n"
+module.exports = "table {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -o-user-select: none;\n  -ms-user-select: none;\n      user-select: none;\n}\n\ntable {\n  width: 100%;\n}\n\ntable td, table th {\n  vertical-align: middle;\n}\n\nth.mat-sort-header-sorted {\n  color: black;\n}\n\nth div{\n  display: flex;\n}\n\n.mat-sort-header-arrow{\n    margin: 0 5px 0 15px !important;\n}\n\n.column-editor-card{\n  min-width: 80vw !important;\n  min-height: 80vh;\n}\n\n.columns.is-vcentered {\n  align-items: center;\n}\n\n.columns.is-hcentered {\n  justify-content: center;\n  text-align: center;\n}\n\n.mt20{\n  margin-top: 20px;\n}\n\n.mb0{\n  margin-bottom: 0px;\n}\n\n.tab-wrapper{\n  min-height: 80vh;\n}\n\n.modal-card-title {\n  color: #979797;\n  font-size: 1.2rem;\n}\n\n.modal-card-title .highlight {\n  color: #000;\n}\n\n.options-wrapper{\n  border-left: 1px solid #f1f1f3;\n  min-height: 70vh;\n  padding-top: 10px !important;\n}\n\n.options-title{\n  border-bottom: 1px solid #f1f1f3;\n  padding: 15px !important;\n  font-weight: bold;\n  font-size: 1.1em;\n}\n\n.options{\n  padding: 15px;\n}\n\n.wrapper{\n  width: 100%;\n  overflow: auto;\n}\n\n.mat-form-field-infix {\n  border-top: none;\n}\n\ntd.mat-cell, td.mat-footer-cell, th.mat-header-cell {\n\tpadding-left: 20px;\n\tpadding-right: 12px;\n  box-shadow: 0 0 1px #dbdbdb;\n}\n\n.mat-table-sticky {\n  background-color: #fdfdfd;\n}\n\n.dropdown-divider {\n  background-color: #dbdbdb;\n  border: none;\n  display: block;\n  height: 1px;\n  margin: 0;\n}\n\n.dropdown-content {\n padding-bottom: 0rem; \n padding-top: 0rem; \n border-radius: 2px;\n}\n\na.dropdown-item {\n  padding-right: 1rem; \n}\n\n.column{\n  padding: 0;\n}\n\n.addon-tag{\n  padding-left: 0;\n  padding-right: 0;\n  border-left: 1px dotted #eaeaea;\n}\n\n.columns{\n  margin-right: 0px;\n  margin-left: 0px;\n}\n\n.row-selector{\n\twidth: 10px;\n}\n\n.table-selector{\n\twidth: 10px;\n}\n\n.selected{\n\tbackground-color: #333;\n  color: #fff;\n}\n\n.row-options-wrapper{\n\tposition: relative;\n}\n\n.row-options{\n\tposition: absolute;\n  left: -23px;\n  top: 0px;\n  height: 48px;\n}\n\n.table-icon {\n  padding-right: 10px;\n  padding-top: 12px;\n}\n\n.button{\n  margin-left: 2px;\n  margin-right: 2px;\n}\n\n.menu-bar{\n  margin-top: 10px;\n  margin-bottom: 0 !important;\n  align-items: baseline;\n}\n\n.menu-bar:first-child { \n  margin-left: -5px;\n}\n\n.menu-bar:last-child { \n  margin-right: -5px;\n}\n\n.button.is-light {\n  border-radius: 2px;\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9zdHVkeS9zYW1wbGVzL3NhbXBsZXMuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLDBCQUEwQjtFQUUxQix1QkFBdUI7RUFDdkIscUJBQXFCO0VBQ3JCLHNCQUFrQjtNQUFsQixrQkFBa0I7Q0FDbkI7O0FBRUQ7RUFDRSxZQUFZO0NBQ2I7O0FBRUQ7RUFDRSx1QkFBdUI7Q0FDeEI7O0FBRUQ7RUFDRSxhQUFhO0NBQ2Q7O0FBRUQ7RUFDRSxjQUFjO0NBQ2Y7O0FBRUQ7SUFDSSxnQ0FBZ0M7Q0FDbkM7O0FBRUQ7RUFDRSwyQkFBMkI7RUFDM0IsaUJBQWlCO0NBQ2xCOztBQUVEO0VBR0Usb0JBQW9CO0NBQ3JCOztBQUVEO0VBQ0Usd0JBQXdCO0VBQ3hCLG1CQUFtQjtDQUNwQjs7QUFFRDtFQUNFLGlCQUFpQjtDQUNsQjs7QUFFRDtFQUNFLG1CQUFtQjtDQUNwQjs7QUFFRDtFQUNFLGlCQUFpQjtDQUNsQjs7QUFFRDtFQUNFLGVBQWU7RUFDZixrQkFBa0I7Q0FDbkI7O0FBRUQ7RUFDRSxZQUFZO0NBQ2I7O0FBRUQ7RUFDRSwrQkFBK0I7RUFDL0IsaUJBQWlCO0VBQ2pCLDZCQUE2QjtDQUM5Qjs7QUFFRDtFQUNFLGlDQUFpQztFQUNqQyx5QkFBeUI7RUFDekIsa0JBQWtCO0VBQ2xCLGlCQUFpQjtDQUNsQjs7QUFFRDtFQUNFLGNBQWM7Q0FDZjs7QUFFRDtFQUNFLFlBQVk7RUFDWixlQUFlO0NBQ2hCOztBQUVEO0VBQ0UsaUJBQWlCO0NBQ2xCOztBQUVEO0NBQ0MsbUJBQW1CO0NBQ25CLG9CQUFvQjtFQUVuQiw0QkFBNEI7Q0FDN0I7O0FBRUQ7RUFDRSwwQkFBMEI7Q0FDM0I7O0FBRUQ7RUFDRSwwQkFBMEI7RUFDMUIsYUFBYTtFQUNiLGVBQWU7RUFDZixZQUFZO0VBQ1osVUFBVTtDQUNYOztBQUVEO0NBQ0MscUJBQXFCO0NBQ3JCLGtCQUFrQjtDQUNsQixtQkFBbUI7Q0FDbkI7O0FBRUQ7RUFDRSxvQkFBb0I7Q0FDckI7O0FBRUQ7RUFDRSxXQUFXO0NBQ1o7O0FBRUQ7RUFDRSxnQkFBZ0I7RUFDaEIsaUJBQWlCO0VBQ2pCLGdDQUFnQztDQUNqQzs7QUFFRDtFQUNFLGtCQUFrQjtFQUNsQixpQkFBaUI7Q0FDbEI7O0FBRUQ7Q0FDQyxZQUFZO0NBQ1o7O0FBRUQ7Q0FDQyxZQUFZO0NBQ1o7O0FBRUQ7Q0FDQyx1QkFBdUI7RUFDdEIsWUFBWTtDQUNiOztBQUVEO0NBQ0MsbUJBQW1CO0NBQ25COztBQUVEO0NBQ0MsbUJBQW1CO0VBQ2xCLFlBQVk7RUFDWixTQUFTO0VBQ1QsYUFBYTtDQUNkOztBQUVEO0VBQ0Usb0JBQW9CO0VBQ3BCLGtCQUFrQjtDQUNuQjs7QUFFRDtFQUNFLGlCQUFpQjtFQUNqQixrQkFBa0I7Q0FDbkI7O0FBRUQ7RUFDRSxpQkFBaUI7RUFDakIsNEJBQTRCO0VBQzVCLHNCQUFzQjtDQUN2Qjs7QUFFRDtFQUNFLGtCQUFrQjtDQUNuQjs7QUFFRDtFQUNFLG1CQUFtQjtDQUNwQjs7QUFFRDtFQUNFLG1CQUFtQjtDQUNwQiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvc3R1ZHkvc2FtcGxlcy9zYW1wbGVzLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJ0YWJsZSB7XG4gIC13ZWJraXQtdXNlci1zZWxlY3Q6IG5vbmU7XG4gIC1raHRtbC11c2VyLXNlbGVjdDogbm9uZTtcbiAgLW1vei11c2VyLXNlbGVjdDogbm9uZTtcbiAgLW8tdXNlci1zZWxlY3Q6IG5vbmU7XG4gIHVzZXItc2VsZWN0OiBub25lO1xufVxuXG50YWJsZSB7XG4gIHdpZHRoOiAxMDAlO1xufVxuXG50YWJsZSB0ZCwgdGFibGUgdGgge1xuICB2ZXJ0aWNhbC1hbGlnbjogbWlkZGxlO1xufVxuXG50aC5tYXQtc29ydC1oZWFkZXItc29ydGVkIHtcbiAgY29sb3I6IGJsYWNrO1xufVxuXG50aCBkaXZ7XG4gIGRpc3BsYXk6IGZsZXg7XG59XG5cbi5tYXQtc29ydC1oZWFkZXItYXJyb3d7XG4gICAgbWFyZ2luOiAwIDVweCAwIDE1cHggIWltcG9ydGFudDtcbn1cblxuLmNvbHVtbi1lZGl0b3ItY2FyZHtcbiAgbWluLXdpZHRoOiA4MHZ3ICFpbXBvcnRhbnQ7XG4gIG1pbi1oZWlnaHQ6IDgwdmg7XG59XG5cbi5jb2x1bW5zLmlzLXZjZW50ZXJlZCB7XG4gIC13ZWJraXQtYm94LWFsaWduOiBjZW50ZXI7XG4gIC1tcy1mbGV4LWFsaWduOiBjZW50ZXI7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG59XG5cbi5jb2x1bW5zLmlzLWhjZW50ZXJlZCB7XG4gIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG59XG5cbi5tdDIwe1xuICBtYXJnaW4tdG9wOiAyMHB4O1xufVxuXG4ubWIwe1xuICBtYXJnaW4tYm90dG9tOiAwcHg7XG59XG5cbi50YWItd3JhcHBlcntcbiAgbWluLWhlaWdodDogODB2aDtcbn1cblxuLm1vZGFsLWNhcmQtdGl0bGUge1xuICBjb2xvcjogIzk3OTc5NztcbiAgZm9udC1zaXplOiAxLjJyZW07XG59XG5cbi5tb2RhbC1jYXJkLXRpdGxlIC5oaWdobGlnaHQge1xuICBjb2xvcjogIzAwMDtcbn1cblxuLm9wdGlvbnMtd3JhcHBlcntcbiAgYm9yZGVyLWxlZnQ6IDFweCBzb2xpZCAjZjFmMWYzO1xuICBtaW4taGVpZ2h0OiA3MHZoO1xuICBwYWRkaW5nLXRvcDogMTBweCAhaW1wb3J0YW50O1xufVxuXG4ub3B0aW9ucy10aXRsZXtcbiAgYm9yZGVyLWJvdHRvbTogMXB4IHNvbGlkICNmMWYxZjM7XG4gIHBhZGRpbmc6IDE1cHggIWltcG9ydGFudDtcbiAgZm9udC13ZWlnaHQ6IGJvbGQ7XG4gIGZvbnQtc2l6ZTogMS4xZW07XG59XG5cbi5vcHRpb25ze1xuICBwYWRkaW5nOiAxNXB4O1xufVxuXG4ud3JhcHBlcntcbiAgd2lkdGg6IDEwMCU7XG4gIG92ZXJmbG93OiBhdXRvO1xufVxuXG4ubWF0LWZvcm0tZmllbGQtaW5maXgge1xuICBib3JkZXItdG9wOiBub25lO1xufVxuXG50ZC5tYXQtY2VsbCwgdGQubWF0LWZvb3Rlci1jZWxsLCB0aC5tYXQtaGVhZGVyLWNlbGwge1xuXHRwYWRkaW5nLWxlZnQ6IDIwcHg7XG5cdHBhZGRpbmctcmlnaHQ6IDEycHg7XG4gIC13ZWJraXQtYm94LXNoYWRvdzogMCAwIDFweCAjZGJkYmRiO1xuICBib3gtc2hhZG93OiAwIDAgMXB4ICNkYmRiZGI7XG59XG5cbi5tYXQtdGFibGUtc3RpY2t5IHtcbiAgYmFja2dyb3VuZC1jb2xvcjogI2ZkZmRmZDtcbn1cblxuLmRyb3Bkb3duLWRpdmlkZXIge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiAjZGJkYmRiO1xuICBib3JkZXI6IG5vbmU7XG4gIGRpc3BsYXk6IGJsb2NrO1xuICBoZWlnaHQ6IDFweDtcbiAgbWFyZ2luOiAwO1xufVxuXG4uZHJvcGRvd24tY29udGVudCB7XG4gcGFkZGluZy1ib3R0b206IDByZW07IFxuIHBhZGRpbmctdG9wOiAwcmVtOyBcbiBib3JkZXItcmFkaXVzOiAycHg7XG59XG5cbmEuZHJvcGRvd24taXRlbSB7XG4gIHBhZGRpbmctcmlnaHQ6IDFyZW07IFxufVxuXG4uY29sdW1ue1xuICBwYWRkaW5nOiAwO1xufVxuXG4uYWRkb24tdGFne1xuICBwYWRkaW5nLWxlZnQ6IDA7XG4gIHBhZGRpbmctcmlnaHQ6IDA7XG4gIGJvcmRlci1sZWZ0OiAxcHggZG90dGVkICNlYWVhZWE7XG59XG5cbi5jb2x1bW5ze1xuICBtYXJnaW4tcmlnaHQ6IDBweDtcbiAgbWFyZ2luLWxlZnQ6IDBweDtcbn1cblxuLnJvdy1zZWxlY3Rvcntcblx0d2lkdGg6IDEwcHg7XG59XG5cbi50YWJsZS1zZWxlY3Rvcntcblx0d2lkdGg6IDEwcHg7XG59XG5cbi5zZWxlY3RlZHtcblx0YmFja2dyb3VuZC1jb2xvcjogIzMzMztcbiAgY29sb3I6ICNmZmY7XG59XG5cbi5yb3ctb3B0aW9ucy13cmFwcGVye1xuXHRwb3NpdGlvbjogcmVsYXRpdmU7XG59XG5cbi5yb3ctb3B0aW9uc3tcblx0cG9zaXRpb246IGFic29sdXRlO1xuICBsZWZ0OiAtMjNweDtcbiAgdG9wOiAwcHg7XG4gIGhlaWdodDogNDhweDtcbn1cblxuLnRhYmxlLWljb24ge1xuICBwYWRkaW5nLXJpZ2h0OiAxMHB4O1xuICBwYWRkaW5nLXRvcDogMTJweDtcbn1cblxuLmJ1dHRvbntcbiAgbWFyZ2luLWxlZnQ6IDJweDtcbiAgbWFyZ2luLXJpZ2h0OiAycHg7XG59XG5cbi5tZW51LWJhcntcbiAgbWFyZ2luLXRvcDogMTBweDtcbiAgbWFyZ2luLWJvdHRvbTogMCAhaW1wb3J0YW50O1xuICBhbGlnbi1pdGVtczogYmFzZWxpbmU7XG59XG5cbi5tZW51LWJhcjpmaXJzdC1jaGlsZCB7IFxuICBtYXJnaW4tbGVmdDogLTVweDtcbn1cblxuLm1lbnUtYmFyOmxhc3QtY2hpbGQgeyBcbiAgbWFyZ2luLXJpZ2h0OiAtNXB4O1xufVxuXG4uYnV0dG9uLmlzLWxpZ2h0IHtcbiAgYm9yZGVyLXJhZGl1czogMnB4O1xufVxuIl19 */"
 
 /***/ }),
 
@@ -5126,7 +5543,7 @@ module.exports = "table {\n  -webkit-user-select: none;\n  -moz-user-select: non
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"card\" *ngIf=\"samplesTable\">\n\t<header class=\"card-header\">\n\t\t<p class=\"card-header-title\">\n\t\t\tSamples data\n\t\t</p>\n\t</header>\n\t<div class=\"card-content\">\n\t\t<div class=\"columns mb0 is-vcentered is-hcentered\">\n\t\t\t<div class=\"column is-12 is-paddingless\">\n\t\t\t\t<mat-form-field class=\"full-width bback\">\n\t\t\t\t\t<input autocomplete=\"off\" matInput (keyup)=\"applyFilter($event.target.value)\" (keydown)=\"onKeydown($event, $event.target.value)\" placeholder=\"Filter\">\n\t\t\t\t</mat-form-field>\n\t\t\t</div>\n\t\t</div>\n\t\t<span>\n\t\t\t<div *ngIf=\"filters.length > 0\" class=\"field is-grouped is-grouped-multiline\">\n\t\t\t\t<div *ngFor=\"let filter of filters\" class=\"control\">\n\t\t\t\t\t<div class=\"tags has-addons\">\n\t\t\t\t\t\t<span class=\"tag is-link\">{{ filter }}</span>\n\t\t\t\t\t\t<a (click)=\"highlightFilteredRows(filter)\" class=\"tag addon-tag\"><mat-icon>control_camera</mat-icon></a>\n\t\t\t\t\t\t<a (click)=\"removeFilter(filter)\" class=\"tag is-delete\"></a>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</span>\n\t\t<div class=\"menu-bar columns\">  \n\t\t\t<span class=\"column fadeIn\">\n\t\t\t\t<mtbls-upload></mtbls-upload>&nbsp;\n\t\t\t\t<mtbls-download [value]=\"assayName\"></mtbls-download>\n\t\t\t\t<span *ngIf=\"selectedRows.length > 0\">\n<!-- \t\t\t\t\t<div class=\"dropdown is-hoverable\">\n\t\t\t\t\t\t<div class=\"dropdown-trigger\">\n\t\t\t\t\t\t\t<button class=\"button is-light is-small\" aria-haspopup=\"true\" aria-controls=\"dropdown-menu\"><mat-icon>file_copy</mat-icon>Copy</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"dropdown-menu\" id=\"dropdown-menu\" role=\"menu\">\n\t\t\t\t\t\t\t<div class=\"dropdown-content\">\n\t\t\t\t\t\t\t\t<a href=\"#\" class=\"dropdown-item\">\n\t\t\t\t\t\t\t\t\tPaste inplace\n\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t<hr class=\"dropdown-divider\">\n\t\t\t\t\t\t\t\t<a href=\"#\" class=\"dropdown-item\">\n\t\t\t\t\t\t\t\t\tPaste at the end\n\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div> -->\n\t\t\t\t\t<a (click)=\"openDeleteModal()\" class=\"button is-small is-light\">\n\t\t\t\t\t\t<mat-icon>delete</mat-icon> Delete\n\t\t\t\t\t</a>\n\t\t\t\t</span>\n\t\t\t</span>\n\t\t\t<span class=\"column fadeIn has-text-right\">\n\t\t\t\t<div class=\"dropdown\" [ngClass]=\"{'is-active': isFactorDropdownActive}\">\n\t\t\t\t\t<div class=\"dropdown-trigger\">\n\t\t\t\t\t\t<button (click)=\"toggleDropdown()\" class=\"button is-light is-small\"><span><mat-icon>add</mat-icon>Factor</span></button>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"dropdown-menu has-text-left\" role=\"menu\">\n\t\t\t\t\t\t<div class=\"dropdown-content\">\n\t\t\t\t\t\t\t<span *ngIf=\"unSelectedFactors && unSelectedFactors.length > 0\">\n\t\t\t\t\t\t\t\t<span *ngFor=\"let factor of unSelectedFactors\">\n\t\t\t\t\t\t\t\t\t<a (click)=\"openAddColumnModal('factor', factor)\" class=\"dropdown-item\">\n\t\t\t\t\t\t\t\t\t\t{{ factor.factorName }} \n\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t<hr class=\"dropdown-divider\">\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t<mtbls-factor [isDropdown]=\"true\" [value]=\"null\" [validations]=\"validations\"></mtbls-factor>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<a (click)=\"openAddColumnModal('characterstic', null)\" class=\"button is-small is-light\">\n\t\t\t\t\t<span><mat-icon>add</mat-icon>Characterstic</span>\n\t\t\t\t</a>\n\t\t\t\t<a (click)=\"openAddSamplesModal()\" class=\"button is-small is-light\">\n\t\t\t\t\t<mat-icon>view_day</mat-icon> Add Samples\n\t\t\t\t</a>\n\t\t\t    <!-- <a class=\"button is-small is-light\">\n\t\t\t      <mat-icon>sort</mat-icon> Sort columns\n\t\t\t  </a> -->\n\t\t\t</span>\n\t\t</div>\n\t\t<div class=\"menu-bar columns\">\n\t\t\t<span class=\"column fadeIn has-text-right nmrl\">\n\t\t\t\t<mat-paginator [pageSizeOptions]=\"[500, 1000, 2000]\" showFirstLastButtons></mat-paginator>\n\t\t\t</span>\n\t\t</div>\n\t\t<div class=\"wrapper mat-elevation-z1\">\n\t\t\t<table class=\"mat-elevation-z1\" [dataSource]=\"tableDataSource\" matSort mat-table>\n\t\t\t\t<ng-container matColumnDef=\"Select\" sticky>\n\t\t\t\t\t<th (click)=\"deSelect()\" class=\"clickable table-selector\" mat-header-cell *matHeaderCellDef></th>\n\t\t\t\t\t<td (click)=\"rowClick(row, $event)\" class=\"clickable row-selector hover-highlight\" mat-cell *matCellDef=\"let row\">\n\t\t\t\t\t\t<span class=\"row-options-wrapper\">\n\t\t\t\t\t\t\t<span class=\"row-options hover-button\">\n\t\t\t\t\t\t\t\t<mat-icon class=\"table-icon\">aspect_ratio</mat-icon>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t</td>\n\t\t\t\t</ng-container>\n\t\t\t\t<ng-container *ngFor=\"let column of tableData.columns\" [sticky]=\"column.sticky\" [matColumnDef]=\"column.columnDef\">\n\t\t\t\t\t<th class=\"clickable hover-highlight\" mat-header-cell *matHeaderCellDef> \n\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t<span (click)=\"headerClick(column, $event)\">{{ column.header }}</span>\n\t\t\t\t\t\t\t<span mat-sort-header>&nbsp;</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</th>\n\t\t\t\t\t<td (dblclick)=\"editCell(row, column, $event)\" (click)=\"cellClick(row, column, $event)\" class=\"clickable\" [ngClass]=\"{'selected': isSelected(row, column)}\" mat-cell *matCellDef=\"let row\"> \n\t\t\t\t\t\t{{ row[column.header] }} \n\t\t\t\t\t</td>\n\t\t\t\t</ng-container>\n\t\t\t\t<tr mat-header-row *matHeaderRowDef=\"tableData.displayedColumns\"></tr>\n\t\t\t\t<tr mat-row *matRowDef=\"let row; columns: tableData.displayedColumns;\"></tr>\n\t\t\t</table>\n\t\t</div>\n\t</div>\n</div>\n\n\n\n<div class=\"modal\" [ngClass]=\"{'is-active': addColumnModalOpen}\">\n  <div class=\"modal-background\"></div>\n  <div *ngIf=\"addColumnType && addColumnType == 'characterstic'\" class=\"modal-card\">\n    <div *ngIf=\"isFormBusy\" class=\"load-bar\">\n      <div class=\"bar\"></div>\n      <div class=\"bar\"></div>\n      <div class=\"bar\"></div>\n    </div>\n    <form *ngIf=\"form\" [formGroup]=\"form\">\n      <header class=\"modal-card-head\">\n        <p class=\"modal-card-title\">Add characterstic column</p>\n      </header>\n      <section class=\"modal-card-body\">\n        <div>\n          <mtbls-ontology [id]=\"'charactersticCategory'\" [validations]=\"fieldValidation('category')\" (changed)=\"onChanges($event)\" [values]='[]' [inline]=\"true\"></mtbls-ontology>\n        </div>\n        <!-- <br>\n        <div>\n          <mtbls-ontology [id]=\"'charactersticUnit'\" [validations]=\"fieldValidation('unit')\" [values]='[]' [inline]=\"true\"></mtbls-ontology>\n        </div> -->\n      </section>\n      <footer class=\"modal-card-foot\">\n        <div class=\"columns is-gapless full-width\">\n          <div class=\"column is-one-third\">\n          </div>\n          <div class=\"column is-two-third has-text-right\">\n            <button (click)='closeAddColumnModal()' class=\"button\">Cancel</button>\n            <button (click)=\"addColumn('characterstic')\" class=\"button is-info\">Add Characterstic Column</button>\n          </div>\n        </div>\n      </footer>\n    </form>\n  </div>\n  <div *ngIf=\"addColumnType && addColumnType == 'factor'\" class=\"modal-card\">\n    <div *ngIf=\"isFormBusy\" class=\"load-bar\">\n      <div class=\"bar\"></div>\n      <div class=\"bar\"></div>\n      <div class=\"bar\"></div>\n    </div>\n    <form *ngIf=\"form\" [formGroup]=\"form\">\n      <header class=\"modal-card-head\">\n        <h6 class=\"modal-card-title\">Add factor column - <span class=\"highlight\">{{ selectedFactor.factorName }}</span></h6>\n      </header>\n      <section class=\"modal-card-body\">\n        <mtbls-ontology [id]=\"'factorUnit'\" class=\"mt-20\" #factorUnit [validations]=\"fieldValidation('unit')\" (changed)=\"onChanges($event)\" [values]='[]' [inline]=\"true\"></mtbls-ontology>\n      </section>\n      <footer class=\"modal-card-foot\">\n        <div class=\"columns is-gapless full-width\">\n          <div class=\"column is-half\">\n          </div>\n          <div class=\"column is-half has-text-right\">\n            <button (click)='closeAddColumnModal()' class=\"button\">Cancel</button>\n            <button (click)=\"addColumn('factor')\" class=\"button is-info\">Add Factor Column</button>\n          </div>\n        </div>\n      </footer>\n    </form>\n  </div>\n</div>\n\n<div class=\"modal\" [ngClass]=\"{'is-active': isDeleteModalOpen}\">\n  <div class=\"modal-background\"></div>\n  <div class=\"modal-card\">\n    <section class=\"modal-card-body\">\n      <p>Are you sure you want to delete the selected samples?</p>\n    </section>\n    <footer class=\"modal-card-foot\">\n      <div class=\"columns is-gapless full-width\">\n        <div class=\"column is-half\">\n          <button (click)='closeDelete()' class=\"button is-info\">Cancel</button>\n        </div>\n        <div class=\"column is-half has-text-right\">\n          <button (click)='deleteSamples()' class=\"button is-danger\">OK! Delete Permanently</button>\n        </div>\n      </div>\n    </footer>\n  </div>\n</div>\n\n<!-- <div class=\"modal\" [ngClass]=\"{'is-active': isEditColumnModalOpen}\">\n  <form *ngIf=\"form\" [formGroup]=\"form\">\n    <div class=\"modal-background\"></div>\n    <div class=\"modal-card column-editor-card\">\n      <div *ngIf=\"isFormBusy\" class=\"load-bar\">\n        <div class=\"bar\"></div>\n        <div class=\"bar\"></div>\n        <div class=\"bar\"></div>\n      </div>\n      <section class=\"modal-card-body\">\n        <div class=\"columns\">\n          <div class=\"column is-two-thirds\">is-two-thirds</div>\n          <div class=\"column options-wrapper\">\n            <h5 class=\"options-title\">{{ selectedColumn.header }}</h5>\n            <div class=\"options\">\n              <span *ngFor=\"let key of keys(selectedColumnValues)\">\n                <div class=\"tags has-addons\">\n                  <span class=\"tag is-success\">{{ key }}</span>\n                  <a class=\"tag is-delete\"></a>\n                </div>\n              </span>\n            </div>\n          </div>\n        </div>\n      </section>\n      <footer class=\"modal-card-foot buttons is-right\">\n        <button class=\"button\" [disabled]=\"isFormBusy\" (click)='closeEditColumnModal()'>Cancel</button>\n      </footer>\n    </div>\n  </form>\n</div> -->\n\n<div class=\"modal\" [ngClass]=\"{'is-active': isAddSamplesModalOpen}\">\n  <form *ngIf=\"form\" [formGroup]=\"form\">\n    <div class=\"modal-background\"></div>\n    <div class=\"modal-card\">\n      <div *ngIf=\"isFormBusy\" class=\"load-bar\">\n        <div class=\"bar\"></div>\n        <div class=\"bar\"></div>\n        <div class=\"bar\"></div>\n      </div>\n      <section class=\"modal-card-body\">\n        <div class=\"field is-horizontal\">\n          <div class=\"field-body\">\n            <div class=\"field\">\n              <div class=\"control\">\n                <mat-form-field class=\"full-width\">\n                  <mat-label>{{ validation['samples'].label }}</mat-label>\n                  <textarea class=\"no-scroll\" \n                  formControlName=\"samples\"\n                  matInput\n                  (blur)=\"formatSampleNames()\"\n                  [placeholder]=\"validation['samples'].placeholder\" \n                  cdkAutosizeMinRows=\"20\"\n                  cdkAutosizeMaxRows=\"10\"\n                  cdkTextareaAutosize>\n                </textarea>\n                <mat-hint>{{ validation.samples.description }}</mat-hint>\n                <mat-error\n                *ngIf=\"form.get('samples').errors &&\n                form.get('samples').dirty &&\n                form.get('samples').errors.samples\">\n                {{ form.get('samples').errors.samples.error }}\n              </mat-error>\n            </mat-form-field>\n          </div>\n        </div>\n      </div>\n    </div>\n  </section>\n  <footer class=\"modal-card-foot buttons is-right\">\n    <button class=\"button\" [disabled]=\"isFormBusy\" (click)='closeAddSamplesModal()'>Cancel</button>\n    <button (click)=\"addSamples()\" class=\"button is-info\">Add</button>\n  </footer>\n</div>\n</form>\n</div>\n\n<div class=\"modal\" [ngClass]=\"{'is-active': isAddSamplesModalOpen}\">\n  <form *ngIf=\"form\" [formGroup]=\"form\">\n    <div class=\"modal-background\"></div>\n    <div class=\"modal-card\">\n      <div *ngIf=\"isFormBusy\" class=\"load-bar\">\n        <div class=\"bar\"></div>\n        <div class=\"bar\"></div>\n        <div class=\"bar\"></div>\n      </div>\n      <section class=\"modal-card-body\">\n        <div class=\"field is-horizontal\">\n          <div class=\"field-body\">\n            <div class=\"field\">\n              <div class=\"control\">\n                <mat-form-field class=\"full-width\">\n                  <mat-label>{{ validation['samples'].label }}</mat-label>\n                  <textarea class=\"no-scroll\" \n                  formControlName=\"samples\"\n                  matInput\n                  (blur)=\"formatSampleNames()\"\n                  [placeholder]=\"validation['samples'].placeholder\" \n                  cdkAutosizeMinRows=\"20\"\n                  cdkAutosizeMaxRows=\"10\"\n                  cdkTextareaAutosize>\n                </textarea>\n                <mat-hint>{{ validation.samples.description }}</mat-hint>\n                <mat-error\n                *ngIf=\"form.get('samples').errors &&\n                form.get('samples').dirty &&\n                form.get('samples').errors.samples\">\n                {{ form.get('samples').errors.samples.error }}\n              </mat-error>\n            </mat-form-field>\n          </div>\n        </div>\n      </div>\n    </div>\n  </section>\n  <footer class=\"modal-card-foot buttons is-right\">\n    <button class=\"button\" [disabled]=\"isFormBusy\" (click)='closeAddSamplesModal()'>Cancel</button>\n    <button (click)=\"addSamples()\" class=\"button is-info\">Add</button>\n  </footer>\n</div>\n</form>\n</div>"
+module.exports = "<div class=\"card\" *ngIf=\"samplesTable\">\n\t<header class=\"card-header\">\n\t\t<p class=\"card-header-title\">\n\t\t\tSamples data\n\t\t</p>\n\t</header>\n\t<div class=\"card-content\">\n\t\t<div class=\"columns mb0 is-vcentered is-hcentered\">\n\t\t\t<div class=\"column is-12 is-paddingless\">\n\t\t\t\t<mat-form-field class=\"full-width bback\">\n\t\t\t\t\t<input autocomplete=\"off\" matInput (keyup)=\"applyFilter($event.target.value)\" (keydown)=\"onKeydown($event, $event.target.value)\" placeholder=\"Filter\">\n\t\t\t\t</mat-form-field>\n\t\t\t</div>\n\t\t</div>\n\t\t<span>\n\t\t\t<div *ngIf=\"filters.length > 0\" class=\"field is-grouped is-grouped-multiline\">\n\t\t\t\t<div *ngFor=\"let filter of filters\" class=\"control\">\n\t\t\t\t\t<div class=\"tags has-addons\">\n\t\t\t\t\t\t<span class=\"tag is-link\">{{ filter }}</span>\n\t\t\t\t\t\t<a (click)=\"highlightFilteredRows(filter)\" class=\"tag addon-tag\"><mat-icon>control_camera</mat-icon></a>\n\t\t\t\t\t\t<a (click)=\"removeFilter(filter)\" class=\"tag is-delete\"></a>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</span>\n\t\t<div class=\"menu-bar columns\">  \n\t\t\t<span class=\"column fadeIn\">\n\t\t\t\t<mtbls-upload></mtbls-upload>&nbsp;\n\t\t\t\t<span *ngIf=\"tableData['file']\">\n          <mtbls-download [value]=\"tableData['file']\"></mtbls-download>    \n        </span>\n\t\t\t\t<span *ngIf=\"selectedRows.length > 0\">\n<!-- \t\t\t\t\t<div class=\"dropdown is-hoverable\">\n\t\t\t\t\t\t<div class=\"dropdown-trigger\">\n\t\t\t\t\t\t\t<button class=\"button is-light is-small\" aria-haspopup=\"true\" aria-controls=\"dropdown-menu\"><mat-icon>file_copy</mat-icon>Copy</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"dropdown-menu\" id=\"dropdown-menu\" role=\"menu\">\n\t\t\t\t\t\t\t<div class=\"dropdown-content\">\n\t\t\t\t\t\t\t\t<a href=\"#\" class=\"dropdown-item\">\n\t\t\t\t\t\t\t\t\tPaste inplace\n\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t<hr class=\"dropdown-divider\">\n\t\t\t\t\t\t\t\t<a href=\"#\" class=\"dropdown-item\">\n\t\t\t\t\t\t\t\t\tPaste at the end\n\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div> -->\n\t\t\t\t\t<a (click)=\"openDeleteModal()\" class=\"button is-small is-light\">\n\t\t\t\t\t\t<mat-icon>delete</mat-icon> Delete\n\t\t\t\t\t</a>\n\t\t\t\t</span>\n\t\t\t</span>\n\t\t\t<span class=\"column fadeIn has-text-right\">\n\t\t\t\t<div class=\"dropdown\" [ngClass]=\"{'is-active': isFactorDropdownActive}\">\n\t\t\t\t\t<div class=\"dropdown-trigger\">\n\t\t\t\t\t\t<button (click)=\"toggleDropdown()\" class=\"button is-light is-small\"><span><mat-icon>add</mat-icon>Factor</span></button>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"dropdown-menu has-text-left\" role=\"menu\">\n\t\t\t\t\t\t<div class=\"dropdown-content\">\n\t\t\t\t\t\t\t<span *ngIf=\"unSelectedFactors && unSelectedFactors.length > 0\">\n\t\t\t\t\t\t\t\t<span *ngFor=\"let factor of unSelectedFactors\">\n\t\t\t\t\t\t\t\t\t<a (click)=\"openAddColumnModal('factor', factor)\" class=\"dropdown-item\">\n\t\t\t\t\t\t\t\t\t\t{{ factor.factorName }} \n\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t<hr class=\"dropdown-divider\">\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t<mtbls-factor [isDropdown]=\"true\" [value]=\"null\" [validations]=\"validations\"></mtbls-factor>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<a (click)=\"openAddColumnModal('characterstic', null)\" class=\"button is-small is-light\">\n\t\t\t\t\t<span><mat-icon>add</mat-icon>Characterstic</span>\n\t\t\t\t</a>\n\t\t\t\t<a (click)=\"openAddSamplesModal()\" class=\"button is-small is-light\">\n\t\t\t\t\t<mat-icon>view_day</mat-icon> Add Samples\n\t\t\t\t</a>\n\t\t\t    <!-- <a class=\"button is-small is-light\">\n\t\t\t      <mat-icon>sort</mat-icon> Sort columns\n\t\t\t  </a> -->\n\t\t\t</span>\n\t\t</div>\n\t\t<div class=\"menu-bar columns\">\n\t\t\t<span class=\"column fadeIn has-text-right nmrl\">\n\t\t\t\t<mat-paginator [pageSizeOptions]=\"[500, 1000, 2000]\" showFirstLastButtons></mat-paginator>\n\t\t\t</span>\n\t\t</div>\n\t\t<div class=\"wrapper mat-elevation-z1\">\n\t\t\t<table class=\"mat-elevation-z1\" [dataSource]=\"tableDataSource\" matSort mat-table>\n\t\t\t\t<ng-container matColumnDef=\"Select\" sticky>\n\t\t\t\t\t<th (click)=\"deSelect()\" class=\"clickable table-selector\" mat-header-cell *matHeaderCellDef></th>\n\t\t\t\t\t<td (click)=\"rowClick(row, $event)\" class=\"clickable row-selector hover-highlight\" mat-cell *matCellDef=\"let row\">\n\t\t\t\t\t\t<span class=\"row-options-wrapper\">\n\t\t\t\t\t\t\t<span class=\"row-options hover-button\">\n\t\t\t\t\t\t\t\t<mat-icon class=\"table-icon\">aspect_ratio</mat-icon>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t</td>\n\t\t\t\t</ng-container>\n\t\t\t\t<ng-container *ngFor=\"let column of tableData.columns\" [sticky]=\"column.sticky\" [matColumnDef]=\"column.columnDef\">\n\t\t\t\t\t<th class=\"clickable hover-highlight\" mat-header-cell *matHeaderCellDef> \n\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t<span (click)=\"headerClick(column, $event)\">{{ formatHeader(column.header) }}</span>\n\t\t\t\t\t\t\t<span mat-sort-header>&nbsp;</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</th>\n\t\t\t\t\t<td (dblclick)=\"editCell(row, column, $event)\" (click)=\"cellClick(row, column, $event)\" class=\"clickable\" [ngClass]=\"{'selected': isSelected(row, column)}\" mat-cell *matCellDef=\"let row\"> \n\t\t\t\t\t\t{{ row[column.header] }} \n\t\t\t\t\t</td>\n\t\t\t\t</ng-container>\n\t\t\t\t<tr mat-header-row *matHeaderRowDef=\"tableData.displayedColumns\"></tr>\n\t\t\t\t<tr mat-row *matRowDef=\"let row; columns: tableData.displayedColumns;\"></tr>\n\t\t\t</table>\n\t\t</div>\n\t</div>\n</div>\n\n\n\n<div class=\"modal\" [ngClass]=\"{'is-active': addColumnModalOpen}\">\n  <div class=\"modal-background\"></div>\n  <div *ngIf=\"addColumnType && addColumnType == 'characterstic'\" class=\"modal-card\">\n    <div *ngIf=\"isFormBusy\" class=\"load-bar\">\n      <div class=\"bar\"></div>\n      <div class=\"bar\"></div>\n      <div class=\"bar\"></div>\n    </div>\n    <form *ngIf=\"form\" [formGroup]=\"form\">\n      <header class=\"modal-card-head\">\n        <p class=\"modal-card-title\">Add characterstic column</p>\n      </header>\n      <section class=\"modal-card-body\">\n        <div>\n          <mtbls-ontology [id]=\"'charactersticCategory'\" [validations]=\"fieldValidation('category')\" (changed)=\"onChanges($event)\" [values]='[]' [inline]=\"true\"></mtbls-ontology>\n        </div>\n        <!-- <br>\n        <div>\n          <mtbls-ontology [id]=\"'charactersticUnit'\" [validations]=\"fieldValidation('unit')\" [values]='[]' [inline]=\"true\"></mtbls-ontology>\n        </div> -->\n      </section>\n      <footer class=\"modal-card-foot\">\n        <div class=\"columns is-gapless full-width\">\n          <div class=\"column is-one-third\">\n          </div>\n          <div class=\"column is-two-third has-text-right\">\n            <button (click)='closeAddColumnModal()' class=\"button\">Cancel</button>\n            <button (click)=\"addColumn('characterstic')\" class=\"button is-info\">Add Characterstic Column</button>\n          </div>\n        </div>\n      </footer>\n    </form>\n  </div>\n  <div *ngIf=\"addColumnType && addColumnType == 'factor'\" class=\"modal-card\">\n    <div *ngIf=\"isFormBusy\" class=\"load-bar\">\n      <div class=\"bar\"></div>\n      <div class=\"bar\"></div>\n      <div class=\"bar\"></div>\n    </div>\n    <form *ngIf=\"form\" [formGroup]=\"form\">\n      <header class=\"modal-card-head\">\n        <h6 class=\"modal-card-title\">Add factor column - <span class=\"highlight\">{{ selectedFactor.factorName }}</span></h6>\n      </header>\n      <section class=\"modal-card-body\">\n        <mtbls-ontology [id]=\"'factorUnit'\" class=\"mt-20\" #factorUnit [validations]=\"fieldValidation('unit')\" (changed)=\"onChanges($event)\" [values]='[]' [inline]=\"true\"></mtbls-ontology>\n      </section>\n      <footer class=\"modal-card-foot\">\n        <div class=\"columns is-gapless full-width\">\n          <div class=\"column is-half\">\n          </div>\n          <div class=\"column is-half has-text-right\">\n            <button (click)='closeAddColumnModal()' class=\"button\">Cancel</button>\n            <button (click)=\"addColumn('factor')\" class=\"button is-info\">Add Factor Column</button>\n          </div>\n        </div>\n      </footer>\n    </form>\n  </div>\n</div>\n\n<div class=\"modal\" [ngClass]=\"{'is-active': isDeleteModalOpen}\">\n  <div class=\"modal-background\"></div>\n  <div class=\"modal-card\">\n    <section class=\"modal-card-body\">\n      <p>Are you sure you want to delete the selected samples?</p>\n    </section>\n    <footer class=\"modal-card-foot\">\n      <div class=\"columns is-gapless full-width\">\n        <div class=\"column is-half\">\n          <button (click)='closeDelete()' class=\"button is-info\">Cancel</button>\n        </div>\n        <div class=\"column is-half has-text-right\">\n          <button (click)='deleteSamples()' class=\"button is-danger\">OK! Delete Permanently</button>\n        </div>\n      </div>\n    </footer>\n  </div>\n</div>\n\n<!-- <div class=\"modal\" [ngClass]=\"{'is-active': isEditColumnModalOpen}\">\n  <form *ngIf=\"form\" [formGroup]=\"form\">\n    <div class=\"modal-background\"></div>\n    <div class=\"modal-card column-editor-card\">\n      <div *ngIf=\"isFormBusy\" class=\"load-bar\">\n        <div class=\"bar\"></div>\n        <div class=\"bar\"></div>\n        <div class=\"bar\"></div>\n      </div>\n      <section class=\"modal-card-body\">\n        <div class=\"columns\">\n          <div class=\"column is-two-thirds\">is-two-thirds</div>\n          <div class=\"column options-wrapper\">\n            <h5 class=\"options-title\">{{ selectedColumn.header }}</h5>\n            <div class=\"options\">\n              <span *ngFor=\"let key of keys(selectedColumnValues)\">\n                <div class=\"tags has-addons\">\n                  <span class=\"tag is-success\">{{ key }}</span>\n                  <a class=\"tag is-delete\"></a>\n                </div>\n              </span>\n            </div>\n          </div>\n        </div>\n      </section>\n      <footer class=\"modal-card-foot buttons is-right\">\n        <button class=\"button\" [disabled]=\"isFormBusy\" (click)='closeEditColumnModal()'>Cancel</button>\n      </footer>\n    </div>\n  </form>\n</div> -->\n\n<div class=\"modal\" [ngClass]=\"{'is-active': isAddSamplesModalOpen}\">\n  <form *ngIf=\"form\" [formGroup]=\"form\">\n    <div class=\"modal-background\"></div>\n    <div class=\"modal-card\">\n      <div *ngIf=\"isFormBusy\" class=\"load-bar\">\n        <div class=\"bar\"></div>\n        <div class=\"bar\"></div>\n        <div class=\"bar\"></div>\n      </div>\n      <section class=\"modal-card-body\">\n        <div class=\"field is-horizontal\">\n          <div class=\"field-body\">\n            <div class=\"field\">\n              <div class=\"control\">\n                <mat-form-field class=\"full-width\">\n                  <mat-label>{{ validation['samples'].label }}</mat-label>\n                  <textarea class=\"no-scroll\" \n                  formControlName=\"samples\"\n                  matInput\n                  (blur)=\"formatSampleNames()\"\n                  [placeholder]=\"validation['samples'].placeholder\" \n                  cdkAutosizeMinRows=\"20\"\n                  cdkAutosizeMaxRows=\"10\"\n                  cdkTextareaAutosize>\n                </textarea>\n                <mat-hint>{{ validation.samples.description }}</mat-hint>\n                <mat-error\n                *ngIf=\"form.get('samples').errors &&\n                form.get('samples').dirty &&\n                form.get('samples').errors.samples\">\n                {{ form.get('samples').errors.samples.error }}\n              </mat-error>\n            </mat-form-field>\n          </div>\n        </div>\n      </div>\n    </div>\n  </section>\n  <footer class=\"modal-card-foot buttons is-right\">\n    <button class=\"button\" [disabled]=\"isFormBusy\" (click)='closeAddSamplesModal()'>Cancel</button>\n    <button (click)=\"addSamples()\" class=\"button is-info\">Add</button>\n  </footer>\n</div>\n</form>\n</div>\n\n<div class=\"modal\" [ngClass]=\"{'is-active': isAddSamplesModalOpen}\">\n  <form *ngIf=\"form\" [formGroup]=\"form\">\n    <div class=\"modal-background\"></div>\n    <div class=\"modal-card\">\n      <div *ngIf=\"isFormBusy\" class=\"load-bar\">\n        <div class=\"bar\"></div>\n        <div class=\"bar\"></div>\n        <div class=\"bar\"></div>\n      </div>\n      <section class=\"modal-card-body\">\n        <div class=\"field is-horizontal\">\n          <div class=\"field-body\">\n            <div class=\"field\">\n              <div class=\"control\">\n                <mat-form-field class=\"full-width\">\n                  <mat-label>{{ validation['samples'].label }}</mat-label>\n                  <textarea class=\"no-scroll\" \n                  formControlName=\"samples\"\n                  matInput\n                  (blur)=\"formatSampleNames()\"\n                  [placeholder]=\"validation['samples'].placeholder\" \n                  cdkAutosizeMinRows=\"20\"\n                  cdkAutosizeMaxRows=\"10\"\n                  cdkTextareaAutosize>\n                </textarea>\n                <mat-hint>{{ validation.samples.description }}</mat-hint>\n                <mat-error\n                *ngIf=\"form.get('samples').errors &&\n                form.get('samples').dirty &&\n                form.get('samples').errors.samples\">\n                {{ form.get('samples').errors.samples.error }}\n              </mat-error>\n            </mat-form-field>\n          </div>\n        </div>\n      </div>\n    </div>\n  </section>\n  <footer class=\"modal-card-foot buttons is-right\">\n    <button class=\"button\" [disabled]=\"isFormBusy\" (click)='closeAddSamplesModal()'>Cancel</button>\n    <button (click)=\"addSamples()\" class=\"button is-info\">Add</button>\n  </footer>\n</div>\n</form>\n</div>"
 
 /***/ }),
 
@@ -5298,6 +5715,9 @@ var SamplesComponent = /** @class */ (function () {
             this.tableDataSource.filter = filterValue.trim().toLowerCase();
         }
     };
+    SamplesComponent.prototype.formatHeader = function (term) {
+        return term.replace(/\.[^/.]+$/, "");
+    };
     SamplesComponent.prototype.isSelected = function (row, column) {
         if ((row && column) && this.selectedCells.length > 0) {
             return this.selectedCells.filter(function (cell) { return (cell[0] == column.columnDef && cell[1] == row.index); }).length > 0;
@@ -5458,16 +5878,16 @@ var SamplesComponent = /** @class */ (function () {
         return term.replace("_", " ");
     };
     SamplesComponent.prototype.editCell = function (row, column, event) {
-        this.isCellTypeFile = false;
-        this.isEditModalOpen = true;
-        this.selectedCell['row'] = row;
-        this.selectedCell['column'] = column;
-        if (this.fileColumns.indexOf(column.header) > -1) {
-            this.isCellTypeFile = true;
-        }
-        this.form = this.fb.group({
-            cell: [row[column.columnDef]],
-        });
+        // this.isCellTypeFile = false;
+        // this.isEditModalOpen = true;
+        // this.selectedCell['row'] = row
+        // this.selectedCell['column'] = column
+        // if(this.fileColumns.indexOf(column.header) > -1){
+        // 	this.isCellTypeFile = true;
+        // }
+        // this.form = this.fb.group({
+        // 	cell:  [ row[column.columnDef] ],
+        // });
     };
     SamplesComponent.prototype.closeEditModal = function () {
         this.isEditModalOpen = false;
@@ -5706,7 +6126,7 @@ var SamplesComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvc3R1ZHkvc3RhdHVzL3N0YXR1cy5jb21wb25lbnQuY3NzIn0= */"
 
 /***/ }),
 
@@ -5883,17 +6303,17 @@ function addMAF(state, action) {
 }
 function updateMAF(state, action) {
     var index = null;
-    if (state.metaboliteAnnotationFiles[action.body.assay]) {
+    if (state.metaboliteAnnotationFiles) {
         var i_1 = 0;
-        state.metaboliteAnnotationFiles[action.body.assay].forEach(function (f) {
-            if (f.file == action.body.data.file) {
+        state.metaboliteAnnotationFiles.forEach(function (f) {
+            if (f.file == action.body.maf.file && f.assay == action.body.maf.assay) {
                 index = i_1;
             }
             i_1 = i_1 + 1;
         });
     }
     if (index != null) {
-        state.metaboliteAnnotationFiles[action.body.assay][index] = action.body.data;
+        state.metaboliteAnnotationFiles[index] = action.body.maf;
     }
     return Object(tassign__WEBPACK_IMPORTED_MODULE_0__["tassign"])(state, { metaboliteAnnotationFiles: state.metaboliteAnnotationFiles });
 }
@@ -5902,6 +6322,12 @@ function addStudyProcessSequence(state, action) {
 }
 function setStudyOrganisms(state, action) {
     return Object(tassign__WEBPACK_IMPORTED_MODULE_0__["tassign"])(state, { organisms: action.body.organisms });
+}
+function setUploadLocation(state, action) {
+    return Object(tassign__WEBPACK_IMPORTED_MODULE_0__["tassign"])(state, { uploadLocation: action.body.uploadLocation });
+}
+function setObfuscationCode(state, action) {
+    return Object(tassign__WEBPACK_IMPORTED_MODULE_0__["tassign"])(state, { obfuscationCode: action.body.obfuscationCode });
 }
 function studyReducer(state, action) {
     if (state === void 0) { state = STUDY_INITIAL_STATE; }
@@ -5930,6 +6356,8 @@ function studyReducer(state, action) {
         case _actions__WEBPACK_IMPORTED_MODULE_7__["ADD_MAF"]: return addMAF(state, action);
         case _actions__WEBPACK_IMPORTED_MODULE_7__["UPDATE_MAF_DATA"]: return updateMAF(state, action);
         case _actions__WEBPACK_IMPORTED_MODULE_7__["ADD_STUDY_ASSAY_TABLE"]: return addStudyAssayTable(state, action);
+        case _actions__WEBPACK_IMPORTED_MODULE_7__["SET_UPLOAD_LOCATION"]: return setUploadLocation(state, action);
+        case _actions__WEBPACK_IMPORTED_MODULE_7__["SET_OBFUSCATION_CODE"]: return setObfuscationCode(state, action);
     }
     return state;
 }
@@ -5944,7 +6372,7 @@ function studyReducer(state, action) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".tab-content{\n\tmin-height: 50vh;\n}\n\n.tabs li.is-active a {\n    background-color: #3273dc;\n    color: #fff;\n}\n\n.npt{\n\tpadding-top: 0;\n}\n\n.logout-link{\n\tfont-size: 0.8em;\n\tfloat: right;\n\tpadding: 3px 10px;\n\tbackground-color: #3676D9;\n\tmargin: 1px;\n\tcolor: #fff;\n\tmargin-top: -2em;\n}\n\n.logout-link:hover{\n\tbackground-color: #1f58ad;\n}"
+module.exports = ".tab-content{\n\tmin-height: 50vh;\n}\n\n.tabs li.is-active a {\n    background-color: #3273dc;\n    color: #fff;\n}\n\n.npt{\n\tpadding-top: 0;\n}\n\n.logout-link{\n\tfont-size: 0.8em;\n\tfloat: right;\n\tpadding: 3px 10px;\n\tbackground-color: #3676D9;\n\tmargin: 1px;\n\tcolor: #fff;\n\tmargin-top: -2em;\n}\n\n.logout-link:hover{\n\tbackground-color: #1f58ad;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9zdHVkeS9zdHVkeS5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0NBQ0MsaUJBQWlCO0NBQ2pCOztBQUVEO0lBQ0ksMEJBQTBCO0lBQzFCLFlBQVk7Q0FDZjs7QUFFRDtDQUNDLGVBQWU7Q0FDZjs7QUFFRDtDQUNDLGlCQUFpQjtDQUNqQixhQUFhO0NBQ2Isa0JBQWtCO0NBQ2xCLDBCQUEwQjtDQUMxQixZQUFZO0NBQ1osWUFBWTtDQUNaLGlCQUFpQjtDQUNqQjs7QUFFRDtDQUNDLDBCQUEwQjtDQUMxQiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvc3R1ZHkvc3R1ZHkuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi50YWItY29udGVudHtcblx0bWluLWhlaWdodDogNTB2aDtcbn1cblxuLnRhYnMgbGkuaXMtYWN0aXZlIGEge1xuICAgIGJhY2tncm91bmQtY29sb3I6ICMzMjczZGM7XG4gICAgY29sb3I6ICNmZmY7XG59XG5cbi5ucHR7XG5cdHBhZGRpbmctdG9wOiAwO1xufVxuXG4ubG9nb3V0LWxpbmt7XG5cdGZvbnQtc2l6ZTogMC44ZW07XG5cdGZsb2F0OiByaWdodDtcblx0cGFkZGluZzogM3B4IDEwcHg7XG5cdGJhY2tncm91bmQtY29sb3I6ICMzNjc2RDk7XG5cdG1hcmdpbjogMXB4O1xuXHRjb2xvcjogI2ZmZjtcblx0bWFyZ2luLXRvcDogLTJlbTtcbn1cblxuLmxvZ291dC1saW5rOmhvdmVye1xuXHRiYWNrZ3JvdW5kLWNvbG9yOiAjMWY1OGFkO1xufSJdfQ== */"
 
 /***/ }),
 
@@ -5955,7 +6383,7 @@ module.exports = ".tab-content{\n\tmin-height: 50vh;\n}\n\n.tabs li.is-active a 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav-bar></nav-bar>\n<div class=\"container\">\n  <!-- <a class=\"logout-link\" (click)=\"logOut()\">Logout</a>\n  <a class=\"logout-link\" [routerLink]=\"['/console']\">Console</a> -->\n  <div class=\"main-wrapper\">\n    <span *ngIf=\"(studyIdentifier | async) != undefined\">\n      <div id=\"meta\" class=\"field is-grouped is-grouped-multiline px-20 mb-10\">\n        <mtbls-status [value]=\"'public'\"></mtbls-status>&nbsp;&nbsp;\n        <mtbls-release-date [value]=\"releaseDate | async\"></mtbls-release-date>\n      </div>\n      <mtbls-title [value]=\"studyTitle | async\" [validations]=\"validations | async\"></mtbls-title>\n    </span>\n    <mtbls-people [value]=\"people | async\" [validations]=\"validations | async\"></mtbls-people> \n    <mtbls-description [value]=\"studyAbstract | async\" [validations]=\"validations | async\"></mtbls-description>\n    <mtbls-organisms></mtbls-organisms>\n    <mtbls-publications [value]=\"publications | async\" [validations]=\"validations | async\"></mtbls-publications> \n    <div class=\"px-20 mt-20\">\n      <div class=\"card\">\n        <div class=\"columns\">\n          <div class=\"column is-full tabs npt\">\n           <ul>\n            <li (click)=\"selectCurrentTab(0, 'descriptors')\" [ngClass]=\"{'is-active': (currentIndex | async) == 0 }\"><a>Descriptors</a></li>\n            <li (click)=\"selectCurrentTab(1, 'protocols')\" [ngClass]=\"{'is-active': (currentIndex | async) == 1 }\"><a>Protocols</a></li>\n            <li (click)=\"selectCurrentTab(2, 'samples')\" [ngClass]=\"{'is-active': (currentIndex | async) == 2 }\"><a>Samples</a></li>\n            <li (click)=\"selectCurrentTab(3, 'assays')\" [ngClass]=\"{'is-active': (currentIndex | async) == 3 }\"><a>Assays</a></li>\n            <li (click)=\"selectCurrentTab(4, 'metabolites')\" [ngClass]=\"{'is-active': (currentIndex | async) == 4 }\"><a>Metabolites</a></li>\n            <li (click)=\"selectCurrentTab(5, 'files')\" [ngClass]=\"{'is-active': (currentIndex | async) == 5 }\"><a>Files</a></li>\n            <!-- <li (click)=\"selectCurrentTab(6)\" [ngClass]=\"{'is-active': (currentIndex | async) == 6 }\"><a>Pathway Analysis</a></li> -->\n          </ul>\n        </div>\n      </div>\n      <div class=\"card-content npt\">\n        <div class=\"columns\">\n          <div class=\"column is-full\">\n            <div class=\"tab-content fadeIn animated\" *ngIf=\"(currentIndex | async) == 0\">\n              <mtbls-design-descriptors [value]=\"studyDesignDescriptors | async\" [validations]=\"validations | async\"></mtbls-design-descriptors>\n              <br>  \n              <mtbls-factors [value]=\"factors | async\" [validations]=\"validations | async\"></mtbls-factors>  \n            </div>\n            <div class=\"tab-content fadeIn animated\" *ngIf=\"(currentIndex | async) == 1\">\n              <mtbls-protocols [validations]=\"validations | async\"></mtbls-protocols>\n            </div>\n            <div class=\"tab-content fadeIn animated\" *ngIf=\"(currentIndex | async) == 2\">\n              <mtbls-samples [validations]=\"validations | async\"></mtbls-samples>\n            </div>\n            <div class=\"tab-content fadeIn animated\" *ngIf=\"(currentIndex | async) == 3\">\n              <mtbls-assays [validations]=\"validations | async\"></mtbls-assays>\n            </div>\n            <div class=\"tab-content fadeIn animated\" *ngIf=\"(currentIndex | async) == 4\">\n              <mtbls-metabolites [validations]=\"validations | async\"></mtbls-metabolites>\n            </div>\n            <div class=\"tab-content fadeIn animated\" *ngIf=\"(currentIndex | async) == 5\">\n              <mtbls-files></mtbls-files>\n            </div>\n            <div class=\"tab-content fadeIn animated\" *ngIf=\"(currentIndex | async) == 6\">\n              <div>Pathway Analysis</div>\n            </div>\n          </div>\n        </div>\n      </div>        \n    </div>\n  </div>\n</div>\n</div>"
+module.exports = "<nav-bar></nav-bar>\n<mtbls-tour></mtbls-tour>\n<div class=\"container\">\n  <!-- <a class=\"logout-link\" (click)=\"logOut()\">Logout</a>\n  <a class=\"logout-link\" [routerLink]=\"['/console']\">Console</a> -->\n  <div class=\"main-wrapper\">\n    <span *ngIf=\"(studyIdentifier | async) != undefined\">\n      <div id=\"meta\" class=\"field is-grouped is-grouped-multiline px-20 mb-10\">\n        <mtbls-status [value]=\"'public'\"></mtbls-status>&nbsp;&nbsp;\n        <mtbls-release-date [value]=\"releaseDate | async\"></mtbls-release-date>\n      </div>\n      <mtbls-title></mtbls-title>\n    </span>\n    <mtbls-people [value]=\"people | async\" [validations]=\"validations | async\"></mtbls-people> \n    <mtbls-description [value]=\"studyAbstract | async\" [validations]=\"validations | async\"></mtbls-description>\n    <mtbls-organisms></mtbls-organisms>\n    <mtbls-publications [value]=\"publications | async\" [validations]=\"validations | async\"></mtbls-publications> \n    <div class=\"px-20 mt-20\">\n      <div class=\"card\">\n        <div class=\"columns\">\n          <div class=\"column is-full tabs npt\">\n           <ul>\n            <li (click)=\"selectCurrentTab(0, 'descriptors')\" [ngClass]=\"{'is-active': (currentIndex | async) == 0 }\"><a>Descriptors</a></li>\n            <li (click)=\"selectCurrentTab(1, 'protocols')\" [ngClass]=\"{'is-active': (currentIndex | async) == 1 }\"><a>Protocols</a></li>\n            <li (click)=\"selectCurrentTab(2, 'samples')\" [ngClass]=\"{'is-active': (currentIndex | async) == 2 }\"><a>Samples</a></li>\n            <li (click)=\"selectCurrentTab(3, 'assays')\" [ngClass]=\"{'is-active': (currentIndex | async) == 3 }\"><a>Assays</a></li>\n            <li (click)=\"selectCurrentTab(4, 'metabolites')\" [ngClass]=\"{'is-active': (currentIndex | async) == 4 }\"><a>Metabolites</a></li>\n            <li (click)=\"selectCurrentTab(5, 'files')\" [ngClass]=\"{'is-active': (currentIndex | async) == 5 }\"><a>Files</a></li>\n            <!-- <li (click)=\"selectCurrentTab(6)\" [ngClass]=\"{'is-active': (currentIndex | async) == 6 }\"><a>Pathway Analysis</a></li> -->\n          </ul>\n        </div>\n      </div>\n      <div class=\"card-content npt\">\n        <div class=\"columns\">\n          <div class=\"column is-full\">\n            <div class=\"tab-content fadeIn animated\" *ngIf=\"(currentIndex | async) == 0\">\n              <mtbls-design-descriptors [value]=\"studyDesignDescriptors | async\" [validations]=\"validations | async\"></mtbls-design-descriptors>\n              <br>  \n              <mtbls-factors [value]=\"factors | async\" [validations]=\"validations | async\"></mtbls-factors>  \n            </div>\n            <div class=\"tab-content fadeIn animated\" *ngIf=\"(currentIndex | async) == 1\">\n              <mtbls-protocols [validations]=\"validations | async\"></mtbls-protocols>\n            </div>\n            <div class=\"tab-content fadeIn animated\" *ngIf=\"(currentIndex | async) == 2\">\n              <mtbls-samples [validations]=\"validations | async\"></mtbls-samples>\n            </div>\n            <div class=\"tab-content fadeIn animated\" *ngIf=\"(currentIndex | async) == 3\">\n              <mtbls-assays [validations]=\"validations | async\"></mtbls-assays>\n            </div>\n            <div class=\"tab-content fadeIn animated\" *ngIf=\"(currentIndex | async) == 4\">\n              <mtbls-metabolites [validations]=\"validations | async\"></mtbls-metabolites>\n            </div>\n            <div class=\"tab-content fadeIn animated\" *ngIf=\"(currentIndex | async) == 5\">\n              <mtbls-files [validations]=\"validations | async\"></mtbls-files>\n            </div>\n            <div class=\"tab-content fadeIn animated\" *ngIf=\"(currentIndex | async) == 6\">\n              <div>Pathway Analysis</div>\n            </div>\n          </div>\n        </div>\n      </div>        \n    </div>\n  </div>\n</div>\n</div>"
 
 /***/ }),
 
@@ -6083,6 +6511,12 @@ var StudyComponent = /** @class */ (function () {
                         } });
                     var organisms = [];
                     _this.metabolightsService.getStudyFiles().subscribe(function (data) {
+                        _this.ngRedux.dispatch({ type: 'SET_UPLOAD_LOCATION', body: {
+                                'uploadLocation': data.upload_location
+                            } });
+                        _this.ngRedux.dispatch({ type: 'SET_OBFUSCATION_CODE', body: {
+                                'obfuscationCode': data.obfuscation_code
+                            } });
                         data.studyFiles.forEach(function (file) {
                             if (file.type.indexOf('metadata') > -1) {
                                 if (file.file.indexOf('s_') == 0 && file.status == 'active') {
@@ -6190,8 +6624,9 @@ var StudyComponent = /** @class */ (function () {
         var _this = this;
         var mafFiles = [];
         assay.assayData.rows.forEach(function (row) {
-            if (mafFiles.indexOf(row['Metabolite Assignment File']) < 0) {
-                mafFiles.push(row['Metabolite Assignment File']);
+            var mafFile = row['Metabolite Assignment File'].replace(/^[ ]+|[ ]+$/g, '');
+            if (mafFile != "" && mafFiles.indexOf(mafFile) < 0) {
+                mafFiles.push(mafFile);
             }
         });
         var mafData = [];
@@ -6303,7 +6738,7 @@ var StudyComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvc3R1ZHkvdGl0bGUvdGl0bGUuY29tcG9uZW50LmNzcyJ9 */"
 
 /***/ }),
 
@@ -6314,7 +6749,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"hover-highlight px-20 mtbls-section\">\n  <b><small class=\"has-text-grey\">TITLE</small></b>\n  <h2 class=\"title is-3\">\n    <b>\n      <!-- <span class=\"identifier\">\n        {{ studyIdentifier | async }}:\n      </span>  -->\n      <span [innerHTML]='value' class=\"clickable\" (click)='openModal()'></span>\n   </b>\n </h2>\n</div>\n<div class=\"modal\" [ngClass]=\"{'is-active': isModalOpen}\">\n  <form *ngIf=\"form\" [formGroup]=\"form\">\n    <div class=\"modal-background\"></div>\n    <div class=\"modal-card vw80\">\n      <div *ngIf=\"isFormBusy\" class=\"load-bar\">\n        <div class=\"bar\"></div>\n        <div class=\"bar\"></div>\n        <div class=\"bar\"></div>\n      </div>\n      <section class=\"modal-card-body\">\n        <div class=\"field is-horizontal\">\n          <div class=\"field-body\">\n            <div class=\"field\">\n              <div class=\"control\">\n                <mat-form-field class=\"full-width\">\n                  <mat-label>Study title</mat-label>\n                  <textarea class=\"no-scroll\" \n                  formControlName=\"title\"\n                  matInput\n                  [placeholder]=\"validation.placeholder\" \n                  cdkAutosizeMinRows=\"20\"\n                  cdkAutosizeMaxRows=\"30\"\n                  cdkTextareaAutosize>\n                </textarea>\n                <mat-hint>{{ validation.description }}</mat-hint>\n                <mat-error\n                *ngIf=\"form.get('title').errors &&\n                form.get('title').dirty &&\n                form.get('title').errors.title\">\n                {{ form.get('title').errors.title.error }}\n              </mat-error>\n            </mat-form-field>\n          </div>\n        </div>\n      </div>\n    </div>\n  </section>\n  <footer class=\"modal-card-foot buttons is-right\">\n    <button *ngIf=\"form.get('title').dirty\" [disabled]=\"!form.valid || isFormBusy\" (click)='save()' class=\"button is-info\">\n      <mat-spinner [diameter]=\"20\" [strokeWidth]=\"3\" *ngIf=\"isFormBusy\"></mat-spinner>\n      Save\n    </button>\n    <button *ngIf=\"!form.get('title').dirty\" (click)='closeModal()' class=\"button is-info\">OK</button>\n    <button class=\"button\" [disabled]=\"isFormBusy\" (click)='closeModal()'>Cancel</button>\n  </footer>\n</div>\n</form>\n</div>"
+module.exports = "<div class=\"hover-highlight px-20 mtbls-section\">\n  <b><small class=\"has-text-grey\">TITLE</small></b>\n  <h2 class=\"title is-3\">\n    <b>\n      <!-- <span class=\"identifier\">\n        {{ studyIdentifier | async }}:\n      </span>  -->\n      <span [innerHTML]='title' class=\"clickable\" (click)='openModal()'></span>\n   </b>\n </h2>\n</div>\n<div class=\"modal\" [ngClass]=\"{'is-active': isModalOpen}\">\n  <form *ngIf=\"form\" [formGroup]=\"form\">\n    <div class=\"modal-background\"></div>\n    <div class=\"modal-card vw80\">\n      <div *ngIf=\"isFormBusy\" class=\"load-bar\">\n        <div class=\"bar\"></div>\n        <div class=\"bar\"></div>\n        <div class=\"bar\"></div>\n      </div>\n      <section class=\"modal-card-body\">\n        <div class=\"field is-horizontal\">\n          <div class=\"field-body\">\n            <div class=\"field\">\n              <div class=\"control\">\n                <mat-form-field class=\"full-width\">\n                  <mat-label>Study title</mat-label>\n                  <textarea class=\"no-scroll\" \n                  formControlName=\"title\"\n                  matInput\n                  [placeholder]=\"validation.placeholder\" \n                  cdkAutosizeMinRows=\"20\"\n                  cdkAutosizeMaxRows=\"30\"\n                  cdkTextareaAutosize>\n                </textarea>\n                <mat-hint>{{ validation.description }}</mat-hint>\n                <mat-error\n                *ngIf=\"form.get('title').errors &&\n                form.get('title').dirty &&\n                form.get('title').errors.title\">\n                {{ form.get('title').errors.title.error }}\n              </mat-error>\n            </mat-form-field>\n          </div>\n        </div>\n      </div>\n    </div>\n  </section>\n  <footer class=\"modal-card-foot buttons is-right\">\n    <button *ngIf=\"form.get('title').dirty\" [disabled]=\"!form.valid || isFormBusy\" (click)='save()' class=\"button is-info\">\n      <mat-spinner [diameter]=\"20\" [strokeWidth]=\"3\" *ngIf=\"isFormBusy\"></mat-spinner>\n      Save\n    </button>\n    <button *ngIf=\"!form.get('title').dirty\" (click)='closeModal()' class=\"button is-info\">OK</button>\n    <button class=\"button\" [disabled]=\"isFormBusy\" (click)='closeModal()'>Cancel</button>\n  </footer>\n</div>\n</form>\n</div>"
 
 /***/ }),
 
@@ -6353,12 +6788,20 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 var TitleComponent = /** @class */ (function () {
     function TitleComponent(fb, metabolightsService, ngRedux) {
+        var _this = this;
         this.fb = fb;
         this.metabolightsService = metabolightsService;
         this.ngRedux = ngRedux;
+        this.title = '';
         this.isFormBusy = false;
         this.validationsId = 'title';
         this.isModalOpen = false;
+        this.studyTitle.subscribe(function (value) {
+            _this.title = value;
+        });
+        this.studyValidations.subscribe(function (value) {
+            _this.validations = value;
+        });
     }
     TitleComponent.prototype.ngOnInit = function () {
     };
@@ -6369,7 +6812,7 @@ var TitleComponent = /** @class */ (function () {
     TitleComponent.prototype.initialiseForm = function () {
         this.isFormBusy = false;
         this.form = this.fb.group({
-            title: [this.value, Object(_title_validator__WEBPACK_IMPORTED_MODULE_4__["ValidateStudyTitle"])(this.validation)]
+            title: [this.title, Object(_title_validator__WEBPACK_IMPORTED_MODULE_4__["ValidateStudyTitle"])(this.validation)]
         });
     };
     TitleComponent.prototype.closeModal = function () {
@@ -6401,24 +6844,17 @@ var TitleComponent = /** @class */ (function () {
     };
     Object.defineProperty(TitleComponent.prototype, "validation", {
         get: function () {
-            return this.studyValidations[this.validationsId];
+            return this.validations[this.validationsId];
         },
         enumerable: true,
         configurable: true
     });
-    TitleComponent.prototype.ngOnChanges = function (changes) {
-        if (changes.value != undefined) {
-            this.value = changes.value.currentValue;
-        }
-        if (changes.studyValidations != undefined)
-            this.studyValidations = changes.studyValidations.currentValue;
-    };
     __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])('value'),
-        __metadata("design:type", String)
-    ], TitleComponent.prototype, "value", void 0);
+        Object(_angular_redux_store__WEBPACK_IMPORTED_MODULE_1__["select"])(function (state) { return state.study.title; }),
+        __metadata("design:type", Object)
+    ], TitleComponent.prototype, "studyTitle", void 0);
     __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])('validations'),
+        Object(_angular_redux_store__WEBPACK_IMPORTED_MODULE_1__["select"])(function (state) { return state.study.validations; }),
         __metadata("design:type", Object)
     ], TitleComponent.prototype, "studyValidations", void 0);
     TitleComponent = __decorate([
@@ -6468,6 +6904,94 @@ function ValidateStudyTitle(validation) {
         return null;
     };
 }
+
+
+/***/ }),
+
+/***/ "./src/app/components/tour/tour.component.css":
+/*!****************************************************!*\
+  !*** ./src/app/components/tour/tour.component.css ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".modal-background {\n    background-color: rgba(10, 10, 10, 0.36);\n}\n\n.vh60{\n\tmin-height: 60vh;\n}\n\n.tour-wrapper{\n\tmin-height: 60vh;\n\tpadding: 30px 20px 0 20px;\n}\n\n.slide-icon{\n\theight: 100px;\n}\n\n.slide-title{\n\ttext-align: center;\n}\n\n.slide-content{\n\tpadding-top: 20px;\n}\n\n.slide-content p{\n\tpadding-bottom: 10px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy90b3VyL3RvdXIuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtJQUNJLHlDQUF5QztDQUM1Qzs7QUFFRDtDQUNDLGlCQUFpQjtDQUNqQjs7QUFFRDtDQUNDLGlCQUFpQjtDQUNqQiwwQkFBMEI7Q0FDMUI7O0FBRUQ7Q0FDQyxjQUFjO0NBQ2Q7O0FBRUQ7Q0FDQyxtQkFBbUI7Q0FDbkI7O0FBRUQ7Q0FDQyxrQkFBa0I7Q0FDbEI7O0FBRUQ7Q0FDQyxxQkFBcUI7Q0FDckIiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL3RvdXIvdG91ci5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLm1vZGFsLWJhY2tncm91bmQge1xuICAgIGJhY2tncm91bmQtY29sb3I6IHJnYmEoMTAsIDEwLCAxMCwgMC4zNik7XG59XG5cbi52aDYwe1xuXHRtaW4taGVpZ2h0OiA2MHZoO1xufVxuXG4udG91ci13cmFwcGVye1xuXHRtaW4taGVpZ2h0OiA2MHZoO1xuXHRwYWRkaW5nOiAzMHB4IDIwcHggMCAyMHB4O1xufVxuXG4uc2xpZGUtaWNvbntcblx0aGVpZ2h0OiAxMDBweDtcbn1cblxuLnNsaWRlLXRpdGxle1xuXHR0ZXh0LWFsaWduOiBjZW50ZXI7XG59XG5cbi5zbGlkZS1jb250ZW50e1xuXHRwYWRkaW5nLXRvcDogMjBweDtcbn1cblxuLnNsaWRlLWNvbnRlbnQgcHtcblx0cGFkZGluZy1ib3R0b206IDEwcHg7XG59Il19 */"
+
+/***/ }),
+
+/***/ "./src/app/components/tour/tour.component.html":
+/*!*****************************************************!*\
+  !*** ./src/app/components/tour/tour.component.html ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"modal\" [ngClass]=\"{'is-active': isModalOpen}\">\n  <div class=\"modal-background\"></div>\n  <div class=\"modal-card vw80 vh60\">\n    <!-- <header class=\"modal-card-head\">\n      <small>MetaboLights - Study editor tour</small>\n      <p class=\"modal-card-title\">Modal title</p>\n      <button class=\"delete\" aria-label=\"close\"></button>\n    </header> -->\n    <section class=\"modal-card-body\">\n      <div class=\"tour-wrapper\">\n        <span *ngIf=\"currentSlide == 0\">\n          <h1 class=\"slide-title\">\n             <img class=\"slide-icon\" src=\"assets/img/icons/007-touch.png\">\n          </h1>\n          <div class=\"slide-content\">\n            <h2 class=\"has-text-centered title is-1\">\n              <b>Study Title and description</b>\n            </h2>\n            <p>\n              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\n              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\n              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\n              consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\n              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\n              proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n            </p>\n            <p>\n              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\n              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\n              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\n              consequat.\n            </p> \n            <p>\n              Duis aute irure dolor in reprehenderit in voluptate velit esse\n              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\n              proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n            </p>\n          </div>\n        </span>\n        <span *ngIf=\"currentSlide == 1\">\n           <h1 class=\"slide-title\">\n             <img class=\"slide-icon\" src=\"assets/img/icons/002-scientific.png\">\n          </h1>\n          <div class=\"slide-content\">\n            <h2 class=\"has-text-centered title is-1\">\n              <b>Publications</b>\n            </h2>\n            <p>\n              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\n              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\n              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\n              consequat.\n            </p> \n            <p>\n              Duis aute irure dolor in reprehenderit in voluptate velit esse\n              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\n              proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n            </p>\n            <p>\n              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\n              tempor incididunt.\n            </p>\n          </div>\n        </span>\n        <span *ngIf=\"currentSlide == 2\">\n           <h1 class=\"slide-title\">\n             <img class=\"slide-icon\" src=\"assets/img/icons/003-cell-division.png\">\n          </h1>\n          <div class=\"slide-content\">\n            <h2 class=\"has-text-centered title is-1\">\n              <b>Protocols and Sample Information</b>\n            </h2>\n            <p>\n              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\n              tempor incididunt ut labore et dolore magna aliqua. \n            </p> \n            <p>\n              Duis aute irure dolor in reprehenderit in voluptate velit esse\n              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\n              proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Ut enim ad minim veniam,\n              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\n              consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\n              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\n              proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n            </p>\n          </div>\n        </span>\n      </div>\n    </section>\n    <footer class=\"modal-card-foot buttons is-right\">\n      <div class=\"columns is-gapless full-width\">\n        <div class=\"column is-half\">\n          <button *ngIf=\"currentSlide > 0\" (click)=\"previousSlide()\" class=\"button is-outlined is-success is-small\">Previous Slide</button>            \n        </div>\n        <div class=\"column is-half has-text-right\">\n          <span>\n            <button (click)=\"skipTour()\" class=\"button is-small\">Skip tour now!</button>\n            <button (click)=\"nextSlide()\" class=\"button is-outlined is-success is-small\">Next Slide</button>  \n          </span>\n        </div>\n      </div>\n    </footer>\n  </div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/components/tour/tour.component.ts":
+/*!***************************************************!*\
+  !*** ./src/app/components/tour/tour.component.ts ***!
+  \***************************************************/
+/*! exports provided: TourComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TourComponent", function() { return TourComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_redux_store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular-redux/store */ "./node_modules/@angular-redux/store/lib/src/index.js");
+/* harmony import */ var _angular_redux_store__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_angular_redux_store__WEBPACK_IMPORTED_MODULE_1__);
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var TourComponent = /** @class */ (function () {
+    function TourComponent(ngRedux) {
+        var _this = this;
+        this.ngRedux = ngRedux;
+        this.currentSlide = 0;
+        this.isModalOpen = false;
+        this.studyTitle.subscribe(function (value) {
+            if (value && value.indexOf("Please add your study title") > -1) {
+                _this.isModalOpen = true;
+            }
+        });
+    }
+    TourComponent.prototype.ngOnInit = function () {
+    };
+    TourComponent.prototype.nextSlide = function () {
+        this.currentSlide = this.currentSlide + 1;
+    };
+    TourComponent.prototype.previousSlide = function () {
+        this.currentSlide = this.currentSlide - 1;
+    };
+    TourComponent.prototype.skipTour = function () {
+        this.isModalOpen = false;
+    };
+    __decorate([
+        Object(_angular_redux_store__WEBPACK_IMPORTED_MODULE_1__["select"])(function (state) { return state.study.title; }),
+        __metadata("design:type", Object)
+    ], TourComponent.prototype, "studyTitle", void 0);
+    TourComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'mtbls-tour',
+            template: __webpack_require__(/*! ./tour.component.html */ "./src/app/components/tour/tour.component.html"),
+            styles: [__webpack_require__(/*! ./tour.component.css */ "./src/app/components/tour/tour.component.css")]
+        }),
+        __metadata("design:paramtypes", [_angular_redux_store__WEBPACK_IMPORTED_MODULE_1__["NgRedux"]])
+    ], TourComponent);
+    return TourComponent;
+}());
+
 
 
 /***/ }),
@@ -7083,6 +7607,7 @@ var MTBLSProcessSequence = /** @class */ (function () {
             "nextProcess": this.nextProcess ? this.nextProcess.toJSON() : null,
         };
     };
+    var MTBLSProcessSequence_1;
     __decorate([
         Object(json2typescript__WEBPACK_IMPORTED_MODULE_4__["JsonProperty"])("comments", [_common_mtbls_comment__WEBPACK_IMPORTED_MODULE_0__["MTBLSComment"]]),
         __metadata("design:type", Array)
@@ -7123,7 +7648,6 @@ var MTBLSProcessSequence = /** @class */ (function () {
         json2typescript__WEBPACK_IMPORTED_MODULE_4__["JsonObject"]
     ], MTBLSProcessSequence);
     return MTBLSProcessSequence;
-    var MTBLSProcessSequence_1;
 }());
 
 
@@ -7490,6 +8014,8 @@ var MTBLSStudy = /** @class */ (function () {
         this.assayTables = {};
         this.samplesTable = {};
         this.metaboliteAnnotationFiles = [];
+        this.uploadLocation = null;
+        this.obfuscationCode = null;
     }
     MTBLSStudy = __decorate([
         json2typescript__WEBPACK_IMPORTED_MODULE_0__["JsonObject"]
@@ -7564,30 +8090,6 @@ var DataService = /** @class */ (function () {
         this.url = url;
         this.http = http;
     }
-    // getAll() {
-    //   return this.http.get(this.url).pipe(
-    //       map(res => res.json()),
-    //       catchError(this.handleError)
-    //     );
-    // }
-    // create(resource) {
-    //   return this.http.post(this.url, JSON.stringify(resource)).pipe(
-    //       map(res => res.json()),
-    //       catchError(this.handleError)
-    //     );
-    // }
-    // update(resource) {
-    //   return this.http.patch(this.url + '/' + resource.id, JSON.stringify(resource)).pipe(
-    //       map(res => res.json()),
-    //       catchError(this.handleError)
-    //     );
-    // }
-    // delete(id) {
-    //   return this.http.delete(this.url + '/' + id).pipe(
-    //       map(res => res.json()),
-    //       catchError(this.handleError)
-    //     );
-    // }
     DataService.prototype.handleError = function (error) {
         if (error.status === 400)
             return Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["throwError"])(new _error_bad_input__WEBPACK_IMPORTED_MODULE_0__["BadInput"](error));
@@ -7792,28 +8294,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthenticationURL", function() { return AuthenticationURL; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 
-var metaboLightsDomain = "";
+var metaboLightsDomain = "https://wwwdev.ebi.ac.uk/metabolights";
+var metaboLightsWSDomain = "";
 if (!Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["isDevMode"])()) {
-    metaboLightsDomain = "https://wwwdev.ebi.ac.uk/";
+    metaboLightsWSDomain = "https://wwwdev.ebi.ac.uk/";
 }
 else {
-    // metaboLightsDomain = "http://172.23.49.32:5005/";
-    metaboLightsDomain = "https://wwwdev.ebi.ac.uk/";
+    // metaboLightsDomain = "https://wwwdev.ebi.ac.uk/";
+    metaboLightsWSDomain = "http://ves-ebi-90.ebi.ac.uk:5000/";
 }
 var MetaboLightsWSURL = {};
-MetaboLightsWSURL['domain'] = metaboLightsDomain + "metabolights/";
-MetaboLightsWSURL['baseURL'] = metaboLightsDomain + "metabolights/swagger/ws";
+MetaboLightsWSURL['domain'] = metaboLightsWSDomain + "metabolights/";
+// MetaboLightsWSURL['baseURL']			= metaboLightsDomain + "metabolights/swagger/ws"
+MetaboLightsWSURL['baseURL'] = metaboLightsWSDomain + "metabolights/ws";
 MetaboLightsWSURL['studiesList'] = MetaboLightsWSURL['baseURL'] + '/studies';
 MetaboLightsWSURL['study'] = MetaboLightsWSURL['baseURL'] + '/studies';
 MetaboLightsWSURL['validations'] = "assets/configs/config20180618/validations.json";
+MetaboLightsWSURL['download'] = metaboLightsDomain + "/<study>/files";
 var DOIWSURL = {};
 DOIWSURL['article'] = "https://api.crossref.org/works/";
 var EuropePMCURL = {};
 EuropePMCURL['article'] = "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=<term>&format=json&resultType=core";
 var AuthenticationURL = {};
-AuthenticationURL['login'] = "//wwwdev.ebi.ac.uk/metabolights/webservice/labs/authenticate";
-AuthenticationURL['initialise'] = "//wwwdev.ebi.ac.uk/metabolights/webservice/labs-workspace/initialise";
-AuthenticationURL['studiesList'] = "//wwwdev.ebi.ac.uk/metabolights/webservice/study/myStudies";
+AuthenticationURL['login'] = metaboLightsDomain + "/webservice/labs/authenticate";
+AuthenticationURL['initialise'] = metaboLightsDomain + "/webservice/labs-workspace/initialise";
+AuthenticationURL['studiesList'] = metaboLightsDomain + "/webservice/study/myStudies";
 
 
 /***/ }),
@@ -7948,9 +8453,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_http__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/http */ "./node_modules/@angular/http/fesm5/http.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -7996,11 +8504,11 @@ var MetabolightsService = /** @class */ (function (_super) {
     MetabolightsService.prototype.getStudyFiles = function () {
         return this.http.get(this.url.studiesList + "/" + this.id + "/isa-tab/study_files", { headers: _headers__WEBPACK_IMPORTED_MODULE_2__["contentHeaders"] }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["map"])(function (res) { return res.json(); }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["catchError"])(this.handleError));
     };
-    MetabolightsService.prototype.downloadFile = function (name) {
-        return this.http.get(this.url.studiesList + "/download/" + name, { headers: _headers__WEBPACK_IMPORTED_MODULE_2__["contentHeaders"] }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["map"])(function (res) { return res.json(); }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["catchError"])(this.handleError));
+    MetabolightsService.prototype.downloadFile = function (name, code) {
+        return this.http.get(this.url.download.replace('<study>', this.id) + "/" + name + "?token=" + code).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["map"])(function (res) { return res.json(); }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["catchError"])(this.handleError));
     };
-    MetabolightsService.prototype.uploadFile = function (files) {
-        return this.http.get(this.url.studiesList + "/upload", { headers: _headers__WEBPACK_IMPORTED_MODULE_2__["contentHeaders"] }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["map"])(function (res) { return res.json(); }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["catchError"])(this.handleError));
+    MetabolightsService.prototype.copyFiles = function () {
+        return this.http.get(this.url.studiesList + "/" + this.id + "/copy_from_upload_folder", { headers: _headers__WEBPACK_IMPORTED_MODULE_2__["contentHeaders"] }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["map"])(function (res) { return res.json(); }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["catchError"])(this.handleError));
     };
     // Study validation details
     MetabolightsService.prototype.getValidations = function () {
@@ -8168,9 +8676,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/http */ "./node_modules/@angular/http/fesm5/http.js");
 var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -8235,9 +8746,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/http */ "./node_modules/@angular/http/fesm5/http.js");
 var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
