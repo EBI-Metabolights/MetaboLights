@@ -46,10 +46,8 @@ public class StudyDAO extends DAO <Study,StudyData>{
 	 * @param accession
 	 */
 	public Study findByAccession(String accession) throws DAOException {
-
 		return findSingle("acc=:acc",new Filter(new Object[]{"acc",accession}));
-
-	};
+	}
 
 	public boolean isStudyPublic(String accession) throws DAOException {
 		String query = "select count(*) from " + StudyData.class.getSimpleName() +

@@ -1237,10 +1237,11 @@ public class StudyController extends BasicController{
             String token = request.getParameter("token");
             User user = usi.lookupByToken(token);
 
-            Study study = getStudyDAO().getStudy(studyIdentifier, token);
+            //Study study = getStudyDAO().getStudy(studyIdentifier, token);  //TODO, load from database only
+            Study study = getStudyDAO().getStudyFromDatabase(studyIdentifier);
             String studyLocation = study.getStudyLocation();
             String obfuscationCode = study.getObfuscationCode();
-            String studyStatus = study.getStudyStatus().getDescription();
+            String studyStatus = study.getStudyStatus().getDescriptiveName();
             String add_study_info = ", \"studyLocation\": \""+studyLocation+"\", \"obfuscationCode\": \""+obfuscationCode+"\", \"releaseDate\": \"" + study.getStudyPublicReleaseDate() + "\", \"submissionDate\": \""+ study.getStudySubmissionDate()+"\", \"studyStatus\": \""+studyStatus+"\"";
 
             if (user.getEmail() == null || token == null){
@@ -1285,7 +1286,7 @@ public class StudyController extends BasicController{
         } catch (DAOException e) {
             response.setStatus(Response.Status.FORBIDDEN.getStatusCode());
             return restResponse;
-        } catch (IsaTabException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

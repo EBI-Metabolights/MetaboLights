@@ -70,7 +70,6 @@ public class StudyDAO {
     public Study getStudy(String studyIdentifier, String userToken, boolean includeMetabolites) throws DAOException {
 
         SecurityService.userAccessingStudy(studyIdentifier, userToken);
-
         Study study = dbDAO.findByAccession(studyIdentifier);
 
         if (study == null) {
@@ -79,13 +78,11 @@ public class StudyDAO {
         }
 
         getStudyFromFileSystem(study, includeMetabolites);
-
         return study;
     }
 
 
     public Study getStudy(String studyIdentifier) throws DAOException, IsaTabException {
-
         return getStudy(studyIdentifier, "", false);
     }
 
@@ -94,27 +91,27 @@ public class StudyDAO {
     }
 
     public Study getStudyByObfuscationCode(String obfuscationCode, boolean includeMetabolites) throws DAOException {
-
         Study study = dbDAO.findByObfuscationCode(obfuscationCode);
-
         return getStudyFromFileSystem(study, includeMetabolites);
     }
 
 
     private Study getStudyFromFileSystem(Study study, boolean includeMetabolites) throws DAOException {
-
         fsDAO.fillStudy(includeMetabolites, study);
-
         return study;
+    }
 
+    public Study getStudyFromDatabase(String studyId) throws DAOException {
+        //Calculate the destination (by default to private)
+        File studyLocation = fsDAO.getDestinationFolder(studyId);
+        Study study = dbDAO.findByAccession(studyId);
+        study.setStudyLocation(studyLocation.getAbsolutePath());
+        return study;
     }
 
     private Study getStudyFromFileSystem(Study study, boolean includeMetabolites, File studyFolder) throws DAOException, IsaTabException {
-
         fsDAO.fillStudyFromFolder(includeMetabolites, study, studyFolder);
-
         return study;
-
     }
 
 
@@ -123,9 +120,7 @@ public class StudyDAO {
     }
 
     public String getStudyIdByObfuscationCode(String obfuscationCode) throws DAOException, IsaTabException {
-
         String studyId = dbDAO.findStudyIdByObfuscationCode(obfuscationCode);
-
         return studyId;
     }
 
@@ -179,25 +174,19 @@ public class StudyDAO {
         return ja.toJSONString();
     }
 
-
-
     public List<String> getStudiesToGoLiveList(String userToken) throws DAOException {
         return dbDAO.getStudiesToGoLiveList(userToken);
     }
-
 
 
 	public List<String> getStudiesToGoLiveList(String userToken, int numbeOfDays) throws DAOException {
 		return dbDAO.getStudiesToGoLiveList(userToken, numbeOfDays);
 	}
 
-
-
     private String getAccessionNumber() throws DAOException {
         AccessionDAO accessionDAO = DAOFactory.getInstance().getAccessionDAO();
         // Using default prefix...we should change this to allow DEV IDs.
         return accessionDAO.getStableId();
-
     }
 
     public Study update(File submiisionFolder, String studyIdentifier, String userToken) throws Exception {
@@ -393,12 +382,10 @@ public class StudyDAO {
 
         // If new status is INREVIEW
         if (newStatus == LiteStudy.StudyStatus.INREVIEW) {
-
             //...and release date has passed...promote it to PUBLIC
             if (study.getStudyPublicReleaseDate().before(new Date())) {
                 newStatus = LiteStudy.StudyStatus.PUBLIC;
             }
-
         }
 
         // Change the status
