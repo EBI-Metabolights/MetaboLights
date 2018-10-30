@@ -110,7 +110,7 @@ public class HibernateUtil {
 	}
 
 	public static SessionWrapper getSession(){
-		return  new SessionWrapper(factory);
+		return new SessionWrapper(factory);
 	}
 
 }

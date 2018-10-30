@@ -61,15 +61,12 @@ public class SessionWrapper {
 		// If we have a session ...
 		if (session != null){
 
-
 			boolean valid = false;
 
 			Connection connection = null;
 			try {
-
 				// but it's useless
 				connection = ((SessionImpl)session).connection();
-
 				valid = connection.isValid(1);
 
 			} catch (SQLException e) {
@@ -111,7 +108,7 @@ public class SessionWrapper {
 
 	public void noNeedSession() {
 
-		if (sessionCount <= 0) logger.warn("Wrong session count at noNeedSession: {}", sessionCount);
+		if (sessionCount <= 0) logger.debug("Wrong session count at noNeedSession: {}", sessionCount);
 
 		// Decrease the count
 		sessionCount--;
@@ -122,14 +119,18 @@ public class SessionWrapper {
 		if (sessionCount == 0) {
 			logger.debug("sessionCount is 0, try to commit and close the Hibernate session");
 
-			if (session.isOpen()) {
-				logger.debug("Session is open but no longer required, trying to commit and close");
-				session.getTransaction().commit();
-				session.close();
-				session = null;
-			} else {
-				logger.error("ERROR: Trying to close a Hibernate session, but the session is not open");
-			}
+			try {
+                if (session.isOpen()) {
+                    logger.debug("Session is open but no longer required, trying to commit and close");
+                    session.getTransaction().commit();
+                    session.close();
+                    session = null;
+                } else {
+                    logger.error("ERROR: Trying to close a Hibernate session, but the session is not open");
+                }
+            } catch (Exception e) {
+                logger.error("ERROR: Trying to use a Hibernate session, but the session is not open. " + e.getMessage());
+            }
 		}
 
 	}

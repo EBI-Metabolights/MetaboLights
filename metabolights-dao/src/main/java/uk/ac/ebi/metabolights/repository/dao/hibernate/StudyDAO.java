@@ -46,10 +46,8 @@ public class StudyDAO extends DAO <Study,StudyData>{
 	 * @param accession
 	 */
 	public Study findByAccession(String accession) throws DAOException {
-
 		return findSingle("acc=:acc",new Filter(new Object[]{"acc",accession}));
-
-	};
+	}
 
 	public boolean isStudyPublic(String accession) throws DAOException {
 		String query = "select count(*) from " + StudyData.class.getSimpleName() +
@@ -214,8 +212,7 @@ public class StudyDAO extends DAO <Study,StudyData>{
 
 		// No security here since the obfuscation code...if exist grants itself access to the resource
 
-		String query = "select acc from " + StudyData.class.getSimpleName() ;
-
+		String query = "select acc from " + StudyData.class.getSimpleName();
 		query = query + " where obfuscationcode =:oc";
 
 		// Create an empty filter
@@ -223,8 +220,6 @@ public class StudyDAO extends DAO <Study,StudyData>{
 
 		// Add the date filter.
 		filter.fieldValuePairs.put("oc", obfuscationCode);
-
-
 		String studyId = (String) this.getUniqueValue(query, filter);
 
 		return studyId;
