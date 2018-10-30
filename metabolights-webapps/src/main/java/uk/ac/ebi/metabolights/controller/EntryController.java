@@ -138,7 +138,6 @@ public class EntryController extends AbstractController {
             @PathVariable("obfuscationCode") String obfuscationCode,
             @PathVariable("assayNumber") int assayNumber) {
 
-
         return getMetabolitesModelAndView(null, assayNumber, obfuscationCode);
     }
 
@@ -221,7 +220,6 @@ public class EntryController extends AbstractController {
         httpSession.setAttribute("currentpage", mtblsId);
         return modelAndView;
     }
-
 
     private ModelAndView getWSEntryMAV(String mtblsId, String obfuscationCode, String view) {
 
