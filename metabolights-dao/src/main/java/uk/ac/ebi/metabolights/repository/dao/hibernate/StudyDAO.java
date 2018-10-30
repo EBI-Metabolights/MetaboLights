@@ -212,8 +212,7 @@ public class StudyDAO extends DAO <Study,StudyData>{
 
 		// No security here since the obfuscation code...if exist grants itself access to the resource
 
-		String query = "select acc from " + StudyData.class.getSimpleName() ;
-
+		String query = "select acc from " + StudyData.class.getSimpleName();
 		query = query + " where obfuscationcode =:oc";
 
 		// Create an empty filter
@@ -221,8 +220,6 @@ public class StudyDAO extends DAO <Study,StudyData>{
 
 		// Add the date filter.
 		filter.fieldValuePairs.put("oc", obfuscationCode);
-
-
 		String studyId = (String) this.getUniqueValue(query, filter);
 
 		return studyId;

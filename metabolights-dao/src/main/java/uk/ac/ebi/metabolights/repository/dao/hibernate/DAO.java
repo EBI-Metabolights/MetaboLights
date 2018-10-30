@@ -72,24 +72,27 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
             session = HibernateUtil.getSession();
 
         try {
+            logger.info("Requesting database session");
             session.needSession();
 
+            logger.debug("Getting SQL query");
             Query query = getDefaultQuery(where, filter);
 
+            logger.debug("SQL query is : " + query.getQueryString());
             List<dataModel> dataModels = query.list();
 
-
+            logger.debug("Converting to MTBLS data model");
             // We are bypassing any lazy initialization with this. So far it's fine.
             businessEntities = convertDataModelToBusinessModel(dataModels);
 
         } catch (Exception e) {
-
             logger.error("ERROR: Could not query the database: " + e.getMessage());
         } finally {
+            logger.info("Closing the session");
 			session.noNeedSession();
 		}
 
-		return  businessEntities;
+		return businessEntities;
 
 	}
 
@@ -103,7 +106,10 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 			return findBy(where, filter).iterator().next();
 		} catch (NoSuchElementException e){
 			return null;
-		}
+		} catch (Exception e){
+		    logger.error("Could not query the database using: "+ where);
+		    return null;
+        }
 
 	}
 
