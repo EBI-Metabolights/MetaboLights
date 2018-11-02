@@ -103,9 +103,17 @@ public class StudyDAO {
 
     public Study getStudyFromDatabase(String studyId) throws DAOException {
         //Calculate the destination (by default to private)
+        logger.info("Loading study from database and adding study location");
         File studyLocation = fsDAO.getDestinationFolder(studyId);
+        logger.info(" - Study location is: "+ studyLocation);
         Study study = dbDAO.findByAccession(studyId);
-        study.setStudyLocation(studyLocation.getAbsolutePath());
+
+        if (study != null && studyLocation != null) {
+            study.setStudyLocation(studyLocation.getAbsolutePath());
+            logger.info(" - Study accession from database is: "+ study.getStudyIdentifier());
+        } else {
+            logger.error("Could not load study for acc "+ studyId);
+        }
         return study;
     }
 
