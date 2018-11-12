@@ -186,7 +186,6 @@ public class StudyDAO {
         return dbDAO.getStudiesToGoLiveList(userToken);
     }
 
-
 	public List<String> getStudiesToGoLiveList(String userToken, int numbeOfDays) throws DAOException {
 		return dbDAO.getStudiesToGoLiveList(userToken, numbeOfDays);
 	}
@@ -241,6 +240,23 @@ public class StudyDAO {
         return saveOrUpdate(submissionFolder, study);
     }
 
+    public Study addEmptyStudy(Date publicReleaseDate, User user) throws Exception {
+
+        logger.info("{} new submission of an empty study", user.getFullName());
+
+        String newStudyIdentifier = getAccessionNumber();
+
+        // Create the study
+        Study study = new Study();
+        study.setStudyIdentifier(newStudyIdentifier);
+        study.setStudyPublicReleaseDate(publicReleaseDate);
+        study.setStudySubmissionDate(new Date());
+        study.getUsers().add(user);
+
+        dbDAO.save(study);
+
+        return study;
+    }
 
     private Study saveOrUpdate(File submissionFolder, Study study) throws Exception {
 

@@ -1237,7 +1237,7 @@ public class StudyController extends BasicController{
             String token = request.getParameter("token");
             User user = usi.lookupByToken(token);
 
-            //Study study = getStudyDAO().getStudy(studyIdentifier, token);  //TODO, load from database only
+            //Study study = getStudyDAO().getStudy(studyIdentifier, token);
             Study study = getStudyDAO().getStudyFromDatabase(studyIdentifier);
             String studyLocation = study.getStudyLocation();
             String obfuscationCode = study.getObfuscationCode();
@@ -1592,5 +1592,46 @@ public class StudyController extends BasicController{
 		return restResponse;
 
 	}
+
+
+    @RequestMapping("createEmptyStudy")
+    @ResponseBody
+    public RestResponse<String> createEmptyStudy(HttpServletRequest request) throws DAOException {
+
+        RestResponse<String> response = new RestResponse<>();
+        UserServiceImpl usi = new UserServiceImpl();
+        studyDAO = DAOFactory.getInstance().getStudyDAO();
+
+        String token = request.getParameter("token");
+
+        User user = null;
+
+        try {
+            user = usi.lookupByToken(token);
+            logger.info("createEmptyStudy: User {} has requested a new empty study, using token {}", user.getUserName(), token);
+        } catch (Exception e) {
+            logger.error ("Not able to authenticate the user for 'createSimpleStudy' mapping ");
+            response.setMessage("Not able to authenticate the user for 'createSimpleStudy' mapping.");
+            response.setErr(e);
+            return response;
+        }
+
+        logger.info("Requesting a new empty study for user " + user.getEmail());
+        try {
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.YEAR, 1);
+            Date nextYear = cal.getTime();
+            Study study = studyDAO.addEmptyStudy(nextYear, user);
+            response.setMessage(study.getStudyIdentifier());
+            response.setContent(study.getStudyIdentifier());
+        } catch (Exception e) {
+            logger.error("Can not create new empty study for " + user.getEmail(), e);
+            response.setMessage("Can not create new empty study for " + user.getEmail());
+            response.setErr(e);
+        }
+
+        return response;
+    }
+
 
 }
