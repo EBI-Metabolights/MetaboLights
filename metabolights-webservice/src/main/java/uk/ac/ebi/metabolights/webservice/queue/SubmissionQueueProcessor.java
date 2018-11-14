@@ -21,8 +21,6 @@
 
 package uk.ac.ebi.metabolights.webservice.queue;
 
-//import org.isatools.isatab.gui_invokers.GUIInvokerResult;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.MailException;
@@ -98,40 +96,31 @@ public class SubmissionQueueProcessor {
 					AppContext.getEmailService().sendQueuedStudySubmitted(newStudy, si.getOriginalFileName());
 
                     MetabolightsWsClient mwsClient  = new MetabolightsWsClient();
-
                     mwsClient.mapStudyToLabsProject(newStudy.getStudyIdentifier(), labsProjectId, userID, PropertiesUtil.getProperty("EBIHost"));
 
-				}else{
+				} else {
 					AppContext.getEmailService().sendQueuedStudySubmitted(newStudy, si.getOriginalFileName());
 				}
 
 			}
 			// It's then an update
 			else if (si.getSubmissionType() == SubissionType.UPDATE) {
-
 				// Update study
 				Study updatedStudy = update();
-
 				AppContext.getEmailService().sendQueuedStudyUpdated(updatedStudy);
-
-
 			} else {
-
 				logger.warn("Don't know what to do with this submitted item: " + si);
 			}
 
 		// If the user email is wrong or we cou;d get this error....inform curators
 		} catch (MailException e) {
-
-			// Throw it up....it should be catched in the caller
+			// Throw it up....it should been caught in the caller
 			throw  e;
-
 
 		} catch (Exception e){
 
 			// There was an error in the submission process...
 			si.moveFileTo(SubmissionQueue.getErrorFolder(), true);
-
 			AppContext.getEmailService().sendSubmissionError(si.getUserToken(), si.getOriginalFileName(), e);
 
 		} finally {
