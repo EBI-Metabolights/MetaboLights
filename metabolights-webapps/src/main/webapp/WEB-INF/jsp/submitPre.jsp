@@ -49,8 +49,12 @@
                                 <span><small><spring:message code="label.submitNewStudySub"/></small></span>
                                 </p>
                                 <br>
+                                <a class="btn btn-success" id="redirectToEditorPage">
+                                    Create online
+                                </a>
+                                or&nbsp;
                                 <a href="submittoqueue" class="btn btn-success">
-                                    Submit now
+                                    Upload ISA-Tab files
                                 </a>
                             </div>
                         </div>
@@ -83,3 +87,12 @@
     </div>
 </div>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#redirectToEditorPage').click(function(){
+            <%--var editorToken = ${editorToken};--%>
+            // localStorage.setItem("user", JSON.stringify(editorToken));
+            window.open("${pageContext.request.contextPath}/editor/create","_blank",'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+        })
+    });
+</script>
