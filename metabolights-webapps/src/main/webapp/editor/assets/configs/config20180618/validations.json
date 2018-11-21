@@ -207,7 +207,7 @@
 					"recommended-ontologies": {
 						"is-forced-ontology": "false",
 						"ontology": {
-							"url": "http://ves-ebi-90.ebi.ac.uk:5000/metabolights/ws/studies/ontology?branch=roles&term="
+							"url": "https://wwwdev.ebi.ac.uk/metabolights/swagger/ws/studies/ontology?branch=roles&term="
 						}
 					}
 				}
@@ -299,7 +299,7 @@
 					"recommended-ontologies": {
 						"is-forced-ontology": "true",
 						"ontology": {
-							"url": "http://ves-ebi-90.ebi.ac.uk:5000/metabolights/ws/studies/ontology?branch=publication&term="
+							"url": "https://wwwdev.ebi.ac.uk/metabolights/swagger/ws/studies/ontology?branch=publication&term="
 						}
 					}
 				}
@@ -322,7 +322,7 @@
 			"recommended-ontologies": {
 				"is-forced-ontology": "false",
 				"ontology": {
-					"url": "http://ves-ebi-90.ebi.ac.uk:5000/metabolights/ws/studies/ontology?branch=design%20descriptor&term="
+					"url": "https://wwwdev.ebi.ac.uk/metabolights/swagger/ws/studies/ontology?branch=design%20descriptor&term="
 				}
 			}
 		},
@@ -415,7 +415,7 @@
 					"recommended-ontologies": {
 						"is-forced-ontology": "false",
 						"ontology": {
-							"url": "http://ves-ebi-90.ebi.ac.uk:5000/metabolights/ws/studies/ontology?branch=factors&term="
+							"url": "https://wwwdev.ebi.ac.uk/metabolights/swagger/ws/studies/ontology?branch=factors&term="
 						}
 					}
 				}
@@ -458,7 +458,7 @@
 					"recommended-ontologies": {
 						"is-forced-ontology": "false",
 						"ontology": {
-							"url": "http://ves-ebi-90.ebi.ac.uk:5000/metabolights/ws/studies/ontology?branch=factors&term="
+							"url": "https://wwwdev.ebi.ac.uk/metabolights/swagger/ws/studies/ontology?branch=factors&term="
 						}
 					}
 				}
@@ -500,7 +500,7 @@
 				"recommended-ontologies": {
 					"is-forced-ontology": "false",
 					"ontology": {
-						"url": "http://ves-ebi-90.ebi.ac.uk:5000/metabolights/ws/studies/ontology?branch=factors&term="
+						"url": "https://wwwdev.ebi.ac.uk/metabolights/swagger/ws/studies/ontology?branch=factors&term="
 					}
 				}
 			},
@@ -518,7 +518,7 @@
 				"recommended-ontologies": {
 					"is-forced-ontology": "false",
 					"ontology": {
-						"url": "http://ves-ebi-90.ebi.ac.uk:5000/metabolights/ws/studies/ontology?branch=unit&term="
+						"url": "https://wwwdev.ebi.ac.uk/metabolights/swagger/ws/studies/ontology?branch=unit&term="
 					}
 				}
 			},

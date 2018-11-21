@@ -29,7 +29,12 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-
+<script>
+    if (location.protocol != 'https:')
+    {
+        location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+    }
+</script>
 <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.js" ></script>
 <script type="text/javascript" src="//code.jquery.com/ui/1.9.2/jquery-ui.min.js" charset="utf-8"></script>
 
@@ -101,6 +106,12 @@
         }
     }
 </style>
+<link rel="stylesheet" href="styles.6a3bb68f45485bcbd5b0.css">
+<noscript>
+    <strong>
+        We're sorry but MetaboLights online submission and editor tool doesn't work properly without JavaScript enabled. Please enable it to continue.
+    </strong>
+</noscript>
 <app-root>
     <div class="app-loading">
         <div class="logo"></div>
@@ -109,9 +120,7 @@
         </svg>
     </div>
 </app-root>
-<script type="text/javascript" src="runtime.js"></script><script type="text/javascript" src="polyfills.js"></script><script type="text/javascript" src="styles.js"></script><script type="text/javascript" src="vendor.js"></script><script type="text/javascript" src="main.js"></script>
-
-
+<script type="text/javascript" src="runtime.ec2944dd8b20ec099bf3.js"></script><script type="text/javascript" src="polyfills.d1c7bf4a2ae7c3435f95.js"></script><script type="text/javascript" src="main.a227ecf960cbcb65466a.js"></script>
 
 
 
