@@ -75,7 +75,10 @@
 	<div class="col-md-12">
 		<h2><spring:message code="msg.upload" /></h2>
 		<p><spring:message code="msg.upload.desc"/></p>
+		<p>Before you continue, please download the latest version of the ISAcreatorMetaboLights tool
+			<a href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip">here</a></p>
 		<p><spring:message code="label.experimentMsgPublic"/></p>
+		<br>
 		<div class="well">
 			<p><spring:message code="msg.upload.desc3"/></p>
 		</div>
