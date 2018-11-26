@@ -1647,7 +1647,7 @@ public class StudyController extends BasicController{
         User user = null;
         try {
             user = usi.lookupByToken(token);
-            logger.info("createEmptyStudy: User {} has requested a new empty study, using token {}", user.getUserName(), token);
+            logger.info("reindexStudyOnToken: User {} has requested reindexing study {}", token, study_id);
         } catch (Exception e) {
             logger.error ("Not able to authenticate the user for 'reindexStudyOnToken' mapping ");
             response.setMessage("Not able to authenticate the user for 'reindexStudyOnToken' mapping.");
