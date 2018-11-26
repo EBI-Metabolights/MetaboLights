@@ -1633,5 +1633,42 @@ public class StudyController extends BasicController{
         return response;
     }
 
+    @RequestMapping("reindexStudyOnToken")
+    @ResponseBody
+    public RestResponse<String> reindexStudyOnToken(HttpServletRequest request) throws DAOException {
+
+        RestResponse<String> response = new RestResponse<>();
+        UserServiceImpl usi = new UserServiceImpl();
+        studyDAO = DAOFactory.getInstance().getStudyDAO();
+
+        String token = request.getParameter("token");
+        String study_id = request.getParameter("study_id");
+
+        User user = null;
+        try {
+            user = usi.lookupByToken(token);
+            logger.info("createEmptyStudy: User {} has requested a new empty study, using token {}", user.getUserName(), token);
+        } catch (Exception e) {
+            logger.error ("Not able to authenticate the user for 'reindexStudyOnToken' mapping ");
+            response.setMessage("Not able to authenticate the user for 'reindexStudyOnToken' mapping.");
+            response.setErr(e);
+            return response;
+        }
+
+        try {
+            studyDAO = getStudyDAO();
+            Study study = studyDAO.getStudy(study_id, user.getApiToken());
+            indexingService.indexStudy(study);
+
+        } catch (Exception e) {
+            logger.error("Can not reindex " + study_id, e);
+            response.setMessage("Can not create new empty study for " + user.getEmail());
+            response.setErr(e);
+        }
+
+        return response;
+    }
+
+
 
 }
