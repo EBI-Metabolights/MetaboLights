@@ -22,7 +22,6 @@ package uk.ac.ebi.metabolights.webservice.searchplugin;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -75,6 +74,7 @@ public class ChemSpiderRestSearch implements Serializable, Cloneable, Callable<C
             System.out.println(json.toString());
             response = GenericCompoundWSClients.executeRequest(this.ChemSpiderEndpoint + "filter/name", "POST", json.toString(), this.ChemSpiderToken);
         } catch (JSONException e) {
+            logger.error("Something went wrong while searching for " + searchTerm + " in ChemSpider", e);
             e.printStackTrace();
             return null;
         }
@@ -117,7 +117,8 @@ public class ChemSpiderRestSearch implements Serializable, Cloneable, Callable<C
             if (searchComplete) {
                 chemSpiderIDs = extractResults(queryId);
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
+            logger.error("Something went wrong while parsing queryId response in ChemSpider", e);
             e.printStackTrace();
             return new ArrayList<>();
         }
@@ -133,6 +134,7 @@ public class ChemSpiderRestSearch implements Serializable, Cloneable, Callable<C
                 searchComplete = true;
             }
         } catch (JSONException e) {
+            logger.error("Something went wrong while parsing queryId response in ChemSpider", e);
             e.printStackTrace();
         }
     }
@@ -149,6 +151,7 @@ public class ChemSpiderRestSearch implements Serializable, Cloneable, Callable<C
             }
 
         } catch (Exception e) {
+            logger.error("Something went wrong while extracting IDs from ChemSpider", e);
             e.printStackTrace();
             new ArrayList<>();
         }
@@ -164,6 +167,7 @@ public class ChemSpiderRestSearch implements Serializable, Cloneable, Callable<C
             extractBatchResults(response);
 
         } catch (JsonProcessingException e) {
+            logger.error("Something went wrong while performing batch query using ChemSpider", e);
             e.printStackTrace();
         }
 
@@ -180,6 +184,7 @@ public class ChemSpiderRestSearch implements Serializable, Cloneable, Callable<C
                 }
             }
         } catch (Exception e) {
+            logger.error("Something went wrong while extracting batch results using ChemSpider", e);
             e.printStackTrace();
         }
     }
