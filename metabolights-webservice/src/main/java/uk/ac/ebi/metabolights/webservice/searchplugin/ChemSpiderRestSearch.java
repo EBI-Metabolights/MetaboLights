@@ -46,7 +46,7 @@ public class ChemSpiderRestSearch implements Serializable, Cloneable, Callable<C
     private SearchTermCategory searchTermCategory;
     private boolean searchComplete = false;
 
-    public ChemSpiderRestSearch(String searchTerm, SearchTermCategory searchTermCategory) {
+    public ChemSpiderRestSearch(SearchTermCategory searchTermCategory, String searchTerm) {
         this.searchTerm = searchTerm;
         this.searchTermCategory = searchTermCategory;
     }

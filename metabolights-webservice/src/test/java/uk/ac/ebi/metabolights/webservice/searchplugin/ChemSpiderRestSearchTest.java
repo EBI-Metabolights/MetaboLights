@@ -36,9 +36,9 @@ public class ChemSpiderRestSearchTest extends TestCase {
     @Test
     public void testCall() throws ExecutionException, InterruptedException {
         ExecutorService executor = Executors.newFixedThreadPool(1);
-        Future<Collection<CompoundSearchResult>> chemSpiderResults = executor.submit(new ChemSpiderRestSearch(TEST_INCHI, SearchTermCategory.INCHI));
+        Future<Collection<CompoundSearchResult>> chemSpiderResults = executor.submit(new ChemSpiderRestSearch(SearchTermCategory.INCHI, TEST_INCHI));
         executor.shutdown();
         Collection<CompoundSearchResult> results = chemSpiderResults.get();
-        assertEquals(chemSpiderResults.get().size(),1);
+        assertEquals(chemSpiderResults.get().size(), 1);
     }
 }
