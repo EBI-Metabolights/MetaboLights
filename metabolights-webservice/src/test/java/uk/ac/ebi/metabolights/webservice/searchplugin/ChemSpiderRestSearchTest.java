@@ -23,9 +23,7 @@ package uk.ac.ebi.metabolights.webservice.searchplugin;
 import junit.framework.TestCase;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -38,8 +36,9 @@ public class ChemSpiderRestSearchTest extends TestCase {
     @Test
     public void testCall() throws ExecutionException, InterruptedException {
         ExecutorService executor = Executors.newFixedThreadPool(1);
-        Future<Collection<CompoundSearchResult>> chemSpiderResults = executor.submit(new ChemSpiderRestSearch("Glucose", SearchTermCategory.NAME));
+        Future<Collection<CompoundSearchResult>> chemSpiderResults = executor.submit(new ChemSpiderRestSearch(TEST_INCHI, SearchTermCategory.INCHI));
         executor.shutdown();
+        Collection<CompoundSearchResult> results = chemSpiderResults.get();
         assertEquals(chemSpiderResults.get().size(),1);
     }
 }
