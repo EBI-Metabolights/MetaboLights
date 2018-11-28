@@ -97,7 +97,7 @@ public class GenericCompoundWSController {
             List<Future<CompoundSearchResult>> searchResultsFromChebi = new ArrayList<Future<CompoundSearchResult>>();
             ExecutorService executor = Executors.newFixedThreadPool(2);
             searchResultsFromChebi.add(executor.submit(new ChebiSearch(SearchTermCategory.NAME, compoundName)));
-            Future<Collection<CompoundSearchResult>> chemSpiderResults = executor.submit(new ChemSpiderSearch(compoundName));
+            Future<Collection<CompoundSearchResult>> chemSpiderResults = executor.submit(new ChemSpiderRestSearch(SearchTermCategory.NAME, compoundName));
             executor.shutdown();
             return Utilities.combine(searchResultsFromChebi, chemSpiderResults, compoundName);
         }
@@ -114,7 +114,7 @@ public class GenericCompoundWSController {
         } else {
             searchResultsFromChebi.add(executor.submit(new ChebiSearch(SearchTermCategory.NAME, compoundName)));
         }
-        Future<Collection<CompoundSearchResult>> chemSpiderResults = executor.submit(new ChemSpiderSearch(compoundName));
+        Future<Collection<CompoundSearchResult>> chemSpiderResults = executor.submit(new ChemSpiderRestSearch(SearchTermCategory.NAME, compoundName));
         Future<Collection<CompoundSearchResult>> pubchemResults = executor.submit(new PubChemSearch(compoundName, SearchTermCategory.NAME));
         executor.shutdown();
         return Utilities.combine(searchResultsFromChebi, chemSpiderResults, pubchemResults);
@@ -145,7 +145,7 @@ public class GenericCompoundWSController {
         } else {
             searchResultsFromChebi.add(executor.submit(new ChebiSearch(SearchTermCategory.INCHI, compoundInChI)));
         }
-        Future<Collection<CompoundSearchResult>> chemSpiderResults = executor.submit(new ChemSpiderSearch(compoundInChI));
+        Future<Collection<CompoundSearchResult>> chemSpiderResults = executor.submit(new ChemSpiderRestSearch(SearchTermCategory.INCHI, compoundInChI));
         Future<Collection<CompoundSearchResult>> pubchemResults = executor.submit(new PubChemSearch(compoundInChI, SearchTermCategory.INCHI));
         executor.shutdown();
         return Utilities.combine(searchResultsFromChebi, chemSpiderResults, pubchemResults);
@@ -175,7 +175,7 @@ public class GenericCompoundWSController {
         } else {
             searchResultsFromChebi.add(executor.submit(new ChebiSearch(SearchTermCategory.SMILES, compoundSMILES)));
         }
-        Future<Collection<CompoundSearchResult>> chemSpiderResults = executor.submit(new ChemSpiderSearch(compoundSMILES));
+        Future<Collection<CompoundSearchResult>> chemSpiderResults = executor.submit(new ChemSpiderRestSearch(SearchTermCategory.SMILES, compoundSMILES));
         Future<Collection<CompoundSearchResult>> pubchemResults = executor.submit(new PubChemSearch(compoundSMILES, SearchTermCategory.SMILES));
         executor.shutdown();
         return Utilities.combine(searchResultsFromChebi, chemSpiderResults, pubchemResults);
