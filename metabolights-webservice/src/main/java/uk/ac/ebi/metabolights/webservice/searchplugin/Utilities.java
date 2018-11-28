@@ -198,4 +198,16 @@ public class Utilities {
         modified = modified.replaceAll("\\s", "");
         return modified;
     }
+
+    public static String format(String formula) {
+        String formatted = formula.replaceAll("_", "");
+        formatted = formatted.replaceAll("\\{", "");
+        formatted = formatted.replaceAll("\\}", "");
+        return formatted;
+    }
+
+    public static String appendNameSpaceAndConvert(int csid) {
+        return "CSID " + new Integer(csid).toString();
+    }
+
 }
