@@ -27,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -37,8 +38,8 @@ import java.util.concurrent.Callable;
 
 public class ChemSpiderRestSearch implements Serializable, Cloneable, Callable<Collection<CompoundSearchResult>> {
 
-    private static Logger logger = LoggerFactory.getLogger(ChemSpiderSearch.class);
-    private final String ChemSpiderToken = "";
+    private static Logger logger = LoggerFactory.getLogger(ChemSpiderRestSearch.class);
+    private final String ChemSpiderToken = PropertiesUtil.getProperty("chemspiderSecurityToken");
     private final String ChemSpiderEndpoint = "https://api.rsc.org/compounds/v1/";
     private List<CompoundSearchResult> compoundSearchResults = new ArrayList<CompoundSearchResult>();
     private String searchTerm;
@@ -185,15 +186,15 @@ public class ChemSpiderRestSearch implements Serializable, Cloneable, Callable<C
 
     private void updateCompoundSearchResult(ChemSpiderRecord record) {
         CompoundSearchResult compoundSearchResult = new CompoundSearchResult(SearchResource.CHEMSPIDER);
-        compoundSearchResult.setDatabaseId(record.getId() != null && !record.getId().isEmpty() ? record.getId() : "");
-        compoundSearchResult.setFormula(record.getFormula() != null && !record.getFormula().isEmpty() ? record.getFormula() : "");
+        compoundSearchResult.setDatabaseId(record.getId() != null && !record.getId().isEmpty() ? Utilities.appendNameSpaceAndConvert(Integer.parseInt(record.getId())) : "");
+        compoundSearchResult.setFormula(record.getFormula() != null && !record.getFormula().isEmpty() ? Utilities.format(record.getFormula()) : "");
         compoundSearchResult.setInchi(record.getInchi() != null && !record.getInchi().isEmpty() ? record.getInchi() : "");
         compoundSearchResult.setSmiles(record.getSmiles() != null && !record.getSmiles().isEmpty() ? record.getSmiles() : "");
         compoundSearchResult.setName(record.getCommonName() != null && !record.getCommonName().isEmpty() ? record.getCommonName() : "");
         this.compoundSearchResults.add(compoundSearchResult);
     }
 
-    class ChemSpiderIDResult {
+    static class ChemSpiderIDResult {
         private List<Integer> results;
         private boolean limitedToMaxAllowed;
 
@@ -208,7 +209,7 @@ public class ChemSpiderRestSearch implements Serializable, Cloneable, Callable<C
         }
     }
 
-    class ChemSpiderRecord {
+    static class ChemSpiderRecord {
         private String id;
         private String smiles;
         private String formula;
@@ -239,8 +240,9 @@ public class ChemSpiderRestSearch implements Serializable, Cloneable, Callable<C
 
     }
 
-    class ChemSpiderBatchRequest {
-        String[] keywords = {"SMILES", "Formula", "InChI", "CommonName"};
+    static class ChemSpiderBatchRequest {
+        static String[] keywords = {"SMILES", "Formula", "InChI", "CommonName"};
+
         private List<String> fields;
         private List<Integer> recordIds;
 
@@ -250,16 +252,26 @@ public class ChemSpiderRestSearch implements Serializable, Cloneable, Callable<C
             this.recordIds = recordIds;
             this.fields = Arrays.asList(keywords);
         }
+
+        public List<String> getFields() {
+            return fields;
+        }
+
+        public List<Integer> getRecordIds() {
+            return recordIds;
+        }
     }
 
-    class ChemSpiderBatchResult {
-        public List<ChemSpiderRecord> getRecords() {
-            return records;
-        }
+    static class ChemSpiderBatchResult {
 
         ChemSpiderBatchResult(){};
 
         List<ChemSpiderRecord> records;
+
+        public List<ChemSpiderRecord> getRecords() {
+            return records;
+        }
+
     }
 
 }
