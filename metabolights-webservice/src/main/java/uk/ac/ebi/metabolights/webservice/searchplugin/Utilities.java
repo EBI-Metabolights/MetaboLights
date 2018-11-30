@@ -50,9 +50,9 @@ public class Utilities {
             if (!chemSpiderCompounds.isEmpty()) {
                 if (chemSpiderCompounds.size() == 1) {
                     for (CompoundSearchResult compound : chemSpiderCompounds) {
-                        if (hit(compound.getName(), compoundName)) {
+//                        if (hit(compound.getName(), compoundName)) {
                             totalSearchResults.add(compound);
-                        }
+                 //       }
                     }
                 } else {
                     for (CompoundSearchResult compound : chemSpiderCompounds) {
