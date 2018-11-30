@@ -98,7 +98,7 @@ public class GenericCompoundWSController {
             ExecutorService executor = Executors.newFixedThreadPool(2);
             searchResultsFromChebi.add(executor.submit(new ChebiSearch(SearchTermCategory.NAME, compoundName)));
             Future<Collection<CompoundSearchResult>> chemSpiderResults = executor.submit(new ChemSpiderRestSearch(SearchTermCategory.NAME, compoundName));
-            executor.shutdown();
+            awaitTerminationAfterShutdown(executor);
             return Utilities.combine(searchResultsFromChebi, chemSpiderResults, compoundName);
         }
     }
@@ -124,9 +124,10 @@ public class GenericCompoundWSController {
     @RequestMapping(value = COMPOUND_INCHI_MAPPING, method = RequestMethod.POST, headers = "content-type=application/x-www-form-urlencoded")
     @ResponseBody
     public RestResponse<List<CompoundSearchResult>> getCompoundByInChI(@RequestBody String compoundInChI) {
-        logger.info("Searching by InChI " + compoundInChI);
         RestResponse<List<CompoundSearchResult>> response = new RestResponse();
-        List<CompoundSearchResult> searchHits = getSearchHitsForInChI(Utilities.decode(compoundInChI));
+        compoundInChI = Utilities.checkForInchiPrefix(Utilities.decode(compoundInChI));
+        logger.info("Searching by InChI " + compoundInChI);
+        List<CompoundSearchResult> searchHits = getSearchHitsForInChI(compoundInChI);
         Utilities.sort(searchHits);
         response.setContent(searchHits);
         return response;
@@ -139,7 +140,7 @@ public class GenericCompoundWSController {
         }
 
         List<Future<CompoundSearchResult>> searchResultsFromChebi = new ArrayList<Future<CompoundSearchResult>>();
-        ExecutorService executor = Executors.newFixedThreadPool(numberOfSearches);
+        ExecutorService executor = Executors.newFixedThreadPool(2);
         if (thereIsAMatchInCuratedList(inchiMatch)) {
             searchResultsFromChebi.add(executor.submit(new ChebiSearch(SearchTermCategory.INCHI, compoundInChI, inchiMatch)));
         } else {
@@ -147,16 +148,18 @@ public class GenericCompoundWSController {
         }
         Future<Collection<CompoundSearchResult>> chemSpiderResults = executor.submit(new ChemSpiderRestSearch(SearchTermCategory.INCHI, compoundInChI));
         Future<Collection<CompoundSearchResult>> pubchemResults = executor.submit(new PubChemSearch(compoundInChI, SearchTermCategory.INCHI));
-        executor.shutdown();
+        awaitTerminationAfterShutdown(executor);
         return Utilities.combine(searchResultsFromChebi, chemSpiderResults, pubchemResults);
     }
 
     @RequestMapping(value = COMPOUND_SMILES_MAPPING, method = RequestMethod.POST, headers = "content-type=application/x-www-form-urlencoded")
     @ResponseBody
     public RestResponse<List<CompoundSearchResult>> getCompoundBySMILES(@RequestBody String compoundSMILES) {
-        logger.info("Searching by compound SMILES " + compoundSMILES);
         RestResponse<List<CompoundSearchResult>> response = new RestResponse();
-        List<CompoundSearchResult> searchHits = getSearchHitsForSMILES(Utilities.decode(compoundSMILES));
+        compoundSMILES = Utilities.checkForSmilesPrefix(Utilities.decode(compoundSMILES));
+        logger.info("Searching by compound SMILES " + compoundSMILES);
+
+        List<CompoundSearchResult> searchHits = getSearchHitsForSMILES(compoundSMILES);
         Utilities.sort(searchHits);
         response.setContent(searchHits);
         return response;
@@ -169,7 +172,7 @@ public class GenericCompoundWSController {
         }
         List<Future<CompoundSearchResult>> searchResultsFromChebi = new ArrayList<Future<CompoundSearchResult>>();
 
-        ExecutorService executor = Executors.newFixedThreadPool(numberOfSearches);
+        ExecutorService executor = Executors.newFixedThreadPool(3);
         if (thereIsAMatchInCuratedList(smilesMatch)) {
             searchResultsFromChebi.add(executor.submit(new ChebiSearch(SearchTermCategory.SMILES, compoundSMILES, smilesMatch)));
         } else {
@@ -177,7 +180,7 @@ public class GenericCompoundWSController {
         }
         Future<Collection<CompoundSearchResult>> chemSpiderResults = executor.submit(new ChemSpiderRestSearch(SearchTermCategory.SMILES, compoundSMILES));
         Future<Collection<CompoundSearchResult>> pubchemResults = executor.submit(new PubChemSearch(compoundSMILES, SearchTermCategory.SMILES));
-        executor.shutdown();
+        awaitTerminationAfterShutdown(executor);
         return Utilities.combine(searchResultsFromChebi, chemSpiderResults, pubchemResults);
     }
 
@@ -203,6 +206,19 @@ public class GenericCompoundWSController {
         }
         response.setContent(searchHits);
         return response;
+    }
+
+    private void awaitTerminationAfterShutdown(ExecutorService threadPool) {
+        threadPool.shutdown();
+        try {
+            if (!threadPool.awaitTermination(60, TimeUnit.SECONDS)) {
+                threadPool.shutdownNow();
+            }
+        } catch (InterruptedException ex) {
+            threadPool.shutdownNow();
+            Thread.currentThread().interrupt();
+            logger.error("Something went wrong awaiting executor termination " + ex.getMessage());
+        }
     }
 
 
