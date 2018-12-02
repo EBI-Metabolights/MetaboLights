@@ -1,0 +1,14 @@
+#!/bin/bash
+PRIV_FTP=/net/isilon3/ftp_private/mtblight/dev
+FILE_FOLDER=file_upload
+SRC=$PRIV_FTP/$FILE_FOLDER
+
+#echo "Upload $TUS_ID ($TUS_SIZE bytes) finished"
+JSON=$(cat /dev/stdin)
+#echo $JSON | /net/isilonP/public/rw/homes/tc_cm01/metabolights/software/tus/bin/jq-linux64.dms -C .
+
+filename=`echo ${JSON} | /net/isilonP/public/rw/homes/tc_cm01/metabolights/software/tus/bin/jq-linux64.dms -r .MetaData.filename`
+uploadfolder=`echo ${JSON} | /net/isilonP/public/rw/homes/tc_cm01/metabolights/software/tus/bin/jq-linux64.dms -r .MetaData.uploadfolder`
+#echo "cp $SRC/$TUS_ID.bin $PRIV_FTP/${uploadfolder}/${filename}"
+mv $SRC/$TUS_ID.bin $PRIV_FTP/${uploadfolder}/${filename}
+echo "Moved file $SRC/$TUS_ID.bin to $PRIV_FTP/${uploadfolder}/${filename}"
