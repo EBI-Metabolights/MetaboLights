@@ -72,6 +72,7 @@ public class ChemSpiderRestSearch implements Serializable, Cloneable, Callable<C
             json.put("orderBy", "");
             json.put("orderDirection", "");
             System.out.println(json.toString());
+            logger.info("chemspider call");
             response = GenericCompoundWSClients.executeRequest(this.ChemSpiderEndpoint + "filter/name", "POST", json.toString(), this.ChemSpiderToken);
         } catch (JSONException e) {
             logger.error("Something went wrong while searching for " + searchTerm + " in ChemSpider", e);
@@ -83,12 +84,14 @@ public class ChemSpiderRestSearch implements Serializable, Cloneable, Callable<C
 
     private String doInChISearch() {
         String request = "{ \"inchi\" : \"" + searchTerm + "\"}";
+        logger.info("chemspider call");
         String response = GenericCompoundWSClients.executeRequest(this.ChemSpiderEndpoint + "filter/inchi", "POST", request, this.ChemSpiderToken);
         return response;
     }
 
     private String doSMILESSearch() {
         String request = "{ \"smiles\" : \"" + searchTerm + "\"}";
+        logger.info("chemspider call");
         String response = GenericCompoundWSClients.executeRequest(this.ChemSpiderEndpoint + "filter/smiles", "POST", request, this.ChemSpiderToken);
         return response;
     }
@@ -126,6 +129,7 @@ public class ChemSpiderRestSearch implements Serializable, Cloneable, Callable<C
     }
 
     private void checkForStatus(String queryId) {
+        logger.info("chemspider call");
         String response = GenericCompoundWSClients.executeRequest(this.ChemSpiderEndpoint + "filter/" + queryId + "/status", "GET", "", this.ChemSpiderToken);
         try {
             JSONObject object = new JSONObject(response);
@@ -141,6 +145,7 @@ public class ChemSpiderRestSearch implements Serializable, Cloneable, Callable<C
 
     private List<Integer> extractResults(String queryId) {
         List<Integer> ids = new ArrayList<>();
+        logger.info("chemspider call");
         String response = GenericCompoundWSClients.executeRequest(this.ChemSpiderEndpoint + "filter/" + queryId + "/results", "GET", "", this.ChemSpiderToken);
         try {
             ChemSpiderIDResult result = new ObjectMapper().readValue(response, ChemSpiderIDResult.class);
@@ -163,6 +168,7 @@ public class ChemSpiderRestSearch implements Serializable, Cloneable, Callable<C
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             String body = objectMapper.writeValueAsString(request);
+            logger.info("chemspider call");
             String response = GenericCompoundWSClients.executeRequest(this.ChemSpiderEndpoint + "records/batch", "POST", body, this.ChemSpiderToken);
             extractBatchResults(response);
 
