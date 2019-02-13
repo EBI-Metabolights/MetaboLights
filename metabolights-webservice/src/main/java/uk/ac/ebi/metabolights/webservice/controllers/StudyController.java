@@ -1008,7 +1008,7 @@ public class StudyController extends BasicController{
         String ftp_path = "/"+ftp_paths[ftp_paths.length - 1]+"/";
 
         // send FTP folder details by email
-        String subject = "Requested Study upload folder.";
+        String subject = "Requested Study upload folder for " + studyIdentifier;
         StringBuilder body = new StringBuilder().append("We are happy to inform you that your upload folder for study ")
                 .append("<b>").append(studyIdentifier).append("</b>")
                 .append(" has been successfully created and is now ready for use. You can use either FTP or Aspera Client to upload your study files.").append('\n').append('\n')
