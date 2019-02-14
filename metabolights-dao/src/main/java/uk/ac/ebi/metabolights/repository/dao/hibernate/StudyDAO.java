@@ -145,22 +145,22 @@ public class StudyDAO extends DAO <Study,StudyData>{
         return studies;
     }
 
-    public Map<String,String> getPrivateDetailedStudyListForUser(String userToken) throws DAOException {
-
-        String query = "select distinct study.acc, study.studyPublicReleaseDate from " + StudyData.class.getSimpleName() + " study" +
-                " left join study.users user where study.status= " + Study.StudyStatus.SUBMITTED.ordinal() + " AND user.apiToken=:apiToken ";
-
-        // Create an empty filter
-        Filter filter = new Filter();
-
-        // Add clause to where..
-        filter.fieldValuePairs.put("apiToken", userToken);
-        Map<String,String> studiesMap = new HashMap<String,String>();
-
-        List<String, String> studies = this.getList(query, filter);
-
-        return studies;
-    }
+//    public Map<String,String> getPrivateDetailedStudyListForUser(String userToken) throws DAOException {
+//
+//        String query = "select distinct study.acc, study.studyPublicReleaseDate from " + StudyData.class.getSimpleName() + " study" +
+//                " left join study.users user where study.status= " + Study.StudyStatus.SUBMITTED.ordinal() + " AND user.apiToken=:apiToken ";
+//
+//        // Create an empty filter
+//        Filter filter = new Filter();
+//
+//        // Add clause to where..
+//        filter.fieldValuePairs.put("apiToken", userToken);
+//        Map<String,String> studiesMap = new HashMap<String,String>();
+//
+//        List<String, String> studies = this.getList(query, filter);
+//
+//        return studies;
+//    }
 
 	// Gets all studies to go live that the user is granted to access.
 	public List<String> getStudiesToGoLiveList(String userToken) throws DAOException {
