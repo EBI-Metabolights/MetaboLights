@@ -790,7 +790,7 @@ AW4.RequestHandler = function() {
     }
 
     if (httpCode == 200) {
-      //console.log('Found connect in port: ' + checkedPort);
+      // console.log('Found connect in port: ' + checkedPort);
       connectPort = checkedPort;
       changeConnectStatus(STATUS.RUNNING);
     } else if (checkedPort === DEFAULT_PORT) {
