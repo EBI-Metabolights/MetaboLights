@@ -71,7 +71,7 @@ import java.util.*;
  */
 public class ChebiMetaboliteScanner {
 
-	private static final String CHEBI_FILE_EXPORTER_URL = "http://www.ebi.ac.uk/chebi/fileExporter.do";
+	private static final String CHEBI_FILE_EXPORTER_URL = "https://www.ebi.ac.uk/chebi/fileExporter.do";
 	private Logger LOGGER = LoggerFactory.getLogger(ChebiMetaboliteScanner.class);
 
 	public String  CHEBI_METABOLITE_ROLE = "CHEBI:25212";
@@ -81,7 +81,7 @@ public class ChebiMetaboliteScanner {
 
 	private ChebiWebServiceClient chebiWS;
 //	private final String chebiWSUrl = "http://ves-ebi-97:8100/chebi-tools/webservices/2.0/webservice?wsdl";
-	private final String chebiWSUrl = "http://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl";
+	private final String chebiWSUrl = "https://www.ebi.ac.uk/webservices/chebi/2.0/webservice?wsdl";
 
 	private ProcessReport parentProcessReport;
 	private ProcessReport processReport;
@@ -94,7 +94,7 @@ public class ChebiMetaboliteScanner {
 		if (chebiWS == null)
 			try {
 				LOGGER.info("Starting a new instance of the ChEBI ChebiWebServiceClient");
-				chebiWS = new ChebiWebServiceClient(new URL(chebiWSUrl),new QName("http://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
+				chebiWS = new ChebiWebServiceClient(new URL(chebiWSUrl),new QName("https://www.ebi.ac.uk/webservices/chebi",	"ChebiWebServiceService"));
 			} catch (MalformedURLException e) {
 				LOGGER.error("Error instanciating a new ChebiWebServiceClient "+ e.getMessage());
 			}

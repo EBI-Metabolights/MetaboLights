@@ -274,3 +274,4 @@ metabolights-webapps/src/main/webapp/WEB-INF/lib/xpp3-1.1.4c.jar
 metabolights-webapps/src/main/webapp/WEB-INF/classes/*
 *.jar
 *.class
+mzml_validation_progress_log.txt

@@ -95,7 +95,7 @@ public class ImporterTests extends TestCase {
         //rli.setImportOptions(ReferenceLayerImporter.ImportOptions.REFRESH_MET_SPECIES);
 
 		// By deafeult use "metabolite"
-		//String chebiId = rli.getChebiIDRoot();
+		String chebiId = rli.getChebiIDRoot();
 
 		// Bile Acid metabolites
 		//String chebiId = "CHEBI:48887";
@@ -104,7 +104,7 @@ public class ImporterTests extends TestCase {
 		//String chebiId = "CHEBI:76924";
 
         // Human metabolite
-        String chebiId = "CHEBI:77746";
+        // String chebiId = "CHEBI:77746";
 
 		//String chebiId = "CHEBI:72058";
 

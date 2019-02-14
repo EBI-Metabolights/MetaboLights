@@ -1008,7 +1008,7 @@ public class StudyController extends BasicController{
         String ftp_path = "/"+ftp_paths[ftp_paths.length - 1]+"/";
 
         // send FTP folder details by email
-        String subject = "Requested Study upload folder.";
+        String subject = "Requested Study upload folder for " + studyIdentifier;
         StringBuilder body = new StringBuilder().append("We are happy to inform you that your upload folder for study ")
                 .append("<b>").append(studyIdentifier).append("</b>")
                 .append(" has been successfully created and is now ready for use. You can use either FTP or Aspera Client to upload your study files.").append('\n').append('\n')
@@ -1632,6 +1632,43 @@ public class StudyController extends BasicController{
 
         return response;
     }
+
+    @RequestMapping("reindexStudyOnToken")
+    @ResponseBody
+    public RestResponse<String> reindexStudyOnToken(HttpServletRequest request) throws DAOException {
+
+        RestResponse<String> response = new RestResponse<>();
+        UserServiceImpl usi = new UserServiceImpl();
+        studyDAO = DAOFactory.getInstance().getStudyDAO();
+
+        String token = request.getParameter("token");
+        String study_id = request.getParameter("study_id");
+
+        User user = null;
+        try {
+            user = usi.lookupByToken(token);
+            logger.info("reindexStudyOnToken: User {} has requested reindexing study {}", token, study_id);
+        } catch (Exception e) {
+            logger.error ("Not able to authenticate the user for 'reindexStudyOnToken' mapping ");
+            response.setMessage("Not able to authenticate the user for 'reindexStudyOnToken' mapping.");
+            response.setErr(e);
+            return response;
+        }
+
+        try {
+            studyDAO = getStudyDAO();
+            Study study = studyDAO.getStudy(study_id, user.getApiToken());
+            indexingService.indexStudy(study);
+
+        } catch (Exception e) {
+            logger.error("Can not reindex " + study_id, e);
+            response.setMessage("Can not create new empty study for " + user.getEmail());
+            response.setErr(e);
+        }
+
+        return response;
+    }
+
 
 
 }
