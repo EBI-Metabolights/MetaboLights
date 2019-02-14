@@ -49,10 +49,12 @@
                                 <span><small><spring:message code="label.submitNewStudySub"/></small></span>
                                 </p>
                                 <br>
-                                <a class="btn btn-success" id="redirectToEditorPage">
-                                    Create online
-                                </a>
-                                or&nbsp;
+                                <span id="onlineBtnWrapper" style="display: none">
+                                    <a class="btn btn-success" id="redirectToEditorPage">
+                                        Create online
+                                    </a>
+                                    or&nbsp;
+                                </span>
                                 <a href="submittoqueue" class="btn btn-success">
                                     Upload ISA-Tab files
                                 </a>
@@ -89,10 +91,20 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
     $(document).ready(function () {
+        var subDomain = window.location.hostname.split('.')[0]
+        if(subDomain != 'www'){
+            document.getElementById("onlineBtnWrapper").style.display="inline";
+        }
+
         $('#redirectToEditorPage').click(function(){
-            <%--var editorToken = ${editorToken};--%>
-            // localStorage.setItem("user", JSON.stringify(editorToken));
-            window.open("${pageContext.request.contextPath}/editor/create","_blank",'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+            var editorToken = "${editorToken}";
+            if(editorToken != null && editorToken != ''){
+                localStorage.setItem("user", editorToken);
+                window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+            }else{
+                localStorage.removeItem("user")
+                window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+            }
         })
     });
 </script>

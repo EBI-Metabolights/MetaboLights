@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class StudyEditorController extends AbstractController {
 
-    @RequestMapping(value = {"/editor" , "/editor/login", "/editor/study/{studyId}", "/editor/study/{studyId}/{tabId}", "/editor/console", "/editor/create", "/editor/guide/{studyId}", "/editor/guide/{studyId}/{step}" })
+    @RequestMapping(value = {"/editor" , "/editor/login", "/editor/study/{studyId}", "/editor/study/{studyId}/{tabId}", "/editor/console", "/editor/create", "/editor/guide/{studyId}", "/editor/guide/{studyId}/{step}", "/editor/upload/{studyId}", "/editor/info/{studyId}", "/editor/assays/{studyId}", "/editor/validate/{studyId}", "/editor/submit/{studyId}" })
     public ModelAndView showLabsPage(HttpServletRequest request) {
         ModelAndView mav = AppContext.getMAVFactory().getSimpleFrontierMav("editor");
         MetabolightsUser user = LoginController.getLoggedUser();
@@ -27,4 +27,3 @@ public class StudyEditorController extends AbstractController {
         return mav;
     }
 }
-                                                                                                                                                                      

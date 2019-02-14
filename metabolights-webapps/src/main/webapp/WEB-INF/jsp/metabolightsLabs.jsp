@@ -48,7 +48,7 @@
 
     gtag('config', 'UA-110351649-1');
 </script>
-
+<link rel="stylesheet" href="styles.ba1173085f6defca8c9b.css">
 <app-root>
     <div class="page-wrapper vc">
       <span>
@@ -61,9 +61,16 @@
     </div>
 </app-root>
 
-<script type="text/javascript" src="inline.bundle.js"></script>
-<script type="text/javascript" src="polyfills.bundle.js"></script>
-<script type="text/javascript" src="scripts.bundle.js"></script>
-<script type="text/javascript" src="styles.bundle.js"></script>
-<script type="text/javascript" src="vendor.bundle.js"></script>
-<script type="text/javascript" src="main.bundle.js"></script>
+<script type="text/javascript" src="runtime.ec2944dd8b20ec099bf3.js"></script>
+<script type="text/javascript" src="polyfills.3252f90364ffcd9d8845.js"></script>
+<script type="text/javascript" src="scripts.2812bf66564829e5b1d1.js"></script>
+<script type="text/javascript" src="main.30d1d385606db51f66eb.js"></script>
+<script>
+    var localFrameworkVersion = 'other';
+    var newDataProtectionNotificationBanner = document.createElement('script');
+    newDataProtectionNotificationBanner.src = 'https://ebi.emblstatic.net/web_guidelines/EBI-Framework/v1.3/js/ebi-global-includes/script/5_ebiFrameworkNotificationBanner.js?legacyRequest='+localFrameworkVersion;
+    document.head.appendChild(newDataProtectionNotificationBanner);
+    newDataProtectionNotificationBanner.onload = function() {
+        ebiFrameworkRunDataProtectionBanner(); // invoke the banner
+    };
+</script>
