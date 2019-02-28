@@ -1624,6 +1624,8 @@ public class StudyController extends BasicController{
             Study study = studyDAO.addEmptyStudy(nextYear, user);
             response.setMessage(study.getStudyIdentifier());
             response.setContent(study.getStudyIdentifier());
+            logger.info("Sending email to " + user.getEmail() + " about new study "+ study.getStudyIdentifier());
+            AppContext.getEmailService().sendQueuedStudySubmitted(study, " * Online submission * ");
         } catch (Exception e) {
             logger.error("Can not create new empty study for " + user.getEmail(), e);
             response.setMessage("Can not create new empty study for " + user.getEmail());
