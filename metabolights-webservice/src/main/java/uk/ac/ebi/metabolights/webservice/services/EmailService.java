@@ -63,9 +63,7 @@ public class EmailService {
 
 	private @Value("#{EBIHost}") String prodURL;
     private @Value("#{curationEmailAddress}") String curationEmailAddress;
-	//private @Value("#{BccPivotalEmailAddress}") String bccPivotalEmailAddress;
-    String bccPivotalEmailAddress = "";   //TODO, can point to Jira or RT instead
-
+	private @Value("#{BccPivotalEmailAddress}") String bccPivotalEmailAddress;
 
 	//Have to qualify these as the test Spring servlet is defining the same beans
     @Qualifier("mailSender")
