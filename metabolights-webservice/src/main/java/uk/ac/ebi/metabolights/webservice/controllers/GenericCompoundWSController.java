@@ -172,16 +172,16 @@ public class GenericCompoundWSController {
         }
         List<Future<CompoundSearchResult>> searchResultsFromChebi = new ArrayList<Future<CompoundSearchResult>>();
 
-        ExecutorService executor = Executors.newFixedThreadPool(3);
+        ExecutorService executor = Executors.newFixedThreadPool(1);
         if (thereIsAMatchInCuratedList(smilesMatch)) {
             searchResultsFromChebi.add(executor.submit(new ChebiSearch(SearchTermCategory.SMILES, compoundSMILES, smilesMatch)));
         } else {
             searchResultsFromChebi.add(executor.submit(new ChebiSearch(SearchTermCategory.SMILES, compoundSMILES)));
         }
-        Future<Collection<CompoundSearchResult>> chemSpiderResults = executor.submit(new ChemSpiderRestSearch(SearchTermCategory.SMILES, compoundSMILES));
-        Future<Collection<CompoundSearchResult>> pubchemResults = executor.submit(new PubChemSearch(compoundSMILES, SearchTermCategory.SMILES));
+//        Future<Collection<CompoundSearchResult>> chemSpiderResults = executor.submit(new ChemSpiderRestSearch(SearchTermCategory.SMILES, compoundSMILES));
+//        Future<Collection<CompoundSearchResult>> pubchemResults = executor.submit(new PubChemSearch(compoundSMILES, SearchTermCategory.SMILES));
         awaitTerminationAfterShutdown(executor);
-        return Utilities.combine(searchResultsFromChebi, chemSpiderResults, pubchemResults);
+        return Utilities.extract(searchResultsFromChebi, compoundSMILES);
     }
 
     private boolean thereIsAMatchInCuratedList(String[] nameMatch) {
