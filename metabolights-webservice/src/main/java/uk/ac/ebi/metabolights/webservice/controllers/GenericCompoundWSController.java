@@ -43,7 +43,7 @@ public class GenericCompoundWSController {
         if (nameIsAnUnknown(compoundName)) {
             searchHits.add(getDefaultEntryForUnknown());
         } else {
-            searchHits = getSearchHitsFromListChebIAndChemSpiderOnly(Utilities.decodeSlashesAndDots(compoundName));
+            searchHits = getSearchHitsFromListAndChebIOnly(Utilities.decodeSlashesAndDots(compoundName));
         }
         response.setContent(searchHits);
         return response;
