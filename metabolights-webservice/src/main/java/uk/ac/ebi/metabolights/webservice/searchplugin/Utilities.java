@@ -51,8 +51,8 @@ public class Utilities {
                 if (chemSpiderCompounds.size() == 1) {
                     for (CompoundSearchResult compound : chemSpiderCompounds) {
 //                        if (hit(compound.getName(), compoundName)) {
-                            totalSearchResults.add(compound);
-                 //       }
+                        totalSearchResults.add(compound);
+                        //       }
                     }
                 } else {
                     for (CompoundSearchResult compound : chemSpiderCompounds) {
@@ -82,6 +82,19 @@ public class Utilities {
         List<CompoundSearchResult> searchHits = new ArrayList<>();
         for (Future<CompoundSearchResult> searchResult : searchResults) {
             searchHits.add(searchResult.get());
+        }
+        return searchHits;
+    }
+
+    public static List<CompoundSearchResult> extract(List<Future<CompoundSearchResult>> searchResults, String searchTerm){
+        List<CompoundSearchResult> searchHits = new ArrayList<>();
+        try {
+            for (Future<CompoundSearchResult> searchResult : searchResults) {
+                searchHits.add(searchResult.get());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("Something went wrong while combining search responses for : " + searchTerm, e);
         }
         return searchHits;
     }
@@ -189,7 +202,7 @@ public class Utilities {
     public static String checkForSmilesPrefix(String smiles) {
         String modified = "";
         if (smiles.toLowerCase().startsWith("smiles=") || smiles.toLowerCase().contains("smiles")) {
-            modified = smiles.toLowerCase().replace("smiles=","");
+            modified = smiles.toLowerCase().replace("smiles=", "");
             return modified;
         }
         return smiles;
