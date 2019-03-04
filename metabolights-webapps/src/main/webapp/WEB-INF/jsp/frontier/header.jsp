@@ -108,7 +108,7 @@
                 <div class="row">
                     <div class="col-md-7 col-sm-6">
                         <div class="alpha logo-title" id="local-title">
-                            <a class="ml-logo" href="index" title="Back to MetaboLights homepage">
+                            <a id="mlLogo" class="ml-logo" href="index" title="Back to MetaboLights homepage">
                                 <img src="/metabolights/img/MetaboLightsLogo.png" alt="MetaboLights" width="64" height="64" />MetaboLights
                             </a>
                         </div>
@@ -197,3 +197,12 @@
         </div>
     </div>
 </div>
+<script>
+    var subDomain = window.location.host.split('.')[0]
+    if(subDomain != 'www'){
+        var brand = document.getElementById("mlLogo")
+        brand.innerHTML = "MetaboLights DEV";
+        brand.style.color = "yellow";
+        brand.style.fontWeight = "300";
+    }
+</script>
