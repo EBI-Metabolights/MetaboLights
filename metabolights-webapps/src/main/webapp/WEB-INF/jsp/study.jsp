@@ -116,7 +116,7 @@
                             </c:if>
                         </c:forEach>
                         <i class="fa fa-envelope">&nbsp;</i><a href="mailto:${liteStudy.users[0].userName}?subject=<spring:message code="msg.emailStudyLinkSubject"/>&nbsp;${liteStudy.studyIdentifier}&cc=${submitters}"> Contact Submitter</a>&emsp;
-                        <%--<c:if test="${userHasEditRights eq true}"> &nbsp;<i class="fa fa-pencil"></i><a id="redirectToEditorPage" style="cursor: pointer">&nbsp;Quick edit</a> </c:if>--%>
+                        <c:if test="${userHasEditRights eq true && study.studyStatus.descriptiveName eq 'Submitted'}"> &nbsp;<i class="fa fa-pencil"></i><a id="redirectToEditorPage" style="cursor: pointer">&nbsp;Quick edit <span class="badge">Beta</span></a> </c:if>
                     </span>
                 </p>
             </div>
@@ -1874,9 +1874,14 @@
 <script>
     $(document).ready(function () {
         $('#redirectToEditorPage').click(function(){
-            var editorToken = ${editorToken};
-            localStorage.setItem("user", JSON.stringify(editorToken));
-            window.open("${pageContext.request.contextPath}/editor/study/${study.studyIdentifier}","_blank",'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+            var editorToken = "${editorToken}";
+            if(editorToken != null && editorToken != ''){
+                localStorage.setItem("user", editorToken);
+                window.open("${pageContext.request.contextPath}/editor/study/${study.studyIdentifier}", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+            }else{
+                localStorage.removeItem("user")
+                window.open("${pageContext.request.contextPath}/editor/study/${study.studyIdentifier}", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+            }
         })
 
         thorApplicationNamespace.loadClaimingInfo();

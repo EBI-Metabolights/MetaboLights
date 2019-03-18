@@ -41,7 +41,7 @@
             </div>
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-md-4 col-md-offset-2 ">
+                    <div class="col-md-5 col-md-offset-1">
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <p>
@@ -49,9 +49,9 @@
                                 <span><small><spring:message code="label.submitNewStudySub"/></small></span>
                                 </p>
                                 <br>
-                                <span id="onlineBtnWrapper" style="display: none">
+                                <span id="onlineBtnWrapper">
                                     <a class="btn btn-success" id="redirectToEditorPage">
-                                        Create online
+                                        Create online <span class="badge">Beta</span>
                                     </a>
                                     or&nbsp;
                                 </span>
@@ -61,7 +61,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <p>
@@ -91,10 +91,10 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
     $(document).ready(function () {
-        var subDomain = window.location.hostname.split('.')[0]
-        if(subDomain != 'www'){
-            document.getElementById("onlineBtnWrapper").style.display="inline";
-        }
+        // var subDomain = window.location.hostname.split('.')[0]
+        // if(subDomain != 'www'){
+        //     document.getElementById("onlineBtnWrapper").style.display="inline";
+        // }
 
         $('#redirectToEditorPage').click(function(){
             var editorToken = "${editorToken}";

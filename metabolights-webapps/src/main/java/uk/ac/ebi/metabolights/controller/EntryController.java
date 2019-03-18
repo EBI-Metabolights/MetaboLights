@@ -314,7 +314,9 @@ public class EntryController extends AbstractController {
         if (user.isCurator()) {
             mav.addObject("curatorAPIToken", user.getApiToken());
         }
-        mav.addObject("editorToken", "{\"apiToken\":\"" + user.getApiToken() +"\"}");
+        if (user != null) {
+            mav.addObject("editorToken", user.getApiToken());
+        }
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(study.getStudyPublicReleaseDate());
         mav.addObject("releaseYear", calendar.get(Calendar.YEAR));

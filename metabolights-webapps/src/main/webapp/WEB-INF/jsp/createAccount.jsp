@@ -69,6 +69,15 @@
 								<span class="error" id="privacyPolicyError"/>
 							</div>
 
+							<div class="form-group, hidden" id="dev-warning">
+								<div class="panel panel-warning">
+									<div class="panel-heading">
+										Please note, this site is for testing purposes only and if you intend to submit your data to MetaboLights, go to the production site
+										<a href="https://www.ebi.ac.uk/metabolights">here</a> and <a href="https://www.ebi.ac.uk/metabolights/newAccount">register</a>
+									</div>
+								</div>
+							</div>
+
 						<div class="form-group">
 								<input name="submit" type="submit" class="submit btn btn-primary form-control" value="<spring:message code="label.create"/>">
 								<%--<input name="cancel" type="button" class="submit cancel" value="<spring:message code="label.cancel"/>" onclick="location.href='index'">--%>
@@ -84,6 +93,13 @@
 
 
 <script>
+
+    var subDomain = window.location.host.split('.')[0]
+    if(subDomain != 'www'){
+        var brand = document.getElementById("dev-warning")
+        brand.classList.remove("hidden");
+    }
+
 	$("#metabolightsUser").submit(function() {
         	return validate();
     });
