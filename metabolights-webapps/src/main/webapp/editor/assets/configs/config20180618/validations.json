@@ -188,8 +188,8 @@
 					"placeholder": "Institute or Company Name",
 					"rules": [{
 						"condition": "min",
-						"value": "30",
-						"error": "Please provide an institutional affiliation for this contact. This should be a minimum of 30 characters long",
+						"value": "20",
+						"error": "Please provide an institutional affiliation for this contact. This should be a minimum of 20 characters long",
 						"type": "string"
 					}]
 				},
@@ -207,7 +207,7 @@
 					"recommended-ontologies": {
 						"is-forced-ontology": "false",
 						"ontology": {
-							"url": "ws/ebi-internal/ontology?branch=roles&term=",
+							"url": "ws/ebi-internal/ontology?branch=role&term=",
 							"allowFreeText": true
 						}
 					}
@@ -332,40 +332,49 @@
 		"protocols": {
 			"default": [
 				{
+					"title": "Sample collection",
+					"sort-order": "1",
+					"technique": "mass spectrometry|NMR spectroscopy"
+				},
+				{
 					"title": "Extraction",
-					"sort-order": "2"
+					"sort-order": "2",
+					"technique": "mass spectrometry|NMR spectroscopy"
 				},
 				{
 					"title": "Chromatography",
-					"sort-order": "3"
+					"sort-order": "3",
+					"technique": "mass spectrometry"
 				},
 				{
 					"title": "Mass spectrometry",
-					"sort-order": "4"
-				},
-				{
-					"title": "NMR spectroscopy",
-					"sort-order": "6"
+					"sort-order": "4",
+					"technique": "mass spectrometry"
 				},
 				{
 					"title": "NMR sample",
-					"sort-order": "5"
+					"sort-order": "5",
+					"technique": "NMR spectroscopy"
+				},
+				{
+					"title": "NMR spectroscopy",
+					"sort-order": "6",
+					"technique": "NMR spectroscopy"
 				},
 				{
 					"title": "NMR assay",
-					"sort-order": "7"
+					"sort-order": "7",
+					"technique": "NMR spectroscopy"
 				},
 				{
 					"title": "Data transformation",
-					"sort-order": "8"
+					"sort-order": "8",
+					"technique": "mass spectrometry|NMR spectroscopy"
 				},
 				{
 					"title": "Metabolite identification",
-					"sort-order": "9"
-				},
-				{
-					"title": "Sample collection",
-					"sort-order": "1"
+					"sort-order": "9",
+					"technique": "mass spectrometry|NMR spectroscopy"
 				}
 			],
 			"protocol": {
@@ -380,8 +389,8 @@
 					"placeholder": "Protocol name",
 					"rules": [{
 						"condition": "min",
-						"value": "10",
-						"error": "Please provide the name of your protocol. This should be a minimum of 10 characters long",
+						"value": "8",
+						"error": "Please provide the name of your protocol. This should be a minimum of 8 characters long",
 						"type": "string"
 					}]
 				},
@@ -488,8 +497,8 @@
 						"is-read-only": "false",
 						"is-hidden": "false",
 						"technique": "mass spectrometry|NMR spectroscopy",
-						"description": "The type of the Factor driving this study, e.g. EFO:Dose (from Ontology), etc.",
-						"placeholder": "EFO:Dose",
+						"description": "The type of the Factor driving this study, e.g. NCBITaxon:9606 (Homo sapiens), etc.",
+						"placeholder": "NCBITaxon:9606",
 						"rules": [{
 							"condition": "min",
 							"value": "5",
@@ -517,8 +526,37 @@
 						"is-read-only": "false",
 						"is-hidden": "false",
 						"technique": "mass spectrometry|NMR spectroscopy",
-						"description": "The type of the Factor driving this study, e.g. EFO:Dose (from Ontology), etc.",
-						"placeholder": "EFO:Dose",
+						"description": "The type of the Factor driving this study, e.g. BTO:0000131 (Blood plasma), etc.",
+						"placeholder": "BTO:0000131",
+						"rules": [{
+							"condition": "min",
+							"value": "5",
+							"error": "Please provide a valid ontology term for the factor. This should be a minimum of 5 characters long",
+							"type": "string"
+						}],
+						"recommended-ontologies": {
+							"is-forced-ontology": "false",
+							"ontology": {
+								"url": "ws/ebi-internal/ontology?branch=taxonomy&term=",
+								"allowFreeText": true
+							}
+						}
+					},
+					"cell": "(element) => element"
+				},
+				{
+					"columnDef" : "variant",
+					"sticky": "false",
+					"header": "Characteristics[Variant]",
+					"dataType" : "ontology",
+					"ontology-details" : {
+						"data-type": "ontology",
+						"is-required": "true",
+						"is-read-only": "false",
+						"is-hidden": "false",
+						"technique": "mass spectrometry|NMR spectroscopy",
+						"description": "The type of the Factor driving this study, e.g. PATO:0001227 (Variant), etc.",
+						"placeholder": "PATO:0001227",
 						"rules": [{
 							"condition": "min",
 							"value": "5",
@@ -689,6 +727,19 @@
 						"cell": "(element) => element['metabolite_assignment_file'].filename ? element['metabolite_assignment_file'].filename : ''"
 					}
 				]
+			}
+		},
+		"maf": {
+			"metabolites": {
+				"label": "Metabolites names",
+				"data-type": "",
+				"sort-order": "",
+				"is-required": "true",
+				"is-read-only": "false",
+				"is-hidden": "false",
+				"description": "Please add metabolites names one per each line or add coma separated values",
+				"placeholder": "Ethanol, Methanol ...",
+				"rules": []
 			}
 		},
 		"upload": {

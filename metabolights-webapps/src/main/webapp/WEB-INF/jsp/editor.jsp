@@ -97,7 +97,7 @@
             stroke-dashoffset: 0;
         }
         50% {
-            stroke-dasharray: 89, 200;./re
+            stroke-dasharray: 89, 200;
             stroke-dashoffset: -35px;
         }
         100% {
@@ -106,7 +106,7 @@
         }
     }
 </style>
-<link rel="stylesheet" href="styles.ce8b417bd4aed77a8ec2.css">
+<link rel="stylesheet" href="styles.9b1d8b790b7e122eddb1.css">
 <noscript>
     <strong>
         We're sorry but MetaboLights online submission and editor tool doesn't work properly without JavaScript enabled. Please enable it to continue.
@@ -120,7 +120,7 @@
         </svg>
     </div>
 </app-root>
-<script type="text/javascript" src="runtime.ec2944dd8b20ec099bf3.js"></script><script type="text/javascript" src="polyfills.d1c7bf4a2ae7c3435f95.js"></script><script type="text/javascript" src="main.85c5b9eab17e579767e6.js"></script>
+<script type="text/javascript" src="runtime.ec2944dd8b20ec099bf3.js"></script><script type="text/javascript" src="polyfills.444c96e2953f4e00e254.js"></script><script type="text/javascript" src="main.f7db8ffff2e7550aac23.js"></script>
 
 
 
