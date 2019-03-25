@@ -33,61 +33,12 @@
 				<div class="ml-loginpanelhead">
 					<h3>Feedback</h3>
 					<p><spring:message code="label.contact" /></p>
-				</div>
-				<div class="ml-loginpanelbody">
-					<form:form name="emailForm" action="contactUsAlert" method="post" commandName="contactValidation">
-						<div class="form-group">
-							<label><spring:message code="label.firstName" /> *</label>
-							<form:input class="form-control" path="firstName" maxlength="255" size="40" />
-							<span class="error"><form:errors path="firstName" /></span>
-						</div>
-						<div class="form-group">
-							<label><spring:message code="label.lastName" /> *</label>
-							<form:input class="form-control" path="lastName" maxlength="255" size="40" />
-							<span class="error"><form:errors path="lastName" /></span>
-						</div>
-						<div class="form-group">
-							<label><spring:message code="label.email" /> *</label>
-							<form:input path="emailAddress" class="form-control"  maxlength="255" size="40" />
-							<span class="error"><form:errors path="emailAddress" /></span>
-						</div>
-						<div class="form-group">
-							<label><spring:message code="label.affili" /></label>
-							<form:input path="affiliation" class="form-control"  maxlength="255" size="40" />
-						</div>
-						<div class="form-group">
-							<label><spring:message code="label.affiliUrl" /></label>
-							<form:input path="affiliationUrl" class="form-control"  maxlength="4000" size="66" />
-						</div>
-						<div class="form-group">
-							<label><spring:message code="label.message" /> *</label>
-							<form:textarea path="message" class="form-control" rows="5" cols="50" />
-							<span class="error"><form:errors path="message" /></span>
-						</div>
-						<div class="form-group">
-							<input name="submit" type="submit" class='submit btn btn-primary' value="<spring:message code="label.submit"/>" />
-							<input name="cancel" type="button" class='submit cancel btn btn-default' value="<spring:message code="label.cancel"/>" onclick="location.href='index'"/>
-						</div>
-					</form:form>
-
+                    </p>
 				</div>
 			</div>
-			<p><strong><spring:message code="msg.starRequired"/></strong></p>
-			<p><spring:message code="label.ebiContact"/></p>
-			<p><spring:message code="label.sourceforge"/></p>
-			<c:if test="${not empty message}">
-				  <span class="error">
-					  <c:out value="${message}" />
-				  </span>
-			</c:if>
 		</div>
 	</div>
 
 
-
-
-<script type="text/javascript" language="javascript">
-	document.emailForm.email.focus();
-</script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
