@@ -23,9 +23,9 @@
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
 <div class="col-md-12">
-    <div class="row">
+    <p class="row">
         <h3><spring:message code="menu.downloadHelp" /></h3><br>
-        <div class="well nbr">
+        <div class="alert nbr alert-warning">
             <p>
                 <a class="icon icon-generic bigfont" data-icon="T" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip"></a>
                 <spring:message code="msg.metabolightsAbout12" />
@@ -37,7 +37,7 @@
                 <spring:message code="msg.metabolightsAbout7" />
             </p>
         </div>
-        <p><spring:message code="msg.metabolightsAbout13" /></p>
+        <p><spring:message code="msg.metabolightsAbout13" /></p> </br>
         <p><spring:message code="msg.metaboLightsAbout16" />&nbsp;<spring:message code="msg.metabolightsAbout8"/></p>
         <br>
         <a>MetaboLights XML exports can be downloaded using the following links:</a><br>
@@ -46,12 +46,12 @@
     </div>
 </div>
 <div class="col-md-12">
-    <div class="row">
+    <p class="row">
         <br>
-        <div class="alert nbr alert-warning">
+        <div class="well nbr">
             <a class="noLine" href="<spring:message code="url.isatools"/>"><img src="img/softwaresuitelogo2.png" alt="ISAtools"/></a>
             <p><spring:message code="msg.metabolightsAbout6" /></p>
         </div>
-    </div>
+    </p>
 </div>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
