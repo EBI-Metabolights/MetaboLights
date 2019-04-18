@@ -66,7 +66,7 @@ from studies s, study_user s2u, users u
 where
   s.id = s2u.studyid and
   s2u.userid = u.id and
-  s.status != 0 -- Ignore submitted
+  s.status not in(0,4) -- Ignore submitted and domant
   group by u.firstname||' '||u.lastname
   having count(s.acc) >= 5
   order by 3 desc;
@@ -81,7 +81,7 @@ update ml_stats set str_value = ceil(str_value::NUMERIC/1024) where page_section
 
 insert into ml_stats(page_section, str_name, str_value, sort_order)
 select 'Stats_number', to_char(submissiondate,'YYYY-MM'), sum(count(*)) over (order by to_char(submissiondate,'YYYY-MM')), '0'
-from studies where status != 4 and studysize/1024/1024 >=0.6
+from studies where status != 4 and studysize/1024/1024 >=0.5
 group by to_char(submissiondate,'YYYY-MM') order by to_char(submissiondate,'YYYY-MM') asc;
 
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Info', 'Last updated', to_char(current_timestamp,'DD-Mon-YYYY HH24:MI:SS'), 1;
