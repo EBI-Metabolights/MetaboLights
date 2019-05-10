@@ -36,13 +36,11 @@ CREATE AGGREGATE median(NUMERIC) (
 truncate table ml_stats;
 
 -- Section "Data"
-insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', 'Total number of studies', count(*), 1 from studies where status != 4 and studysize/1024/1024 >=0.5;
-insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', ' - Public', count(*), 2 from studies where status = 3 and studysize/1024/1024 >=0.5;
-insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', ' - in Review', count(*), 3 from studies where status = 2 and studysize/1024/1024 >=0.5;
-insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', ' - in Curation', count(*), 4 from studies where status = 1 and studysize/1024/1024 >=0.5;
-insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', ' - in Submission', count(*), 5 from studies where status = 0 and studysize/1024/1024 >=0.5;
---insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', ' - Dormant', count(*), 6 from studies where status = 4;
---insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Different organisms', count(*), 7 from ref_species where final_id is null and species_member is not null;
+insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', 'Total number of studies', count(*), 1 from studies where status != 4 and placeholder != '1';
+insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', ' - Public', count(*), 2 from studies where status = 3 and placeholder != '1';
+insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', ' - in Review', count(*), 3 from studies where status = 2 and placeholder != '1';
+insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', ' - in Curation', count(*), 4 from studies where status = 1 and placeholder != '1';
+insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', ' - in Submission', count(*), 5 from studies where status = 0 and placeholder != '1';
 insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Different organisms', count(*), 7 from ref_species where final_id is null;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Reference compounds', count(*), 8 from ref_metabolite;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Samples', sum(sample_rows), 9 from studies where status != 4;
@@ -50,9 +48,8 @@ insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct
 insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Metabolite annotation features', sum(maf_rows), 11 from studies where status != 4;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data','Total study size (TB)', round(sum(studysize)/1024/1024/1024/1024,1), 12 from studies;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data','- Max study size (TB)', round(max(studysize)/1024/1024/1024/1024,1), 13 from studies;
-insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data','- Average study size (GB)', round(avg(studysize)/1024/1024/1024,2), 14 from studies where status != 4 and studysize/1024/1024 >=0.5;
-insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data','- Median study size (GB)', round(median(studysize)/1024/1024/1024,2), 15 from studies where status != 4 and studysize/1024/1024 >=0.5;
-
+insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data','- Average study size (GB)', round(avg(studysize)/1024/1024/1024,2), 14 from studies where status != 4 and placeholder != '1';
+insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data','- Median study size (GB)', round(median(studysize)/1024/1024/1024,2), 15 from studies where status != 4 and placeholder != '1';
 
 -- Section "Submitters"
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Submitters', 'Number of registered submitters', count(*), 1 from users where role != 1;
@@ -81,7 +78,7 @@ update ml_stats set str_value = ceil(str_value::NUMERIC/1024) where page_section
 
 insert into ml_stats(page_section, str_name, str_value, sort_order)
 select 'Stats_number', to_char(submissiondate,'YYYY-MM'), sum(count(*)) over (order by to_char(submissiondate,'YYYY-MM')), '0'
-from studies where status != 4 and studysize/1024/1024 >=0.5
+from studies where status != 4 and placeholder != '1'
 group by to_char(submissiondate,'YYYY-MM') order by to_char(submissiondate,'YYYY-MM') asc;
 
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Info', 'Last updated', to_char(current_timestamp,'DD-Mon-YYYY HH24:MI:SS'), 1;
@@ -95,26 +92,12 @@ insert into ml_stats(page_section, str_name, str_value, sort_order) select 'Stat
 insert into ml_stats(page_section, str_name, str_value, sort_order) select 'Stats_size', '2013-12', str_value,'0' from ml_stats where page_section = 'Stats_size' and str_name = '2013-11';
 insert into ml_stats(page_section, str_name, str_value, sort_order) select 'Stats_size', '2014-01', str_value,'0' from ml_stats where page_section = 'Stats_size' and str_name = '2013-12';
 insert into ml_stats(page_section, str_name, str_value, sort_order) select 'Stats_size', '2014-04', str_value,'0' from ml_stats where page_section = 'Stats_size' and str_name = '2014-03';
---insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_size','2012-06','15839452','0');
---insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_size','2012-07','15839452','0');
---insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_size','2012-12','26829660','0');
---insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_size','2013-12','306277328','0');
---insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_size','2014-01','306277328','0');
---insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_size','2014-04','517913000','0');
-
 insert into ml_stats(page_section, str_name, str_value, sort_order) select 'Stats_number','2012-06',str_value,'0' from ml_stats where page_section = 'Stats_number' and str_name = '2012-05';
 insert into ml_stats(page_section, str_name, str_value, sort_order) select 'Stats_number','2012-07',str_value,'0' from ml_stats where page_section = 'Stats_number' and str_name = '2012-06';
 insert into ml_stats(page_section, str_name, str_value, sort_order) select 'Stats_number','2012-12',str_value,'0' from ml_stats where page_section = 'Stats_number' and str_name = '2012-11';
 insert into ml_stats(page_section, str_name, str_value, sort_order) select 'Stats_number','2013-12',str_value,'0' from ml_stats where page_section = 'Stats_number' and str_name = '2013-11';
 insert into ml_stats(page_section, str_name, str_value, sort_order) select 'Stats_number','2014-01',str_value,'0' from ml_stats where page_section = 'Stats_number' and str_name = '2013-12';
 insert into ml_stats(page_section, str_name, str_value, sort_order) select 'Stats_number','2014-04',str_value,'0' from ml_stats where page_section = 'Stats_number' and str_name = '2014-03';
-	
---insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_number','2012-06','6','0');
---insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_number','2012-07','6','0');
---insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_number','2012-12','12','0');
---insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_number','2013-12','41','0');
---insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_number','2014-01','41','0');
---insert into ml_stats(page_section, str_name, str_value,sort_order) values('Stats_number','2014-04','50','0');
 
 update users set status = 2 where status = 1;
 
