@@ -899,6 +899,9 @@ public class MetabolightsXMLExporter {
         // add element after the last child of the root element
         Element element = doc.createElement(elementType);
 
+
+        attributeValue = attributeValue.trim();
+
         // add an attribute to the node
         switch (elementType) {
             case FIELD:

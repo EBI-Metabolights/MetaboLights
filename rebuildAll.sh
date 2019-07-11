@@ -1,6 +1,7 @@
 #!/bin/sh
 
-export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+#export JAVA_HOME=/usr/local/jdk-10.0.2.jdk/Contents/Home
+java --version
 export ML="/Users/`whoami`/Development/metabolights"
 export DEPLOY=" install -DskipTests=true"
 #export DEPLOY=" deploy -DskipTests=true"
@@ -65,7 +66,7 @@ echo "    ------------------- "
 #read -n1 -r -p "Start Elasticsearch?..." key
 
 #if [ "$key" = 'y' ]; then
-  /usr/local/elastic/bin/start.sh
+#  /usr/local/elastic/bin/start.sh
 #else
 #  /usr/local/elastic/bin/stop.sh
 #fi
