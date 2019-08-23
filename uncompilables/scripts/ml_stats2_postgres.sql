@@ -41,11 +41,11 @@ insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', 
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', ' - in Review', count(*), 3 from studies where status = 2 and placeholder != '1';
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', ' - in Curation', count(*), 4 from studies where status = 1 and placeholder != '1';
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data', ' - in Submission', count(*), 5 from studies where status = 0 and placeholder != '1';
-insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Different organisms', count(*), 7 from ref_species where final_id is null;
-insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Reference compounds', count(*), 8 from ref_metabolite;
-insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Samples', sum(sample_rows), 9 from studies where status != 4;
-insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Assays rows', sum(assay_rows), 10 from studies where status != 4;
-insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Metabolite annotation features', sum(maf_rows), 11 from studies where status != 4;
+insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Different organisms', to_char(count(*),'FM9,999,999'), 7 from ref_species where final_id is null;
+insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Reference compounds', to_char(count(*),'FM9,999,999'), 8 from ref_metabolite;
+insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Samples', to_char(sum(sample_rows),'FM9,999,999'), 9 from studies where status != 4;
+insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Assays rows', to_char(sum(assay_rows),'FM9,999,999'), 10 from studies where status != 4;
+insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Metabolite annotation features', to_char(sum(maf_rows),'FM9,999,999'), 11 from studies where status != 4;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data','Total study size (TB)', round(sum(studysize)/1024/1024/1024/1024,1), 12 from studies;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data','- Max study size (TB)', round(max(studysize)/1024/1024/1024/1024,1), 13 from studies;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data','- Average study size (GB)', round(avg(studysize)/1024/1024/1024,2), 14 from studies where status != 4 and placeholder != '1';
