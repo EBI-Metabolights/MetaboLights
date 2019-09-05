@@ -124,7 +124,7 @@ public class PublicationValidations implements IValidationProcess {
         validation.setId(ValidationIdentifier.PUBLICATION_IDS_DOI.getID());
         for (Publication publication : study.getPublications()) {
             if (publication.getPubmedId().isEmpty() && publication.getDoi().isEmpty()) {
-                validation.setMessage("Please provide Pubmed ID and/or DOI");
+                validation.setMessage("Please provide Pubmed ID and/or DOI if you already have this information. This is not required at this stage");
                 validation.setPassedRequirement(false);
             } else {
                 if (!NumberUtils.isNumber(publication.getPubmedId()) && publication.getDoi().isEmpty()) {
