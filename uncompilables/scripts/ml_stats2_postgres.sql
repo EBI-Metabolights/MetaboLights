@@ -64,6 +64,7 @@ where
   s.id = s2u.studyid and
   s2u.userid = u.id and
   s.status not in(0,4) -- Ignore submitted and domant
+  and u.id != 13780 -- Ignore MetaboLights placeholder user
   group by u.firstname||' '||u.lastname
   having count(s.acc) >= 5
   order by 3 desc;
