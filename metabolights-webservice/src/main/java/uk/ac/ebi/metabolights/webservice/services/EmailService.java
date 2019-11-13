@@ -124,6 +124,7 @@ public class EmailService {
 		msg.setTo(to);
 		msg.setSubject(subject);
 		msg.setText(body);
+		msg.setReplyTo(PropertyLookUpService.getMessage("mail.noreplyaddress"));
 		return msg;
 	}
 
