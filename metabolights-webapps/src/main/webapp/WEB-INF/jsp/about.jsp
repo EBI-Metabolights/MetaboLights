@@ -70,9 +70,9 @@
         <div class="panel nbr panel-success">
             <div class="panel-heading">Citing MetaboLights</div>
             <div class="panel-body">
-                <span class="pubauthor">Kenneth Haug, Reza M. Salek, Pablo Conesa, Janna Hastings, Paula de Matos, Mark Rijnbeek, Tejasvi Mahendrakar, Mark Williams, Steffen Neumann, Philippe Rocca-Serra, Eamonn Maguire, Alejandra Gonz&aacute;lez-Beltr&aacute;n, Susanna-Assunta Sansone, Julian L. Griffin and Christoph Steinbeck.</span><br/>
-                <a target="_blank" href="http://nar.oxfordjournals.org/content/41/D1/D781" class="pubtitle">MetaboLights-- an open-access general-purpose repository for metabolomics studies and associated meta-data.</a><br/><br/>
-                <span class="pubjournal">Nucl. Acids Res. (2013;41:D781-D786) DOI: 10.1093/nar/gks1004, PMCID: PMC3531110, PMID: 23109552</span>
+                <span class="pubauthor">Kenneth Haug, Keeva Cochrane, Venkata Chandrasekhar Nainala, Mark Williams, Jiakang Chang, Kalai Vanii Jayaseelan, Claire O’Donovan.</span><br/>
+                <a target="_blank" href="https://doi.org/10.1093/nar/gkz1019" class="pubtitle">MetaboLights: a resource evolving in response to the needs of its scientific community.</a><br/><br/>
+                <span class="pubjournal">Nucleic Acids Research, gkz1019, doi:10.1093/nar/gkz1019, PMID:31691833.</span>
             </div>
         </div>
     </div>
