@@ -245,7 +245,6 @@ public class MetabolightsXMLExporter {
 
             //Add the complete study list to the entries section
             doc.getDocumentElement().appendChild(entries);
-
             writeDocument(doc);
             return true;
         } catch (Exception e) {
@@ -470,10 +469,8 @@ public class MetabolightsXMLExporter {
     }
 
     private static void addDates(Element dateFields, Study study){
-
         dateFields.appendChild(createChildElement(DATE, "submission", getDateString(study.getStudySubmissionDate())));
         dateFields.appendChild(createChildElement(DATE, "publication", getDateString(study.getStudyPublicReleaseDate())));
-
     }
 
     private static void addXrefs(Element crossRefs, Study study){
@@ -484,7 +481,6 @@ public class MetabolightsXMLExporter {
             if (hasValue(publication.getPubmedId()))
                 crossRefs.appendChild(createChildElement(REF, publication.getPubmedId(), "pubmed"));
         }
-
 
         for (int i = 0; i < study.getAssays().size(); i++) {
             i++;
@@ -539,7 +535,8 @@ public class MetabolightsXMLExporter {
    }
 
     private static String tidyNonPrintChars(String s, String description){
-        String clean = s.replaceAll("\\p{C}", "");
+        String clean = s.replaceAll("\\p{C}", "").
+                replaceAll("[^\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]", "");
 
         if (clean != s) {
             System.out.println("Replaced special character in: " + description);
@@ -684,7 +681,8 @@ public class MetabolightsXMLExporter {
 
                 if (!detailedTags){ // Standard author feed for EBI, DDI and MX
                     for (Contact contact : study.getContacts()) {
-                        additionalField.appendChild(createChildElement(FIELD, "author", tidyAutors(contact)));
+                        additionalField.appendChild(createChildElement(FIELD, "author",
+                                tidyNonPrintChars(tidyAutors(contact), "Authors")));
                     }
                 }
 
@@ -705,7 +703,6 @@ public class MetabolightsXMLExporter {
                         platformList.add(assay.getPlatform());
                         additionalField.appendChild(createChildElement(FIELD, "instrument_platform", assay.getPlatform()));
                     }
-
 
                     //TODO, MS: Autosampler model - Chromatography Instrument - Instrument
                     //TODO, NMR: Autosampler model - Instrument
@@ -933,12 +930,14 @@ public class MetabolightsXMLExporter {
     }
 
     private static void writeDocument(Document xml) throws Exception {
+        System.out.println("Setting up new XML document");
         Transformer transformer = TransformerFactory.newInstance().newTransformer();
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount","4");
         transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
         transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+        System.out.println("Writing XML document");
         transformer.transform(new DOMSource(xml), new StreamResult(new File(xmlFileName)));
     }
 
