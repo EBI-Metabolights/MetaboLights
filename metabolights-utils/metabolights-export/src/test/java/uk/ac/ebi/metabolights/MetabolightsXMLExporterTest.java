@@ -28,7 +28,7 @@ public class MetabolightsXMLExporterTest  extends TestCase{
     MetabolightsXMLExporter xmlExporter = new MetabolightsXMLExporter();
     String ISATabRootDirectory = MetabolightsXMLExporterTest.class.getClassLoader().getResource(".").getPath();
     String fileName = ISATabRootDirectory;
-    String wsURL = "http://www.ebi.ac.uk/metabolights/webservice/";
+    String wsURL = "https://www.ebi.ac.uk/metabolights/webservice/";
     Boolean fileExported = false, includeCompounds = true, detailedTags = false;
 
     public void testXMLExporter(){
