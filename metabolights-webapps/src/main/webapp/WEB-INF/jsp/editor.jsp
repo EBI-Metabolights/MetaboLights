@@ -28,7 +28,6 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <script>
     if (location.protocol != 'https:')
     {
@@ -106,7 +105,7 @@
         }
     }
 </style>
-<link rel="stylesheet" href="styles.9b1d8b790b7e122eddb1.css">
+<link rel="stylesheet" href="styles.cbdae9e55e8433b3649f.css">
 <noscript>
     <strong>
         We're sorry but MetaboLights online submission and editor tool doesn't work properly without JavaScript enabled. Please enable it to continue.
@@ -120,8 +119,7 @@
         </svg>
     </div>
 </app-root>
-<script type="text/javascript" src="runtime.ec2944dd8b20ec099bf3.js"></script><script type="text/javascript" src="polyfills.444c96e2953f4e00e254.js"></script><script type="text/javascript" src="main.ac2ef706582472297674.js"></script>
-
+<script src="runtime.a8ef3a8272419c2e2c66.js" defer></script><script src="polyfills-es5.3dc803e9770d7d69e861.js" nomodule defer></script><script src="polyfills.629206894e8870d8fa4e.js" defer></script><script src="main.b98411d62aa587f856aa.js" defer></script>
 
 
 
