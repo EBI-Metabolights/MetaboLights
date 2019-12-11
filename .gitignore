@@ -275,3 +275,4 @@ metabolights-webapps/src/main/webapp/WEB-INF/classes/*
 *.jar
 *.class
 mzml_validation_progress_log.txt
+*.mp4
