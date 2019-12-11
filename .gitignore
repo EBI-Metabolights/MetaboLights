@@ -276,3 +276,5 @@ metabolights-webapps/src/main/webapp/WEB-INF/classes/*
 *.class
 mzml_validation_progress_log.txt
 *.mp4
+metabolights-webservice-dev.war
+metabolights-webapp-dev.war

@@ -299,44 +299,43 @@ public class MetabolightsXMLExporter {
 
                     Element crossreferences = doc.createElement("cross_references");
                     try {
-                        ArrayList<MetSpecies> metSpecies = compound.getMetSpecies();
-                        ArrayList<String> StudyList = new ArrayList<>();
 
-                        for (MetSpecies species : metSpecies) {
-                            additionalField.appendChild(createChildElement(FIELD, "organism", species.getSpecies().getSpecies()));
+                        if (compound.getMetSpecies() != null) {
+                            ArrayList<MetSpecies> metSpecies = compound.getMetSpecies();
+                            ArrayList<String> StudyList = new ArrayList<>();
 
-                            if (species.getSpecies().getSpecies().equalsIgnoreCase("reference compound")) {
-                                //TODO, complete this....
-                            } else {
-                                if (species.getSpecies().getSpeciesMember() != null) {
-                                    additionalField.appendChild(createChildElement(FIELD, "organism_group", species.getSpecies().getSpeciesMember().getSpeciesGroup().getName()));
-                                }
-                            }
+                            for (MetSpecies species : metSpecies) {
+                                additionalField.appendChild(createChildElement(FIELD, "organism", species.getSpecies().getSpecies()));
 
-                            Element crossref = createChildElement("ref", species.getCrossReference().getAccession(), species.getCrossReference().getDb().getName());
-                            crossreferences.appendChild(crossref);
-
-                            if (species.getCrossReference().getDb().getName().equalsIgnoreCase("MTBLS")) {
-                                if (StudyList.contains(species.getCrossReference().getAccession())) {
-                                    System.out.println("exists");
+                                if (species.getSpecies().getSpecies().equalsIgnoreCase("reference compound")) {
+                                    //TODO, complete this....
                                 } else {
-                                    StudyList.add(species.getCrossReference().getAccession());
+                                    if (species.getSpecies().getSpeciesMember() != null) {
+                                        additionalField.appendChild(createChildElement(FIELD, "organism_group", species.getSpecies().getSpeciesMember().getSpeciesGroup().getName()));
+                                    }
                                 }
 
+                                Element crossref = createChildElement("ref", species.getCrossReference().getAccession(), species.getCrossReference().getDb().getName());
+                                crossreferences.appendChild(crossref);
+
+                                if (species.getCrossReference().getDb().getName().equalsIgnoreCase("MTBLS")) {
+                                    if (StudyList.contains(species.getCrossReference().getAccession())) {
+                                        System.out.println("exists");
+                                    } else {
+                                        StudyList.add(species.getCrossReference().getAccession());
+                                    }
+                                }
+                            }
+
+                            System.out.println(StudyList.size());
+                            for (String study : StudyList) {
+                                additionalField.appendChild(createChildElement(FIELD, "study", study));
                             }
                         }
-
-                        System.out.println(StudyList.size());
-                        for (String study : StudyList) {
-                            additionalField.appendChild(createChildElement(FIELD, "study", study));
-                        }
-
 
                     } catch (Exception e) {
-
                         System.out.println(e.getMessage());
                         failedCompounds.add(compoundAcc);
-
                     }
                     entry.appendChild(crossreferences);
                     entry.appendChild(additionalField);
