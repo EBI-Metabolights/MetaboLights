@@ -259,7 +259,8 @@ public class EntryController extends AbstractController {
 
             // study is null because it couldn't be found by the WS
             if (response.getMessage().equalsIgnoreCase("Study not found")) {
-                return new ModelAndView("redirect:/errors/404");
+                return new ModelAndView("redirect:/index?message=" + mtblsId + " can not be accessed or does not exist");
+                //return new ModelAndView("redirect:/errors/404");
             }
 
             // study is null because any other reason
