@@ -1353,6 +1353,8 @@
 <script src="${pageContext.request.contextPath}/javascript/Notifier.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+
 <script>
     $(document).ready(function () {
 
@@ -1882,7 +1884,12 @@
             var editorToken = "${editorToken}";
             if(editorToken != null && editorToken != ''){
                 localStorage.setItem("user", editorToken);
-                window.open("${pageContext.request.contextPath}/editor/study/${study.studyIdentifier}", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+                axios.post("webservice/labs/authenticateToken", { "token" : editorToken }).then(response => {
+                    axios.post("webservice/labs-workspace/initialise", { "jwt" : response.headers.jwt, "user" : response.headers.user }).then( res => {
+                        localStorage.setItem('user', JSON.stringify(JSON.parse(res.data.content).owner));
+                        window.open("${pageContext.request.contextPath}/editor/study/${study.studyIdentifier}", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+                    })
+                });
             }else{
                 localStorage.removeItem("user")
                 window.open("${pageContext.request.contextPath}/editor/study/${study.studyIdentifier}", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
@@ -2053,7 +2060,7 @@
             </div>
         </div>
     </feedback>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+
     <script>
         Vue.component('feedback', {
             data: function () {

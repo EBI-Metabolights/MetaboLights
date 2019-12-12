@@ -89,18 +89,19 @@
     </div>
 </div>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
 <script>
     $(document).ready(function () {
-        // var subDomain = window.location.hostname.split('.')[0]
-        // if(subDomain != 'www'){
-        //     document.getElementById("onlineBtnWrapper").style.display="inline";
-        // }
-
         $('#redirectToEditorPage').click(function(){
             var editorToken = "${editorToken}";
             if(editorToken != null && editorToken != ''){
                 localStorage.setItem("user", editorToken);
-                window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+                axios.post("webservice/labs/authenticateToken", { "token" : editorToken }).then(response => {
+                    axios.post("webservice/labs-workspace/initialise", { "jwt" : response.headers.jwt, "user" : response.headers.user }).then( res => {
+                        localStorage.setItem('user', JSON.stringify(JSON.parse(res.data.content).owner));
+                        window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+                    })
+                });
             }else{
                 localStorage.removeItem("user")
                 window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
