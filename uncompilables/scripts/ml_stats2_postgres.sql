@@ -46,8 +46,8 @@ insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct
 insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Samples', to_char(sum(sample_rows),'FM9,999,999'), 9 from studies where status != 4;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Assays rows', to_char(sum(assay_rows),'FM9,999,999'), 10 from studies where status != 4;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select distinct 'Data', 'Metabolite annotation features', to_char(sum(maf_rows),'FM9,999,999'), 11 from studies where status != 4;
-insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data','Total study size (TB)', round(sum(studysize)/1024/1024/1024/1024,1), 12 from studies;
-insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data','- Max study size (TB)', round(max(studysize)/1024/1024/1024/1024,1), 13 from studies;
+insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data','Total study size (TB)', round(sum(studysize)/1024/1024/1024/1000,2), 12 from studies;
+insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data','- Max study size (TB)', round(max(studysize)/1024/1024/1024/1000,2), 13 from studies;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data','- Average study size (GB)', round(avg(studysize)/1024/1024/1024,2), 14 from studies where status != 4 and placeholder != '1';
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data','- Median study size (GB)', round(median(studysize)/1024/1024/1024,2), 15 from studies where status != 4 and placeholder != '1';
 

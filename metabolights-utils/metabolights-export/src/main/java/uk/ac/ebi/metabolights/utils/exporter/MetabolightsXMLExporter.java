@@ -50,7 +50,7 @@ public class MetabolightsXMLExporter {
     private final static String FIELD = "field";
     private final static String REF = "ref";
     private final static String DATE = "date";
-    private final static String ML_BASE_URL = "http://www.ebi.ac.uk/metabolights";
+    private final static String ML_BASE_URL = "https://www.ebi.ac.uk/metabolights";
     private final static String ML_BASE_FTP = "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/";
     private final static String ML_BASE_FTP_DIR = "/ebi/ftp/pub/databases/metabolights/studies/public/";
     private static String xmlFileName = null;
@@ -248,7 +248,7 @@ public class MetabolightsXMLExporter {
             writeDocument(doc);
             return true;
         } catch (Exception e) {
-            System.out.println("Could not create XML document "+fileName);
+            System.out.println("Could not create XML document " + fileName);
             return false;
         }
     }
@@ -305,24 +305,28 @@ public class MetabolightsXMLExporter {
                             ArrayList<String> StudyList = new ArrayList<>();
 
                             for (MetSpecies species : metSpecies) {
-                                additionalField.appendChild(createChildElement(FIELD, "organism", species.getSpecies().getSpecies()));
+                                if (species.getSpecies() != null && species.getSpecies().getSpecies() != null) {
+                                    additionalField.appendChild(createChildElement(FIELD, "organism", species.getSpecies().getSpecies()));
 
-                                if (species.getSpecies().getSpecies().equalsIgnoreCase("reference compound")) {
-                                    //TODO, complete this....
-                                } else {
-                                    if (species.getSpecies().getSpeciesMember() != null) {
-                                        additionalField.appendChild(createChildElement(FIELD, "organism_group", species.getSpecies().getSpeciesMember().getSpeciesGroup().getName()));
+                                    if (species.getSpecies().getSpecies().equalsIgnoreCase("reference compound")) {
+                                        //TODO, complete this....
+                                    } else {
+                                        if (species.getSpecies().getSpeciesMember() != null) {
+                                            additionalField.appendChild(createChildElement(FIELD, "organism_group", species.getSpecies().getSpeciesMember().getSpeciesGroup().getName()));
+                                        }
                                     }
                                 }
 
-                                Element crossref = createChildElement("ref", species.getCrossReference().getAccession(), species.getCrossReference().getDb().getName());
-                                crossreferences.appendChild(crossref);
+                                if (species.getCrossReference() != null) {
+                                    Element crossref = createChildElement("ref", species.getCrossReference().getAccession(), species.getCrossReference().getDb().getName());
+                                    crossreferences.appendChild(crossref);
 
-                                if (species.getCrossReference().getDb().getName().equalsIgnoreCase("MTBLS")) {
-                                    if (StudyList.contains(species.getCrossReference().getAccession())) {
-                                        System.out.println("exists");
-                                    } else {
-                                        StudyList.add(species.getCrossReference().getAccession());
+                                    if (species.getCrossReference().getDb().getName().equalsIgnoreCase("MTBLS")) {
+                                        if (StudyList.contains(species.getCrossReference().getAccession())) {
+                                            System.out.println("exists");
+                                        } else {
+                                            StudyList.add(species.getCrossReference().getAccession());
+                                        }
                                     }
                                 }
                             }
