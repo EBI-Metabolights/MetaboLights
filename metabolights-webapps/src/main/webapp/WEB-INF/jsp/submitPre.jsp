@@ -31,7 +31,7 @@
     <div class="row">
         &nbsp;
     </div>
-    <div class="panel panel-default">
+    <div class="panel panel-success">
         <div class="panel-header">
             <h3 class="heading text-center"><c:if test="${!empty user}">Hi ${user.firstName}. </c:if><spring:message code="msg.submCredentialsShort" /></h3>
         </div>
@@ -51,15 +51,14 @@
                                 <br>
                                 <span id="onlineBtnWrapper">
                                     <a class="btn btn-success" id="redirectToEditorPage">
-                                        Create online <span class="badge">Beta</span>
+                                        Create online
                                     </a>
-                                    or&nbsp;
                                 </span>
-                                <a href="submittoqueue" class="btn btn-success">
-                                    Upload ISA-Tab files
-                                </a>
                             </div>
                         </div>
+                        <p>
+                            You can also <a href="submittoqueue">upload ISA-Tab files</a> if you have use ISAcreator to create your study
+                        </p>
                     </div>
                     <div class="col-md-5">
                         <div class="panel panel-default">
@@ -78,9 +77,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-12">
-                &nbsp;
             </div>
         </div>
         <div class="panel-footer">
