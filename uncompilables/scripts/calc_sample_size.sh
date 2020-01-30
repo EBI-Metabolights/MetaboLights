@@ -15,13 +15,16 @@ IFS=$'\n'
 for study in `ls -1`
 do
   cd $study
+  s_rows=0
+  a_rows=0
+  m_rows=0
 
   for s_file in `ls -1 s_*.txt 2>/dev/null`
-  do
+  do 
     s_rows=$(cat s_*.txt | wc -l)
   done
 
-  for a_file in `ls -1 a_*.txt 2>/dev/null`
+  for a_file in `ls -1 a_*.txt 2>/dev/null`  
   do
     a_rows=$(cat a_*.txt | wc -l)
   done
@@ -32,7 +35,7 @@ do
   done
 
   echo "UPDATE STUDIES SET sample_rows = "${s_rows}", assay_rows = "${a_rows}",maf_rows = "${m_rows}" WHERE ACC = '"${study}"';" >> $sql_script
-  cd ..
+  cd $studyfolder
 done
 
 IFS="$OIFS"

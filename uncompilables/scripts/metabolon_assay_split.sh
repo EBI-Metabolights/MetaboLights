@@ -7,7 +7,7 @@ N="NEG"
 POS="${A1}${P}_${A2}"
 
 #remove old split files
-rm ${A1}${P}_*_${A2} ${A1}${N}_*_${A2}
+rm ${A1}${P}_*_${A2} ${A1}${N}_*_${A2} >/dev/null 2>&1
 
 for i in $(find . -iname "a__*.txt" -type f -exec basename {} \;)
 do
@@ -34,3 +34,4 @@ do
   fi
   rm header_file 
 done
+
