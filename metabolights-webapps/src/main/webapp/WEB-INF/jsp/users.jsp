@@ -25,7 +25,7 @@
   --%>
 
 <c:if test="${not empty usersMap}">
-    <script type='text/javascript' src='http://www.google.com/jsapi'></script>
+    <script type='text/javascript' src='//www.google.com/jsapi'></script>
    	<script type='text/javascript'>
     		google.load('visualization', '1', {'packages': ['geochart']});
     		google.setOnLoadCallback(drawRegionsMap);

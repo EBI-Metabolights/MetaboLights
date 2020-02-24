@@ -28,31 +28,80 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
 
 <div class="container-fluid">
-    <div class="col-md-12">
-        <h3 class="heading text-center"><c:if test="${!empty user}">Hi ${user.firstName}. </c:if><spring:message code="msg.submCredentialsShort" /></h3>
+    <div class="row">
+        &nbsp;
     </div>
-    <div class="col-md-12">
-        <div>&nbsp;</div>
-        <div class="col-md-4 col-md-offset-1">
-            <div class="bigbutton maincolorI">
-                <a href="submittoqueue">
-                    <span class="bigfont"><spring:message code="label.submitNewStudy"/></span><br/>
-                    <span><spring:message code="label.submitNewStudySub"/></span>
-                </a>
+    <div class="panel panel-success">
+        <div class="panel-header">
+            <h3 class="heading text-center"><c:if test="${!empty user}">Hi ${user.firstName}. </c:if><spring:message code="msg.submCredentialsShort" /></h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12">
+                &nbsp;
+            </div>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-5 col-md-offset-1">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p>
+                                <h4><span class="bigfont"><b><spring:message code="label.submitNewStudy"/></b></span></h4>
+                                <span><small><spring:message code="label.submitNewStudySub"/></small></span>
+                                </p>
+                                <br>
+                                <span id="onlineBtnWrapper">
+                                    <a class="btn btn-success" id="redirectToEditorPage">
+                                        Create online
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                        <p>
+                            You can also <a href="submittoqueue">upload ISA-Tab files</a> if you have use ISAcreator to create your study
+                        </p>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p>
+                                <h4>
+                                    <span class="bigfont"><b><spring:message	code="label.updateOldStudy"/></b></span>
+                                </h4>
+                                <span><small><spring:message code="label.updateOldStudySub"/></small></span>
+                                </p>
+                                <br>
+                                <a href="mysubmissions?status=PRIVATE" class="btn btn-primary">
+                                    Update now
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-md-4 col-md-offset-2">
-            <div class="bigbutton seccolorI">
-                <a href="mysubmissions?status=PRIVATE">
-                    <span class="bigfont"><spring:message	code="label.updateOldStudy"/></span></br>
-                    <span><spring:message code="label.updateOldStudySub"/></span>
-                </a>
-            </div>
+        <div class="panel-footer">
+            <p class="text-center"><spring:message code="msg.metabolightsAbout11" /></p>
         </div>
-    </div>
-    <div>&nbsp;</div>
-    <div>&nbsp;</div>
-    <div class="col-md-12">
-        <p class="text-center"><spring:message code="msg.metabolightsAbout11" /></p>
     </div>
 </div>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#redirectToEditorPage').click(function(){
+            var editorToken = "${editorToken}";
+            if(editorToken != null && editorToken != ''){
+                localStorage.setItem("user", editorToken);
+                axios.post("webservice/labs/authenticateToken", { "token" : editorToken }).then(response => {
+                    axios.post("webservice/labs-workspace/initialise", { "jwt" : response.headers.jwt, "user" : response.headers.user }).then( res => {
+                        localStorage.setItem('user', JSON.stringify(JSON.parse(res.data.content).owner));
+                        window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+                    })
+                });
+            }else{
+                localStorage.removeItem("user")
+                window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+            }
+        })
+    });
+</script>

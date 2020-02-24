@@ -2,6 +2,11 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
+
+<link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
+
 <%--
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
@@ -23,13 +28,6 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
 
-
-
-<link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
-
-<div class="container-fluid">
 	<div class="row">
 		<div class="col-md-3">
 			&nbsp;
@@ -38,10 +36,12 @@
 			<div class="ml--loginContainer">
 				<div class="ml-loginpanelhead">
 					<h3>Create an account</h3>
-					<p><spring:message	code="msg.newAccount.submittersOnly"/></p>
+					<p><small>
+						<spring:message	code="msg.newAccount.submittersOnly"/>
+					</small></p>
 				</div>
 				<div class="ml-loginpanelbody">
-					<div class="row">
+					<div class="">
 						<c:if test="${not empty fromsubmit}">
 							<p><strong><spring:message code="msg.submHeader"/></strong></p>
 						</c:if>
@@ -60,13 +60,27 @@
 							<jsp:include page="accountFormFields.jsp" />
 
 						<div class="form-group">
-							<label class="checkbox-inline"><input type="checkbox" id="TandC"/><small><a href="http://www.ebi.ac.uk/Information/termsofuse.html"><spring:message code="msg.T&CAcceptance" /></a></small></label><br>
+							<label class="checkbox-inline"><input type="checkbox" id="TandC"/><small><spring:message code="msg.T&CAcceptance" /> - <a href="http://www.ebi.ac.uk/Information/termsofuse.html"> Terms of use</a></small></label><br>
 							<span class="error" id="TandCerror"/>
 						</div>
 
+							<div class="form-group">
+								<label class="checkbox-inline"><input type="checkbox" id="privacyPolicy"/><small> I agree to EMBL-EBI MetaboLights cookie policy and the limited processing of my personal data as outlined in <a target="_blank" href="https://www.ebi.ac.uk/data-protection/privacy-notice/metaboflow">Privacy Notice</a>.</small></label><br>
+								<span class="error" id="privacyPolicyError"/>
+							</div>
+
+							<div class="form-group, hidden" id="dev-warning">
+								<div class="panel panel-warning">
+									<div class="panel-heading">
+										Please note, this site is for testing purposes only and if you intend to submit your data to MetaboLights, go to the production site
+										<a href="https://www.ebi.ac.uk/metabolights">here</a> and <a href="https://www.ebi.ac.uk/metabolights/newAccount">register</a>
+									</div>
+								</div>
+							</div>
+
 						<div class="form-group">
-								<input name="submit" type="submit" class="submit" value="<spring:message code="label.create"/>">
-								<input name="cancel" type="button" class="submit cancel" value="<spring:message code="label.cancel"/>" onclick="location.href='index'">
+								<input name="submit" type="submit" class="submit btn btn-primary form-control" value="<spring:message code="label.create"/>">
+								<%--<input name="cancel" type="button" class="submit cancel" value="<spring:message code="label.cancel"/>" onclick="location.href='index'">--%>
 						</div>
 						</form:form>
 					</div>
@@ -75,11 +89,17 @@
 			<small><strong><spring:message code="msg.starRequired"/></strong></small>
 		</div>
 	</div>
-</div>
 
 
 
 <script>
+
+    var subDomain = window.location.host.split('.')[0]
+    if(subDomain != 'www'){
+        var brand = document.getElementById("dev-warning")
+        brand.classList.remove("hidden");
+    }
+
 	$("#metabolightsUser").submit(function() {
         	return validate();
     });
@@ -88,11 +108,25 @@
     	$TandCerror = $("#TandCerror")[0];
     	$TandCerror.innerText = "";
     	result = $("#TandC").is(':checked');
-    	
-    	if (!result){
+
+        $Perror = $("#privacyPolicyError")[0];
+        $Perror.innerText = "";
+        presult = $("#privacyPolicy").is(':checked');
+
+
+        if (!result){
     		$TandCerror.innerText = '<spring:message code="msg.T&Cinvalid"/>';
     	}
-    	return result;
+
+        if (!presult){
+            $Perror.innerText = '<spring:message code="msg.T&Cinvalid"/>';
+        }
+
+        if(result && presult){
+            return true
+		}else{
+            return false
+		}
     }
 </script>
 

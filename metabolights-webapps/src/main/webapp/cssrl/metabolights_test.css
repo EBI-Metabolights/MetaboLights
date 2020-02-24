@@ -21,6 +21,7 @@
 
 /* Style cancellations from other css with less priority
 /* --- Links --- */
+
 a.noLine,
 .bigbutton a {
 
@@ -876,7 +877,6 @@ ol.progtrckr li.progtrckr-todo:before {
  top: -50px;
 }
 
-
 .wrong:before{
 
     content: "\002718";
@@ -918,3 +918,5 @@ ol.progtrckr li.progtrckr-todo:before {
     content: "\0025EF";
     color: #bbb;
 }
+
+

@@ -47,8 +47,9 @@ public class SubmissionController extends AbstractController {
 		if (request.getUserPrincipal() != null)
 			user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 
-		if (user != null)
-			mav.addObject("user", user);
+		if (user != null) {
+			mav.addObject("editorToken", user.getApiToken());
+		}
 
 		return mav;
 	}

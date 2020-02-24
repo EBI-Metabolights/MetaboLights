@@ -27,22 +27,22 @@
 
 <div class="container-fluid">
     <div class="col-md-12">
-        <h3 class="heading">MetaboLights Strategic Advisory Board (SAB)</h3>
+        <h3 class="heading">MetaboLights Scientific Advisory Board (SAB)</h3>
         <p>The MetaboLights SAB currently consists of :</p>
         <ul id="ackn">
-            <li><a target="_blank" href="http://fiehnlab.ucdavis.edu/staff/fiehn">Oliver Fiehn (University of California, Davis) - 2010-now</a></li>
-            <li><a target="_blank" href="http://www.wishartlab.com">David Wishart (University of Alberta) - 2010-now</a></li>
-            <li><a target="_blank" href="https://www.linkedin.com/pub/roy-goodacre/6/316/502">Roy Goodacre (University of Manchester) - 2010-now</a></li>
-            <li><a target="_blank" href="https://www.linkedin.com/profile/view?id=83586589">Thomas Hankemeier (Netherlands Metabolomics Centre) - 2010-now</a></li>
-            <li><a target="_blank" href="https://www.linkedin.com/in/sasansone">Susanna-Assunta Sansone (University of Oxford) - 2010-now</a></li>
-            <li><a target="_blank" href="https://www.linkedin.com/pub/sastia-putri/3a/656/5b6">Sastia Putri (Osaka University) - 2015-now</a></li>
-            <li><a target="_blank" href="https://www6.bordeaux-aquitaine.inra.fr/bfp_eng/Staff/K-M/Moing-Annick">Annick Moing (INRA Bordeaux) - 2015-now</a></li>
+            <li><b>Jildau Bouwman, TNO Innovation for Life, The Netherlands</b></li>
+            <li><b>Edgar Jabcoby, Novartis, Switzerland</b></li>
+            <li><b>Gabi Kastenmüller, Helmholtz-Zentrum IBIS, Germany</b></li>
+            <li><b>Michel Dumontier, Maastricht University, The Netherlands</b></li>
+            <li><b>Tudor Oprea, University of New Mexico, USA</b></li>
+            <li><b>Alfonso Valencia, Spanish National Cancer Research Centre (CNIO), Spain</b></li>
+            <li><b>Val Gillet, University of Sheffield, UK</b></li>
         </ul>
 
-        <h3>Alumni:</h3>
-        <ul id="ackn">
-            <li><a target="_blank" href="https://www.linkedin.com/pub/mark-seymour/7/a55/42a">Mark Seymour (Syngenta) - 2010-2014</a></li>
-        </ul>
+        <%--<h3>Alumni:</h3>--%>
+        <%--<ul id="ackn">--%>
+            <%--<li><a target="_blank" href="https://www.linkedin.com/pub/mark-seymour/7/a55/42a">Mark Seymour (Syngenta) - 2010-2014</a></li>--%>
+        <%--</ul>--%>
 
     </div>
 </div>

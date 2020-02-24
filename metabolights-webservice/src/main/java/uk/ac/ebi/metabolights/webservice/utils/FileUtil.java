@@ -33,6 +33,7 @@ import java.nio.file.*;
 import java.nio.file.attribute.PosixFileAttributeView;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.UserPrincipalLookupService;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
@@ -262,12 +263,14 @@ public class FileUtil {
 		// create the folder
 		File ftpFolder = new File(privateFTPRoot + File.separator + folder);
 		Path folderPath = ftpFolder.toPath();
-//		if (!ftpFolder.mkdir()) throw new IOException();
-		try{
-			ftpFolder.mkdir();
-		}                     catch(Exception e){
-			        e.printStackTrace();
-		}
+
+		if (!ftpFolder.isDirectory()){
+            try {
+                ftpFolder.mkdir();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
 		// set folder owner, group and access permissions
 		// 'chmod 770'
@@ -455,5 +458,9 @@ public class FileUtil {
 		result = true;
 
 		return result;
+	}
+
+	public static String getCurrentTimeStamp() {
+		return new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
 	}
 }

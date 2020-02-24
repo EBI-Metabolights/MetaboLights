@@ -22,6 +22,7 @@ package uk.ac.ebi.metabolights.webservice.controllers;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jose4j.json.internal.json_simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,7 @@ import uk.ac.ebi.metabolights.webservice.services.IndexingService;
 import uk.ac.ebi.metabolights.webservice.services.UserServiceImpl;
 import uk.ac.ebi.metabolights.webservice.utils.FileUtil;
 import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
+import uk.ac.ebi.metabolights.webservice.utils.SecurityUtil;
 
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
@@ -66,6 +68,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -106,7 +109,7 @@ public class StudyController extends BasicController{
 	@ResponseBody
 	public StudyRestResponse getStudyByObfuscationCode(@PathVariable("obfuscationcode") String obfuscationCode) throws DAOException {
 
-		logger.info("Requesting study by obfuscation code " + obfuscationCode + " to the webservice");
+		logger.info("Requesting study by obfuscation code " + obfuscationCode + " from the webservice");
 
 
 		return getStudy(null, false, obfuscationCode);
@@ -175,6 +178,29 @@ public class StudyController extends BasicController{
 
 	}
 
+	@RequestMapping("myStudies")
+	@ResponseBody
+	public RestResponse<String> getStudiesAssociatedWithUser() throws DAOException {
+
+		logger.info("Requesting a list of studies associated with the user from the webservice");
+
+		RestResponse<String> response = new RestResponse<>();
+
+		studyDAO = getStudyDAO();
+
+		try {
+			String studyListWithDetails = studyDAO.getCompleteStudyListForUserWithDetails(getUser().getApiToken());
+			response.setContent(studyListWithDetails);
+		} catch (DAOException e) {
+			logger.error("Can't get the list of studies", e);
+			response.setMessage("Can't get the study requested.");
+			response.setErr(e);
+		}
+
+		return response;
+
+	}
+
     @RequestMapping({"/parallelCoordinatesData"})
     @ResponseBody
     public RestResponse getFactorsDistribution(@RequestParam("study") String study){
@@ -227,6 +253,41 @@ public class StudyController extends BasicController{
 
 		return studyDAO.getListWithDetails(getUser().getApiToken());
 	}
+
+    @RequestMapping("studyListOnUserToken")
+    @ResponseBody
+    public List<String> getAllStudiesOnUserToken() throws DAOException {
+
+        logger.info("Requesting a list of all private studies for a given user");
+
+        RestResponse<String[]> response = new RestResponse<>();
+
+        studyDAO = getStudyDAO();
+        List<String> studyList;
+
+        try {
+            studyList = studyDAO.getPrivateStudyListForUser(getUser().getApiToken());
+        } catch (DAOException e) {
+            logger.error("Can't get the list of studies ", e);
+            response.setMessage("Can't get the study requested.");
+            response.setErr(e);
+        }
+
+        return studyDAO.getPrivateStudyListForUser(getUser().getApiToken());
+    }
+
+    @RequestMapping("getQueueFolder")
+    @ResponseBody
+    public String getQueueFolder() throws DAOException {
+
+        logger.info("Requesting the current upload queue folder");
+
+        return PropertiesUtil.getProperty("queueFolder");
+
+    }
+
+
+
 
 	@RequestMapping("goinglive/{days}")
 	@ResponseBody
@@ -406,6 +467,108 @@ public class StudyController extends BasicController{
 
 		return restResponse;
 
+	}
+
+	/**
+	 * Study feedback operations
+	 * @param studyIdentifier
+	 * @param feedback
+	 * @return
+	 */
+	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/feedback", method= RequestMethod.POST)
+	@ResponseBody
+	public RestResponse<Boolean> studyFeedback(@PathVariable("studyIdentifier") String studyIdentifier, @RequestBody String feedback) {
+
+		RestResponse<Boolean> restResponse = new RestResponse<>();
+
+		String feedbackFile = PropertiesUtil.getProperty("feedbackLocation") + File.separator + "fb.json";
+
+        JSONObject feedbackObject = null;
+
+        try {
+            String feedbackData = FileUtil.file2String(feedbackFile);
+            feedbackObject = SecurityUtil.parseRequest(feedbackData);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+		try {
+			User user = getUser();
+
+			studyDAO= getStudyDAO();
+
+			if (feedbackObject.containsKey(studyIdentifier)) {
+                JSONObject studyFeedback = (JSONObject) feedbackObject.get(studyIdentifier);
+                restResponse.setContent(true);
+                restResponse.setMessage(studyFeedback.toJSONString());
+            }else{
+                restResponse.setContent(false);
+                restResponse.setMessage("Feedback doesnt exist");
+                // check if user exist
+                if (doesUserOwnsTheStudy(user.getUserName(), studyDAO.getStudy(studyIdentifier, user.getApiToken())) || user.isCurator()){
+					// user owns the study or is curator
+					if(!feedbackObject.containsKey(studyIdentifier)){
+						// user feedback doesnt exist
+						JSONObject userFeedbackObject = new JSONObject();
+						JSONObject inputData = SecurityUtil.parseRequest(feedback);
+						if(inputData.containsKey("experience") && inputData.containsKey("comments")){
+							userFeedbackObject.put("experience", inputData.get("experience"));
+							userFeedbackObject.put("comments",  inputData.get("comments"));
+							userFeedbackObject.put("created_at", new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()));
+							feedbackObject.put(studyIdentifier, userFeedbackObject);
+							FileUtil.String2File(feedbackObject.toJSONString(),feedbackFile);
+							restResponse.setContent(true);
+							restResponse.setMessage(feedbackObject.toJSONString());
+						}
+					}else{
+						restResponse.setContent(true);
+						restResponse.setMessage(feedbackObject.get(studyIdentifier).toString());
+					}
+				}
+            }
+
+		} catch (Exception e) {
+
+			restResponse.setMessage("Error fetching study feedback: " + e.getMessage());
+			restResponse.setErr(e);
+		}
+
+		return restResponse;
+
+	}
+
+	/**
+	 * Study feedback operations
+	 * @return
+	 */
+	@RequestMapping(value = "/feedback",method= RequestMethod.POST)
+	@ResponseBody
+	public RestResponse<Boolean> feedback() {
+		RestResponse<Boolean> restResponse = new RestResponse<>();
+		String feedbackFile = PropertiesUtil.getProperty("feedbackLocation") + File.separator + "fb.json";
+		JSONObject feedbackObject = null;
+		try {
+			String feedbackData = FileUtil.file2String(feedbackFile);
+			feedbackObject = SecurityUtil.parseRequest(feedbackData);
+		} catch (IOException e) {
+			restResponse.setMessage("Error fetching feedback details: " + e.getMessage());
+			restResponse.setErr(e);
+		}
+		try {
+			User user = getUser();
+			if (user.isCurator()) {
+				restResponse.setContent(true);
+				restResponse.setMessage(feedbackObject.toJSONString());
+			}else{
+				restResponse.setContent(false);
+				restResponse.setMessage("User doesnt have the right permissions to view this");
+			}
+
+		} catch (Exception e) {
+			restResponse.setMessage("Error fetching study feedback: " + e.getMessage());
+			restResponse.setErr(e);
+		}
+		return restResponse;
 	}
 
 
@@ -652,7 +815,7 @@ public class StudyController extends BasicController{
 	 * @author jrmacias
 	 * @date 20151012
 	 */
-	@PreAuthorize( "hasRole('ROLE_SUPER_USER')")
+	@PreAuthorize("hasRole('ROLE_SUPER_USER')")
 	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/deleteFiles", method= RequestMethod.POST)
 	@ResponseBody
 	public RestResponse<Boolean> deleteFiles(@PathVariable("studyIdentifier") String studyIdentifier,
@@ -761,8 +924,46 @@ public class StudyController extends BasicController{
 		return obfuscationCode;
 	}
 
+    /**
+     * Create a private upload folder for a Study using the API key, so the user can upload big files using ftp or Aspera.
+     *
+     * @param studyIdentifier
+     * @return
+     * @throws DAOException
+     * @author khaug
+     * @date 20180807
+     */
+    @RequestMapping("requestFtpFolderOnApiKey")
+    @ResponseBody
+    public RestResponse<String> createPrivateFtpFolderOnApiKey(@RequestParam(value = "studyIdentifier") String studyIdentifier, HttpServletRequest request)
+            throws DAOException, IOException, IsaTabException {
+
+        UserServiceImpl usi = new UserServiceImpl();
+        String token = request.getParameter("token");
+        User user = usi.lookupByToken(token);
+        logger.info("requestFtpFolderOnApiKey: User {} has requested a private upload folder for the study {}, using token {}", user.getUserName(), studyIdentifier, token);
+
+        // FTP folder is composed with the study identifier + the obfuscation code
+        String ftpFolder = studyIdentifier.toLowerCase() + "-" + getObfuscationCode(studyIdentifier, user);
+
+        // create the folder
+        String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");
+        File uploadFolder = new File(privateFTPRoot + File.separator + ftpFolder);
+        if (!uploadFolder.isDirectory()) {  //The folder does not exists
+            FileUtil.createFtpFolder(ftpFolder);
+            // send FTP folder details by email
+            String userMessage = generateEmail(studyIdentifier, ftpFolder, user);
+        }
+
+        RestResponse<String> restResponse = new RestResponse<>();
+        restResponse.setMessage(uploadFolder.toString());
+
+        return restResponse;
+    }
+
+
 	/**
-	 * Create a private upload folder for a Study, so the user can upload big files using ftp.
+	 * Create a private upload folder for a Study, so the user can upload big files using ftp or Aspera.
 	 *
 	 * @param studyIdentifier
 	 * @return
@@ -776,17 +977,9 @@ public class StudyController extends BasicController{
 	public RestResponse<String> createPrivateFtpFolder(@PathVariable("studyIdentifier") String studyIdentifier)
 			throws DAOException, IOException, IsaTabException {
 
-		String privateFTPServer = PropertiesUtil.getProperty("privateFTPServer");	// ftp-private.ebi.ac.uk
-		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");
-		String privateFTPUser = PropertiesUtil.getProperty("privateFTPUser");		// mtblight
-		String privateFTPPass = PropertiesUtil.getProperty("privateFTPPass");		// gs4qYabh
-		String linkFTPUploadDoc = PropertiesUtil.getProperty("linkFTPUploadDoc");	// ...
-		// get the version of the app currently in use from the last part of the path
-		String[] ftp_paths = privateFTPRoot.split("/");
-		String ftp_path = "/"+ftp_paths[ftp_paths.length - 1]+"/";
+        User user = getUser();
 
-		User user = getUser();
-		logger.info("User {} has requested a private upload folder for the study {}", user.getUserName(),studyIdentifier);
+		logger.info("User {} has requested a private upload folder for the study {}", user.getUserName(), studyIdentifier);
 
 		// FTP folder is composed with the study identifier + the obfuscation code
 		String ftpFolder = studyIdentifier.toLowerCase() + "-" + getObfuscationCode(studyIdentifier, user);
@@ -798,39 +991,56 @@ public class StudyController extends BasicController{
 		restResponse.setMessage("Your requested upload folder is being created. Details for access will be mailed to you shortly.");
 
 		// send FTP folder details by email
-		String subject = "Requested Study upload folder.";
-		StringBuilder body = new StringBuilder().append("We are happy to inform you that your upload folder for study ")
-				.append("<b>").append(studyIdentifier).append("</b>")
-				.append(" has been successfully created and is now ready for use. You can use either FTP or Aspera Client to upload your study files.").append('\n').append('\n')
-				.append("<b>").append("Using FTP Client:").append("</b>").append('\n')
-				.append('\t').append("user: ")
-				.append("<b>").append(privateFTPUser).append("</b>").append('\n')
-				.append('\t').append("password: ")
-				.append("<b>").append(privateFTPPass).append("</b>").append('\n')
-				.append('\t').append("server: ")
-				.append("<b>").append(privateFTPServer).append("</b>").append('\n')
-				.append('\t').append("remote folder: ")
-				.append("<b>").append(ftp_path).append(ftpFolder).append("</b>").append('\n')
-				.append('\n')
-				.append("Please, note that the remote folder needs to be entirely typed, as the folder is not browsable. So use ")
-				.append("\"").append("<b>").append("cd ").append(ftp_path).append(ftpFolder).append("</b>").append("\"").append(" to access your private folder.")
-				.append('\n')
-				.append('\n')
-				.append("<b>").append("Using Aspera Client:").append("</b>").append('\n')
-				.append("You can also use the high-speed Aspera client to upload with the same username and password listed above using the command below.\n" +
-						"ascp -QT -P 33001 -L-  -l 300M your_local_data_folder mtblight@hx-fasp-1.ebi.ac.uk:").append(ftp_path).append(ftpFolder)
-				.append('\n')
-				.append('\n')
-				.append(" Detailed Instructions on data upload through FTP/Aspera is available here: ").append(linkFTPUploadDoc)
-				.append('\n').append('\n')
-				.append("We would be grateful for any feedback on the upload procedure and any issues you may find.")
-				.append('\n');
-		emailService.sendCreatedFTPFolderEmail(user.getEmail(),getSubmitterEmail(studyIdentifier,user), subject, body.toString());
-		logger.info("Private upload folder details sent to user: {}, by email: {} .", user.getUserName(), user.getEmail());
-		logger.info(subject);
+        generateEmail(studyIdentifier, ftpFolder, user);
 
 		return restResponse;
 	}
+
+	private String generateEmail(String studyIdentifier, String ftpFolder, User user) throws IsaTabException, DAOException {
+
+        String privateFTPServer = PropertiesUtil.getProperty("privateFTPServer");
+        String privateFTPRoot =   PropertiesUtil.getProperty("privateFTPRoot");
+        String privateFTPUser =   PropertiesUtil.getProperty("privateFTPUser");
+        String privateFTPPass =   PropertiesUtil.getProperty("privateFTPPass");
+        String linkFTPUploadDoc = PropertiesUtil.getProperty("linkFTPUploadDoc");
+        // get the version of the app currently in use from the last part of the path
+        String[] ftp_paths = privateFTPRoot.split("/");
+        String ftp_path = "/"+ftp_paths[ftp_paths.length - 1]+"/";
+
+        // send FTP folder details by email
+        String subject = "Requested Study upload folder for " + studyIdentifier;
+        StringBuilder body = new StringBuilder().append("We are happy to inform you that your upload folder for study ")
+                .append("<b>").append(studyIdentifier).append("</b>")
+                .append(" has been successfully created and is now ready for use. You can use either FTP or Aspera Client to upload your study files.").append('\n').append('\n')
+                .append("<b>").append("Using FTP Client:").append("</b>").append('\n')
+                .append('\t').append("user: ")
+                .append("<b>").append(privateFTPUser).append("</b>").append('\n')
+                .append('\t').append("password: ")
+                .append("<b>").append(privateFTPPass).append("</b>").append('\n')
+                .append('\t').append("server: ")
+                .append("<b>").append(privateFTPServer).append("</b>").append('\n')
+                .append('\t').append("remote folder: ")
+                .append("<b>").append(ftp_path).append(ftpFolder).append("</b>").append('\n')
+                .append('\n')
+                .append("Please, note that the remote folder needs to be entirely typed, as the folder is not browsable. So use ")
+                .append("\"").append("<b>").append("cd ").append(ftp_path).append(ftpFolder).append("</b>").append("\"").append(" to access your private folder.")
+                .append('\n')
+                .append('\n')
+                .append("<b>").append("Using Aspera Client:").append("</b>").append('\n')
+                .append("You can also use the high-speed Aspera client to upload with the same username and password listed above using the command below.\n" +
+                        "ascp -QT -P 33001 -L-  -l 300M your_local_data_folder mtblight@hx-fasp-1.ebi.ac.uk:").append(ftp_path).append(ftpFolder)
+                .append('\n')
+                .append('\n')
+                .append(" Detailed Instructions on data upload through FTP/Aspera is available here: ").append(linkFTPUploadDoc)
+                .append('\n')
+                .append('\n');
+        logger.info("Sending upload folder details to " + user.getEmail());
+        emailService.sendCreatedFTPFolderEmail(user.getEmail(),getSubmitterEmail(studyIdentifier,user), subject, body.toString());
+        logger.info("Private upload folder details sent to user: {}, by email: {} .", user.getUserName(), user.getEmail());
+        logger.info(subject);
+
+        return body.toString();
+    }
 
 	/**
 	 * Move files from the Study private upload folder to its MetaboLights folder.
@@ -1016,7 +1226,6 @@ public class StudyController extends BasicController{
 	public RestResponse<String> getPermissions(@PathVariable("studyIdentifier") String studyIdentifier, HttpServletRequest request, HttpServletResponse response) throws DAOException {
 
 		logger.info("Requesting " + studyIdentifier + " permission rights");
-
         RestResponse<String> restResponse = new RestResponse<String>();
 
         // check if the user exists and valid
@@ -1025,60 +1234,47 @@ public class StudyController extends BasicController{
         try {
 
             usi = new UserServiceImpl();
-
             String token = request.getParameter("token");
-
             User user = usi.lookupByToken(token);
+
+            //Study study = getStudyDAO().getStudy(studyIdentifier, token);
+            Study study = getStudyDAO().getStudyFromDatabase(studyIdentifier);
+            String studyLocation = study.getStudyLocation();
+            String obfuscationCode = study.getObfuscationCode();
+            String studyStatus = study.getStudyStatus().getDescriptiveName();
+            String add_study_info = ", \"studyLocation\": \""+studyLocation+"\", \"obfuscationCode\": \""+obfuscationCode+"\", \"releaseDate\": \"" + study.getStudyPublicReleaseDate() + "\", \"submissionDate\": \""+ study.getStudySubmissionDate()+"\", \"studyStatus\": \""+studyStatus+"\"";
 
             if (user.getEmail() == null || token == null){
 
-                Study study = getStudyDAO().getStudy(studyIdentifier);
-
-                if(study.getStudyStatus() == Study.StudyStatus.PUBLIC){
-
-                    restResponse.setContent( "{ \"read\" : true, \"write\": false  }" );
-
+                if (study.getStudyStatus() == Study.StudyStatus.PUBLIC){
+                    restResponse.setContent( "{ \"read\" : true, \"write\": false" + add_study_info + " }" );
                     return restResponse;
-
-                }else {
-
-                    restResponse.setContent( "{ \"read\" : false, \"write\": false  }"  );
-
+                } else {
+                    restResponse.setContent( "{ \"read\" : false, \"write\": false" + add_study_info + "  }"  );
                     response.setStatus(Response.Status.FORBIDDEN.getStatusCode());
-
                     return restResponse;
                 }
 
-            }else{
+            } else {
 
                 if (user.isCurator()){
-
-                    restResponse.setContent( "{ \"read\" : true, \"write\": true  }" );
-
+                    restResponse.setContent( "{ \"read\" : true, \"write\": true" + add_study_info + " }" );
                     return restResponse;
+                } else {
 
-                }else{
-
-                    Study study = getStudyDAO().getStudy(studyIdentifier);
-
+                    //Study study = getStudyDAO().getStudy(studyIdentifier,user.getApiToken());
                     boolean userOwnstudy = doesUserOwnsTheStudy(user.getUserName(), study);
 
                     if (userOwnstudy && study.getStudyStatus() == Study.StudyStatus.SUBMITTED){
-
-                        restResponse.setContent( "{ \"read\" : true, \"write\": true  }"  );
-
+                        restResponse.setContent( "{ \"read\" : true, \"write\": true" + add_study_info + " }"  );
                         return restResponse;
 
-                    }else if(userOwnstudy && study.getStudyStatus() != Study.StudyStatus.SUBMITTED){
-
-                        restResponse.setContent( "{ \"read\" : true, \"write\": false  }" );
-
+                    } else if(userOwnstudy && study.getStudyStatus() != Study.StudyStatus.SUBMITTED){
+                        restResponse.setContent( "{ \"read\" : true, \"write\": false" + add_study_info + " }" );
                         return restResponse;
 
-                    }else if(!userOwnstudy && study.getStudyStatus() == Study.StudyStatus.PUBLIC){
-
-                        restResponse.setContent( "{ \"read\" : true, \"write\": false  }"  );
-
+                    } else if(!userOwnstudy && study.getStudyStatus() == Study.StudyStatus.PUBLIC){
+                        restResponse.setContent( "{ \"read\" : true, \"write\": false" + add_study_info + " }" );
                         return restResponse;
 
                     }
@@ -1088,18 +1284,14 @@ public class StudyController extends BasicController{
             }
 
         } catch (DAOException e) {
-
             response.setStatus(Response.Status.FORBIDDEN.getStatusCode());
-
             return restResponse;
-
-        } catch (IsaTabException e) {
-
+        } catch (Exception e) {
             e.printStackTrace();
-
         }
 
-        restResponse.setContent( "{ 'read' : false, 'write': false  }"  );
+        restResponse.setContent(
+                "{ 'read' : false, 'write': false, 'studyLocation': none, 'obfuscationCode': none, 'releaseDate': none, 'submissionDate': none, 'studyStatus': none }" );
 
         return restResponse;
 	}
@@ -1400,5 +1592,85 @@ public class StudyController extends BasicController{
 		return restResponse;
 
 	}
+
+
+    @RequestMapping("createEmptyStudy")
+    @ResponseBody
+    public RestResponse<String> createEmptyStudy(HttpServletRequest request) throws DAOException {
+
+        RestResponse<String> response = new RestResponse<>();
+        UserServiceImpl usi = new UserServiceImpl();
+        studyDAO = DAOFactory.getInstance().getStudyDAO();
+
+        String token = request.getParameter("token");
+
+        User user = null;
+
+        try {
+            user = usi.lookupByToken(token);
+            logger.info("createEmptyStudy: User {} has requested a new empty study, using token {}", user.getUserName(), token);
+        } catch (Exception e) {
+            logger.error ("Not able to authenticate the user for 'createSimpleStudy' mapping ");
+            response.setMessage("Not able to authenticate the user for 'createSimpleStudy' mapping.");
+            response.setErr(e);
+            return response;
+        }
+
+        logger.info("Requesting a new empty study for user " + user.getEmail());
+        try {
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.YEAR, 1);
+            Date nextYear = cal.getTime();
+            Study study = studyDAO.addEmptyStudy(nextYear, user);
+            response.setMessage(study.getStudyIdentifier());
+            response.setContent(study.getStudyIdentifier());
+            logger.info("Sending email to " + user.getEmail() + " about new study "+ study.getStudyIdentifier());
+            AppContext.getEmailService().sendQueuedStudySubmitted(study, " * Online submission * ");
+        } catch (Exception e) {
+            logger.error("Can not create new empty study for " + user.getEmail(), e);
+            response.setMessage("Can not create new empty study for " + user.getEmail());
+            response.setErr(e);
+        }
+
+        return response;
+    }
+
+    @RequestMapping("reindexStudyOnToken")
+    @ResponseBody
+    public RestResponse<String> reindexStudyOnToken(HttpServletRequest request) throws DAOException {
+
+        RestResponse<String> response = new RestResponse<>();
+        UserServiceImpl usi = new UserServiceImpl();
+        studyDAO = DAOFactory.getInstance().getStudyDAO();
+
+        String token = request.getParameter("token");
+        String study_id = request.getParameter("study_id");
+
+        User user = null;
+        try {
+            user = usi.lookupByToken(token);
+            logger.info("reindexStudyOnToken: User {} has requested reindexing study {}", token, study_id);
+        } catch (Exception e) {
+            logger.error ("Not able to authenticate the user for 'reindexStudyOnToken' mapping ");
+            response.setMessage("Not able to authenticate the user for 'reindexStudyOnToken' mapping.");
+            response.setErr(e);
+            return response;
+        }
+
+        try {
+            studyDAO = getStudyDAO();
+            Study study = studyDAO.getStudy(study_id, user.getApiToken());
+            indexingService.indexStudy(study);
+
+        } catch (Exception e) {
+            logger.error("Can not reindex " + study_id, e);
+            response.setMessage("Can not create new empty study for " + user.getEmail());
+            response.setErr(e);
+        }
+
+        return response;
+    }
+
+
 
 }

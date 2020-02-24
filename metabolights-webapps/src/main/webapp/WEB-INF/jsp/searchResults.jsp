@@ -29,13 +29,10 @@
 <script type="text/javascript" src="javascript/jquery.jqpagination.min.js"></script>
 <link rel="stylesheet" href="cssrl/jqpagination.css" type="text/css"/>
 <script type="text/javascript" src="javascript/jquery-highlight.js"></script>
-
-<link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
 
-<div class="container-fluid" id="app">
-    <div class="row">
+<div id="app">
+    <div class="">
         <div class="col-md-12">
             <h4>
                 <%-- Error --%>
@@ -43,26 +40,6 @@
                     ${searchResponse.message}
                 </c:if>
 
-                <c:if test="${empty searcResult.err}">
-                    ${sHeader}
-                </c:if>
-                <%-- Model
-
-             searchResponse.query
-             searchResponse.query.text
-             searchResponse.query.pagination
-             searchResponse.query.pagination.page
-             searchResponse.query.pagination.itemsCount
-             searchResponse.query.pagination.pageSize
-             searchResponse.query.pagination.getFirstPageItemNumber
-             searchResponse.query.pagination.getLastPageItemNumber
-             searchResponse.query.pagination.getPageCount
-             searchResponse.query.boosters...
-             searchResponse.query.facets
-
-             searchResponse.results []
-
-            --%>
                 <c:set var="query" value="${searchResponse.content.query}"/>
                 <c:set var="pagination" value="${query.pagination}"/>
                 <c:set var="hits" value="${searchResponse.content.results}"/>
@@ -103,38 +80,45 @@
                 <%@include file="searchFilter.jsp" %>
             </div>
             <div class="col-md-9" id="search-results">
-                <div class="sub-heading col-md-12">
-                    <div class="pull-left">
-                        <h4>${pagination.itemsCount}&nbsp;result<c:if test="${pagination.itemsCount ne 1}">s</c:if><%--
-                    --%><c:if test="${pagecount gt 1}"><%--
-                        --%>,&nbsp;showing ${firstPageItemNumber} to ${lastPageItemNumber}
-                            </c:if>
-                        </h4>
+                <div class="panel panel-default nbr cpanel">
+                    <div class="panel-heading">
+                        <h5>
+                                ${pagination.itemsCount}&nbsp;result<c:if test="${pagination.itemsCount ne 1}">s</c:if>
+                                <c:if test="${pagecount gt 1}">
+                                    ,&nbsp;showing ${firstPageItemNumber} to ${lastPageItemNumber}
+                                </c:if>
+                            <span class="pull-right">
+                                <c:if test="${pagecount gt 1}">
+                                    <span class="right pagination ml-pagination">
+                                        <a class="btn btn-default btn-xs" href="#" data-action="first">&laquo;</a>
+                                        <a class="btn btn-default btn-xs"  href="#" data-action="previous">&lsaquo;</a>
+                                        <input type="text" readonly="readonly"/>
+                                        <a class="btn btn-default btn-xs"  href="#" data-action="next">&rsaquo;</a>
+                                        <a class="btn btn-default btn-xs"  href="#" data-action="last">&raquo;</a>
+                                    </span>
+                                </c:if>
+                            </span>
+                        </h5>
                     </div>
-                    <div class="pull-right">
-                        <c:if test="${pagecount gt 1}">
-                            <div class="right pagination ml-pagination">
-                                <a href="#" data-action="first">&laquo;</a>
-                                <a href="#" data-action="previous">&lsaquo;</a>
-                                <input type="text" readonly="readonly"/>
-                                <a href="#" data-action="next">&rsaquo;</a>
-                                <a href="#" data-action="last">&raquo;</a>
-                            </div>
-                        </c:if>
-                    </div>
+                    <%--<div  class="pull-right">--%>
+                        <%--<a target="_blank" href="https://www.ebi.ac.uk/ebisearch/search.ebi?db=metabolights&query=domain_source:metabolights"><h4>Batch Claim Studies to ORCID</h4></a>--%>
+                    <%--</div>--%>
                 </div>
-                <div class="col-md-12" id="highlight-plugin">
+                <div id="highlight-plugin">
                     <c:forEach var="hit" items="${hits}">
                         <%@include file="summaryWrapper.jsp" %>
                     </c:forEach>
                 </div>
                 <c:if test="${pagecount gt 1}">
-                    <div class="sub-heading col-md-12">
-                        <div id="paginationBtm"></div>
+                    <div class="panel panel-default nbr cpanel">
+                        <div class="panel-heading">
+                            <h5>&nbsp;
+                                <div class="pull-right" id="paginationBtm"></div>
+                            </h5>
+                        </div>
                     </div>
                     <script>$('.pagination').clone().appendTo('#paginationBtm');</script>
                 </c:if>
-
                 <c:if test="${!empty query.text}">
                     <script>
                         $('#highlight-plugin').removeHighlight().highlight('${query.text}');
@@ -152,46 +136,49 @@
                             aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">{{ study.studyIdentifier }}:&nbsp;{{ study.title }}</h4>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body study-modal-body">
+                    <p><b>Description: </b></p>
                     <p>
-                        <b>Description: </b><br>
                         {{ study.description }}
-                    </p><br>
+                    </p>
                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="study--infopanel">
-                                    <div class="col-md-5 no--padding">
-                                        <small><i class="fa fa-user"></i>&nbsp;<spring:message code="ref.msg.CitationAuthors"/>:
-                                                <span id="aff" v-for="contact in study.contacts" >
+                        <hr>
+                    </div>
+                    <div class="row">
+                        <div class="">
+                            <div class="col-md-5">
+                                <small><i class="fa fa-user"></i>&nbsp;<spring:message code="ref.msg.CitationAuthors"/>:
+                                    <span id="aff" v-for="contact in study.contacts" >
                                                    <strong>{{contact.firstName}}&nbsp;{{contact.lastName}}</strong>
                                                 </span>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-7 no--padding">
-                                        <small class="pull-right">
-                                            <i class="fa fa-calendar"></i>&nbsp;
-                                            <spring:message code="label.subDate"/>:
-                                            <strong>{{study.studySubmissionDate | formatDate}}</strong>
-                                            <spring:message code="label.releaseDate"/>: <strong>{{study.studyPublicReleaseDate | formatDate}}</strong>
-                                            <spring:message code="label.updateDate"/>: <strong>{{study.updateDate | formatDate}}</strong>
-                                        </small><br>
-                                        <small class="pull-right" id="mStudyStatus">
-                                            <i class="fa fa-user">&nbsp;</i><spring:message code="label.subm"/>:&nbsp;
-                                                   <span v-for="user in study.users">
+                                </small>
+                            </div>
+                            <div class="col-md-7">
+                                <small class="pull-right">
+                                    <i class="fa fa-calendar"></i>&nbsp;
+                                    <spring:message code="label.subDate"/>:
+                                    <strong>{{study.studySubmissionDate | formatDate}}</strong>
+                                    <spring:message code="label.releaseDate"/>: <strong>{{study.studyPublicReleaseDate | formatDate}}</strong>
+                                    <spring:message code="label.updateDate"/>: <strong>{{study.updateDate | formatDate}}</strong>
+                                </small><br>
+                                <small class="pull-right" id="mStudyStatus">
+                                    <i class="fa fa-user">&nbsp;</i><spring:message code="label.subm"/>:&nbsp;
+                                    <span v-for="user in study.users">
                                                        <a href="mailto:{{user.userName}}?subject=<spring:message code="msg.emailStudyLinkSubject"/>&nbsp;">{{user.fullName}}</a>
                                                    </span>
-                                            &nbsp;|&nbsp;
-                                            <i class="fa fa-bookmark"></i>&nbsp;<spring:message
-                                                code="ref.msg.status"/>:&nbsp;{{ study.studyStatus }}
-                                            <%-- &emsp;
-                                            <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="bottom" id="tourButton" title="Study Tour"><i class="fa fa-compass"></i></button>--%>
-                                        </small>
-                                    </div>
-                                </div>
+                                    &nbsp;|&nbsp;
+                                    <i class="fa fa-bookmark"></i>&nbsp;<spring:message
+                                        code="ref.msg.status"/>:&nbsp;{{ study.studyStatus }}
+                                    <%-- &emsp;
+                                    <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="bottom" id="tourButton" title="Study Tour"><i class="fa fa-compass"></i></button>--%>
+                                </small>
                             </div>
                         </div>
-                        <div class="col-md-12">&nbsp;</div>
+                    </div>
+                    <div class="row">
+                        <hr>
+                    </div>
+                    <div class="row">
                         <div class="col-md-4">
                             <div class="panel panel-default">
                                 <div class="panel-heading"><span class="glyphicon glyphicon-globe"
@@ -244,60 +231,30 @@
     </div>
 </div>
 
-
-<%--<c:if test="${empty searchResponses}">--%>
-<%--<script>$("body").addClass("noresults")</script>--%>
-<%--<section class="grid_16 alpha">--%>
-<%--<h4>--%>
-<%--<c:if test="${!empty welcomemessage}"> <div style="padding-left:0px"><spring:message code="msg.nothingFoundPersonal" /></div></c:if>--%>
-<%--<c:if test="${empty welcomemessage}">--%>
-<%--<br />--%>
-<%--<br />--%>
-<%--<spring:message code="msg.nothingFound" />&nbsp;<spring:message code="msg.searchSuggestions" />--%>
-<%--</c:if>--%>
-<%--</h4>--%>
-<%--<br />--%>
-<%--</section>--%>
-<%--<c:if test="${!empty userQueryClean}">--%>
-
-<%--<aside class="grid_8 omega shortcuts" id="search-extras">--%>
-<%--<div id="ebi_search_results" class="noresults">--%>
-<%--<h3 class=""><spring:message code="msg.otherebiresults"/></h3>--%>
-<%--</div>--%>
-<%--</aside>--%>
-<%--</c:if>--%>
-
-<%--</c:if>--%>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.0/axios.min.js"></script>
+<%--<script src="https://cdn.jsdelivr.net/npm/vue"></script>--%>
+<%--<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.0/axios.min.js"></script>--%>
 <script>
-    $(".grey").on('shown.bs.collapse', function () {
-        var active = $(this).attr('id');
-        $.cookie(active, "1");
-        var panels = $.cookie(); //get all cookies
-        //console.log(panels);
-    });
-
-    $(".grey").on('hidden.bs.collapse', function () {
-        var active = $(this).attr('id');
-        $.removeCookie(active);
-        var panels = $.cookie(); //get all cookies
-        //console.log(panels);
-    });
-
     $(document).ready(function () {
+        $(".grey").on('shown.bs.collapse', function () {
+            var active = $(this).attr('id');
+            $.cookie(active, "1");
+        });
+
+        $(".grey").on('hidden.bs.collapse', function () {
+            var active = $(this).attr('id');
+            $.removeCookie(active);
+        });
+
         var panels = $.cookie(); //get all cookies
-        //console.log(panels);
         for (var panel in panels) { //<-- panel is the name of the cookie
             if ($("#" + panel).hasClass('grey')) // check if this is a panel
             {
                 $("#" + panel).collapse("show");
             }
         }
-
         $('[data-toggle="tooltip"]').tooltip();
     });
 </script>
@@ -308,65 +265,72 @@
 </c:if>
 
 
-<script>
-    var app = new Vue({
-        el: '#app',
-        data: {
-            selectedStudy: null,
-            study: {},
-            hasGalaxyDetails: null,
-            toolId: null,
-            URL: null
-        },
-        mounted: function() {
-            this.$nextTick(function () {
-                this.hasGalaxyDetails = decodeURIComponent(this.getUrlParameter('GALAXY_URL', window.location))
-                console.log(this.hasGalaxyDetails)
-                this.toolId = this.getUrlParameter('tool_id', window.location)
-                this.URL = window.location.origin;
-            })
-        },
-        methods: {
-            studyQuickView: function (id) {
-                this.selectedStudy = id;
-                this.getStudyDetails();
-            },
-            getStudyDetails: function () {
-                var that = this;
-                axios.get('${pageContext.request.contextPath}/webservice/study/' + this.selectedStudy)
-                    .then(function (response){
-                        that.study = response.data.content;
-                        $('#myModal').modal('show');
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            },
-            getUrlParameter: function(name, url){
-                if (!url) url = location.href;
-                name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
-                var regexS = "[\\?&]"+name+"=([^&#]*)";
-                var regex = new RegExp( regexS );
-                var results = regex.exec( url );
-                return results == null ? null : results[1];
-            }
-        },
-        filters: {
-            formatDate: function (value) {
-                var a = new Date(value);
-                var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-                var year = a.getFullYear();
-                var month = months[a.getMonth()];
-                var date = a.getDate();
-                var hour = a.getHours();
-                var min = a.getMinutes();
-                var sec = a.getSeconds();
-                var time = date + ' ' + month + ' ' + year ;
-                return time;
-            }
-        }
-    })
-</script>
+<%--<script>--%>
+    <%--var app = new Vue({--%>
+        <%--el: '#app',--%>
+        <%--data: {--%>
+            <%--selectedStudy: null,--%>
+            <%--study: {},--%>
+
+            <%--hasGalaxyDetails: null,--%>
+            <%--toolId: null,--%>
+            <%--URL: null--%>
+        <%--},--%>
+        <%--mounted: function() {--%>
+            <%--this.$nextTick(function () {--%>
+                <%--var galaxyURL = decodeURIComponent(this.getUrlParameter('GALAXY_URL', window.location));--%>
+                <%--if (galaxyURL != 'null'){--%>
+                    <%--this.hasGalaxyDetails = galaxyURL--%>
+                <%--}--%>
+                <%--this.toolId = this.getUrlParameter('tool_id', window.location)--%>
+                <%--this.URL = window.location.origin;--%>
+                <%--console.log(this.hasGalaxyDetails);--%>
+                <%--this.hasGalaxyDetails = decodeURIComponent(this.getUrlParameter('GALAXY_URL', window.location))--%>
+                <%--this.toolId = this.getUrlParameter('tool_id', window.location)--%>
+                <%--this.URL = window.location.origin;--%>
+            <%--})--%>
+        <%--},--%>
+        <%--methods: {--%>
+            <%--studyQuickView: function (id) {--%>
+                <%--this.selectedStudy = id;--%>
+                <%--this.getStudyDetails();--%>
+            <%--},--%>
+            <%--getStudyDetails: function () {--%>
+                <%--var that = this;--%>
+                <%--axios.get('${pageContext.request.contextPath}/webservice/study/' + this.selectedStudy)--%>
+                    <%--.then(function (response){--%>
+                        <%--that.study = response.data.content;--%>
+                        <%--$('#myModal').modal('show');--%>
+                    <%--})--%>
+                    <%--.catch(function (error) {--%>
+                        <%--console.log(error);--%>
+                    <%--});--%>
+            <%--},--%>
+            <%--getUrlParameter: function(name, url){--%>
+                <%--if (!url) url = location.href;--%>
+                <%--name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");--%>
+                <%--var regexS = "[\\?&]"+name+"=([^&#]*)";--%>
+                <%--var regex = new RegExp( regexS );--%>
+                <%--var results = regex.exec( url );--%>
+                <%--return results == null ? null : results[1];--%>
+            <%--}--%>
+        <%--},--%>
+        <%--filters: {--%>
+            <%--formatDate: function (value) {--%>
+                <%--var a = new Date(value);--%>
+                <%--var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];--%>
+                <%--var year = a.getFullYear();--%>
+                <%--var month = months[a.getMonth()];--%>
+                <%--var date = a.getDate();--%>
+                <%--var hour = a.getHours();--%>
+                <%--var min = a.getMinutes();--%>
+                <%--var sec = a.getSeconds();--%>
+                <%--var time = date + ' ' + month + ' ' + year ;--%>
+                <%--return time;--%>
+            <%--}--%>
+        <%--}--%>
+    <%--})--%>
+<%--</script>--%>
 
 <script>
 

@@ -70,7 +70,6 @@ public class StudyDAO {
     public Study getStudy(String studyIdentifier, String userToken, boolean includeMetabolites) throws DAOException {
 
         SecurityService.userAccessingStudy(studyIdentifier, userToken);
-
         Study study = dbDAO.findByAccession(studyIdentifier);
 
         if (study == null) {
@@ -79,13 +78,11 @@ public class StudyDAO {
         }
 
         getStudyFromFileSystem(study, includeMetabolites);
-
         return study;
     }
 
 
     public Study getStudy(String studyIdentifier) throws DAOException, IsaTabException {
-
         return getStudy(studyIdentifier, "", false);
     }
 
@@ -94,27 +91,35 @@ public class StudyDAO {
     }
 
     public Study getStudyByObfuscationCode(String obfuscationCode, boolean includeMetabolites) throws DAOException {
-
         Study study = dbDAO.findByObfuscationCode(obfuscationCode);
-
         return getStudyFromFileSystem(study, includeMetabolites);
     }
 
 
     private Study getStudyFromFileSystem(Study study, boolean includeMetabolites) throws DAOException {
-
         fsDAO.fillStudy(includeMetabolites, study);
-
         return study;
+    }
 
+    public Study getStudyFromDatabase(String studyId) throws DAOException {
+        //Calculate the destination (by default to private)
+        logger.info("Loading study from database and adding study location");
+        File studyLocation = fsDAO.getDestinationFolder(studyId);
+        logger.info(" - Study location is: "+ studyLocation);
+        Study study = dbDAO.findByAccession(studyId);
+
+        if (study != null && studyLocation != null) {
+            study.setStudyLocation(studyLocation.getAbsolutePath());
+            logger.info(" - Study accession from database is: "+ study.getStudyIdentifier());
+        } else {
+            logger.error("Could not load study for acc "+ studyId);
+        }
+        return study;
     }
 
     private Study getStudyFromFileSystem(Study study, boolean includeMetabolites, File studyFolder) throws DAOException, IsaTabException {
-
         fsDAO.fillStudyFromFolder(includeMetabolites, study, studyFolder);
-
         return study;
-
     }
 
 
@@ -123,15 +128,17 @@ public class StudyDAO {
     }
 
     public String getStudyIdByObfuscationCode(String obfuscationCode) throws DAOException, IsaTabException {
-
         String studyId = dbDAO.findStudyIdByObfuscationCode(obfuscationCode);
-
         return studyId;
     }
 
 
     public List<String> getList(String userToken) throws DAOException {
         return dbDAO.getStudyListForUser(userToken);
+    }
+
+    public List<String> getPrivateStudyListForUser(String userToken) throws DAOException {
+        return dbDAO.getPrivateStudyListForUser(userToken);
     }
 
     public String getListWithDetails(String userToken) throws DAOException {
@@ -156,23 +163,37 @@ public class StudyDAO {
         return mainObj.toJSONString();
     }
 
+    public String getCompleteStudyListForUserWithDetails(String userToken) throws DAOException {
+
+        List<String> studies = dbDAO.getCompleteStudyListForUser(userToken);
+
+        JSONArray ja = new JSONArray();
+
+        for(String study :studies){
+            Study tempStudy = dbDAO.findByAccession(study);
+            getStudyFromFileSystem(tempStudy, false);
+            JSONObject jo = new JSONObject();
+            jo.put("id",study);
+            jo.put("title", tempStudy.getTitle());
+            jo.put("description", tempStudy.getDescription());
+            ja.add(jo);
+        }
+
+        return ja.toJSONString();
+    }
+
     public List<String> getStudiesToGoLiveList(String userToken) throws DAOException {
         return dbDAO.getStudiesToGoLiveList(userToken);
     }
-
-
 
 	public List<String> getStudiesToGoLiveList(String userToken, int numbeOfDays) throws DAOException {
 		return dbDAO.getStudiesToGoLiveList(userToken, numbeOfDays);
 	}
 
-
-
     private String getAccessionNumber() throws DAOException {
         AccessionDAO accessionDAO = DAOFactory.getInstance().getAccessionDAO();
         // Using default prefix...we should change this to allow DEV IDs.
         return accessionDAO.getStableId();
-
     }
 
     public Study update(File submiisionFolder, String studyIdentifier, String userToken) throws Exception {
@@ -219,6 +240,23 @@ public class StudyDAO {
         return saveOrUpdate(submissionFolder, study);
     }
 
+    public Study addEmptyStudy(Date publicReleaseDate, User user) throws Exception {
+
+        logger.info("{} new submission of an empty study", user.getFullName());
+
+        String newStudyIdentifier = getAccessionNumber();
+
+        // Create the study
+        Study study = new Study();
+        study.setStudyIdentifier(newStudyIdentifier);
+        study.setStudyPublicReleaseDate(publicReleaseDate);
+        study.setStudySubmissionDate(new Date());
+        study.getUsers().add(user);
+
+        dbDAO.save(study);
+
+        return study;
+    }
 
     private Study saveOrUpdate(File submissionFolder, Study study) throws Exception {
 
@@ -368,12 +406,10 @@ public class StudyDAO {
 
         // If new status is INREVIEW
         if (newStatus == LiteStudy.StudyStatus.INREVIEW) {
-
             //...and release date has passed...promote it to PUBLIC
             if (study.getStudyPublicReleaseDate().before(new Date())) {
                 newStatus = LiteStudy.StudyStatus.PUBLIC;
             }
-
         }
 
         // Change the status

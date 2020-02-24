@@ -96,11 +96,11 @@ public class SecurityController extends BasicController{
 			}
 
 			response.setContent(true);
-			response.setMessage("User " + getUser().getFullName() + " can view study " + studyIdentifier + " (" + obfuscationCode+ ").");
+			response.setMessage("User '" + getUser().getFullName() + "' can view study " + studyIdentifier + " (" + obfuscationCode+ ").");
 
 		} catch (IsaTabException e) {
 			response.setContent(false);
-			response.setMessage("User " + getUser().getFullName() + " not granted to view the study with this obfuscation code: " + obfuscationCode+ ".");
+			response.setMessage("User '" + getUser().getFullName() + "' not granted to view the study with this obfuscation code: " + obfuscationCode+ ".");
 			response.setErr(e);
 
 		}

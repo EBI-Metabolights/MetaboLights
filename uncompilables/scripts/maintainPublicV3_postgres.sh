@@ -32,7 +32,8 @@ EMAILTO=metabolights-dev@ebi.ac.uk,metabolights-curation@ebi.ac.uk
 SCRIPT_LOC=/nfs/www-prod/web_hx2/cm/metabolights/scripts
 PRIVATE_LOC=/nfs/www-prod/web_hx2/cm/metabolights/prod/studies/stage/private
 PUBLIC_FTP_LOC=/ebi/ftp/pub/databases/metabolights/studies/public
-NUM_DAYS=2
+PRIVATE_FTP_LOC=/ebi/ftp/private/mtblight/prod
+NUM_DAYS=7
 
 source $SCRIPT_LOC/postgres.properties.prod
 #################################
@@ -44,6 +45,7 @@ SHELL_LOG_FILE=$SCRIPT_LOC/maintainPublicV3.log
 
 # Get private studies that have passed the release date
 GET_STUDIES_SQL="select acc from studies where status = 3 AND ((date_trunc('day',releasedate)>=date_trunc('day',current_date-${NUM_DAYS})) or (date_trunc('day',updatedate) >=date_trunc('day',current_date-${NUM_DAYS})));"
+#GET_STUDIES_SQL="select acc from studies where status = 3;"
 
 rm $SHELL_LOG_FILE
 Info ------------------------------------------------------------------------------------------ 
@@ -64,6 +66,7 @@ PUBLIC_STUDIES=`$PG_COMMAND -c "${GET_STUDIES_SQL}" | grep MTBLS`
 for studies in $PUBLIC_STUDIES
 do
   Info "Removing MetExplore json mapping file"
+  touch metexplore_mapping.json
   rm metexplore_mapping.json
   Info "Study ${studies} is now being synced to the public ftp folder"
   mkdir -p ${PUBLIC_FTP_LOC}/${studies}

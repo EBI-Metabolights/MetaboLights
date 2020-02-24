@@ -65,7 +65,6 @@ public class EmailService {
     private @Value("#{curationEmailAddress}") String curationEmailAddress;
 	private @Value("#{BccPivotalEmailAddress}") String bccPivotalEmailAddress;
 
-
 	//Have to qualify these as the test Spring servlet is defining the same beans
     @Qualifier("mailSender")
     @Autowired
@@ -125,6 +124,7 @@ public class EmailService {
 		msg.setTo(to);
 		msg.setSubject(subject);
 		msg.setText(body);
+		msg.setReplyTo(PropertyLookUpService.getMessage("mail.noreplyaddress"));
 		return msg;
 	}
 
@@ -304,12 +304,10 @@ public class EmailService {
 
 		MimeMessagePreparator preparator = new MimeMessagePreparator() {
 			public void prepare(MimeMessage mimeMessage) throws Exception {
-
-
 				MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 				message.setTo(to);
 				message.setFrom(from); // could be parameterized...
-				if(bcc.length !=0){
+				if (bcc.length !=0){
 					message.setBcc(bcc);
 				}
 				message.setSubject(subject);
@@ -323,11 +321,11 @@ public class EmailService {
 		};
 
 		try {
-
 			this.mailSender.send(preparator);
 		} catch (Exception e) {
-
-			logger.error("Couldn't sent email: \n Subject: \n {}\n\n Body:\n{}\n\nTechnical info:\n{}",subject,body,technicalInfo, e );
+            logger.error("Error sending email to " + to[0] + ", with Bcc " + bcc[0]);
+			logger.error("Could not send the email: \n Subject: \n {}\n\n Body:\n{}\n\nTechnical info:\n{}",
+                    subject, body, technicalInfo, e );
 		}
 	}
 
@@ -520,7 +518,7 @@ public class EmailService {
 			this.mailSender.send(preparator);
 		} catch (Exception e) {
 
-			logger.error("Couldn't sent email: \n Subject: \n {}\n\n Study:\n{}",subject,study.getStudyIdentifier(), e );
+			logger.error("Could not sent email: \n Subject: \n {}\n\n Study:\n{}",subject,study.getStudyIdentifier(), e );
 		}
 	}
 

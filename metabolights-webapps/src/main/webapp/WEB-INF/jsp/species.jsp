@@ -21,11 +21,7 @@
   ~ Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
   --%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
 
-<script type="text/javascript" src="//code.jquery.com/jquery-1.9.1.js"></script>
-<script type="text/javascript" src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 <script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
 <script type="text/javascript" src="javascript/dndTree.js"></script>
 
@@ -73,10 +69,10 @@
 
 </script>
 
-<div class="container-fluid">
+<div class="">
     <div class="row">
-        <div class="col-md-12">
-            <div class="row">
+        <div>
+            <div>
                 <div class="col-md-6">
                     <h3>
                         <spring:message code="menu.speciespageheader" />
@@ -85,25 +81,25 @@
                         <spring:message code="menu.speciespagedescription" />
                     </p><br>
                     <h4><spring:message code="menu.speciesTypeSearch"/></h4>
-                    <div class="col-md-12">
+                    <div class="">
                         <div class="form-group">
                             <input class="form-control" id="searchspecies" placeholder="Start typing the first 3 letters of the species name">
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="panel panel-default">
+                    <div class="panel nbr panel-warning">
                         <div class="panel-heading">
                             <h5><spring:message code="menu.speciesmodeltitle"/></h5>
                         </div>
                         <div class="panel-body">
                             <ul class="species">
-                                <li class="icon icon-species" data-icon="H"><A href="search?organism.organismName=Homo sapiens">Homo sapiens (Human)</a></li>
-                                <li class="icon icon-species" data-icon="M"><a href="search?organism.organismName=Mus musculus">Mus musculus (Mouse)</a></li>
-                                <li class="icon icon-species" data-icon="B"><a href="search?organism.organismName=Arabidopsis thaliana">Arabidopsis thaliana (thale cress)</a></li>
-                                <li class="icon icon-species" data-icon="L"><a href="search?organism.organismName=Escherichia coli">Escherichia coli</a></li>
-                                <li class="icon icon-species" data-icon="Y"><a href="search?organism.organismName=Saccharomyces cerevisiae">Saccharomyces cerevisiae (Baker's yeast)</a></li>
-                                <li class="icon icon-species" data-icon="W"><a href="search?organism.organismName=Caenorhabditis elegans">Caenorhabditis elegans</a></li>
+                                <li class="icon icon-species" data-icon="H"><A href="search?organism.organismName=Homo sapiens"> Homo sapiens (Human)</a></li>
+                                <li class="icon icon-species" data-icon="M"><a href="search?organism.organismName=Mus musculus"> Mus musculus (Mouse)</a></li>
+                                <li class="icon icon-species" data-icon="B"><a href="search?organism.organismName=Arabidopsis thaliana"> Arabidopsis thaliana (thale cress)</a></li>
+                                <li class="icon icon-species" data-icon="L"><a href="search?organism.organismName=Escherichia coli"> Escherichia coli</a></li>
+                                <li class="icon icon-species" data-icon="Y"><a href="search?organism.organismName=Saccharomyces cerevisiae"> Saccharomyces cerevisiae (Baker's yeast)</a></li>
+                                <li class="icon icon-species" data-icon="W"><a href="search?organism.organismName=Caenorhabditis elegans"> Caenorhabditis elegans</a></li>
                                 <%--<li class="icon icon-species" data-icon="F"><a href="search?organisms=Drosophila">Drosophila</li>--%>
                             </ul>
                         </div>
@@ -111,9 +107,9 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <div class="panel panel-success">
+                <div class="panel nbr panel-primary">
                     <div class="panel-heading">
-                        <h4 id="treeTitle"><spring:message code="menu.speciesbrowsetitle"/></h4>
+                        <h5 id="treeTitle"><spring:message code="menu.speciesbrowsetitle"/></h5>
                     </div>
                     <div class="panel-body">
                         <div id="tree-container"></div>
@@ -123,3 +119,4 @@
         </div>
     </div>
 </div>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

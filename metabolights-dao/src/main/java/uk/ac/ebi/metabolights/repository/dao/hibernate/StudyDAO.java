@@ -26,9 +26,7 @@ import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.StudyData;
 import uk.ac.ebi.metabolights.repository.model.AppRole;
 import uk.ac.ebi.metabolights.repository.model.Study;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * User: conesa
@@ -46,10 +44,8 @@ public class StudyDAO extends DAO <Study,StudyData>{
 	 * @param accession
 	 */
 	public Study findByAccession(String accession) throws DAOException {
-
 		return findSingle("acc=:acc",new Filter(new Object[]{"acc",accession}));
-
-	};
+	}
 
 	public boolean isStudyPublic(String accession) throws DAOException {
 		String query = "select count(*) from " + StudyData.class.getSimpleName() +
@@ -117,6 +113,55 @@ public class StudyDAO extends DAO <Study,StudyData>{
 		return studies;
 	}
 
+	public List<String> getCompleteStudyListForUser(String userToken) throws DAOException {
+
+		String query = "select distinct study.acc from " + StudyData.class.getSimpleName() + " study" +
+				" left join study.users user where user.apiToken=:apiToken ";
+
+		// Create an empty filter
+		Filter filter = new Filter();
+
+		// Add clause to where..
+		filter.fieldValuePairs.put("apiToken", userToken);
+
+		List<String> studies = this.getList(query, filter);
+
+		return studies;
+	}
+
+    public List<String> getPrivateStudyListForUser(String userToken) throws DAOException {
+
+        String query = "select distinct study.acc from " + StudyData.class.getSimpleName() + " study" +
+                " left join study.users user where study.status= " + Study.StudyStatus.SUBMITTED.ordinal() + " AND user.apiToken=:apiToken ";
+
+        // Create an empty filter
+        Filter filter = new Filter();
+
+        // Add clause to where..
+        filter.fieldValuePairs.put("apiToken", userToken);
+
+        List<String> studies = this.getList(query, filter);
+
+        return studies;
+    }
+
+//    public Map<String,String> getPrivateDetailedStudyListForUser(String userToken) throws DAOException {
+//
+//        String query = "select distinct study.acc, study.studyPublicReleaseDate from " + StudyData.class.getSimpleName() + " study" +
+//                " left join study.users user where study.status= " + Study.StudyStatus.SUBMITTED.ordinal() + " AND user.apiToken=:apiToken ";
+//
+//        // Create an empty filter
+//        Filter filter = new Filter();
+//
+//        // Add clause to where..
+//        filter.fieldValuePairs.put("apiToken", userToken);
+//        Map<String,String> studiesMap = new HashMap<String,String>();
+//
+//        List<String, String> studies = this.getList(query, filter);
+//
+//        return studies;
+//    }
+
 	// Gets all studies to go live that the user is granted to access.
 	public List<String> getStudiesToGoLiveList(String userToken) throws DAOException {
 
@@ -182,8 +227,7 @@ public class StudyDAO extends DAO <Study,StudyData>{
 
 		// No security here since the obfuscation code...if exist grants itself access to the resource
 
-		String query = "select acc from " + StudyData.class.getSimpleName() ;
-
+		String query = "select acc from " + StudyData.class.getSimpleName();
 		query = query + " where obfuscationcode =:oc";
 
 		// Create an empty filter
@@ -191,8 +235,6 @@ public class StudyDAO extends DAO <Study,StudyData>{
 
 		// Add the date filter.
 		filter.fieldValuePairs.put("oc", obfuscationCode);
-
-
 		String studyId = (String) this.getUniqueValue(query, filter);
 
 		return studyId;

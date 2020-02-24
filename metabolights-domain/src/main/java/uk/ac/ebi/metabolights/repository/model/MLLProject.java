@@ -130,7 +130,7 @@ public class MLLProject {
         Owner = mllWorkSpace.getOwner();
         Settings = "{}";
         ProjectLocation = mllWorkSpace.getWorkspaceLocation() + File.separator + Id;
-        AsperaSettings = "{ \"asperaURL\" : \""+ mllWorkSpace.getOwner().getApiToken() + File.separator + Id + "\", \"asperaUser\" : \"\",  \"asperaServer\" : \"ah01.ebi.ac.uk\", \"asperaSecret\" :  \"\" }";
+        AsperaSettings = "{ \"asperaURL\" : \""+ mllWorkSpace.getOwner().getApiToken() + File.separator + Id + "\", \"asperaUser\" : \"\",  \"asperaServer\" : \"hx-fasp-1.ebi.ac.uk\", \"asperaSecret\" :  \"\" }";
         CreatedAt = LabsUtils.getCurrentTimeStamp();
         UpdatedAt = LabsUtils.getCurrentTimeStamp();
         IsBusy = false;
@@ -148,7 +148,7 @@ public class MLLProject {
         Owner = mllWorkSpace.getOwner();
         Settings = "{}";
         ProjectLocation = mllWorkSpace.getWorkspaceLocation() + File.separator + Id;
-        AsperaSettings = "{ \"asperaURL\" : \""+ mllWorkSpace.getOwner().getApiToken() + File.separator + Id + "\", \"asperaUser\" : \"\",  \"asperaServer\" : \"ah01.ebi.ac.uk\", \"asperaSecret\" :  \"\" }";
+        AsperaSettings = "{ \"asperaURL\" : \""+ mllWorkSpace.getOwner().getApiToken() + File.separator + Id + "\", \"asperaUser\" : \"\",  \"asperaServer\" : \"hx-fasp-1.ebi.ac.uk\", \"asperaSecret\" :  \"\" }";
         CreatedAt = LabsUtils.getCurrentTimeStamp();
         UpdatedAt = LabsUtils.getCurrentTimeStamp();
         IsBusy = false;

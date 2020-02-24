@@ -2,6 +2,8 @@ error_folder="invalid_mzML_files"
 xsd_schema="/net/isilonP/public/rw/homes/tc_cm01/metabolights/scripts/mzML1.1.1_idx.xsd"
 log_progress="mzml_validation_progress_log.txt"
 
+cd $1
+
 for i in *.mzML
 do   
   echo "Validating file $i"

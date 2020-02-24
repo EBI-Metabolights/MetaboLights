@@ -16,6 +16,7 @@ import java.util.concurrent.Future;
 public class Utilities {
 
     private static Logger logger = LoggerFactory.getLogger(Utilities.class);
+
     public static List<CompoundSearchResult> combine(List<Future<CompoundSearchResult>> searchResultsFromChebi,
                                                      Future<Collection<CompoundSearchResult>> chemSpiderResults,
                                                      Future<Collection<CompoundSearchResult>> pubchemResults) {
@@ -49,9 +50,9 @@ public class Utilities {
             if (!chemSpiderCompounds.isEmpty()) {
                 if (chemSpiderCompounds.size() == 1) {
                     for (CompoundSearchResult compound : chemSpiderCompounds) {
-                        if (hit(compound.getName(), compoundName)) {
-                            totalSearchResults.add(compound);
-                        }
+//                        if (hit(compound.getName(), compoundName)) {
+                        totalSearchResults.add(compound);
+                        //       }
                     }
                 } else {
                     for (CompoundSearchResult compound : chemSpiderCompounds) {
@@ -66,7 +67,7 @@ public class Utilities {
 
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("Something went wrong while combining search responses for compound: "+compoundName , e);
+            logger.error("Something went wrong while combining search responses for compound: " + compoundName, e);
         }
         return totalSearchResults;
 
@@ -81,6 +82,19 @@ public class Utilities {
         List<CompoundSearchResult> searchHits = new ArrayList<>();
         for (Future<CompoundSearchResult> searchResult : searchResults) {
             searchHits.add(searchResult.get());
+        }
+        return searchHits;
+    }
+
+    public static List<CompoundSearchResult> extract(List<Future<CompoundSearchResult>> searchResults, String searchTerm){
+        List<CompoundSearchResult> searchHits = new ArrayList<>();
+        try {
+            for (Future<CompoundSearchResult> searchResult : searchResults) {
+                searchHits.add(searchResult.get());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("Something went wrong while combining search responses for : " + searchTerm, e);
         }
         return searchHits;
     }
@@ -149,7 +163,7 @@ public class Utilities {
             searchResult.setFormula(curatedMatch[CuratedMetabolitesFileColumnIdentifier.MOLECULAR_FORMULA.getID()]);
             searchResult.setDatabaseId(curatedMatch[CuratedMetabolitesFileColumnIdentifier.CHEBI_ID.getID()]);
         } catch (Exception e) {
-            logger.error("Something went wrong while converting String[] to CompoundSearchResult" , e);
+            logger.error("Something went wrong while converting String[] to CompoundSearchResult", e);
             return results;
         }
         results.add(searchResult);
@@ -163,20 +177,46 @@ public class Utilities {
             return decoded;
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-            logger.error("Something went wrong while decoding: " + url , e);
+            logger.error("Something went wrong while decoding: " + url, e);
             return url;
         }
+    }
+
+    public static String checkForInchiPrefix(String inchi) {
+        String decoded = "";
+        if (inchi.toLowerCase().startsWith("inchi=inchi=")) {
+            decoded = inchi.toLowerCase().replace("inchi=inchi=", "InChI=");
+            return decoded;
+        }
+        if (inchi.toLowerCase().startsWith("inchi=")) {
+            decoded = inchi.toLowerCase().replace("inchi=", "InChI=");
+            return decoded;
+        }
+        if (!inchi.toLowerCase().contains("inchi=")) {
+            decoded = "InChI=" + inchi;
+            return decoded;
+        }
+        return inchi;
+    }
+
+    public static String checkForSmilesPrefix(String smiles) {
+        String modified = "";
+        if (smiles.toLowerCase().startsWith("smiles=") || smiles.toLowerCase().contains("smiles")) {
+            modified = smiles.toLowerCase().replace("smiles=", "");
+            return modified;
+        }
+        return smiles;
     }
 
     public static String decodeSlashesAndDots(String url) {
         String decoded = null;
         try {
-            decoded = url.replaceAll("__","/");
-            decoded = decoded.replaceAll("_&_","\\.");
+            decoded = url.replaceAll("__", "/");
+            decoded = decoded.replaceAll("_&_", "\\.");
             return decoded;
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("Something went wrong while decoding: " + url , e);
+            logger.error("Something went wrong while decoding: " + url, e);
             return url;
         }
     }
@@ -191,11 +231,23 @@ public class Utilities {
         modified = modified.replaceAll("\\p{Pd}", "");
         modified = modified.replaceAll("-", "");
         modified = modified.replaceAll("_", "");
-        modified = modified.replaceAll(",", "").replaceAll("\'","");
-        modified = modified.replaceAll("\\[", "").replaceAll("\\]","");
-        modified = modified.replaceAll("\\(", "").replaceAll("\\)","");
+        modified = modified.replaceAll(",", "").replaceAll("\'", "");
+        modified = modified.replaceAll("\\[", "").replaceAll("\\]", "");
+        modified = modified.replaceAll("\\(", "").replaceAll("\\)", "");
         modified = modified.replaceAll("\\{", "").replaceAll("\\}", "");
         modified = modified.replaceAll("\\s", "");
         return modified;
     }
+
+    public static String format(String formula) {
+        String formatted = formula.replaceAll("_", "");
+        formatted = formatted.replaceAll("\\{", "");
+        formatted = formatted.replaceAll("\\}", "");
+        return formatted;
+    }
+
+    public static String appendNameSpaceAndConvert(int csid) {
+        return "CSID " + new Integer(csid).toString();
+    }
+
 }

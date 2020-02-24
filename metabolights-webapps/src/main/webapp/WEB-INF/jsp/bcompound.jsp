@@ -6,12 +6,12 @@
 <script src="${pageContext.request.contextPath}/javascript/jquery.svganim.js"></script>
 <%--<script type="text/javascript"--%>
 <%--src="<spring:url value="specbrowser/SpectrumBrowser/SpectrumBrowser.nocache.js"/>"></script>--%>
-<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/metabolights-literature.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/metabolights-reactions.js"></script>
 
-<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/st.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.js" charset="utf-8"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/Biojs.Rheaction.js"></script>
@@ -66,7 +66,7 @@
                                     <div role="tabpanel" class="tab-pane active" id="2d">
                                         <%--<h5>Structure</h5><br>--%>
                                         <img src="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=${compound.mc.chebiId}&dimensions=600&transbg=true"
-                                             class="metabolite-image thumbnail"/>
+                                             class="metabolite-image img-responsive thumbnail"/>
 
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="3d">
@@ -205,7 +205,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="tab-pane" id="c">
+                                                    <div class="tab-pane" v-if="externalids.length > 0" id="c">
                                                         <div class="panel panel-default">
                                                             <div class="panel-heading">
                                                                 External Links

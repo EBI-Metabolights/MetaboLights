@@ -135,7 +135,7 @@ nav#breadcrumb{
 .met-content .nav-tabs > li.active > a::after, .nav-tabs > li:hover > a::after { transform: scale(1); }
 .met-content .tab-nav > li > a::after { background: #21527d none repeat scroll 0% 0%; color: #fff; }
 .met-content .tab-pane { padding: 0 0; }
-.met-content .tab-content{ padding:20px; min-height: 400px; }
+.met-content .tab-content{ padding-top:20px; padding-bottom:20px; min-height: 400px; }
 .met-content .card {background: #FFF none repeat scroll 0% 0%; margin-bottom: 30px; }
 
 #description{

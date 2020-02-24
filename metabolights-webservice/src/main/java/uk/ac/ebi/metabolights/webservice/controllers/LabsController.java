@@ -105,10 +105,12 @@ public class LabsController extends BasicController{
             claims.setSubject(email);
             claims.setIssuer("Metabolights");
             claims.setAudience("Metabolights Labs");
+            claims.setExpirationTimeMinutesInTheFuture(300);
             claims.setClaim("Name",user.getFullName());
 
             String token = user.getApiToken();
             Key key = null;
+
             try {
                 key = new HmacKey(token.getBytes("UTF-8"));
             } catch (UnsupportedEncodingException e) {
@@ -134,12 +136,11 @@ public class LabsController extends BasicController{
                 return restResponse;
 
             }
-
             response.setHeader("Access-Control-Expose-Headers", "jwt, user");
-
             response.setHeader("jwt", jwt);
-
             response.setHeader("user", email);
+            restResponse.setContent("true");
+            restResponse.setMessage("Authentication successful");
 
             return restResponse;
         }
@@ -149,7 +150,6 @@ public class LabsController extends BasicController{
         response.setStatus(Response.Status.FORBIDDEN.getStatusCode());
 
         return restResponse;
-
     }
 
     /**
@@ -224,17 +224,17 @@ public class LabsController extends BasicController{
             }
 
             response.setHeader("Access-Control-Expose-Headers", "jwt, user");
-
             response.setHeader("jwt", jwt);
-
             response.setHeader("user", user.getEmail());
+
+            restResponse.setContent("true");
+            restResponse.setMessage("Authentication successful");
 
             return restResponse;
 
         }
 
         restResponse.setContent("invalid");
-
         response.setStatus(Response.Status.FORBIDDEN.getStatusCode());
 
         return restResponse;

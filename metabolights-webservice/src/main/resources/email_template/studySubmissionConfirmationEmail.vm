@@ -12,19 +12,18 @@ D. The curation team approves the study and moves the study status from In Curat
 E. Your public release date is reached.
 
 For private pre-publication access to your study, please see the "Share study" link at the top of the study page.
-Please note that the pre-publication link is only accessible when the study is in "In Review" status”.
-
+Please note that the pre-publication link is only accessible when the study is in "In Review" status.
 
 Citing your submission in MetaboLights:
 
-Metabolomics data have been deposited to the EMBL-EBI MetaboLights database (DOI: 10.1093/nar/gks1004. PubMed PMID: 23109552) with the identifier {1}.
+Metabolomics data have been deposited to the EMBL-EBI MetaboLights database (DOI: 10.1093/nar/gkz1019, PMID:31691833) with the identifier {1}.
 The complete dataset can be accessed here {3}{1}
 
 Citing MetaboLights generally:
 
-Haug K., Salek R.M., Conesa P., Hastings J., de Matos P., Rijnbeek M., Mahendraker T., Williams M., Neumann S., Rocca-Serra P., et al.
-MetaboLights - an open-access general-purpose repository for metabolomics studies and associated meta-data.
-Nucleic Acids Res. 2013;41:D781-D786. doi:10.1093/nar/gks1004 PubMed PMID: 23109552. Europe PMC: PMC3531110.
+Kenneth Haug, Keeva Cochrane, Venkata Chandrasekhar Nainala, Mark Williams, Jiakang Chang, Kalai Vanii Jayaseelan, Claire O'Donovan
+MetaboLights: a resource evolving in response to the needs of its scientific community.
+Nucleic Acids Research, gkz1019, doi:10.1093/nar/gkz1019, PMID:31691833.
 
 
 Many thanks for your time and effort.

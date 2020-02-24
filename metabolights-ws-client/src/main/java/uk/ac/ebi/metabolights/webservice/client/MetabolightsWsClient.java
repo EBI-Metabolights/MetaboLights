@@ -291,6 +291,21 @@ public class MetabolightsWsClient {
         return conn;
     }
 
+    public String mapStudyToLabsProject(String study, String projectId, String userToken, String host) {
+
+        logger.debug("Sending request to labs webservice to map metabolights study to labs project");
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        ObjectNode jsonObject = mapper.createObjectNode();
+
+        String json = jsonObject.put("studyId", study).put("projectId", projectId).put("token", userToken).toString();
+
+        String response =  makeRequestSendingDataToDev("labs-workspace/mapStudy", json, "POST", host);
+
+        return response;
+    }
+
     public RestResponse<Study> getStudy(String studyIdentifier) {
 
         logger.debug("Study " + studyIdentifier + " requested to the MetaboLights WS client");
@@ -495,21 +510,6 @@ public class MetabolightsWsClient {
         return deserializeJSONString(response, foo.getClass());
 
 
-    }
-
-    public String mapStudyToLabsProject(String study, String projectId, String userToken, String host) {
-
-        logger.debug("Sending request to labs webservice to map metabolights study to labs project");
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        ObjectNode jsonObject = mapper.createObjectNode();
-
-        String json = jsonObject.put("studyId", study).put("projectId", projectId).put("token", userToken).toString();
-
-        String response =  makeRequestSendingDataToDev("labs-workspace/mapStudy", json, "POST", host);
-
-        return response;
     }
 
     public RestResponse<String> updatePublicReleaseDate(Date newPublicReleaseDate, String studyIdentifier) {

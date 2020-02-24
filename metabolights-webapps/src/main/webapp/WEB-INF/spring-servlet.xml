@@ -119,6 +119,7 @@
     <jee:jndi-lookup id="OrcidClaimServiceURL" jndi-name="java:comp/env/OrcidClaimServiceURL"/>
     <jee:jndi-lookup id="OrcidLinkServiceURL" jndi-name="java:comp/env/OrcidLinkServiceURL"/>
     <jee:jndi-lookup id="OrcidRetreiveClaimsURL" jndi-name="java:comp/env/OrcidRetreiveClaimsURL"/>
+    <jee:jndi-lookup id="queueFolder"                 jndi-name="java:comp/env/queueFolder" />
 
 
     <!--  register the application properties -->
@@ -188,6 +189,7 @@
         <sec:intercept-url pattern="/updateAccount" access="isAuthenticated()" />
 
         <sec:intercept-url pattern="/labs" access="isAuthenticated()" />
+        <sec:intercept-url pattern="/editor" access="isAuthenticated()" />
 		<sec:intercept-url pattern="/reindex" access="hasRole('ROLE_SUPER_USER')" />
         <sec:intercept-url pattern="/reindexall" access="hasRole('ROLE_SUPER_USER')" />
 		<sec:intercept-url pattern="/config" access="hasRole('ROLE_SUPER_USER')" />
@@ -276,7 +278,7 @@
 
     <bean id="contactUsTemplate" class="org.springframework.mail.SimpleMailMessage">
       <property name="subject" value="MetaboLights Website General Request"/>
-      <property name="to"><list><value>${mtblAdminEmailAddress}</value></list></property>
+      <property name="to"><list><value>"metabolights-help@ebi.ac.uk"</value></list></property>
     </bean>
 
     <!--<bean id="queueManager" class="uk.ac.ebi.metabolights.model.queue.SubmissionQueueManager"/>-->

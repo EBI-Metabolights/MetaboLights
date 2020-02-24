@@ -27,7 +27,6 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
 
-<div class="container-fluid">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <div class="ml--loginContainer">
@@ -44,12 +43,12 @@
                 <br>--%>
 
                 <div class="ml-loginpanelhead">
-                    <h3 class="text-center"><img style="height: 50px;" src="${pageContext.request.contextPath}/img/MetaboLightsLogo.png">&nbsp;MetaboLights</h3>
+                    <h3 class="text-center">MetaboLights Login</h3>
                 </div>
 
                     <div class="ml-loginpanelbody">
                 <c:if test="${not empty fromsubmit}">
-                    <p><strong><spring:message code="msg.submHeader"/></strong></p>
+                    <p class="error"><strong><spring:message code="msg.submHeader"/></strong></p>
                 </c:if>
 
                 <form name="loginForm" action="<c:url value='j_spring_security_check'/>" method="post">
@@ -62,21 +61,23 @@
                     </c:if>
 
                     <div class="form-group">
-                        <label><spring:message code="label.email" /></label>
+                        <label><spring:message code="label.email"></spring:message><sup>*</sup></label>
                         <input class="form-control" type='text' name='j_username'/>
                     </div>
 
                     <div class="form-group">
-                        <label><spring:message code="label.password" /></label>
+                        <label><spring:message code="label.password" /><sup>*</sup></label>
                         <input class="form-control" type='password' name='j_password'/>
                     </div>
 
                     <div class="form-group">
-                        <a href="forgotPassword"><spring:message code="label.oopsForgot" /></a><br>
-                        <input name="submit" type="submit" class="submit" value="<spring:message code="label.login"/>">
-                        <input name="cancel" type="button" class="submit cancel" value="<spring:message code="label.cancel"/>" onclick="location.href='index'">
+                        <div class="form-group">
+                            <input name="submit" type="submit" class="submit btn btn-primary form-control" value="<spring:message code="label.login"/>">
+                        </div>
+                        <%--<input name="cancel" type="button" class="submit cancel" value="<spring:message code="label.cancel"/>" onclick="location.href='index'">--%>
                     </div>
-
+                    <small><a href="forgotPassword"><spring:message code="label.oopsForgot" /></a></small>
+                    <br>
                 </form>
                         </div>
             </div>
@@ -84,8 +85,8 @@
                 <a href="newAccount"><spring:message code="label.needNewAccount"/></a></p>
         </div>
     </div>
-</div>
 
 <script type="text/javascript" language="javascript">
     document.loginForm.j_username.focus();
 </script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

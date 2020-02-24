@@ -420,7 +420,7 @@ public class EmailService {
 			this.mailSender.send(preparator);
 		} catch (Exception e) {
 
-			logger.error("Couldn't sent email: \n Subject: \n {}\n\n Body:\n{}\n\nTechnical info:\n{}",subject,body,technicalInfo ,e);
+			logger.error("Could not send email: \n Subject: \n {}\n\n Body:\n{}\n\nTechnical info:\n{}",subject,body,technicalInfo ,e);
 		}
 	}
 

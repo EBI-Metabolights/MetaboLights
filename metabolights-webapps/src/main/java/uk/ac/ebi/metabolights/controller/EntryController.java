@@ -60,8 +60,12 @@ public class EntryController extends AbstractController {
 
     private static final String ALTERNATIVE_ENTRY_PREFIX = "";
     private static Logger logger = LoggerFactory.getLogger(EntryController.class);
-	private @Value("#{OrcidClaimServiceURL}") String orcidServiceURL;
-    private @Value("#{OrcidRetreiveClaimsURL}") String orcidRetreiveClaimsServiceURL;
+    private
+    @Value("#{OrcidClaimServiceURL}")
+    String orcidServiceURL;
+    private
+    @Value("#{OrcidRetreiveClaimsURL}")
+    String orcidRetreiveClaimsServiceURL;
     private static String wsUrl;
     private final String DESCRIPTION = "descr";
 
@@ -133,7 +137,6 @@ public class EntryController extends AbstractController {
     public ModelAndView getAltReviewersMetabolitesIdentified(
             @PathVariable("obfuscationCode") String obfuscationCode,
             @PathVariable("assayNumber") int assayNumber) {
-
 
         return getMetabolitesModelAndView(null, assayNumber, obfuscationCode);
     }
@@ -218,7 +221,6 @@ public class EntryController extends AbstractController {
         return modelAndView;
     }
 
-
     private ModelAndView getWSEntryMAV(String mtblsId, String obfuscationCode, String view) {
 
         // Get the user
@@ -257,7 +259,8 @@ public class EntryController extends AbstractController {
 
             // study is null because it couldn't be found by the WS
             if (response.getMessage().equalsIgnoreCase("Study not found")) {
-                return new ModelAndView("redirect:/errors/404");
+                return new ModelAndView("redirect:/index?message=" + mtblsId + " can not be accessed or does not exist");
+                //return new ModelAndView("redirect:/errors/404");
             }
 
             // study is null because any other reason
@@ -312,13 +315,16 @@ public class EntryController extends AbstractController {
         if (user.isCurator()) {
             mav.addObject("curatorAPIToken", user.getApiToken());
         }
-        mav.addObject("userApiToken", user.getApiToken());
+        if (user != null) {
+            mav.addObject("editorToken", user.getApiToken());
+        }
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(study.getStudyPublicReleaseDate());
         mav.addObject("releaseYear", calendar.get(Calendar.YEAR));
         mav.addObject("userOrcidID", user.getOrcId());
-		mav.addObject("orcidServiceUrl", orcidServiceURL);
+        mav.addObject("orcidServiceUrl", orcidServiceURL);
         mav.addObject("orcidRetrieveClaimsServiceUrl", orcidRetreiveClaimsServiceURL);
+        mav.addObject("userHasEditRights", canEditQuickly(user, study));
 
 
         return mav;
@@ -374,7 +380,7 @@ public class EntryController extends AbstractController {
         }
     }
 
-    private static boolean doesUserOwnsTheStudy(String userName, LiteStudy study) {
+    public static boolean doesUserOwnsTheStudy(String userName, LiteStudy study) {
 
         for (User user : study.getUsers()) {
             if (user.getUserName().equals(userName)) {
@@ -382,6 +388,51 @@ public class EntryController extends AbstractController {
             }
         }
 
+        return false;
+    }
+
+    public static boolean canEdit(MetabolightsUser user, LiteStudy study) {
+        if (user.isCurator()) {
+            return true;
+        } else {
+            return doesUserOwnsTheStudy(user.getUserName(), study);
+        }
+    }
+
+    /**
+     * @param studyId
+     * @return
+     */
+    public static boolean canUserQuicklyEditThisToStudy(String studyId) {
+
+
+        MetabolightsUser user = LoginController.getLoggedUser();
+
+        // Return true if curator: curators can do anything.
+        if (user.isCurator()) {
+            return true;
+        } else {
+
+            // Get the study
+            MetabolightsWsClient wsClient = getMetabolightsWsClient(user);
+            RestResponse<uk.ac.ebi.metabolights.repository.model.Study> response = wsClient.getStudy(studyId);
+            uk.ac.ebi.metabolights.repository.model.Study study = response.getContent();
+            return canEditQuickly(user, study);
+        }
+    }
+
+    public static boolean canEditQuickly(MetabolightsUser user, LiteStudy study) {
+        if (user.isCurator()) {
+            return true;
+        } else {
+            boolean userOwnstudy = doesUserOwnsTheStudy(user.getUserName(), study);
+            // Study is in Submitted status
+            if (userOwnstudy) {
+                if (study.getStudyStatus().equals(LiteStudy.StudyStatus.SUBMITTED)) {
+                    return userOwnstudy;
+                }
+            }
+        }
         return false;
     }
 

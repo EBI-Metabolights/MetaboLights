@@ -10,9 +10,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+
 
 /**
  * Created by kalai on 03/08/2016.
@@ -40,7 +40,8 @@ public class GenericCompoundWSClients {
         return pubchemWSUrl;
     }
 
-    public static String executeRequest(String requestURL, String method, String postBody) {
+    public static String executeRequest(String requestURL, String method, String postBody, String apiKey) {
+
         HttpURLConnection connection = null;
         try {
             //Create connection
@@ -53,6 +54,11 @@ public class GenericCompoundWSClients {
                     "application/x-www-form-urlencoded");
             connection.setRequestProperty("Content-Language", "en-US");
             connection.setRequestProperty("charset", "utf-8");
+            if (apiKey != null && !apiKey.isEmpty()) {
+                connection.setRequestProperty("apikey", apiKey);
+                connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                connection.setRequestProperty("Accept", "application/json");
+            }
             connection.setDoOutput(true);
 
             if (method.equalsIgnoreCase("post")) {
@@ -89,6 +95,10 @@ public class GenericCompoundWSClients {
                 connection.disconnect();
             }
         }
+    }
+
+    public static String executeRequest(String requestURL, String method, String postBody) {
+        return executeRequest(requestURL, method, postBody, "");
     }
 
 

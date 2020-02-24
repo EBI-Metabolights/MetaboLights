@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/bash 
 . /nfs/www-prod/web_hx2/cm/metabolights/scripts/postgres.properties.prod
-export pg_program=/nfs/dbtools/pgsql95/usr/pgsql-9.5/bin/pg_dump
+export pg_program=/nfs/dbtools/pgsql10/usr/pgsql-10/bin/pg_dump
 cd /ebi/production/panda/metabolights/backup/
 export today=`date +%d`
 export count=`date +%H`

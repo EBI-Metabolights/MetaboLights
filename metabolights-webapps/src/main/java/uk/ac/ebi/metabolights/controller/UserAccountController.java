@@ -352,7 +352,7 @@ public class UserAccountController extends AbstractController{
     	if (!userCheck.getDbPassword().equals(metabolightsUser.getDbPassword())) {
     		logger.info("pasword was changed ... was "+userCheck.getDbPassword()+" is now "+metabolightsUser.getDbPassword());
         	metabolightsUser.setDbPassword(IsaTabAuthenticationProvider.encode(metabolightsUser.getDbPassword()));
-            metabolightsUser.setApiToken(UUID.randomUUID().toString());
+            //metabolightsUser.setApiToken(UUID.randomUUID().toString());
     	}
 
     	//Update the user information in the database

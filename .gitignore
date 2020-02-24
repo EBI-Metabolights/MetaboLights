@@ -221,7 +221,7 @@ metabolights-webapps/src/main/webapp/WEB-INF/lib/resolver-20050927.jar
 metabolights-webapps/src/main/webapp/WEB-INF/lib/rhea-domain-1.7.0.jar
 metabolights-webapps/src/main/webapp/WEB-INF/lib/rhea-ws-client-2.0.0.jar
 metabolights-webapps/src/main/webapp/WEB-INF/lib/rhea-ws-domain-2.1.0.jar
-metabolights-webapps/src/main/webapp/WEB-INF/lib/saaj-api-1.3.jar
+metabolights-webapps/src/main/webapp/WEB-INF/lib/saaj-api-1.3.jare
 metabolights-webapps/src/main/webapp/WEB-INF/lib/saaj-impl-1.3.2.jar
 metabolights-webapps/src/main/webapp/WEB-INF/lib/search-service-4.0.jar
 metabolights-webapps/src/main/webapp/WEB-INF/lib/sjsxp-1.0.1.jar
@@ -274,3 +274,12 @@ metabolights-webapps/src/main/webapp/WEB-INF/lib/xpp3-1.1.4c.jar
 metabolights-webapps/src/main/webapp/WEB-INF/classes/*
 *.jar
 *.class
+mzml_validation_progress_log.txt
+*.mp4
+metabolights-webservice-dev.war
+metabolights-webapp-dev.war
+metabolights.sh
+study_titles.sh
+test_investigation_files.sh
+update_study_meta_stats.sh
+validate_studies.sh

@@ -193,7 +193,6 @@ public class MLLWorkSpace {
             e.printStackTrace();
 
         }
-
         return null;
     }
 
@@ -227,8 +226,7 @@ public class MLLWorkSpace {
         if(settingsObject.containsKey(property)){
             return settingsObject.get(property).toString();
         }
-
-        return null;
+        return settingsObject.toJSONString();
 
     }
 

@@ -50,7 +50,7 @@ public class MetabolightsXMLExporter {
     private final static String FIELD = "field";
     private final static String REF = "ref";
     private final static String DATE = "date";
-    private final static String ML_BASE_URL = "http://www.ebi.ac.uk/metabolights";
+    private final static String ML_BASE_URL = "https://www.ebi.ac.uk/metabolights";
     private final static String ML_BASE_FTP = "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/";
     private final static String ML_BASE_FTP_DIR = "/ebi/ftp/pub/databases/metabolights/studies/public/";
     private static String xmlFileName = null;
@@ -147,8 +147,8 @@ public class MetabolightsXMLExporter {
 
     private static String[] getStudiesList(){
         RestResponse<String[]> response = getWsClient().getAllStudyAcc();
-//        return new String[]{"MTBLS291"};
-//        //return new String[]{"MTBLS124"};
+        // return new String[]{"MTBLS291"};
+        //return new String[]{"MTBLS124"};
         return response.getContent();
     }
 
@@ -245,11 +245,10 @@ public class MetabolightsXMLExporter {
 
             //Add the complete study list to the entries section
             doc.getDocumentElement().appendChild(entries);
-
             writeDocument(doc);
             return true;
         } catch (Exception e) {
-            System.out.println("Could not create XML document "+fileName);
+            System.out.println("Could not create XML document " + fileName);
             return false;
         }
     }
@@ -268,82 +267,92 @@ public class MetabolightsXMLExporter {
 
                 //TODO, add ontologies
 
-                MetaboLightsCompound compound = getCompound(compoundAcc).getMc();
+                MetaboLightsCompound compound = null;
 
-                Element entry = doc.createElement("entry");
-                entry.setAttribute("id", compoundAcc);
+                Compound comp_response = getCompound(compoundAcc);
+                if (comp_response != null){
+                    compound = getCompound(compoundAcc).getMc();
+                }
 
-                entry.appendChild(addGenericElement("name", compound.getName()));
-                entry.appendChild(addGenericElement("description", compound.getDescription()));
+                if (compound == null) {
+                    System.out.println("Could not find compound " + compoundAcc);
+                } else {
+                    Element entry = doc.createElement("entry");
+                    entry.setAttribute("id", compoundAcc);
 
-                //Add the sub tree "additional_fields"
-                Element additionalField = doc.createElement("additional_fields");
+                    if (compound.getName() != null)
+                        entry.appendChild(addGenericElement("name", compound.getName()));
+                    if (compound.getDescription() != null)
+                        entry.appendChild(addGenericElement("description", compound.getDescription()));
 
+                    //Add the sub tree "additional_fields"
+                    Element additionalField = doc.createElement("additional_fields");
 
-                additionalField.appendChild(createChildElement(FIELD, "inchi", compound.getInchi()));
-                additionalField.appendChild(createChildElement(FIELD, "iupac", compound.getIupacNames()));
-                additionalField.appendChild(createChildElement(FIELD, "formula", compound.getFormula()));
+                    if (compound.getInchi() != null)
+                        additionalField.appendChild(createChildElement(FIELD, "inchi", compound.getInchi()));
 
-                Element crossreferences = doc.createElement("cross_references");
-                try {
-                    ArrayList<MetSpecies> metSpecies = compound.getMetSpecies();
+                    if (compound.getIupacNames() != null)
+                        additionalField.appendChild(createChildElement(FIELD, "iupac", compound.getIupacNames()));
 
+                    if (compound.getFormula() != null)
+                        additionalField.appendChild(createChildElement(FIELD, "formula", compound.getFormula()));
 
-                    ArrayList<String> StudyList = new ArrayList<>();
+                    Element crossreferences = doc.createElement("cross_references");
+                    try {
 
+                        if (compound.getMetSpecies() != null) {
+                            ArrayList<MetSpecies> metSpecies = compound.getMetSpecies();
+                            ArrayList<String> StudyList = new ArrayList<>();
 
-                    for (MetSpecies species : metSpecies) {
-                        additionalField.appendChild(createChildElement(FIELD, "organism", species.getSpecies().getSpecies()));
+                            for (MetSpecies species : metSpecies) {
+                                if (species.getSpecies() != null && species.getSpecies().getSpecies() != null) {
+                                    additionalField.appendChild(createChildElement(FIELD, "organism", species.getSpecies().getSpecies()));
 
-                        if (species.getSpecies().getSpecies().equalsIgnoreCase("reference compound")) {
-                        //TODO, complete this....
-                        }
-                        else {
-                            if (species.getSpecies().getSpeciesMember() != null) {
-                                additionalField.appendChild(createChildElement(FIELD, "organism_group", species.getSpecies().getSpeciesMember().getSpeciesGroup().getName()));
-                            }
-                        }
-
-
-                        Element crossref =  createChildElement("ref",  species.getCrossReference().getAccession(), species.getCrossReference().getDb().getName());
-                        crossreferences.appendChild(crossref);
-
-                            if (species.getCrossReference().getDb().getName().equalsIgnoreCase("MTBLS")) {
-                                if (StudyList.contains(species.getCrossReference().getAccession())) {
-                                    System.out.println("exists");
-                                } else {
-                                    StudyList.add(species.getCrossReference().getAccession());
+                                    if (species.getSpecies().getSpecies().equalsIgnoreCase("reference compound")) {
+                                        //TODO, complete this....
+                                    } else {
+                                        if (species.getSpecies().getSpeciesMember() != null) {
+                                            additionalField.appendChild(createChildElement(FIELD, "organism_group", species.getSpecies().getSpeciesMember().getSpeciesGroup().getName()));
+                                        }
+                                    }
                                 }
 
+                                if (species.getCrossReference() != null) {
+                                    Element crossref = createChildElement("ref", species.getCrossReference().getAccession(), species.getCrossReference().getDb().getName());
+                                    crossreferences.appendChild(crossref);
+
+                                    if (species.getCrossReference().getDb().getName().equalsIgnoreCase("MTBLS")) {
+                                        if (StudyList.contains(species.getCrossReference().getAccession())) {
+                                            System.out.println("exists");
+                                        } else {
+                                            StudyList.add(species.getCrossReference().getAccession());
+                                        }
+                                    }
+                                }
                             }
+
+                            System.out.println(StudyList.size());
+                            for (String study : StudyList) {
+                                additionalField.appendChild(createChildElement(FIELD, "study", study));
+                            }
+                        }
+
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                        failedCompounds.add(compoundAcc);
                     }
+                    entry.appendChild(crossreferences);
+                    entry.appendChild(additionalField);
+                    //Add the complete study to the entry section
+                    entries.appendChild(entry);
 
-                    System.out.println(StudyList.size());
-                    for (String study : StudyList) {
-                        additionalField.appendChild(createChildElement(FIELD, "study", study));
-                    }
+                    i++;
 
-
-                }catch(Exception e){
-
-                    System.out.println(e.getMessage());
-                    failedCompounds.add(compoundAcc);
-
+                    System.out.println(String.valueOf(i) + " ------- " + String.valueOf(numberofcompounds - i) + "=====" + String.valueOf(failedCompounds.size()));
                 }
-                entry.appendChild(crossreferences);
-                entry.appendChild(additionalField);
-                //Add the complete study to the entry section
-                entries.appendChild(entry);
-
-
-                i++;
-
-
-                System.out.println(String.valueOf(i) + " ------- " + String.valueOf(numberofcompounds - i) + "=====" + String.valueOf(failedCompounds.size()));
-            }
-            catch (Exception e) {
-                System.out.println(e.getMessage());
-                System.out.println("Could not export compound:"+compoundAcc);
+            } catch(Exception e){
+                System.out.println("Error message:" + e.getMessage());
+                System.out.println("Could not export compound:" + compoundAcc);
                 failedCompounds.add(compoundAcc);
             }
         }
@@ -463,10 +472,8 @@ public class MetabolightsXMLExporter {
     }
 
     private static void addDates(Element dateFields, Study study){
-
         dateFields.appendChild(createChildElement(DATE, "submission", getDateString(study.getStudySubmissionDate())));
         dateFields.appendChild(createChildElement(DATE, "publication", getDateString(study.getStudyPublicReleaseDate())));
-
     }
 
     private static void addXrefs(Element crossRefs, Study study){
@@ -477,7 +484,6 @@ public class MetabolightsXMLExporter {
             if (hasValue(publication.getPubmedId()))
                 crossRefs.appendChild(createChildElement(REF, publication.getPubmedId(), "pubmed"));
         }
-
 
         for (int i = 0; i < study.getAssays().size(); i++) {
             i++;
@@ -532,7 +538,8 @@ public class MetabolightsXMLExporter {
    }
 
     private static String tidyNonPrintChars(String s, String description){
-        String clean = s.replaceAll("\\p{C}", "");
+        String clean = s.replaceAll("\\p{C}", "").
+                replaceAll("[^\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]", "");
 
         if (clean != s) {
             System.out.println("Replaced special character in: " + description);
@@ -677,7 +684,8 @@ public class MetabolightsXMLExporter {
 
                 if (!detailedTags){ // Standard author feed for EBI, DDI and MX
                     for (Contact contact : study.getContacts()) {
-                        additionalField.appendChild(createChildElement(FIELD, "author", tidyAutors(contact)));
+                        additionalField.appendChild(createChildElement(FIELD, "author",
+                                tidyNonPrintChars(tidyAutors(contact), "Authors")));
                     }
                 }
 
@@ -698,7 +706,6 @@ public class MetabolightsXMLExporter {
                         platformList.add(assay.getPlatform());
                         additionalField.appendChild(createChildElement(FIELD, "instrument_platform", assay.getPlatform()));
                     }
-
 
                     //TODO, MS: Autosampler model - Chromatography Instrument - Instrument
                     //TODO, NMR: Autosampler model - Instrument
@@ -899,6 +906,9 @@ public class MetabolightsXMLExporter {
         // add element after the last child of the root element
         Element element = doc.createElement(elementType);
 
+
+        attributeValue = attributeValue.trim();
+
         // add an attribute to the node
         switch (elementType) {
             case FIELD:
@@ -923,12 +933,14 @@ public class MetabolightsXMLExporter {
     }
 
     private static void writeDocument(Document xml) throws Exception {
+        System.out.println("Setting up new XML document");
         Transformer transformer = TransformerFactory.newInstance().newTransformer();
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount","4");
         transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
         transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+        System.out.println("Writing XML document");
         transformer.transform(new DOMSource(xml), new StreamResult(new File(xmlFileName)));
     }
 

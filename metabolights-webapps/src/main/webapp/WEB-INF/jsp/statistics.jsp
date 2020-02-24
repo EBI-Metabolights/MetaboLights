@@ -27,9 +27,8 @@
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/nv.d3.css" type="text/css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <script src="${pageContext.request.contextPath}/javascript/nv.d3.js"></script>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>
+<%--<link rel="stylesheet" href="${pageContext.request.contextPath}/css/metabolights.css" type="text/css"/>--%>
 
 
 <style>

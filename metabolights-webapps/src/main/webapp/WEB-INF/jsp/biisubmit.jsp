@@ -75,7 +75,9 @@
 	<div class="col-md-12">
 		<h2><spring:message code="msg.upload" /></h2>
 		<p><spring:message code="msg.upload.desc"/></p>
+
 		<p><spring:message code="label.experimentMsgPublic"/></p>
+		<br>
 		<div class="well">
 			<p><spring:message code="msg.upload.desc3"/></p>
 		</div>

@@ -193,7 +193,7 @@ public class MetabolightsEuropePMCExporter {
             writeDocument(doc);
             return true;
         } catch (Exception e) {
-            System.out.println("Could not create XML document "+fileName);
+            System.out.println("Could not create XML document "+fileName +". Error: " + e.getMessage());
             return false;
         }
     }
