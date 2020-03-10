@@ -22,6 +22,8 @@ package uk.ac.ebi.metabolights.utils.exporter;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import uk.ac.ebi.metabolights.referencelayer.model.Compound;
 import uk.ac.ebi.metabolights.referencelayer.model.MetSpecies;
 import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
@@ -341,7 +343,11 @@ public class MetabolightsXMLExporter {
                         System.out.println(e.getMessage());
                         failedCompounds.add(compoundAcc);
                     }
-                    entry.appendChild(crossreferences);
+
+                    Element chebiCrossRef = createChildElement(REF, compound.getChebiId(), "ChEBI");
+                    crossreferences.appendChild(chebiCrossRef);
+
+                    entry.appendChild(getElementWithUniqueChildElements(crossreferences));
                     entry.appendChild(additionalField);
                     //Add the complete study to the entry section
                     entries.appendChild(entry);
@@ -524,8 +530,6 @@ public class MetabolightsXMLExporter {
                         } else if (dbId.startsWith("GMD")) {
                             crossRefs.appendChild(createChildElement(REF, dbId, "GOLM"));
                         }
-
-
                     }
                 }
             }
@@ -899,6 +903,28 @@ public class MetabolightsXMLExporter {
         } else {
             doc.appendChild(itemElement);
         }
+    }
+
+    private static Element getElementWithUniqueChildElements(Element parent){
+        NodeList childNodes = parent.getChildNodes();
+
+        Node parentClone = parent.cloneNode(true);
+
+        while (parentClone.hasChildNodes())
+            parentClone.removeChild(parentClone.getFirstChild());
+
+        ArrayList<String> uniqueCrossRefs = new ArrayList<>();
+        ArrayList<Integer> duplicateNodeIndexes = new ArrayList<>();
+
+        for (int i = 0; i < childNodes.getLength(); i++) {
+            Node currentNode = childNodes.item(i);
+            String dbKey = currentNode.getAttributes().getNamedItem("dbkey").getNodeValue();
+            if(uniqueCrossRefs.indexOf(dbKey) < 0){
+                parentClone.appendChild(currentNode);
+            }
+        }
+
+        return (Element) parentClone;
     }
 
     private static Element createChildElement(String elementType, String attributeValue, String attributeText){
