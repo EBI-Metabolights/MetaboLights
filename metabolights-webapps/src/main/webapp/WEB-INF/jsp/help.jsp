@@ -25,8 +25,22 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
     <div class="col-md-12">
         <h3><spring:message code="msg.metabolightsAbout14"/></h3>
+        <p><h2>Online Study Submission</h2>
+        Please checkout the video below for step by step guide to create a MetaboLights study online.</p>
+        <div>&nbsp;</div>
+        <div class="col-md-8 col-md-offset-2">
+            <video width="100%" height="auto" controls>
+                <source src="editor/assets/videos/201904_ML_ALL.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
         <p>
-            Please note that these links will take you to our online Google Documents (PDF versions available below). In case of any firewall restrictions, please use our FTP links, if you are unable to access the above online Google documents.
+            <br/>
+            <br/>
+            <h4>ISA Creator</h4>
+            If you choose to use ISAcreator, please see below for help. Note that these links will take you to our online Google Documents (PDF versions available below). In case of any firewall restrictions, please use our FTP links, if you are unable to access the above online Google documents.
             <br/>
             <br/>
 
