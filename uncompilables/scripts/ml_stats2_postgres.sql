@@ -52,7 +52,7 @@ insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data','
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Data','- Median study size (GB)', round(median(studysize)/1024/1024/1024,2), 15 from studies where status != 4 and placeholder != '1';
 
 -- Section "Submitters"
-insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Submitters', 'Number of registered submitters', count(*), 1 from users where role != 1 and status = 2;
+insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Submitters', 'Number of registered submitters', count(*), 1 from users where role != 1;
 --insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Submitters', 'Number of curator accounts', count(*), 3 from users where role = 1;
 insert into ml_stats(page_section,str_name,str_value,sort_order) select 'Submitters', 'Number of countries', count(distinct address), 2 from users;
 
