@@ -47,6 +47,7 @@ public class SessionWrapper {
 	private static Logger logger = LoggerFactory.getLogger(SessionWrapper.class);
 
     public Session getSession() {
+		logger.info("getting session");
         if (session == null)
             session = factory.openSession();
         return session;
@@ -60,7 +61,7 @@ public class SessionWrapper {
 
 		// If we have a session ...
 		if (session != null){
-
+			logger.info(" session is not null, get this  database session");
 			boolean valid = false;
 
 			Connection connection = null;
@@ -68,6 +69,7 @@ public class SessionWrapper {
 				// but it's useless
 				connection = ((SessionImpl)session).connection();
 				valid = connection.isValid(1);
+				logger.info("got the connection");
 
 			} catch (SQLException e) {
 				logger.warn("Exception at connection.isInvalid() invocation: {}.", e.getMessage());
@@ -86,12 +88,12 @@ public class SessionWrapper {
 
 		// If empty..
 		if (session == null) {
-
+			logger.info(" session is  null, get new database session");
 			session = getSession();
 
 			if (session.isOpen()) {
 				session.beginTransaction();
-				logger.debug("Starting a new Hibernate session in SessionWrapper");
+				logger.info("Starting a new Hibernate session in SessionWrapper");
 			}
 			else {
 				logger.error("Could not get a session from the Hibernate SessionFactory");
@@ -101,7 +103,7 @@ public class SessionWrapper {
 
 		sessionCount++;
 
-		logger.debug("Session count incremented to {}", sessionCount);
+		logger.info("Session count incremented to {}", sessionCount);
 		return session;
 
 	}
@@ -113,15 +115,15 @@ public class SessionWrapper {
 		// Decrease the count
 		sessionCount--;
 
-		logger.debug("Session count decremented to {}", sessionCount);
+		logger.info("Session count decremented to {}", sessionCount);
 
 		// If 0 close it
 		if (sessionCount == 0) {
-			logger.debug("sessionCount is 0, try to commit and close the Hibernate session");
+			logger.info("sessionCount is 0, try to commit and close the Hibernate session");
 
 			try {
                 if (session.isOpen()) {
-                    logger.debug("Session is open but no longer required, trying to commit and close");
+                    logger.info("Session is open but no longer required, trying to commit and close");
                     session.getTransaction().commit();
                     session.close();
                     session = null;

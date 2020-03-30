@@ -75,13 +75,13 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
             logger.info("Requesting database session");
             session.needSession();
 
-            logger.debug("Getting SQL query");
+            logger.info("Getting SQL query");
             Query query = getDefaultQuery(where, filter);
 
-            logger.debug("SQL query is : " + query.getQueryString());
+            logger.info("SQL query is : " + query.getQueryString());
             List<dataModel> dataModels = query.list();
 
-            logger.debug("Converting to MTBLS data model");
+            logger.info("Converting to MTBLS data model");
             // We are bypassing any lazy initialization with this. So far it's fine.
             businessEntities = convertDataModelToBusinessModel(dataModels);
 
