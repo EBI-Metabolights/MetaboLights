@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<providers>
+ <provider>
+   <id>1782</id>
+   <resourceName>MetaboLights</resourceName>
+   <description>MetaboLights is a database for Metabolomics experiments and derived information</description>
+   <email>metabolights-help@ebi.ac.uk</email>
+ </provider>
+</providers>

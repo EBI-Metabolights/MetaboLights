@@ -283,3 +283,4 @@ study_titles.sh
 test_investigation_files.sh
 update_study_meta_stats.sh
 validate_studies.sh
+rebuildAll_ken.sh

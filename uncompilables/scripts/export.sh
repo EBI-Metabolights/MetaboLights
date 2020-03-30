@@ -1,6 +1,6 @@
 JAVA=/usr/lib/jvm/java-1.7.0/bin/java
 JAR_FILE=metabolights-export-1.3-SNAPSHOT-deps.jar
-WS_URL=https://www.ebi.ac.uk/metabolights/webservice/
+WS_URL=https://wp-p3s-15:8070/metabolights/webservice/
 FTP_DIR=/ebi/ftp/pub/databases/metabolights/eb-eye
 EBEYE_FILE=eb-eye_metabolights_complete.xml
 PMC_FILE=europe_PMC_metabolights_studies.xml
@@ -22,7 +22,7 @@ REPORTED_ENTRIES=`head $FTP_DIR/$EBEYE_FILE | grep entry_count | sed -e 's/<[^>]
 REPORTED_ENTRIES="$(echo -e "${REPORTED_ENTRIES}" | tr -d '[:space:]')"
 if [ "$REPORTED_ENTRIES" -gt "$REAL_ENTRIES" ]; then
   sed -i "s/<entry_count>$REPORTED_ENTRIES<\/entry_count>/<entry_count>$REAL_ENTRIES<\/entry_count>/g" $FTP_DIR/$EBEYE_FILE
-  echo "Updated the $EBEYE_FILE file entry count from $REPORTED_ENTRIES to $REAL_ENTRIES" | mail -s "EB-EYE exporter entry count update" kenneth@ebi.ac.uk
+  echo "Updated the $EBEYE_FILE file entry count from $REPORTED_ENTRIES to $REAL_ENTRIES" | mail -s "EB-EYE exporter entry count update" metabolights-dev@ebi.ac.uk
   #tail eb-eye_metabolights_complete.log | mail -s "Error in the EB-EYE exporter" metabolights-dev@ebi.ac.uk  
   cp $FTP_DIR/$EBEYE_FILE.old $FTP_DIR/$EBEYE_FILE
 fi

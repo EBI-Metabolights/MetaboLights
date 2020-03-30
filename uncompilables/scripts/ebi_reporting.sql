@@ -26,7 +26,7 @@ alter table curation_log_temp alter column ms_size type bigint;
 DO $$
 BEGIN
 
-  FOR i_acc in 1..1000 LOOP
+  FOR i_acc in 1..2000 LOOP
    insert into curation_log_temp(acc, acc_short) values('MTBLS'||i_acc, i_acc);
   END LOOP;
  
@@ -70,6 +70,10 @@ BEGIN
   update curation_log_temp set ms_size = (studysize-12000),       nmr_size = 12000 where acc='MTBLS103';
   update curation_log_temp set ms_size = (studysize-355000),     nmr_size = 355000 where acc='MTBLS336';
   update curation_log_temp set ms_size = (studysize-45000000), nmr_size = 45000000 where acc='MTBLS353';
+  
+--  update curation_log_temp set studysize = studysize * 1000;
+--  update curation_log_temp set ms_size = ms_size * 1000;
+--  update curation_log_temp set nmr_size = nmr_size * 1000;
 
 END
 $$;      
