@@ -48,7 +48,7 @@ public class SessionWrapper {
 
     public Session getSession() {
         if (session == null)
-            session = factory.openSession();
+            session = factory.getCurrentSession();
         return session;
     }
 
@@ -58,10 +58,11 @@ public class SessionWrapper {
 
     public Session needSession() {
 
+    	logger.info(" Getting the session");
 		// If we have a session ...
 		if (session != null){
-
-			boolean valid = false;
+			logger.info("session is not null, get new database session");
+			/*boolean valid = false;
 
 			Connection connection = null;
 			try {
@@ -80,35 +81,37 @@ public class SessionWrapper {
 					sessionCount = 0;
 					session = null;
 				}
-			}
+			}*/
 
 		}
 
 		// If empty..
 		if (session == null) {
-
+			logger.info("session is  null, get new database session");
 			session = getSession();
 
-			if (session.isOpen()) {
+			/*if (session.isOpen()) {
 				session.beginTransaction();
 				logger.debug("Starting a new Hibernate session in SessionWrapper");
 			}
 			else {
 				logger.error("Could not get a session from the Hibernate SessionFactory");
-			}
+			}*/
 
 		}
 
-		sessionCount++;
+		//sessionCount++;
 
-		logger.debug("Session count incremented to {}", sessionCount);
+		//logger.debug("Session count incremented to {}", sessionCount);
 		return session;
+
+		logger.info(" returning session");
 
 	}
 
 	public void noNeedSession() {
 
-		if (sessionCount <= 0) logger.debug("Wrong session count at noNeedSession: {}", sessionCount);
+	/*	if (sessionCount <= 0) logger.debug("Wrong session count at noNeedSession: {}", sessionCount);
 
 		// Decrease the count
 		sessionCount--;
@@ -131,7 +134,7 @@ public class SessionWrapper {
             } catch (Exception e) {
                 logger.error("ERROR: Trying to use a Hibernate session, but the session is not open. " + e.getMessage());
             }
-		}
+		}*/
 
 	}
 	public Query createQuery(String query){

@@ -121,6 +121,9 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 
 	public Object getUniqueValue(String wholeQuery, Filter filter) throws DAOException {
 
+
+
+		logger.info("getUniqueValue - Requesting database session");
 		session.needSession();
 
 		Query query = getQuery(wholeQuery, filter);
@@ -135,6 +138,9 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 
 	public List getList(String wholeQuery, Filter filter) throws DAOException {
 
+
+
+		logger.info("getList - Requesting database session");
 		session.needSession();
 
 		Query query = getQuery(wholeQuery, filter);
@@ -155,6 +161,9 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 		// Invoke the conversion
 		datamodel.setBussinesModelEntity(bussinessEntity);
 
+
+
+		logger.info("save - Requesting database session");
 		session.needSession();
 
 		// Pre save will trigger the save of parent objects if any.
@@ -169,6 +178,9 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 
 	protected void saveDataModel(dataModel datamodel){
 
+
+
+		logger.info("save DataModel  - Requesting database session");
 		session.needSession();
 
 		session.saveOrUpdate(datamodel);
@@ -201,6 +213,7 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 
 	public void delete(BusinessEntity bussinessEntity) throws DAOException {
 
+		logger.info("delete - Requesting database session");
 		session.needSession();
 
 		// Convert BusinessEntity to DataModel
