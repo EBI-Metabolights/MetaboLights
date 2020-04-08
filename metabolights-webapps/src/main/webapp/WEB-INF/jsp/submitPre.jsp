@@ -56,9 +56,9 @@
                                 </span>
                             </div>
                         </div>
-                        <p>
-                            You can also <a href="submittoqueue">upload ISA-Tab files</a> if you have used ISAcreator to create your study
-                        </p>
+                        <%--<p>--%>
+                            <%--You can also <a href="submittoqueue">upload ISA-Tab files</a> if you have used ISAcreator to create your study--%>
+                        <%--</p>--%>
                     </div>
                     <div class="col-md-5">
                         <div class="panel panel-default">
@@ -75,7 +75,7 @@
                                 </a>
                             </div>
                         </div>
-                    </div>IsaTab2MetaboLightsConverter.java
+                    </div>
                 </div>
             </div>
         </div>
