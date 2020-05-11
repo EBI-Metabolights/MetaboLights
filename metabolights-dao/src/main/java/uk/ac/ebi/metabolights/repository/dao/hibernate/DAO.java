@@ -21,6 +21,8 @@
 package uk.ac.ebi.metabolights.repository.dao.hibernate;
 
 import org.hibernate.Query;
+
+import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.DataModel;
@@ -51,8 +53,8 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 	}
 
 	public SessionWrapper getSession() {
-        return session;
-    }
+		return session;
+	}
 
 	public void setSession(SessionWrapper session) {
 		this.session = session;
@@ -66,29 +68,35 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 
 	public List<BusinessEntity> findBy(String where , Filter filter) throws DAOException {
 
-        List<BusinessEntity> businessEntities = null;
+		List<BusinessEntity> businessEntities = null;
 
-        if (session == null)
-            session = HibernateUtil.getSession();
+		if (session == null)
+			session = HibernateUtil.getSession();
 
-        try {
-            logger.info("Requesting database session");
-            session.needSession();
+		Transaction tx = null;
+		try {
+			logger.info("Requesting database session");
+			session.needSession();
 
-            logger.info("Getting SQL query");
-            Query query = getDefaultQuery(where, filter);
+			logger.info("Getting SQL query");
+			tx = session.startTxn();
+			Query query = getDefaultQuery(where, filter);
 
-            logger.info("SQL query is : " + query.getQueryString());
-            List<dataModel> dataModels = query.list();
+			logger.info("SQL query is : " + query.getQueryString());
+			List<dataModel> dataModels = query.list();
 
-            logger.info("Converting to MTBLS data model");
-            // We are bypassing any lazy initialization with this. So far it's fine.
-            businessEntities = convertDataModelToBusinessModel(dataModels);
+			logger.debug("Converting to MTBLS data model");
+			// We are bypassing any lazy initialization with this. So far it's fine.
+			businessEntities = convertDataModelToBusinessModel(dataModels);
 
-        } catch (Exception e) {
-            logger.error("ERROR: Could not query the database: " + e.getMessage());
-        } finally {
-            logger.info("Closing the session");
+			tx.commit();
+
+		} catch (Exception e) {
+			if (tx!=null)
+				tx.rollback();
+			logger.error("ERROR: Could not query the database: " + e.getMessage());
+		} finally {
+			logger.info("Closing the session");
 			session.noNeedSession();
 		}
 
@@ -99,17 +107,17 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 
 	public BusinessEntity findSingle(String where, Filter filter) throws DAOException {
 
-        if (where == null && filter == null)
-            return null;
+		if (where == null && filter == null)
+			return null;
 
 		try {
 			return findBy(where, filter).iterator().next();
 		} catch (NoSuchElementException e){
 			return null;
 		} catch (Exception e){
-		    logger.error("Could not query the database using: "+ where);
-		    return null;
-        }
+			logger.error("Could not query the database using: "+ where);
+			return null;
+		}
 
 	}
 
@@ -120,31 +128,55 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 	}
 
 	public Object getUniqueValue(String wholeQuery, Filter filter) throws DAOException {
+		logger.info("getUniqueValue - Requesting database session");
 
-		session.needSession();
+		Transaction tx= null;
+		Object value = null;
+		try{
+			session.needSession();
 
-		Query query = getQuery(wholeQuery, filter);
+			tx = session.startTxn();
+			Query query = getQuery(wholeQuery, filter);
 
-		Object value = query.uniqueResult();
+			value = query.uniqueResult();
 
-		session.noNeedSession();
-
+			tx.commit();
+		} catch (Exception e) {
+			if (tx!=null)
+				tx.rollback();
+			logger.error("ERROR: Could not query the database: " + e.getMessage());
+		} finally {
+			logger.info("Closing the session");
+			session.noNeedSession();
+		}
 		return value;
 
 	}
 
 	public List getList(String wholeQuery, Filter filter) throws DAOException {
 
-		session.needSession();
+		Transaction tx= null;
+		List value = null;
+		try {
+			logger.info("getList - Requesting database session");
+			session.needSession();
+			tx = session.startTxn();
+			Query query = getQuery(wholeQuery, filter);
 
-		Query query = getQuery(wholeQuery, filter);
+			value = query.list();
+			tx.commit();
 
-		List value = query.list();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			logger.error("ERROR: Could not query the database: " + e.getMessage());
+		} finally {
+			logger.info("Closing the session");
+			session.noNeedSession();
+			logger.info("getList - returning from function");
+			return null;
 
-		session.noNeedSession();
-
-		return value;
-
+		}
 	}
 
 	public void save(BusinessEntity bussinessEntity ) throws DAOException {
@@ -155,25 +187,44 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 		// Invoke the conversion
 		datamodel.setBussinesModelEntity(bussinessEntity);
 
-		session.needSession();
+		logger.info("save - Requesting database session");
 
-		// Pre save will trigger the save of parent objects if any.
-		preSave(datamodel);
+		try{
+			// Pre save will trigger the save of parent objects if any.
+			preSave(datamodel);
 
-		saveDataModel(datamodel);
+			saveDataModel(datamodel);
 
-		session.noNeedSession();
+		} catch (Exception e) {
+			logger.error("ERROR: Could not query the database: " + e.getMessage());
+		} finally {
+			logger.info("Closing the session");
+			logger.info("save - returning from function");
 
+		}
 	}
 
 
 	protected void saveDataModel(dataModel datamodel){
 
-		session.needSession();
+		logger.info("save DataModel  - Requesting database session");
+		Transaction tx= null;
+		try{
+			session.needSession();
+			tx = session.startTxn();
 
-		session.saveOrUpdate(datamodel);
+			session.saveOrUpdate(datamodel);
+			tx.commit();
+		} catch (Exception e) {
+			if (tx!=null)
+				tx.rollback();
+			logger.error("ERROR: Could not query the database: " + e.getMessage());
+		} finally {
+			logger.info("Closing the session");
+			logger.info("save - returning from function");
+			session.noNeedSession();
+		}
 
-		session.noNeedSession();
 
 	}
 
@@ -201,17 +252,27 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 
 	public void delete(BusinessEntity bussinessEntity) throws DAOException {
 
-		session.needSession();
+		logger.info("delete - Requesting database session");
+		Transaction tx = null;
+		try{
+			session.needSession();
+			tx = session.startTxn();
+			// Convert BusinessEntity to DataModel
+			dataModel datamodel = getDataModel();
 
-		// Convert BusinessEntity to DataModel
-		dataModel datamodel = getDataModel();
-
-		// Invoke the conversion
-		datamodel.setBussinesModelEntity(bussinessEntity);
-		session.delete(datamodel);
-
-		session.noNeedSession();
-
+			// Invoke the conversion
+			datamodel.setBussinesModelEntity(bussinessEntity);
+			session.delete(datamodel);
+			tx.commit();
+		} catch (Exception e) {
+			if (tx!=null)
+				tx.rollback();
+			logger.error("ERROR: Could not query the database: " + e.getMessage());
+		} finally {
+			logger.info("Closing the session");
+			logger.info("delete - returning from function");
+			session.noNeedSession();
+		}
 	}
 
 	private Query getDefaultQuery(String where, Filter filter) throws DAOException {
