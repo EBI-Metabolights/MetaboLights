@@ -1,1873 +1,1263 @@
 /*
-* Revision: 3.8
-* Revision date: 02/13/2019
+* Revision: 3.9.9.177872
+* Revision date: 03/03/2020
 *
 * http://www.asperasoft.com/
 *
-* Â© Copyright IBM Corp. 2008, 2019
+* © Copyright IBM Corp. 2008, 2020
 */
-
 "use strict";
-
-if (typeof AW4 === "undefined") var AW4 = {};
-/* section: API
- * class AW4.Logger
- *
- * The [[AW4.Logger]] class contains logging wrapper functions for the developer.
- */
-AW4.Logger = (function() {
-    var LS_LOG_KEY = 'aspera-log-level';
-    var LEVEL = {
-        INFO : 0,
-        DEBUG : 1,
-        TRACE : 2
+if (typeof AW4 == "undefined")
+    var AW4 = {};
+AW4.__VERSION__ = "3.9.9.177872",
+AW4.Logger = function() {
+    function i(b) {
+        AW4.LogLevel = b,
+        h(a, b)
+    }
+    function h(a, b) {
+        try {
+            if (typeof localStorage == "undefined")
+                return "";
+            return localStorage.setItem(a, b)
+        } catch (c) {
+            console.log("Error accessing localStorage: " + JSON.stringify(c));
+            return
+        }
+    }
+    function c(a) {
+        typeof window.console != "undefined" && console.error(a)
+    }
+    function g(a) {
+        typeof window.console != "undefined" && console.warn(a)
+    }
+    function f(a) {
+        typeof window.console != "undefined" && console.log(a)
+    }
+    function e(a) {
+        AW4.LogLevel >= b.DEBUG && typeof window.console != "undefined" && console.log(a)
+    }
+    function d(a) {
+        AW4.LogLevel >= b.TRACE && typeof window.console != "undefined" && console.log(a)
+    }
+    var a = "aspera-log-level"
+      , b = {
+        INFO: 0,
+        DEBUG: 1,
+        TRACE: 2
     };
-    AW4.LogLevel = LEVEL.INFO;
-    if (typeof(localStorage) != 'undefined' && localStorage.hasOwnProperty(LS_LOG_KEY)) {
-        AW4.LogLevel = localStorage.getItem(LS_LOG_KEY);
-    }
-
-    function trace(message) {
-        if(AW4.LogLevel >= LEVEL.TRACE && typeof window.console !== 'undefined') {
-            console.log(message);
-        }
-    }
-
-    function debug(message) {
-        if(AW4.LogLevel >= LEVEL.DEBUG && typeof window.console !== 'undefined') {
-            console.log(message);
-        }
-    }
-
-
-    /*
-     * AW4.Logger.log(message) -> No return value
-     * -message (String): A check for if window.console is defined is performed,
-     * and if window.console is defined, then message will be sent to
-     * console.log.
-     *
-     * TODO: Support multiple arguments
-     */
-    function log(message) {
-        if(typeof window.console !== 'undefined') {
-            console.log(message);
-        }
-    }
-
-    /*
-     * AW4.Logger.warn(message) -> No return value
-     * -message (String): A check for if window.console is defined is performed,
-     * and if window.console is defined, then message will be sent to
-     * console.warn.
-     *
-     * TODO: Support multiple arguments
-     */
-    function warn(message) {
-        if(typeof window.console !== 'undefined') {
-            console.warn(message);
-        }
-    }
-
-    /*
-     * AW4.Logger.error(message) -> No return value
-     * -message (String): A check for if window.console is defined is performed,
-     * and if window.console is defined, then message will be sent to
-     * console.error.
-     *
-     * TODO: Support multiple arguments
-     */
-    function error(message) {
-        if(typeof window.console !== 'undefined') {
-            console.error(message);
-        }
-    }
-
+    AW4.LogLevel = b.INFO;
+    try {
+        if (typeof localStorage == "undefined")
+            return;
+        AW4.LogLevel = localStorage.getItem(a)
+    } catch (c) {}
     return {
-        trace: trace,
-        debug: debug,
-        log: log,
-        warn: warn,
-        error: error
-    };
-})();
-if (typeof AW4.Utils === "undefined") {
-
-    /** section: API
-     * class AW4.Utils
-     *
-     * The [[AW4.Utils]] class contains helper functions for the developer.
-     **/
-    AW4.Utils = (function() {
-
-        var
-            /**
-             * AW4.Utils.FASP_URL -> String
-             *
-             * Returns the URL to initialize Aspera Connect
-             **/
-            DRIVE_API = "com.aspera.drive",
-            FASP_API = "fasp",
-            CURRENT_API = FASP_API,
-            SESSION_ID = generateUuid(),
-            SESSION_KEY = generateRandomStr(32),
-            FASP_URL = "://initialize/?key=" + SESSION_KEY + "&id=" + SESSION_ID,
-            SDK_LOCATION = null,
-            // local storage keys
-            LS_CONTINUED_KEY = "connect-version-continued",
-            LS_CONNECT_APP_ID = "connect-app-id",
-            ////////////////////////////////////////////////////////////////////////////
-            // Browser helpers
-            // https://github.com/ded/bowser
-            // MIT License | (c) Dustin Diaz 2014
-            ////////////////////////////////////////////////////////////////////////////
-            ua = typeof navigator !== 'undefined' ? navigator.userAgent : '',
-            check_safari = function(ua,minver) {
-                var match = ua.match(/(?:Version)[\/](\d+(\.\d+)?)/i);
-                var ver = parseInt((match && match.length > 1 && match[1] || "0"));
-                return (ver >= minver);
-            } ,
-            /**
-             * AW4.Utils.OS -> Object
-             *
-             * Contains the current OS (based on user agent):
-             *
-             * 1. `AW4.Utils.OS.MAC_LEGACY` (`Boolean`)
-             * 2. `AW4.Utils.OS.LINUX` (`Boolean`)
-             **/
-            OS = {
-                MAC_LEGACY: ua.indexOf("Intel Mac OS X 10_6") != -1,
-                LINUX: ua.indexOf("X11") != -1 | ua.indexOf("Linux") != -1
-            },
-
-            /**
-             * AW4.Utils.BROWSER -> Object
-             *
-             * Contains the type of browser that we are currently on (based on user agent):
-             *
-             * 1. `AW4.Utils.BROWSER.OPERA` (`Boolean`)
-             * 2. `AW4.Utils.BROWSER.IE` (`Boolean`)
-             * 3. `AW4.Utils.BROWSER.CHROME` (`Boolean`)
-             * 4. `AW4.Utils.BROWSER.FIREFOX` (`Boolean`)
-             * 5. `AW4.Utils.BROWSER.FIREFOX_32` (`Boolean`)
-             * 6. `AW4.Utils.BROWSER.FIREFOX_64` (`Boolean`)
-             * 7. `AW4.Utils.BROWSER.EDGE` (`Boolean`)
-             * 8. `AW4.Utils.BROWSER.SAFARI` (`Boolean`)
-             * 9. `AW4.Utils.BROWSER.SAFARI_NO_NPAPI` (`Boolean`)
-             **/
-            BROWSER = {
-                OPERA: /opera|opr/i.test(ua) && !/edge/i.test(ua),
-                IE: /msie|trident/i.test(ua) && !/edge/i.test(ua),
-                CHROME: /chrome|crios|crmo/i.test(ua) && !/opera|opr/i.test(ua) && !/edge/i.test(ua),
-                FIREFOX: /firefox|iceweasel/i.test(ua) && !/edge/i.test(ua),
-                FIREFOX_32: /firefox|iceweasel/i.test(ua) && !/Win64/i.test(ua) && !/edge/i.test(ua),
-                FIREFOX_64: /firefox|iceweasel/i.test(ua) && /Win64/i.test(ua) && !/edge/i.test(ua),
-                EDGE: /edge/i.test(ua),
-                SAFARI: /safari/i.test(ua) && !/chrome|crios|crmo/i.test(ua) && !/edge/i.test(ua),
-                SAFARI_NO_NPAPI: /safari/i.test(ua) && !/chrome|crios|crmo/i.test(ua) && !/edge/i.test(ua) && check_safari(ua, 12)
-            };
-
-        function getInitUrl(){
-            return this.CURRENT_API + "://initialize/?key=" + this.SESSION_KEY + "&id=" + this.SESSION_ID;
-        };
-
-        ////////////////////////////////////////////////////////////////////////////
-        // Compatibility functions
-        ////////////////////////////////////////////////////////////////////////////
-
-        (function() {
-            /*  Add TIMEOUT arguments support to IE < 9
-             *  https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers.setTimeout
-             */
-            if(document.all&&!window.setTimeout.isPolyfill){var __nativeST__=window.setTimeout;window.setTimeout=function(e,t){var n=Array.prototype.slice.call(arguments,2);return __nativeST__(e instanceof Function?function(){e.apply(null,n)}:e,t)},window.setTimeout.isPolyfill=!0}if(document.all&&!window.setInterval.isPolyfill){var __nativeSI__=window.setInterval;window.setInterval=function(e,t){var n=Array.prototype.slice.call(arguments,2);return __nativeSI__(e instanceof Function?function(){e.apply(null,n)}:e,t)},window.setInterval.isPolyfill=!0}
-        }());
-
-        var createError = function(errorCode, message) {
-            var internalMessage = "";
-            if (errorCode == -1) {
-                internalMessage = "Invalid request";
-            }
-            return {error: {code: errorCode, internal_message: internalMessage, user_message: message}};
-        };
-
-        /*
-         * - str
-         * @returns {Object}
-         */
-        var parseJson = function(str) {
-            var obj;
-            if ( typeof str === "string" && (str.length === 0 || str.replace(/\s/g, "") === "{}")) {
-                return {};
-            }
-            try {
-                obj = JSON.parse(str);
-            } catch (e) {
-                obj = createError(-1, e);
-            }
-            return obj;
-        };
-
-        ////////////////////////////////////////////////////////////////////////////
-        // Helper Functions
-        ////////////////////////////////////////////////////////////////////////////
-
-        /*
-         * AW4.Utils.versionLessThan(version1, version2) -> bool
-         *  - version1 (Number):  a version Integer
-         *  - version2 (Number):  a version Integer
-         *
-         * Compares two version strings.
-         * Returns true if version string 'a' is less than version string 'b'
-         *     "1.2.1" < "1.11.3"
-         *     "1.1"   < "2.1"
-         *     "1"     = "1"
-         *     "1.2"   < "2"
-         * Note the following behavior:
-         *     "1"     = "1.2"
-         *     "1.2"   = "1"
-         *  This helps with upgrade checks.  If at least version "4" is required, and
-         *   "4.4.2" is installed, versionLessThan("4.4.2","4") will return false.
-         *
-         * If the version number contains a character that is not a numeral it ignores
-         * it
-         */
-        var versionLessThan = function(a, b) {
-            var versionToArray = function( version ) {
-                var splits = version.split(".");
-                var versionArray = new Array();
-                for (var i = 0; i < splits.length; i++) {
-                    var versionPart = parseInt(splits[i], 10);
-                    if (!isNaN(versionPart)) {
-                        versionArray.push(versionPart);
-                    }
-                }
-                return versionArray;
-            };
-            var a_arr = versionToArray(a);
-            var b_arr = versionToArray(b);
-            var i;
-            for ( i = 0; i < Math.min(a_arr.length, b_arr.length); i++ ) {
-                // if i=2, a=[0,0,1,0] and b=[0,0,2,0]
-                if( a_arr[i] < b_arr[i] ) {
-                    return true;
-                }
-                // if i=2, a=[0,0,2,0] and b=[0,0,1,0]
-                if( a_arr[i] > b_arr[i] ) {
-                    return false;
-                }
-                // a[i] and b[i] exist and are equal:
-                // move on to the next version number
-            }
-            // all numbers equal (or all are equal and we reached the end of a or b)
-            return false;
-        };
-
-        var checkVersionException = function() {
-            if (typeof(localStorage) == 'undefined')
-                return false;
-            var prevContinuedSeconds = localStorage.getItem(AW4.Utils.LS_CONTINUED_KEY);
-            if (prevContinuedSeconds !== typeof undefined && prevContinuedSeconds !== null) {
-                var currentTimeSeconds = Math.round(new Date().getTime()/1000);
-                if ((currentTimeSeconds - prevContinuedSeconds) < 60*24){
-                    AW4.Logger.debug('User opted out of update');
-                    return true;
-                }
-            }
-            return false;
-        };
-
-        var addVersionException = function() {
-            if (typeof(localStorage) == 'undefined')
-                return;
-            localStorage.setItem(AW4.Utils.LS_CONTINUED_KEY, Math.round(new Date().getTime() / 1000));
-        };
-
-        function generateUuid() {
-            var date = new Date().getTime();
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                var r = ((date + 16) * Math.random()).toFixed() % 16;
-                if (c !== 'x') {
-                    /*jslint bitwise: true */
-                    r = r & 0x3 | 0x8;
-                    /*jslint bitwise: false */
-                }
-                return r.toString(16);
-            });
-        };
-
-        function generateRandomStr(size) {
-            var text = "";
-            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-            for (var i = 0; i < size; i++)
-                text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-            return text;
-        };
-        var aesencrypt = function(data) {
-            var dataBytes = AW4.crypt.aesjs.utils.utf8.toBytes(data);
-            var key = AW4.crypt.aesjs.utils.utf8.toBytes(this.SESSION_KEY);
-            var iv = AW4.crypt.aesjs.utils.utf8.toBytes(generateRandomStr(16));
-            // The counter is optional, and if omitted will begin at 1
-            var aesOfb = new AW4.crypt.aesjs.ModeOfOperation.ofb(key, iv);
-            var encryptedBytesString = aesOfb.encrypt(dataBytes);
-
-            // To print or store the binary data, you may convert it to hex
-            var encryptedHex = AW4.crypt.aesjs.utils.hex.fromBytes(iv)+'.'+AW4.crypt.aesjs.utils.hex.fromBytes(encryptedBytesString);
-            return encryptedHex;
-        };
-
-        var aesdecrypt = function(data) {
-            var arr = data.split('.');
-            if(arr.length != 2){
-                return data;
-            }
-
-            var iv = AW4.crypt.aesjs.utils.hex.toBytes(arr[0]);
-            // When ready to decrypt the hex string, convert it back to bytes
-            var encryptedBytes = AW4.crypt.aesjs.utils.hex.toBytes(arr[1]);
-
-            var key = AW4.crypt.aesjs.utils.utf8.toBytes(this.SESSION_KEY);
-            // The counter mode of operation maintains internal state, so to
-            // decrypt a new instance must be instantiated.
-            var aesOfb = new AW4.crypt.aesjs.ModeOfOperation.ofb(key, iv);
-            var decryptedBytes = aesOfb.decrypt(encryptedBytes);
-
-            // Convert our bytes back into text
-            var decryptedText = AW4.crypt.aesjs.utils.utf8.fromBytes(decryptedBytes)
-            return decryptedBytes;
-        };
-
-        /**
-         * AW4.Utils.launchConnect(callback) -> null
-         * - callback (function):  It will be called once we have determined if
-         *  connect is installed in the system [CHROME/OPERA]
-         *
-         * Attempt to launch connect. It will handle different browser
-         * implementations to not end in an error page or launch multiple
-         * times.
-         *
-         * [CHROME/OPERA] will return true if Connect is installed
-         *
-         * ##### Object returned to success callback as parameter
-         *
-         * 1. `true` : if Aspera Connect is installed
-         * 2. `false` : if Aspera Connect is either not installed or we couldn't
-         * detect it.
-         **/
-        var launchConnect = function(userCallback) {
-            var isRegistered = false;
-            var callback = function(installed) {
-                if (typeof userCallback === 'function') {
-                    userCallback(installed);
-                }
-            }
-
-            var launchUri = this.getInitUrl();
-            AW4.Logger.log('Starting Connect session: ' + launchUri);
-
-            if (BROWSER.CHROME || BROWSER.OPERA) {
-                document.body.focus();
-                document.body.onblur = function() {
-                    isRegistered = true;
-                };
-                //will trigger onblur
-                document.location = launchUri;
-                //Note: timeout could vary as per the browser version, have a higher value
-                setTimeout(function(){
-                    document.body.onblur = null;
-                    callback(isRegistered);
-                }, 500);
-            } else if (BROWSER.EDGE) {
-                document.location = launchUri;
-            } else if (BROWSER.FIREFOX || BROWSER.SAFARI_NO_NPAPI) {
-                var dummyIframe = document.createElement("IFRAME");
-                dummyIframe.src = launchUri;
-                // Don't show the iframe and don't allow it to take up space
-                dummyIframe.style.visibility = "hidden";
-                dummyIframe.style.position = "absolute";
-                document.body.appendChild(dummyIframe);
-            }
-            // ELSE is handled by the NPAPI plugin
+        LEVEL: b,
+        log: f,
+        debug: e,
+        trace: d,
+        warn: g,
+        error: c,
+        setLevel: i
+    }
+}(),
+typeof AW4.Utils == "undefined" && (AW4.Utils = function() {
+    function T(a, b) {
+        try {
+            if (typeof localStorage == "undefined")
+                return "";
+            return localStorage.setItem(a, b)
+        } catch (c) {
+            console.log("Error accessing localStorage: " + JSON.stringify(c));
+            return
+        }
+    }
+    function S(a) {
+        try {
+            if (typeof localStorage == "undefined")
+                return "";
+            return localStorage.getItem(a)
+        } catch (b) {
+            console.log("Error accessing localStorage: " + JSON.stringify(b));
+            return ""
+        }
+    }
+    function R(a, b) {
+        if (z(a))
+            return Array(a);
+        return a.split(b)
+    }
+    function Q() {
+        typeof AW4.objectId == "undefined" && (AW4.objectId = 0),
+        AW4.objectId++;
+        return AW4.objectId
+    }
+    function P(a) {
+        return window.atob ? decodeURIComponent(escape(window.atob(a))) : a
+    }
+    function O(a) {
+        return window.btoa ? window.btoa(unescape(encodeURIComponent(a))) : a
+    }
+    function N(a) {
+        if (typeof a != "string")
             return null;
-        };
-
-
-        /**
-         * AW4.Utils.getFullURI(relativeURL) -> String
-         *  - relativeURL (String):  The relative URL that we want the full path to,
-         *  it must be relative to the current page being rendered. If a full URL is
-         *  provided, it will return the same.
-         *
-         *  @returns {String} - the full URL or null
-         **/
-        function getFullURI(relativeURL) {
-            if (typeof relativeURL !== 'string') {
-                return null;
-            }
-            var url = relativeURL;
-            var a = document.createElement('a');
-            a.href = url;
-            var fullURL = a.href;
-            if (fullURL.indexOf('/', fullURL.length - 1) !== -1) {
-                fullURL = fullURL.slice(0,-1);
-            }
-            return fullURL;
-        };
-
-        /**
-         * AW4.Utils.utoa(inputString) -> String
-         * - inputString: The inputString can be utf8 or unicode. The output string is
-         * a base64 string.
-         **/
-        function utoa(inputString) {
-            if(window.btoa){
-                return window.btoa(unescape(encodeURIComponent(inputString)));
-            } else {
-                return inputString;
-            }
+        var b = a
+          , c = document.createElement("a");
+        c.href = b;
+        var d = c.href;
+        d.indexOf("/", d.length - 1) !== -1 && (d = d.slice(0, -1));
+        return d
+    }
+    function H(a) {
+        var b = ""
+          , c = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        for (var d = 0; d < a; d++)
+            b += c.charAt(Math.floor(Math.random() * c.length));
+        return b
+    }
+    function G() {
+        var a = (new Date).getTime();
+        return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(b) {
+            var c = ((a + 16) * Math.random()).toFixed() % 16;
+            b !== "x" && (c = c & 3 | 8);
+            return c.toString(16)
+        })
+    }
+    function C(a) {
+        var b = !1;
+        typeof sessionStorage != "undefined" && typeof a == "boolean" && (sessionStorage.setItem(this.SS_APPSIDE_WAMPSESSN_LAUNCH_ATTEMPTED, a ? "yes" : "no"),
+        b = !0);
+        return b
+    }
+    function B() {
+        var a = !1;
+        if (typeof sessionStorage != "undefined") {
+            var b = sessionStorage.getItem(this.SS_APPSIDE_WAMPSESSN_LAUNCH_ATTEMPTED);
+            !this.isNullOrUndefinedOrEmpty(b) && b === "yes" && (a = !0)
         }
-
-        /**
-         * AW4.Utils.atou(inputString) -> String
-         * - inputString: The input string is a base64 string. The output is a unicode
-         * string.
-         **/
-        function atou(inputString) {
-            if (window.atob) {
-                return decodeURIComponent(escape(window.atob(inputString)));
-            } else {
-                return inputString;
+        return a
+    }
+    function A() {
+        var a = this.SESSION_ID;
+        if (typeof sessionStorage != "undefined") {
+            var b = sessionStorage.getItem(this.SS_SESSION_LASTKNOWN_ID);
+            this.isNullOrUndefinedOrEmpty(b) || (a = b)
+        }
+        return a
+    }
+    function z(a) {
+        return a === "" || a === null || typeof a == "undefined"
+    }
+    function w() {
+        return this.CURRENT_API + this.FASP_URL
+    }
+    var a = "aspera-drive"
+      , b = "fasp"
+      , c = b
+      , d = G()
+      , e = H(32)
+      , f = "://initialize"
+      , g = null
+      , h = "connect-version-continued"
+      , i = "connect-app-id"
+      , j = "aspera-last-known-session-id"
+      , k = "aspera-appside-wampsessn-launch-attempted"
+      , l = null
+      , m = null
+      , n = 0
+      , o = !1
+      , p = typeof navigator != "undefined" ? navigator.userAgent : ""
+      , q = function(a, b) {
+        var c = a.match(/(?:Version)[\/](\d+(\.\d+)?)/i)
+          , d = parseInt(c && c.length > 1 && c[1] || "0");
+        return d >= b
+    }
+      , r = function(a, b) {
+        var c = a.match(/(?:Edge)[\/](\d+(\.\d+)?)/i)
+          , d = parseInt(c && c.length > 1 && c[1] || "0");
+        return d >= b
+    }
+      , s = function(a, b) {
+        var c = a.match(/(?:Firefox)[\/](\d+(\.\d+)?)/i)
+          , d = parseInt(c && c.length > 1 && c[1] || "0");
+        return d >= b
+    }
+      , t = {
+        MAC_LEGACY: p.indexOf("Intel Mac OS X 10_6") != -1,
+        LINUX: p.indexOf("X11") != -1 | p.indexOf("Linux") != -1
+    }
+      , u = {
+        OPERA: /opera|opr/i.test(p) && !/edge/i.test(p),
+        IE: /msie|trident/i.test(p) && !/edge/i.test(p),
+        CHROME: /chrome|crios|crmo/i.test(p) && !/opera|opr/i.test(p) && !/edge/i.test(p),
+        FIREFOX: /firefox|iceweasel/i.test(p) && !/edge/i.test(p) && s(p, 50),
+        FIREFOX_LEGACY: /firefox|iceweasel/i.test(p) && !/edge/i.test(p) && !s(p, 50),
+        EDGE_WITH_EXTENSION: /edge/i.test(p) && r(p, 14),
+        EDGE_LEGACY: /edge/i.test(p) && !r(p, 14),
+        SAFARI: /safari/i.test(p) && !/chrome|crios|crmo/i.test(p) && !/edge/i.test(p),
+        SAFARI_NO_NPAPI: /safari/i.test(p) && !/chrome|crios|crmo/i.test(p) && !/edge/i.test(p) && q(p, 10)
+    }
+      , v = "";
+    (function() {
+        if (document.all && !window.setTimeout.isPolyfill) {
+            var a = window.setTimeout;
+            window.setTimeout = function(b, c) {
+                var d = Array.prototype.slice.call(arguments, 2);
+                return a(b instanceof Function ? function() {
+                    b.apply(null, d)
+                }
+                : b, c)
             }
+            ,
+            window.setTimeout.isPolyfill = !0
         }
-
-        function nextObjectId() {
-            // Return an incrementing id even if file was reloaded
-            if (typeof(AW4.nextObjId) == 'undefined')
-                AW4.nextObjId = 0;
-            return AW4.nextObjId++;
+        if (document.all && !window.setInterval.isPolyfill) {
+            var b = window.setInterval;
+            window.setInterval = function(a, c) {
+                var d = Array.prototype.slice.call(arguments, 2);
+                return b(a instanceof Function ? function() {
+                    a.apply(null, d)
+                }
+                : a, c)
+            }
+            ,
+            window.setInterval.isPolyfill = !0
         }
-
-        //////////////////////////////////////////////////////////////////////////////
-        // PUBLIC
-        //////////////////////////////////////////////////////////////////////////////
-
-        // The symbols to export.
+    }
+    )();
+    var x = function(a, b) {
+        var c = "";
+        a == -1 && (c = "Invalid request");
         return {
-            //CONSTANTS
-            LS_CONTINUED_KEY: LS_CONTINUED_KEY,
-            LS_CONNECT_APP_ID: LS_CONNECT_APP_ID,
-            SDK_LOCATION: SDK_LOCATION,
-            DRIVE_API: DRIVE_API,
-            FASP_API: FASP_API,
-            CURRENT_API: CURRENT_API,
-            SESSION_ID: SESSION_ID,
-            SESSION_KEY: SESSION_KEY,
-            OS: OS,
-            BROWSER: BROWSER,
-            //FUNCTIONS
-            getInitUrl: getInitUrl,
-            versionLessThan: versionLessThan,
-            checkVersionException: checkVersionException,
-            addVersionException: addVersionException,
-            createError: createError,
-            generateUuid: generateUuid,
-            generateRandomStr: generateRandomStr,
-            encrypt:aesencrypt,
-            decrypt:aesdecrypt,
-            launchConnect: launchConnect,
-            parseJson: parseJson,
-            getFullURI: getFullURI,
-            utoa: utoa,
-            atou: atou,
-            nextObjectId: nextObjectId
-        };
-    })();
-
-}
-/**
- * == API ==
- **/
-
-/** section: API
- * AW4
- *
- * The Aspera Web namespace.
- **/
-
-/** section: API
- * class AW4.ConnectInstaller
- *
- * The [[AW4.ConnectInstaller]] class offers support for connect installation.
- **/
-
-/**
- * new AW4.ConnectInstaller([options])
- * - options (Object): Configuration parameters for the plug-in.
- *
- * Creates a new [[AW4.ConnectInstaller]] object.
- *
- * ##### Options
- *
- * 1. `sdkLocation` (`String`):
- *     URL to the SDK location that has to be served in the same level of security
- *     as the web page (http/https). It has to be in the following format:\
- *     `//domain/path/to/connect/sdk`\
- *     Default: \
- *     `//d3gcli72yxqn2z.cloudfront.net/connect/v4`.
- *
- *     If the installer cannot reach the needed files (by checking for connectversions.js
- *     or connectversions.min.js) on the default server it will automatically fallback to
- *     locate them at the hosted SDKs location.
- *
- *     The client web application can choose to load connectinstaller-4.js (or connectinstaller-4.min.js)
- *     from a local deployment of the Connect SDK (by specifying an `sdklocation`).
- *     The Connect installer tries to reach the default cloudfront.net location and, if reachable,
- *     delivers the Connect installer from the cloudfront.net.
- *     If cloudfront.net is not reachable, connectinstaller-4.js will deliver the Connect
- *     installer from the provided `sdkLocation`.
- *
- * 2. `stylesheetLocation` (`String`):
- *     URL to an stylesheet that has to be served in the same level of security
- *     as the web page (http/https). It has to be in the following format:\
- *     `//domain/path/to/css/file.css`\
- *     Default: ``
- * 3. `iframeId` (`String`):
- *     Id of the iframe that is going to be inserted in the DOM
- *     Default: `aspera-iframe-container`
- * 4. `iframeClass` (`String`):
- *     Class to be added to the iframe that is going to be inserted in the DOM,
- *     for easier use with the custom stylesheet
- *     Default: `aspera-iframe-container`
- *
- * ##### Example
- *
- * The following JavaScript creates an [[AW4.ConnectInstaller]] object to manage
- * the installation process.
- *
- *     var asperaInstaller = new AW4.ConnectInstaller();
- *
- **/
-AW4.ConnectInstaller = function(options) {
-
-    ////////////////////////////////////////////////////////////////////////////
-    // Public constants
-    ////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * AW4.ConnectInstaller.EVENT -> Object
-     *
-     * Event types:
-     *
-     * 1. `AW4.ConnectInstaller.EVENT.DOWNLOAD_CONNECT` (`"downloadconnect"`)
-     * 2. `AW4.ConnectInstaller.EVENT.REFRESH_PAGE` (`"refresh"`)
-     * 3. `AW4.ConnectInstaller.EVENT.IFRAME_REMOVED` (`"removeiframe"`)
-     * 4. `AW4.ConnectInstaller.EVENT.IFRAME_LOADED` (`"iframeloaded"`)
-     * 5. `AW4.ConnectInstaller.EVENT.TROUBLESHOOT` (`"troubleshoot"`)
-     * 6. `AW4.ConnectInstaller.EVENT.CONTINUE` (`"continue"`)
-     **/
+            error: {
+                code: a,
+                internal_message: c,
+                user_message: b
+            }
+        }
+    }
+      , y = function(a) {
+        var b;
+        if (typeof a == "string" && (a.length === 0 || a.replace(/\s/g, "") === "{}"))
+            return {};
+        try {
+            b = JSON.parse(a)
+        } catch (c) {
+            b = x(-1, c)
+        }
+        return b
+    }
+      , D = function(a, b) {
+        var c = function(a) {
+            var b = R(a, ".")
+              , c = [];
+            for (var d = 0; d < b.length; d++) {
+                var e = parseInt(b[d], 10);
+                isNaN(e) || c.push(e)
+            }
+            return c
+        }, d = c(a), e = c(b), f;
+        for (f = 0; f < Math.min(d.length, e.length); f++) {
+            if (d[f] < e[f])
+                return !0;
+            if (d[f] > e[f])
+                return !1
+        }
+        return !1
+    }
+      , E = function() {
+        var a = AW4.Utils.getLocalStorage(AW4.Utils.LS_CONTINUED_KEY);
+        if (a !== typeof undefined && a !== null) {
+            var b = Math.round((new Date).getTime() / 1e3);
+            if (b - a < 1440) {
+                AW4.Logger.debug("User opted out of update");
+                return !0
+            }
+        }
+        return !1
+    }
+      , F = function() {
+        AW4.Utils.setLocalStorage(AW4.Utils.LS_CONTINUED_KEY, Math.round((new Date).getTime() / 1e3))
+    }
+      , I = function(a) {
+        var b = AW4.crypt.aesjs.utils.utf8.toBytes(a)
+          , c = AW4.crypt.aesjs.utils.utf8.toBytes(this.SESSION_KEY)
+          , d = AW4.crypt.aesjs.utils.utf8.toBytes(H(16))
+          , e = new AW4.crypt.aesjs.ModeOfOperation.ofb(c,d)
+          , f = e.encrypt(b)
+          , g = AW4.crypt.aesjs.utils.hex.fromBytes(d) + "." + AW4.crypt.aesjs.utils.hex.fromBytes(f);
+        return g
+    }
+      , J = function(a) {
+        var b = R(a, ".");
+        if (b.length != 2)
+            return a;
+        var c = AW4.crypt.aesjs.utils.hex.toBytes(b[0])
+          , d = AW4.crypt.aesjs.utils.hex.toBytes(b[1])
+          , e = AW4.crypt.aesjs.utils.utf8.toBytes(this.SESSION_KEY)
+          , f = new AW4.crypt.aesjs.ModeOfOperation.ofb(e,c)
+          , g = f.decrypt(d)
+          , h = AW4.crypt.aesjs.utils.utf8.fromBytes(g);
+        return g
+    }
+      , K = function(a) {
+        l = a.wampRouter,
+        m = a.wampRealm,
+        n = a.websocketPort,
+        o = a.isWebsocketSecure
+    }
+      , L = function(a) {
+        return l === a.wampRouter && m === a.wampRealm && n === a.websocketPort && o === a.isWebsocketSecure
+    }
+      , M = function(a) {
+        var b = !1
+          , c = function(b) {
+            typeof a == "function" && a(b)
+        }
+          , d = this.getInitUrl();
+        AW4.Logger.log("Starting Connect session: " + d);
+        if (u.CHROME || u.OPERA)
+            document.body.focus(),
+            document.body.onblur = function() {
+                b = !0
+            }
+            ,
+            document.location = d,
+            setTimeout(function() {
+                document.body.onblur = null,
+                c(b)
+            }, 500);
+        else if (u.EDGE_LEGACY || u.EDGE_WITH_EXTENSION)
+            document.location = d;
+        else if (u.FIREFOX_LEGACY || u.FIREFOX || u.SAFARI_NO_NPAPI) {
+            var e = document.createElement("IFRAME");
+            e.src = d,
+            e.style.visibility = "hidden",
+            e.style.position = "absolute",
+            e.style.width = "0px",
+            e.style.height = "0px",
+            e.style.border = "0px",
+            document.body.appendChild(e)
+        }
+        return null
+    };
+    return {
+        LS_CONTINUED_KEY: h,
+        LS_CONNECT_APP_ID: i,
+        SS_SESSION_LASTKNOWN_ID: j,
+        SS_APPSIDE_WAMPSESSN_LAUNCH_ATTEMPTED: k,
+        SDK_LOCATION: g,
+        DRIVE_API: a,
+        FASP_API: b,
+        FASP_URL: f,
+        CURRENT_API: c,
+        SESSION_ID: d,
+        SESSION_KEY: e,
+        OS: t,
+        BROWSER: u,
+        isNullOrUndefinedOrEmpty: z,
+        getSessionId: A,
+        getInitUrl: w,
+        versionLessThan: D,
+        checkVersionException: E,
+        addVersionException: F,
+        createError: x,
+        generateUuid: G,
+        generateRandomStr: H,
+        encrypt: I,
+        decrypt: J,
+        setBasicWampSettings: K,
+        checkBasicWampSettings: L,
+        initUrlWampParams: v,
+        getAppWampLaunchAttempted: B,
+        setAppWampLaunchAttempted: C,
+        launchConnect: M,
+        parseJson: y,
+        getFullURI: N,
+        utoa: O,
+        atou: P,
+        nextObjectId: Q,
+        safeSplit: R,
+        getLocalStorage: S,
+        setLocalStorage: T
+    }
+}()),
+AW4.ConnectInstaller = function(a) {
+    function u(a) {
+        return a === "" || a === null || typeof a == "undefined"
+    }
     AW4.ConnectInstaller.EVENT = {
-        DOWNLOAD_CONNECT : "downloadconnect",
-        REFRESH_PAGE : "refresh",
-        IFRAME_REMOVED : "removeiframe",
-        IFRAME_LOADED : "iframeloaded",
-        TROUBLESHOOT : "troubleshoot",
-        CONTINUE : "continue"
-    };
-
-    ////////////////////////////////////////////////////////////////////////////
-    // Private constants
-    ////////////////////////////////////////////////////////////////////////////
-
-    var EVENT = AW4.ConnectInstaller.EVENT,
-        DEFAULT_SDK_LOCATION = "//d3gcli72yxqn2z.cloudfront.net/connect/v4",
-        CONNECT_VERSIONS_JS = "/connectversions.min.js";
-
-    ////////////////////////////////////////////////////////////////////////////
-    // Private variables
-    ////////////////////////////////////////////////////////////////////////////
-    var connectOptions = {},
-        listeners = [],
-        connectJSONreferences = null,
-        showInstallTimerID = 0,
-        iframeLoadedFlag = false,
-        iframeLoadedTimerID = 0;
-
-    if (isNullOrUndefinedOrEmpty(options)) {
-        options = {};
+        DOWNLOAD_CONNECT: "downloadconnect",
+        REFRESH_PAGE: "refresh",
+        IFRAME_REMOVED: "removeiframe",
+        IFRAME_LOADED: "iframeloaded",
+        TROUBLESHOOT: "troubleshoot",
+        CONTINUE: "continue",
+        RESIZE: "px",
+        RETRY: "retry",
+        EXTENSION_INSTALL: "extension_install",
+        DOWNLOAD_EXTENSION: "download_extension"
+    },
+    AW4.ConnectInstaller.ACTIVITY_EVENT = {
+        CONNECT_BAR_VISIBLE: "connect_bar_visible",
+        CLICKED_INSTALL_EXTENSION: "clicked_install_extension",
+        CLICKED_ENABLE_EXTENSION: "clicked_enable_extension",
+        CLICKED_INSTALL_ADDON: "clicked_install_addon",
+        CLICKED_DOWNLOAD_APP: "clicked_download_app",
+        CLICKED_INSTALL_APP: "clicked_install_app",
+        CLICKED_TROUBLESHOOT: "clicked_troubleshoot",
+        CLICKED_DOWNLOAD_INDICATOR: "clicked_download_indicator",
+        DOWNLOAD_INDICATOR_VISIBLE: "download_indicator_visible",
+        CLICKED_HOW_LINK: "clicked_how_link",
+        CONNECT_BAR_REMOVED: "connect_bar_removed",
+        CLICKED_RETRY: "mitigate_with_tab"
+    },
+    AW4.ConnectInstaller.EVENT_TYPE = {
+        CONNECT_BAR_EVENT: "connect_bar_event"
+    },
+    AW4.ConnectInstaller.supportsInstallingExtensions = !1;
+    var b = AW4.ConnectInstaller.EVENT
+      , c = AW4.ConnectInstaller.ACTIVITY_EVENT
+      , d = "//d3gcli72yxqn2z.cloudfront.net/connect/v4"
+      , e = "/connectversions.min.js"
+      , f = {
+        style: "carbon"
     }
-
-    connectOptions.iframeId = options.iframeId || 'aspera-iframe-container';
-    connectOptions.sdkLocation = (isNullOrUndefinedOrEmpty(options.sdkLocation)) ? DEFAULT_SDK_LOCATION : AW4.Utils.getFullURI(options.sdkLocation) ;
-    connectOptions.stylesheetLocation = AW4.Utils.getFullURI(options.stylesheetLocation);
-
-    ////////////////////////////////////////////////////////////////////////////
-    // Helper Functions
-    ////////////////////////////////////////////////////////////////////////////
-
-    /*
-     * loadFiles(files, type, callback) -> null
-     * - files (Array): Set of files to load
-     * - type (String): type of the files to load: `js` or `css`
-     * - callback (function): to be called when all scripts provided have been loaded,
-     *
-     *     `true` : if files loaded correctly
-     *
-     *     `false` : if files failed to load
-     *
-     */
-    var loadFiles = function(files, type, callback) {
-        if (files === null || typeof files === 'undefined' || !(files instanceof Array)) {
-            return null;
-        } else if (type === null || typeof type !== 'string') {
-            return null;
-        }
-        var
-            numberOfFiles = 0,
-            head = document.getElementsByTagName("head")[0] || document.documentElement;
-
-        /* Loads the file given, and sets a callback, when the file is the last one and a callback is
-         * provided, it will call it
-         * Loading mechanism based on https://jquery.org (MIT license)
-         */
-        var loadFilesHelper = function (file) {
-            //IE9+ supports both script.onload AND script.onreadystatechange thus the done check
-            var
-                done = false,
-                fileref = null;
-
-            if (type.toLowerCase() === "js") {
-                fileref = document.createElement('script');
-                fileref.setAttribute("type","text/javascript");
-                fileref.setAttribute("src", file);
-            } else if (type.toLowerCase() === "css") {
-                fileref = document.createElement("link");
-                fileref.setAttribute("rel", "stylesheet");
-                fileref.setAttribute("type", "text/css");
-                fileref.setAttribute("href", file);
-            } else {
-                return null;
-            }
-            if (typeof callback === 'function') {
-                // Attach handlers for all browsers
-                fileref.onload = fileref.onreadystatechange = function() {
-                    if (!done && (!this.readyState || this.readyState === "loaded" || this.readyState === "complete") ) {
-                        done = false;
-                        // Handle memory leak in IE
-                        fileref.onload = fileref.onreadystatechange = null;
-                        if (head && fileref.parentNode) {
-                            head.removeChild(fileref);
-                        }
-                        if (--numberOfFiles <= 0 && typeof callback === 'function') {
-                            callback(true);
-                        }
-                    }
-                };
-                fileref.onerror = function() {
-                    callback(false);
-                };
-            }
-            // Use insertBefore instead of appendChild  to circumvent an IE6 bug.
-            head.insertBefore(fileref, head.firstChild);
-        }
-        numberOfFiles = files.length;
-        for (var i = 0; i < numberOfFiles; i++) {
-            if (typeof files[i] === 'string') {
-                loadFilesHelper(files[i]);
-            }
-        }
-    };
-
-    var osPlatform = function () {
-        var os = "Not supported"
-        if (/Win/.test(navigator.platform)) {
-            if (navigator.userAgent.indexOf("WOW64") != -1 || navigator.userAgent.indexOf("Win64") != -1 ) {
-                os = "Win64";
-            } else {
-                os = "Win32";
-            }
-        }
-        else if (/Mac OS X 10[._]6/.test(navigator.userAgent)) {
-            os = "MacIntel-10.6-legacy"
-        }else if (/Mac/.test(navigator.platform)) {
-            os = "MacIntel";
-        } else if (/Linux x86_64/.test(navigator.platform)) {
-            os = "Linux x86_64";
-        } else if (/Linux/.test(navigator.platform)) {
-            os = "Linux i686";
-        }
-
-
-        return os;
-    };
-
-    var osVersion = function () {
-        var match = "";
-        if (/Win/.test(navigator.platform)) {
-            match = navigator.userAgent.match(/Windows NT (\d+)[._](\d+)/);
-        } else if (/Mac/.test(navigator.platform)) {
-            match = navigator.userAgent.match(/OS X (\d+)[._](\d+)/);
-        }
-        if (isNullOrUndefinedOrEmpty(match))
-            return null;
-        var os_version = {
-            highWord:parseFloat(match[1]),
-            loWord:parseFloat( match[2])
-        }
-        return os_version;
-    };
-
-    var platformVersion = function (arg0) {
-        if (!isNullOrUndefinedOrEmpty(arg0)) {
-            var match = arg0.match(/(\d+)[.](\d+)/);
-            if (isNullOrUndefinedOrEmpty(match))
-                return null;
-            var platform_version = {
-                highWord: parseFloat(match[1]),
-                loWord: parseFloat(match[2])
-            }
-            return platform_version;
-        }
-        return arg0;
+      , g = []
+      , h = null
+      , i = 0
+      , j = !1
+      , k = 0
+      , l = []
+      , m = 0;
+    u(a) && (a = {}),
+    u(AW4.Utils.getLocalStorage("aspera-install-attempted")) && AW4.Utils.setLocalStorage("aspera-install-attempted", "true"),
+    u(AW4.Utils.getLocalStorage("aspera-last-detected")) && AW4.Utils.setLocalStorage("aspera-last-detected", ""),
+    f.iframeId = a.iframeId || "aspera-iframe-container",
+    f.oneClick = a.oneClick === !1 ? !1 : !0,
+    f.useFips = a.useFips === !0 ? !0 : !1,
+    f.sdkLocation = u(a.sdkLocation) ? d : AW4.Utils.getFullURI(a.sdkLocation),
+    f.stylesheetLocation = AW4.Utils.getFullURI(a.stylesheetLocation),
+    f.correlationId = a.correlationId;
+    if (typeof Storage != "undefined") {
+        var n = AW4.Utils.getLocalStorage("aspera-connect-install-style");
+        n && (f.style = n)
     }
-
-    var notifyListeners = function(event) {
-        for (var i = 0; i < listeners.length; i++) {
-            listeners[i](event);
-        }
-    };
-
-    var addStyleString = function(str) {
-        var node = document.createElement('style');
-        node.setAttribute('type', 'text/css');
-        //fix for <= IE9
-        if (node.styleSheet) {
-            node.styleSheet.cssText = str;
-        } else {
-            node.innerHTML = str;
-        }
-        document.body.appendChild(node);
-    };
-
-    /*
-     * x - variable we want to check
-     * @returns {Boolean} - true if the value is null, empty or undefined
-     */
-    function isNullOrUndefinedOrEmpty(x) {
-        return x === "" || x === null || typeof x === "undefined";
-    };
-
-    ////////////////////////////////////////////////////////////////////////////
-    // API Functions
-    ////////////////////////////////////////////////////////////////////////////
-
-    /*
-     * AW4.ConnectInstaller#addEventListener(listener) -> null
-     * - listener (Function): function that will be called when the event is fired
-     *
-     * ##### Event types ([[AW4.ConnectInstaller.EVENT]])
-     *
-     **/
-    var addEventListener = function(listener) {
-        if (typeof listener !== 'function') {
+    f.style == "carbon" && (AW4.ConnectInstaller.supportsInstallingExtensions = !0);
+    var o = function(a, b, c) {
+        if (!(a !== null && typeof a != "undefined" && a instanceof Array))
             return null;
-        }
-        listeners.push(listener);
-        return null;
-    };
-
-    /**
-     * AW4.ConnectInstaller#installationJSON(callback) -> null
-     * - callback (Function): function that will be called when the result is retrieved.
-     *
-     * Querys the SDK for the current system's information, returning the full spec of all the
-     * documentation and binaries available for it.
-     *
-     * ##### Object returned to the callback function as parameter
-     *
-     *      {
-     *        "title": "Aspera Connect for Windows",
-     *        "platform": {
-     *            "os": "win32"
-     *       },
-     *        "navigator": {
-     *            "platform": "Win32"
-     *        },
-     *        "version": "3.6.0.105660",
-     *        "id": "urn:uuid:589F9EE5-0489-4F73-9982-A612FAC70C4E",
-     *        "updated": "2012-10-30T10:16:00+07:00",
-     *        "links": [
-     *            {
-     *                "title": "Windows Installer",
-     *                "type": "application/octet-stream",
-     *                "href": "//d3gcli72yxqn2z.cloudfront.net/connect/v4/bin/AsperaConnect-ML-3.6.0.105660.msi",
-     *                "hreflang": "en",
-     *                "rel": "enclosure"
-     *            },
-     *            {
-     *                "title": "Aspera Connect PDF Documentation for Windows",
-     *                "type": "application/pdf",
-     *                "href": "//d3gcli72yxqn2z.cloudfront.net/connect/v4/docs/user/win/zh-cn/pdf/Connect_3.6.0_Windows_User_Guide_SimplifiedChinese.pdf",
-     *                "hreflang": "zh-cn",
-     *                "rel": "documentation"
-     *            },
-     *            {
-     *                "title": "Aspera Connect PDF Documentation for Windows",
-     *                "type": "application/pdf",
-     *                "href": "//d3gcli72yxqn2z.cloudfront.net/connect/v4/docs/user/win/ja-jp/pdf/Connect_3.6.0_Windows_User_Guide_Japanese.pdf",
-     *                "hreflang": "ja-jp",
-     *                "rel": "documentation"
-     *            },
-     *            {
-     *                "title": "Aspera Connect PDF Documentation for Windows",
-     *                "type": "application/pdf",
-     *                "href": "//d3gcli72yxqn2z.cloudfront.net/connect/v4/docs/user/win/en/pdf/Connect_3.6.0_Windows_User_Guide_English.pdf",
-     *                "hreflang": "en",
-     *                "rel": "documentation"
-     *            },
-     *            {
-     *                "title": "Aspera Connect PDF Documentation for Windows",
-     *                "type": "application/pdf",
-     *                "href": "//d3gcli72yxqn2z.cloudfront.net/connect/v4/docs/user/win/es/pdf/Connect_3.6.0_Windows_User_Guide_Spanish.pdf",
-     *                "hreflang": "es",
-     *                "rel": "documentation"
-     *            },
-     *            {
-     *                "title": "Aspera Connect PDF Documentation for Windows",
-     *                "type": "application/pdf",
-     *                "href": "//d3gcli72yxqn2z.cloudfront.net/connect/v4/docs/user/win/fr/pdf/Connect_3.6.0_Windows_User_Guide_French.pdf",
-     *                "hreflang": "fr",
-     *                "rel": "documentation"
-     *            },
-     *            {
-     *                "title": "Aspera Connect Release Notes for Windows",
-     *                "type": "text/html",
-     *                "href": "http://www.asperasoft.com/en/release_notes/default_1/release_notes_55",
-     *                "hreflang": "en",
-     *                "rel": "release-notes"
-     *            }
-     *          ]
-     *      }
-     *
-     **/
-    var installationJSON = function(callback) {
-        if (typeof callback !== 'function') {
+        if (b === null || typeof b != "string")
             return null;
-        }
-        if (connectJSONreferences !== null) {
-            callback(connectJSONreferences);
-            return null;
-        }
-        var updatesURL = connectOptions.sdkLocation;
-        var replaceJSONWithFullHref = function (connectversionsSdkLocation, entryJSON) {
-            for (var i = 0; i < entryJSON.links.length; i++) {
-                var hrefLink = entryJSON.links[i].href;
-                if (!/^https?:\/\//i.test(hrefLink) && !/^\/\//.test(hrefLink)) {
-                    entryJSON.links[i].hrefAbsolute = connectversionsSdkLocation + '/' + hrefLink;
-                }
-            }
-        };
-        //load references from file and parse to load in the iframe
-        var parseIstallJSON = function (connectversionsSdkLocation) {
-            var parsedInstallJSON = AW4.connectVersions;
-            var installEntries = parsedInstallJSON.entries;
-            var procesJSONentry = function(entryJSON) {
-                replaceJSONWithFullHref(connectversionsSdkLocation, entryJSON);
-                connectJSONreferences = entryJSON;
-                callback(entryJSON);
-            };
-            var userOS = osPlatform();
-            for (var i = 0; i < installEntries.length; i++) {
-                var entry = installEntries[i];
-                if (entry.navigator.platform === userOS) {
-                    var userOSVersion = osVersion();
-                    var currentPlatform = platformVersion(entry.platform.version);
-                    if (!isNullOrUndefinedOrEmpty(currentPlatform) && !isNullOrUndefinedOrEmpty(userOSVersion)) {
-                        if ((userOSVersion.highWord > currentPlatform.highWord) ||
-                            (userOSVersion.highWord >= currentPlatform.highWord &&
-                                userOSVersion.loWord >= currentPlatform.loWord)) {
-                            procesJSONentry(entry);
-                            return null;
-                        }
-                    } else {
-                        procesJSONentry(entry);
-                        return null;
-                    }
-                }
-            }
-        };
-        var scriptLoaded = function(success) {
-            var fallbackURL = DEFAULT_SDK_LOCATION;//connectOptions.sdkLocation;
-            if (success && AW4.connectVersions != undefined) {
-                parseIstallJSON(updatesURL);
-            } else if (updatesURL !== fallbackURL) {
-                updatesURL = fallbackURL;
-            }
-        };
-        loadFiles([updatesURL + CONNECT_VERSIONS_JS], 'js', scriptLoaded);
-        return null;
-    };
-
-    /*
-     * AW4.ConnectInstaller#show(eventType) -> null
-     * - eventType (String): the event type
-     *
-     * ##### Event types
-     *
-     * 1. `connecting` (`String`).
-     * 2. `unable-to-launch` (`String`).
-     * 3. `refresh` (`String`).
-     * 4. `outdated` (`String`).
-     * 5. `running` (`String`).
-     *
-     **/
-    var show = function(eventType) {
-        //We always need to check if launching was going to be popped up, if so delete it
-        if (showInstallTimerID !== 0) {
-            clearTimeout(showInstallTimerID);
-        }
-        var iframe = document.getElementById(connectOptions.iframeId);
-        //IE will complain that in strict mode functions cannot be nested inside a statement, so we have to define it here
-        function handleMessage(event) {
-            // iFrame installation: Handling of messages by the parent window.
-            if (event.data === EVENT.DOWNLOAD_CONNECT) {
-                notifyListeners(event.data);
-                showInstall();
-            } else if (event.data === EVENT.REFRESH_PAGE) {
-                notifyListeners(event.data);
-                //Fix for refreshing only window in which we are contained, if we are an iframe just refresh the iframe (Sharepoint bug)
-                var inIframe = false;
-                try {
-                    inIframe = window.self !== window.top;
-                } catch (e) {
-                    inIframe = true;
-                }
-                var refreshWindow = inIframe ? contentWindow : window;
-                refreshWindow.location.reload(true);
-            } else if (event.data === EVENT.IFRAME_REMOVED) {
-                notifyListeners(event.data);
-                dismiss();
-            } else if (event.data === EVENT.TROUBLESHOOT) {
-                notifyListeners(event.data);
-                //Fix for refreshing only window in which we are contained, if we are an iframe just refresh the iframe (Sharepoint bug)
-                var inIframe = false;
-                try {
-                    inIframe = window.self !== window.top;
-                } catch (e) {
-                    inIframe = true;
-                }
-                var refreshWindow = inIframe ? contentWindow : window;
-                refreshWindow.location = "http://test-connect.asperasoft.com";
-            } else if (event.data === EVENT.CONTINUE) {
-                AW4.Utils.addVersionException();
-                notifyListeners(event.data);
-                showLaunching();
-            }
-
-        };
-        //IE will complain that in strict mode functions cannot be nested inside a statement, so we have to define it here
-        function iframeLoaded() {
-            iframeLoadedFlag = true;
-            notifyListeners(EVENT.IFRAME_LOADED);
-            var iframe = document.getElementById(connectOptions.iframeId);
-            //Set dialog type
-            iframe.contentWindow.postMessage(eventType, "*");
-            //populate the iframe with the information pulled from connectversions.js
-            var populateIframe = function(referencesJSON) {
-                for (var i = 0; i < referencesJSON.links.length; i++) {
-                    var link = referencesJSON.links[i];
-                    if (link.rel === 'enclosure') {
-                        if (typeof iframe !== 'undefined' && iframe !== null) {
-                            iframe.contentWindow.postMessage('downloadlink=' + link.hrefAbsolute, "*");
-                        }
-                    }
-                }
-            }
-            installationJSON(populateIframe);
-            //load an stylesheet if provided
-            if (connectOptions.stylesheetLocation) {
-                // Inserting a stylesheet into the DOM for more manageable styles.
-                if (typeof iframe !== 'undefined' && iframe !== null) {
-                    iframe.contentWindow.postMessage('insertstylesheet=' + connectOptions.stylesheetLocation, "*");
-                }
-            }
-            notifyListeners(EVENT.IFRAME_LOADED);
-        };
-        if (!iframe) {
-            //Set iframe styling
-            addStyleString('.' + connectOptions.iframeId + '{position: absolute;width: 100%;height: 80px;margin: 0px;padding: 0px;border: none;outline: none;overflow: hidden;top: 0px;left: 0px;z-index: 999999999}');
-            // Build and insert the iframe.
-            var iframe = document.createElement('iframe');
-            iframe.id = connectOptions.iframeId;
-            iframe.className = connectOptions.iframeId;
-            iframe.frameBorder = '0';
-            iframe.src = connectOptions.sdkLocation + '/install/auto-topbar/index.html?' + Math.random();
-            document.body.appendChild(iframe);
-            //Check for tight security policies
-            if (!iframe.contentWindow.postMessage) {
-                return;
-            }
-
-            // Set listener for messages from the iframe installer.
-            if (window.attachEvent) {
-                window.attachEvent("onmessage", handleMessage);
-            } else {
-                window.addEventListener("message", handleMessage, false);
-            }
-        }
-        if (iframeLoadedFlag) {
-            iframe.contentWindow.postMessage(eventType, "*");
-        } else {
-            //Give time to the iFrame to be loaded #31040
-            if (iframe.attachEvent)
-                iframe.attachEvent('onload', iframeLoaded);
+        var d = 0
+          , e = document.getElementsByTagName("head")[0] || document.documentElement
+          , f = function(a) {
+            var f = !1
+              , g = null;
+            if (b.toLowerCase() === "js")
+                g = document.createElement("script"),
+                g.setAttribute("type", "text/javascript"),
+                g.setAttribute("src", a);
+            else if (b.toLowerCase() === "css")
+                g = document.createElement("link"),
+                g.setAttribute("rel", "stylesheet"),
+                g.setAttribute("type", "text/css"),
+                g.setAttribute("href", a);
             else
-                iframe.onload = iframeLoaded;
-        }
-    };
-
-    /**
-     * AW4.ConnectInstaller#showLaunching(timeout) -> null
-     * - timeout (Number): (*optional*) Timeout to show the banner in milliseconds. If at any point
-     * during this timeout [[AW4.ConnectInstaller#connected]] or [[AW4.ConnectInstaller#dismiss]]
-     * are called, the banner will not show up. Default: `1500`.
-     *
-     * Displays a banner in the top of the screen explaining the user that Aspera Connect
-     * is trying to be launched.
-     *
-     **/
-    var showLaunching = function(timeout) {
-        timeout = typeof timeout === 'number' ? timeout : 1500;
-        if (showInstallTimerID !== 0) {
-            clearTimeout(showInstallTimerID);
-        }
-        var showLaunchingHelperFunction = function() {
-            show('launching');
+                return null;
+            typeof c == "function" && (g.onload = g.onreadystatechange = function() {
+                !f && (!this.readyState || this.readyState === "loaded" || this.readyState === "complete") && (f = !1,
+                g.onload = g.onreadystatechange = null,
+                e && g.parentNode && e.removeChild(g),
+                --d <= 0 && typeof c == "function" && c(!0))
+            }
+            ,
+            g.onerror = function() {
+                c(!1)
+            }
+            ),
+            e.insertBefore(g, e.firstChild)
         };
-        showInstallTimerID = setTimeout(showLaunchingHelperFunction, timeout);
+        d = a.length;
+        for (var g = 0; g < d; g++)
+            typeof a[g] == "string" && f(a[g])
+    }
+      , p = function() {
+        var a = "Not supported";
+        /Win/.test(navigator.platform) ? navigator.userAgent.indexOf("WOW64") != -1 || navigator.userAgent.indexOf("Win64") != -1 ? a = "Win64" : a = "Win32" : /Mac OS X 10[._]6/.test(navigator.userAgent) ? a = "MacIntel-10.6-legacy" : /Mac/.test(navigator.platform) ? a = "MacIntel" : /Linux x86_64/.test(navigator.platform) ? a = "Linux x86_64" : /Linux/.test(navigator.platform) && (a = "Linux i686");
+        return a
+    }
+      , q = function() {
+        var a = "";
+        /Win/.test(navigator.platform) ? a = navigator.userAgent.match(/Windows NT (\d+)[._](\d+)/) : /Mac/.test(navigator.platform) && (a = navigator.userAgent.match(/OS X (\d+)[._](\d+)/));
+        if (u(a))
+            return null;
+        var b = {
+            highWord: parseFloat(a[1]),
+            loWord: parseFloat(a[2])
+        };
+        return b
+    }
+      , r = function(a) {
+        if (!u(a)) {
+            var b = a.match(/(\d+)[.](\d+)/);
+            if (u(b))
+                return null;
+            var c = {
+                highWord: parseFloat(b[1]),
+                loWord: parseFloat(b[2])
+            };
+            return c
+        }
+        return a
+    }
+      , s = function(a) {
+        for (var b = 0; b < g.length; b++)
+            g[b](a)
+    }
+      , t = function(a) {
+        var b = document.createElement("style");
+        b.setAttribute("type", "text/css"),
+        b.styleSheet ? b.styleSheet.cssText = a : b.innerHTML = a,
+        document.body.appendChild(b)
+    }
+      , v = function(a) {
+        if (typeof a != "function")
+            return null;
+        g.push(a);
+        return null
+    }
+      , w = function(a, b) {
+        if (typeof b != "function")
+            return null;
+        a === AW4.ConnectInstaller.EVENT_TYPE.CONNECT_BAR_EVENT && l.push(b);
+        return null
+    }
+      , x = function(a) {
+        if (typeof a != "function")
+            return null;
+        if (h !== null) {
+            a(h);
+            return null
+        }
+        var b = f.sdkLocation
+          , c = function(a, b) {
+            for (var c = 0; c < b.links.length; c++) {
+                var d = b.links[c].href;
+                !/^https?:\/\//i.test(d) && !/^\/\//.test(d) && (b.links[c].hrefAbsolute = a + "/" + d)
+            }
+        }
+          , g = function(b) {
+            var d = AW4.connectVersions
+              , e = d.entries
+              , f = function(d) {
+                c(b, d),
+                h = d,
+                a(d)
+            }
+              , g = p();
+            for (var i = 0; i < e.length; i++) {
+                var j = e[i];
+                if (j.navigator.platform === g) {
+                    var k = q()
+                      , l = r(j.platform.version);
+                    if (!!u(l) || !!u(k)) {
+                        f(j);
+                        return null
+                    }
+                    if (k.highWord > l.highWord || k.highWord >= l.highWord && k.loWord >= l.loWord) {
+                        f(j);
+                        return null
+                    }
+                }
+            }
+            Q()
+        }
+          , i = function(a) {
+            var c = d;
+            a && AW4.connectVersions != undefined ? g(b) : b !== c && (b = c)
+        };
+        o([b + e], "js", i);
+        return null
+    }
+      , y = function(a, b) {
+        var c = new AW4.NativeMessageExtRequestImplementation;
+        AW4.Utils.BROWSER.SAFARI_NO_NPAPI && (c = new AW4.SafariAppExtRequestImplementation);
+        c.isSupportedByBrowser() ? c.detectExtension(a, b) : AW4.Logger.log("This browser does not use extensions.")
+    }
+      , z = function() {
+        if (AW4.Utils.BROWSER.CHROME === !0 || AW4.Utils.BROWSER.FIREFOX === !0 || AW4.Utils.BROWSER.EDGE_WITH_EXTENSION === !0)
+            return !0;
+        return !1
+    }
+      , A = function() {
+        if (AW4.Utils.BROWSER.FIREFOX === !0)
+            return "https://addons.mozilla.org/en-US/firefox/addon/ibm-aspera-connect";
+        if (AW4.Utils.BROWSER.EDGE_WITH_EXTENSION === !0)
+            return "ms-windows-store://pdp/?productid=9N6XL57H8BMG";
+        if (AW4.Utils.BROWSER.CHROME === !0)
+            return "https://chrome.google.com/webstore/detail/ibm-aspera-connect/kpoecbkildamnnchnlgoboipnblgikpn";
+        AW4.Logger.log("This browser does not use extensions.");
+        return ""
+    }
+      , B = function() {
+        var a = A();
+        a != "" && window.open(a, "_blank")
+    }
+      , C = function() {
+        var a = !1;
+        try {
+            a = window.self !== window.top
+        } catch (b) {
+            a = !0
+        }
+        var c = window;
+        a && typeof contentWindow != "undefined" && (c = contentWindow);
+        return c
+    }
+      , D = function() {
+        var a = window.top.location.href;
+        window.open(a, "_blank")
+    }
+      , E = function(a) {
+        for (var b in c)
+            if (c[b] == a)
+                return !0;
+        return !1
+    }
+      , F = function(a) {
+        for (var b = 0; b < l.length; b++)
+            l[b](a)
+    }
+      , G = function(a) {
+        function g() {
+            j = !0,
+            s(b.IFRAME_LOADED);
+            var c = document.getElementById(f.iframeId);
+            if (AW4.Utils.BROWSER.SAFARI || AW4.Utils.BROWSER.IE) {
+                var d = AW4.Utils.getLocalStorage("aspera-connect-app-download");
+                AW4.Utils.isNullOrUndefinedOrEmpty(d) || c.contentWindow.postMessage("downloadTimestamp=" + d, "*")
+            }
+            var e = function(b) {
+                for (var d = 0; d < b.links.length; d++) {
+                    var e = b.links[d]
+                      , g = f.oneClick ? "enclosure-one-click" : "enclosure";
+                    f.useFips && (g = g + "-fips"),
+                    e.rel === g && typeof c != "undefined" && c !== null && (c.contentWindow.postMessage("downloadlink=" + e.hrefAbsolute, "*"),
+                    c.contentWindow.postMessage("downloadVersion=" + b.version, "*"))
+                }
+                c.contentWindow.postMessage(a, "*")
+            };
+            x(e),
+            f.stylesheetLocation && typeof c != "undefined" && c !== null && c.contentWindow.postMessage("insertstylesheet=" + f.stylesheetLocation, "*"),
+            f.correlationId && c.contentWindow.postMessage("correlationId=" + f.correlationId, "*"),
+            AW4.__VERSION__ && c.contentWindow.postMessage("sdkVersion=" + AW4.__VERSION__, "*"),
+            s(b.IFRAME_LOADED)
+        }
+        function e(a) {
+            E(a.data) && (AW4.Logger.debug("Connect bar activity: " + a.data),
+            F(a.data),
+            a.data === c.CLICKED_DOWNLOAD_APP ? AW4.Utils.setLocalStorage("aspera-connect-app-download", Date.now()) : a.data === c.CLICKED_INSTALL_APP ? (AW4.Utils.BROWSER.SAFARI || AW4.Utils.BROWSER.IE) && O() : a.data === c.CLICKED_RETRY && D());
+            if (a.data === b.DOWNLOAD_CONNECT)
+                s(a.data),
+                L();
+            else if (a.data === b.DOWNLOAD_EXTENSION)
+                s(a.data),
+                K();
+            else if (a.data === b.REFRESH_PAGE) {
+                s(a.data);
+                var e = C();
+                e.location.reload(!0)
+            } else if (a.data === b.IFRAME_REMOVED)
+                s(a.data),
+                S();
+            else if (a.data === b.TROUBLESHOOT) {
+                s(a.data);
+                var e = C();
+                e.location = "https://test-connect.asperasoft.com"
+            } else if (a.data === b.CONTINUE) {
+                AW4.Utils.addVersionException(),
+                s(a.data);
+                if (AW4.Utils.BROWSER.SAFARI && !AW4.Utils.BROWSER.SAFARI_NO_NPAPI || AW4.Utils.BROWSER.IE) {
+                    var e = C();
+                    e.location.reload(!0)
+                } else
+                    H()
+            } else
+                a.data === b.RETRY ? (s(a.data),
+                H()) : a.data == "100%" ? d.setAttribute("style", "height:100%;width:100%;max-width: 100%;margin: 0 auto;background-color:rgba(223, 227, 230, 0.75);") : typeof a.data == "string" && a.data.endsWith(b.RESIZE) ? (d.style.height = a.data,
+                d.style.maxWidth = "600px") : a.data === b.EXTENSION_INSTALL && (s(a.data),
+                B())
+        }
+        i !== 0 && clearTimeout(i);
+        var d = document.getElementById(f.iframeId);
+        typeof String.prototype.endsWith == "undefined" && (String.prototype.endsWith = function(a) {
+            return this.indexOf(a, this.length - a.length) !== -1
+        }
+        );
+        if (!d) {
+            f.style == "carbon" ? t("." + f.iframeId + "{width: 100%;max-width: 600px;height: 80px;margin: 0 auto;position: fixed;top: 0;right: 0;left: 0;z-index: 9999;box-shadow: 0 12px 24px 0 rgba(0, 0, 0, 0.1)}") : f.style == "blue" && t("." + f.iframeId + "{position: absolute;width: 100%;height: 80px;margin: 0px;padding: 0px;border: none;outline: none;overflow: hidden;top: 0px;left: 0px;z-index: 999999999}");
+            var d = document.createElement("iframe");
+            d.id = f.iframeId,
+            d.className = f.iframeId,
+            d.frameBorder = "0";
+            if (f.style == "carbon")
+                d.src = f.sdkLocation + "/install/carbon-installer/index.html";
+            else if (f.style = "blue")
+                d.src = f.sdkLocation + "/install/auto-topbar/index.html";
+            document.body.appendChild(d);
+            if (!d.contentWindow.postMessage)
+                return;
+            window.attachEvent ? window.attachEvent("onmessage", e) : window.addEventListener("message", e, !1)
+        }
+        d.style.visibility = "visible",
+        j ? d.contentWindow.postMessage(a, "*") : d.attachEvent ? d.attachEvent("onload", g) : d.onload = g
     };
-
-    var allowContinue = function() {
-        // Check if web app wants to force an upgrade
+    window.addEventListener("message", function(a) {
+        a.data === "show_extension_install" ? O() : a.data === "show_safari_mitigate" && G("safari_mitigate")
+    }, !1);
+    var H = function(a) {
+        a = typeof a == "number" ? a : 3500,
+        i !== 0 && clearTimeout(i);
+        var b = function() {
+            G("launching")
+        };
+        i = setTimeout(b, a)
+    }
+      , I = function() {
         if (AW4.MIN_REQUESTED_VERSION && !AW4.Utils.versionLessThan(AW4.MIN_REQUESTED_VERSION, AW4.MIN_SECURE_VERSION))
-            return false;
-        return true;
+            return !1;
+        return !0
     }
-
-    var isSecurityUpdate = function() {
-        // Only true if local Connect version has been identified
-        if (typeof(AW4.connectVersion) === 'undefined')
-            return false;
-        return AW4.Utils.versionLessThan(AW4.connectVersion, AW4.MIN_SECURE_VERSION);
-    };
-
-    /**
-     * AW4.ConnectInstaller#showDownload() -> null
-     *
-     * Displays a banner in the top of the screen urging the user to download Aspera Connect.
-     *
-     **/
-    var showDownload = function() {
-        if(isSecurityUpdate() && allowContinue()){
-            show('continue');
-        } else {
-            show('download');
+      , J = function() {
+        if (typeof AW4.connectVersion == "undefined")
+            return !1;
+        return AW4.Utils.versionLessThan(AW4.connectVersion, AW4.MIN_SECURE_VERSION)
+    }
+      , K = function() {
+        G("download")
+    }
+      , L = function() {
+        G("install"),
+        AW4.Utils.setLocalStorage("aspera-install-attempted", "true")
+    }
+      , M = function() {
+        G("update")
+    }
+      , N = function() {
+        G("retry"),
+        m++
+    }
+      , O = function() {
+        G("extension_install");
+        if (!AW4.Utils.BROWSER.IE) {
+            var a = document.createElement("div");
+            a.className = "aspera-connect-ext-locator",
+            a.style.display = "none",
+            document.body.appendChild(a)
         }
+    }
+      , P = function() {
+        G("previous")
+    }
+      , Q = function() {
+        G("unsupported_browser")
+    }
+      , R = function(a) {
+        a = typeof a == "number" ? a : 2e3,
+        clearTimeout(i);
+        var b = document.getElementById(f.iframeId);
+        typeof b != "undefined" && b !== null && (G("running"),
+        setTimeout(S, a),
+        AW4.Utils.setLocalStorage("aspera-last-detected", Date.now()));
+        return null
+    }
+      , S = function() {
+        i !== 0 && clearTimeout(i);
+        var a = document.getElementById(f.iframeId);
+        typeof a != "undefined" && a !== null && (a.style.visibility = "hidden");
+        return null
     };
-
-    /**
-     * AW4.ConnectInstaller#showInstall() -> null
-     *
-     * Displays a banner in the top of the screen explaining the user what he has to do once
-     * Aspera Connect has been downloaded
-     *
-     **/
-    var showInstall = function() {
-        show('install');
-    };
-
-    /**
-     * AW4.ConnectInstaller#showUpdate() -> null
-     *
-     * Displays a banner in the top of the screen urging the user to update Aspera Connect
-     * to the latest version.
-     *
-     **/
-    var showUpdate = function() {
-        if(isSecurityUpdate() && allowContinue()){
-            show('continue');
-        } else {
-            show('update');
-        }
-    };
-
-    /**
-     * AW4.ConnectInstaller#connected(timeout) -> null
-     * - timeout (Number): (*optional*) If specified, this will add a timeout to the
-     * dismiss function. Default: `2000`.
-     *
-     * Displays a temporary message that connect has been found, and after *timeout* dismisses the
-     * banner
-     *
-     **/
-    var connected = function(timeout) {
-        timeout = typeof timeout === 'number' ? timeout : 2000;
-        clearTimeout(showInstallTimerID);
-        var iframe = document.getElementById(connectOptions.iframeId);
-        if (typeof iframe !== 'undefined' && iframe !== null) {
-            show('running');
-            setTimeout(dismiss, timeout);
-        }
-        return null;
-    };
-
-    /**
-     * AW4.ConnectInstaller#dismiss() -> null
-     *
-     * Dismisses the banner
-     *
-     **/
-    var dismiss = function() {
-        if (showInstallTimerID !== 0) {
-            clearTimeout(showInstallTimerID);
-        }
-        var iframe = document.getElementById(connectOptions.iframeId);
-        if (typeof iframe !== 'undefined' && iframe !== null) {
-            iframe.parentNode.removeChild(iframe);
-        }
-        return null;
-    };
-
-    // The symbols to export.
     return {
-        //FUNCTIONS
-        addEventListener: addEventListener,
-        installationJSON: installationJSON,
-        showLaunching: showLaunching,
-        showDownload: showDownload,
-        showInstall: showInstall,
-        showUpdate: showUpdate,
-        connected: connected,
-        dismiss: dismiss
-    };
-};
+        addActivityListener: w,
+        addEventListener: v,
+        installationJSON: x,
+        showLaunching: H,
+        showDownload: K,
+        showInstall: L,
+        showPrevious: P,
+        showUpdate: M,
+        showRetry: N,
+        connected: R,
+        dismiss: S,
+        showExtensionInstall: O,
+        showUnsupportedBrowser: Q,
+        startExtensionInstall: B,
+        isExtensionInstalled: y,
+        doesBrowserNeedExtensionStore: z,
+        getExtensionStoreLink: A
+    }
+}
+,
 "use strict";
-if (typeof AW4 === "undefined") var AW4 = {};
-AW4.crypt = (function(root) {
-
-    function checkInt(value) {
-        return (parseInt(value) === value);
+if (typeof AW4 == "undefined")
+    var AW4 = {};
+AW4.crypt = function(a) {
+    function H(a) {
+        a = d(a, !0);
+        if (a.length < 16)
+            throw new Error("PKCS#7 invalid length");
+        var b = a[a.length - 1];
+        if (b > 16)
+            throw new Error("PKCS#7 padding byte out of range");
+        var c = a.length - b;
+        for (var g = 0; g < b; g++)
+            if (a[c + g] !== b)
+                throw new Error("PKCS#7 invalid padding byte");
+        var h = e(c);
+        f(a, h, 0, 0, c);
+        return h
     }
-
-    function checkInts(arrayish) {
-        if (!checkInt(arrayish.length)) { return false; }
-
-        for (var i = 0; i < arrayish.length; i++) {
-            if (!checkInt(arrayish[i]) || arrayish[i] < 0 || arrayish[i] > 255) {
-                return false;
-            }
-        }
-
-        return true;
+    function G(a) {
+        a = d(a, !0);
+        var b = 16 - a.length % 16
+          , c = e(a.length + b);
+        f(a, c);
+        for (var g = a.length; g < c.length; g++)
+            c[g] = b;
+        return c
     }
-
-    function coerceArray(arg, copy) {
-
-        if (arg.buffer && ArrayBuffer.isView(arg) && arg.name === 'Uint8Array') {
-
-            if (copy) {
-                if (arg.slice) {
-                    arg = arg.slice();
-                } else {
-                    arg = Array.prototype.slice.call(arg);
-                }
-            }
-
-            return arg;
-        }
-
-        if (Array.isArray(arg)) {
-            if (!checkInts(arg)) {
-                throw new Error('Array contains invalid value: ' + arg);
-            }
-
-            return new Uint8Array(arg);
-        }
-
-        if (checkInt(arg.length) && checkInts(arg)) {
-            return new Uint8Array(arg);
-        }
-
-        throw new Error('unsupported array-like object');
+    function y(a) {
+        var b = [];
+        for (var c = 0; c < a.length; c += 4)
+            b.push(a[c] << 24 | a[c + 1] << 16 | a[c + 2] << 8 | a[c + 3]);
+        return b
     }
-
-    function createArray(length) {
-        return new Uint8Array(length);
+    function f(a, b, c, d, e) {
+        if (d != null || e != null)
+            a.slice ? a = a.slice(d, e) : a = Array.prototype.slice.call(a, d, e);
+        b.set(a, c)
     }
-
-    function copyArray(sourceArray, targetArray, targetStart, sourceStart, sourceEnd) {
-        if (sourceStart != null || sourceEnd != null) {
-            if (sourceArray.slice) {
-                sourceArray = sourceArray.slice(sourceStart, sourceEnd);
-            } else {
-                sourceArray = Array.prototype.slice.call(sourceArray, sourceStart, sourceEnd);
-            }
-        }
-        targetArray.set(sourceArray, targetStart);
+    function e(a) {
+        return new Uint8Array(a)
     }
-
-
-
-    var convertUtf8 = (function() {
-        function toBytes(text) {
-            var result = [], i = 0;
-            text = encodeURI(text);
-            while (i < text.length) {
-                var c = text.charCodeAt(i++);
-
-                if (c === 37) {
-                    result.push(parseInt(text.substr(i, 2), 16))
-                    i += 2;
-
-                } else {
-                    result.push(c)
-                }
-            }
-
-            return coerceArray(result);
+    function d(a, d) {
+        if (a.buffer && ArrayBuffer.isView(a) && a.name === "Uint8Array") {
+            d && (a.slice ? a = a.slice() : a = Array.prototype.slice.call(a));
+            return a
         }
-
-        function fromBytes(bytes) {
-            var result = [], i = 0;
-
-            while (i < bytes.length) {
-                var c = bytes[i];
-
-                if (c < 128) {
-                    result.push(String.fromCharCode(c));
-                    i++;
-                } else if (c > 191 && c < 224) {
-                    result.push(String.fromCharCode(((c & 0x1f) << 6) | (bytes[i + 1] & 0x3f)));
-                    i += 2;
-                } else {
-                    result.push(String.fromCharCode(((c & 0x0f) << 12) | ((bytes[i + 1] & 0x3f) << 6) | (bytes[i + 2] & 0x3f)));
-                    i += 3;
-                }
-            }
-
-            return result.join('');
+        if (Array.isArray(a)) {
+            if (!c(a))
+                throw new Error("Array contains invalid value: " + a);
+            return new Uint8Array(a)
         }
-
+        if (b(a.length) && c(a))
+            return new Uint8Array(a);
+        throw new Error("unsupported array-like object")
+    }
+    function c(a) {
+        if (!b(a.length))
+            return !1;
+        for (var c = 0; c < a.length; c++)
+            if (!b(a[c]) || a[c] < 0 || a[c] > 255)
+                return !1;
+        return !0
+    }
+    function b(a) {
+        return parseInt(a) === a
+    }
+    var g = function() {
+        function b(a) {
+            var b = []
+              , c = 0;
+            while (c < a.length) {
+                var d = a[c];
+                d < 128 ? (b.push(String.fromCharCode(d)),
+                c++) : d > 191 && d < 224 ? (b.push(String.fromCharCode((d & 31) << 6 | a[c + 1] & 63)),
+                c += 2) : (b.push(String.fromCharCode((d & 15) << 12 | (a[c + 1] & 63) << 6 | a[c + 2] & 63)),
+                c += 3)
+            }
+            return b.join("")
+        }
+        function a(a) {
+            var b = []
+              , c = 0;
+            a = encodeURI(a);
+            while (c < a.length) {
+                var e = a.charCodeAt(c++);
+                e === 37 ? (b.push(parseInt(a.substr(c, 2), 16)),
+                c += 2) : b.push(e)
+            }
+            return d(b)
+        }
         return {
-            toBytes: toBytes,
-            fromBytes: fromBytes,
+            toBytes: a,
+            fromBytes: b
         }
-    })();
-
-    var convertHex = (function() {
-        function toBytes(text) {
-            var result = [];
-            for (var i = 0; i < text.length; i += 2) {
-                result.push(parseInt(text.substr(i, 2), 16));
+    }()
+      , h = function() {
+        function c(a) {
+            var c = [];
+            for (var d = 0; d < a.length; d++) {
+                var e = a[d];
+                c.push(b[(e & 240) >> 4] + b[e & 15])
             }
-
-            return result;
+            return c.join("")
         }
-
-        var Hex = '0123456789abcdef';
-
-        function fromBytes(bytes) {
-            var result = [];
-            for (var i = 0; i < bytes.length; i++) {
-                var v = bytes[i];
-                result.push(Hex[(v & 0xf0) >> 4] + Hex[v & 0x0f]);
-            }
-            return result.join('');
+        function a(a) {
+            var b = [];
+            for (var c = 0; c < a.length; c += 2)
+                b.push(parseInt(a.substr(c, 2), 16));
+            return b
         }
-
+        var b = "0123456789abcdef";
         return {
-            toBytes: toBytes,
-            fromBytes: fromBytes,
+            toBytes: a,
+            fromBytes: c
         }
-    })();
-
-
-    var numberOfRounds = {16: 10, 24: 12, 32: 14}
-
-    var rcon = [0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36, 0x6c, 0xd8, 0xab, 0x4d, 0x9a, 0x2f, 0x5e, 0xbc, 0x63, 0xc6, 0x97, 0x35, 0x6a, 0xd4, 0xb3, 0x7d, 0xfa, 0xef, 0xc5, 0x91];
-
-    var S = [0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76, 0xca, 0x82, 0xc9, 0x7d, 0xfa, 0x59, 0x47, 0xf0, 0xad, 0xd4, 0xa2, 0xaf, 0x9c, 0xa4, 0x72, 0xc0, 0xb7, 0xfd, 0x93, 0x26, 0x36, 0x3f, 0xf7, 0xcc, 0x34, 0xa5, 0xe5, 0xf1, 0x71, 0xd8, 0x31, 0x15, 0x04, 0xc7, 0x23, 0xc3, 0x18, 0x96, 0x05, 0x9a, 0x07, 0x12, 0x80, 0xe2, 0xeb, 0x27, 0xb2, 0x75, 0x09, 0x83, 0x2c, 0x1a, 0x1b, 0x6e, 0x5a, 0xa0, 0x52, 0x3b, 0xd6, 0xb3, 0x29, 0xe3, 0x2f, 0x84, 0x53, 0xd1, 0x00, 0xed, 0x20, 0xfc, 0xb1, 0x5b, 0x6a, 0xcb, 0xbe, 0x39, 0x4a, 0x4c, 0x58, 0xcf, 0xd0, 0xef, 0xaa, 0xfb, 0x43, 0x4d, 0x33, 0x85, 0x45, 0xf9, 0x02, 0x7f, 0x50, 0x3c, 0x9f, 0xa8, 0x51, 0xa3, 0x40, 0x8f, 0x92, 0x9d, 0x38, 0xf5, 0xbc, 0xb6, 0xda, 0x21, 0x10, 0xff, 0xf3, 0xd2, 0xcd, 0x0c, 0x13, 0xec, 0x5f, 0x97, 0x44, 0x17, 0xc4, 0xa7, 0x7e, 0x3d, 0x64, 0x5d, 0x19, 0x73, 0x60, 0x81, 0x4f, 0xdc, 0x22, 0x2a, 0x90, 0x88, 0x46, 0xee, 0xb8, 0x14, 0xde, 0x5e, 0x0b, 0xdb, 0xe0, 0x32, 0x3a, 0x0a, 0x49, 0x06, 0x24, 0x5c, 0xc2, 0xd3, 0xac, 0x62, 0x91, 0x95, 0xe4, 0x79, 0xe7, 0xc8, 0x37, 0x6d, 0x8d, 0xd5, 0x4e, 0xa9, 0x6c, 0x56, 0xf4, 0xea, 0x65, 0x7a, 0xae, 0x08, 0xba, 0x78, 0x25, 0x2e, 0x1c, 0xa6, 0xb4, 0xc6, 0xe8, 0xdd, 0x74, 0x1f, 0x4b, 0xbd, 0x8b, 0x8a, 0x70, 0x3e, 0xb5, 0x66, 0x48, 0x03, 0xf6, 0x0e, 0x61, 0x35, 0x57, 0xb9, 0x86, 0xc1, 0x1d, 0x9e, 0xe1, 0xf8, 0x98, 0x11, 0x69, 0xd9, 0x8e, 0x94, 0x9b, 0x1e, 0x87, 0xe9, 0xce, 0x55, 0x28, 0xdf, 0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16];
-    var Si =[0x52, 0x09, 0x6a, 0xd5, 0x30, 0x36, 0xa5, 0x38, 0xbf, 0x40, 0xa3, 0x9e, 0x81, 0xf3, 0xd7, 0xfb, 0x7c, 0xe3, 0x39, 0x82, 0x9b, 0x2f, 0xff, 0x87, 0x34, 0x8e, 0x43, 0x44, 0xc4, 0xde, 0xe9, 0xcb, 0x54, 0x7b, 0x94, 0x32, 0xa6, 0xc2, 0x23, 0x3d, 0xee, 0x4c, 0x95, 0x0b, 0x42, 0xfa, 0xc3, 0x4e, 0x08, 0x2e, 0xa1, 0x66, 0x28, 0xd9, 0x24, 0xb2, 0x76, 0x5b, 0xa2, 0x49, 0x6d, 0x8b, 0xd1, 0x25, 0x72, 0xf8, 0xf6, 0x64, 0x86, 0x68, 0x98, 0x16, 0xd4, 0xa4, 0x5c, 0xcc, 0x5d, 0x65, 0xb6, 0x92, 0x6c, 0x70, 0x48, 0x50, 0xfd, 0xed, 0xb9, 0xda, 0x5e, 0x15, 0x46, 0x57, 0xa7, 0x8d, 0x9d, 0x84, 0x90, 0xd8, 0xab, 0x00, 0x8c, 0xbc, 0xd3, 0x0a, 0xf7, 0xe4, 0x58, 0x05, 0xb8, 0xb3, 0x45, 0x06, 0xd0, 0x2c, 0x1e, 0x8f, 0xca, 0x3f, 0x0f, 0x02, 0xc1, 0xaf, 0xbd, 0x03, 0x01, 0x13, 0x8a, 0x6b, 0x3a, 0x91, 0x11, 0x41, 0x4f, 0x67, 0xdc, 0xea, 0x97, 0xf2, 0xcf, 0xce, 0xf0, 0xb4, 0xe6, 0x73, 0x96, 0xac, 0x74, 0x22, 0xe7, 0xad, 0x35, 0x85, 0xe2, 0xf9, 0x37, 0xe8, 0x1c, 0x75, 0xdf, 0x6e, 0x47, 0xf1, 0x1a, 0x71, 0x1d, 0x29, 0xc5, 0x89, 0x6f, 0xb7, 0x62, 0x0e, 0xaa, 0x18, 0xbe, 0x1b, 0xfc, 0x56, 0x3e, 0x4b, 0xc6, 0xd2, 0x79, 0x20, 0x9a, 0xdb, 0xc0, 0xfe, 0x78, 0xcd, 0x5a, 0xf4, 0x1f, 0xdd, 0xa8, 0x33, 0x88, 0x07, 0xc7, 0x31, 0xb1, 0x12, 0x10, 0x59, 0x27, 0x80, 0xec, 0x5f, 0x60, 0x51, 0x7f, 0xa9, 0x19, 0xb5, 0x4a, 0x0d, 0x2d, 0xe5, 0x7a, 0x9f, 0x93, 0xc9, 0x9c, 0xef, 0xa0, 0xe0, 0x3b, 0x4d, 0xae, 0x2a, 0xf5, 0xb0, 0xc8, 0xeb, 0xbb, 0x3c, 0x83, 0x53, 0x99, 0x61, 0x17, 0x2b, 0x04, 0x7e, 0xba, 0x77, 0xd6, 0x26, 0xe1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0c, 0x7d];
-
-    var T1 = [0xc66363a5, 0xf87c7c84, 0xee777799, 0xf67b7b8d, 0xfff2f20d, 0xd66b6bbd, 0xde6f6fb1, 0x91c5c554, 0x60303050, 0x02010103, 0xce6767a9, 0x562b2b7d, 0xe7fefe19, 0xb5d7d762, 0x4dababe6, 0xec76769a, 0x8fcaca45, 0x1f82829d, 0x89c9c940, 0xfa7d7d87, 0xeffafa15, 0xb25959eb, 0x8e4747c9, 0xfbf0f00b, 0x41adadec, 0xb3d4d467, 0x5fa2a2fd, 0x45afafea, 0x239c9cbf, 0x53a4a4f7, 0xe4727296, 0x9bc0c05b, 0x75b7b7c2, 0xe1fdfd1c, 0x3d9393ae, 0x4c26266a, 0x6c36365a, 0x7e3f3f41, 0xf5f7f702, 0x83cccc4f, 0x6834345c, 0x51a5a5f4, 0xd1e5e534, 0xf9f1f108, 0xe2717193, 0xabd8d873, 0x62313153, 0x2a15153f, 0x0804040c, 0x95c7c752, 0x46232365, 0x9dc3c35e, 0x30181828, 0x379696a1, 0x0a05050f, 0x2f9a9ab5, 0x0e070709, 0x24121236, 0x1b80809b, 0xdfe2e23d, 0xcdebeb26, 0x4e272769, 0x7fb2b2cd, 0xea75759f, 0x1209091b, 0x1d83839e, 0x582c2c74, 0x341a1a2e, 0x361b1b2d, 0xdc6e6eb2, 0xb45a5aee, 0x5ba0a0fb, 0xa45252f6, 0x763b3b4d, 0xb7d6d661, 0x7db3b3ce, 0x5229297b, 0xdde3e33e, 0x5e2f2f71, 0x13848497, 0xa65353f5, 0xb9d1d168, 0x00000000, 0xc1eded2c, 0x40202060, 0xe3fcfc1f, 0x79b1b1c8, 0xb65b5bed, 0xd46a6abe, 0x8dcbcb46, 0x67bebed9, 0x7239394b, 0x944a4ade, 0x984c4cd4, 0xb05858e8, 0x85cfcf4a, 0xbbd0d06b, 0xc5efef2a, 0x4faaaae5, 0xedfbfb16, 0x864343c5, 0x9a4d4dd7, 0x66333355, 0x11858594, 0x8a4545cf, 0xe9f9f910, 0x04020206, 0xfe7f7f81, 0xa05050f0, 0x783c3c44, 0x259f9fba, 0x4ba8a8e3, 0xa25151f3, 0x5da3a3fe, 0x804040c0, 0x058f8f8a, 0x3f9292ad, 0x219d9dbc, 0x70383848, 0xf1f5f504, 0x63bcbcdf, 0x77b6b6c1, 0xafdada75, 0x42212163, 0x20101030, 0xe5ffff1a, 0xfdf3f30e, 0xbfd2d26d, 0x81cdcd4c, 0x180c0c14, 0x26131335, 0xc3ecec2f, 0xbe5f5fe1, 0x359797a2, 0x884444cc, 0x2e171739, 0x93c4c457, 0x55a7a7f2, 0xfc7e7e82, 0x7a3d3d47, 0xc86464ac, 0xba5d5de7, 0x3219192b, 0xe6737395, 0xc06060a0, 0x19818198, 0x9e4f4fd1, 0xa3dcdc7f, 0x44222266, 0x542a2a7e, 0x3b9090ab, 0x0b888883, 0x8c4646ca, 0xc7eeee29, 0x6bb8b8d3, 0x2814143c, 0xa7dede79, 0xbc5e5ee2, 0x160b0b1d, 0xaddbdb76, 0xdbe0e03b, 0x64323256, 0x743a3a4e, 0x140a0a1e, 0x924949db, 0x0c06060a, 0x4824246c, 0xb85c5ce4, 0x9fc2c25d, 0xbdd3d36e, 0x43acacef, 0xc46262a6, 0x399191a8, 0x319595a4, 0xd3e4e437, 0xf279798b, 0xd5e7e732, 0x8bc8c843, 0x6e373759, 0xda6d6db7, 0x018d8d8c, 0xb1d5d564, 0x9c4e4ed2, 0x49a9a9e0, 0xd86c6cb4, 0xac5656fa, 0xf3f4f407, 0xcfeaea25, 0xca6565af, 0xf47a7a8e, 0x47aeaee9, 0x10080818, 0x6fbabad5, 0xf0787888, 0x4a25256f, 0x5c2e2e72, 0x381c1c24, 0x57a6a6f1, 0x73b4b4c7, 0x97c6c651, 0xcbe8e823, 0xa1dddd7c, 0xe874749c, 0x3e1f1f21, 0x964b4bdd, 0x61bdbddc, 0x0d8b8b86, 0x0f8a8a85, 0xe0707090, 0x7c3e3e42, 0x71b5b5c4, 0xcc6666aa, 0x904848d8, 0x06030305, 0xf7f6f601, 0x1c0e0e12, 0xc26161a3, 0x6a35355f, 0xae5757f9, 0x69b9b9d0, 0x17868691, 0x99c1c158, 0x3a1d1d27, 0x279e9eb9, 0xd9e1e138, 0xebf8f813, 0x2b9898b3, 0x22111133, 0xd26969bb, 0xa9d9d970, 0x078e8e89, 0x339494a7, 0x2d9b9bb6, 0x3c1e1e22, 0x15878792, 0xc9e9e920, 0x87cece49, 0xaa5555ff, 0x50282878, 0xa5dfdf7a, 0x038c8c8f, 0x59a1a1f8, 0x09898980, 0x1a0d0d17, 0x65bfbfda, 0xd7e6e631, 0x844242c6, 0xd06868b8, 0x824141c3, 0x299999b0, 0x5a2d2d77, 0x1e0f0f11, 0x7bb0b0cb, 0xa85454fc, 0x6dbbbbd6, 0x2c16163a];
-    var T2 = [0xa5c66363, 0x84f87c7c, 0x99ee7777, 0x8df67b7b, 0x0dfff2f2, 0xbdd66b6b, 0xb1de6f6f, 0x5491c5c5, 0x50603030, 0x03020101, 0xa9ce6767, 0x7d562b2b, 0x19e7fefe, 0x62b5d7d7, 0xe64dabab, 0x9aec7676, 0x458fcaca, 0x9d1f8282, 0x4089c9c9, 0x87fa7d7d, 0x15effafa, 0xebb25959, 0xc98e4747, 0x0bfbf0f0, 0xec41adad, 0x67b3d4d4, 0xfd5fa2a2, 0xea45afaf, 0xbf239c9c, 0xf753a4a4, 0x96e47272, 0x5b9bc0c0, 0xc275b7b7, 0x1ce1fdfd, 0xae3d9393, 0x6a4c2626, 0x5a6c3636, 0x417e3f3f, 0x02f5f7f7, 0x4f83cccc, 0x5c683434, 0xf451a5a5, 0x34d1e5e5, 0x08f9f1f1, 0x93e27171, 0x73abd8d8, 0x53623131, 0x3f2a1515, 0x0c080404, 0x5295c7c7, 0x65462323, 0x5e9dc3c3, 0x28301818, 0xa1379696, 0x0f0a0505, 0xb52f9a9a, 0x090e0707, 0x36241212, 0x9b1b8080, 0x3ddfe2e2, 0x26cdebeb, 0x694e2727, 0xcd7fb2b2, 0x9fea7575, 0x1b120909, 0x9e1d8383, 0x74582c2c, 0x2e341a1a, 0x2d361b1b, 0xb2dc6e6e, 0xeeb45a5a, 0xfb5ba0a0, 0xf6a45252, 0x4d763b3b, 0x61b7d6d6, 0xce7db3b3, 0x7b522929, 0x3edde3e3, 0x715e2f2f, 0x97138484, 0xf5a65353, 0x68b9d1d1, 0x00000000, 0x2cc1eded, 0x60402020, 0x1fe3fcfc, 0xc879b1b1, 0xedb65b5b, 0xbed46a6a, 0x468dcbcb, 0xd967bebe, 0x4b723939, 0xde944a4a, 0xd4984c4c, 0xe8b05858, 0x4a85cfcf, 0x6bbbd0d0, 0x2ac5efef, 0xe54faaaa, 0x16edfbfb, 0xc5864343, 0xd79a4d4d, 0x55663333, 0x94118585, 0xcf8a4545, 0x10e9f9f9, 0x06040202, 0x81fe7f7f, 0xf0a05050, 0x44783c3c, 0xba259f9f, 0xe34ba8a8, 0xf3a25151, 0xfe5da3a3, 0xc0804040, 0x8a058f8f, 0xad3f9292, 0xbc219d9d, 0x48703838, 0x04f1f5f5, 0xdf63bcbc, 0xc177b6b6, 0x75afdada, 0x63422121, 0x30201010, 0x1ae5ffff, 0x0efdf3f3, 0x6dbfd2d2, 0x4c81cdcd, 0x14180c0c, 0x35261313, 0x2fc3ecec, 0xe1be5f5f, 0xa2359797, 0xcc884444, 0x392e1717, 0x5793c4c4, 0xf255a7a7, 0x82fc7e7e, 0x477a3d3d, 0xacc86464, 0xe7ba5d5d, 0x2b321919, 0x95e67373, 0xa0c06060, 0x98198181, 0xd19e4f4f, 0x7fa3dcdc, 0x66442222, 0x7e542a2a, 0xab3b9090, 0x830b8888, 0xca8c4646, 0x29c7eeee, 0xd36bb8b8, 0x3c281414, 0x79a7dede, 0xe2bc5e5e, 0x1d160b0b, 0x76addbdb, 0x3bdbe0e0, 0x56643232, 0x4e743a3a, 0x1e140a0a, 0xdb924949, 0x0a0c0606, 0x6c482424, 0xe4b85c5c, 0x5d9fc2c2, 0x6ebdd3d3, 0xef43acac, 0xa6c46262, 0xa8399191, 0xa4319595, 0x37d3e4e4, 0x8bf27979, 0x32d5e7e7, 0x438bc8c8, 0x596e3737, 0xb7da6d6d, 0x8c018d8d, 0x64b1d5d5, 0xd29c4e4e, 0xe049a9a9, 0xb4d86c6c, 0xfaac5656, 0x07f3f4f4, 0x25cfeaea, 0xafca6565, 0x8ef47a7a, 0xe947aeae, 0x18100808, 0xd56fbaba, 0x88f07878, 0x6f4a2525, 0x725c2e2e, 0x24381c1c, 0xf157a6a6, 0xc773b4b4, 0x5197c6c6, 0x23cbe8e8, 0x7ca1dddd, 0x9ce87474, 0x213e1f1f, 0xdd964b4b, 0xdc61bdbd, 0x860d8b8b, 0x850f8a8a, 0x90e07070, 0x427c3e3e, 0xc471b5b5, 0xaacc6666, 0xd8904848, 0x05060303, 0x01f7f6f6, 0x121c0e0e, 0xa3c26161, 0x5f6a3535, 0xf9ae5757, 0xd069b9b9, 0x91178686, 0x5899c1c1, 0x273a1d1d, 0xb9279e9e, 0x38d9e1e1, 0x13ebf8f8, 0xb32b9898, 0x33221111, 0xbbd26969, 0x70a9d9d9, 0x89078e8e, 0xa7339494, 0xb62d9b9b, 0x223c1e1e, 0x92158787, 0x20c9e9e9, 0x4987cece, 0xffaa5555, 0x78502828, 0x7aa5dfdf, 0x8f038c8c, 0xf859a1a1, 0x80098989, 0x171a0d0d, 0xda65bfbf, 0x31d7e6e6, 0xc6844242, 0xb8d06868, 0xc3824141, 0xb0299999, 0x775a2d2d, 0x111e0f0f, 0xcb7bb0b0, 0xfca85454, 0xd66dbbbb, 0x3a2c1616];
-    var T3 = [0x63a5c663, 0x7c84f87c, 0x7799ee77, 0x7b8df67b, 0xf20dfff2, 0x6bbdd66b, 0x6fb1de6f, 0xc55491c5, 0x30506030, 0x01030201, 0x67a9ce67, 0x2b7d562b, 0xfe19e7fe, 0xd762b5d7, 0xabe64dab, 0x769aec76, 0xca458fca, 0x829d1f82, 0xc94089c9, 0x7d87fa7d, 0xfa15effa, 0x59ebb259, 0x47c98e47, 0xf00bfbf0, 0xadec41ad, 0xd467b3d4, 0xa2fd5fa2, 0xafea45af, 0x9cbf239c, 0xa4f753a4, 0x7296e472, 0xc05b9bc0, 0xb7c275b7, 0xfd1ce1fd, 0x93ae3d93, 0x266a4c26, 0x365a6c36, 0x3f417e3f, 0xf702f5f7, 0xcc4f83cc, 0x345c6834, 0xa5f451a5, 0xe534d1e5, 0xf108f9f1, 0x7193e271, 0xd873abd8, 0x31536231, 0x153f2a15, 0x040c0804, 0xc75295c7, 0x23654623, 0xc35e9dc3, 0x18283018, 0x96a13796, 0x050f0a05, 0x9ab52f9a, 0x07090e07, 0x12362412, 0x809b1b80, 0xe23ddfe2, 0xeb26cdeb, 0x27694e27, 0xb2cd7fb2, 0x759fea75, 0x091b1209, 0x839e1d83, 0x2c74582c, 0x1a2e341a, 0x1b2d361b, 0x6eb2dc6e, 0x5aeeb45a, 0xa0fb5ba0, 0x52f6a452, 0x3b4d763b, 0xd661b7d6, 0xb3ce7db3, 0x297b5229, 0xe33edde3, 0x2f715e2f, 0x84971384, 0x53f5a653, 0xd168b9d1, 0x00000000, 0xed2cc1ed, 0x20604020, 0xfc1fe3fc, 0xb1c879b1, 0x5bedb65b, 0x6abed46a, 0xcb468dcb, 0xbed967be, 0x394b7239, 0x4ade944a, 0x4cd4984c, 0x58e8b058, 0xcf4a85cf, 0xd06bbbd0, 0xef2ac5ef, 0xaae54faa, 0xfb16edfb, 0x43c58643, 0x4dd79a4d, 0x33556633, 0x85941185, 0x45cf8a45, 0xf910e9f9, 0x02060402, 0x7f81fe7f, 0x50f0a050, 0x3c44783c, 0x9fba259f, 0xa8e34ba8, 0x51f3a251, 0xa3fe5da3, 0x40c08040, 0x8f8a058f, 0x92ad3f92, 0x9dbc219d, 0x38487038, 0xf504f1f5, 0xbcdf63bc, 0xb6c177b6, 0xda75afda, 0x21634221, 0x10302010, 0xff1ae5ff, 0xf30efdf3, 0xd26dbfd2, 0xcd4c81cd, 0x0c14180c, 0x13352613, 0xec2fc3ec, 0x5fe1be5f, 0x97a23597, 0x44cc8844, 0x17392e17, 0xc45793c4, 0xa7f255a7, 0x7e82fc7e, 0x3d477a3d, 0x64acc864, 0x5de7ba5d, 0x192b3219, 0x7395e673, 0x60a0c060, 0x81981981, 0x4fd19e4f, 0xdc7fa3dc, 0x22664422, 0x2a7e542a, 0x90ab3b90, 0x88830b88, 0x46ca8c46, 0xee29c7ee, 0xb8d36bb8, 0x143c2814, 0xde79a7de, 0x5ee2bc5e, 0x0b1d160b, 0xdb76addb, 0xe03bdbe0, 0x32566432, 0x3a4e743a, 0x0a1e140a, 0x49db9249, 0x060a0c06, 0x246c4824, 0x5ce4b85c, 0xc25d9fc2, 0xd36ebdd3, 0xacef43ac, 0x62a6c462, 0x91a83991, 0x95a43195, 0xe437d3e4, 0x798bf279, 0xe732d5e7, 0xc8438bc8, 0x37596e37, 0x6db7da6d, 0x8d8c018d, 0xd564b1d5, 0x4ed29c4e, 0xa9e049a9, 0x6cb4d86c, 0x56faac56, 0xf407f3f4, 0xea25cfea, 0x65afca65, 0x7a8ef47a, 0xaee947ae, 0x08181008, 0xbad56fba, 0x7888f078, 0x256f4a25, 0x2e725c2e, 0x1c24381c, 0xa6f157a6, 0xb4c773b4, 0xc65197c6, 0xe823cbe8, 0xdd7ca1dd, 0x749ce874, 0x1f213e1f, 0x4bdd964b, 0xbddc61bd, 0x8b860d8b, 0x8a850f8a, 0x7090e070, 0x3e427c3e, 0xb5c471b5, 0x66aacc66, 0x48d89048, 0x03050603, 0xf601f7f6, 0x0e121c0e, 0x61a3c261, 0x355f6a35, 0x57f9ae57, 0xb9d069b9, 0x86911786, 0xc15899c1, 0x1d273a1d, 0x9eb9279e, 0xe138d9e1, 0xf813ebf8, 0x98b32b98, 0x11332211, 0x69bbd269, 0xd970a9d9, 0x8e89078e, 0x94a73394, 0x9bb62d9b, 0x1e223c1e, 0x87921587, 0xe920c9e9, 0xce4987ce, 0x55ffaa55, 0x28785028, 0xdf7aa5df, 0x8c8f038c, 0xa1f859a1, 0x89800989, 0x0d171a0d, 0xbfda65bf, 0xe631d7e6, 0x42c68442, 0x68b8d068, 0x41c38241, 0x99b02999, 0x2d775a2d, 0x0f111e0f, 0xb0cb7bb0, 0x54fca854, 0xbbd66dbb, 0x163a2c16];
-    var T4 = [0x6363a5c6, 0x7c7c84f8, 0x777799ee, 0x7b7b8df6, 0xf2f20dff, 0x6b6bbdd6, 0x6f6fb1de, 0xc5c55491, 0x30305060, 0x01010302, 0x6767a9ce, 0x2b2b7d56, 0xfefe19e7, 0xd7d762b5, 0xababe64d, 0x76769aec, 0xcaca458f, 0x82829d1f, 0xc9c94089, 0x7d7d87fa, 0xfafa15ef, 0x5959ebb2, 0x4747c98e, 0xf0f00bfb, 0xadadec41, 0xd4d467b3, 0xa2a2fd5f, 0xafafea45, 0x9c9cbf23, 0xa4a4f753, 0x727296e4, 0xc0c05b9b, 0xb7b7c275, 0xfdfd1ce1, 0x9393ae3d, 0x26266a4c, 0x36365a6c, 0x3f3f417e, 0xf7f702f5, 0xcccc4f83, 0x34345c68, 0xa5a5f451, 0xe5e534d1, 0xf1f108f9, 0x717193e2, 0xd8d873ab, 0x31315362, 0x15153f2a, 0x04040c08, 0xc7c75295, 0x23236546, 0xc3c35e9d, 0x18182830, 0x9696a137, 0x05050f0a, 0x9a9ab52f, 0x0707090e, 0x12123624, 0x80809b1b, 0xe2e23ddf, 0xebeb26cd, 0x2727694e, 0xb2b2cd7f, 0x75759fea, 0x09091b12, 0x83839e1d, 0x2c2c7458, 0x1a1a2e34, 0x1b1b2d36, 0x6e6eb2dc, 0x5a5aeeb4, 0xa0a0fb5b, 0x5252f6a4, 0x3b3b4d76, 0xd6d661b7, 0xb3b3ce7d, 0x29297b52, 0xe3e33edd, 0x2f2f715e, 0x84849713, 0x5353f5a6, 0xd1d168b9, 0x00000000, 0xeded2cc1, 0x20206040, 0xfcfc1fe3, 0xb1b1c879, 0x5b5bedb6, 0x6a6abed4, 0xcbcb468d, 0xbebed967, 0x39394b72, 0x4a4ade94, 0x4c4cd498, 0x5858e8b0, 0xcfcf4a85, 0xd0d06bbb, 0xefef2ac5, 0xaaaae54f, 0xfbfb16ed, 0x4343c586, 0x4d4dd79a, 0x33335566, 0x85859411, 0x4545cf8a, 0xf9f910e9, 0x02020604, 0x7f7f81fe, 0x5050f0a0, 0x3c3c4478, 0x9f9fba25, 0xa8a8e34b, 0x5151f3a2, 0xa3a3fe5d, 0x4040c080, 0x8f8f8a05, 0x9292ad3f, 0x9d9dbc21, 0x38384870, 0xf5f504f1, 0xbcbcdf63, 0xb6b6c177, 0xdada75af, 0x21216342, 0x10103020, 0xffff1ae5, 0xf3f30efd, 0xd2d26dbf, 0xcdcd4c81, 0x0c0c1418, 0x13133526, 0xecec2fc3, 0x5f5fe1be, 0x9797a235, 0x4444cc88, 0x1717392e, 0xc4c45793, 0xa7a7f255, 0x7e7e82fc, 0x3d3d477a, 0x6464acc8, 0x5d5de7ba, 0x19192b32, 0x737395e6, 0x6060a0c0, 0x81819819, 0x4f4fd19e, 0xdcdc7fa3, 0x22226644, 0x2a2a7e54, 0x9090ab3b, 0x8888830b, 0x4646ca8c, 0xeeee29c7, 0xb8b8d36b, 0x14143c28, 0xdede79a7, 0x5e5ee2bc, 0x0b0b1d16, 0xdbdb76ad, 0xe0e03bdb, 0x32325664, 0x3a3a4e74, 0x0a0a1e14, 0x4949db92, 0x06060a0c, 0x24246c48, 0x5c5ce4b8, 0xc2c25d9f, 0xd3d36ebd, 0xacacef43, 0x6262a6c4, 0x9191a839, 0x9595a431, 0xe4e437d3, 0x79798bf2, 0xe7e732d5, 0xc8c8438b, 0x3737596e, 0x6d6db7da, 0x8d8d8c01, 0xd5d564b1, 0x4e4ed29c, 0xa9a9e049, 0x6c6cb4d8, 0x5656faac, 0xf4f407f3, 0xeaea25cf, 0x6565afca, 0x7a7a8ef4, 0xaeaee947, 0x08081810, 0xbabad56f, 0x787888f0, 0x25256f4a, 0x2e2e725c, 0x1c1c2438, 0xa6a6f157, 0xb4b4c773, 0xc6c65197, 0xe8e823cb, 0xdddd7ca1, 0x74749ce8, 0x1f1f213e, 0x4b4bdd96, 0xbdbddc61, 0x8b8b860d, 0x8a8a850f, 0x707090e0, 0x3e3e427c, 0xb5b5c471, 0x6666aacc, 0x4848d890, 0x03030506, 0xf6f601f7, 0x0e0e121c, 0x6161a3c2, 0x35355f6a, 0x5757f9ae, 0xb9b9d069, 0x86869117, 0xc1c15899, 0x1d1d273a, 0x9e9eb927, 0xe1e138d9, 0xf8f813eb, 0x9898b32b, 0x11113322, 0x6969bbd2, 0xd9d970a9, 0x8e8e8907, 0x9494a733, 0x9b9bb62d, 0x1e1e223c, 0x87879215, 0xe9e920c9, 0xcece4987, 0x5555ffaa, 0x28287850, 0xdfdf7aa5, 0x8c8c8f03, 0xa1a1f859, 0x89898009, 0x0d0d171a, 0xbfbfda65, 0xe6e631d7, 0x4242c684, 0x6868b8d0, 0x4141c382, 0x9999b029, 0x2d2d775a, 0x0f0f111e, 0xb0b0cb7b, 0x5454fca8, 0xbbbbd66d, 0x16163a2c];
-
-    var T5 = [0x51f4a750, 0x7e416553, 0x1a17a4c3, 0x3a275e96, 0x3bab6bcb, 0x1f9d45f1, 0xacfa58ab, 0x4be30393, 0x2030fa55, 0xad766df6, 0x88cc7691, 0xf5024c25, 0x4fe5d7fc, 0xc52acbd7, 0x26354480, 0xb562a38f, 0xdeb15a49, 0x25ba1b67, 0x45ea0e98, 0x5dfec0e1, 0xc32f7502, 0x814cf012, 0x8d4697a3, 0x6bd3f9c6, 0x038f5fe7, 0x15929c95, 0xbf6d7aeb, 0x955259da, 0xd4be832d, 0x587421d3, 0x49e06929, 0x8ec9c844, 0x75c2896a, 0xf48e7978, 0x99583e6b, 0x27b971dd, 0xbee14fb6, 0xf088ad17, 0xc920ac66, 0x7dce3ab4, 0x63df4a18, 0xe51a3182, 0x97513360, 0x62537f45, 0xb16477e0, 0xbb6bae84, 0xfe81a01c, 0xf9082b94, 0x70486858, 0x8f45fd19, 0x94de6c87, 0x527bf8b7, 0xab73d323, 0x724b02e2, 0xe31f8f57, 0x6655ab2a, 0xb2eb2807, 0x2fb5c203, 0x86c57b9a, 0xd33708a5, 0x302887f2, 0x23bfa5b2, 0x02036aba, 0xed16825c, 0x8acf1c2b, 0xa779b492, 0xf307f2f0, 0x4e69e2a1, 0x65daf4cd, 0x0605bed5, 0xd134621f, 0xc4a6fe8a, 0x342e539d, 0xa2f355a0, 0x058ae132, 0xa4f6eb75, 0x0b83ec39, 0x4060efaa, 0x5e719f06, 0xbd6e1051, 0x3e218af9, 0x96dd063d, 0xdd3e05ae, 0x4de6bd46, 0x91548db5, 0x71c45d05, 0x0406d46f, 0x605015ff, 0x1998fb24, 0xd6bde997, 0x894043cc, 0x67d99e77, 0xb0e842bd, 0x07898b88, 0xe7195b38, 0x79c8eedb, 0xa17c0a47, 0x7c420fe9, 0xf8841ec9, 0x00000000, 0x09808683, 0x322bed48, 0x1e1170ac, 0x6c5a724e, 0xfd0efffb, 0x0f853856, 0x3daed51e, 0x362d3927, 0x0a0fd964, 0x685ca621, 0x9b5b54d1, 0x24362e3a, 0x0c0a67b1, 0x9357e70f, 0xb4ee96d2, 0x1b9b919e, 0x80c0c54f, 0x61dc20a2, 0x5a774b69, 0x1c121a16, 0xe293ba0a, 0xc0a02ae5, 0x3c22e043, 0x121b171d, 0x0e090d0b, 0xf28bc7ad, 0x2db6a8b9, 0x141ea9c8, 0x57f11985, 0xaf75074c, 0xee99ddbb, 0xa37f60fd, 0xf701269f, 0x5c72f5bc, 0x44663bc5, 0x5bfb7e34, 0x8b432976, 0xcb23c6dc, 0xb6edfc68, 0xb8e4f163, 0xd731dcca, 0x42638510, 0x13972240, 0x84c61120, 0x854a247d, 0xd2bb3df8, 0xaef93211, 0xc729a16d, 0x1d9e2f4b, 0xdcb230f3, 0x0d8652ec, 0x77c1e3d0, 0x2bb3166c, 0xa970b999, 0x119448fa, 0x47e96422, 0xa8fc8cc4, 0xa0f03f1a, 0x567d2cd8, 0x223390ef, 0x87494ec7, 0xd938d1c1, 0x8ccaa2fe, 0x98d40b36, 0xa6f581cf, 0xa57ade28, 0xdab78e26, 0x3fadbfa4, 0x2c3a9de4, 0x5078920d, 0x6a5fcc9b, 0x547e4662, 0xf68d13c2, 0x90d8b8e8, 0x2e39f75e, 0x82c3aff5, 0x9f5d80be, 0x69d0937c, 0x6fd52da9, 0xcf2512b3, 0xc8ac993b, 0x10187da7, 0xe89c636e, 0xdb3bbb7b, 0xcd267809, 0x6e5918f4, 0xec9ab701, 0x834f9aa8, 0xe6956e65, 0xaaffe67e, 0x21bccf08, 0xef15e8e6, 0xbae79bd9, 0x4a6f36ce, 0xea9f09d4, 0x29b07cd6, 0x31a4b2af, 0x2a3f2331, 0xc6a59430, 0x35a266c0, 0x744ebc37, 0xfc82caa6, 0xe090d0b0, 0x33a7d815, 0xf104984a, 0x41ecdaf7, 0x7fcd500e, 0x1791f62f, 0x764dd68d, 0x43efb04d, 0xccaa4d54, 0xe49604df, 0x9ed1b5e3, 0x4c6a881b, 0xc12c1fb8, 0x4665517f, 0x9d5eea04, 0x018c355d, 0xfa877473, 0xfb0b412e, 0xb3671d5a, 0x92dbd252, 0xe9105633, 0x6dd64713, 0x9ad7618c, 0x37a10c7a, 0x59f8148e, 0xeb133c89, 0xcea927ee, 0xb761c935, 0xe11ce5ed, 0x7a47b13c, 0x9cd2df59, 0x55f2733f, 0x1814ce79, 0x73c737bf, 0x53f7cdea, 0x5ffdaa5b, 0xdf3d6f14, 0x7844db86, 0xcaaff381, 0xb968c43e, 0x3824342c, 0xc2a3405f, 0x161dc372, 0xbce2250c, 0x283c498b, 0xff0d9541, 0x39a80171, 0x080cb3de, 0xd8b4e49c, 0x6456c190, 0x7bcb8461, 0xd532b670, 0x486c5c74, 0xd0b85742];
-    var T6 = [0x5051f4a7, 0x537e4165, 0xc31a17a4, 0x963a275e, 0xcb3bab6b, 0xf11f9d45, 0xabacfa58, 0x934be303, 0x552030fa, 0xf6ad766d, 0x9188cc76, 0x25f5024c, 0xfc4fe5d7, 0xd7c52acb, 0x80263544, 0x8fb562a3, 0x49deb15a, 0x6725ba1b, 0x9845ea0e, 0xe15dfec0, 0x02c32f75, 0x12814cf0, 0xa38d4697, 0xc66bd3f9, 0xe7038f5f, 0x9515929c, 0xebbf6d7a, 0xda955259, 0x2dd4be83, 0xd3587421, 0x2949e069, 0x448ec9c8, 0x6a75c289, 0x78f48e79, 0x6b99583e, 0xdd27b971, 0xb6bee14f, 0x17f088ad, 0x66c920ac, 0xb47dce3a, 0x1863df4a, 0x82e51a31, 0x60975133, 0x4562537f, 0xe0b16477, 0x84bb6bae, 0x1cfe81a0, 0x94f9082b, 0x58704868, 0x198f45fd, 0x8794de6c, 0xb7527bf8, 0x23ab73d3, 0xe2724b02, 0x57e31f8f, 0x2a6655ab, 0x07b2eb28, 0x032fb5c2, 0x9a86c57b, 0xa5d33708, 0xf2302887, 0xb223bfa5, 0xba02036a, 0x5ced1682, 0x2b8acf1c, 0x92a779b4, 0xf0f307f2, 0xa14e69e2, 0xcd65daf4, 0xd50605be, 0x1fd13462, 0x8ac4a6fe, 0x9d342e53, 0xa0a2f355, 0x32058ae1, 0x75a4f6eb, 0x390b83ec, 0xaa4060ef, 0x065e719f, 0x51bd6e10, 0xf93e218a, 0x3d96dd06, 0xaedd3e05, 0x464de6bd, 0xb591548d, 0x0571c45d, 0x6f0406d4, 0xff605015, 0x241998fb, 0x97d6bde9, 0xcc894043, 0x7767d99e, 0xbdb0e842, 0x8807898b, 0x38e7195b, 0xdb79c8ee, 0x47a17c0a, 0xe97c420f, 0xc9f8841e, 0x00000000, 0x83098086, 0x48322bed, 0xac1e1170, 0x4e6c5a72, 0xfbfd0eff, 0x560f8538, 0x1e3daed5, 0x27362d39, 0x640a0fd9, 0x21685ca6, 0xd19b5b54, 0x3a24362e, 0xb10c0a67, 0x0f9357e7, 0xd2b4ee96, 0x9e1b9b91, 0x4f80c0c5, 0xa261dc20, 0x695a774b, 0x161c121a, 0x0ae293ba, 0xe5c0a02a, 0x433c22e0, 0x1d121b17, 0x0b0e090d, 0xadf28bc7, 0xb92db6a8, 0xc8141ea9, 0x8557f119, 0x4caf7507, 0xbbee99dd, 0xfda37f60, 0x9ff70126, 0xbc5c72f5, 0xc544663b, 0x345bfb7e, 0x768b4329, 0xdccb23c6, 0x68b6edfc, 0x63b8e4f1, 0xcad731dc, 0x10426385, 0x40139722, 0x2084c611, 0x7d854a24, 0xf8d2bb3d, 0x11aef932, 0x6dc729a1, 0x4b1d9e2f, 0xf3dcb230, 0xec0d8652, 0xd077c1e3, 0x6c2bb316, 0x99a970b9, 0xfa119448, 0x2247e964, 0xc4a8fc8c, 0x1aa0f03f, 0xd8567d2c, 0xef223390, 0xc787494e, 0xc1d938d1, 0xfe8ccaa2, 0x3698d40b, 0xcfa6f581, 0x28a57ade, 0x26dab78e, 0xa43fadbf, 0xe42c3a9d, 0x0d507892, 0x9b6a5fcc, 0x62547e46, 0xc2f68d13, 0xe890d8b8, 0x5e2e39f7, 0xf582c3af, 0xbe9f5d80, 0x7c69d093, 0xa96fd52d, 0xb3cf2512, 0x3bc8ac99, 0xa710187d, 0x6ee89c63, 0x7bdb3bbb, 0x09cd2678, 0xf46e5918, 0x01ec9ab7, 0xa8834f9a, 0x65e6956e, 0x7eaaffe6, 0x0821bccf, 0xe6ef15e8, 0xd9bae79b, 0xce4a6f36, 0xd4ea9f09, 0xd629b07c, 0xaf31a4b2, 0x312a3f23, 0x30c6a594, 0xc035a266, 0x37744ebc, 0xa6fc82ca, 0xb0e090d0, 0x1533a7d8, 0x4af10498, 0xf741ecda, 0x0e7fcd50, 0x2f1791f6, 0x8d764dd6, 0x4d43efb0, 0x54ccaa4d, 0xdfe49604, 0xe39ed1b5, 0x1b4c6a88, 0xb8c12c1f, 0x7f466551, 0x049d5eea, 0x5d018c35, 0x73fa8774, 0x2efb0b41, 0x5ab3671d, 0x5292dbd2, 0x33e91056, 0x136dd647, 0x8c9ad761, 0x7a37a10c, 0x8e59f814, 0x89eb133c, 0xeecea927, 0x35b761c9, 0xede11ce5, 0x3c7a47b1, 0x599cd2df, 0x3f55f273, 0x791814ce, 0xbf73c737, 0xea53f7cd, 0x5b5ffdaa, 0x14df3d6f, 0x867844db, 0x81caaff3, 0x3eb968c4, 0x2c382434, 0x5fc2a340, 0x72161dc3, 0x0cbce225, 0x8b283c49, 0x41ff0d95, 0x7139a801, 0xde080cb3, 0x9cd8b4e4, 0x906456c1, 0x617bcb84, 0x70d532b6, 0x74486c5c, 0x42d0b857];
-    var T7 = [0xa75051f4, 0x65537e41, 0xa4c31a17, 0x5e963a27, 0x6bcb3bab, 0x45f11f9d, 0x58abacfa, 0x03934be3, 0xfa552030, 0x6df6ad76, 0x769188cc, 0x4c25f502, 0xd7fc4fe5, 0xcbd7c52a, 0x44802635, 0xa38fb562, 0x5a49deb1, 0x1b6725ba, 0x0e9845ea, 0xc0e15dfe, 0x7502c32f, 0xf012814c, 0x97a38d46, 0xf9c66bd3, 0x5fe7038f, 0x9c951592, 0x7aebbf6d, 0x59da9552, 0x832dd4be, 0x21d35874, 0x692949e0, 0xc8448ec9, 0x896a75c2, 0x7978f48e, 0x3e6b9958, 0x71dd27b9, 0x4fb6bee1, 0xad17f088, 0xac66c920, 0x3ab47dce, 0x4a1863df, 0x3182e51a, 0x33609751, 0x7f456253, 0x77e0b164, 0xae84bb6b, 0xa01cfe81, 0x2b94f908, 0x68587048, 0xfd198f45, 0x6c8794de, 0xf8b7527b, 0xd323ab73, 0x02e2724b, 0x8f57e31f, 0xab2a6655, 0x2807b2eb, 0xc2032fb5, 0x7b9a86c5, 0x08a5d337, 0x87f23028, 0xa5b223bf, 0x6aba0203, 0x825ced16, 0x1c2b8acf, 0xb492a779, 0xf2f0f307, 0xe2a14e69, 0xf4cd65da, 0xbed50605, 0x621fd134, 0xfe8ac4a6, 0x539d342e, 0x55a0a2f3, 0xe132058a, 0xeb75a4f6, 0xec390b83, 0xefaa4060, 0x9f065e71, 0x1051bd6e, 0x8af93e21, 0x063d96dd, 0x05aedd3e, 0xbd464de6, 0x8db59154, 0x5d0571c4, 0xd46f0406, 0x15ff6050, 0xfb241998, 0xe997d6bd, 0x43cc8940, 0x9e7767d9, 0x42bdb0e8, 0x8b880789, 0x5b38e719, 0xeedb79c8, 0x0a47a17c, 0x0fe97c42, 0x1ec9f884, 0x00000000, 0x86830980, 0xed48322b, 0x70ac1e11, 0x724e6c5a, 0xfffbfd0e, 0x38560f85, 0xd51e3dae, 0x3927362d, 0xd9640a0f, 0xa621685c, 0x54d19b5b, 0x2e3a2436, 0x67b10c0a, 0xe70f9357, 0x96d2b4ee, 0x919e1b9b, 0xc54f80c0, 0x20a261dc, 0x4b695a77, 0x1a161c12, 0xba0ae293, 0x2ae5c0a0, 0xe0433c22, 0x171d121b, 0x0d0b0e09, 0xc7adf28b, 0xa8b92db6, 0xa9c8141e, 0x198557f1, 0x074caf75, 0xddbbee99, 0x60fda37f, 0x269ff701, 0xf5bc5c72, 0x3bc54466, 0x7e345bfb, 0x29768b43, 0xc6dccb23, 0xfc68b6ed, 0xf163b8e4, 0xdccad731, 0x85104263, 0x22401397, 0x112084c6, 0x247d854a, 0x3df8d2bb, 0x3211aef9, 0xa16dc729, 0x2f4b1d9e, 0x30f3dcb2, 0x52ec0d86, 0xe3d077c1, 0x166c2bb3, 0xb999a970, 0x48fa1194, 0x642247e9, 0x8cc4a8fc, 0x3f1aa0f0, 0x2cd8567d, 0x90ef2233, 0x4ec78749, 0xd1c1d938, 0xa2fe8cca, 0x0b3698d4, 0x81cfa6f5, 0xde28a57a, 0x8e26dab7, 0xbfa43fad, 0x9de42c3a, 0x920d5078, 0xcc9b6a5f, 0x4662547e, 0x13c2f68d, 0xb8e890d8, 0xf75e2e39, 0xaff582c3, 0x80be9f5d, 0x937c69d0, 0x2da96fd5, 0x12b3cf25, 0x993bc8ac, 0x7da71018, 0x636ee89c, 0xbb7bdb3b, 0x7809cd26, 0x18f46e59, 0xb701ec9a, 0x9aa8834f, 0x6e65e695, 0xe67eaaff, 0xcf0821bc, 0xe8e6ef15, 0x9bd9bae7, 0x36ce4a6f, 0x09d4ea9f, 0x7cd629b0, 0xb2af31a4, 0x23312a3f, 0x9430c6a5, 0x66c035a2, 0xbc37744e, 0xcaa6fc82, 0xd0b0e090, 0xd81533a7, 0x984af104, 0xdaf741ec, 0x500e7fcd, 0xf62f1791, 0xd68d764d, 0xb04d43ef, 0x4d54ccaa, 0x04dfe496, 0xb5e39ed1, 0x881b4c6a, 0x1fb8c12c, 0x517f4665, 0xea049d5e, 0x355d018c, 0x7473fa87, 0x412efb0b, 0x1d5ab367, 0xd25292db, 0x5633e910, 0x47136dd6, 0x618c9ad7, 0x0c7a37a1, 0x148e59f8, 0x3c89eb13, 0x27eecea9, 0xc935b761, 0xe5ede11c, 0xb13c7a47, 0xdf599cd2, 0x733f55f2, 0xce791814, 0x37bf73c7, 0xcdea53f7, 0xaa5b5ffd, 0x6f14df3d, 0xdb867844, 0xf381caaf, 0xc43eb968, 0x342c3824, 0x405fc2a3, 0xc372161d, 0x250cbce2, 0x498b283c, 0x9541ff0d, 0x017139a8, 0xb3de080c, 0xe49cd8b4, 0xc1906456, 0x84617bcb, 0xb670d532, 0x5c74486c, 0x5742d0b8];
-    var T8 = [0xf4a75051, 0x4165537e, 0x17a4c31a, 0x275e963a, 0xab6bcb3b, 0x9d45f11f, 0xfa58abac, 0xe303934b, 0x30fa5520, 0x766df6ad, 0xcc769188, 0x024c25f5, 0xe5d7fc4f, 0x2acbd7c5, 0x35448026, 0x62a38fb5, 0xb15a49de, 0xba1b6725, 0xea0e9845, 0xfec0e15d, 0x2f7502c3, 0x4cf01281, 0x4697a38d, 0xd3f9c66b, 0x8f5fe703, 0x929c9515, 0x6d7aebbf, 0x5259da95, 0xbe832dd4, 0x7421d358, 0xe0692949, 0xc9c8448e, 0xc2896a75, 0x8e7978f4, 0x583e6b99, 0xb971dd27, 0xe14fb6be, 0x88ad17f0, 0x20ac66c9, 0xce3ab47d, 0xdf4a1863, 0x1a3182e5, 0x51336097, 0x537f4562, 0x6477e0b1, 0x6bae84bb, 0x81a01cfe, 0x082b94f9, 0x48685870, 0x45fd198f, 0xde6c8794, 0x7bf8b752, 0x73d323ab, 0x4b02e272, 0x1f8f57e3, 0x55ab2a66, 0xeb2807b2, 0xb5c2032f, 0xc57b9a86, 0x3708a5d3, 0x2887f230, 0xbfa5b223, 0x036aba02, 0x16825ced, 0xcf1c2b8a, 0x79b492a7, 0x07f2f0f3, 0x69e2a14e, 0xdaf4cd65, 0x05bed506, 0x34621fd1, 0xa6fe8ac4, 0x2e539d34, 0xf355a0a2, 0x8ae13205, 0xf6eb75a4, 0x83ec390b, 0x60efaa40, 0x719f065e, 0x6e1051bd, 0x218af93e, 0xdd063d96, 0x3e05aedd, 0xe6bd464d, 0x548db591, 0xc45d0571, 0x06d46f04, 0x5015ff60, 0x98fb2419, 0xbde997d6, 0x4043cc89, 0xd99e7767, 0xe842bdb0, 0x898b8807, 0x195b38e7, 0xc8eedb79, 0x7c0a47a1, 0x420fe97c, 0x841ec9f8, 0x00000000, 0x80868309, 0x2bed4832, 0x1170ac1e, 0x5a724e6c, 0x0efffbfd, 0x8538560f, 0xaed51e3d, 0x2d392736, 0x0fd9640a, 0x5ca62168, 0x5b54d19b, 0x362e3a24, 0x0a67b10c, 0x57e70f93, 0xee96d2b4, 0x9b919e1b, 0xc0c54f80, 0xdc20a261, 0x774b695a, 0x121a161c, 0x93ba0ae2, 0xa02ae5c0, 0x22e0433c, 0x1b171d12, 0x090d0b0e, 0x8bc7adf2, 0xb6a8b92d, 0x1ea9c814, 0xf1198557, 0x75074caf, 0x99ddbbee, 0x7f60fda3, 0x01269ff7, 0x72f5bc5c, 0x663bc544, 0xfb7e345b, 0x4329768b, 0x23c6dccb, 0xedfc68b6, 0xe4f163b8, 0x31dccad7, 0x63851042, 0x97224013, 0xc6112084, 0x4a247d85, 0xbb3df8d2, 0xf93211ae, 0x29a16dc7, 0x9e2f4b1d, 0xb230f3dc, 0x8652ec0d, 0xc1e3d077, 0xb3166c2b, 0x70b999a9, 0x9448fa11, 0xe9642247, 0xfc8cc4a8, 0xf03f1aa0, 0x7d2cd856, 0x3390ef22, 0x494ec787, 0x38d1c1d9, 0xcaa2fe8c, 0xd40b3698, 0xf581cfa6, 0x7ade28a5, 0xb78e26da, 0xadbfa43f, 0x3a9de42c, 0x78920d50, 0x5fcc9b6a, 0x7e466254, 0x8d13c2f6, 0xd8b8e890, 0x39f75e2e, 0xc3aff582, 0x5d80be9f, 0xd0937c69, 0xd52da96f, 0x2512b3cf, 0xac993bc8, 0x187da710, 0x9c636ee8, 0x3bbb7bdb, 0x267809cd, 0x5918f46e, 0x9ab701ec, 0x4f9aa883, 0x956e65e6, 0xffe67eaa, 0xbccf0821, 0x15e8e6ef, 0xe79bd9ba, 0x6f36ce4a, 0x9f09d4ea, 0xb07cd629, 0xa4b2af31, 0x3f23312a, 0xa59430c6, 0xa266c035, 0x4ebc3774, 0x82caa6fc, 0x90d0b0e0, 0xa7d81533, 0x04984af1, 0xecdaf741, 0xcd500e7f, 0x91f62f17, 0x4dd68d76, 0xefb04d43, 0xaa4d54cc, 0x9604dfe4, 0xd1b5e39e, 0x6a881b4c, 0x2c1fb8c1, 0x65517f46, 0x5eea049d, 0x8c355d01, 0x877473fa, 0x0b412efb, 0x671d5ab3, 0xdbd25292, 0x105633e9, 0xd647136d, 0xd7618c9a, 0xa10c7a37, 0xf8148e59, 0x133c89eb, 0xa927eece, 0x61c935b7, 0x1ce5ede1, 0x47b13c7a, 0xd2df599c, 0xf2733f55, 0x14ce7918, 0xc737bf73, 0xf7cdea53, 0xfdaa5b5f, 0x3d6f14df, 0x44db8678, 0xaff381ca, 0x68c43eb9, 0x24342c38, 0xa3405fc2, 0x1dc37216, 0xe2250cbc, 0x3c498b28, 0x0d9541ff, 0xa8017139, 0x0cb3de08, 0xb4e49cd8, 0x56c19064, 0xcb84617b, 0x32b670d5, 0x6c5c7448, 0xb85742d0];
-
-    var U1 = [0x00000000, 0x0e090d0b, 0x1c121a16, 0x121b171d, 0x3824342c, 0x362d3927, 0x24362e3a, 0x2a3f2331, 0x70486858, 0x7e416553, 0x6c5a724e, 0x62537f45, 0x486c5c74, 0x4665517f, 0x547e4662, 0x5a774b69, 0xe090d0b0, 0xee99ddbb, 0xfc82caa6, 0xf28bc7ad, 0xd8b4e49c, 0xd6bde997, 0xc4a6fe8a, 0xcaaff381, 0x90d8b8e8, 0x9ed1b5e3, 0x8ccaa2fe, 0x82c3aff5, 0xa8fc8cc4, 0xa6f581cf, 0xb4ee96d2, 0xbae79bd9, 0xdb3bbb7b, 0xd532b670, 0xc729a16d, 0xc920ac66, 0xe31f8f57, 0xed16825c, 0xff0d9541, 0xf104984a, 0xab73d323, 0xa57ade28, 0xb761c935, 0xb968c43e, 0x9357e70f, 0x9d5eea04, 0x8f45fd19, 0x814cf012, 0x3bab6bcb, 0x35a266c0, 0x27b971dd, 0x29b07cd6, 0x038f5fe7, 0x0d8652ec, 0x1f9d45f1, 0x119448fa, 0x4be30393, 0x45ea0e98, 0x57f11985, 0x59f8148e, 0x73c737bf, 0x7dce3ab4, 0x6fd52da9, 0x61dc20a2, 0xad766df6, 0xa37f60fd, 0xb16477e0, 0xbf6d7aeb, 0x955259da, 0x9b5b54d1, 0x894043cc, 0x87494ec7, 0xdd3e05ae, 0xd33708a5, 0xc12c1fb8, 0xcf2512b3, 0xe51a3182, 0xeb133c89, 0xf9082b94, 0xf701269f, 0x4de6bd46, 0x43efb04d, 0x51f4a750, 0x5ffdaa5b, 0x75c2896a, 0x7bcb8461, 0x69d0937c, 0x67d99e77, 0x3daed51e, 0x33a7d815, 0x21bccf08, 0x2fb5c203, 0x058ae132, 0x0b83ec39, 0x1998fb24, 0x1791f62f, 0x764dd68d, 0x7844db86, 0x6a5fcc9b, 0x6456c190, 0x4e69e2a1, 0x4060efaa, 0x527bf8b7, 0x5c72f5bc, 0x0605bed5, 0x080cb3de, 0x1a17a4c3, 0x141ea9c8, 0x3e218af9, 0x302887f2, 0x223390ef, 0x2c3a9de4, 0x96dd063d, 0x98d40b36, 0x8acf1c2b, 0x84c61120, 0xaef93211, 0xa0f03f1a, 0xb2eb2807, 0xbce2250c, 0xe6956e65, 0xe89c636e, 0xfa877473, 0xf48e7978, 0xdeb15a49, 0xd0b85742, 0xc2a3405f, 0xccaa4d54, 0x41ecdaf7, 0x4fe5d7fc, 0x5dfec0e1, 0x53f7cdea, 0x79c8eedb, 0x77c1e3d0, 0x65daf4cd, 0x6bd3f9c6, 0x31a4b2af, 0x3fadbfa4, 0x2db6a8b9, 0x23bfa5b2, 0x09808683, 0x07898b88, 0x15929c95, 0x1b9b919e, 0xa17c0a47, 0xaf75074c, 0xbd6e1051, 0xb3671d5a, 0x99583e6b, 0x97513360, 0x854a247d, 0x8b432976, 0xd134621f, 0xdf3d6f14, 0xcd267809, 0xc32f7502, 0xe9105633, 0xe7195b38, 0xf5024c25, 0xfb0b412e, 0x9ad7618c, 0x94de6c87, 0x86c57b9a, 0x88cc7691, 0xa2f355a0, 0xacfa58ab, 0xbee14fb6, 0xb0e842bd, 0xea9f09d4, 0xe49604df, 0xf68d13c2, 0xf8841ec9, 0xd2bb3df8, 0xdcb230f3, 0xcea927ee, 0xc0a02ae5, 0x7a47b13c, 0x744ebc37, 0x6655ab2a, 0x685ca621, 0x42638510, 0x4c6a881b, 0x5e719f06, 0x5078920d, 0x0a0fd964, 0x0406d46f, 0x161dc372, 0x1814ce79, 0x322bed48, 0x3c22e043, 0x2e39f75e, 0x2030fa55, 0xec9ab701, 0xe293ba0a, 0xf088ad17, 0xfe81a01c, 0xd4be832d, 0xdab78e26, 0xc8ac993b, 0xc6a59430, 0x9cd2df59, 0x92dbd252, 0x80c0c54f, 0x8ec9c844, 0xa4f6eb75, 0xaaffe67e, 0xb8e4f163, 0xb6edfc68, 0x0c0a67b1, 0x02036aba, 0x10187da7, 0x1e1170ac, 0x342e539d, 0x3a275e96, 0x283c498b, 0x26354480, 0x7c420fe9, 0x724b02e2, 0x605015ff, 0x6e5918f4, 0x44663bc5, 0x4a6f36ce, 0x587421d3, 0x567d2cd8, 0x37a10c7a, 0x39a80171, 0x2bb3166c, 0x25ba1b67, 0x0f853856, 0x018c355d, 0x13972240, 0x1d9e2f4b, 0x47e96422, 0x49e06929, 0x5bfb7e34, 0x55f2733f, 0x7fcd500e, 0x71c45d05, 0x63df4a18, 0x6dd64713, 0xd731dcca, 0xd938d1c1, 0xcb23c6dc, 0xc52acbd7, 0xef15e8e6, 0xe11ce5ed, 0xf307f2f0, 0xfd0efffb, 0xa779b492, 0xa970b999, 0xbb6bae84, 0xb562a38f, 0x9f5d80be, 0x91548db5, 0x834f9aa8, 0x8d4697a3];
-    var U2 = [0x00000000, 0x0b0e090d, 0x161c121a, 0x1d121b17, 0x2c382434, 0x27362d39, 0x3a24362e, 0x312a3f23, 0x58704868, 0x537e4165, 0x4e6c5a72, 0x4562537f, 0x74486c5c, 0x7f466551, 0x62547e46, 0x695a774b, 0xb0e090d0, 0xbbee99dd, 0xa6fc82ca, 0xadf28bc7, 0x9cd8b4e4, 0x97d6bde9, 0x8ac4a6fe, 0x81caaff3, 0xe890d8b8, 0xe39ed1b5, 0xfe8ccaa2, 0xf582c3af, 0xc4a8fc8c, 0xcfa6f581, 0xd2b4ee96, 0xd9bae79b, 0x7bdb3bbb, 0x70d532b6, 0x6dc729a1, 0x66c920ac, 0x57e31f8f, 0x5ced1682, 0x41ff0d95, 0x4af10498, 0x23ab73d3, 0x28a57ade, 0x35b761c9, 0x3eb968c4, 0x0f9357e7, 0x049d5eea, 0x198f45fd, 0x12814cf0, 0xcb3bab6b, 0xc035a266, 0xdd27b971, 0xd629b07c, 0xe7038f5f, 0xec0d8652, 0xf11f9d45, 0xfa119448, 0x934be303, 0x9845ea0e, 0x8557f119, 0x8e59f814, 0xbf73c737, 0xb47dce3a, 0xa96fd52d, 0xa261dc20, 0xf6ad766d, 0xfda37f60, 0xe0b16477, 0xebbf6d7a, 0xda955259, 0xd19b5b54, 0xcc894043, 0xc787494e, 0xaedd3e05, 0xa5d33708, 0xb8c12c1f, 0xb3cf2512, 0x82e51a31, 0x89eb133c, 0x94f9082b, 0x9ff70126, 0x464de6bd, 0x4d43efb0, 0x5051f4a7, 0x5b5ffdaa, 0x6a75c289, 0x617bcb84, 0x7c69d093, 0x7767d99e, 0x1e3daed5, 0x1533a7d8, 0x0821bccf, 0x032fb5c2, 0x32058ae1, 0x390b83ec, 0x241998fb, 0x2f1791f6, 0x8d764dd6, 0x867844db, 0x9b6a5fcc, 0x906456c1, 0xa14e69e2, 0xaa4060ef, 0xb7527bf8, 0xbc5c72f5, 0xd50605be, 0xde080cb3, 0xc31a17a4, 0xc8141ea9, 0xf93e218a, 0xf2302887, 0xef223390, 0xe42c3a9d, 0x3d96dd06, 0x3698d40b, 0x2b8acf1c, 0x2084c611, 0x11aef932, 0x1aa0f03f, 0x07b2eb28, 0x0cbce225, 0x65e6956e, 0x6ee89c63, 0x73fa8774, 0x78f48e79, 0x49deb15a, 0x42d0b857, 0x5fc2a340, 0x54ccaa4d, 0xf741ecda, 0xfc4fe5d7, 0xe15dfec0, 0xea53f7cd, 0xdb79c8ee, 0xd077c1e3, 0xcd65daf4, 0xc66bd3f9, 0xaf31a4b2, 0xa43fadbf, 0xb92db6a8, 0xb223bfa5, 0x83098086, 0x8807898b, 0x9515929c, 0x9e1b9b91, 0x47a17c0a, 0x4caf7507, 0x51bd6e10, 0x5ab3671d, 0x6b99583e, 0x60975133, 0x7d854a24, 0x768b4329, 0x1fd13462, 0x14df3d6f, 0x09cd2678, 0x02c32f75, 0x33e91056, 0x38e7195b, 0x25f5024c, 0x2efb0b41, 0x8c9ad761, 0x8794de6c, 0x9a86c57b, 0x9188cc76, 0xa0a2f355, 0xabacfa58, 0xb6bee14f, 0xbdb0e842, 0xd4ea9f09, 0xdfe49604, 0xc2f68d13, 0xc9f8841e, 0xf8d2bb3d, 0xf3dcb230, 0xeecea927, 0xe5c0a02a, 0x3c7a47b1, 0x37744ebc, 0x2a6655ab, 0x21685ca6, 0x10426385, 0x1b4c6a88, 0x065e719f, 0x0d507892, 0x640a0fd9, 0x6f0406d4, 0x72161dc3, 0x791814ce, 0x48322bed, 0x433c22e0, 0x5e2e39f7, 0x552030fa, 0x01ec9ab7, 0x0ae293ba, 0x17f088ad, 0x1cfe81a0, 0x2dd4be83, 0x26dab78e, 0x3bc8ac99, 0x30c6a594, 0x599cd2df, 0x5292dbd2, 0x4f80c0c5, 0x448ec9c8, 0x75a4f6eb, 0x7eaaffe6, 0x63b8e4f1, 0x68b6edfc, 0xb10c0a67, 0xba02036a, 0xa710187d, 0xac1e1170, 0x9d342e53, 0x963a275e, 0x8b283c49, 0x80263544, 0xe97c420f, 0xe2724b02, 0xff605015, 0xf46e5918, 0xc544663b, 0xce4a6f36, 0xd3587421, 0xd8567d2c, 0x7a37a10c, 0x7139a801, 0x6c2bb316, 0x6725ba1b, 0x560f8538, 0x5d018c35, 0x40139722, 0x4b1d9e2f, 0x2247e964, 0x2949e069, 0x345bfb7e, 0x3f55f273, 0x0e7fcd50, 0x0571c45d, 0x1863df4a, 0x136dd647, 0xcad731dc, 0xc1d938d1, 0xdccb23c6, 0xd7c52acb, 0xe6ef15e8, 0xede11ce5, 0xf0f307f2, 0xfbfd0eff, 0x92a779b4, 0x99a970b9, 0x84bb6bae, 0x8fb562a3, 0xbe9f5d80, 0xb591548d, 0xa8834f9a, 0xa38d4697];
-    var U3 = [0x00000000, 0x0d0b0e09, 0x1a161c12, 0x171d121b, 0x342c3824, 0x3927362d, 0x2e3a2436, 0x23312a3f, 0x68587048, 0x65537e41, 0x724e6c5a, 0x7f456253, 0x5c74486c, 0x517f4665, 0x4662547e, 0x4b695a77, 0xd0b0e090, 0xddbbee99, 0xcaa6fc82, 0xc7adf28b, 0xe49cd8b4, 0xe997d6bd, 0xfe8ac4a6, 0xf381caaf, 0xb8e890d8, 0xb5e39ed1, 0xa2fe8cca, 0xaff582c3, 0x8cc4a8fc, 0x81cfa6f5, 0x96d2b4ee, 0x9bd9bae7, 0xbb7bdb3b, 0xb670d532, 0xa16dc729, 0xac66c920, 0x8f57e31f, 0x825ced16, 0x9541ff0d, 0x984af104, 0xd323ab73, 0xde28a57a, 0xc935b761, 0xc43eb968, 0xe70f9357, 0xea049d5e, 0xfd198f45, 0xf012814c, 0x6bcb3bab, 0x66c035a2, 0x71dd27b9, 0x7cd629b0, 0x5fe7038f, 0x52ec0d86, 0x45f11f9d, 0x48fa1194, 0x03934be3, 0x0e9845ea, 0x198557f1, 0x148e59f8, 0x37bf73c7, 0x3ab47dce, 0x2da96fd5, 0x20a261dc, 0x6df6ad76, 0x60fda37f, 0x77e0b164, 0x7aebbf6d, 0x59da9552, 0x54d19b5b, 0x43cc8940, 0x4ec78749, 0x05aedd3e, 0x08a5d337, 0x1fb8c12c, 0x12b3cf25, 0x3182e51a, 0x3c89eb13, 0x2b94f908, 0x269ff701, 0xbd464de6, 0xb04d43ef, 0xa75051f4, 0xaa5b5ffd, 0x896a75c2, 0x84617bcb, 0x937c69d0, 0x9e7767d9, 0xd51e3dae, 0xd81533a7, 0xcf0821bc, 0xc2032fb5, 0xe132058a, 0xec390b83, 0xfb241998, 0xf62f1791, 0xd68d764d, 0xdb867844, 0xcc9b6a5f, 0xc1906456, 0xe2a14e69, 0xefaa4060, 0xf8b7527b, 0xf5bc5c72, 0xbed50605, 0xb3de080c, 0xa4c31a17, 0xa9c8141e, 0x8af93e21, 0x87f23028, 0x90ef2233, 0x9de42c3a, 0x063d96dd, 0x0b3698d4, 0x1c2b8acf, 0x112084c6, 0x3211aef9, 0x3f1aa0f0, 0x2807b2eb, 0x250cbce2, 0x6e65e695, 0x636ee89c, 0x7473fa87, 0x7978f48e, 0x5a49deb1, 0x5742d0b8, 0x405fc2a3, 0x4d54ccaa, 0xdaf741ec, 0xd7fc4fe5, 0xc0e15dfe, 0xcdea53f7, 0xeedb79c8, 0xe3d077c1, 0xf4cd65da, 0xf9c66bd3, 0xb2af31a4, 0xbfa43fad, 0xa8b92db6, 0xa5b223bf, 0x86830980, 0x8b880789, 0x9c951592, 0x919e1b9b, 0x0a47a17c, 0x074caf75, 0x1051bd6e, 0x1d5ab367, 0x3e6b9958, 0x33609751, 0x247d854a, 0x29768b43, 0x621fd134, 0x6f14df3d, 0x7809cd26, 0x7502c32f, 0x5633e910, 0x5b38e719, 0x4c25f502, 0x412efb0b, 0x618c9ad7, 0x6c8794de, 0x7b9a86c5, 0x769188cc, 0x55a0a2f3, 0x58abacfa, 0x4fb6bee1, 0x42bdb0e8, 0x09d4ea9f, 0x04dfe496, 0x13c2f68d, 0x1ec9f884, 0x3df8d2bb, 0x30f3dcb2, 0x27eecea9, 0x2ae5c0a0, 0xb13c7a47, 0xbc37744e, 0xab2a6655, 0xa621685c, 0x85104263, 0x881b4c6a, 0x9f065e71, 0x920d5078, 0xd9640a0f, 0xd46f0406, 0xc372161d, 0xce791814, 0xed48322b, 0xe0433c22, 0xf75e2e39, 0xfa552030, 0xb701ec9a, 0xba0ae293, 0xad17f088, 0xa01cfe81, 0x832dd4be, 0x8e26dab7, 0x993bc8ac, 0x9430c6a5, 0xdf599cd2, 0xd25292db, 0xc54f80c0, 0xc8448ec9, 0xeb75a4f6, 0xe67eaaff, 0xf163b8e4, 0xfc68b6ed, 0x67b10c0a, 0x6aba0203, 0x7da71018, 0x70ac1e11, 0x539d342e, 0x5e963a27, 0x498b283c, 0x44802635, 0x0fe97c42, 0x02e2724b, 0x15ff6050, 0x18f46e59, 0x3bc54466, 0x36ce4a6f, 0x21d35874, 0x2cd8567d, 0x0c7a37a1, 0x017139a8, 0x166c2bb3, 0x1b6725ba, 0x38560f85, 0x355d018c, 0x22401397, 0x2f4b1d9e, 0x642247e9, 0x692949e0, 0x7e345bfb, 0x733f55f2, 0x500e7fcd, 0x5d0571c4, 0x4a1863df, 0x47136dd6, 0xdccad731, 0xd1c1d938, 0xc6dccb23, 0xcbd7c52a, 0xe8e6ef15, 0xe5ede11c, 0xf2f0f307, 0xfffbfd0e, 0xb492a779, 0xb999a970, 0xae84bb6b, 0xa38fb562, 0x80be9f5d, 0x8db59154, 0x9aa8834f, 0x97a38d46];
-    var U4 = [0x00000000, 0x090d0b0e, 0x121a161c, 0x1b171d12, 0x24342c38, 0x2d392736, 0x362e3a24, 0x3f23312a, 0x48685870, 0x4165537e, 0x5a724e6c, 0x537f4562, 0x6c5c7448, 0x65517f46, 0x7e466254, 0x774b695a, 0x90d0b0e0, 0x99ddbbee, 0x82caa6fc, 0x8bc7adf2, 0xb4e49cd8, 0xbde997d6, 0xa6fe8ac4, 0xaff381ca, 0xd8b8e890, 0xd1b5e39e, 0xcaa2fe8c, 0xc3aff582, 0xfc8cc4a8, 0xf581cfa6, 0xee96d2b4, 0xe79bd9ba, 0x3bbb7bdb, 0x32b670d5, 0x29a16dc7, 0x20ac66c9, 0x1f8f57e3, 0x16825ced, 0x0d9541ff, 0x04984af1, 0x73d323ab, 0x7ade28a5, 0x61c935b7, 0x68c43eb9, 0x57e70f93, 0x5eea049d, 0x45fd198f, 0x4cf01281, 0xab6bcb3b, 0xa266c035, 0xb971dd27, 0xb07cd629, 0x8f5fe703, 0x8652ec0d, 0x9d45f11f, 0x9448fa11, 0xe303934b, 0xea0e9845, 0xf1198557, 0xf8148e59, 0xc737bf73, 0xce3ab47d, 0xd52da96f, 0xdc20a261, 0x766df6ad, 0x7f60fda3, 0x6477e0b1, 0x6d7aebbf, 0x5259da95, 0x5b54d19b, 0x4043cc89, 0x494ec787, 0x3e05aedd, 0x3708a5d3, 0x2c1fb8c1, 0x2512b3cf, 0x1a3182e5, 0x133c89eb, 0x082b94f9, 0x01269ff7, 0xe6bd464d, 0xefb04d43, 0xf4a75051, 0xfdaa5b5f, 0xc2896a75, 0xcb84617b, 0xd0937c69, 0xd99e7767, 0xaed51e3d, 0xa7d81533, 0xbccf0821, 0xb5c2032f, 0x8ae13205, 0x83ec390b, 0x98fb2419, 0x91f62f17, 0x4dd68d76, 0x44db8678, 0x5fcc9b6a, 0x56c19064, 0x69e2a14e, 0x60efaa40, 0x7bf8b752, 0x72f5bc5c, 0x05bed506, 0x0cb3de08, 0x17a4c31a, 0x1ea9c814, 0x218af93e, 0x2887f230, 0x3390ef22, 0x3a9de42c, 0xdd063d96, 0xd40b3698, 0xcf1c2b8a, 0xc6112084, 0xf93211ae, 0xf03f1aa0, 0xeb2807b2, 0xe2250cbc, 0x956e65e6, 0x9c636ee8, 0x877473fa, 0x8e7978f4, 0xb15a49de, 0xb85742d0, 0xa3405fc2, 0xaa4d54cc, 0xecdaf741, 0xe5d7fc4f, 0xfec0e15d, 0xf7cdea53, 0xc8eedb79, 0xc1e3d077, 0xdaf4cd65, 0xd3f9c66b, 0xa4b2af31, 0xadbfa43f, 0xb6a8b92d, 0xbfa5b223, 0x80868309, 0x898b8807, 0x929c9515, 0x9b919e1b, 0x7c0a47a1, 0x75074caf, 0x6e1051bd, 0x671d5ab3, 0x583e6b99, 0x51336097, 0x4a247d85, 0x4329768b, 0x34621fd1, 0x3d6f14df, 0x267809cd, 0x2f7502c3, 0x105633e9, 0x195b38e7, 0x024c25f5, 0x0b412efb, 0xd7618c9a, 0xde6c8794, 0xc57b9a86, 0xcc769188, 0xf355a0a2, 0xfa58abac, 0xe14fb6be, 0xe842bdb0, 0x9f09d4ea, 0x9604dfe4, 0x8d13c2f6, 0x841ec9f8, 0xbb3df8d2, 0xb230f3dc, 0xa927eece, 0xa02ae5c0, 0x47b13c7a, 0x4ebc3774, 0x55ab2a66, 0x5ca62168, 0x63851042, 0x6a881b4c, 0x719f065e, 0x78920d50, 0x0fd9640a, 0x06d46f04, 0x1dc37216, 0x14ce7918, 0x2bed4832, 0x22e0433c, 0x39f75e2e, 0x30fa5520, 0x9ab701ec, 0x93ba0ae2, 0x88ad17f0, 0x81a01cfe, 0xbe832dd4, 0xb78e26da, 0xac993bc8, 0xa59430c6, 0xd2df599c, 0xdbd25292, 0xc0c54f80, 0xc9c8448e, 0xf6eb75a4, 0xffe67eaa, 0xe4f163b8, 0xedfc68b6, 0x0a67b10c, 0x036aba02, 0x187da710, 0x1170ac1e, 0x2e539d34, 0x275e963a, 0x3c498b28, 0x35448026, 0x420fe97c, 0x4b02e272, 0x5015ff60, 0x5918f46e, 0x663bc544, 0x6f36ce4a, 0x7421d358, 0x7d2cd856, 0xa10c7a37, 0xa8017139, 0xb3166c2b, 0xba1b6725, 0x8538560f, 0x8c355d01, 0x97224013, 0x9e2f4b1d, 0xe9642247, 0xe0692949, 0xfb7e345b, 0xf2733f55, 0xcd500e7f, 0xc45d0571, 0xdf4a1863, 0xd647136d, 0x31dccad7, 0x38d1c1d9, 0x23c6dccb, 0x2acbd7c5, 0x15e8e6ef, 0x1ce5ede1, 0x07f2f0f3, 0x0efffbfd, 0x79b492a7, 0x70b999a9, 0x6bae84bb, 0x62a38fb5, 0x5d80be9f, 0x548db591, 0x4f9aa883, 0x4697a38d];
-
-    function convertToInt32(bytes) {
-        var result = [];
-        for (var i = 0; i < bytes.length; i += 4) {
-            result.push(
-                (bytes[i    ] << 24) |
-                (bytes[i + 1] << 16) |
-                (bytes[i + 2] <<  8) |
-                bytes[i + 3]
-            );
-        }
-        return result;
+    }()
+      , i = {
+        16: 10,
+        24: 12,
+        32: 14
     }
-
-    var AES = function(key) {
-        if (!(this instanceof AES)) {
-            throw Error('AES must be instanitated with `new`');
-        }
-
-        Object.defineProperty(this, 'key', {
-            value: coerceArray(key, true)
-        });
-
-        this._prepare();
-    }
-
-
-    AES.prototype._prepare = function() {
-
-        var rounds = numberOfRounds[this.key.length];
-        if (rounds == null) {
-            throw new Error('invalid key size (must be 16, 24 or 32 bytes)');
-        }
-
-        this._Ke = [];
-
-        this._Kd = [];
-
-        for (var i = 0; i <= rounds; i++) {
-            this._Ke.push([0, 0, 0, 0]);
-            this._Kd.push([0, 0, 0, 0]);
-        }
-
-        var roundKeyCount = (rounds + 1) * 4;
-        var KC = this.key.length / 4;
-
-        var tk = convertToInt32(this.key);
-
-        var index;
-        for (var i = 0; i < KC; i++) {
-            index = i >> 2;
-            this._Ke[index][i % 4] = tk[i];
-            this._Kd[rounds - index][i % 4] = tk[i];
-        }
-
-        var rconpointer = 0;
-        var t = KC, tt;
-        while (t < roundKeyCount) {
-            tt = tk[KC - 1];
-            tk[0] ^= ((S[(tt >> 16) & 0xFF] << 24) ^
-                (S[(tt >>  8) & 0xFF] << 16) ^
-                (S[ tt        & 0xFF] <<  8) ^
-                S[(tt >> 24) & 0xFF]        ^
-                (rcon[rconpointer] << 24));
-            rconpointer += 1;
-
-            if (KC != 8) {
-                for (var i = 1; i < KC; i++) {
-                    tk[i] ^= tk[i - 1];
-                }
-
-            } else {
-                for (var i = 1; i < (KC / 2); i++) {
-                    tk[i] ^= tk[i - 1];
-                }
-                tt = tk[(KC / 2) - 1];
-
-                tk[KC / 2] ^= (S[ tt        & 0xFF]        ^
-                    (S[(tt >>  8) & 0xFF] <<  8) ^
-                    (S[(tt >> 16) & 0xFF] << 16) ^
-                    (S[(tt >> 24) & 0xFF] << 24));
-
-                for (var i = (KC / 2) + 1; i < KC; i++) {
-                    tk[i] ^= tk[i - 1];
-                }
-            }
-
-            var i = 0, r, c;
-            while (i < KC && t < roundKeyCount) {
-                r = t >> 2;
-                c = t % 4;
-                this._Ke[r][c] = tk[i];
-                this._Kd[rounds - r][c] = tk[i++];
-                t++;
-            }
-        }
-
-        for (var r = 1; r < rounds; r++) {
-            for (var c = 0; c < 4; c++) {
-                tt = this._Kd[r][c];
-                this._Kd[r][c] = (U1[(tt >> 24) & 0xFF] ^
-                    U2[(tt >> 16) & 0xFF] ^
-                    U3[(tt >>  8) & 0xFF] ^
-                    U4[ tt        & 0xFF]);
-            }
-        }
-    }
-
-    AES.prototype.encrypt = function(plaintext) {
-        if (plaintext.length != 16) {
-            throw new Error('invalid plaintext size (must be 16 bytes)');
-        }
-
-        var rounds = this._Ke.length - 1;
-        var a = [0, 0, 0, 0];
-
-        var t = convertToInt32(plaintext);
-        for (var i = 0; i < 4; i++) {
-            t[i] ^= this._Ke[0][i];
-        }
-
-        for (var r = 1; r < rounds; r++) {
-            for (var i = 0; i < 4; i++) {
-                a[i] = (T1[(t[ i         ] >> 24) & 0xff] ^
-                    T2[(t[(i + 1) % 4] >> 16) & 0xff] ^
-                    T3[(t[(i + 2) % 4] >>  8) & 0xff] ^
-                    T4[ t[(i + 3) % 4]        & 0xff] ^
-                    this._Ke[r][i]);
-            }
-            t = a.slice();
-        }
-
-        var result = createArray(16), tt;
-        for (var i = 0; i < 4; i++) {
-            tt = this._Ke[rounds][i];
-            result[4 * i    ] = (S[(t[ i         ] >> 24) & 0xff] ^ (tt >> 24)) & 0xff;
-            result[4 * i + 1] = (S[(t[(i + 1) % 4] >> 16) & 0xff] ^ (tt >> 16)) & 0xff;
-            result[4 * i + 2] = (S[(t[(i + 2) % 4] >>  8) & 0xff] ^ (tt >>  8)) & 0xff;
-            result[4 * i + 3] = (S[ t[(i + 3) % 4]        & 0xff] ^  tt       ) & 0xff;
-        }
-
-        return result;
-    }
-
-    AES.prototype.decrypt = function(ciphertext) {
-        if (ciphertext.length != 16) {
-            throw new Error('invalid ciphertext size (must be 16 bytes)');
-        }
-
-        var rounds = this._Kd.length - 1;
-        var a = [0, 0, 0, 0];
-
-        var t = convertToInt32(ciphertext);
-        for (var i = 0; i < 4; i++) {
-            t[i] ^= this._Kd[0][i];
-        }
-
-        for (var r = 1; r < rounds; r++) {
-            for (var i = 0; i < 4; i++) {
-                a[i] = (T5[(t[ i          ] >> 24) & 0xff] ^
-                    T6[(t[(i + 3) % 4] >> 16) & 0xff] ^
-                    T7[(t[(i + 2) % 4] >>  8) & 0xff] ^
-                    T8[ t[(i + 1) % 4]        & 0xff] ^
-                    this._Kd[r][i]);
-            }
-            t = a.slice();
-        }
-
-        var result = createArray(16), tt;
-        for (var i = 0; i < 4; i++) {
-            tt = this._Kd[rounds][i];
-            result[4 * i    ] = (Si[(t[ i         ] >> 24) & 0xff] ^ (tt >> 24)) & 0xff;
-            result[4 * i + 1] = (Si[(t[(i + 3) % 4] >> 16) & 0xff] ^ (tt >> 16)) & 0xff;
-            result[4 * i + 2] = (Si[(t[(i + 2) % 4] >>  8) & 0xff] ^ (tt >>  8)) & 0xff;
-            result[4 * i + 3] = (Si[ t[(i + 1) % 4]        & 0xff] ^  tt       ) & 0xff;
-        }
-
-        return result;
-    }
-
-
-    var ModeOfOperationECB = function(key) {
-        if (!(this instanceof ModeOfOperationECB)) {
-            throw Error('AES must be instanitated with `new`');
-        }
-
-        this.description = "Electronic Code Block";
-        this.name = "ecb";
-
-        this._aes = new AES(key);
-    }
-
-    ModeOfOperationECB.prototype.encrypt = function(plaintext) {
-        plaintext = coerceArray(plaintext);
-
-        if ((plaintext.length % 16) !== 0) {
-            throw new Error('invalid plaintext size (must be multiple of 16 bytes)');
-        }
-
-        var ciphertext = createArray(plaintext.length);
-        var block = createArray(16);
-
-        for (var i = 0; i < plaintext.length; i += 16) {
-            copyArray(plaintext, block, 0, i, i + 16);
-            block = this._aes.encrypt(block);
-            copyArray(block, ciphertext, i);
-        }
-
-        return ciphertext;
-    }
-
-    ModeOfOperationECB.prototype.decrypt = function(ciphertext) {
-        ciphertext = coerceArray(ciphertext);
-
-        if ((ciphertext.length % 16) !== 0) {
-            throw new Error('invalid ciphertext size (must be multiple of 16 bytes)');
-        }
-
-        var plaintext = createArray(ciphertext.length);
-        var block = createArray(16);
-
-        for (var i = 0; i < ciphertext.length; i += 16) {
-            copyArray(ciphertext, block, 0, i, i + 16);
-            block = this._aes.decrypt(block);
-            copyArray(block, plaintext, i);
-        }
-
-        return plaintext;
-    }
-
-
-
-    var ModeOfOperationCBC = function(key, iv) {
-        if (!(this instanceof ModeOfOperationCBC)) {
-            throw Error('AES must be instanitated with `new`');
-        }
-
-        this.description = "Cipher Block Chaining";
-        this.name = "cbc";
-
-        if (!iv) {
-            iv = createArray(16);
-
-        } else if (iv.length != 16) {
-            throw new Error('invalid initialation vector size (must be 16 bytes)');
-        }
-
-        this._lastCipherblock = coerceArray(iv, true);
-
-        this._aes = new AES(key);
-    }
-
-    ModeOfOperationCBC.prototype.encrypt = function(plaintext) {
-        plaintext = coerceArray(plaintext);
-
-        if ((plaintext.length % 16) !== 0) {
-            throw new Error('invalid plaintext size (must be multiple of 16 bytes)');
-        }
-
-        var ciphertext = createArray(plaintext.length);
-        var block = createArray(16);
-
-        for (var i = 0; i < plaintext.length; i += 16) {
-            copyArray(plaintext, block, 0, i, i + 16);
-
-            for (var j = 0; j < 16; j++) {
-                block[j] ^= this._lastCipherblock[j];
-            }
-
-            this._lastCipherblock = this._aes.encrypt(block);
-            copyArray(this._lastCipherblock, ciphertext, i);
-        }
-
-        return ciphertext;
-    }
-
-    ModeOfOperationCBC.prototype.decrypt = function(ciphertext) {
-        ciphertext = coerceArray(ciphertext);
-
-        if ((ciphertext.length % 16) !== 0) {
-            throw new Error('invalid ciphertext size (must be multiple of 16 bytes)');
-        }
-
-        var plaintext = createArray(ciphertext.length);
-        var block = createArray(16);
-
-        for (var i = 0; i < ciphertext.length; i += 16) {
-            copyArray(ciphertext, block, 0, i, i + 16);
-            block = this._aes.decrypt(block);
-
-            for (var j = 0; j < 16; j++) {
-                plaintext[i + j] = block[j] ^ this._lastCipherblock[j];
-            }
-
-            copyArray(ciphertext, this._lastCipherblock, 0, i, i + 16);
-        }
-
-        return plaintext;
-    }
-
-    var ModeOfOperationCFB = function(key, iv, segmentSize) {
-        if (!(this instanceof ModeOfOperationCFB)) {
-            throw Error('AES must be instanitated with `new`');
-        }
-
-        this.description = "Cipher Feedback";
-        this.name = "cfb";
-
-        if (!iv) {
-            iv = createArray(16);
-
-        } else if (iv.length != 16) {
-            throw new Error('invalid initialation vector size (must be 16 size)');
-        }
-
-        if (!segmentSize) { segmentSize = 1; }
-
-        this.segmentSize = segmentSize;
-
-        this._shiftRegister = coerceArray(iv, true);
-
-        this._aes = new AES(key);
-    }
-
-    ModeOfOperationCFB.prototype.encrypt = function(plaintext) {
-        if ((plaintext.length % this.segmentSize) != 0) {
-            throw new Error('invalid plaintext size (must be segmentSize bytes)');
-        }
-
-        var encrypted = coerceArray(plaintext, true);
-
-        var xorSegment;
-        for (var i = 0; i < encrypted.length; i += this.segmentSize) {
-            xorSegment = this._aes.encrypt(this._shiftRegister);
-            for (var j = 0; j < this.segmentSize; j++) {
-                encrypted[i + j] ^= xorSegment[j];
-            }
-
-            copyArray(this._shiftRegister, this._shiftRegister, 0, this.segmentSize);
-            copyArray(encrypted, this._shiftRegister, 16 - this.segmentSize, i, i + this.segmentSize);
-        }
-
-        return encrypted;
-    }
-
-    ModeOfOperationCFB.prototype.decrypt = function(ciphertext) {
-        if ((ciphertext.length % this.segmentSize) != 0) {
-            throw new Error('invalid ciphertext size (must be segmentSize bytes)');
-        }
-
-        var plaintext = coerceArray(ciphertext, true);
-
-        var xorSegment;
-        for (var i = 0; i < plaintext.length; i += this.segmentSize) {
-            xorSegment = this._aes.encrypt(this._shiftRegister);
-
-            for (var j = 0; j < this.segmentSize; j++) {
-                plaintext[i + j] ^= xorSegment[j];
-            }
-
-            copyArray(this._shiftRegister, this._shiftRegister, 0, this.segmentSize);
-            copyArray(ciphertext, this._shiftRegister, 16 - this.segmentSize, i, i + this.segmentSize);
-        }
-
-        return plaintext;
-    }
-
-
-    var ModeOfOperationOFB = function(key, iv) {
-        if (!(this instanceof ModeOfOperationOFB)) {
-            throw Error('AES must be instanitated with `new`');
-        }
-
-        this.description = "Output Feedback";
-        this.name = "ofb";
-
-        if (!iv) {
-            iv = createArray(16);
-
-        } else if (iv.length != 16) {
-            throw new Error('invalid initialation vector size (must be 16 bytes)');
-        }
-
-        this._lastPrecipher = coerceArray(iv, true);
-        this._lastPrecipherIndex = 16;
-
-        this._aes = new AES(key);
-    }
-
-    ModeOfOperationOFB.prototype.encrypt = function(plaintext) {
-        var encrypted = coerceArray(plaintext, true);
-
-        for (var i = 0; i < encrypted.length; i++) {
-            if (this._lastPrecipherIndex === 16) {
-                this._lastPrecipher = this._aes.encrypt(this._lastPrecipher);
-                this._lastPrecipherIndex = 0;
-            }
-            encrypted[i] ^= this._lastPrecipher[this._lastPrecipherIndex++];
-        }
-
-        return encrypted;
-    }
-
-    ModeOfOperationOFB.prototype.decrypt = ModeOfOperationOFB.prototype.encrypt;
-
-
-
-    var Counter = function(initialValue) {
-        if (!(this instanceof Counter)) {
-            throw Error('Counter must be instanitated with `new`');
-        }
-
-        if (initialValue !== 0 && !initialValue) { initialValue = 1; }
-
-        if (typeof(initialValue) === 'number') {
-            this._counter = createArray(16);
-            this.setValue(initialValue);
-
-        } else {
-            this.setBytes(initialValue);
-        }
-    }
-
-    Counter.prototype.setValue = function(value) {
-        if (typeof(value) !== 'number' || parseInt(value) != value) {
-            throw new Error('invalid counter value (must be an integer)');
-        }
-
-        for (var index = 15; index >= 0; --index) {
-            this._counter[index] = value % 256;
-            value = value >> 8;
-        }
-    }
-
-    Counter.prototype.setBytes = function(bytes) {
-        bytes = coerceArray(bytes, true);
-
-        if (bytes.length != 16) {
-            throw new Error('invalid counter bytes size (must be 16 bytes)');
-        }
-
-        this._counter = bytes;
+      , j = [1, 2, 4, 8, 16, 32, 64, 128, 27, 54, 108, 216, 171, 77, 154, 47, 94, 188, 99, 198, 151, 53, 106, 212, 179, 125, 250, 239, 197, 145]
+      , k = [99, 124, 119, 123, 242, 107, 111, 197, 48, 1, 103, 43, 254, 215, 171, 118, 202, 130, 201, 125, 250, 89, 71, 240, 173, 212, 162, 175, 156, 164, 114, 192, 183, 253, 147, 38, 54, 63, 247, 204, 52, 165, 229, 241, 113, 216, 49, 21, 4, 199, 35, 195, 24, 150, 5, 154, 7, 18, 128, 226, 235, 39, 178, 117, 9, 131, 44, 26, 27, 110, 90, 160, 82, 59, 214, 179, 41, 227, 47, 132, 83, 209, 0, 237, 32, 252, 177, 91, 106, 203, 190, 57, 74, 76, 88, 207, 208, 239, 170, 251, 67, 77, 51, 133, 69, 249, 2, 127, 80, 60, 159, 168, 81, 163, 64, 143, 146, 157, 56, 245, 188, 182, 218, 33, 16, 255, 243, 210, 205, 12, 19, 236, 95, 151, 68, 23, 196, 167, 126, 61, 100, 93, 25, 115, 96, 129, 79, 220, 34, 42, 144, 136, 70, 238, 184, 20, 222, 94, 11, 219, 224, 50, 58, 10, 73, 6, 36, 92, 194, 211, 172, 98, 145, 149, 228, 121, 231, 200, 55, 109, 141, 213, 78, 169, 108, 86, 244, 234, 101, 122, 174, 8, 186, 120, 37, 46, 28, 166, 180, 198, 232, 221, 116, 31, 75, 189, 139, 138, 112, 62, 181, 102, 72, 3, 246, 14, 97, 53, 87, 185, 134, 193, 29, 158, 225, 248, 152, 17, 105, 217, 142, 148, 155, 30, 135, 233, 206, 85, 40, 223, 140, 161, 137, 13, 191, 230, 66, 104, 65, 153, 45, 15, 176, 84, 187, 22]
+      , l = [82, 9, 106, 213, 48, 54, 165, 56, 191, 64, 163, 158, 129, 243, 215, 251, 124, 227, 57, 130, 155, 47, 255, 135, 52, 142, 67, 68, 196, 222, 233, 203, 84, 123, 148, 50, 166, 194, 35, 61, 238, 76, 149, 11, 66, 250, 195, 78, 8, 46, 161, 102, 40, 217, 36, 178, 118, 91, 162, 73, 109, 139, 209, 37, 114, 248, 246, 100, 134, 104, 152, 22, 212, 164, 92, 204, 93, 101, 182, 146, 108, 112, 72, 80, 253, 237, 185, 218, 94, 21, 70, 87, 167, 141, 157, 132, 144, 216, 171, 0, 140, 188, 211, 10, 247, 228, 88, 5, 184, 179, 69, 6, 208, 44, 30, 143, 202, 63, 15, 2, 193, 175, 189, 3, 1, 19, 138, 107, 58, 145, 17, 65, 79, 103, 220, 234, 151, 242, 207, 206, 240, 180, 230, 115, 150, 172, 116, 34, 231, 173, 53, 133, 226, 249, 55, 232, 28, 117, 223, 110, 71, 241, 26, 113, 29, 41, 197, 137, 111, 183, 98, 14, 170, 24, 190, 27, 252, 86, 62, 75, 198, 210, 121, 32, 154, 219, 192, 254, 120, 205, 90, 244, 31, 221, 168, 51, 136, 7, 199, 49, 177, 18, 16, 89, 39, 128, 236, 95, 96, 81, 127, 169, 25, 181, 74, 13, 45, 229, 122, 159, 147, 201, 156, 239, 160, 224, 59, 77, 174, 42, 245, 176, 200, 235, 187, 60, 131, 83, 153, 97, 23, 43, 4, 126, 186, 119, 214, 38, 225, 105, 20, 99, 85, 33, 12, 125]
+      , m = [3328402341, 4168907908, 4000806809, 4135287693, 4294111757, 3597364157, 3731845041, 2445657428, 1613770832, 33620227, 3462883241, 1445669757, 3892248089, 3050821474, 1303096294, 3967186586, 2412431941, 528646813, 2311702848, 4202528135, 4026202645, 2992200171, 2387036105, 4226871307, 1101901292, 3017069671, 1604494077, 1169141738, 597466303, 1403299063, 3832705686, 2613100635, 1974974402, 3791519004, 1033081774, 1277568618, 1815492186, 2118074177, 4126668546, 2211236943, 1748251740, 1369810420, 3521504564, 4193382664, 3799085459, 2883115123, 1647391059, 706024767, 134480908, 2512897874, 1176707941, 2646852446, 806885416, 932615841, 168101135, 798661301, 235341577, 605164086, 461406363, 3756188221, 3454790438, 1311188841, 2142417613, 3933566367, 302582043, 495158174, 1479289972, 874125870, 907746093, 3698224818, 3025820398, 1537253627, 2756858614, 1983593293, 3084310113, 2108928974, 1378429307, 3722699582, 1580150641, 327451799, 2790478837, 3117535592, 0, 3253595436, 1075847264, 3825007647, 2041688520, 3059440621, 3563743934, 2378943302, 1740553945, 1916352843, 2487896798, 2555137236, 2958579944, 2244988746, 3151024235, 3320835882, 1336584933, 3992714006, 2252555205, 2588757463, 1714631509, 293963156, 2319795663, 3925473552, 67240454, 4269768577, 2689618160, 2017213508, 631218106, 1269344483, 2723238387, 1571005438, 2151694528, 93294474, 1066570413, 563977660, 1882732616, 4059428100, 1673313503, 2008463041, 2950355573, 1109467491, 537923632, 3858759450, 4260623118, 3218264685, 2177748300, 403442708, 638784309, 3287084079, 3193921505, 899127202, 2286175436, 773265209, 2479146071, 1437050866, 4236148354, 2050833735, 3362022572, 3126681063, 840505643, 3866325909, 3227541664, 427917720, 2655997905, 2749160575, 1143087718, 1412049534, 999329963, 193497219, 2353415882, 3354324521, 1807268051, 672404540, 2816401017, 3160301282, 369822493, 2916866934, 3688947771, 1681011286, 1949973070, 336202270, 2454276571, 201721354, 1210328172, 3093060836, 2680341085, 3184776046, 1135389935, 3294782118, 965841320, 831886756, 3554993207, 4068047243, 3588745010, 2345191491, 1849112409, 3664604599, 26054028, 2983581028, 2622377682, 1235855840, 3630984372, 2891339514, 4092916743, 3488279077, 3395642799, 4101667470, 1202630377, 268961816, 1874508501, 4034427016, 1243948399, 1546530418, 941366308, 1470539505, 1941222599, 2546386513, 3421038627, 2715671932, 3899946140, 1042226977, 2521517021, 1639824860, 227249030, 260737669, 3765465232, 2084453954, 1907733956, 3429263018, 2420656344, 100860677, 4160157185, 470683154, 3261161891, 1781871967, 2924959737, 1773779408, 394692241, 2579611992, 974986535, 664706745, 3655459128, 3958962195, 731420851, 571543859, 3530123707, 2849626480, 126783113, 865375399, 765172662, 1008606754, 361203602, 3387549984, 2278477385, 2857719295, 1344809080, 2782912378, 59542671, 1503764984, 160008576, 437062935, 1707065306, 3622233649, 2218934982, 3496503480, 2185314755, 697932208, 1512910199, 504303377, 2075177163, 2824099068, 1841019862, 739644986]
+      , n = [2781242211, 2230877308, 2582542199, 2381740923, 234877682, 3184946027, 2984144751, 1418839493, 1348481072, 50462977, 2848876391, 2102799147, 434634494, 1656084439, 3863849899, 2599188086, 1167051466, 2636087938, 1082771913, 2281340285, 368048890, 3954334041, 3381544775, 201060592, 3963727277, 1739838676, 4250903202, 3930435503, 3206782108, 4149453988, 2531553906, 1536934080, 3262494647, 484572669, 2923271059, 1783375398, 1517041206, 1098792767, 49674231, 1334037708, 1550332980, 4098991525, 886171109, 150598129, 2481090929, 1940642008, 1398944049, 1059722517, 201851908, 1385547719, 1699095331, 1587397571, 674240536, 2704774806, 252314885, 3039795866, 151914247, 908333586, 2602270848, 1038082786, 651029483, 1766729511, 3447698098, 2682942837, 454166793, 2652734339, 1951935532, 775166490, 758520603, 3000790638, 4004797018, 4217086112, 4137964114, 1299594043, 1639438038, 3464344499, 2068982057, 1054729187, 1901997871, 2534638724, 4121318227, 1757008337, 0, 750906861, 1614815264, 535035132, 3363418545, 3988151131, 3201591914, 1183697867, 3647454910, 1265776953, 3734260298, 3566750796, 3903871064, 1250283471, 1807470800, 717615087, 3847203498, 384695291, 3313910595, 3617213773, 1432761139, 2484176261, 3481945413, 283769337, 100925954, 2180939647, 4037038160, 1148730428, 3123027871, 3813386408, 4087501137, 4267549603, 3229630528, 2315620239, 2906624658, 3156319645, 1215313976, 82966005, 3747855548, 3245848246, 1974459098, 1665278241, 807407632, 451280895, 251524083, 1841287890, 1283575245, 337120268, 891687699, 801369324, 3787349855, 2721421207, 3431482436, 959321879, 1469301956, 4065699751, 2197585534, 1199193405, 2898814052, 3887750493, 724703513, 2514908019, 2696962144, 2551808385, 3516813135, 2141445340, 1715741218, 2119445034, 2872807568, 2198571144, 3398190662, 700968686, 3547052216, 1009259540, 2041044702, 3803995742, 487983883, 1991105499, 1004265696, 1449407026, 1316239930, 504629770, 3683797321, 168560134, 1816667172, 3837287516, 1570751170, 1857934291, 4014189740, 2797888098, 2822345105, 2754712981, 936633572, 2347923833, 852879335, 1133234376, 1500395319, 3084545389, 2348912013, 1689376213, 3533459022, 3762923945, 3034082412, 4205598294, 133428468, 634383082, 2949277029, 2398386810, 3913789102, 403703816, 3580869306, 2297460856, 1867130149, 1918643758, 607656988, 4049053350, 3346248884, 1368901318, 600565992, 2090982877, 2632479860, 557719327, 3717614411, 3697393085, 2249034635, 2232388234, 2430627952, 1115438654, 3295786421, 2865522278, 3633334344, 84280067, 33027830, 303828494, 2747425121, 1600795957, 4188952407, 3496589753, 2434238086, 1486471617, 658119965, 3106381470, 953803233, 334231800, 3005978776, 857870609, 3151128937, 1890179545, 2298973838, 2805175444, 3056442267, 574365214, 2450884487, 550103529, 1233637070, 4289353045, 2018519080, 2057691103, 2399374476, 4166623649, 2148108681, 387583245, 3664101311, 836232934, 3330556482, 3100665960, 3280093505, 2955516313, 2002398509, 287182607, 3413881008, 4238890068, 3597515707, 975967766]
+      , o = [1671808611, 2089089148, 2006576759, 2072901243, 4061003762, 1807603307, 1873927791, 3310653893, 810573872, 16974337, 1739181671, 729634347, 4263110654, 3613570519, 2883997099, 1989864566, 3393556426, 2191335298, 3376449993, 2106063485, 4195741690, 1508618841, 1204391495, 4027317232, 2917941677, 3563566036, 2734514082, 2951366063, 2629772188, 2767672228, 1922491506, 3227229120, 3082974647, 4246528509, 2477669779, 644500518, 911895606, 1061256767, 4144166391, 3427763148, 878471220, 2784252325, 3845444069, 4043897329, 1905517169, 3631459288, 827548209, 356461077, 67897348, 3344078279, 593839651, 3277757891, 405286936, 2527147926, 84871685, 2595565466, 118033927, 305538066, 2157648768, 3795705826, 3945188843, 661212711, 2999812018, 1973414517, 152769033, 2208177539, 745822252, 439235610, 455947803, 1857215598, 1525593178, 2700827552, 1391895634, 994932283, 3596728278, 3016654259, 695947817, 3812548067, 795958831, 2224493444, 1408607827, 3513301457, 0, 3979133421, 543178784, 4229948412, 2982705585, 1542305371, 1790891114, 3410398667, 3201918910, 961245753, 1256100938, 1289001036, 1491644504, 3477767631, 3496721360, 4012557807, 2867154858, 4212583931, 1137018435, 1305975373, 861234739, 2241073541, 1171229253, 4178635257, 33948674, 2139225727, 1357946960, 1011120188, 2679776671, 2833468328, 1374921297, 2751356323, 1086357568, 2408187279, 2460827538, 2646352285, 944271416, 4110742005, 3168756668, 3066132406, 3665145818, 560153121, 271589392, 4279952895, 4077846003, 3530407890, 3444343245, 202643468, 322250259, 3962553324, 1608629855, 2543990167, 1154254916, 389623319, 3294073796, 2817676711, 2122513534, 1028094525, 1689045092, 1575467613, 422261273, 1939203699, 1621147744, 2174228865, 1339137615, 3699352540, 577127458, 712922154, 2427141008, 2290289544, 1187679302, 3995715566, 3100863416, 339486740, 3732514782, 1591917662, 186455563, 3681988059, 3762019296, 844522546, 978220090, 169743370, 1239126601, 101321734, 611076132, 1558493276, 3260915650, 3547250131, 2901361580, 1655096418, 2443721105, 2510565781, 3828863972, 2039214713, 3878868455, 3359869896, 928607799, 1840765549, 2374762893, 3580146133, 1322425422, 2850048425, 1823791212, 1459268694, 4094161908, 3928346602, 1706019429, 2056189050, 2934523822, 135794696, 3134549946, 2022240376, 628050469, 779246638, 472135708, 2800834470, 3032970164, 3327236038, 3894660072, 3715932637, 1956440180, 522272287, 1272813131, 3185336765, 2340818315, 2323976074, 1888542832, 1044544574, 3049550261, 1722469478, 1222152264, 50660867, 4127324150, 236067854, 1638122081, 895445557, 1475980887, 3117443513, 2257655686, 3243809217, 489110045, 2662934430, 3778599393, 4162055160, 2561878936, 288563729, 1773916777, 3648039385, 2391345038, 2493985684, 2612407707, 505560094, 2274497927, 3911240169, 3460925390, 1442818645, 678973480, 3749357023, 2358182796, 2717407649, 2306869641, 219617805, 3218761151, 3862026214, 1120306242, 1756942440, 1103331905, 2578459033, 762796589, 252780047, 2966125488, 1425844308, 3151392187, 372911126]
+      , p = [1667474886, 2088535288, 2004326894, 2071694838, 4075949567, 1802223062, 1869591006, 3318043793, 808472672, 16843522, 1734846926, 724270422, 4278065639, 3621216949, 2880169549, 1987484396, 3402253711, 2189597983, 3385409673, 2105378810, 4210693615, 1499065266, 1195886990, 4042263547, 2913856577, 3570689971, 2728590687, 2947541573, 2627518243, 2762274643, 1920112356, 3233831835, 3082273397, 4261223649, 2475929149, 640051788, 909531756, 1061110142, 4160160501, 3435941763, 875846760, 2779116625, 3857003729, 4059105529, 1903268834, 3638064043, 825316194, 353713962, 67374088, 3351728789, 589522246, 3284360861, 404236336, 2526454071, 84217610, 2593830191, 117901582, 303183396, 2155911963, 3806477791, 3958056653, 656894286, 2998062463, 1970642922, 151591698, 2206440989, 741110872, 437923380, 454765878, 1852748508, 1515908788, 2694904667, 1381168804, 993742198, 3604373943, 3014905469, 690584402, 3823320797, 791638366, 2223281939, 1398011302, 3520161977, 0, 3991743681, 538992704, 4244381667, 2981218425, 1532751286, 1785380564, 3419096717, 3200178535, 960056178, 1246420628, 1280103576, 1482221744, 3486468741, 3503319995, 4025428677, 2863326543, 4227536621, 1128514950, 1296947098, 859002214, 2240123921, 1162203018, 4193849577, 33687044, 2139062782, 1347481760, 1010582648, 2678045221, 2829640523, 1364325282, 2745433693, 1077985408, 2408548869, 2459086143, 2644360225, 943212656, 4126475505, 3166494563, 3065430391, 3671750063, 555836226, 269496352, 4294908645, 4092792573, 3537006015, 3452783745, 202118168, 320025894, 3974901699, 1600119230, 2543297077, 1145359496, 387397934, 3301201811, 2812801621, 2122220284, 1027426170, 1684319432, 1566435258, 421079858, 1936954854, 1616945344, 2172753945, 1330631070, 3705438115, 572679748, 707427924, 2425400123, 2290647819, 1179044492, 4008585671, 3099120491, 336870440, 3739122087, 1583276732, 185277718, 3688593069, 3772791771, 842159716, 976899700, 168435220, 1229577106, 101059084, 606366792, 1549591736, 3267517855, 3553849021, 2897014595, 1650632388, 2442242105, 2509612081, 3840161747, 2038008818, 3890688725, 3368567691, 926374254, 1835907034, 2374863873, 3587531953, 1313788572, 2846482505, 1819063512, 1448540844, 4109633523, 3941213647, 1701162954, 2054852340, 2930698567, 134748176, 3132806511, 2021165296, 623210314, 774795868, 471606328, 2795958615, 3031746419, 3334885783, 3907527627, 3722280097, 1953799400, 522133822, 1263263126, 3183336545, 2341176845, 2324333839, 1886425312, 1044267644, 3048588401, 1718004428, 1212733584, 50529542, 4143317495, 235803164, 1633788866, 892690282, 1465383342, 3115962473, 2256965911, 3250673817, 488449850, 2661202215, 3789633753, 4177007595, 2560144171, 286339874, 1768537042, 3654906025, 2391705863, 2492770099, 2610673197, 505291324, 2273808917, 3924369609, 3469625735, 1431699370, 673740880, 3755965093, 2358021891, 2711746649, 2307489801, 218961690, 3217021541, 3873845719, 1111672452, 1751693520, 1094828930, 2576986153, 757954394, 252645662, 2964376443, 1414855848, 3149649517, 370555436]
+      , q = [1374988112, 2118214995, 437757123, 975658646, 1001089995, 530400753, 2902087851, 1273168787, 540080725, 2910219766, 2295101073, 4110568485, 1340463100, 3307916247, 641025152, 3043140495, 3736164937, 632953703, 1172967064, 1576976609, 3274667266, 2169303058, 2370213795, 1809054150, 59727847, 361929877, 3211623147, 2505202138, 3569255213, 1484005843, 1239443753, 2395588676, 1975683434, 4102977912, 2572697195, 666464733, 3202437046, 4035489047, 3374361702, 2110667444, 1675577880, 3843699074, 2538681184, 1649639237, 2976151520, 3144396420, 4269907996, 4178062228, 1883793496, 2403728665, 2497604743, 1383856311, 2876494627, 1917518562, 3810496343, 1716890410, 3001755655, 800440835, 2261089178, 3543599269, 807962610, 599762354, 33778362, 3977675356, 2328828971, 2809771154, 4077384432, 1315562145, 1708848333, 101039829, 3509871135, 3299278474, 875451293, 2733856160, 92987698, 2767645557, 193195065, 1080094634, 1584504582, 3178106961, 1042385657, 2531067453, 3711829422, 1306967366, 2438237621, 1908694277, 67556463, 1615861247, 429456164, 3602770327, 2302690252, 1742315127, 2968011453, 126454664, 3877198648, 2043211483, 2709260871, 2084704233, 4169408201, 0, 159417987, 841739592, 504459436, 1817866830, 4245618683, 260388950, 1034867998, 908933415, 168810852, 1750902305, 2606453969, 607530554, 202008497, 2472011535, 3035535058, 463180190, 2160117071, 1641816226, 1517767529, 470948374, 3801332234, 3231722213, 1008918595, 303765277, 235474187, 4069246893, 766945465, 337553864, 1475418501, 2943682380, 4003061179, 2743034109, 4144047775, 1551037884, 1147550661, 1543208500, 2336434550, 3408119516, 3069049960, 3102011747, 3610369226, 1113818384, 328671808, 2227573024, 2236228733, 3535486456, 2935566865, 3341394285, 496906059, 3702665459, 226906860, 2009195472, 733156972, 2842737049, 294930682, 1206477858, 2835123396, 2700099354, 1451044056, 573804783, 2269728455, 3644379585, 2362090238, 2564033334, 2801107407, 2776292904, 3669462566, 1068351396, 742039012, 1350078989, 1784663195, 1417561698, 4136440770, 2430122216, 775550814, 2193862645, 2673705150, 1775276924, 1876241833, 3475313331, 3366754619, 270040487, 3902563182, 3678124923, 3441850377, 1851332852, 3969562369, 2203032232, 3868552805, 2868897406, 566021896, 4011190502, 3135740889, 1248802510, 3936291284, 699432150, 832877231, 708780849, 3332740144, 899835584, 1951317047, 4236429990, 3767586992, 866637845, 4043610186, 1106041591, 2144161806, 395441711, 1984812685, 1139781709, 3433712980, 3835036895, 2664543715, 1282050075, 3240894392, 1181045119, 2640243204, 25965917, 4203181171, 4211818798, 3009879386, 2463879762, 3910161971, 1842759443, 2597806476, 933301370, 1509430414, 3943906441, 3467192302, 3076639029, 3776767469, 2051518780, 2631065433, 1441952575, 404016761, 1942435775, 1408749034, 1610459739, 3745345300, 2017778566, 3400528769, 3110650942, 941896748, 3265478751, 371049330, 3168937228, 675039627, 4279080257, 967311729, 135050206, 3635733660, 1683407248, 2076935265, 3576870512, 1215061108, 3501741890]
+      , r = [1347548327, 1400783205, 3273267108, 2520393566, 3409685355, 4045380933, 2880240216, 2471224067, 1428173050, 4138563181, 2441661558, 636813900, 4233094615, 3620022987, 2149987652, 2411029155, 1239331162, 1730525723, 2554718734, 3781033664, 46346101, 310463728, 2743944855, 3328955385, 3875770207, 2501218972, 3955191162, 3667219033, 768917123, 3545789473, 692707433, 1150208456, 1786102409, 2029293177, 1805211710, 3710368113, 3065962831, 401639597, 1724457132, 3028143674, 409198410, 2196052529, 1620529459, 1164071807, 3769721975, 2226875310, 486441376, 2499348523, 1483753576, 428819965, 2274680428, 3075636216, 598438867, 3799141122, 1474502543, 711349675, 129166120, 53458370, 2592523643, 2782082824, 4063242375, 2988687269, 3120694122, 1559041666, 730517276, 2460449204, 4042459122, 2706270690, 3446004468, 3573941694, 533804130, 2328143614, 2637442643, 2695033685, 839224033, 1973745387, 957055980, 2856345839, 106852767, 1371368976, 4181598602, 1033297158, 2933734917, 1179510461, 3046200461, 91341917, 1862534868, 4284502037, 605657339, 2547432937, 3431546947, 2003294622, 3182487618, 2282195339, 954669403, 3682191598, 1201765386, 3917234703, 3388507166, 0, 2198438022, 1211247597, 2887651696, 1315723890, 4227665663, 1443857720, 507358933, 657861945, 1678381017, 560487590, 3516619604, 975451694, 2970356327, 261314535, 3535072918, 2652609425, 1333838021, 2724322336, 1767536459, 370938394, 182621114, 3854606378, 1128014560, 487725847, 185469197, 2918353863, 3106780840, 3356761769, 2237133081, 1286567175, 3152976349, 4255350624, 2683765030, 3160175349, 3309594171, 878443390, 1988838185, 3704300486, 1756818940, 1673061617, 3403100636, 272786309, 1075025698, 545572369, 2105887268, 4174560061, 296679730, 1841768865, 1260232239, 4091327024, 3960309330, 3497509347, 1814803222, 2578018489, 4195456072, 575138148, 3299409036, 446754879, 3629546796, 4011996048, 3347532110, 3252238545, 4270639778, 915985419, 3483825537, 681933534, 651868046, 2755636671, 3828103837, 223377554, 2607439820, 1649704518, 3270937875, 3901806776, 1580087799, 4118987695, 3198115200, 2087309459, 2842678573, 3016697106, 1003007129, 2802849917, 1860738147, 2077965243, 164439672, 4100872472, 32283319, 2827177882, 1709610350, 2125135846, 136428751, 3874428392, 3652904859, 3460984630, 3572145929, 3593056380, 2939266226, 824852259, 818324884, 3224740454, 930369212, 2801566410, 2967507152, 355706840, 1257309336, 4148292826, 243256656, 790073846, 2373340630, 1296297904, 1422699085, 3756299780, 3818836405, 457992840, 3099667487, 2135319889, 77422314, 1560382517, 1945798516, 788204353, 1521706781, 1385356242, 870912086, 325965383, 2358957921, 2050466060, 2388260884, 2313884476, 4006521127, 901210569, 3990953189, 1014646705, 1503449823, 1062597235, 2031621326, 3212035895, 3931371469, 1533017514, 350174575, 2256028891, 2177544179, 1052338372, 741876788, 1606591296, 1914052035, 213705253, 2334669897, 1107234197, 1899603969, 3725069491, 2631447780, 2422494913, 1635502980, 1893020342, 1950903388, 1120974935]
+      , s = [2807058932, 1699970625, 2764249623, 1586903591, 1808481195, 1173430173, 1487645946, 59984867, 4199882800, 1844882806, 1989249228, 1277555970, 3623636965, 3419915562, 1149249077, 2744104290, 1514790577, 459744698, 244860394, 3235995134, 1963115311, 4027744588, 2544078150, 4190530515, 1608975247, 2627016082, 2062270317, 1507497298, 2200818878, 567498868, 1764313568, 3359936201, 2305455554, 2037970062, 1047239e3, 1910319033, 1337376481, 2904027272, 2892417312, 984907214, 1243112415, 830661914, 861968209, 2135253587, 2011214180, 2927934315, 2686254721, 731183368, 1750626376, 4246310725, 1820824798, 4172763771, 3542330227, 48394827, 2404901663, 2871682645, 671593195, 3254988725, 2073724613, 145085239, 2280796200, 2779915199, 1790575107, 2187128086, 472615631, 3029510009, 4075877127, 3802222185, 4107101658, 3201631749, 1646252340, 4270507174, 1402811438, 1436590835, 3778151818, 3950355702, 3963161475, 4020912224, 2667994737, 273792366, 2331590177, 104699613, 95345982, 3175501286, 2377486676, 1560637892, 3564045318, 369057872, 4213447064, 3919042237, 1137477952, 2658625497, 1119727848, 2340947849, 1530455833, 4007360968, 172466556, 266959938, 516552836, 0, 2256734592, 3980931627, 1890328081, 1917742170, 4294704398, 945164165, 3575528878, 958871085, 3647212047, 2787207260, 1423022939, 775562294, 1739656202, 3876557655, 2530391278, 2443058075, 3310321856, 547512796, 1265195639, 437656594, 3121275539, 719700128, 3762502690, 387781147, 218828297, 3350065803, 2830708150, 2848461854, 428169201, 122466165, 3720081049, 1627235199, 648017665, 4122762354, 1002783846, 2117360635, 695634755, 3336358691, 4234721005, 4049844452, 3704280881, 2232435299, 574624663, 287343814, 612205898, 1039717051, 840019705, 2708326185, 793451934, 821288114, 1391201670, 3822090177, 376187827, 3113855344, 1224348052, 1679968233, 2361698556, 1058709744, 752375421, 2431590963, 1321699145, 3519142200, 2734591178, 188127444, 2177869557, 3727205754, 2384911031, 3215212461, 2648976442, 2450346104, 3432737375, 1180849278, 331544205, 3102249176, 4150144569, 2952102595, 2159976285, 2474404304, 766078933, 313773861, 2570832044, 2108100632, 1668212892, 3145456443, 2013908262, 418672217, 3070356634, 2594734927, 1852171925, 3867060991, 3473416636, 3907448597, 2614737639, 919489135, 164948639, 2094410160, 2997825956, 590424639, 2486224549, 1723872674, 3157750862, 3399941250, 3501252752, 3625268135, 2555048196, 3673637356, 1343127501, 4130281361, 3599595085, 2957853679, 1297403050, 81781910, 3051593425, 2283490410, 532201772, 1367295589, 3926170974, 895287692, 1953757831, 1093597963, 492483431, 3528626907, 1446242576, 1192455638, 1636604631, 209336225, 344873464, 1015671571, 669961897, 3375740769, 3857572124, 2973530695, 3747192018, 1933530610, 3464042516, 935293895, 3454686199, 2858115069, 1863638845, 3683022916, 4085369519, 3292445032, 875313188, 1080017571, 3279033885, 621591778, 1233856572, 2504130317, 24197544, 3017672716, 3835484340, 3247465558, 2220981195, 3060847922, 1551124588, 1463996600]
+      , t = [4104605777, 1097159550, 396673818, 660510266, 2875968315, 2638606623, 4200115116, 3808662347, 821712160, 1986918061, 3430322568, 38544885, 3856137295, 718002117, 893681702, 1654886325, 2975484382, 3122358053, 3926825029, 4274053469, 796197571, 1290801793, 1184342925, 3556361835, 2405426947, 2459735317, 1836772287, 1381620373, 3196267988, 1948373848, 3764988233, 3385345166, 3263785589, 2390325492, 1480485785, 3111247143, 3780097726, 2293045232, 548169417, 3459953789, 3746175075, 439452389, 1362321559, 1400849762, 1685577905, 1806599355, 2174754046, 137073913, 1214797936, 1174215055, 3731654548, 2079897426, 1943217067, 1258480242, 529487843, 1437280870, 3945269170, 3049390895, 3313212038, 923313619, 679998e3, 3215307299, 57326082, 377642221, 3474729866, 2041877159, 133361907, 1776460110, 3673476453, 96392454, 878845905, 2801699524, 777231668, 4082475170, 2330014213, 4142626212, 2213296395, 1626319424, 1906247262, 1846563261, 562755902, 3708173718, 1040559837, 3871163981, 1418573201, 3294430577, 114585348, 1343618912, 2566595609, 3186202582, 1078185097, 3651041127, 3896688048, 2307622919, 425408743, 3371096953, 2081048481, 1108339068, 2216610296, 0, 2156299017, 736970802, 292596766, 1517440620, 251657213, 2235061775, 2933202493, 758720310, 265905162, 1554391400, 1532285339, 908999204, 174567692, 1474760595, 4002861748, 2610011675, 3234156416, 3693126241, 2001430874, 303699484, 2478443234, 2687165888, 585122620, 454499602, 151849742, 2345119218, 3064510765, 514443284, 4044981591, 1963412655, 2581445614, 2137062819, 19308535, 1928707164, 1715193156, 4219352155, 1126790795, 600235211, 3992742070, 3841024952, 836553431, 1669664834, 2535604243, 3323011204, 1243905413, 3141400786, 4180808110, 698445255, 2653899549, 2989552604, 2253581325, 3252932727, 3004591147, 1891211689, 2487810577, 3915653703, 4237083816, 4030667424, 2100090966, 865136418, 1229899655, 953270745, 3399679628, 3557504664, 4118925222, 2061379749, 3079546586, 2915017791, 983426092, 2022837584, 1607244650, 2118541908, 2366882550, 3635996816, 972512814, 3283088770, 1568718495, 3499326569, 3576539503, 621982671, 2895723464, 410887952, 2623762152, 1002142683, 645401037, 1494807662, 2595684844, 1335535747, 2507040230, 4293295786, 3167684641, 367585007, 3885750714, 1865862730, 2668221674, 2960971305, 2763173681, 1059270954, 2777952454, 2724642869, 1320957812, 2194319100, 2429595872, 2815956275, 77089521, 3973773121, 3444575871, 2448830231, 1305906550, 4021308739, 2857194700, 2516901860, 3518358430, 1787304780, 740276417, 1699839814, 1592394909, 2352307457, 2272556026, 188821243, 1729977011, 3687994002, 274084841, 3594982253, 3613494426, 2701949495, 4162096729, 322734571, 2837966542, 1640576439, 484830689, 1202797690, 3537852828, 4067639125, 349075736, 3342319475, 4157467219, 4255800159, 1030690015, 1155237496, 2951971274, 1757691577, 607398968, 2738905026, 499347990, 3794078908, 1011452712, 227885567, 2818666809, 213114376, 3034881240, 1455525988, 3414450555, 850817237, 1817998408, 3092726480]
+      , u = [0, 235474187, 470948374, 303765277, 941896748, 908933415, 607530554, 708780849, 1883793496, 2118214995, 1817866830, 1649639237, 1215061108, 1181045119, 1417561698, 1517767529, 3767586992, 4003061179, 4236429990, 4069246893, 3635733660, 3602770327, 3299278474, 3400528769, 2430122216, 2664543715, 2362090238, 2193862645, 2835123396, 2801107407, 3035535058, 3135740889, 3678124923, 3576870512, 3341394285, 3374361702, 3810496343, 3977675356, 4279080257, 4043610186, 2876494627, 2776292904, 3076639029, 3110650942, 2472011535, 2640243204, 2403728665, 2169303058, 1001089995, 899835584, 666464733, 699432150, 59727847, 226906860, 530400753, 294930682, 1273168787, 1172967064, 1475418501, 1509430414, 1942435775, 2110667444, 1876241833, 1641816226, 2910219766, 2743034109, 2976151520, 3211623147, 2505202138, 2606453969, 2302690252, 2269728455, 3711829422, 3543599269, 3240894392, 3475313331, 3843699074, 3943906441, 4178062228, 4144047775, 1306967366, 1139781709, 1374988112, 1610459739, 1975683434, 2076935265, 1775276924, 1742315127, 1034867998, 866637845, 566021896, 800440835, 92987698, 193195065, 429456164, 395441711, 1984812685, 2017778566, 1784663195, 1683407248, 1315562145, 1080094634, 1383856311, 1551037884, 101039829, 135050206, 437757123, 337553864, 1042385657, 807962610, 573804783, 742039012, 2531067453, 2564033334, 2328828971, 2227573024, 2935566865, 2700099354, 3001755655, 3168937228, 3868552805, 3902563182, 4203181171, 4102977912, 3736164937, 3501741890, 3265478751, 3433712980, 1106041591, 1340463100, 1576976609, 1408749034, 2043211483, 2009195472, 1708848333, 1809054150, 832877231, 1068351396, 766945465, 599762354, 159417987, 126454664, 361929877, 463180190, 2709260871, 2943682380, 3178106961, 3009879386, 2572697195, 2538681184, 2236228733, 2336434550, 3509871135, 3745345300, 3441850377, 3274667266, 3910161971, 3877198648, 4110568485, 4211818798, 2597806476, 2497604743, 2261089178, 2295101073, 2733856160, 2902087851, 3202437046, 2968011453, 3936291284, 3835036895, 4136440770, 4169408201, 3535486456, 3702665459, 3467192302, 3231722213, 2051518780, 1951317047, 1716890410, 1750902305, 1113818384, 1282050075, 1584504582, 1350078989, 168810852, 67556463, 371049330, 404016761, 841739592, 1008918595, 775550814, 540080725, 3969562369, 3801332234, 4035489047, 4269907996, 3569255213, 3669462566, 3366754619, 3332740144, 2631065433, 2463879762, 2160117071, 2395588676, 2767645557, 2868897406, 3102011747, 3069049960, 202008497, 33778362, 270040487, 504459436, 875451293, 975658646, 675039627, 641025152, 2084704233, 1917518562, 1615861247, 1851332852, 1147550661, 1248802510, 1484005843, 1451044056, 933301370, 967311729, 733156972, 632953703, 260388950, 25965917, 328671808, 496906059, 1206477858, 1239443753, 1543208500, 1441952575, 2144161806, 1908694277, 1675577880, 1842759443, 3610369226, 3644379585, 3408119516, 3307916247, 4011190502, 3776767469, 4077384432, 4245618683, 2809771154, 2842737049, 3144396420, 3043140495, 2673705150, 2438237621, 2203032232, 2370213795]
+      , v = [0, 185469197, 370938394, 487725847, 741876788, 657861945, 975451694, 824852259, 1483753576, 1400783205, 1315723890, 1164071807, 1950903388, 2135319889, 1649704518, 1767536459, 2967507152, 3152976349, 2801566410, 2918353863, 2631447780, 2547432937, 2328143614, 2177544179, 3901806776, 3818836405, 4270639778, 4118987695, 3299409036, 3483825537, 3535072918, 3652904859, 2077965243, 1893020342, 1841768865, 1724457132, 1474502543, 1559041666, 1107234197, 1257309336, 598438867, 681933534, 901210569, 1052338372, 261314535, 77422314, 428819965, 310463728, 3409685355, 3224740454, 3710368113, 3593056380, 3875770207, 3960309330, 4045380933, 4195456072, 2471224067, 2554718734, 2237133081, 2388260884, 3212035895, 3028143674, 2842678573, 2724322336, 4138563181, 4255350624, 3769721975, 3955191162, 3667219033, 3516619604, 3431546947, 3347532110, 2933734917, 2782082824, 3099667487, 3016697106, 2196052529, 2313884476, 2499348523, 2683765030, 1179510461, 1296297904, 1347548327, 1533017514, 1786102409, 1635502980, 2087309459, 2003294622, 507358933, 355706840, 136428751, 53458370, 839224033, 957055980, 605657339, 790073846, 2373340630, 2256028891, 2607439820, 2422494913, 2706270690, 2856345839, 3075636216, 3160175349, 3573941694, 3725069491, 3273267108, 3356761769, 4181598602, 4063242375, 4011996048, 3828103837, 1033297158, 915985419, 730517276, 545572369, 296679730, 446754879, 129166120, 213705253, 1709610350, 1860738147, 1945798516, 2029293177, 1239331162, 1120974935, 1606591296, 1422699085, 4148292826, 4233094615, 3781033664, 3931371469, 3682191598, 3497509347, 3446004468, 3328955385, 2939266226, 2755636671, 3106780840, 2988687269, 2198438022, 2282195339, 2501218972, 2652609425, 1201765386, 1286567175, 1371368976, 1521706781, 1805211710, 1620529459, 2105887268, 1988838185, 533804130, 350174575, 164439672, 46346101, 870912086, 954669403, 636813900, 788204353, 2358957921, 2274680428, 2592523643, 2441661558, 2695033685, 2880240216, 3065962831, 3182487618, 3572145929, 3756299780, 3270937875, 3388507166, 4174560061, 4091327024, 4006521127, 3854606378, 1014646705, 930369212, 711349675, 560487590, 272786309, 457992840, 106852767, 223377554, 1678381017, 1862534868, 1914052035, 2031621326, 1211247597, 1128014560, 1580087799, 1428173050, 32283319, 182621114, 401639597, 486441376, 768917123, 651868046, 1003007129, 818324884, 1503449823, 1385356242, 1333838021, 1150208456, 1973745387, 2125135846, 1673061617, 1756818940, 2970356327, 3120694122, 2802849917, 2887651696, 2637442643, 2520393566, 2334669897, 2149987652, 3917234703, 3799141122, 4284502037, 4100872472, 3309594171, 3460984630, 3545789473, 3629546796, 2050466060, 1899603969, 1814803222, 1730525723, 1443857720, 1560382517, 1075025698, 1260232239, 575138148, 692707433, 878443390, 1062597235, 243256656, 91341917, 409198410, 325965383, 3403100636, 3252238545, 3704300486, 3620022987, 3874428392, 3990953189, 4042459122, 4227665663, 2460449204, 2578018489, 2226875310, 2411029155, 3198115200, 3046200461, 2827177882, 2743944855]
+      , w = [0, 218828297, 437656594, 387781147, 875313188, 958871085, 775562294, 590424639, 1750626376, 1699970625, 1917742170, 2135253587, 1551124588, 1367295589, 1180849278, 1265195639, 3501252752, 3720081049, 3399941250, 3350065803, 3835484340, 3919042237, 4270507174, 4085369519, 3102249176, 3051593425, 2734591178, 2952102595, 2361698556, 2177869557, 2530391278, 2614737639, 3145456443, 3060847922, 2708326185, 2892417312, 2404901663, 2187128086, 2504130317, 2555048196, 3542330227, 3727205754, 3375740769, 3292445032, 3876557655, 3926170974, 4246310725, 4027744588, 1808481195, 1723872674, 1910319033, 2094410160, 1608975247, 1391201670, 1173430173, 1224348052, 59984867, 244860394, 428169201, 344873464, 935293895, 984907214, 766078933, 547512796, 1844882806, 1627235199, 2011214180, 2062270317, 1507497298, 1423022939, 1137477952, 1321699145, 95345982, 145085239, 532201772, 313773861, 830661914, 1015671571, 731183368, 648017665, 3175501286, 2957853679, 2807058932, 2858115069, 2305455554, 2220981195, 2474404304, 2658625497, 3575528878, 3625268135, 3473416636, 3254988725, 3778151818, 3963161475, 4213447064, 4130281361, 3599595085, 3683022916, 3432737375, 3247465558, 3802222185, 4020912224, 4172763771, 4122762354, 3201631749, 3017672716, 2764249623, 2848461854, 2331590177, 2280796200, 2431590963, 2648976442, 104699613, 188127444, 472615631, 287343814, 840019705, 1058709744, 671593195, 621591778, 1852171925, 1668212892, 1953757831, 2037970062, 1514790577, 1463996600, 1080017571, 1297403050, 3673637356, 3623636965, 3235995134, 3454686199, 4007360968, 3822090177, 4107101658, 4190530515, 2997825956, 3215212461, 2830708150, 2779915199, 2256734592, 2340947849, 2627016082, 2443058075, 172466556, 122466165, 273792366, 492483431, 1047239e3, 861968209, 612205898, 695634755, 1646252340, 1863638845, 2013908262, 1963115311, 1446242576, 1530455833, 1277555970, 1093597963, 1636604631, 1820824798, 2073724613, 1989249228, 1436590835, 1487645946, 1337376481, 1119727848, 164948639, 81781910, 331544205, 516552836, 1039717051, 821288114, 669961897, 719700128, 2973530695, 3157750862, 2871682645, 2787207260, 2232435299, 2283490410, 2667994737, 2450346104, 3647212047, 3564045318, 3279033885, 3464042516, 3980931627, 3762502690, 4150144569, 4199882800, 3070356634, 3121275539, 2904027272, 2686254721, 2200818878, 2384911031, 2570832044, 2486224549, 3747192018, 3528626907, 3310321856, 3359936201, 3950355702, 3867060991, 4049844452, 4234721005, 1739656202, 1790575107, 2108100632, 1890328081, 1402811438, 1586903591, 1233856572, 1149249077, 266959938, 48394827, 369057872, 418672217, 1002783846, 919489135, 567498868, 752375421, 209336225, 24197544, 376187827, 459744698, 945164165, 895287692, 574624663, 793451934, 1679968233, 1764313568, 2117360635, 1933530610, 1343127501, 1560637892, 1243112415, 1192455638, 3704280881, 3519142200, 3336358691, 3419915562, 3907448597, 3857572124, 4075877127, 4294704398, 3029510009, 3113855344, 2927934315, 2744104290, 2159976285, 2377486676, 2594734927, 2544078150]
+      , x = [0, 151849742, 303699484, 454499602, 607398968, 758720310, 908999204, 1059270954, 1214797936, 1097159550, 1517440620, 1400849762, 1817998408, 1699839814, 2118541908, 2001430874, 2429595872, 2581445614, 2194319100, 2345119218, 3034881240, 3186202582, 2801699524, 2951971274, 3635996816, 3518358430, 3399679628, 3283088770, 4237083816, 4118925222, 4002861748, 3885750714, 1002142683, 850817237, 698445255, 548169417, 529487843, 377642221, 227885567, 77089521, 1943217067, 2061379749, 1640576439, 1757691577, 1474760595, 1592394909, 1174215055, 1290801793, 2875968315, 2724642869, 3111247143, 2960971305, 2405426947, 2253581325, 2638606623, 2487810577, 3808662347, 3926825029, 4044981591, 4162096729, 3342319475, 3459953789, 3576539503, 3693126241, 1986918061, 2137062819, 1685577905, 1836772287, 1381620373, 1532285339, 1078185097, 1229899655, 1040559837, 923313619, 740276417, 621982671, 439452389, 322734571, 137073913, 19308535, 3871163981, 4021308739, 4104605777, 4255800159, 3263785589, 3414450555, 3499326569, 3651041127, 2933202493, 2815956275, 3167684641, 3049390895, 2330014213, 2213296395, 2566595609, 2448830231, 1305906550, 1155237496, 1607244650, 1455525988, 1776460110, 1626319424, 2079897426, 1928707164, 96392454, 213114376, 396673818, 514443284, 562755902, 679998e3, 865136418, 983426092, 3708173718, 3557504664, 3474729866, 3323011204, 4180808110, 4030667424, 3945269170, 3794078908, 2507040230, 2623762152, 2272556026, 2390325492, 2975484382, 3092726480, 2738905026, 2857194700, 3973773121, 3856137295, 4274053469, 4157467219, 3371096953, 3252932727, 3673476453, 3556361835, 2763173681, 2915017791, 3064510765, 3215307299, 2156299017, 2307622919, 2459735317, 2610011675, 2081048481, 1963412655, 1846563261, 1729977011, 1480485785, 1362321559, 1243905413, 1126790795, 878845905, 1030690015, 645401037, 796197571, 274084841, 425408743, 38544885, 188821243, 3613494426, 3731654548, 3313212038, 3430322568, 4082475170, 4200115116, 3780097726, 3896688048, 2668221674, 2516901860, 2366882550, 2216610296, 3141400786, 2989552604, 2837966542, 2687165888, 1202797690, 1320957812, 1437280870, 1554391400, 1669664834, 1787304780, 1906247262, 2022837584, 265905162, 114585348, 499347990, 349075736, 736970802, 585122620, 972512814, 821712160, 2595684844, 2478443234, 2293045232, 2174754046, 3196267988, 3079546586, 2895723464, 2777952454, 3537852828, 3687994002, 3234156416, 3385345166, 4142626212, 4293295786, 3841024952, 3992742070, 174567692, 57326082, 410887952, 292596766, 777231668, 660510266, 1011452712, 893681702, 1108339068, 1258480242, 1343618912, 1494807662, 1715193156, 1865862730, 1948373848, 2100090966, 2701949495, 2818666809, 3004591147, 3122358053, 2235061775, 2352307457, 2535604243, 2653899549, 3915653703, 3764988233, 4219352155, 4067639125, 3444575871, 3294430577, 3746175075, 3594982253, 836553431, 953270745, 600235211, 718002117, 367585007, 484830689, 133361907, 251657213, 2041877159, 1891211689, 1806599355, 1654886325, 1568718495, 1418573201, 1335535747, 1184342925]
+      , z = function(a) {
+        if (!(this instanceof z))
+            throw Error("AES must be instanitated with `new`");
+        Object.defineProperty(this, "key", {
+            value: d(a, !0)
+        }),
+        this._prepare()
     };
-
-    Counter.prototype.increment = function() {
-        for (var i = 15; i >= 0; i--) {
-            if (this._counter[i] === 255) {
-                this._counter[i] = 0;
-            } else {
-                this._counter[i]++;
-                break;
+    z.prototype._prepare = function() {
+        var a = i[this.key.length];
+        if (a == null)
+            throw new Error("invalid key size (must be 16, 24 or 32 bytes)");
+        this._Ke = [],
+        this._Kd = [];
+        for (var b = 0; b <= a; b++)
+            this._Ke.push([0, 0, 0, 0]),
+            this._Kd.push([0, 0, 0, 0]);
+        var c = (a + 1) * 4, d = this.key.length / 4, e = y(this.key), f;
+        for (var b = 0; b < d; b++)
+            f = b >> 2,
+            this._Ke[f][b % 4] = e[b],
+            this._Kd[a - f][b % 4] = e[b];
+        var g = 0, h = d, l;
+        while (h < c) {
+            l = e[d - 1],
+            e[0] ^= k[l >> 16 & 255] << 24 ^ k[l >> 8 & 255] << 16 ^ k[l & 255] << 8 ^ k[l >> 24 & 255] ^ j[g] << 24,
+            g += 1;
+            if (d != 8)
+                for (var b = 1; b < d; b++)
+                    e[b] ^= e[b - 1];
+            else {
+                for (var b = 1; b < d / 2; b++)
+                    e[b] ^= e[b - 1];
+                l = e[d / 2 - 1],
+                e[d / 2] ^= k[l & 255] ^ k[l >> 8 & 255] << 8 ^ k[l >> 16 & 255] << 16 ^ k[l >> 24 & 255] << 24;
+                for (var b = d / 2 + 1; b < d; b++)
+                    e[b] ^= e[b - 1]
             }
+            var b = 0, m, n;
+            while (b < d && h < c)
+                m = h >> 2,
+                n = h % 4,
+                this._Ke[m][n] = e[b],
+                this._Kd[a - m][n] = e[b++],
+                h++
         }
+        for (var m = 1; m < a; m++)
+            for (var n = 0; n < 4; n++)
+                l = this._Kd[m][n],
+                this._Kd[m][n] = u[l >> 24 & 255] ^ v[l >> 16 & 255] ^ w[l >> 8 & 255] ^ x[l & 255]
     }
-
-
-
-    var ModeOfOperationCTR = function(key, counter) {
-        if (!(this instanceof ModeOfOperationCTR)) {
-            throw Error('AES must be instanitated with `new`');
+    ,
+    z.prototype.encrypt = function(a) {
+        if (a.length != 16)
+            throw new Error("invalid plaintext size (must be 16 bytes)");
+        var b = this._Ke.length - 1
+          , c = [0, 0, 0, 0]
+          , d = y(a);
+        for (var f = 0; f < 4; f++)
+            d[f] ^= this._Ke[0][f];
+        for (var g = 1; g < b; g++) {
+            for (var f = 0; f < 4; f++)
+                c[f] = m[d[f] >> 24 & 255] ^ n[d[(f + 1) % 4] >> 16 & 255] ^ o[d[(f + 2) % 4] >> 8 & 255] ^ p[d[(f + 3) % 4] & 255] ^ this._Ke[g][f];
+            d = c.slice()
         }
-
-        this.description = "Counter";
-        this.name = "ctr";
-
-        if (!(counter instanceof Counter)) {
-            counter = new Counter(counter)
-        }
-
-        this._counter = counter;
-
-        this._remainingCounter = null;
-        this._remainingCounterIndex = 16;
-
-        this._aes = new AES(key);
+        var h = e(16), i;
+        for (var f = 0; f < 4; f++)
+            i = this._Ke[b][f],
+            h[4 * f] = (k[d[f] >> 24 & 255] ^ i >> 24) & 255,
+            h[4 * f + 1] = (k[d[(f + 1) % 4] >> 16 & 255] ^ i >> 16) & 255,
+            h[4 * f + 2] = (k[d[(f + 2) % 4] >> 8 & 255] ^ i >> 8) & 255,
+            h[4 * f + 3] = (k[d[(f + 3) % 4] & 255] ^ i) & 255;
+        return h
     }
-
-    ModeOfOperationCTR.prototype.encrypt = function(plaintext) {
-        var encrypted = coerceArray(plaintext, true);
-
-        for (var i = 0; i < encrypted.length; i++) {
-            if (this._remainingCounterIndex === 16) {
-                this._remainingCounter = this._aes.encrypt(this._counter._counter);
-                this._remainingCounterIndex = 0;
-                this._counter.increment();
+    ,
+    z.prototype.decrypt = function(a) {
+        if (a.length != 16)
+            throw new Error("invalid ciphertext size (must be 16 bytes)");
+        var b = this._Kd.length - 1
+          , c = [0, 0, 0, 0]
+          , d = y(a);
+        for (var f = 0; f < 4; f++)
+            d[f] ^= this._Kd[0][f];
+        for (var g = 1; g < b; g++) {
+            for (var f = 0; f < 4; f++)
+                c[f] = q[d[f] >> 24 & 255] ^ r[d[(f + 3) % 4] >> 16 & 255] ^ s[d[(f + 2) % 4] >> 8 & 255] ^ t[d[(f + 1) % 4] & 255] ^ this._Kd[g][f];
+            d = c.slice()
+        }
+        var h = e(16), i;
+        for (var f = 0; f < 4; f++)
+            i = this._Kd[b][f],
+            h[4 * f] = (l[d[f] >> 24 & 255] ^ i >> 24) & 255,
+            h[4 * f + 1] = (l[d[(f + 3) % 4] >> 16 & 255] ^ i >> 16) & 255,
+            h[4 * f + 2] = (l[d[(f + 2) % 4] >> 8 & 255] ^ i >> 8) & 255,
+            h[4 * f + 3] = (l[d[(f + 1) % 4] & 255] ^ i) & 255;
+        return h
+    }
+    ;
+    var A = function(a) {
+        if (!(this instanceof A))
+            throw Error("AES must be instanitated with `new`");
+        this.description = "Electronic Code Block",
+        this.name = "ecb",
+        this._aes = new z(a)
+    };
+    A.prototype.encrypt = function(a) {
+        a = d(a);
+        if (a.length % 16 !== 0)
+            throw new Error("invalid plaintext size (must be multiple of 16 bytes)");
+        var b = e(a.length)
+          , c = e(16);
+        for (var g = 0; g < a.length; g += 16)
+            f(a, c, 0, g, g + 16),
+            c = this._aes.encrypt(c),
+            f(c, b, g);
+        return b
+    }
+    ,
+    A.prototype.decrypt = function(a) {
+        a = d(a);
+        if (a.length % 16 !== 0)
+            throw new Error("invalid ciphertext size (must be multiple of 16 bytes)");
+        var b = e(a.length)
+          , c = e(16);
+        for (var g = 0; g < a.length; g += 16)
+            f(a, c, 0, g, g + 16),
+            c = this._aes.decrypt(c),
+            f(c, b, g);
+        return b
+    }
+    ;
+    var B = function(a, b) {
+        if (!(this instanceof B))
+            throw Error("AES must be instanitated with `new`");
+        this.description = "Cipher Block Chaining",
+        this.name = "cbc";
+        if (!b)
+            b = e(16);
+        else if (b.length != 16)
+            throw new Error("invalid initialation vector size (must be 16 bytes)");
+        this._lastCipherblock = d(b, !0),
+        this._aes = new z(a)
+    };
+    B.prototype.encrypt = function(a) {
+        a = d(a);
+        if (a.length % 16 !== 0)
+            throw new Error("invalid plaintext size (must be multiple of 16 bytes)");
+        var b = e(a.length)
+          , c = e(16);
+        for (var g = 0; g < a.length; g += 16) {
+            f(a, c, 0, g, g + 16);
+            for (var h = 0; h < 16; h++)
+                c[h] ^= this._lastCipherblock[h];
+            this._lastCipherblock = this._aes.encrypt(c),
+            f(this._lastCipherblock, b, g)
+        }
+        return b
+    }
+    ,
+    B.prototype.decrypt = function(a) {
+        a = d(a);
+        if (a.length % 16 !== 0)
+            throw new Error("invalid ciphertext size (must be multiple of 16 bytes)");
+        var b = e(a.length)
+          , c = e(16);
+        for (var g = 0; g < a.length; g += 16) {
+            f(a, c, 0, g, g + 16),
+            c = this._aes.decrypt(c);
+            for (var h = 0; h < 16; h++)
+                b[g + h] = c[h] ^ this._lastCipherblock[h];
+            f(a, this._lastCipherblock, 0, g, g + 16)
+        }
+        return b
+    }
+    ;
+    var C = function(a, b, c) {
+        if (!(this instanceof C))
+            throw Error("AES must be instanitated with `new`");
+        this.description = "Cipher Feedback",
+        this.name = "cfb";
+        if (!b)
+            b = e(16);
+        else if (b.length != 16)
+            throw new Error("invalid initialation vector size (must be 16 size)");
+        c || (c = 1),
+        this.segmentSize = c,
+        this._shiftRegister = d(b, !0),
+        this._aes = new z(a)
+    };
+    C.prototype.encrypt = function(a) {
+        if (a.length % this.segmentSize != 0)
+            throw new Error("invalid plaintext size (must be segmentSize bytes)");
+        var b = d(a, !0), c;
+        for (var e = 0; e < b.length; e += this.segmentSize) {
+            c = this._aes.encrypt(this._shiftRegister);
+            for (var g = 0; g < this.segmentSize; g++)
+                b[e + g] ^= c[g];
+            f(this._shiftRegister, this._shiftRegister, 0, this.segmentSize),
+            f(b, this._shiftRegister, 16 - this.segmentSize, e, e + this.segmentSize)
+        }
+        return b
+    }
+    ,
+    C.prototype.decrypt = function(a) {
+        if (a.length % this.segmentSize != 0)
+            throw new Error("invalid ciphertext size (must be segmentSize bytes)");
+        var b = d(a, !0), c;
+        for (var e = 0; e < b.length; e += this.segmentSize) {
+            c = this._aes.encrypt(this._shiftRegister);
+            for (var g = 0; g < this.segmentSize; g++)
+                b[e + g] ^= c[g];
+            f(this._shiftRegister, this._shiftRegister, 0, this.segmentSize),
+            f(a, this._shiftRegister, 16 - this.segmentSize, e, e + this.segmentSize)
+        }
+        return b
+    }
+    ;
+    var D = function(a, b) {
+        if (!(this instanceof D))
+            throw Error("AES must be instanitated with `new`");
+        this.description = "Output Feedback",
+        this.name = "ofb";
+        if (!b)
+            b = e(16);
+        else if (b.length != 16)
+            throw new Error("invalid initialation vector size (must be 16 bytes)");
+        this._lastPrecipher = d(b, !0),
+        this._lastPrecipherIndex = 16,
+        this._aes = new z(a)
+    };
+    D.prototype.encrypt = function(a) {
+        var b = d(a, !0);
+        for (var c = 0; c < b.length; c++)
+            this._lastPrecipherIndex === 16 && (this._lastPrecipher = this._aes.encrypt(this._lastPrecipher),
+            this._lastPrecipherIndex = 0),
+            b[c] ^= this._lastPrecipher[this._lastPrecipherIndex++];
+        return b
+    }
+    ,
+    D.prototype.decrypt = D.prototype.encrypt;
+    var E = function(a) {
+        if (!(this instanceof E))
+            throw Error("Counter must be instanitated with `new`");
+        a !== 0 && !a && (a = 1),
+        typeof a == "number" ? (this._counter = e(16),
+        this.setValue(a)) : this.setBytes(a)
+    };
+    E.prototype.setValue = function(a) {
+        if (typeof a != "number" || parseInt(a) != a)
+            throw new Error("invalid counter value (must be an integer)");
+        for (var b = 15; b >= 0; --b)
+            this._counter[b] = a % 256,
+            a = a >> 8
+    }
+    ,
+    E.prototype.setBytes = function(a) {
+        a = d(a, !0);
+        if (a.length != 16)
+            throw new Error("invalid counter bytes size (must be 16 bytes)");
+        this._counter = a
+    }
+    ,
+    E.prototype.increment = function() {
+        for (var a = 15; a >= 0; a--)
+            if (this._counter[a] === 255)
+                this._counter[a] = 0;
+            else {
+                this._counter[a]++;
+                break
             }
-            encrypted[i] ^= this._remainingCounter[this._remainingCounterIndex++];
-        }
-
-        return encrypted;
     }
-
-    ModeOfOperationCTR.prototype.decrypt = ModeOfOperationCTR.prototype.encrypt;
-
-
-    function pkcs7pad(data) {
-        data = coerceArray(data, true);
-        var padder = 16 - (data.length % 16);
-        var result = createArray(data.length + padder);
-        copyArray(data, result);
-        for (var i = data.length; i < result.length; i++) {
-            result[i] = padder;
-        }
-        return result;
+    ;
+    var F = function(a, b) {
+        if (!(this instanceof F))
+            throw Error("AES must be instanitated with `new`");
+        this.description = "Counter",
+        this.name = "ctr",
+        b instanceof E || (b = new E(b)),
+        this._counter = b,
+        this._remainingCounter = null,
+        this._remainingCounterIndex = 16,
+        this._aes = new z(a)
+    };
+    F.prototype.encrypt = function(a) {
+        var b = d(a, !0);
+        for (var c = 0; c < b.length; c++)
+            this._remainingCounterIndex === 16 && (this._remainingCounter = this._aes.encrypt(this._counter._counter),
+            this._remainingCounterIndex = 0,
+            this._counter.increment()),
+            b[c] ^= this._remainingCounter[this._remainingCounterIndex++];
+        return b
     }
-
-    function pkcs7strip(data) {
-        data = coerceArray(data, true);
-        if (data.length < 16) { throw new Error('PKCS#7 invalid length'); }
-
-        var padder = data[data.length - 1];
-        if (padder > 16) { throw new Error('PKCS#7 padding byte out of range'); }
-
-        var length = data.length - padder;
-        for (var i = 0; i < padder; i++) {
-            if (data[length + i] !== padder) {
-                throw new Error('PKCS#7 invalid padding byte');
-            }
-        }
-
-        var result = createArray(length);
-        copyArray(data, result, 0, 0, length);
-        return result;
-    }
-
-
-    var aesjs = {
-        AES: AES,
-        Counter: Counter,
-
+    ,
+    F.prototype.decrypt = F.prototype.encrypt;
+    var I = {
+        AES: z,
+        Counter: E,
         ModeOfOperation: {
-            ecb: ModeOfOperationECB,
-            cbc: ModeOfOperationCBC,
-            cfb: ModeOfOperationCFB,
-            ofb: ModeOfOperationOFB,
-            ctr: ModeOfOperationCTR
+            ecb: A,
+            cbc: B,
+            cfb: C,
+            ofb: D,
+            ctr: F
         },
-
         utils: {
-            hex: convertHex,
-            utf8: convertUtf8
+            hex: h,
+            utf8: g
         },
-
         padding: {
             pkcs7: {
-                pad: pkcs7pad,
-                strip: pkcs7strip
+                pad: G,
+                strip: H
             }
         },
-
         _arrayTest: {
-            coerceArray: coerceArray,
-            createArray: createArray,
-            copyArray: copyArray,
+            coerceArray: d,
+            createArray: e,
+            copyArray: f
         }
     };
-
-    return {aesjs:aesjs};
-})(this);
+    return {
+        aesjs: I
+    }
+}(this);

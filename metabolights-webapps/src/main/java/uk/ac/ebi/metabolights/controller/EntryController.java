@@ -17,14 +17,19 @@
  *
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
-
 package uk.ac.ebi.metabolights.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import org.jose4j.jws.JsonWebSignature;
+import org.jose4j.lang.JoseException;
 import org.slf4j.Logger;
+import java.io.UnsupportedEncodingException;
+import java.security.Key;
+import org.jose4j.keys.HmacKey;
 import org.slf4j.LoggerFactory;
+import org.jose4j.jwt.JwtClaims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -51,389 +56,342 @@ import javax.servlet.http.HttpSession;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-/**
- * Controller for entry (=study) details.
- */
-@Controller
-public class EntryController extends AbstractController {
-
-
-    private static final String ALTERNATIVE_ENTRY_PREFIX = "";
-    private static Logger logger = LoggerFactory.getLogger(EntryController.class);
-    private
-    @Value("#{OrcidClaimServiceURL}")
-    String orcidServiceURL;
-    private
-    @Value("#{OrcidRetreiveClaimsURL}")
-    String orcidRetreiveClaimsServiceURL;
-    private static String wsUrl;
-    private final String DESCRIPTION = "descr";
-
-    @Autowired
-    private UserService userService;
-
-    public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
-    public static final String REVIEWER_OBFUSCATION_CODE_URL = "reviewer{obfuscationCode}";
-    private static MetabolightsWsClient metabolightsWsClient;
-
-    public static MetabolightsWsClient getMetabolightsWsClient(String instance) {
-        return null;
-    }
-
-    public enum PageActions {
-        READ,
-        EDIT
-    }
-
     /**
-     * To get the WS client...this is not the right place, should it be a service?
+     * Controller for entry (=study) details.
      */
-    public static MetabolightsWsClient getMetabolightsWsClient() {
-        return getMetabolightsWsClient(LoginController.getLoggedUser());
-    }
+    @Controller
+    public class EntryController extends AbstractController {
 
-    public static MetabolightsWsClient getMetabolightsWsClient(MetabolightsUser user) {
+        private static final String ALTERNATIVE_ENTRY_PREFIX = "";
+        private static Logger logger;
+        @Value("#{OrcidClaimServiceURL}")
+        private String orcidServiceURL;
+        @Value("#{OrcidRetreiveClaimsURL}")
+        private String orcidRetreiveClaimsServiceURL;
+        private static String wsUrl;
+        private final String DESCRIPTION = "descr";
+        @Autowired
+        private UserService userService;
+        public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
+        public static final String REVIEWER_OBFUSCATION_CODE_URL = "reviewer{obfuscationCode}";
+        private static MetabolightsWsClient metabolightsWsClient;
 
-        //compose the ws url..
-        String wsUrl = getWsPath();
-
-
-        // If the user is null use the Logged user
-        if (user == null) user = LoginController.getLoggedUser();
-
-        return getMetabolightsWsClient(user.getApiToken(), wsUrl);
-    }
-
-    public static MetabolightsWsClient getMetabolightsWsClient(String user_token, String wsUrl) {
-
-        MetabolightsWsClient wsClient = new MetabolightsWsClient(wsUrl);
-
-        // Use user token ...
-        wsClient.setUserToken(user_token);
-        return wsClient;
-    }
-
-
-    private static String getWsPath() {
-
-        if (wsUrl != null) return wsUrl;
-
-        String host = PropertiesUtil.getHost();
-
-        // Add the webservice part...
-        wsUrl = composeWSPath(host);
-
-        return wsUrl;
-
-    }
-
-    public static String composeWSPath(String host) {
-
-        return host + "webservice/";
-    }
-
-
-    @RequestMapping(value = "/" + ALTERNATIVE_ENTRY_PREFIX + REVIEWER_OBFUSCATION_CODE_URL + "/assay/{assayNumber}/maf")
-    public ModelAndView getAltReviewersMetabolitesIdentified(
-            @PathVariable("obfuscationCode") String obfuscationCode,
-            @PathVariable("assayNumber") int assayNumber) {
-
-        return getMetabolitesModelAndView(null, assayNumber, obfuscationCode);
-    }
-
-    @RequestMapping(value = "/" + ALTERNATIVE_ENTRY_PREFIX + "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP + "}/assay/{assayNumber}/maf")
-    public ModelAndView getAltMetabolitesIdentified(
-            @PathVariable("studyIdentifier") String studyIdentifier,
-            @PathVariable("assayNumber") int assayNumber) {
-
-        return getMetabolitesModelAndView(studyIdentifier, assayNumber, null);
-
-    }
-
-    private ModelAndView getMetabolitesModelAndView(String mtblsId, int assayNumber, String obfuscationCode) {
-
-        MetabolightsWsClient wsClient = getMetabolightsWsClient();
-
-
-        RestResponse<MetaboliteAssignment> response;
-
-        if (obfuscationCode == null) {
-            response = wsClient.getMetabolites(mtblsId, assayNumber);
-        } else {
-            response = wsClient.getMetabolitesByObfuscationCode(obfuscationCode, assayNumber);
+        public static MetabolightsWsClient getMetabolightsWsClient(final String instance) {
+            return null;
         }
 
-        MetaboliteAssignment metaboliteAssignment = response.getContent();
+        public static MetabolightsWsClient getMetabolightsWsClient() {
+            return getMetabolightsWsClient(LoginController.getLoggedUser());
+        }
 
-        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("metabolitesIdentified");
+        public static MetabolightsWsClient getMetabolightsWsClient(MetabolightsUser user) {
+            final String wsUrl = getWsPath();
+            if (user == null) {
+                user = LoginController.getLoggedUser();
+            }
+            return getMetabolightsWsClient(user.getApiToken(), wsUrl);
+        }
 
-        mav.addObject("metaboliteAssignment", metaboliteAssignment);
-        mav.addObject("assayNumber", assayNumber);
+        public static MetabolightsWsClient getMetabolightsWsClient(final String user_token, final String wsUrl) {
+            final MetabolightsWsClient wsClient = new MetabolightsWsClient(wsUrl);
+            wsClient.setUserToken(user_token);
+            return wsClient;
+        }
 
-        return mav;
-    }
+        public enum PageActions {
+            READ,
+            EDIT
+        }
 
-    @RequestMapping(value = {"/" + ALTERNATIVE_ENTRY_PREFIX + REVIEWER_OBFUSCATION_CODE_URL})
-    public ModelAndView showAltReviewerEntry(@PathVariable("obfuscationCode") String obfuscationCode) {
+        private static String getWsPath() {
+            if (EntryController.wsUrl != null) {
+                return EntryController.wsUrl;
+            }
+            final String host = PropertiesUtil.getHost();
+            return EntryController.wsUrl = composeWSPath(host);
+        }
 
+        public static String composeWSPath(final String host) {
+            return host + "webservice/";
+        }
 
-        return getWSEntryMAV(null, obfuscationCode, "study");
+        @RequestMapping({ "/reviewer{obfuscationCode}/assay/{assayNumber}/maf" })
+        public ModelAndView getAltReviewersMetabolitesIdentified(@PathVariable("obfuscationCode") final String obfuscationCode, @PathVariable("assayNumber") final int assayNumber) {
+            return this.getMetabolitesModelAndView(null, assayNumber, obfuscationCode);
+        }
 
-    }
+        @RequestMapping({ "/{studyIdentifier:(?:MTBLS|mtbls).+}/assay/{assayNumber}/maf" })
+        public ModelAndView getAltMetabolitesIdentified(@PathVariable("studyIdentifier") final String studyIdentifier, @PathVariable("assayNumber") final int assayNumber) {
+            return this.getMetabolitesModelAndView(studyIdentifier, assayNumber, null);
+        }
 
-    /**
-     * Display a different screen if the user is not logged in and trying to access a private study
-     *
-     * @param mtblsId
-     * @return
-     */
-    private ModelAndView notLoggedIn(String mtblsId) {
+        private ModelAndView getMetabolitesModelAndView(final String mtblsId, final int assayNumber, final String obfuscationCode) {
+            final MetabolightsWsClient wsClient = getMetabolightsWsClient();
+            RestResponse<MetaboliteAssignment> response;
+            if (obfuscationCode == null) {
+                response = (RestResponse<MetaboliteAssignment>)wsClient.getMetabolites(mtblsId, assayNumber);
+            }
+            else {
+                response = (RestResponse<MetaboliteAssignment>)wsClient.getMetabolitesByObfuscationCode(obfuscationCode, assayNumber);
+            }
+            final MetaboliteAssignment metaboliteAssignment = (MetaboliteAssignment)response.getContent();
+            final ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("metabolitesIdentified");
+            mav.addObject("metaboliteAssignment", (Object)metaboliteAssignment);
+            mav.addObject("assayNumber", (Object)assayNumber);
+            return mav;
+        }
 
-        /// The current user is not allowed to access the study...
-        // If there isn't a logged in user...
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth.getPrincipal().equals("anonymousUser")) {
-            // redirect force login...
-            return new ModelAndView("redirect:securedredirect?url=" + mtblsId);
+        @RequestMapping({ "/reviewer{obfuscationCode}" })
+        public ModelAndView showAltReviewerEntry(@PathVariable("obfuscationCode") final String obfuscationCode) {
+            final MetabolightsUser user = LoginController.getLoggedUser();
+            final MetabolightsWsClient wsClient = getMetabolightsWsClient(user);
+            final ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("study");
+            String studyId = null;
 
-            // The user is logged in but it's not authorised.
-        } else {
+            RestResponse<Study> response;
+            if (obfuscationCode != null) {
+                EntryController.logger.info("requested entry by obfuscation " + obfuscationCode);
+                response = (RestResponse<Study>) wsClient.getStudybyObfuscationCode(obfuscationCode);
+                studyId = ((Study)response.getContent()).getStudyIdentifier();
+
+                if (studyId == null) {
+                    return new ModelAndView("redirect:/index?message=Study can not be accessed or does not exist");
+                }
+            }
+
+            if(studyId != null){
+                mav.addObject("obfuscationCode", obfuscationCode);
+                mav.addObject("studyId", studyId);
+                return mav;
+            }
+
+            return new ModelAndView("redirect:/errors/500");
+        }
+
+        private ModelAndView notLoggedIn(final String mtblsId) {
+            final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (auth.getPrincipal().equals("anonymousUser")) {
+                return new ModelAndView("redirect:securedredirect?url=" + mtblsId);
+            }
             return new ModelAndView("redirect:/index?message=" + PropertyLookup.getMessage("msg.studyAccessRestricted") + " (" + mtblsId + ")");
         }
 
-    }
+        @RequestMapping({ "/{metabolightsId:(?:MTBLS|mtbls).+}", "/{metabolightsId:(?:MTBLS|mtbls).+}/{tabId}" })
+        private ModelAndView getStudyWSEntryMAV(@PathVariable("metabolightsId") String mtblsId, final HttpServletRequest request) {
+            final MetabolightsUser user = LoginController.getLoggedUser();
+            final MetabolightsWsClient wsClient = getMetabolightsWsClient(user);
+            mtblsId = mtblsId.toUpperCase();
+            boolean isOwner = false;
+            boolean isCurator = false;
+            final RestResponse<Study> response = (RestResponse<Study>)wsClient.getStudy(mtblsId);
+            if (mtblsId == null) {
+                if (user.getUserName().equals("anonymousUser".toLowerCase())) {
+                    return this.notLoggedIn("" + mtblsId);
+                }
+                if (response.getMessage().equalsIgnoreCase("Study not found")) {
+                    return new ModelAndView("redirect:/index?message=" + mtblsId + " can not be accessed or does not exist");
+                }
+                return new ModelAndView("redirect:/errors/500");
+            }
+            else {
+                final Study study = (Study)response.getContent();
+                if (study == null) {
+                    if (user.getUserName().equals("anonymousUser".toLowerCase())) {
+                        return this.notLoggedIn("" + mtblsId);
+                    }
+                    if (response.getMessage().equalsIgnoreCase("Study not found")) {
+                        return new ModelAndView("redirect:/index?message=" + mtblsId + " can not be accessed or does not exist");
+                    }
+                    return new ModelAndView("redirect:/errors/500");
+                }
+                else {
+                    if (study != null && !study.isPublicStudy() && user.getUserName().equals("anonymousUser".toLowerCase())) {
+                        return new ModelAndView("redirect:/securedredirect?url=" + mtblsId);
+                    }
+                    final ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("study");
+                    if (!user.getUserName().equals("anonymousUser".toLowerCase())) {
+                        final JwtClaims claims = new JwtClaims();
+                        claims.setSubject(user.getEmail());
+                        claims.setIssuer("Metabolights");
+                        claims.setAudience("Metabolights Labs");
+                        claims.setClaim("Name", (Object)user.getFullName());
+                        Key key = null;
+                        final String token = user.getApiToken();
+                        try {
+                            key = (Key)new HmacKey(token.getBytes("UTF-8"));
+                        }
+                        catch (UnsupportedEncodingException e) {
+                            return new ModelAndView("redirect:/errors/500");
+                        }
+                        final JsonWebSignature jws = new JsonWebSignature();
+                        jws.setPayload(claims.toJson());
+                        jws.setAlgorithmHeaderValue("HS256");
+                        jws.setKey(key);
+                        jws.setDoKeyValidation(false);
+                        String jwt = null;
+                        try {
+                            jwt = jws.getCompactSerialization();
+                        }
+                        catch (JoseException e2) {
+                            return new ModelAndView("redirect:/errors/500");
+                        }
 
 
-    @RequestMapping(value = {"/" + ALTERNATIVE_ENTRY_PREFIX + "{metabolightsId:" + METABOLIGHTS_ID_REG_EXP + "}"})
-    public ModelAndView showWSEntry(@PathVariable("metabolightsId") String mtblsId, HttpServletRequest request) {
-        return getWSEntryMAV(mtblsId, null, "study", request);
-    }
+                        if(doesUserOwnsStudy(study, user)){
+                            isOwner = true;
+                        }
+                        if(user.isCurator()){
+                            isCurator = true;
+                        }
 
-    @RequestMapping(value = {"beta/" + ALTERNATIVE_ENTRY_PREFIX + "{metabolightsId:" + METABOLIGHTS_ID_REG_EXP + "}"})
-    public ModelAndView showStudyBetaPage(@PathVariable("metabolightsId") String mtblsId, HttpServletRequest request) {
-        return getWSEntryMAV(mtblsId, null, "study", request);
-    }
-
-    private ModelAndView getWSEntryMAV(String mtblsId, String obfuscationCode, String view, HttpServletRequest request) {
-        ModelAndView modelAndView = getWSEntryMAV(mtblsId, obfuscationCode, view);
-        HttpSession httpSession = request.getSession();
-        httpSession.setAttribute("currentpage", mtblsId);
-        return modelAndView;
-    }
-
-    private ModelAndView getWSEntryMAV(String mtblsId, String obfuscationCode, String view) {
-
-        // Get the user
-        MetabolightsUser user = LoginController.getLoggedUser();
-
-        MetabolightsWsClient wsClient = getMetabolightsWsClient(user);
-
-
-        RestResponse<uk.ac.ebi.metabolights.repository.model.Study> response;
-
-        if (obfuscationCode == null) {
-
-            logger.info("requested entry " + mtblsId);
-
-            mtblsId = mtblsId.toUpperCase(); //This method maps to both MTBLS and mtbls, so make sure all further references are to MTBLS
-
-            response = wsClient.getStudy(mtblsId);
-        } else {
-
-            logger.info("requested entry by obfuscation " + obfuscationCode);
-
-            response = wsClient.getStudybyObfuscationCode(obfuscationCode);
+                        mav.addObject("isOwner", (Object)(isOwner));
+                        mav.addObject("isCurator", (Object)(isCurator));
+                        mav.addObject("jwt", (Object)jwt);
+                        mav.addObject("email", (Object)user.getEmail());
+                    }
+                    return mav;
+                }
+            }
         }
 
-        uk.ac.ebi.metabolights.repository.model.Study study = response.getContent();
+        private boolean doesUserOwnsStudy(Study study, MetabolightsUser user){
 
-
-        // In case of reviewer mode, the user will not be anonymous.
-        // Change: ws is not returning the study anymore if private it returns null and an error message/object
-        // For now I'm assuming if it's null == it's private. Bu we may want to check the error message instead.
-        if (study == null) {
-
-            if (user.getUserName().equals(LoginController.ANONYMOUS_USER.toLowerCase())) {
-                return notLoggedIn(ALTERNATIVE_ENTRY_PREFIX + mtblsId);
+            for (User owner : study.getUsers()) {
+                if (owner.getUserName().equals(user.getUserName())) {
+                    return true;
+                }
             }
 
-            // study is null because it couldn't be found by the WS
+            return false;
+        }
+
+
+        private ModelAndView getWSEntryMAV(final String mtblsId, final String obfuscationCode, final String view, final HttpServletRequest request) {
+            final ModelAndView modelAndView = this.getWSEntryMAV(mtblsId, obfuscationCode, view);
+            final HttpSession httpSession = request.getSession();
+            httpSession.setAttribute("currentpage", (Object)mtblsId);
+            return modelAndView;
+        }
+
+        private ModelAndView getWSEntryMAV(String mtblsId, final String obfuscationCode, final String view) {
+            final MetabolightsUser user = LoginController.getLoggedUser();
+            final MetabolightsWsClient wsClient = getMetabolightsWsClient(user);
+            RestResponse<Study> response;
+            if (obfuscationCode == null) {
+                EntryController.logger.info("requested entry " + mtblsId);
+                mtblsId = mtblsId.toUpperCase();
+                response = (RestResponse<Study>)wsClient.getStudy(mtblsId);
+            }
+            else {
+                EntryController.logger.info("requested entry by obfuscation " + obfuscationCode);
+                response = (RestResponse<Study>)wsClient.getStudybyObfuscationCode(obfuscationCode);
+            }
+            final Study study = (Study)response.getContent();
+            if (study != null) {
+                final ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(view);
+                mav.addObject("pageTitle", (Object)(study.getStudyIdentifier() + ":" + study.getTitle()));
+                mav.addObject("study", (Object)study);
+                if (obfuscationCode != null) {
+                    EntryController.logger.info("adding the parameter obfuscation code " + obfuscationCode);
+                    mav.addObject("obfuscationCode", (Object)obfuscationCode);
+                }
+                else {
+                    EntryController.logger.info("obfuscation code not found setting the parameter to null");
+                    mav.addObject("obfuscationCode", (Object)"null");
+                }
+                mav.addObject("liteStudy", (Object)wsClient.searchStudy(study.getStudyIdentifier()));
+                mav.addObject("studyStatuses", (Object)LiteStudy.StudyStatus.values());
+                final ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+                try {
+                    final String json = ow.writeValueAsString((Object)study.getValidations());
+                    mav.addObject("validationJson", (Object)json);
+                }
+                catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+                final FileDispatcherController fdController = new FileDispatcherController();
+                mav.addObject("files", (Object)fdController.getStudyFileList(study.getStudyIdentifier()));
+                if (study.getStudyStatus() == LiteStudy.StudyStatus.SUBMITTED && (user.isCurator() || user.getRole() == AppRole.ROLE_SUBMITTER.ordinal())) {
+                    mav.addObject("ftpFiles", (Object)fdController.getPrivateFtpFileList(study.getStudyIdentifier()));
+                    mav.addObject("hasPrivateFtpFolder", (Object)fdController.hasPrivateFtpFolder(study.getStudyIdentifier()));
+                }
+                if (user.isCurator()) {
+                    mav.addObject("curatorAPIToken", (Object)user.getApiToken());
+                }
+                if (user != null) {
+                    mav.addObject("editorToken", (Object)user.getApiToken());
+                }
+                final Calendar calendar = new GregorianCalendar();
+                calendar.setTime(study.getStudyPublicReleaseDate());
+                mav.addObject("releaseYear", (Object)calendar.get(1));
+                mav.addObject("userOrcidID", (Object)user.getOrcId());
+                mav.addObject("orcidServiceUrl", (Object)this.orcidServiceURL);
+                mav.addObject("orcidRetrieveClaimsServiceUrl", (Object)this.orcidRetreiveClaimsServiceURL);
+                mav.addObject("userHasEditRights", (Object)canEditQuickly(user, (LiteStudy)study));
+                return mav;
+            }
+            if (user.getUserName().equals("anonymousUser".toLowerCase())) {
+                return this.notLoggedIn("" + mtblsId);
+            }
             if (response.getMessage().equalsIgnoreCase("Study not found")) {
                 return new ModelAndView("redirect:/index?message=" + mtblsId + " can not be accessed or does not exist");
-                //return new ModelAndView("redirect:/errors/404");
             }
-
-            // study is null because any other reason
             return new ModelAndView("redirect:/errors/500");
-
         }
 
-        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(view);
-
-        mav.addObject("pageTitle", study.getStudyIdentifier() + ":" + study.getTitle());
-
-        mav.addObject("study", study);
-
-        if (obfuscationCode != null) {
-
-            logger.info("adding the parameter obfuscation code " + obfuscationCode);
-
-            mav.addObject("obfuscationCode", obfuscationCode);
-
-        } else {
-
-            logger.info("obfuscation code not found setting the parameter to null");
-
-            mav.addObject("obfuscationCode", "null");
-
+        public static boolean canUserEditStudy(final String study) {
+            return canUserDoThisToStudy(study, null, EntryController.PageActions.EDIT);
         }
 
-        mav.addObject("liteStudy", wsClient.searchStudy(study.getStudyIdentifier()));
-
-        mav.addObject("studyStatuses", LiteStudy.StudyStatus.values());
-
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        try {
-            String json = ow.writeValueAsString(study.getValidations());
-            mav.addObject("validationJson", json);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-
-        // Things that don't come from the web service:
-        FileDispatcherController fdController = new FileDispatcherController();
-
-        mav.addObject("files", fdController.getStudyFileList(study.getStudyIdentifier()));
-
-        // Applies only to studies with status SUBMITTED, when accessed by a user with roles CURATOR or SUBMITTER
-        if (study.getStudyStatus() == Study.StudyStatus.SUBMITTED && (user.isCurator() || user.getRole() == AppRole.ROLE_SUBMITTER.ordinal())) {
-            mav.addObject("ftpFiles", fdController.getPrivateFtpFileList(study.getStudyIdentifier()));
-            mav.addObject("hasPrivateFtpFolder", fdController.hasPrivateFtpFolder(study.getStudyIdentifier()));
-        }
-
-        if (user.isCurator()) {
-            mav.addObject("curatorAPIToken", user.getApiToken());
-        }
-        if (user != null) {
-            mav.addObject("editorToken", user.getApiToken());
-        }
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTime(study.getStudyPublicReleaseDate());
-        mav.addObject("releaseYear", calendar.get(Calendar.YEAR));
-        mav.addObject("userOrcidID", user.getOrcId());
-        mav.addObject("orcidServiceUrl", orcidServiceURL);
-        mav.addObject("orcidRetrieveClaimsServiceUrl", orcidRetreiveClaimsServiceURL);
-        mav.addObject("userHasEditRights", canEditQuickly(user, study));
-
-
-        return mav;
-    }
-
-    public static boolean canUserEditStudy(String study) {
-        return canUserDoThisToStudy(study, null, PageActions.EDIT);
-    }
-
-
-    /**
-     * @param studyId
-     * @param user
-     * @param action  - Actions could be "EDIT" or "READ"
-     * @return
-     */
-    public static boolean canUserDoThisToStudy(String studyId, MetabolightsUser user, PageActions action) {
-
-        // Get the user if not passsed
-        if (user == null) {
-
-            user = LoginController.getLoggedUser();
-        }
-
-        // Return true if curator: curators can do anything.
-        if (user.isCurator()) {
-            return true;
-        } else {
-
-            // Get the study
-            LiteStudy study = EntryController.getMetabolightsWsClient().searchStudy(studyId);
-
-            boolean userOwnstudy = doesUserOwnsTheStudy(user.getUserName(), study);
-
-            // If action READ
-            if (action == PageActions.READ) {
-
-                // If public...
-                if (study.isPublicStudy()) {
-                    // Allowed to any.
-                    return true;
-                } else {
-
-                    // Allowed to owner only.
-                    return userOwnstudy;
-                }
-                // Write action or null or whatever (more restrictive), just in case.
-            } else {
-
-                return userOwnstudy;
-
+        public static boolean canUserDoThisToStudy(final String studyId, MetabolightsUser user, final EntryController.PageActions action) {
+            if (user == null) {
+                user = LoginController.getLoggedUser();
             }
-        }
-    }
-
-    public static boolean doesUserOwnsTheStudy(String userName, LiteStudy study) {
-
-        for (User user : study.getUsers()) {
-            if (user.getUserName().equals(userName)) {
+            if (user.isCurator()) {
                 return true;
             }
+            final LiteStudy study = getMetabolightsWsClient().searchStudy(studyId);
+            final boolean userOwnstudy = doesUserOwnsTheStudy(user.getUserName(), study);
+            if (action == EntryController.PageActions.READ) {
+                return study.isPublicStudy() || userOwnstudy;
+            }
+            return userOwnstudy;
         }
 
-        return false;
-    }
-
-    public static boolean canEdit(MetabolightsUser user, LiteStudy study) {
-        if (user.isCurator()) {
-            return true;
-        } else {
-            return doesUserOwnsTheStudy(user.getUserName(), study);
-        }
-    }
-
-    /**
-     * @param studyId
-     * @return
-     */
-    public static boolean canUserQuicklyEditThisToStudy(String studyId) {
-
-
-        MetabolightsUser user = LoginController.getLoggedUser();
-
-        // Return true if curator: curators can do anything.
-        if (user.isCurator()) {
-            return true;
-        } else {
-
-            // Get the study
-            MetabolightsWsClient wsClient = getMetabolightsWsClient(user);
-            RestResponse<uk.ac.ebi.metabolights.repository.model.Study> response = wsClient.getStudy(studyId);
-            uk.ac.ebi.metabolights.repository.model.Study study = response.getContent();
-            return canEditQuickly(user, study);
-        }
-    }
-
-    public static boolean canEditQuickly(MetabolightsUser user, LiteStudy study) {
-        if (user.isCurator()) {
-            return true;
-        } else {
-            boolean userOwnstudy = doesUserOwnsTheStudy(user.getUserName(), study);
-            // Study is in Submitted status
-            if (userOwnstudy) {
-                if (study.getStudyStatus().equals(LiteStudy.StudyStatus.SUBMITTED)) {
-                    return userOwnstudy;
+        public static boolean doesUserOwnsTheStudy(final String userName, final LiteStudy study) {
+            for (final User user : study.getUsers()) {
+                if (user.getUserName().equals(userName)) {
+                    return true;
                 }
             }
+            return false;
         }
-        return false;
-    }
 
-}
+        public static boolean canEdit(final MetabolightsUser user, final LiteStudy study) {
+            return user.isCurator() || doesUserOwnsTheStudy(user.getUserName(), study);
+        }
+
+        public static boolean canUserQuicklyEditThisToStudy(final String studyId) {
+            final MetabolightsUser user = LoginController.getLoggedUser();
+            if (user.isCurator()) {
+                return true;
+            }
+            final MetabolightsWsClient wsClient = getMetabolightsWsClient(user);
+            final RestResponse<Study> response = (RestResponse<Study>)wsClient.getStudy(studyId);
+            final Study study = (Study)response.getContent();
+            return canEditQuickly(user, (LiteStudy)study);
+        }
+
+        public static boolean canEditQuickly(final MetabolightsUser user, final LiteStudy study) {
+            if (user.isCurator()) {
+                return true;
+            }
+            final boolean userOwnstudy = doesUserOwnsTheStudy(user.getUserName(), study);
+            return userOwnstudy && study.getStudyStatus().equals((Object)LiteStudy.StudyStatus.SUBMITTED) && userOwnstudy;
+        }
+
+        static {
+            EntryController.logger = LoggerFactory.getLogger((Class)EntryController.class);
+        }
+
+    }
