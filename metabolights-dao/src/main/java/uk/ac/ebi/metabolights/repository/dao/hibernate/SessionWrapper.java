@@ -24,6 +24,7 @@ import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.internal.SessionImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,17 +39,17 @@ import java.sql.SQLException;
  * Time: 14:02
  */
 public class SessionWrapper {
-	private SessionFactory factory;
-	private Session session;
-	private int sessionCount = 0;
-	public SessionWrapper(SessionFactory factory) {
-		this.factory = factory;
-	}
-	private static Logger logger = LoggerFactory.getLogger(SessionWrapper.class);
+    private SessionFactory factory;
+    private Session session;
+    private int sessionCount = 0;
+    public SessionWrapper(SessionFactory factory) {
+        this.factory = factory;
+    }
+    private static Logger logger = LoggerFactory.getLogger(SessionWrapper.class);
 
     public Session getSession() {
-        if (session == null)
-            session = factory.getCurrentSession();
+        logger.info("Session Wrapper - getCurrentSession - Get session from session factory ");
+        session = factory.getCurrentSession();
         return session;
     }
 
@@ -58,106 +59,50 @@ public class SessionWrapper {
 
     public Session needSession() {
 
-    	logger.info(" Getting the session");
-		// If we have a session ...
-		if (session != null){
-			logger.info("session is not null, get new database session");
-			/*boolean valid = false;
+        logger.info("needSession - Getting the session");
 
-			Connection connection = null;
-			try {
-				// but it's useless
-				connection = ((SessionImpl)session).connection();
-				valid = connection.isValid(1);
+        session = getSession();
 
-			} catch (SQLException e) {
-				logger.warn("Exception at connection.isInvalid() invocation: {}.", e.getMessage());
-			} catch (Exception e){
-				logger.warn("Cannot establish a connection with the current session: " + e.getMessage());
+        logger.info("Session Wrapper -  returning session");
+        return session;
 
-			} finally {
-				if (!valid){
-					logger.warn("Invalid connection. Resetting the session.");
-					sessionCount = 0;
-					session = null;
-				}
-			}*/
 
-		}
+    }
 
-		// If empty..
-		if (session == null) {
-			logger.info("session is  null, get new database session");
-			session = getSession();
+    public void noNeedSession() {
 
-			/*if (session.isOpen()) {
-				session.beginTransaction();
-				logger.debug("Starting a new Hibernate session in SessionWrapper");
-			}
-			else {
-				logger.error("Could not get a session from the Hibernate SessionFactory");
-			}*/
+        logger.info("Session Wrapper - noNeedSession - closing the txn");
 
-		}
 
-		//sessionCount++;
+    }
+    public Query createQuery(String query){
 
-		//logger.debug("Session count incremented to {}", sessionCount);
-		return session;
+        return session.createQuery(query);
+    }
 
-		logger.info(" returning session");
+    public void delete(DataModel dataModel) {
+        session.delete(dataModel);
+    }
 
-	}
+    public void saveOrUpdate(DataModel datamodel) {
+        session.saveOrUpdate(datamodel);
+    }
+    public void save(DataModel datamodel) {
+        session.save(datamodel);
+    }
 
-	public void noNeedSession() {
+    public Object get(Class dataModelclass, Long id) {
+        return session.get(dataModelclass,id);
+    }
 
-	/*	if (sessionCount <= 0) logger.debug("Wrong session count at noNeedSession: {}", sessionCount);
+    public SQLQuery createSQLQuery(String SQLQuery) {
+        return session.createSQLQuery(SQLQuery);
+    }
 
-		// Decrease the count
-		sessionCount--;
 
-		logger.debug("Session count decremented to {}", sessionCount);
+    public Transaction startTxn() {
 
-		// If 0 close it
-		if (sessionCount == 0) {
-			logger.debug("sessionCount is 0, try to commit and close the Hibernate session");
-
-			try {
-                if (session.isOpen()) {
-                    logger.debug("Session is open but no longer required, trying to commit and close");
-                    session.getTransaction().commit();
-                    session.close();
-                    session = null;
-                } else {
-                    logger.error("ERROR: Trying to close a Hibernate session, but the session is not open");
-                }
-            } catch (Exception e) {
-                logger.error("ERROR: Trying to use a Hibernate session, but the session is not open. " + e.getMessage());
-            }
-		}*/
-
-	}
-	public Query createQuery(String query){
-
-		return session.createQuery(query);
-	}
-
-	public void delete(DataModel dataModel) {
-		session.delete(dataModel);
-	}
-
-	public void saveOrUpdate(DataModel datamodel) {
-		session.saveOrUpdate(datamodel);
-	}
-	public void save(DataModel datamodel) {
-		session.save(datamodel);
-	}
-
-	public Object get(Class dataModelclass, Long id) {
-		return session.get(dataModelclass,id);
-	}
-
-	public SQLQuery createSQLQuery(String SQLQuery) {
-		return session.createSQLQuery(SQLQuery);
-	}
+        Transaction tx = this.session.beginTransaction();
+        return tx;
+    }
 }

@@ -58,8 +58,6 @@ public class HibernateUtil {
 
 		Configuration configuration = new Configuration();
 		configuration.setProperty("hibernate.connection.datasource", JNDIDataSource);
-
-
 		initializePrivate(configuration);
 
 
@@ -69,11 +67,13 @@ public class HibernateUtil {
 
 		logger.info("Initializing HibernateSession util form a DataSource instance." );
 
+
 		Configuration configuration = new Configuration();
 
 		// this is how to configure hibernate datasource
 		configuration.getProperties().put(Environment.DATASOURCE, dataSource);
 
+		configuration.setProperty("hibernate.current_session_context_class", "thread");
 		initializePrivate(configuration);
 
 	}
@@ -88,6 +88,8 @@ public class HibernateUtil {
 
 		// Get the session factory
 		factory = configuration.buildSessionFactory(sr);
+
+
 	}
 
 
@@ -103,10 +105,13 @@ public class HibernateUtil {
 	// Add entities to be handle by hibernate
 	private static void addEntities(Configuration configuration) {
 
+
+		configuration.setProperty("hibernate.current_session_context_class", "thread");
 		// Add Entities here
 		configuration.addAnnotatedClass(StudyData.class);
 		configuration.addAnnotatedClass(UserData.class);
 		configuration.addAnnotatedClass(StableId.class);
+
 	}
 
 	public static SessionWrapper getSession(){
