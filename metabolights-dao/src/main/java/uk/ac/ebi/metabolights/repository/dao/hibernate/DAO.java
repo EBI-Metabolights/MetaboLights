@@ -174,9 +174,8 @@ public abstract class DAO<BusinessEntity,dataModel extends DataModel> {
 			logger.info("Closing the session");
 			session.noNeedSession();
 			logger.info("getList - returning from function");
-			return null;
-
 		}
+		return value;
 	}
 
 	public void save(BusinessEntity bussinessEntity ) throws DAOException {
