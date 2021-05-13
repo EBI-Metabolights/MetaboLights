@@ -86,11 +86,10 @@
                     <small><a target="_blank" href="https://www.ebi.ac.uk/about/people/claire-odonovan">More about us</a></small>
                 </p>
                 <br>
-                <a class="more" href="https://www.ebi.ac.uk/training/online/course/metabolights-quick-tour-0">Quick tour</a>
+                <a class="more" target="_blank" href="https://www.ebi.ac.uk/training/online/course/metabolights-quick-tour-0">Quick tour</a>
                 <div>&nbsp;</div>
             </div>
         </div>
-        <br>
         <div class="row col">
             <div class="col-md-4">
                 <div class="panel nbr panel-primary">
@@ -103,8 +102,8 @@
                         <ul>
                             <li class="vc vh50"><a href="studies"><b>Browse</b></a></li>
                             <li class="vc vh50"><a href="advancedsearch"><b>ORCID search</b></a></li>
-                            <li class="vc vh50"><a><b>MetaboLights Labs</b>
-                                <br>&nbsp;<span class="label label-warning">Coming soon</span></a></li>
+                            <%--<li class="vc vh50"><a><b>MetaboLights Labs</b>--%>
+                                <%--<br>&nbsp;<span class="label label-warning">Coming soon</span></a></li>--%>
                         </ul>
                     </div>
                 </div>
@@ -135,13 +134,20 @@
                     <div class="custom-footer text-center">
                         <ul>
                             <%--<li><a href="https://www.ebi.ac.uk/training/online/about-train-online"><b>Webinar</b></a></li>--%>
-                            <li class="vc vh50"><a href="https://www.ebi.ac.uk/training/online/topic/metabolomics"><b>Training online</b></a></li>
-                            <li class="vc vh50"><a href="https://www.ebi.ac.uk/training/online/course/metabolights-quick-tour-0" target="_blank"><b>Quick tour</b></a></li>
+                            <li class="vc vh50"><a target="_blank" href="https://www.ebi.ac.uk/training/online/topic/metabolomics"><b>Metabolomics Train online</b></a></li>
+                            <li class="vc vh50"><a target="_blank" href="https://www.ebi.ac.uk/training/online/course/metabolights-quick-tour-0" target="_blank"><b>MetaboLights Quick tour</b></a></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
+            <div class="row">
+                <div style="height: 80px;" class="col-md-6 col-md-offset-3 text-center vc vh100">
+                    <a style="width: 90%; padding: 20px" class="btn btn-lg btn-primary" id="redirectToMyStudiesPage">
+                        &emsp;Submit to MetaboLights&emsp;
+                    </a>
+                </div>
+            </div>
     </div>
     <div class="col-md-3">
         <div class="panel nbr panel-default">
@@ -152,21 +158,67 @@
                 </div>
             </div>
         </div>
-        <div class="panel nbr panel-primary">
-            <div class="panel-heading nbtr">
-                Submit to MetaboLights
-            </div>
-            <div class="panel-body">
-                <a href="presubmit" class="more"><b>Upload Study</b></a>
-                <%--<div class="row">--%>
-                    <%--<hr>--%>
-                <%--</div>--%>
-                <%--Upload reference spectra to MetaboLights - Compounds Reference Library<br><a href="#" class="more">more</a>--%>
+        <%--<div class="panel nbr panel-primary">--%>
+            <%--<div class="panel-heading nbtr">--%>
+                <%--Submit to MetaboLights--%>
+            <%--</div>--%>
+            <%--<div class="panel-body">--%>
+                <%--<a href="presubmit" class="more"><b>Upload Study</b></a>--%>
+                <%--&lt;%&ndash;<div class="row">&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;<hr>&ndash;%&gt;--%>
+                <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
+                <%--&lt;%&ndash;Upload reference spectra to MetaboLights - Compounds Reference Library<br><a href="#" class="more">more</a>&ndash;%&gt;--%>
+            <%--</div>--%>
+        <%--</div>--%>
+    </div>
+</div>
+<br/>
+<br/>
+<br/>
+<div class="col-md-12">
+    <div class="row col" style="border: 1px solid #d1d9d6; border-radius: 0px; padding:15px 0px;">
+        <div id="support-journals" href="#publishers">
+            <div class="col-md-12">
+                <p><spring:message code="msg.metaboLightsAbout17"/></p><br>
+                <div>
+                    <div class="col-md-2 vc" style="padding: 0">
+                        <a class="noLine" href="http://www.nature.com/sdata/policies/repositories"><img src="img/support-journals/scientificData.png" class="img-responsive" style="width: 100%; height: auto" alt="Nature Scientific Data"/></a>
+                    </div>
+                    <div class="col-md-2 vc" style="padding: 0">
+                        <a class="noLine" href="https://www.biomedcentral.com/"><img src="img/support-journals/biomedCentral.png" class="img-responsive" style="width: 100%; height: auto" alt="BioMed Central"/></a>
+                    </div>
+                    <div class="col-md-2 vc" style="padding: 0">
+                        <a class="noLine" href="http://journals.plos.org/plosbiology/s/data-availability#loc-recommended-repositories"><img src="img/support-journals/Plos-biology.png" class="img-responsive" style="width: 100%; height: auto" alt="PLOS Biology"/></a>
+                    </div>
+                    <div class="col-md-2 vc" style="padding: 0">
+                        <a class="noLine" href="http://msb.embopress.org/authorguide#datadeposition"><img src="img/support-journals/EMBO-press.png" class="img-responsive" style="width: 100%; height: auto" alt="EMBO press"/></a>
+                    </div>
+                    <div class="col-md-2 vc" style="padding: 0">
+                        <a class="noLine" href="https://f1000research.com/for-authors/data-guidelines"><img src="img/support-journals/F1000-research.png" class="img-responsive" style="width: 100%; height: auto" alt="F1000 Research"/></a>
+                    </div>
+                    <div class="col-md-2 vc" style="padding: 0">
+                        <a class="noLine" href="http://link.springer.com/journal/11306"><img src="img/support-journals/metabolomics.png" class="img-responsive" style="width: 100%; height: auto" alt="Springer Link - Metabolomics"/></a>
+                    </div>
+                    <div class="col-md-2 vc" style="padding: 0">
+                        <a class="noLine" href="http://journal.frontiersin.org/journal/molecular-biosciences/section/metabolomics#author-guidelines"><img src="img/support-journals/frontiers.png" class="img-responsive" style="width: 100%; height: auto" alt="Frontiers"/></a>
+                    </div>
+                    <div class="col-md-2 vc" style="padding: 0">
+                        <a class="noLine" href="http://www.mdpi.com/journal/metabolites/instructions#suppmaterials"><img src="img/support-journals/metabolites.png" class="img-responsive" style="width: 100%; height: auto" alt="Metabolites"/></a>
+                    </div>
+                    <div class="col-md-2 vc" style="padding: 0">
+                        <a class="noLine" href="http://www.mdpi.com/journal/data/instructions#suppmaterials"><img src="img/support-journals/data.png" class="img-responsive" style="width: 100%; height: auto" alt="data"/></a>
+                    </div>
+                    <div class="col-md-2 vc" style="padding: 0">
+                        <a class="noLine" href="https://wellcomeopenresearch.org/for-authors/data-guidelines"><img src="img/support-journals/wellcome.png" class="img-responsive" style="width: 100%; height: auto" alt="Wellcome Trust Open Research"/></a>
+                    </div>
+                </div>
+                <div class="clearfix">&nbsp;</div>
+                <div class="clearfix">&nbsp;</div>
+                <p><spring:message code="msg.metaboLightsAbout18"/></p>
             </div>
         </div>
     </div>
 </div>
-
 <c:if test="${not empty message}">
     <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModal">
         <div class="modal-dialog" role="document">
@@ -188,8 +240,27 @@
     </div>
 </c:if>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
 <script>
     $(function() {
         $('#messageModal').modal('show');
+    });
+
+    $(document).ready(function () {
+        $('#redirectToMyStudiesPage').click(function(){
+            var editorToken = "${editorToken}";
+            if(editorToken != null && editorToken != ''){
+                localStorage.setItem("user", editorToken);
+                axios.post("webservice/labs/authenticateToken", { "token" : editorToken }).then(response => {
+                    axios.post("webservice/labs-workspace/initialise", { "jwt" : response.headers.jwt, "user" : response.headers.user }).then( res => {
+                        localStorage.setItem('user', JSON.stringify(JSON.parse(res.data.content).owner));
+                        window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+                    })
+                });
+            }else{
+                localStorage.removeItem("user")
+                window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+            }
+        })
     });
 </script>

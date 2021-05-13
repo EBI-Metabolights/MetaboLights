@@ -100,14 +100,13 @@
         }
     }
 </style>
-<link rel="stylesheet" href="editor/styles.976ced94462eb20cd356.css">
+<link rel="stylesheet" href="editor/styles.a3654925faf5fd28b84d.css">
 <noscript>
     <strong>
         We're sorry but MetaboLights online submission and editor tool doesn't work properly without JavaScript enabled. Please enable it to continue.
     </strong>
 </noscript>
 <app-root mtblsid="${studyId}" obfuscationcode="${obfuscationCode}" mtblsUser="${email}" isOwner="${isOwner}" isCurator="${isCurator}" mtblsJWT="${jwt}">
-    LOADING
     <div class="app-loading">
         <div class="logo"></div>
         <svg class="spinner" viewBox="25 25 50 50">
@@ -115,4 +114,4 @@
         </svg>
     </div>
 </app-root>
-<script src="editor/runtime.9da128aef07d7d602f3e.js" defer></script><script src="editor/polyfills-es5.bacecca6ea742ffb8b7e.js" nomodule defer></script><script src="editor/polyfills.b31ebcbc0300a6fda08a.js" defer></script><script src="editor/main.524e1b41ab99c8946ffd.js" defer></script>
+<script src="editor/runtime.359d5ee4682f20e936e9.js" defer></script><script src="editor/polyfills-es5.12def16567076729e0cb.js" nomodule defer></script><script src="editor/polyfills.c486699dfb727ed35554.js" defer></script><script src="editor/main.76bc04c7aa8f7ec3bfba.js" defer></script>

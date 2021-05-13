@@ -149,7 +149,7 @@
                                 <li><a href="/metabolights/species">Browse Species</a></li>
                                 <%--<li><a href="/metabolights/analysis">Analysis</a></li>--%>
                                 <li><a href="/metabolights/download">Download</a></li>
-                                <li><a href="/metabolights/help">Help</a></li>
+                                <li><a href="/metabolights/guides">Help</a></li>
                                 <li><a href="/metabolights/contact">Give us feedback</a></li>
                                 <li><a href="/metabolights/about">About</a></li>
                                     </ul>
@@ -169,7 +169,7 @@
                                       <ul class="dropdown-menu">
                                         <%--<li><a href="/metabolights/analysis">Analysis</a></li>--%>
                                         <li><a href="/metabolights/download">Download</a></li>
-                                        <li><a href="/metabolights/help">Help</a></li>
+                                        <li><a href="/metabolights/guides">Help</a></li>
                                         <li><a href="/metabolights/contact">Give us feedback</a></li>
                                         <li><a href="/metabolights/about">About</a></li>
                                       </ul>

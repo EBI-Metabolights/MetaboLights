@@ -70,11 +70,9 @@ public class SessionWrapper {
     }
 
     public void noNeedSession() {
-
         logger.info("Session Wrapper - noNeedSession - closing the txn");
-
-
     }
+
     public Query createQuery(String query){
 
         return session.createQuery(query);
@@ -101,7 +99,6 @@ public class SessionWrapper {
 
 
     public Transaction startTxn() {
-
         Transaction tx = this.session.beginTransaction();
         return tx;
     }

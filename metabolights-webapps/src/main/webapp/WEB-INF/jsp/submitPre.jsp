@@ -70,7 +70,7 @@
                                 <span><small><spring:message code="label.updateOldStudySub"/></small></span>
                                 </p>
                                 <br>
-                                <a href="mysubmissions?status=PRIVATE" class="btn btn-primary">
+                                <a id="redirectToMyStudiesPage" class="btn btn-primary">
                                     Update now
                                 </a>
                             </div>
@@ -89,6 +89,22 @@
 <script>
     $(document).ready(function () {
         $('#redirectToEditorPage').click(function(){
+            var editorToken = "${editorToken}";
+            if(editorToken != null && editorToken != ''){
+                localStorage.setItem("user", editorToken);
+                axios.post("webservice/labs/authenticateToken", { "token" : editorToken }).then(response => {
+                    axios.post("webservice/labs-workspace/initialise", { "jwt" : response.headers.jwt, "user" : response.headers.user }).then( res => {
+                        localStorage.setItem('user', JSON.stringify(JSON.parse(res.data.content).owner));
+                        window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+                    })
+                });
+            }else{
+                localStorage.removeItem("user")
+                window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+            }
+        })
+
+        $('#redirectToMyStudiesPage').click(function(){
             var editorToken = "${editorToken}";
             if(editorToken != null && editorToken != ''){
                 localStorage.setItem("user", editorToken);

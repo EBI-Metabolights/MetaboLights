@@ -131,12 +131,12 @@
         <repository>
             <id>codehaus-mule-repo</id>
             <name>codehaus-mule-repo</name>
-            <url>http://repository-master.mulesoft.org/nexus/content/groups/public/</url>
+            <url>https://repository-master.mulesoft.org/nexus/content/groups/public/</url>
             <layout>default</layout>
         </repository>
         <repository>
             <id>nexus-ebi-release-repo</id>
-            <url>http://www.ebi.ac.uk/Tools/maven/repos/content/groups/ebi-repo/</url>
+            <url>https://www.ebi.ac.uk/Tools/maven/repos/content/groups/ebi-repo/</url>
         </repository>
         <repository>
             <id>stax-ex-fix</id>
@@ -147,20 +147,20 @@
         <repository>
             <id>limpopo-repo</id>
             <name>Limpopo Mini-SF Repository</name>
-            <url>http://limpopo.sourceforge.net/maven/repo</url>
+            <url>https://limpopo.sourceforge.net/maven/repo</url>
         </repository>
         <repository>
             <id>wso2</id>
-            <url>http://dist.wso2.org/maven2/</url>
+            <url>https://dist.wso2.org/maven2/</url>
         </repository>
         <repository>
             <id>springsource-repo</id>
             <name>SpringSource Repository</name>
-            <url>http://repo.springsource.org/release</url>
+            <url>https://repo.springsource.org/release</url>
         </repository>
         <repository>
             <id>Springframework milestone</id>
-            <url>http://maven.springframework.org/milestone</url>
+            <url>https://maven.springframework.org/milestone</url>
         </repository>
         <repository>
             <id>JBoss Public Maven Repository Group</id>

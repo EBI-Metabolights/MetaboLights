@@ -147,14 +147,17 @@ import java.util.GregorianCalendar;
             final MetabolightsWsClient wsClient = getMetabolightsWsClient(user);
             final ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("study");
             String studyId = null;
-
+            Study study = null;
             RestResponse<Study> response;
             if (obfuscationCode != null) {
                 EntryController.logger.info("requested entry by obfuscation " + obfuscationCode);
                 response = (RestResponse<Study>) wsClient.getStudybyObfuscationCode(obfuscationCode);
-                studyId = ((Study)response.getContent()).getStudyIdentifier();
 
-                if (studyId == null) {
+                study = (Study)response.getContent();
+
+                studyId = study.getStudyIdentifier();
+
+                if (studyId == null || study.getStudyStatus() != Study.StudyStatus.INREVIEW) {
                     return new ModelAndView("redirect:/index?message=Study can not be accessed or does not exist");
                 }
             }

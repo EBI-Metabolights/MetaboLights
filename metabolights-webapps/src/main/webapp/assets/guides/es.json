@@ -1,0 +1,523 @@
+{
+    "created_at": "",
+    "updated_at": "",
+    "data": {
+        "quick_start": {
+            "create_account": {
+                "title": "Create account",
+                "sort_order": 0,
+                "description": "",
+                "sections": [
+                    {
+                        "title": "",
+                        "content": "To submit a study to MetaboLights you will need 2 thing<br/>1) To create an account with MetaboLights www.ebi.ac.uk/metabolights/login<br/>2) Raw data (eg. spectral files produced by the instrument used for analysis or an open source version). This does not need to be added straight away but will be required to be uploaded to publish the study.",
+                        "img": [
+                            {
+                                "url": "create_account.jpg",
+                                "description": ""
+                            },
+                            {
+                                "url": "login.jpg",
+                                "description": ""
+                            }
+                        ],
+                        "video": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            "create_study": {
+                "title": "Create Study",
+                "sort_order": 1,
+                "description": "",
+                "sections": [
+                    {
+                        "title": "",
+                        "content": "Select Submit study to create a new study (or edit an existing study).<br/>Recommended: Use the Create online option for a step-by-step guide to creating your study.<br/>NB. the accession number assigned to your study MTBLSxxx will be the permanent identifier, please use this in manuscripts. <br/>For journal editor reviewer link see information below.",
+                        "img": [
+                            {
+                                "url": "create_study.jpg",
+                                "description": ""
+                            }
+                        ],
+                        "video": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            "edit_study": {
+                "title": "Edit Study",
+                "sort_order": 2,
+                "description": "",
+                "sections": [
+                    {
+                        "title": "",
+                        "content": "Once the initial study has been created you can use the online editor option to view and make further changes. Access through My Studies page.<br/>NB. You can give collaborators edit rights to the study. They should create a MetaboLights account and then you should contact us with their details.",
+                        "img": [
+                            {
+                                "url": "edit_study.jpg",
+                                "description": ""
+                            }
+                        ],
+                        "video": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            "validation": {
+                "title": "Study Validation",
+                "sort_order": 2,
+                "description": "",
+                "sections": [
+                    {
+                        "title": "",
+                        "content": "To progress the study to the next stage any validation errors must be resolved. Validation errors are evident in the information bar at the top of the study (if nothing is displayed the study has passed validation). Further information is available in the Study Validations tab.",
+                        "img": [
+                            {
+                                "url": "study_validation.jpg",
+                                "description": ""
+                            }
+                        ],
+                        "video": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            "curation": {
+                "title": "Study Curation Process",
+                "sort_order": 2,
+                "description": "",
+                "sections": [
+                    {
+                        "title": "",
+                        "content": "Once complete and the study successfully validates, select Status and change to curation to move the study into the queue. You will no longer be able to directly edit your study, please contact MetaboLights help if you need to make further amendments.<br/>NB. curation process will take a minimum of 4 weeks.",
+                        "img": [
+                            {
+                                "url": "study_curation.jpg",
+                                "description": ""
+                            }
+                        ],
+                        "video": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            "review": {
+                "title": "Study Curation Process",
+                "sort_order": 2,
+                "description": "",
+                "sections": [
+                    {
+                        "title": "",
+                        "content": "Once complete and the study successfully validates, select Status and change to curation to move the study into the queue. You will no longer be able to directly edit your study, please contact MetaboLights help if you need to make further amendments.<br/>NB. curation process will take a minimum of 4 weeks.",
+                        "img": [
+                            {
+                                "url": "study_curation.jpg",
+                                "description": ""
+                            }
+                        ],
+                        "video": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Review status",
+                        "content": "Following successful curation, the status will be updated to Review and a private link will be available on your study page for you to share with journal editors, collaborators etc if required.",
+                        "img": [
+                            {
+                                "url": "study_curation.jpg",
+                                "description": ""
+                            }
+                        ],
+                        "video": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            "publication": {
+                "title": "Publication",
+                "sort_order": 2,
+                "description": "",
+                "sections": [
+                    {
+                        "title": "",
+                        "content": "A study will be published once the release date is reached. You can update this at any stage by contacting us directly metabolights-help@ebi.ac.uk",
+                        "img": [
+                            {
+                                "url": "study_publication.jpg",
+                                "description": ""
+                            }
+                        ],
+                        "video": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "account": {
+            "create": {
+                "title": "Create account",
+                "sort_order": 0,
+                "description": "To submit a study to MetaboLights you must first create an account to associate the  study. Use the following link or select Log in  on the MetaboLights website.",
+                "sections": [
+                    {
+                        "content": " Your email address will be your user name. Please contact us directly  if you need to update this at any time.",
+                        "img": [
+                            {
+                                "url": "create_account.jpg",
+                                "description": ""
+                            }
+                        ],
+                        "video": []
+                    },
+                    {
+                        "content": " Your email address will be your user name. Please contact us directly  if you need to update this at any time.",
+                        "img": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ],
+                        "video": []
+                    }
+                ]
+            },
+            "password_rest": {
+                "title": "",
+                "sort_order": 0,
+                "description": "",
+                "sections": [
+                    {
+                        "content": "",
+                        "img": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ],
+                        "video": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            "update_email": {
+                "title": "",
+                "sort_order": 0,
+                "description": "",
+                "sections": [
+                    {
+                        "content": "",
+                        "img": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ],
+                        "video": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            "orcid": {
+                "title": "ORCID",
+                "sort_order": 0,
+                "description": "When creating your MetaboLights account you can include your ORCID ID allowing you to claim your data submissions in your research achievements.",
+                "sections": [
+                    {
+                        "content": "What is ORCID?",
+                        "img": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ],
+                        "video": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            "roles": {
+                "title": "Submitters & authors",
+                "sort_order": 0,
+                "description": "",
+                "sections": [
+                    {
+                        "content": "The submitter is the person who creates the study. They will be able to directly view & edit the study during the submission process and all correspondence will be directly to them. They will also be the main contact once the study is public.<br/>Authors are added as for a manuscript etc but will not have edit or private access to the study. If you would like edit rights to be given to collaborators they will also need to create an account. The submitter can then contact us to ask for them to be added to the study. Group or project email addresses can be used to allow shared access to edit a study and link studies more readily.",
+                        "img": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ],
+                        "video": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "study": {
+            "overview": {
+                "title": "MetaboLights study content overview",
+                "sort_order": 0,
+                "description": "",
+                "sections": [
+                    {
+                        "title": "What to include in a study?",
+                        "content": "When you create a study the Guided submission process will take you through the setup step-by-step. It will guide you through raw and sample data upload, creating assays and provide you with controlled vocabulary/ontology options in relevant fields. If you don’t have all the information to hand, don’t worry! You can access and edit your entire study at any time when in submission from your My Studies page.<br/>Each MetaboLights study has 4 main sections, study description overview, sample, assay and metabolite information. The basic details for each are given below.",
+                        "img": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ],
+                        "video": []
+                    },
+                    {
+                        "title": "Study description (i_MTBLSxxx.txt)",
+                        "content": "The study description should easily inform the reader about the study content and contacts.",
+                        "img": [
+                            {
+                                "url": "",
+                                "description": "(a) Study identifier & title (b) Author information (c) Abstract (d) Publication link (e) Keywords(f) Protocol text"
+                            }
+                        ],
+                        "video": []
+                    },
+                    {
+                        "title": "Sample information (s_MTBLSxxx.txt)",
+                        "content": "The sample information should provide all relevant facts about each sample and any controls / standards included in the study. There is ONE sample sheet per study. <br/>Sample name<br/> Sample metadata required information (eg. Organism, Organism part and Sample type ie. control, QC, experimental sample) Further sample descriptors (Choose +Factor option to include eg. Gender, Age, Treatment)",
+                        "img": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ],
+                        "video": []
+                    },
+                    {
+                        "title": "Assay information (a_MTBLSxxx.txt)",
+                        "content": "The assay information will describe the assay process for each control and sample in the assay and connect the sample name to both its corresponding raw data file and metabolite identification table. MULTIPLE assays can be added per study.",
+                        "img": [
+                            {
+                                "url": "",
+                                "description": "The assay is divided into sections each starting with a Protocol Ref column, eg. Chromatography, which describes the specifics of that part of the assay using controlled vocabulary, so every study using the same system is easily findable."
+                            }
+                        ],
+                        "video": []
+                    },
+                    {
+                        "title": "Metabolite information (m_MTBLSxxx.tsv)",
+                        "content": "The metabolite information should include all metabolites / features identified within the study. EACH assay has a corresponding Metabolite table. If results are cumulative of multiple assays, use the Metabolite assignment file column in the assay table to point all assays to the same metabolite information.<br/>Metabolite identification <br/>Metabolite name or unknown<br/>ChEBI or other database identifier if available. All metabolite names and/or database identifiers will be searched during the curation process & formula / smiles / InChI updated inline with the ChEBI ontology entry to standardise metabolite references.<br/>Study specific metabolite information<br/>Depending on the assay type this might include retention time, m/z, charge, chemical shift and also the confidence of the metabolite identification inline with MSI standards*<br/><br/>Results per sample for each metabolite",
+                        "img": [
+                            {
+                                "url": "",
+                                "description": " Overview current adopted metabolite standards (Schmanski EL et al. 2014)"
+                            }
+                        ],
+                        "video": []
+                    }
+                ]
+            },
+            "submission": {
+                "title": "Submission stages",
+                "sort_order": 0,
+                "description": "",
+                "sections": [
+                    {
+                        "title": "Submission",
+                        "content": "Study is private to the submitter(s) and MetaboLights team. Submitter(s) can edit study. To add submitters with edit access please contact us. Submitters must update study status to Curation to add their study to the curation queue. To do so study must successfully validate.",
+                        "img": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ],
+                        "video": []
+                    },
+                    {
+                        "title": "Curation",
+                        "content": "Study is private to the submitter(s) and MetaboLights team. Submitter(s) can view study only.*Please contact us if further editing is required.",
+                        "img": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ],
+                        "video": []
+                    },
+                    {
+                        "title": "Review",
+                        "content": "Study is private to the submitter(s) and MetaboLights team. Submitter(s) can view study only. *Please contact us if further editing is required. Private temporary read only link available to share with collaborators, journals etc.",
+                        "img": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ],
+                        "video": []
+                    },
+                    {
+                        "title": "Public",
+                        "content": "Study is publicly available to view and download. *At this stage the study should not undergo any major edits, however if you do need to edit the study please contact us.",
+                        "img": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ],
+                        "video": []
+                    }
+                ]
+            },
+            "create": {
+                "title": "",
+                "sort_order": 0,
+                "description": "",
+                "sections": [
+                    {
+                        "title": "",
+                        "content": "",
+                        "img": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ],
+                        "video": []
+                    },
+                    {
+                        "title": "",
+                        "content": "",
+                        "img": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ],
+                        "video": []
+                    }
+                ]
+            },
+            "reference": {
+                "title": "How to reference a MetaboLights study",
+                "sort_order": 0,
+                "description": "Each new MetaboLights study is automatically assigned an Accession number. This is a permanent unique identifier and should be used whenever you refer to your metabolomics study in manuscripts, social media etc. and in any communication with the MetaboLights team.",
+                "sections": [
+                    {
+                        "title": "Where do I find a study’s unique identifier?",
+                        "content": "When you first create a new study you will be provided with information about the study unique identifier. <br/>You can also see a list of all your studies & their unique identifiers on your My Studies page.",
+                        "img": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ],
+                        "video": []
+                    },
+                    {
+                        "title": "",
+                        "content": "You can access the study information page at any stage by choosing the",
+                        "img": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ],
+                        "video": []
+                    },
+                    {
+                        "title": "",
+                        "content": "option available from My Studies or in the bottom right corner of all studies.",
+                        "img": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ],
+                        "video": []
+                    },
+                    {
+                        "title": "What to include in a manuscript",
+                        "content": "Permanent unique identifier; MTBLSxxxx<br/>Public url for your metabolomics study https://www.ebi.ac.uk/metabolights/MTBLSxxxx",
+                        "img": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ],
+                        "video": []
+                    },
+                    {
+                        "title": "You can also cite the MetaboLights reference el",
+                        "content": "Haug et al. MetaboLights: a resource evolving in response to the needs of its scientific community. Nucleic Acids Research, gkz1019, doi:10.1093/nar/gkz1019, PMID:31691833.",
+                        "img": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ],
+                        "video": []
+                    },
+                    {
+                        "title": "A journal has requested access to my study",
+                        "content": "Once a study is curated the status will be changed to Review until it reaches its publication date. At this stage a temporary private link is available for the study which you can share with collaborators and journals if requested. This is a READ ONLY link and if available at the top of your study page on the online editor.",
+                        "img": [
+                            {
+                                "url": "",
+                                "description": ""
+                            }
+                        ],
+                        "video": []
+                    }
+                ]
+            }
+        }
+    }
+}

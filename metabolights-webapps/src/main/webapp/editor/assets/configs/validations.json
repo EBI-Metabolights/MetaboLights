@@ -283,7 +283,7 @@
 					"rules": [{
 						"condition": "min",
 						"value": "10",
-						"error": "Please only a list of authors, separated by commas",
+						"error": "Please provide a list of authors, separated by commas. As appears in the publication, do not include affiliation",
 						"type": "string"
 					}]
 				},
@@ -1139,12 +1139,12 @@
 					"is-read-only": "false",
 					"is-hidden": "false",
 					"technique": "mass spectrometry|NMR spectroscopy",
-					"description": "A brief description of the protocol. Please using the protocol reported in the publication",
+					"description": "A brief description of the protocol. Please use the protocol reported in the publication",
 					"placeholder": "Protocol description",
 					"rules": [{
 						"condition": "min",
 						"value": "40",
-						"error": "Study protocol description should be at least 40 characters long. Please using the protocol reported in the publication",
+						"error": "Study protocol description should be at least 40 characters long. Please use the protocol reported in the publication",
 						"type": "string"
 					}]
 				},
@@ -1618,7 +1618,7 @@
 										}]
 									},
 									{
-										"name": "Tandem (GC-GC)",
+										"name": "2D GC (GCxGC)",
 										"template": "GCxGC-MS",
 										"value": "tandem",
 										"disabled": false,
@@ -1717,7 +1717,7 @@
 										}]
 									},
 									{
-										"name": "Matrix-assisted laser desorption-ionisation imaging mass spectrometry (MALDI)",
+										"name": "Matrix-Assisted Laser Desorption-Ionisation mass spectrometry (MALDI-MS)",
 										"value": "maldi",
 										"template": "MALDI-MS",
 										"disabled": false,

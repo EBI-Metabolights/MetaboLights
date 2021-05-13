@@ -740,20 +740,21 @@ public class MetabolightsXMLExporter {
                         additionalField.appendChild(createChildElement(FIELD, "submitter_affiliation", user.getAffiliation() ));
                 }
 
-                additionalField.appendChild(createChildElement(FIELD, "curator_keywords", "")); //We do not capture this
-
                 for (StudyDesignDescriptors studyDesignDescriptors : study.getDescriptors()) {
                     String studyDesc = studyDesignDescriptors.getDescription();
 
                     if (studyDesc.contains(":")) {
                         int i = 1;
                         for (String retval : studyDesignDescriptors.getDescription().split(":")) {
-                            if (i == 2) //Get rid of ontology refs before ":"
+                            if (i == 2) { //Get rid of ontology refs before ":"
                                 additionalField.appendChild(createChildElement(FIELD, "study_design", retval));
+                                additionalField.appendChild(createChildElement(FIELD, "curator_keywords", retval)); //We do not capture this
+                            }
                             i++;
                         }
                     } else {
                         additionalField.appendChild(createChildElement(FIELD, "study_design", studyDesc));
+                        additionalField.appendChild(createChildElement(FIELD, "curator_keywords", studyDesc)); //We do not capture this
                     }
                 }
 

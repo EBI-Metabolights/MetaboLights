@@ -25,11 +25,13 @@ import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.metabolights.model.MetaboLightsParameters;
+import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.referencelayer.model.Compound;
 import uk.ac.ebi.metabolights.referencelayer.model.ModelObjectFactory;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
@@ -38,6 +40,7 @@ import uk.ac.ebi.metabolights.service.MetaboLightsParametersService;
 import uk.ac.ebi.metabolights.webapp.GalleryItem;
 import uk.ac.ebi.metabolights.webapp.GalleryItem.GalleryItemType;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -64,10 +67,18 @@ public class HomePageController extends AbstractController{
      * Controller for a browse (empty search) request
      */
     @RequestMapping(value = "/index")
-    public ModelAndView homePage(@RequestParam(required = false, value = "message") String message) {
-	    
+    public ModelAndView homePage(@RequestParam(required = false, value = "message") String message, HttpServletRequest request) {
+        MetabolightsUser user = null;
+
 	    // Instantiate the model and view
 	    ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("index", "message", message);
+
+        if (request.getUserPrincipal() != null)
+            user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+
+        if (user != null) {
+            mav.addObject("editorToken", user.getApiToken());
+        }
 	    
 	    //Add the gallery Items
 //	    mav.addObject("gallery", getGalleryItems());

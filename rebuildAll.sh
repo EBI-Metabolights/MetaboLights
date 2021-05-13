@@ -1,12 +1,13 @@
 #!/bin/sh
 
 #export JAVA_HOME=/usr/local/jdk-10.0.2.jdk/Contents/Home
-java --version
-export ML="/Users/`whoami`/Development/metabolights"
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_231.jdk/Contents/Home
+java -version
+export ML="/Users/`whoami`/Development/metabolomics/MetaboLights"
 export DEPLOY=" install -DskipTests=true"
 #export DEPLOY=" deploy -DskipTests=true"
-export MVNOPTS=""
-#export MVNOPTS="--offline"
+#export MVNOPTS=""
+export MVNOPTS="--offline"
 
 #/usr/local/elastic/bin/stop.sh
 cd $ML

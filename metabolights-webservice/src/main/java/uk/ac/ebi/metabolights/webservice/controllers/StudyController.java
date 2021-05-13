@@ -950,7 +950,14 @@ public class StudyController extends BasicController{
         String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");
         File uploadFolder = new File(privateFTPRoot + File.separator + ftpFolder);
         if (!uploadFolder.isDirectory()) {  //The folder does not exists
-            FileUtil.createFtpFolder(ftpFolder);
+			FileUtil.createFtpFolder(ftpFolder);
+
+			// create raw_files folder
+			FileUtil.createFtpFolder(ftpFolder + File.separator + "RAW_FILES");
+
+			// create derived files folder
+			FileUtil.createFtpFolder(ftpFolder + File.separator + "DERIVED_FILES");
+
             // send FTP folder details by email
             String userMessage = generateEmail(studyIdentifier, ftpFolder, user);
         }

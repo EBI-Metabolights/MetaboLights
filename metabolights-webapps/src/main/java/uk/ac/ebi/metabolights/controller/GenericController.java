@@ -47,7 +47,7 @@ public class GenericController {
 	 * @param request
 	 * @return String indicating JSP target
 	 */
-	@RequestMapping(value={ "/about","/help","/download", "/useroptions", "/pleasewait" ,"/analysis", "/advisoryboard", "/parallelCoordinates"})
+	@RequestMapping(value={ "/about","/help","/download", "/pleasewait" ,"/analysis", "/advisoryboard", "/parallelCoordinates"})
 	public ModelAndView modelAndView (HttpServletRequest request) {
 		return lastPartOfUrl(request);
 	}

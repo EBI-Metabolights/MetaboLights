@@ -234,7 +234,7 @@
                                                 <div class="col-md-9 ml_trc">{{ mtblc.smiles }}</div>
                                             </div>
                                             <div class="col-md-12 ml_tr" v-if="mtblc.synonyms.length && mtblc.synonyms.length > 0">
-                                                <div class="col-md-3 ml_trc ml_trh">Synonymns</div>
+                                                <div class="col-md-3 ml_trc ml_trh">Synonyms</div>
                                                 <div class="col-md-9 ml_trc">
                                                     <div id="ml--synonyms">
                                                         <p v-for="synonym in mtblc.synonyms" class="ml--syn">{{ synonym }}</p>
