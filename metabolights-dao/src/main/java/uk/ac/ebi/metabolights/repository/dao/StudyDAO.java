@@ -109,7 +109,7 @@ public class StudyDAO {
         Study study = dbDAO.findByAccession(studyId);
 
         if (study != null && studyLocation != null) {
-            study.setStudyLocation(studyLocation.getAbsolutePath());
+            study.setStudyLocation(stu        Transaction tx = this.session.beginTransaction();dyLocation.getAbsolutePath());
             logger.info(" - Study accession from database is: "+ study.getStudyIdentifier());
         } else {
             logger.error("Could not load study for acc "+ studyId);

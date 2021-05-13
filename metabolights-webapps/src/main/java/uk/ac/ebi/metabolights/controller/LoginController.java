@@ -80,18 +80,44 @@ public class LoginController extends AbstractController {
     public ModelAndView loggedIn(HttpServletRequest request) {
         //return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.loggedIn"));
 
-        MetabolightsUser user = LoginController.getLoggedUser();
+        MetabolightsUser user = null;
+
+        // Instantiate the model and view
+        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("useroptions");
+
+        if (request.getUserPrincipal() != null)
+            user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+
+        if (user != null) {
+            mav.addObject("editorToken", user.getApiToken());
+        }
+
         HttpSession session = request.getSession();
         String pagename = (String) session.getAttribute("currentpage");
         if (pagename == null) {
-            if (user.isCurator()) {
-                return new ModelAndView("redirect:useroptions");
-            } else {
-                return new ModelAndView("redirect:mysubmissions");
-            }
+            return mav;
         }
+
         return new ModelAndView("redirect:" + pagename);
 
+    }
+
+    @RequestMapping({"/useroptions"})
+    public ModelAndView useroptions(HttpServletRequest request) {
+        MetabolightsUser user = null;
+
+        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("useroptions");
+
+        if (request.getUserPrincipal() != null)
+            user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+
+        if (user != null) {
+            mav.addObject("editorToken", user.getApiToken());
+        }else{
+            return new ModelAndView("redirect:index");
+        }
+
+        return mav;
     }
 
     @RequestMapping({"/loggedout"})

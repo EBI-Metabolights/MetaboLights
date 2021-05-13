@@ -56,9 +56,9 @@
                                 </span>
                             </div>
                         </div>
-                        <p>
-                            You can also <a href="submittoqueue">upload ISA-Tab files</a> if you have used ISAcreator to create your study
-                        </p>
+                        <%--<p>--%>
+                            <%--You can also <a href="submittoqueue">upload ISA-Tab files</a> if you have used ISAcreator to create your study--%>
+                        <%--</p>--%>
                     </div>
                     <div class="col-md-5">
                         <div class="panel panel-default">
@@ -70,12 +70,12 @@
                                 <span><small><spring:message code="label.updateOldStudySub"/></small></span>
                                 </p>
                                 <br>
-                                <a href="mysubmissions?status=PRIVATE" class="btn btn-primary">
+                                <a id="redirectToMyStudiesPage" class="btn btn-primary">
                                     Update now
                                 </a>
                             </div>
                         </div>
-                    </div>IsaTab2MetaboLightsConverter.java
+                    </div>
                 </div>
             </div>
         </div>
@@ -89,6 +89,22 @@
 <script>
     $(document).ready(function () {
         $('#redirectToEditorPage').click(function(){
+            var editorToken = "${editorToken}";
+            if(editorToken != null && editorToken != ''){
+                localStorage.setItem("user", editorToken);
+                axios.post("webservice/labs/authenticateToken", { "token" : editorToken }).then(response => {
+                    axios.post("webservice/labs-workspace/initialise", { "jwt" : response.headers.jwt, "user" : response.headers.user }).then( res => {
+                        localStorage.setItem('user', JSON.stringify(JSON.parse(res.data.content).owner));
+                        window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+                    })
+                });
+            }else{
+                localStorage.removeItem("user")
+                window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+            }
+        })
+
+        $('#redirectToMyStudiesPage').click(function(){
             var editorToken = "${editorToken}";
             if(editorToken != null && editorToken != ''){
                 localStorage.setItem("user", editorToken);

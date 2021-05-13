@@ -19,6 +19,7 @@ find /nfs/www-prod/web_hx2/cm/metabolights/ml_dev/logs/ -name "*.log" -mtime +7 
 find /nfs/www-prod/web_hx2/cm/metabolights/ml_dev/logs/ -name "*.out" -mtime +7 -exec rm {} \; 2>&1 >/dev/null
 find /nfs/www-prod/web_hx2/cm/metabolights/ml_test/logs/ -name "*.log" -mtime +4 -exec rm {} \; 2>&1 >/dev/null
 find /nfs/www-prod/web_hx2/cm/metabolights/ml_test/logs/ -name "*.out" -mtime +7 -exec rm {} \; 2>&1 >/dev/null
+find /ebi/ftp/private/mtblight/prod/old/  -mtime +14 -exec rm -r {} \; 2>&1 >/dev/null
 
 # Tidy up on-demand generated zip files
 find /nfs/www-prod/web_hx2/cm/metabolights/prod/zip_ondemand/ -name "*.zip" -mtime +14 -exec rm {} \; 2>&1 >/dev/null

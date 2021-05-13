@@ -175,6 +175,11 @@
         <put-attribute name="body" value="/WEB-INF/jsp/entry.jsp" />
     </definition>
 
+    <definition name="guides" extends="editorLayout">
+        <!--<put-attribute name="title" value="Study" />-->
+        <put-attribute name="body" value="/WEB-INF/jsp/guides.jsp" />
+    </definition>
+
 	<definition name="citations" template="/WEB-INF/jsp/citations.jsp" />
 
 	<definition name="taggedText" template="/WEB-INF/jsp/taggedText.jsp"/>
@@ -273,7 +278,7 @@
         <put-attribute name="title" value="MetaboLights Strategic Advisory Board"/>
         <put-attribute name="body" value="/WEB-INF/jsp/advisoryboard.jsp"/>
     </definition>
-    <definition name="study" extends="default">
+    <definition name="study" extends="editorLayout">
         <put-attribute name="title" value="Study" />
         <put-attribute name="body" value="/WEB-INF/jsp/study.jsp" />
     </definition>

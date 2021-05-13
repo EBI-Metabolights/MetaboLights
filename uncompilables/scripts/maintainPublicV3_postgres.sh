@@ -23,7 +23,7 @@
 # 20180404  : Ken Haug - moved logging_functions
 #
 ##########################################################################
-
+df -h
 #################################
 #  Configurable Options Follow  #
 #################################
@@ -66,11 +66,13 @@ PUBLIC_STUDIES=`$PG_COMMAND -c "${GET_STUDIES_SQL}" | grep MTBLS`
 for studies in $PUBLIC_STUDIES
 do
   Info "Removing MetExplore json mapping file"
-  touch metexplore_mapping.json
-  rm metexplore_mapping.json
   Info "Study ${studies} is now being synced to the public ftp folder"
   mkdir -p ${PUBLIC_FTP_LOC}/${studies}
-  rsync -av ${PRIVATE_LOC}/${studies}/ ${PUBLIC_FTP_LOC}/${studies}
+  rsync -a ${PRIVATE_LOC}/${studies}/ ${PUBLIC_FTP_LOC}/${studies}
+  rm -rf ${PUBLIC_FTP_LOC}/${studies}/audit
+  rm -f ${PUBLIC_FTP_LOC}/${studies}/validation_*
+  rm -f ${PUBLIC_FTP_LOC}/${studies}/metexplore_mapping.json
+  rm -rf ${PUBLIC_FTP_LOC}/${studies}/chebi_pipeline_annotations
   chmod -R go+rx ${PUBLIC_FTP_LOC}/${studies}
 done
 

@@ -235,15 +235,15 @@ public class MetabolightsXMLExporter {
 
             initParams(fileName, wsClientURL, includeCompounds);
 
-            // create the root element node
-            setRootXmlElements(includeCompounds);
-
             //Loop thorough the studies returned from the WS
             Element entries = doc.createElement(STUDIES);
             addStudies(entries, detailedTags);
 
             if (includeCompounds)
                 addCompounds(entries);
+
+            // create the root element node
+            setRootXmlElements(includeCompounds, entries);
 
             //Add the complete study list to the entries section
             doc.getDocumentElement().appendChild(entries);
@@ -390,7 +390,7 @@ public class MetabolightsXMLExporter {
 
     }
 
-    private static void setRootXmlElements(Boolean includeCompounds){
+    private static void setRootXmlElements(Boolean includeCompounds, Element entries){
         // create the root element node
         Element database = doc.createElement("database");
         //element.setAttribute("id", "MetaboLights\" visible=\"true\" order=\"0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance");
@@ -405,7 +405,7 @@ public class MetabolightsXMLExporter {
         createRootItemElement("description", "MetaboLights is a database for Metabolomics experiments and derived information");
         createRootItemElement("release", "4");
         createRootItemElement("release_date", getDateString(new Date()));
-        createRootItemElement("entry_count", String.valueOf( + exportLength));
+        createRootItemElement("entry_count", String.valueOf( + entries.getChildNodes().getLength()));
 
     }
 
@@ -740,20 +740,21 @@ public class MetabolightsXMLExporter {
                         additionalField.appendChild(createChildElement(FIELD, "submitter_affiliation", user.getAffiliation() ));
                 }
 
-                additionalField.appendChild(createChildElement(FIELD, "curator_keywords", "")); //We do not capture this
-
                 for (StudyDesignDescriptors studyDesignDescriptors : study.getDescriptors()) {
                     String studyDesc = studyDesignDescriptors.getDescription();
 
                     if (studyDesc.contains(":")) {
                         int i = 1;
                         for (String retval : studyDesignDescriptors.getDescription().split(":")) {
-                            if (i == 2) //Get rid of ontology refs before ":"
+                            if (i == 2) { //Get rid of ontology refs before ":"
                                 additionalField.appendChild(createChildElement(FIELD, "study_design", retval));
+                                additionalField.appendChild(createChildElement(FIELD, "curator_keywords", retval)); //We do not capture this
+                            }
                             i++;
                         }
                     } else {
                         additionalField.appendChild(createChildElement(FIELD, "study_design", studyDesc));
+                        additionalField.appendChild(createChildElement(FIELD, "curator_keywords", studyDesc)); //We do not capture this
                     }
                 }
 
@@ -804,7 +805,7 @@ public class MetabolightsXMLExporter {
     private static String tidyDoi(String doi){
         String tidyStr = doi.toLowerCase();
 
-        tidyStr = tidyStr.replaceAll("http://","").replaceFirst("dx.", "");
+        tidyStr = tidyStr.replaceAll("https://","").replaceAll("http://","").replaceFirst("dx.", "");
         tidyStr = tidyStr.replaceAll("doi.org/","");
         tidyStr = tidyStr.replaceAll("doi:","");
         tidyStr = tidyStr.replaceAll("na","");
@@ -833,7 +834,7 @@ public class MetabolightsXMLExporter {
         if (hasValue(publication.getTitle()))
             completePublication = publication.getTitle().trim();
 
-        assert completePublication != null;
+//        assert completePublication != null;
         if (hasValue(completePublication) && !completePublication.endsWith(sep))
             completePublication = completePublication + sep;
 

@@ -201,7 +201,6 @@ public class WSSearchController extends AbstractController {
             mav.addObject("pagecount", entitySearchResult.getContent().getQuery().getPagination().getPageCount());
             mav.addObject("firstPageItemNumber", entitySearchResult.getContent().getQuery().getPagination().getFirstPageItemNumber());
             mav.addObject("lastPageItemNumber", entitySearchResult.getContent().getQuery().getPagination().getLastPageItemNumber());
-
         }
 
         return mav;

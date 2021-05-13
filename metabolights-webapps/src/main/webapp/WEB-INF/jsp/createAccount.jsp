@@ -65,7 +65,7 @@
 						</div>
 
 							<div class="form-group">
-								<label class="checkbox-inline"><input type="checkbox" id="privacyPolicy"/><small> I agree to EMBL-EBI MetaboLights cookie policy and the limited processing of my personal data as outlined in <a target="_blank" href="https://www.ebi.ac.uk/data-protection/privacy-notice/metaboflow">Privacy Notice</a>.</small></label><br>
+								<label class="checkbox-inline"><input type="checkbox" id="privacyPolicy"/><small> I agree to EMBL-EBI MetaboLights cookie policy and the limited processing of my personal data as outlined in <a target="_blank" href="https://www.ebi.ac.uk/data-protection/privacy-notice/metabolights">Privacy Notice</a>.</small></label><br>
 								<span class="error" id="privacyPolicyError"/>
 							</div>
 

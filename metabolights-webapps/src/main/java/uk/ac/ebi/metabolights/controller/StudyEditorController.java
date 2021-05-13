@@ -26,4 +26,10 @@ public class StudyEditorController extends AbstractController {
         mav.addObject("editorToken", "{\"apiToken\":\"" + user.getApiToken() +"\"}");
         return mav;
     }
+
+    @RequestMapping(value = {"/guides", "/guides/{tabId}", "/guides/{tabId}/{sectionId}", })
+    public ModelAndView showGuidesPage(HttpServletRequest request) {
+        ModelAndView mav = AppContext.getMAVFactory().getSimpleFrontierMav("guides");
+        return mav;
+    }
 }

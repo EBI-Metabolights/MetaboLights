@@ -21,7 +21,7 @@ AW4.Utils = (function() {
 
   var
       /**
-       * AW4.Utils.FASP_URL -> String
+       * AW4.Utils.1FASP_URL -> String
        *
        * Returns the URL to initialize Aspera Connect
        **/

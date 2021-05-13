@@ -36,30 +36,30 @@
                 <div class="clearfix">&nbsp;</div>
                 <div class="col-md-12">
                     <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <a target="_blank" id="_labsLink" class="btn btn-default btn-md form-control ml--noborder">
-                                    <i class="fa fa-tachometer" aria-hidden="true"></i>&nbsp;
-                                    <spring:message code="menu.myWorkspaceCap" />&nbsp;<span class="label label-warning">Coming soon</span>
-                                </a>
-                            </div>
-                        </div>
+                        <%--<div class="col-md-3">--%>
+                            <%--<div class="form-group">--%>
+                                <%--<a target="_blank" id="_labsLink" class="btn btn-default btn-md form-control ml--noborder">--%>
+                                    <%--<i class="fa fa-tachometer" aria-hidden="true"></i>&nbsp;--%>
+                                    <%--<spring:message code="menu.myWorkspaceCap" />&nbsp;<span class="label label-warning">Coming soon</span>--%>
+                                <%--</a>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <a href="<spring:url value="mysubmissions"/>" class="btn btn-default btn-md form-control ml--noborder">
+                                <a id="redirectToMyStudiesPage" class="btn btn-default btn-md form-control ml--noborder">
                                     <i class="fa fa-list-alt" aria-hidden="true"></i>&nbsp;
                                     <spring:message code="menu.myStudiesCap" />
                                 </a>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <a id="claimStudies" href="#" target="_blank" class="btn btn-default btn-md form-control ml--noborder">
-                                    <i class="thorOrcIdSpan">
-                                        <img src="img/orcid_bw.png"></i>&nbsp;Batch Claim Studies
-                                </a>
-                            </div>
-                        </div>
+                        <%--<div class="col-md-3">--%>
+                            <%--<div class="form-group">--%>
+                                <%--<a id="claimStudies" href="#" target="_blank" class="btn btn-default btn-md form-control ml--noborder">--%>
+                                    <%--<i class="thorOrcIdSpan">--%>
+                                        <%--<img src="img/orcid_bw.png"></i>&nbsp;Batch Claim Studies--%>
+                                <%--</a>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <a href="<spring:url value="myAccount"/>" class="btn btn-default btn-md form-control ml--noborder">
@@ -239,3 +239,23 @@
         </div>
 </sec:authorize>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#redirectToMyStudiesPage').click(function(){
+            var editorToken = "${editorToken}";
+            if(editorToken != null && editorToken != ''){
+                localStorage.setItem("user", editorToken);
+                axios.post("webservice/labs/authenticateToken", { "token" : editorToken }).then(response => {
+                    axios.post("webservice/labs-workspace/initialise", { "jwt" : response.headers.jwt, "user" : response.headers.user }).then( res => {
+                        localStorage.setItem('user', JSON.stringify(JSON.parse(res.data.content).owner));
+                        window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+                    })
+                });
+            }else{
+                localStorage.removeItem("user")
+                window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+            }
+        })
+    });
+</script>

@@ -1,0 +1,1670 @@
+{
+    "created_at" : "",
+    "updated_at" : "16/11/2020",
+    "data" : {
+      "Quick_start_Guide" : {
+        "Quick_start_guide" : {
+          "title" : "Quick start overview",
+          "sort_order" : 0,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "img" : [
+                {
+                  "url" : "image36.png"
+                }
+              ],
+              "video" : []
+            }
+          ]
+        },
+        "Getting_started" : {
+          "title" : "What do I need?",
+          "sort_order" : 1,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "</br>The primary requirements for study submission to MetaboLights are as follows;</br></br>1) MetaboLights user account.<br/><br/>2) Raw data to submit ie. <i><b>spectral files</i></b> produced by the instrument used for analysis or an open source version.</i></br>(This does not need to be added straight away but will be required to be uploaded before the study can be publish).<br/><br/>3) Study metadata as per the provided template when creating a study.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            }
+          ]
+        },
+        "create_account" : {
+          "title" : "Create account",
+          "sort_order" : 2,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "</br>You can create an account by selecting Login above or via <a href='www.ebi.ac.uk/metabolights/newAccount'>Create account</a>.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image18a.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "</br>When creating your MetaboLights account your email address will be your user name. Please contact us directly if you need to update this at any time. </br></br>You can also link your ORCID account, allowing you to claim your data submissions in your research achievements.</br><a target='_blank' href='https://orcid.org/about'> What is ORCID?</a></br></br>",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image35.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "</br><i>If you have problems accessing your account, please check your email (junk folder also!) for a confirmation.</br>Alternatively, contact us directly at <a href = 'mailto:metabolights-help@ebi.ac.uk'>MetaboLights Help</a></i>.",
+              "visible" : true
+            }
+          ]
+        },
+        "submission_stages" : {
+          "title" : "Study Submission Process",
+          "sort_order" : 3,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "</br>Overview of the 4 stages in the study submission process.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image37.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "</br><u>Submitting a study for curation</u></br></br>Once you have completed the study metadata, uploaded raw data files and the study successfully validates, select the <b>status</b> bar at the top of your study and change to <b>curation</b>. You will no longer be able to directly edit your study, please contact <a href = 'mailto:metabolights-help@ebi.ac.uk'>MetaboLights Help</a> if you need to make further amendments.</br>You will also be prompted to set the public release date for your study, <i>please note this is automatically set to a minimum of <u><b>4 weeks</b></u> to allow for the curation process</i>.</br></br>",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image21.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "",
+              "visible" : false,
+              "img" : [
+                {
+                  "url" : "image10.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<br>Following successful curation, the status will be updated to <b>review</b> and a private <i>edit only</i> link will be available on your study page for you to share with journal editors, collaborators etc if requested.</br></br>",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image30.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<br>Once the release date is reached the study will become <b>public</b>. You can update this date at any stage by contacting <a href = 'mailto:metabolights-help@ebi.ac.uk'>MetaboLights Help</a>.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            }
+          ]
+        },
+        "create_study" : {
+          "title" : "Create study",
+          "sort_order" : 4,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "</br>Select <a href='https://www.ebi.ac.uk/metabolights/presubmit'>Submit study</a> followed by <b>Create online</b> to be guided through the study creation steps.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image22.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "</br><u><i>Submitters and authors</i></u></br>The submitter is the person who creates the study. They will be able to directly view & edit the study during the submission process and all correspondence will be direct to them. They will also be the main contact once the study is public. Authors are added as for a manuscript etc but will not have edit or private access to the study. If you would like edit rights to be given to collaborators they will also need to create an account. The submitter should then contact us to ask for further accounts to be added to the study. Group or project email addresses can be used to allow shared access to edit a study and link studies more readily in searches.",
+              "visible" : true
+            }
+          ]
+        },
+        "edit_study" : {
+          "title" : "Edit Study",
+          "sort_order" : 5,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "<br>Access an existing study by selecting <a href='https://www.ebi.ac.uk/metabolights/presubmit'>Submit study</a> followed by <b>Update now</b>.</br>Alternatively use the url assigned when your study was created (https://www.ebi.ac.uk/metabolights/MTBLSXXX).",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image22.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "</br>This will take you to your study list where you can select the study of interest to edit.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image5.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "</br><i>You can switch between the study overview and guided submission to edit your study using the tab in the bottom right corner of your study.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image39.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            }
+          ]
+        },
+        "validation" : {
+          "title" : "Validate Study",
+          "sort_order" : 6,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "<br>To progress the study to the next stage any validation errors must be resolved. Validation errors are evident in the information bar at the top of the study (if nothing is displayed the study has passed validation).",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image4.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            },
+            {
+              "content" : "Further information is available in the <b>Study Validations</b> tab. There are 4 validation flags which can be viewed individually by selecting the drop-down menu. This includes <font color='#3cb371'>successful</font>, <font color='#1e90ff'>information</font>, <font color='#ffa500'>warning</font>, <font color='#ff0000'>error</font>. You must address all errors and should also address warnings where applicable to progress your study.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image28.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            }
+          ]
+        },
+        "Referencing_a_study" : {
+          "title" : "Referencing a study",
+          "sort_order" : 7,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "<br><u>Study accession number</u><br><br>Each new MetaboLights study is automatically assigned an accession number eg. MTBLS1. This is a permanent unique identifier and should be used to reference the study in manuscripts and other communications.",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<u>Where to find a study accession number</u></br><br>When you first create a new study you will be provided with information about the study unique identifier as shown below. You will also receive this information by email.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image12.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "You can also see a list of all your studies & their unique identifiers on your <a href='https://www.ebi.ac.uk/metabolights/editor/console'>My Studies</a> page.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image40.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<br><u>What to include in a manuscript</u><br><br>Permanent unique identifier; MTBLSxxxx.</br>Public url for your metabolomics study https://www.ebi.ac.uk/metabolights/MTBLSxxxx.</br>You may also wish to cite the MetaboLights reference <a href='https://academic.oup.com/nar/article/48/D1/D440/5613675'>Haug et al</a>.",
+              "visible" : true,
+              "img" : []
+            },
+            {
+              "title" : "",
+              "content" : "<u>A journal has requested access to my study</u></br></br>Once a study has been completed & the status updated to review, a private read-only link will be available at the top of your study page to share with the journal.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image30.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            }
+          ]
+        }
+      },
+      "MetaboLights_account" : {
+        "create_account" : {
+          "title" : "Create account",
+          "sort_order" : 0,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "</br>You can create an account by selecting Login above and <a href='www.ebi.ac.uk/metabolights/newAccount'>Create a new account</a>.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image18a.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "</br>When creating your MetaboLights account your email address will be your user name.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image35.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "</br><i>If you have problems accessing your account for the first time, please check your email (junk folder also!) for a confirmation.</br>Alternatively, contact us <a href = 'mailto:metabolights-help@ebi.ac.uk'>MetaboLights Help</a></i>.",
+              "visible" : true
+            }
+          ]
+        },
+        "account_detail_reset" : {
+          "title" : "Update login details",
+          "sort_order" : 1,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "</br>Your email address will be your user name. Please contact us directly at <a href = 'mailto:metabolights-help@ebi.ac.uk'>MetaboLights Help</a> if you need to update this at any time. </br></br>To rest a password simply click the <a href='https://www.ebi.ac.uk/metabolights/forgotPassword'>forgot your password</a> link on the login page.</br></br>",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image18b.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            }
+          ]
+        },
+        "orcid" : {
+          "title" : "ORCID",
+          "sort_order" : 2,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "</br>You can link MetaboLights account to your ORCID account, allowing you to claim your data submissions as part of your research achievements.</br></br><a target='_blank' href='https://orcid.org/about'> What is ORCID?</a></br></br>",
+              "img" : [
+                {
+                  "url" : "image41.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            }
+          ]
+        },
+        "My_Studies_page" : {
+          "title" : "My studies",
+          "sort_order" : 3,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "</br>Your <a href='https://www.ebi.ac.uk/metabolights/editor/console'>My Studies</a> page provides an overview of all studies you have created in MetaboLights.<br/><br/><ul><li>(a) Select to view all studies or studies with a particular status</li><li>(b) View basic outline information for each study including accession number, title, status, release date</li><li>(c) Choose to edit a study using Guided submission or Online editor tools</li><li>(d) View the submission tutorial video</li><li>(e) Create a new study</li></ul>",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image23.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            }
+          ]
+        }
+      },
+      "Study" : {
+        "overview" : {
+          "title" : "Study overview",
+          "sort_order" : 0,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "</br>When you create a study the Guided submission process will take you through the setup step-by-step. It will guide you through raw and sample data upload, creating assays and provide you with controlled vocabulary/ontology options in relevant fields. If you don’t have all the information to hand, don’t worry! You can access and edit your entire study at any time when in submission from your My Studies page.</br></br>Each MetaboLights study has 4 main sections, study description, sample, assay and metabolite information. The basic outlines for each are given below. Each section also corresponds to a specific file as indicated in which the information is stored.",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "Study description (i_MTBLSxxx.txt)",
+              "content" : "The study description should easily inform the reader about the study content and contacts.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image29.png",
+                  "description" : "(a) Study identifier & title (b) Author information (c) Abstract (d) Publication link (e) Keywords(f) Protocol text"
+                },
+                {
+                  "url" : "image20.png",
+                  "description" : "(a) Study identifier & title (b) Author information (c) Abstract (d) Publication link (e) Keywords(f) Protocol text"
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "Sample information (s_MTBLSxxx.txt)",
+              "content" : "The sample information should provide all relevant facts about each sample and any controls / standards included in the study. There is ONE sample sheet per study. <br/>Sample metadata should include a unique sample name, organism, organism part (for controls use eg. experimental blank and solvent) and sample type (ie. control, QC, experimental sample). Further sample descriptors should be included where available by selecting +Factor to add new columns (eg. Gender, Age, Treatment).",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "Assay information (a_MTBLSxxx.txt)",
+              "content" : "The assay information will describe the assay process for each control and sample in the assay and connect the sample name to both its corresponding raw data file and metabolite identification table. MULTIPLE assays can be added per study.</br></br>The assay is divided into sections each starting with a Protocol Ref column, eg. Chromatography, which describes the specifics of that part of the assay using controlled vocabulary, so every study using the same system is easily findable.</br></br>",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image24.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "Metabolite information (m_MTBLSxxx.tsv)",
+              "content" : "Each assay has a corresponding metabolite table. If results are cumulative of multiple assays, use the metabolite assignment file column in the assay table to point all assays to the same m_MTBLSxxx.tsv file name.</br></br>The metabolite information should include all metabolites / unknowns / features identified within the study.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image25.png",
+                  "description" : "Overview current adopted metabolite standards (Schmanski EL et al. 2014)"
+                }
+              ],
+              "video" : []
+            }
+          ]
+        },
+        "create_edit" : {
+          "title" : "Create & edit studies",
+          "sort_order" : 1,
+          "description" : "Choosing the option to Submit Study will take you to a login screen and then to your My Studies page. From there you can create a new study or edit an existing study.",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "Create a new study",
+              "content" : "Creating a new study will take you to the Guided submission portal.<br/>A new study will be automatically generated with a unique accession number / study identifier.<br/>The study will also be added to your My Studies page. You can then follow the steps to add information to your study.<br/>*You can exit the guided submission at any time and the information you have added will be automatically saved. To re-enter the study in Guided submission mode, simply go to My studies and select the Guided submission option below the study information.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image3.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "Edit existing study",
+              "content" : "All studies can be edited directly online. There are 2 ways to enter the edit mode; <br/>In My Studies page select the Study overview option below the study information. *This is also available from the Guided submission mode, look for the pop-out option in the bottom right corner. <br/>Studies can be edited online or downloaded and edited in eg. Excel. It is important not to remove columns or alter column headers when editing as the format is a fixed requirement. Additional columns can be added by choosing +factor, this should be done online before downloading files. <br/>Some sections of metadata require ontology fields. When adding information using the online options, ontology options will appear as you type. If uploading a file without ontologies added, the online editor will prompt you to select ontologies in the fields above the tables.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image5.png",
+                  "description" : "From your study page on the website, select the edit option"
+                }
+              ],
+              "video" : []
+            }
+          ]
+        },
+        "Add_raw_data" : {
+          "title" : "Add raw data",
+          "sort_order" : 2,
+          "description" : "A primary requirement for a MetaboLights study is the inclusion of the raw data. Raw and data should be uploaded and each file linked to the appropriate study though the assay table.",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "<br><b>Where do I find upload options?</b><br>When using the Guided submission you will be prompted to upload raw files. If you do not have these available at the time you can come back to the same stage of the guided submission from your My Studies page at a later time. Alternatively, you can use the upload option in the Files tab of your study in the Online editor view of your study.<br><br> There are 2 file upload methods;<br><br>(1) <b><i>Aspera connect plugin</b></i> (recommended)<br>Aspera is a plugin that is very simple to install in your browser. Select the  Aspera Upload option and then Install the plugin. Aspera is a fast way of transferring files which also enables the user to stop the transfer, and later resume where you left off. If you see raw data files in the final upload with .aspx appended, the file upload may have paused. Please open Aspera connect on your computer to check the status of your upload and resume upload if necessary. If the upload has completed you can delete the .aspx appended files or contact us to do so. NB. You may need to contact your local IT support if you do not have privileges to install browser plugins.<br><br>(2) <b><i>FTP</b></i><br>FTP can be used on any computer, either directly from the command line or through a graphical user interface. However, on most computers, you have to install an FTP client first. If you are not familiar with using FTP from the command line, we can recommend the free FileZilla tool. Please see the FAQ section on the FileZilla pages for specific details about how this software works.<br>",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image43.png",
+                  "description" : "Guided submission upload"
+                },
+                {
+                  "url" : "image45.png",
+                  "description" : "Online editor upload"
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<b>Accepted raw file formats</b><br> eg. .raw, .d, .cdf, open source formats (.mzML, .nmrML) ",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<b>I can't see my files</b><br>If you have uploaded files but do not see them in your study folder, please try the <i>copy to study folder</i> option on the uploaded files tab and then refresh the page. If this is not successful please contact MetaboLights-help.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image44.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            }
+          ]
+        },
+        "shortcuts" : {
+          "title" : "Shortcuts / functions",
+          "sort_order" : 3,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "Protocol",
+              "content" : "When you set up an assay the required protocol fields are automatically generated, these must be completed using the Edit Description option and cannot be deleted or renamed.",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "You can add further protocol sections which can be edited, named and also deleted.",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "Within each protocol section there will be formatting options available as below.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image1.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "Ontologies",
+              "content" : "Where possible terms are supported by controlled vocabularies / ontologies. Simply start to type and if available, options will appear below and you can select the appropriate term. If the term you are looking for does not appear, simply press enter and the text to add it as free text. ",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image8.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "Where ontologies have not been added within tables a section will appear above the table to highlight terms. Simply click edit option to add on.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image7.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "Editing tables",
+              "content" : "",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image42.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            }
+          ]
+        },
+        "validations" : {
+          "title" : "Validations",
+          "sort_order" : 4,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "A study must pass validation to be progressed to the curation stage. If the validations have been unsuccessful this will appear at the top of the study. Further information can then be found in the Study Validations tab.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image4.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "Within the validations tab you can select to view the different validation levels. <br/>Each validation is listed according to the section it belongs to eg. publication, sample table, assay, files.<br/>All errors must be resolved to progress. Please contact us if you need assistance to resolve an error.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image28.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            }
+          ]
+        },
+        "status" : {
+          "title" : "Study status update",
+          "sort_order" : 5,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image10.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            }
+          ]
+        }
+      },
+      "Study Description" : {
+        "Title" : {
+          "title" : "Study title",
+          "sort_order" : 0,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "Study title should summarize your study. A good title contains the fewest possible words that adequately describe the contents and/or purpose of your research. It is recommended to use the same title as the first publication.",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "Add Study title",
+              "content" : "You can add the title when you create a new study through guided submission or in the full study overview.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "Title1.jpg",
+                  "description" : "Add a title in the guided submission"
+                },
+                {
+                  "url" : "title_full_study_view.png",
+                  "description" : "Add a title in full study view"
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "Update study title",
+              "content" : "You can modify the study title by clicking on it, or use your publication title to update.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "title2.png",
+                  "description" : "update study title with online editor"
+                }
+              ],
+              "video" : [
+                {
+                  "url" : "http://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/videos/title_v_1.mov",
+                  "description" : "change study title from the publication details"
+                }
+              ]
+            },
+            {
+              "title" : "Validation Rules:",
+              "content" : "<ul><li>- Study title should be at least 8 characters long.</li></ul>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<div class='notification is-primary'> <b>MataboLights APIs</b> - You can update the title of your study programmatically using our APIs. <br> Try the MetaboLights study title API - <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23' target='_blank'><strong>GET</strong></a>, <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24' target='_blank'><strong>PUT</strong></a> using our <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec' target='_blank'>swagger interface</a>. <br/> <i><small>Please note that you would need an active MetaboLights account and API Key to access the API.</small></i></div>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<div class='notification is-warning'> Can't find what you are looking for? Check out our <a href='/guides/FAQs' target='_blank'>FAQ's</a> for most commonly asked questions and solutions.</div>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            }
+          ]
+        },
+        "Person" : {
+          "title" : "Person",
+          "sort_order" : 0,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "Change email ID",
+              "content" : "Please contact us directly at <a href = 'mailto:metabolights-help@ebi.ac.uk'>MetaboLights Help</a> if you need to update your email ID at any time. ",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "Change submitter/study owner",
+              "content" : "The submitter is the person who creates the study. They will be able to directly view & edit the study during the submission process and all correspondence will be direct to them. They will also be the main contact once the study is public. <br> You can change the study ownership to your colleague. They should create a MetaboLights account and then you can make him/her as study submitter",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "submitter1.png",
+                  "description" : "Change study submitter "
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "Give collaborators edit access to the study",
+              "content" : "Authors are added as for a manuscript editor but will not have edit or private access to the study. If you would like edit rights to be given to collaborators they will also need to create an account.  The submitter can then contact us to ask for them to be added to the study. Group or project email addresses can be used to allow shared access to edit a study and link studies more readily.",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "Import authers from the publication",
+              "content" : "You also can import authers from the publication:",
+              "visible" : true,
+              "img" : [],
+              "video" : [
+                {
+                  "url" : "http://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/videos/person_v_1.mov",
+                  "description" : "Import authers from the publication"
+                }
+              ]
+            },
+            {
+              "title" : "Personal API token",
+              "content" : "If you want to use the MetaboLights web service, you could find your personal API token from <a target='_blank' href='https://www.ebi.ac.uk/metabolights/myAccount '>my account</a>.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "API token.png",
+                  "description" : "Get personal API token"
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "GDPR",
+              "content" : "The 25th May 2018 marks the introduction across Europe of the General Data Protection Regulation (GDPR). This is the first European wide change in data handling legislation 1995. Current legislation varies from country to country which leads to differences as to how data was handled. The GDPR needs no national legislation and provides a consistent framework across Europe as to how data must be handled.<br><br>\n\nSince the GDPR regulations came into effect in May 2018 we have not observed significant changes in the submissions of human studies, many of which are urine, blood or tissue based. Within a submission, there are varying levels of data requirement. Our primary requirement is the raw data set and, where we encourage as complete corresponding metadata as possible for the purposes of reanalysis, our basic requirement would involve only the accompanying organism and organism part. Further information regarding the submission process can be viewed on our help page and the institute's data protection policy can be found here.<br><br>\n\nIn response to the wider metabolomics profile ethical debate and its increasing importance in clinical research, we are developing a controlled access version of MetaboLights. This will allow researchers to submit more restricted data which will then be available to others through ethics board approval, however, this will not be in place until 2021 at the earliest. This will follow the model of the already existing European Genome-Phenome Archive (Submission FAQs and GDPR notice).<br><br>\n\nFind more about <a target='_blank' href='https://www.ebi.ac.uk/about/technology/2017/04/general-data-protection-regulation-gdpr/ '>EBI GDPR policy</a>.",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "Validation rules",
+              "content" : "<ul><li>- The last name/surname should be at least 2 characters long.</li></ul>\n<ul><li>- The first name should be at least 2 characters long.</li></ul>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<div class='notification is-primary'> <b>MataboLights APIs</b> - You can add/delete submitters for your study programmatically using our APIs. <br> Try the MetaboLights submitter API - <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33' target='_blank'><strong>POST</strong></a>, <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32' target='_blank'><strong>DELETE</strong></a> using our <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec' target='_blank'>swagger interface</a>. <br/> <i><small>Please note that you would need an active MetaboLights account and API Key to access the API.</small></i></div>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<div class='notification is-primary'> <b>MataboLights APIs</b> - You can get/add/update/delete contacts for your study programmatically using our APIs. <br> Try the MetaboLights contacts API - <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30' target='_blank'><strong>GET</strong></a>, <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31' target='_blank'><strong>POST</strong></a>, <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29' target='_blank'><strong>PUT</strong></a>, <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28' target='_blank'><strong>DELETE</strong></a> using our <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec' target='_blank'>swagger interface</a>. <br/> <i><small>Please note that you would need an active MetaboLights account and API Key to access the API.</small></i></div>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<div class='notification is-warning'> Can't find what you are looking for? Check out our <a href='/guides/FAQs' target='_blank'>FAQ's</a> for most commonly asked questions and solutions.</div>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            }
+          ]
+        },
+        "Abstract" : {
+          "title" : "Abstract",
+          "sort_order" : 0,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "Study abstract should briefly summarize your study, including <br>1) The overall purpose of the study;<br>2)The basic design of the study;<br> 3)Major findings or trends found as a result of your analysis;<br> 4)A brief summary. <br>It is recommended to use the same abstract as the publication. ",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "Update Abstract from the publication",
+              "content" : "Your MetaboLights study abstract can be updated to match your publication abstract.",
+              "visible" : true,
+              "img" : [],
+              "video" : [
+                {
+                  "url" : "http://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/videos/abstract.mov",
+                  "description" : "Import authers from the publication"
+                }
+              ]
+            },
+            {
+              "title" : "Formating abstract",
+              "content" : "Within abstract editing section, there will be formatting options available as below.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image1.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "Validation rules",
+              "content" : "<ul><li>- The study abstract should be at least 60 characters long.</li></ul>\n",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<div class='notification is-primary'> <b>MataboLights APIs</b> - You can get/update description of your study programmatically using our APIs. <br> Try the MetaboLights description API - <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27' target='_blank'><strong>GET</strong></a>, <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26' target='_blank'><strong>PUT</strong></a></a> using our <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec' target='_blank'>swagger interface</a>. <br/> <i><small>Please note that you would need an active MetaboLights account and API Key to access the API.</small></i></div>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<div class='notification is-warning'> Can't find what you are looking for? Check out our <a href='/guides/FAQs' target='_blank'>FAQ's</a> for most commonly asked questions and solutions.</div>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            }
+          ]
+        },
+        "Publications" : {
+          "title" : "Publications",
+          "sort_order" : 0,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "The publication information should match any associated manuscript, include title, abstract, authors and publication status.",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "Add publication",
+              "content" : "Please add your publication details by guided submission or study online editor. The study title, abstract and authors also can be imported using a publication DOI, PubMed or EuropePMC identifier.",
+              "visible" : true,
+              "img" : [],
+              "video" : [
+                {
+                  "url" : "http://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/videos/publication_v_0.mov",
+                  "description" : "add publication details in the guided submission"
+                },
+                {
+                  "url" : "http://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/videos/publication_v_1.mov",
+                  "description" : "add publication details in full study view"
+                }
+              ]
+            },
+            {
+              "title" : "publication status",
+              "content" : "- In preparation: Publication in preparation before submitting to a journal. <br>\n- Submitted: Publication submitted to a journal.<br>\n- Preprint: publications that have URL/DOI for an online copy that can be viewed by anyone but is not the final version.<br>\n- Published: Publication published in a journal.<br>\n",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "Validation rules",
+              "content" : "<ul><li>- The publication title should be at least 25 characters long.</li></ul>\n<ul><li>- Provide a list of authors, separated by commas. As appears in the publication, do not include affiliation.</li></ul>\n<ul><li>- Only provide the id number, not prefixed with PMID.</li></ul>\n<ul><li>- Provide the publication status, this should be at least 5 characters long.</li></ul>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<div class='notification is-primary'> <b>MataboLights APIs</b> - You can get/add/update/delete publication information of your study programmatically using our APIs. <br> Try the MetaboLights publication API - <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33_34_35_36_37_38_39_40_41_42_43_44_45_46_47_48' target='_blank'><strong>GET</strong></a>, <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33_34_35_36_37_38_39_40_41_42_43_44_45_46_47_48_49' target='_blank'><strong>POST</strong></a>, <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33_34_35_36_37_38_39_40_41_42_43_44_45_46' target='_blank'><strong>PUT</strong></a>, <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33_34_35_36_37_38_39_40_41_42_43_44_45_46_47' target='_blank'><strong>DELETE</strong></a></a> using our <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec' target='_blank'>swagger interface</a>. <br/> <i><small>Please note that you would need an active MetaboLights account and API Key to access the API.</small></i></div>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<div class='notification is-warning'> Can't find what you are looking for? Check out our <a href='/guides/FAQs' target='_blank'>FAQ's</a> for most commonly asked questions and solutions.</div>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            }
+          ]
+        },
+        "Keywords" : {
+          "title" : "Keywords",
+          "sort_order" : 0,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "Effective keywords for your study portray an accurate representation of what you publish. It also helps MetaboLights search to indexes the study. Keywords should:<br> - Represent the content of your manuscript <br> - Be specific to your field or sub-field",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "Add keyword",
+              "content" : "To add new keywords to your study, you can click the +Add in the keywords section. Type the keyword and use the drop-down to select the most relevant ontology term. If the input term can’t match to any of our ontology control vocabulary, type your plain text and press enter to accept (then OK to add to the keyword).",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "keywords.png",
+                  "description" : "Add keyword"
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "Are there any limits on the number of keywords?",
+              "content" : "We have no limit on the number of keywords.",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            }
+          ]
+        },
+        "Factors" : {
+          "title" : "Factors",
+          "sort_order" : 0,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "content" : "Study Factors are key parameters within a study that differentiate samples into groups e.g. ‘ gene knockout’ , ‘gender ’, ‘ location ’, ‘ year ’, ‘ age ’, ‘ time elapsed ’ etc.",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "Add a factor",
+              "content" : "You can add study factors by clicking the +Add factor button in Factors section. Type the factor term and use the drop-down to select the most relevant ontology term. If there is no ontology term available, type your free text and press enter to accept (then OK to add to the factor).",
+              "visible" : true,
+              "img" : [],
+              "video" : [
+                {
+                  "url" : "http://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/videos/factor_v_1.mov",
+                  "description" : "add factor to sample sheet"
+                }
+              ]
+            },
+            {
+              "title" : "Check factor details",
+              "content" : "You can check factor details by click the term in Factors section.",
+              "visible" : true,
+              "img" : [],
+              "video" : [
+                {
+                  "url" : "http://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/videos/factor_v_3.mov",
+                  "description" : "add factor to sample sheet"
+                }
+              ]
+            },
+            {
+              "title" : "Modify/Delete the factor",
+              "content" : "You can modify/delete a factor by click the pencil sign.",
+              "visible" : true,
+              "img" : [],
+              "video" : [
+                {
+                  "url" : "http://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/videos/factor_v_4.mov",
+                  "description" : "add factor to sample sheet"
+                }
+              ]
+            },
+            {
+              "title" : "Add factor to the sample sheet",
+              "content" : "You can add further columns to the sample sheet by selecting +factor.",
+              "visible" : true,
+              "img" : [],
+              "video" : [
+                {
+                  "url" : "http://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/videos/factor_v_2.mov",
+                  "description" : "add factor to sample sheet"
+                }
+              ]
+            },
+            {
+              "title" : "Delete factor from the sample sheet",
+              "content" : "To delete the factor, you can download the sample file to remove the associated column(s) and re-upload the modified file.",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "Validation rules",
+              "content" : "<ul><li>- The factor should be at least 5 characters long.</li></ul>\n",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<div class='notification is-primary'> <b>MataboLights APIs</b> - You can get/add/update/delete factors of your study programmatically using our APIs. <br> Try the MetaboLights factor API - <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33_34_35_36_37_38_39_40' target='_blank'><strong>GET</strong></a>, <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33_34_35_36_37_38_39_40_41' target='_blank'><strong>POST</strong></a>, <a href='https://https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33_34_35_36_37_38_39_40_41' target='_blank'><strong>PUT</strong></a>, <a https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33_34_35_36_37_38_39' target='_blank'><strong>DELETE</strong></a></a> using our <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec' target='_blank'>swagger interface</a>. <br/> <i><small>Please note that you would need an active MetaboLights account and API Key to access the API.</small></i></div>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<div class='notification is-warning'> Can't find what you are looking for? Check out our <a href='/guides/FAQs' target='_blank'>FAQ's</a> for most commonly asked questions and solutions.</div>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            }
+          ]
+        }
+      },
+      "Protocol" : {
+        "Protocol" : {
+          "title" : "Protocol",
+          "sort_order" : 0,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "Protocols are central for reproducibility purposes; Metabolights keeps detailed descriptions of experiments in this section. includes: <br>\n1. Sample collection<br>\n2. Extraction<br>\n3. Chromatography/NMR sample<br>\n4. Mass spectrometry/NMR spectroscopy<br>\n5. Data transformation<br>\n6. Metabolite identification<br>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "Validation rules",
+              "content" : "<ul><li>- The protocol should be at least 40 characters long.</li></ul>\n<ul><li>- The protocol name should be at least 8 characters long.</li></ul>\n<ul><li>- All expected protocol should be defined.</li></ul>\n<ul><li>- All characters should be printable in the protocol description, ie. non-UTF-8 compatible characters.</li></ul>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<div class='notification is-primary'><b>MataboLights APIs</b> - You can get/add/update/delete protocol of your study\n\tprogrammatically using our APIs. <br> Try the MetaboLights factor API - <a\n\t\t\thref='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33_34_35_36_37'\n\t\t\ttarget='_blank'><strong>GET</strong></a>, <a\n\t\t\thref='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33_34'\n\t\t\ttarget='_blank'><strong>POST</strong></a>, <a\n\t\t\thref='https://https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33_34_35'\n\t\t\ttarget='_blank'><strong>PUT</strong></a>, <a\n\t\t\thref='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33'\n\t\t\ttarget='_blank'><strong>DELETE</strong></a> using our <a\n\t\t\thref='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec' target='_blank'>swagger interface</a>.\n\t<br/> <i><small>Please note that you would need an active MetaboLights account and API Key to access the\n\t\tAPI.</small></i></div>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<div class='notification is-primary'><b>MataboLights APIs</b> - You can get protocol and assay mappings for your study\n\tprogrammatically using our APIs. <br> Try the MetaboLights factor API - <a\n\t\t\thref='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/Get_assays_linked_to_protocols_for_a_given_study'\n\t\t\ttarget='_blank'><strong>GET</strong></a>using our <a\n\t\t\thref='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec' target='_blank'>swagger interface</a>.\n\t <br><i><small>Please note that you would need an active MetaboLights account and API Key to access the\n\t\tAPI.</small></i></div>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<div class='notification is-warning'> Can't find what you are looking for? Check out our <a href='/guides/FAQs' target='_blank'>FAQ's</a> for most commonly asked questions and solutions.</div>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            }
+          ]
+        }
+      },
+      "Sample" : {
+        "Sample" : {
+          "title" : "Sample",
+          "sort_order" : 0,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "The sample information should provide all relevant facts about each sample and any controls/standards included in the study. There is ONE sample sheet per study. \nSample metadata should include a unique sample name, organism, organism part (for controls use eg. experimental blank and solvent) and sample type (ie. control, QC, experimental sample). Further sample descriptors should be included where available by selecting +Factor to add new columns (eg. Gender, Age, Treatment)",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "Editing tables",
+              "content" : "",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "image42.png",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "Add a new sample",
+              "visible" : true,
+              "img" : [],
+              "video" : [
+                {
+                  "url" : "http://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/videos/add sample.mov",
+                  "description" : "add publication details in full study view"
+                }
+              ]
+            },
+            {
+              "title" : "",
+              "content" : "Edit a sample sheet cell",
+              "visible" : true,
+              "img" : [],
+              "video" : [
+                {
+                  "url" : "http://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/videos/edit a cell.mov",
+                  "description" : "add publication details in full study view"
+                }
+              ]
+            },
+            {
+              "title" : "",
+              "content" : "Edit a whole sample column",
+              "visible" : true,
+              "img" : [],
+              "video" : [
+                {
+                  "url" : "http://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/videos/edit a column.mov",
+                  "description" : "add publication details in full study view"
+                }
+              ]
+            },
+            {
+              "title" : "",
+              "content" : "Delete a sample/row",
+              "visible" : true,
+              "img" : [],
+              "video" : [
+                {
+                  "url" : "http://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/videos/delete sample.mov",
+                  "description" : "add publication details in full study view"
+                }
+              ]
+            },
+            {
+              "title" : "Delete an added column",
+              "content" : "To delete the added column, you can download the sample file to remove the associated column(s) and re-upload the modified file. <b> It is important not to remove original columns came with the study or alter column headers when editing as the format is a fixed requirement. </b>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "Validation Rules:",
+              "content" : "<ul><li>- Sample columns present in the sample file.</li></ul>\n<ul><li>- \"Sample collection\" column completely filled in.</li></ul>\n<ul><li>- No empty rows in sample file.</li></ul>\n<ul><li>- Organism name should be at least 5 characters long.</li></ul>\n<ul><li>- Organism cannot be 'human' or 'man', please choose the 'Homo sapiens' taxonomy term.</li></ul>\n<ul><li>- Organism cannot be one of the invalid terms.</li></ul>\n<b>Invalid organism term:</b> cat, dog, mouse, horse, flower, man, fish, leave, root, mice, steam, bacteria, value, food, matrix, mus, rat, blood, urine, plasma, hair, fur, skin, saliva, fly, unknown.\n",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<div class='notification is-primary'> <b>MataboLights APIs</b> - You can get a list of all sample names, mapped to files in the study and upload folder(s) programmatically using our APIs. <br> Try the MetaboLights study sample API - <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5' target='_blank'><strong>GET </strong></a>using our <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec' target='_blank'>swagger interface</a>. <br/> <i><small>Please note that you would need an active MetaboLights account and API Key to access the API.</small></i></div>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<div class='notification is-primary'> <b>MataboLights APIs</b> - You can get Get ISA-Tab Sample file programmatically using our APIs.  <br> Try the MetaboLights study ISA-Tab sample API - <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9' target='_blank'><strong>GET </strong></a>using our <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec' target='_blank'>swagger interface</a>. <br/> <i><small>Please note that you would need an active MetaboLights account and API Key to access the API.</small></i></div>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<div class='notification is-warning'> Can't find what you are looking for? Check out our <a href='/guides/FAQs' target='_blank'>FAQ's</a> for most commonly asked questions and solutions.</div>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            }
+          ]
+        }
+      },
+      "Assay" : {
+        "Assay Overview" : {
+          "title" : "Assay Overview",
+          "sort_order" : 0,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "The assay information will describe the assay process for each control and sample in the assay and connect the sample name to both its corresponding raw data file and metabolite identification table. MULTIPLE assays can be added per study. <br><br>\n\nThe assay is divided into sections each starting with a Protocol Ref column, eg. Chromatography, which describes the specifics of that part of the assay using controlled vocabulary, so every study using the same system is easily findable.",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "Validation Rules:",
+              "content" : "<ul><li>- At least one assay file in the study. </li></ul>\n<ul><li>- All the referenced assay files can be found. </li></ul>\n<ul><li>- No empty column names in the assay spreadsheet. </li></ul>\n<ul><li>- Template columns in the relevant assay sheet can not be removed. </li></ul>\n<ul><li>- Required columns can not be empty. </li></ul>\n<ul><li>- Sample names that are all referenced in assays. </li></ul>\n<ul><li>- Raw or Derived files existed in MS study. </li></ul>\n<ul><li>- Derived, fid or acqu files existed in NMR study. </li></ul>\n<ul><li>- Are there more sample rows than assay rows. </li></ul>\n<ul><li>- Assay files are referenced of the correct type. </li></ul>\n",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<div class='notification is-primary'> <b>MataboLights APIs</b> - You can get/add/delete assays of your study programmatically using our APIs. <br> Try the MetaboLights study title API - <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11_12' target='_blank'><strong>GET</strong></a>, <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11' target='_blank'><strong>POST</strong></a>,<a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11_12_13 target='_blank'><strong> DELETE</strong></a> using our <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec' target='_blank'>swagger interface</a>. <br/> <i><small>Please note that you would need an active MetaboLights account and API Key to access the API.</small></i></div>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<div class='notification is-primary'> <b>MataboLights APIs</b> - You can download assay file from your study programmatically using our APIs. <br> Try the MetaboLights study title API - <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10' target='_blank'><strong>GET</strong></a> using our <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec' target='_blank'>swagger interface</a>. <br/> <i><small>Please note that you would need an active MetaboLights account and API Key to access the API.</small></i></div>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<div class='notification is-warning'> Can't find what you are looking for? Check out our <a href='/guides/FAQs' target='_blank'>FAQ's</a> for most commonly asked questions and solutions.</div>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            }
+          ]
+        },
+        "NMR Assay" : {
+          "title" : "NMR Assay\n",
+          "sort_order" : 0,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "<table class=\"table is-bordered is-striped is-narrow is-hoverable is-fullwidth\">\n\t<tr>\n\t\t<th>Column Name</th>\n\t\t<th>Description</th>\n\t\t<th>Example</th>\n\t</tr>\n\t<tr>\n\t\t<td>Sample Name</td>\n\t\t<td>A unique identifier from a particular source (a batch of samples can have a unique sample name but the same\n\t\t\tsource name). It’s usually associated with an output spectral data filename.\n\t\t</td>\n\t\t<td>pas101220_104</td>\n\t</tr>\n\t<tr>\n\t\t<td>Protocol REF - Extraction</td>\n\t\t<td>This is the column marking the start of data pertaining to <b>Extraction</b>. The example term MUST be\n\t\t\tpresent in all rows of this column.\n\t\t</td>\n\t\t<td>Extraction</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Extraction Method</td>\n\t\t<td>This how a sample was extracted from its source material.</td>\n\t\t<td>Methanol,400 µL water</td>\n\t</tr>\n\t<tr>\n\t\t<td>Extract Name</td>\n\t\t<td>Leave blank if you don’t have one.</td>\n\t\t<td></td>\n\t</tr>\n\t<tr>\n\t\t<td>Protocol REF - NMR sample</td>\n\t\t<td>This is the column marking the start of data pertaining to <b>NMR sample</b>. This should be present in every\n\t\t\tsample row.\n\t\t</td>\n\t\t<td>NMR sample</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - NMR tube type</td>\n\t\t<td>Size and type of tube.</td>\n\t\t<td>standard 5 mm glass NMR tube (Wilmad, LabGlass, USA)</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Solvent</td>\n\t\t<td>Solvent used in the NMR sample.</td>\n\t\t<td>D2O,CDCL3</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Sample pH</td>\n\t\t<td>Sample pH value.</td>\n\t\t<td>7</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Temperature</td>\n\t\t<td>Sample Temperature value.</td>\n\t\t<td>298</td>\n\t</tr>\n\t<tr>\n\t\t<td>Unit</td>\n\t\t<td>With relevant temperature unit.</td>\n\t\t<td>Kelvin, Celsius</td>\n\t</tr>\n\t<tr>\n\t\t<td>Labelled Extract Name</td>\n\t\t<td>Leave blank if you don’t have one.</td>\n\t\t<td></td>\n\t</tr>\n\t<tr>\n\t\t<td>Label</td>\n\t\t<td>If you used a chemical or biochemical marker in the sample such as a radioactive isotope of fluorescent dye\n\t\t\twhich is bound to a material in order to make it detectable in an analytical instrument then enter it here.\n\t\t</td>\n\t\t<td>hydrogen molecular entity</td>\n\t</tr>\n\t<tr>\n\t\t<td>Protocol REF - NMR spectroscopy</td>\n\t\t<td>This is the column marking the start of data pertaining to <b>NMR spectroscopy</b>. This should be present in\n\t\t\tevery sample row.\n\t\t</td>\n\t\t<td>NMR spectroscopy</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Instrument</td>\n\t\t<td>Add the full name of the instrument you used for the NMR study in this assay, including the model number and\n\t\t\tits operating frequency\n\t\t</td>\n\t\t<td>Varian Unity Inova 500 MHz spectrometer</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - NMR Probe</td>\n\t\t<td>Add a full description including the name and type of probe used.This information can be found in the\n\t\t\t‘Acquisition Parameter Data File’, ‘acqus.txt’ found within the Bruker raw data file structure, in the field\n\t\t\tmarked ‘ $PROBHD= ’.\n\t\t</td>\n\t\t<td>5 mm CPTCI 1H-13C/15N/D Z-GRD,TRIPLE</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Number of transients</td>\n\t\t<td>The number of scans acquired. This information can be found in the ‘Acquisition Parameter Data File’,\n\t\t\t‘acqus.txt’ found within the Bruker raw data file structure, in the field marked ‘$NS=’.\n\t\t</td>\n\t\t<td>128</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Pulse sequence name</td>\n\t\t<td>The pulse sequence program used with a short description.This information can be found in the ‘Acquisition\n\t\t\tParameter Data File’, ‘acqus.txt’ found within the Bruker raw data file structure, in the field marked ‘\n\t\t\t$PULPROG= ’ and in the file ‘pulseprogram.txt’.\n\t\t</td>\n\t\t<td>1D 1H with presaturation (presat)</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Magnetic field strength</td>\n\t\t<td>In Tesla (T)</td>\n\t\t<td>11.7</td>\n\t</tr>\n\t<tr>\n\t\t<td>Unit</td>\n\t\t<td>Units can be added in exactly the same way as Temperature unit column.</td>\n\t\t<td>Tesla</td>\n\t</tr>\n\t<tr>\n\t\t<td>Acquisition Parameter Data File</td>\n\t\t<td>These should contain the acquisition parameter data. In the Bruker raw data file structure, the file is\n\t\t\tcalled ‘acqus.txt ’.\n\t\t</td>\n\t\t<td>acqus1.txt</td>\n\t</tr>\n\t<tr>\n\t\t<td>Protocol REF - NMR assay</td>\n\t\t<td>This is the column marking the start of data pertaining to <b>NMR assay</b>. This should be present in every\n\t\t\tsample row.\n\t\t</td>\n\t\t<td>NMR assay</td>\n\t</tr>\n\t<tr>\n\t\t<td>NMR Assay Name</td>\n\t\t<td>This can be, but doesn’t have to be, the same as the ‘Sample Name’</td>\n\t\t<td>17_QC1</td>\n\t</tr>\n\t<tr>\n\t\t<td>Free Induction Decay Data File</td>\n\t\t<td>This is where you should enter, either the folder or the zipped NMR raw files for each sample in this\n\t\t\tstudy.\n\t\t</td>\n\t\t<td>17_QC1.zip</td>\n\t</tr>\n\t<tr>\n\t\t<td>Protocol REF Data transformation</td>\n\t\t<td>This is the column marking the start of data pertaining to <b>Data transformation</b>. This should be present in\n\t\t\tevery sample row.\n\t\t</td>\n\t\t<td>Data transformation</td>\n\t</tr>\n\t<tr>\n\t\t<td>Normalization name</td>\n\t\t<td>These should contain the normalization data files.</td>\n\t\t<td>Total sum</td>\n\t</tr>\n\t<tr>\n\t\t<td>Derived Spectral Data File</td>\n\t\t<td>If your data has been transformed into one of the open-source raw data formats e.g. JCAMP , nmrML , then add\n\t\t\tthem here.Please add full path of the file in the cell\n\t\t</td>\n\t\t<td>17_QC1.nmrML,DERIVED_FILES/17_QC1.nmrML</td>\n\t</tr>\n\t<tr>\n\t\t<td>Protocol REF Metabolite identification</td>\n\t\t<td>This is the column marking the start of data pertaining to <b>Metabolite identification</b>. This should be\n\t\t\tpresent in every sample row.\n\t\t</td>\n\t\t<td>Metabolite identification</td>\n\t</tr>\n\t<tr>\n\t\t<td>Data Transformation Name</td>\n\t\t<td>These should contain the data transformation files</td>\n\t\t<td></td>\n\t</tr>\n\t<tr>\n\t\t<td>Metabolite Assignment File (MAF)</td>\n\t\t<td>A TSV file containing information about the metabolites investigated in the study. Information regarding\n\t\t\tdatabase accession IDs , where in the spectra the metabolite is found and data pertaining to its abundance\n\t\t\twithin the study samples should be in this file.\n\t\t</td>\n\t\t<td>m_mtbls1_NMR_spectroscopy_v2_maf.tsv</td>\n\t</tr>\n</table>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<div class='notification is-warning'> Can't find what you are looking for? Check out our <a href='/guides/FAQs' target='_blank'>FAQ's</a> for most commonly asked questions and solutions.</div>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            }
+          ]
+        },
+        "LC_MS Assay" : {
+          "title" : "LC_MS Assay\n",
+          "sort_order" : 0,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "<table class=\"table is-bordered is-striped is-narrow is-hoverable is-fullwidth\">\n\t<tr>\n\t\t<th>Column Name</th>\n\t\t<th>Description</th>\n\t\t<th>Example</th>\n\t</tr>\n\t<tr>\n\t\t<td>Sample Name</td>\n\t\t<td>A unique identifier from a particular source (a batch of samples can have a unique sample name but the same\n\t\t\tsource name). It’s usually associated with an output spectral data filename.\n\t\t</td>\n\t\t<td>ADG10003u_007</td>\n\t</tr>\n\t<tr>\n\t\t<td>Protocol REF - Extraction</td>\n\t\t<td>This is the column marking the start of data pertaining to <b>Extraction</b>. The example term MUST be present in all rows of this column.\n\t\t</td>\n\t\t<td>Extraction</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Post Extraction</td>\n\t\t<td>This column describes how the sample was extracted into a solvent prior to being injected into the\n\t\t\tanalytical instrument of choice.\n\t\t</td>\n\t\t<td>400 µL water</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Derivatization</td>\n\t\t<td>If the sample has been subjected to chemical modification prior to injection.</td>\n\t\t<td>sylilation, acetylation, alkylation</td>\n\t</tr>\n\t<tr>\n\t\t<td>Extract Name</td>\n\t\t<td>Leave blank if you don’t have one.</td>\n\t\t<td></td>\n\t</tr>\n\t<tr>\n\t\t<td>Protocol REF - Chromatography</td>\n\t\t<td>This is the column marking the start of data pertaining to <b>Chromatography</b>. The example term MUST be present in all rows of this column.\n\t\t</td>\n\t\t<td>Chromatography</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Chromatography Instrument</td>\n\t\t<td>Add the full name of the instrument you used for the Chromatographic part of this assay, including the\n\t\t\tmanufacturer and model number as reported in manufacturer’s brochures, user manuals, or on their website.\n\t\t</td>\n\t\t<td>Shimadzu Nexera UHPLC system</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Column model</td>\n\t\t<td>Manufacturer, model number and dimensions.\n\t\t</td>\n\t\t<td>HSS T3 C18 (1.8 μm, 1.0 x 100 mm; Waters), Hypersil GOLD C18 (1.9 μm, 2.1 mm x 150 mm; Thermo\n\t\t\tScientific),Discovery HS F5 (3 µm, 2.1 mm x 150 mm; Thermo Scientific)\n\t\t</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Column type</td>\n\t\t<td>Type or phase of column used.</td>\n\t\t<td>reverse phase,normal phase</td>\n\t</tr>\n\t<tr>\n\t\t<td>Labelled Extract Name</td>\n\t\t<td>Leave blank if you don’t have one.</td>\n\t\t<td></td>\n\t</tr>\n\t<tr>\n\t\t<td>Label</td>\n\t\t<td>If you used a chemical or biochemical marker in the sample such as a radioactive isotope of fluorescent dye\n\t\t\twhich is bound to a material in order to make it detectable in an analytical instrument then enter it here.\n\t\t</td>\n\t\t<td></td>\n\t</tr>\n\t<tr>\n\t\t<td>Protocol REF - Mass spectrometry</td>\n\t\t<td>This is the column marking the start of data pertaining to <b>Mass spectrometry</b>. The example term MUST be present in all rows of this column.\n\t\t</td>\n\t\t<td>Mass spectrometry</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Scan polarity</td>\n\t\t<td>Values should identical within each assay. If you have ‘positive’ or ‘negative’ values in the same assay\n\t\t\tthen split them into separate ‘positive’ and ‘negative’ assays.\n\t\t</td>\n\t\t<td>positive, negative or alternating</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Scan m/z range</td>\n\t\t<td>The range used in the assay.</td>\n\t\t<td>100-1000,MRM</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Instrument</td>\n\t\t<td>Add the full name of the mass spectrometer/detector you used for this LC/MS assay, including the instrument\n\t\t\tmanufacturer and model number as reported in manufacturer’s brochures, user manuals, or on their website.\n\t\t</td>\n\t\t<td>Bruker micrOTOF-Q II, LTQ Orbitrap Discovery, Thermo Scientific Exactive</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Ion source</td>\n\t\t<td>Where applicable to the instrument.</td>\n\t\t<td>ESI</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Mass analyzer</td>\n\t\t<td>The analyser/detector of the mass fragments generated during the assay.</td>\n\t\t<td>Triple quadrupole</td>\n\t</tr>\n\t<tr>\n\t\t<td>MS Assay Name</td>\n\t\t<td>This can be, but doesn’t have to be, the same as the ‘Sample Name’</td>\n\t\t<td>treated 0 min rabbit 1, M1146_20h_1</td>\n\t</tr>\n\t<tr>\n\t\t<td>Raw Spectral Data File</td>\n\t\t<td>This is where you should enter the Raw (unprocessed) MS data files (.RAW).Please add full path of the file\n\t\t\tin the cell.\n\t\t</td>\n\t\t<td>PFPP M1146_20h_1_063.lcd, /RAW_FILES/Sepd340.raw</td>\n\t</tr>\n\t<tr>\n\t\t<td>Protocol REF - Data transformation</td>\n\t\t<td>This is the column marking the start of data pertaining to <b>Data transformation</b>. The example term MUST be present in all rows of this column.\n\t\t</td>\n\t\t<td>Data transformation</td>\n\t</tr>\n\t<tr>\n\t\t<td>Normalization name</td>\n\t\t<td>these should contain the normalization data files preferably as an Excel spreadsheet file.\n\t\t\tIf you don’t have these then leave the cells/column blank.\n\t\t</td>\n\t\t<td>MSpos-Ex1-Col0-48h-Ag_normalized_data.xlsx,MSpos-Ex1-Col0-48h-Ag_normalized_data.txt</td>\n\t</tr>\n\t<tr>\n\t\t<td>Derived Spectral Data File</td>\n\t\t<td>If your data has been transformed into one of the open-source raw data formats e.g. mzML , CDF, or any other\n\t\t\tconverted file, then add them here.Please add full path of the file in the cell.\n\t\t</td>\n\t\t<td>Sepd340.mzML,/DERIVED FILES/Sepd340.mzML</td>\n\t</tr>\n\t<tr>\n\t\t<td>Protocol REF - Metabolite identification</td>\n\t\t<td>This is the column marking the start of data pertaining to <b>Metabolite identification</b>. The example term MUST be present in all rows of this column.\n\t\t</td>\n\t\t<td>Metabolite identification</td>\n\t</tr>\n\t<tr>\n\t\t<td>Data Transformation Name</td>\n\t\t<td>These should contain the data transformation files.</td>\n\t\t<td></td>\n\t</tr>\n\t<tr>\n\t\t<td>Metabolite Assignment File (MAF)</td>\n\t\t<td>A TSV file containing information about the metabolites investigated in the study. Information regarding\n\t\t\tdatabase accession IDs , where in the spectra the metabolite is found and data pertaining to its abundance\n\t\t\twithin the study samples should be in this file.\n\t\t</td>\n\t\t<td>m_mtbls1_mass_spectrometry_v2_maf.tsv</td>\n\t</tr>\n</table>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<div class='notification is-warning'> Can't find what you are looking for? Check out our <a href='/guides/FAQs' target='_blank'>FAQ's</a> for most commonly asked questions and solutions.</div>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            }
+          ]
+        },
+        "GC_MS Assay" : {
+          "title" : "GC_MS Assay",
+          "sort_order" : 0,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "<table class=\"table is-bordered is-striped is-narrow is-hoverable is-fullwidth\">\n\t<tr>\n\t\t<th>Column Name</th>\n\t\t<th>Description</th>\n\t\t<th>Example</th>\n\t</tr>\n\t<tr>\n\t\t<td>Sample Name</td>\n\t\t<td>A unique identifier from a particular source (a batch of samples can have a unique sample name but the same\n\t\t\tsource name). It’s usually associated with an output spectral data filename.\n\t\t <br/> <img style=\"width: 100%\" src=\"https://raw.githubusercontent.com/EBI-Metabolights/guides/development/media/images/image42.png\"> </td>\n\t\t<td>Lva001</td>\n\t</tr>\n\t<tr>\n\t\t<td>Protocol REF - Extraction</td>\n\t\t<td>This is the column marking the start of data pertaining to <b>Extraction</b>. The example term MUST be\n\t\t\tpresent in all rows of this column.\n\t\t</td>\n\t\t<td>Extraction</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Post Extraction</td>\n\t\t<td>This how the sample was extracted into a solvent prior to being injected into the analytical instrument of\n\t\t\tchoice.\n\t\t</td>\n\t\t<td>2 ml ethyl acetate</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Derivatization</td>\n\t\t<td>If the sample has been subjected to chemical modification prior to injection.</td>\n\t\t<td>sylilation, acetylation, alkylation, other</td>\n\t</tr>\n\t<tr>\n\t\t<td>Extract Name</td>\n\t\t<td>Leave blank if you don’t have one.</td>\n\t\t<td></td>\n\t</tr>\n\t<tr>\n\t\t<td>Protocol REF - Chromatography</td>\n\t\t<td>This is the column marking the start of data pertaining to <b>Chromatography</b>. The example term MUST be\n\t\t\tpresent in all rows of this column.\n\t\t</td>\n\t\t<td>Chromatography</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Chromatography Instrument</td>\n\t\t<td>Add the full name of the instrument you used for the Chromatographic part of this assay, including the\n\t\t\tmanufacturer and model number as reported in manufacturer’s brochures, user manuals, or on their website.\n\t\t</td>\n\t\t<td>Shimadzu GCMS-QP2010 Ultra</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Column model</td>\n\t\t<td>Manufacturer, model number and dimensions in the format shown in the examples:\n\t\t</td>\n\t\t<td>Zebron ZB-AAA GC(10 m x 0.25 mm; Phenomenex), HP-5 GC (0.25 μm, 30 m x 0.320 mm; Agilent Technologies)\n\t\t</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Column type</td>\n\t\t<td>Polarity of column used. This information can be found on the manufacturer’s website.\n\t\t</td>\n\t\t<td>low polarity, medium polarity, or high polarity</td>\n\t</tr>\n\t<tr>\n\t\t<td>Labelled Extract Name</td>\n\t\t<td>Leave blank if you don’t have one.</td>\n\t\t<td></td>\n\t</tr>\n\t<tr>\n\t\t<td>Label</td>\n\t\t<td>If you used a chemical or biochemical marker in the sample such as a radioactive isotope of fluorescent dye\n\t\t\twhich is bound to a material in order to make it detectable in an analytical instrument then enter it here.\n\t\t</td>\n\t\t<td></td>\n\t</tr>\n\t<tr>\n\t\t<td>Protocol REF - Mass spectrometry</td>\n\t\t<td>This is the column marking the start of data pertaining to <b>Mass spectrometry</b>. The example term MUST\n\t\t\tbe present in all rows of this column.\n\t\t</td>\n\t\t<td>Mass spectrometry</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Scan polarity</td>\n\t\t<td>This should be ‘positive’ for a GC/MS assay.</td>\n\t\t<td>positive</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value[Scan m/z range]</td>\n\t\t<td>The range used in the assay.</td>\n\t\t<td>50-400,35-500</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Instrument</td>\n\t\t<td>Add the full name of the mass spectrometer/detector you used for this GC/MS assay, including the instrument\n\t\t\tmanufacturer and model number as reported in manufacturer’s brochures, user manuals, or on their website.\n\t\t</td>\n\t\t<td>Thermo Electron Trace DSQ quadrupole, Agilent 5975C MSD, LECO Pegasus 4D, Waters GCT Premier</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Ion source</td>\n\t\t<td>Where applicable to the instrument.</td>\n\t\t<td>electron ionization</td>\n\t</tr>\n\t<tr>\n\t\t<td>Parameter Value - Mass analyzer</td>\n\t\t<td>The analyser/detector of the mass fragments generated during the assay,</td>\n\t\t<td>quadrupole</td>\n\t</tr>\n\t<tr>\n\t\t<td>MS Assay Name</td>\n\t\t<td>This can be, but doesn’t have to be, the same as the ‘Sample Name’</td>\n\t\t<td>S1-4528-S17</td>\n\t</tr>\n\t<tr>\n\t\t<td>Raw Spectral Data File</td>\n\t\t<td>This is where you should enter the Raw (unprocessed) MS data files (.RAW ). Please add full path of the file\n\t\t\tin the cell.\n\t\t</td>\n\t\t<td>S1-4528-S17.CDF,/RAW_FILES/S1-4528-S17.CDF</td>\n\t</tr>\n\t<tr>\n\t\t<td>Protocol REF - Data transformation</td>\n\t\t<td>This is the column marking the start of data pertaining to <b>Data transformation</b>. The example term MUST\n\t\t\tbe present in all rows of this column.\n\t\t</td>\n\t\t<td>Data transformation</td>\n\t</tr>\n\t<tr>\n\t\t<td>Normalization name</td>\n\t\t<td>These should contain the normalization data files preferably as an Excel spreadsheet file. If you don’t have\n\t\t\tthese then leave the cells/column blank..\n\t\t</td>\n\t\t<td>WHELP-GCMS.xlsx,WHELP-GCMS.txt</td>\n\t</tr>\n\t<tr>\n\t\t<td>Derived Spectral Data File</td>\n\t\t<td>If your data has been transformed into one of the open-source raw data formats e.g. mzML , CDF, or any other\n\t\t\tconverted file, then add them here. Please add full path of the file in the cell.\n\t\t</td>\n\t\t<td>Sepd340.mzML, /DERIVED FILES/Sepd340.mzML</td>\n\t</tr>\n\t<tr>\n\t\t<td>Protocol REF - Metabolite identification</td>\n\t\t<td>This is the column marking the start of data pertaining to <b>Metabolite identification</b>. The example\n\t\t\tterm MUST be present in all rows of this column.\n\t\t</td>\n\t\t<td>Metabolite identification</td>\n\t</tr>\n\t<tr>\n\t\t<td>Data Transformation Name</td>\n\t\t<td>These should contain the data transformation files.</td>\n\t\t<td></td>\n\t</tr>\n\t<tr>\n\t\t<td>Metabolite Assignment File (MAF)</td>\n\t\t<td>A TSV file containing information about the metabolites investigated in the study. Information regarding\n\t\t\tdatabase accession IDs , where in the spectra the metabolite is found and data pertaining to its abundance\n\t\t\twithin the study samples should be in this file.\n\t\t</td>\n\t\t<td>m_whelp_metabolite_profiling_mass_spectrometry-1_v2_maf.tsv</td>\n\t</tr>\n</table>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<div class='notification is-warning'> Can't find what you are looking for? Check out our <a href='/guides/FAQs' target='_blank'>FAQ's</a> for most commonly asked questions and solutions.</div>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            }
+          ]
+        }
+      },
+      "MAF" : {
+        "Title" : {
+          "title" : "MAF",
+          "content" : "",
+          "sort_order" : 0,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "Each assay has a corresponding metabolite table (referenced in the metabolite assignment file column). When you created your assay a corresponding metabolite annotation file will add to your study and referenced automatically (m_MTBLSxxx.tsv). The metabolite information should include all metabolites / unknowns / features identified within the study.<br>\n\nIf results are cumulative of multiple assays, use the metabolite assignment file column in the assay table to point all assays to the same m_MTBLSxxx.tsv file name.\n\n",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "Validation Rules:",
+              "content" : "<ul><li>- MAF can not be empty.</li></ul>\n<ul><li>- All MAF should be referenced in the assay. </li></ul>\n<ul><li>- MAF file should readable. </li></ul>\n<ul><li>- \"database_identifier\" should be the first column. </li></ul>\n<ul><li>- Columns 'database_identifier', 'chemical_formula', 'smiles', 'inchi' and 'metabolite_identification' found in the correct column position.</li></ul>\n<ul><li>- MS/NMR assay name can be found in the MAF.</li></ul>\n<ul><li>- Sample name can be found in the MAF.</li></ul>\n<ul><li>- No empty rows in the MAF.</li></ul>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<div class='notification is-primary'> <b>MataboLights APIs</b> - You can update the title of your study programmatically using our APIs. <br> Try the MetaboLights study title API - <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23' target='_blank'><strong>GET</strong></a>, <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24' target='_blank'><strong>PUT</strong></a> using our <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec' target='_blank'>swagger interface</a>. <br/> <i><small>Please note that you would need an active MetaboLights account and API Key to access the API.</small></i></div>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "",
+              "content" : "<div class='notification is-warning'> Can't find what you are looking for? Check out our <a href='/guides/FAQs' target='_blank'>FAQ's</a> for most commonly asked questions and solutions.</div>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            }
+          ]
+        }
+      },
+      "Files" : {
+        "Upload" : {
+          "title" : "Upload",
+          "sort_order" : 0,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "",
+              "content" : "When using the Guided submission you will be prompted to upload raw files. If you do not have these available at the time you can come back to the same stage of the guided submission from your My Studies page at a later time. Alternatively, you can use the upload option in the Files tab of your study in the Online editor view of your study. <br><br>There are 2 file upload methods;",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "1. Aspera connect plugin (recommended)",
+              "content" : "Aspera is a plugin that is very simple to install in your browser. Select the Aspera Upload option and then Install the plugin. Aspera is a fast way of transferring files which also enables the user to stop the transfer, and later resume where you left off. ",
+              "visible" : true,
+              "img" : [],
+              "video" : [
+                {
+                  "url" : "http://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/videos/install aspera.mov",
+                  "description" : "Install Aspera"
+                }
+              ]
+            },
+            {
+              "title" : "",
+              "content" : "If you see raw data files in the final upload with .aspx appended, the file upload may have paused. Please open Aspera connect on your computer to check the status of your upload and resume upload if necessary. If the upload has completed you can delete the .aspx appended files or contact us to do so. NB. You may need to contact your local IT support if you do not have privileges to install browser plugins.",
+              "visible" : true,
+              "img" : [],
+              "video" : [
+                {
+                  "url" : "http://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/videos/upload file by aspera.mov",
+                  "description" : "upload file by aspera"
+                }
+              ]
+            },
+            {
+              "title" : "2. FTP",
+              "content" : "FTP can be used on any computer, either directly from the command line or through a graphical user interface. However, on most computers, you have to install an FTP client first. If you are not familiar with using FTP from the command line, we can recommend the free <a href = 'https://filezilla-project.org '>FileZilla</a> tool. <br><br>\nYou willl receive a email when you request a upload folder for your study, including FTP setting parameters:<br>\nuser: mtblight <br>\npassword: **** <br>\nserver: ftp-private.ebi.ac.uk <br>\nremote folder: /prod/&lt;your studyID&gt-obfuscation_code <br><br>\n\nPlease be aware the remote folder needs to be entirely typed, as the folder is not browsable. So use \"cd /prod/&lt;your studyID&gt;-obfuscation_code\" to access your private folder.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "FileZilla.jpg\n",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "Upload file to a subfolder",
+              "content" : "You need to organise files locally in the same folder structure and then upload. This would automatically add it to the corresponding folders in the study.",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            }
+          ]
+        },
+        "Download" : {
+          "title" : "Download\n",
+          "sort_order" : 1,
+          "description" : "Studies can be edited online or downloaded and edited in eg. Excel. There are three file download methods;\n",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "1. Download from the online editor",
+              "content" : "",
+              "visible" : true,
+              "img" : [],
+              "video" : [
+                {
+                  "url" : "http://ftp.ebi.ac.uk/pub/databases/metabolights/documentation/videos/download files.mov",
+                  "description" : "Install Aspera"
+                }
+              ]
+            },
+            {
+              "title" : "2. Aspera download",
+              "content" : "To download <b>Public</b> study, you can use Aspera download in the file section.",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "aspera download.png"
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "3. API download",
+              "content" : "You can view/download files by using our web service: typing <font color='#1e90ff'>https://www.ebi.ac.uk/metabolights/ws/studies/&lt;studyid&gt;/&lt;filename&gt;</font> to your browser address bar. <br> <br> \n<div class='notification is-primary'> <b>MataboLights APIs</b> - You also can get Get ISA-Tab Investigation/Assay/Sample files programmatically using our APIs.  <br> Try the MetaboLights study ISA-Tab sample API. - <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8' target='_blank'><strong>GET_Investigation</strong>,<a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9_10' target='_blank'><strong> GET_Assay </strong>,<a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec/nickname_0_1_2_3_4_5_6_7_8_9' target='_blank'><strong> GET_Sample </strong></a>using our <a href='https://www.ebi.ac.uk/metabolights/ws/api/spec.html#!/spec' target='_blank'>swagger interface</a>. <br/> <i><small>Please note that you would need an active MetaboLights account and API Key to access the API.</small></i></div>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            }
+          ]
+        },
+        "Other" : {
+          "title" : "Other\n",
+          "sort_order" : 1,
+          "description" : "\n",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "Accepted Derived / raw file formats",
+              "content" : "<b>Derived file formats:</b> mzml, nmrml, mzxml, xml, mzdata, cef, cnx, peakml, xy, smp, scan <br>\n<b>Raw file formats: </b> d, raw, idb, cdf, wiff, scan, dat, cmp, cdf.cmp, lcd, abf, jpf, xps, mgf\n",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            }
+          ]
+        }
+      },
+      "FAQs" : {
+        "Upload-Download" : {
+          "title" : "Upload/Download Files",
+          "sort_order" : 0,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "> What is the difference between FTP and Aspera?",
+              "content" : "FTP, or File Transfer Protocol, is a standard network protocol for exchanging files across the internet. Aspera is a faster alternative to FTP and provides greater user control enabling individual transfer rates and bandwidth sharing to be set.",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "> Failed to open TCP connection for SSH error while using Aspera",
+              "content" : "This error was due to your firewall settings, which is preventing the Aspera connect plugin from connecting to our servers. Please make sure that your firewall isn’t blocking request to our servers. (Remote host: <b>hx-fasp-1.ebi.ac.uk / fasp.ebi.ac.uk</b>, Port: <b>33001</b>) and run the diagnosis <a target='_blank' href='https://test-connect.asperasoft.com/'>Aspera test-connect</a>.<br/><br/> If the problem still persists, please contact us at <a href='mailto:metabolights-help@ebi.ac.uk'>metabolights-help@ebi.ac.uk</a>, along with your Aspera log files. <br/><a target='_blank' href='https://www.ibm.com/support/pages/where-are-logs-ibm-aspera-connect-located'>Where can I find Aspera log files?</a><br/><br/><i><small>Typically, consumer and business firewalls allow direct outbound connections from client computers on TCP and UDP. There is no configuration required for Aspera transfers in this case. In the special case of firewalls disallowing direct outbound connections, typically using proxy servers for Web browsing, the following configuration applies: <br/>- Allow outbound connections from the Aspera client on the TCP port (TCP/33001, by default, when connecting to a Windows server, or on another non-default port for other server operating systems). <br/>- Allow outbound connections from the Aspera client on the fasp UDP port (33001, by default). <br/>- If you have a local firewall on your server (like Windows Firewall), verify that it is not blocking your SSH and fasp transfer ports (e.g. TCP/UDP 33001).<small></i>",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "> How to use FTP uploader (e.g. FileZilla)\n",
+              "content" : "You willl receive a email when you request a upload folder for your study, including:<br>\nuser: mtblight <br>\npassword: **** <br>\nserver: ftp-private.ebi.ac.uk <br>\nremote folder: /prod/&lt;your studyID&gt-obfuscation_code <br><br>\n\nPlease be aware the remote folder needs to be entirely typed, as the folder is not browsable. So use \"cd /prod/&lt;your studyID&gt;-obfuscation_code\" to access your private folder. For example with <a href = 'https://filezilla-project.org '>FileZilla</a>:",
+              "visible" : true,
+              "img" : [
+                {
+                  "url" : "FileZilla.jpg\n",
+                  "description" : ""
+                }
+              ],
+              "video" : []
+            },
+            {
+              "title" : "> Can I upload a compressed file (*.zip)?",
+              "content" : "If your data is huge, compression definitely helps especially if you are using FTP. We are okay with both compressed or uncompressed RAW files. If you upload compressed .zip files, please let us know when you have finished uploading all your files. We will then unzip them for you.\n",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "> Error: Insufficient permissions?",
+              "content" : "Please contact us at <a href='mailto:metabolights-help@ebi.ac.uk'>metabolights-help@ebi.ac.uk</a> to resolve this issue.",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            }
+          ]
+        },
+        "Files" : {
+          "title" : "Files",
+          "sort_order" : 0,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "> Error: Insufficient permissions",
+              "content" : "Please contact us directly at <a href = 'mailto:metabolights-help@ebi.ac.uk'>MetaboLights Help</a> to resolve this issue.",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "> Error: No raw or derived files found in the assay",
+              "content" : "The online editor by default recognises and lists only the root level files/folders.  Please organise your raw files and derived files in the subfolders and specify the full path in the assay sheets. <br>\nExample:<br>\nDERIVED_FILES/subfolder/file.mzml<br>\nRAW_FILES/subfolder/folder.d<br>\n",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "> Do you accept Excel format?\n",
+              "content" : "We support metabolite identification information reported as tab-separated values (tsv file - <a href = 'https://isa-tools.org'>ISA</a> ) .",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "> How can I move files from one folder to another?",
+              "content" : "Please contact us at <a href = 'mailto:metabolights-help@ebi.ac.uk'>MetaboLights Help</a> to let us move the files for you. Alternatively, you can delete the files and reupload again in the right folder location.",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "> Can I upload self-defined folder to the study?",
+              "content" : "You can structure the data in whatever the way you would like to in the study. We recommend you upload RAW files into the RAW_FILES folder and similarly Derived files into the DERIVED_FILES folder.",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : ">  How can I recover deleted files？",
+              "content" : "Please contact us directly at <a href = 'mailto:metabolights-help@ebi.ac.uk'>MetaboLights Help</a>, we will help you to restore the deleted files.",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            }
+          ]
+        },
+        "Sample" : {
+          "title" : "Sample",
+          "sort_order" : 0,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "> What is the difference between sample name and source name?",
+              "content" : "<b>Source Name</b> is a general name that reflects the origin of the samples, e.g urine or serum. <br>\r<b>Sample Name</b>  is the most important element in the ISA-Tab structure that will link everything together. This should be a unique individual name to the sample that has been used throughout the study.",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            }
+          ]
+        },
+        "Assay" : {
+          "title" : "Assay",
+          "sort_order" : 0,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "> Error: All Raw and Derived Spectral Data Files are missing from assay.",
+              "content" : "Please upload associate raw files and populate the 'RAW Spectral Data File' column with the names of the appropriate .raw file for the sample in your Assays. ",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "> What is the difference between \"Raw Spectral Data File\" and \"Derived Spectral Data File\"?",
+              "content" : "\"Raw Spectral Data File” are the files directly from the analysis platform. <br>\n\"Derived Spectral Data File” include opensource converted files (eg. your mzML) or any other derived file you may wish to include.",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "> How can replicates be defined in the assay table? ",
+              "content" : "You could add an additional column to your assays called ‘replicate' which you might prefer to make a clear distinction that it is a replicate.",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            }
+          ]
+        },
+        "MAF" : {
+          "title" : "MAF\n",
+          "sort_order" : 0,
+          "description" : "",
+          "visible" : true,
+          "sections" : [
+            {
+              "title" : "> How can I add the columns to include the peak area of each metabolite identified per sample?",
+              "content" : "Please download the MAF sheet, and edit it locally, e.g. Excel. You can add sample columns to the right end of the sheet and fill in the peak area values to the relevant sample columns in the relevant metabolite rows. Save and then re-upload MAF to your study. ",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "> Where are the units of the final entries in the maf file defined? ",
+              "content" : "The MAF table values are generally given as either direct reads from the analysis platform or values normalised to controls. There are no unit fields defined.",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            },
+            {
+              "title" : "> If we enter several retention times (for different batches which are defined in the sample table), can they all be entered in the retention time column of the maf file separated by slashes?",
+              "content" : "You can add these as new rows if you want to specify the RT for each sample or separated with a pipeline “ | “.",
+              "visible" : true,
+              "img" : [],
+              "video" : []
+            }
+          ]
+        }
+      }
+    }
+  }

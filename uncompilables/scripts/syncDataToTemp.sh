@@ -7,8 +7,8 @@ for study in `ls -1 $STUDYFOLDER`
 do
   mkdir -p $METAFOLDER/$study
   #Look for metadata files
-  rsync -av ${STUDYFOLDER}/${study}/i_*.txt ${METAFOLDER}/${study} 2>/dev/null
-  rsync -av ${STUDYFOLDER}/${study}/s_*.txt ${METAFOLDER}/${study} 2>/dev/null
-  rsync -av ${STUDYFOLDER}/${study}/a_*.txt ${METAFOLDER}/${study} 2>/dev/null
-  rsync -av ${STUDYFOLDER}/${study}/m_*.tsv ${METAFOLDER}/${study} 2>/dev/null
+  rsync -av ${STUDYFOLDER}/${study}/?_*.t* ${METAFOLDER}/${study} 2>/dev/null
+  # rsync -av ${STUDYFOLDER}/${study}/s_*.txt ${METAFOLDER}/${study} 2>/dev/null
+  # rsync -av ${STUDYFOLDER}/${study}/a_*.txt ${METAFOLDER}/${study} 2>/dev/null
+  # rsync -av ${STUDYFOLDER}/${study}/m_*.tsv ${METAFOLDER}/${study} 2>/dev/null
 done
