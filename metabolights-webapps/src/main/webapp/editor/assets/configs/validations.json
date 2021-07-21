@@ -1618,7 +1618,7 @@
 										}]
 									},
 									{
-										"name": "2D GC (GCxGC)",
+										"name": "Tandem (GC-GC)",
 										"template": "GCxGC-MS",
 										"value": "tandem",
 										"disabled": false,
@@ -1717,7 +1717,7 @@
 										}]
 									},
 									{
-										"name": "Matrix-Assisted Laser Desorption-Ionisation mass spectrometry (MALDI-MS)",
+										"name": "Matrix-assisted laser desorption-ionisation imaging mass spectrometry (MALDI)",
 										"value": "maldi",
 										"template": "MALDI-MS",
 										"disabled": false,
