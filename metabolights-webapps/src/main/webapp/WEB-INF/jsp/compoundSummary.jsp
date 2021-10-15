@@ -94,6 +94,10 @@
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
+                        <c:if test="${empty compound.metSpecies}">
+                            <b><spring:message code="ref.msg.mtbl.studies" /></b>
+                            <a class="crossRef" href="https://www.ebi.ac.uk/chebi/searchId.do?chebiId=${compound.chebiId}">${compound.chebiId}</a>
+                        </c:if>
                     </p>
             </div>
         </div>
