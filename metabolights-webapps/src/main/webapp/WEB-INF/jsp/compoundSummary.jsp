@@ -74,6 +74,12 @@
                             </small>
                         </p><br>
                     </c:if>
+                    <c:if test="${not empty compound.chebiId}">
+                    <p class="">
+                    <b><spring:message code="ref.msg.mtbl.chebiId" /> : </b>
+                    <a class="crossRef" href="https://www.ebi.ac.uk/chebi/searchId.do?chebiId=${compound.chebiId}" target="_blank">${compound.chebiId}</a>
+                    </c:if>
+                    </p>
                     <p class="">
                         <c:forEach var="specie" items="${compound.metSpecies}"
                                    varStatus="loopStatus">
@@ -86,18 +92,18 @@
                                 </c:otherwise>
                             </c:choose>
                             <c:choose>
-                                <c:when test="${not fn:containsIgnoreCase(specie.crossReference.accession, 'CHEBI:')}">
-                                    <a class="crossRef" href="${specie.crossReference.accession}">${specie.crossReference.accession}</a>
+                                <c:when test="${not empty specie.species.taxon}">
+                                    <c:set var="len" value="${fn:length(specie.species.taxon)}"/>
+                                    <c:set var = "taxid" value = "${fn:substring(specie.species.taxon, 5, len)}" />
+                                    <a class="crossRef" href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=txid${taxid}" target="_blank">${specie.species.species}</a>
                                 </c:when>
                                 <c:otherwise>
-                                    <a class="crossRef" href="https://www.ebi.ac.uk/chebi/searchId.do?chebiId=${specie.crossReference.accession}">${specie.crossReference.accession}</a>
+                                    ${specie.species.species}
                                 </c:otherwise>
                             </c:choose>
+
                         </c:forEach>
-                        <c:if test="${empty compound.metSpecies}">
-                            <b><spring:message code="ref.msg.mtbl.studies" /></b>
-                            <a class="crossRef" href="https://www.ebi.ac.uk/chebi/searchId.do?chebiId=${compound.chebiId}">${compound.chebiId}</a>
-                        </c:if>
+
                     </p>
             </div>
         </div>
