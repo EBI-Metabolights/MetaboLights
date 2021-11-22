@@ -14,7 +14,7 @@ import java.net.URL;
  */
 public class WikipathwaysWsClient extends WsClient{
 
-    private String wikipathwaysWsUrl = "http://webservice.wikipathways.org";
+    private String wikipathwaysWsUrl = "https://webservice.wikipathways.org";
     private String pathwaysByXrefUrl = "/findPathwaysByXref";
 
     private static final String GET = "GET";
@@ -36,8 +36,10 @@ public class WikipathwaysWsClient extends WsClient{
 
     public JsonNode findPathwaysByXref(String id, String code){
         String wikiPathwaysResponse = excuteRequest(getPathwaysUrlByXref(id,code), null, this.GET);
-        //logger.info(wikiPathwaysResponse);
-
+        //logger.info("Response "+wikiPathwaysResponse);
+        if(wikiPathwaysResponse == null){
+            wikiPathwaysResponse = "{\"result\":[]}";
+        }
         ObjectMapper objectMapper = new ObjectMapper();
 
         JsonNode rootNode = null;
@@ -47,7 +49,7 @@ public class WikipathwaysWsClient extends WsClient{
             e.printStackTrace();
         }
         JsonNode result = rootNode.path("result");
-
+        //logger.info("result "+result);
         return result;
     }
 
@@ -63,6 +65,16 @@ public class WikipathwaysWsClient extends WsClient{
             pathwaysExist = true;
         }
         return pathwaysExist;
+    }
+
+    public static void main(String args[]){
+        System.out.println("Wiki");
+        String URL = "http://webservice.wikipathways.org/";
+        String ID = "CHEBI:65492";
+        String CODE = "Ce";
+        WikipathwaysWsClient ws = new WikipathwaysWsClient(URL);
+        ws.findPathwaysByXref(ID, CODE);
+
     }
 
 }
