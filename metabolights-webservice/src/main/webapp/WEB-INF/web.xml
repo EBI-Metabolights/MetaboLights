@@ -58,6 +58,20 @@
         <!-- Other options -->
     </filter>
 
+    <filter>
+        <filter-name>javamelody</filter-name>
+        <filter-class>net.bull.javamelody.MonitoringFilter</filter-class>
+        <async-supported>true</async-supported>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>javamelody</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>ASYNC</dispatcher>
+    </filter-mapping>
+
+
     <filter-mapping>
         <filter-name>CORS-filter</filter-name>
         <url-pattern>/*</url-pattern>
@@ -84,6 +98,10 @@
 
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>net.bull.javamelody.SessionListener</listener-class>
     </listener>
 
     <servlet>
