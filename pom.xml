@@ -100,6 +100,11 @@
             <artifactId>stax-ex</artifactId>
             <version>1.7.7</version>
         </dependency>
+        <dependency>
+            <groupId>net.bull.javamelody</groupId>
+            <artifactId>javamelody-core</artifactId>
+            <version>1.69.0</version>
+        </dependency>
     </dependencies>
     <distributionManagement>
         <repository>
