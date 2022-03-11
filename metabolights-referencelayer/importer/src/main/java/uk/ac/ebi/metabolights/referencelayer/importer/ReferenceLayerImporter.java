@@ -51,6 +51,7 @@ import uk.ac.ebi.metabolights.referencelayer.model.CrossReference;
 import uk.ac.ebi.metabolights.referencelayer.model.MetSpecies;
 import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
 import uk.ac.ebi.metabolights.referencelayer.model.Species;
+import uk.ac.ebi.metabolights.webservice.client.RheaWebserviceWsClient;
 import uk.ac.ebi.metabolights.webservice.client.WikipathwaysWsClient;
 import uk.ac.ebi.rhea.ws.client.RheaResourceClient;
 import uk.ac.ebi.rhea.ws.response.search.RheaReaction;
@@ -75,6 +76,7 @@ public class ReferenceLayerImporter {
 	private DatabaseDAO dbd;
 
     private RheaResourceClient wsRheaClient;
+	private RheaWebserviceWsClient rheaWebserviceWsClient;
     private ChebiWebServiceClient chebiWS;
 
     private WikipathwaysWsClient wpWsClient;
@@ -234,8 +236,8 @@ public class ReferenceLayerImporter {
 			// Initialize now DAO (will happen only the firs time).
 			initializeDAOs();
 
-			if (wsRheaClient == null)
-				this.wsRheaClient = getWsRheaClient();
+			if (rheaWebserviceWsClient == null)
+				this.rheaWebserviceWsClient = getRheaWsClient();
 
             if (wpWsClient == null)
                 this.wpWsClient = getWsclient();
@@ -482,19 +484,11 @@ public class ReferenceLayerImporter {
 
     private boolean getReactions(String chebiID) {
         boolean hasReactions = false;
-
-        LOGGER.debug("Initializing and getting reactions from Rhea WS");
-		List<RheaReaction> reactions = new ArrayList();
 		try {
-			reactions = wsRheaClient.search(chebiID);
+			hasReactions = rheaWebserviceWsClient.hasReaction(chebiID);
 		} catch (Exception e){
 			LOGGER.error("Could not get Rhea reaction for "+chebiID);
 		}
-
-        if(reactions.size() != 0){
-            hasReactions = true;
-        }
-
         return hasReactions;
     }
 
@@ -518,6 +512,17 @@ public class ReferenceLayerImporter {
 
         return wpWsClient;
     }
+
+	public RheaWebserviceWsClient getRheaWsClient(){
+
+		if (rheaWebserviceWsClient instanceof RheaWebserviceWsClient) {
+			return rheaWebserviceWsClient;
+		}
+		if (rheaWebserviceWsClient == null) {
+			rheaWebserviceWsClient = new RheaWebserviceWsClient();
+		}
+		return rheaWebserviceWsClient;
+	}
 
 	public RheaResourceClient getWsRheaClient() {
 		if (wsRheaClient instanceof RheaResourceClient) {
