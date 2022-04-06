@@ -76,7 +76,20 @@
     <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
     <%--&nbsp;--%>
 <%--</div>--%>
+<div class="col-md-12">
+    <div class="row col" style="border: 1px solid #d1d9d6; border-radius: 0px; padding:15px 0px;">
+        <div>
+            <div class="col-md-12">
+                <h4 style="color: red;size: A4"><spring:message code="msg.metaboLightsBanner"/></h4><br>
+                <div class="clearfix">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
+    <div class="clearfix">&nbsp;</div>
+    <br>
     <div class="col-md-9">
         <div class="panel panel-default nbr">
             <div class="panel-body grey">
