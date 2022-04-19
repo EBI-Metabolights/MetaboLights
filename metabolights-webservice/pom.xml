@@ -39,8 +39,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <org.spring.version>3.2.5.RELEASE</org.spring.version>
-        <org.spring.security.version>3.2.5.RELEASE</org.spring.security.version>
+        <org.spring.version>3.2.18.RELEASE</org.spring.version>
+        <org.spring.security.version>3.2.10.RELEASE</org.spring.security.version>
     </properties>
 
     <repositories>

@@ -36,10 +36,11 @@
         <module>metabolights-webapps</module>
         <module>metabolights-species</module>
         <!--<module>ISAcreator-shaded</module>-->
-        <module>metabolights-search</module>
+        <module>MetaboLights-Search</module>
     </modules>
     <properties>
         <com.fasterxml.jackson.version>2.8.9</com.fasterxml.jackson.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <build>
         <extensions>
@@ -57,6 +58,7 @@
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
         </plugins>
@@ -127,7 +129,7 @@
         </repository>
         <repository>
             <id>chebi-snapshot-repo-snapshot</id>
-            <name>ChEBI Repository</name>
+            <name>ChEBI Snapshot Repository</name>
             <url>https://www.ebi.ac.uk/~biobabel/maven2_repo</url>
             <snapshots>
                 <enabled>true</enabled>
@@ -144,15 +146,14 @@
             <url>https://www.ebi.ac.uk/Tools/maven/repos/content/groups/ebi-repo/</url>
         </repository>
         <repository>
-            <id>stax-ex-fix</id>
-            <name>fix-ebi-missing-repo</name>
-            <url>https://mvnrepository.com/artifact/org.jvnet.staxex/stax-ex</url>
-            <layout>default</layout>
-        </repository>
-        <repository>
             <id>limpopo-repo</id>
             <name>Limpopo Mini-SF Repository</name>
-            <url>https://limpopo.sourceforge.net/maven/repo</url>
+            <url>http://limpopo.sourceforge.net/maven/repo</url>
+        </repository>
+        <repository>
+            <id>ebi-nexus-public-repo</id>
+            <name>EBI Public Repo</name>
+            <url>https://www.ebi.ac.uk/intact/maven/nexus/content/repositories/public</url>
         </repository>
         <repository>
             <id>wso2</id>
@@ -164,17 +165,14 @@
             <url>https://repo.springsource.org/release</url>
         </repository>
         <repository>
-            <id>Springframework milestone</id>
-            <url>https://maven.springframework.org/milestone</url>
-        </repository>
-        <repository>
             <id>JBoss Public Maven Repository Group</id>
-            <url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
+            <url>https://repository.jboss.org/nexus/content/repositories/releases</url>
         </repository>
         <repository>
             <id>biojava-legacy-repo</id>
             <name>BioJava's Git based legacy maven repo</name>
-            <url>https://github.com/biojava/maven-repo/raw/master/</url>
+            <url>https://github.com/biojava/maven-repo/raw/master</url>
         </repository>
+
     </repositories>
 </project>
