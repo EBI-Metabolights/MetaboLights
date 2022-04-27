@@ -36,8 +36,22 @@
         </div>
         <div>&nbsp;</div>
         <div>&nbsp;</div>
+        <div>
+
+        </div>
         <p>
+
+        </p>
+        <p>
+
             <br/>
+            <br/>
+        <div class="alert nbr alert-warning">
+              <p><spring:message code="msg.metabolightsHelp0001" /></p>
+             <p><spring:message code="msg.metabolightsHelp0002" /></p>
+        </div>
+        </p>
+        <p>
             <br/>
             <h4>ISA Creator</h4>
             If you choose to use ISAcreator, please see below for help. Note that these links will take you to our online Google Documents (PDF versions available below). In case of any firewall restrictions, please use our FTP links, if you are unable to access the above online Google documents.
@@ -122,7 +136,7 @@
                 <a href="<spring:url value="contact"/>"><strong><spring:message code="label.contact"/></strong></a>
             </div>
             <br>
-            <div class="alert nbr alert-warning">
+            <div class="well nbr">
                 <a class="noLine" href="<spring:message code="url.isatools"/>"><img src="img/softwaresuitelogo2.png" alt="ISAtools" /></a>
                 <p><spring:message code="msg.metabolightsAbout6" /></p>
             </div>
