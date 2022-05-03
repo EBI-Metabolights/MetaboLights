@@ -201,7 +201,10 @@ public class MetabolightsXMLExporter {
 
 
     public static void main(String[] args) throws Exception {
-
+        // For testing Locally ..
+        //String args1[] = {"/Users/famaladoss/Work/temp/studies.xml", "n", "n", "http://wp-p3s-15:8070/metabolights/webservice/"};
+        // String args2[] = {"/Users/famaladoss/Work/temp/compounds.xml", "y", "n", "http://wp-p3s-15:8070/metabolights/webservice/"};
+        // args = args1;
         if (!validateParams(args)){
             System.out.println("Usage:");
             System.out.println("    Parameter 1: The name of the xml export file (Mandatory)");
@@ -259,120 +262,136 @@ public class MetabolightsXMLExporter {
         //First, add the surrounding <entries> tags
 
         int numberofcompounds = allCompounds.length;
+        System.out.println("Total number of compounds : " + numberofcompounds);
         //Add all the public studies
         int i = 0;
+        int j = 0;
         ArrayList<String> failedCompounds = new ArrayList<>();
-        for (String compoundAcc : allCompounds){
-
-            try {
-                System.out.println("Processing compound " + compoundAcc);
-
-                //TODO, add ontologies
-
-                MetaboLightsCompound compound = null;
-
-                Compound comp_response = getCompound(compoundAcc);
-                if (comp_response != null){
-                    compound = getCompound(compoundAcc).getMc();
-                }
-
-                if (compound == null) {
-                    System.out.println("Could not find compound " + compoundAcc);
-                } else {
-                    Element entry = doc.createElement("entry");
-                    entry.setAttribute("id", compoundAcc);
-
-                    if (compound.getName() != null)
-                        entry.appendChild(addGenericElement("name", compound.getName()));
-                    if (compound.getDescription() != null)
-                        entry.appendChild(addGenericElement("description", compound.getDescription()));
-
-                    //Add the sub tree "additional_fields"
-                    Element additionalField = doc.createElement("additional_fields");
-
-                    if (compound.getInchi() != null)
-                        additionalField.appendChild(createChildElement(FIELD, "inchi", compound.getInchi()));
-
-                    if (compound.getIupacNames() != null)
-                        additionalField.appendChild(createChildElement(FIELD, "iupac", compound.getIupacNames()));
-
-                    if (compound.getFormula() != null)
-                        additionalField.appendChild(createChildElement(FIELD, "formula", compound.getFormula()));
-
-                    Element crossreferences = doc.createElement("cross_references");
-                    try {
-
-                        if (compound.getMetSpecies() != null) {
-                            ArrayList<MetSpecies> metSpecies = compound.getMetSpecies();
-                            ArrayList<String> StudyList = new ArrayList<>();
-
-                            for (MetSpecies species : metSpecies) {
-                                if (species.getSpecies() != null && species.getSpecies().getSpecies() != null) {
-                                    additionalField.appendChild(createChildElement(FIELD, "organism", species.getSpecies().getSpecies()));
-
-                                    if (species.getSpecies().getSpecies().equalsIgnoreCase("reference compound")) {
-                                        //TODO, complete this....
-                                    } else {
-                                        if (species.getSpecies().getSpeciesMember() != null) {
-                                            additionalField.appendChild(createChildElement(FIELD, "organism_group", species.getSpecies().getSpeciesMember().getSpeciesGroup().getName()));
-                                        }
-                                    }
-                                }
-
-                                if (species.getCrossReference() != null) {
-                                    Element crossref = createChildElement("ref", species.getCrossReference().getAccession(), species.getCrossReference().getDb().getName());
-                                    crossreferences.appendChild(crossref);
-
-                                    if (species.getCrossReference().getDb().getName().equalsIgnoreCase("MTBLS")) {
-                                        if (StudyList.contains(species.getCrossReference().getAccession())) {
-                                            System.out.println("exists");
-                                        } else {
-                                            StudyList.add(species.getCrossReference().getAccession());
-                                        }
-                                    }
-                                }
-                            }
-
-                            System.out.println(StudyList.size());
-                            for (String study : StudyList) {
-                                additionalField.appendChild(createChildElement(FIELD, "study", study));
-                            }
-                        }
-
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
-                        failedCompounds.add(compoundAcc);
-                    }
-
-                    Element chebiCrossRef = createChildElement(REF, compound.getChebiId(), "ChEBI");
-                    crossreferences.appendChild(chebiCrossRef);
-
-                    entry.appendChild(getElementWithUniqueChildElements(crossreferences));
-                    entry.appendChild(additionalField);
-                    //Add the complete study to the entry section
-                    entries.appendChild(entry);
-
-                    i++;
-
-                    System.out.println(String.valueOf(i) + " ------- " + String.valueOf(numberofcompounds - i) + "=====" + String.valueOf(failedCompounds.size()));
-                }
-            } catch(Exception e){
-                System.out.println("Error message:" + e.getMessage());
-                System.out.println("Could not export compound:" + compoundAcc);
+       for (String compoundAcc : allCompounds){
+           i++;
+           System.out.println("Processing compound " + compoundAcc);
+           Element entry = processCompoundToEntry(compoundAcc);
+           if(entry != null){
+                //Add the complete Compound to the entry section
+                entries.appendChild(entry);
+                j++;
+                //System.out.println("Added the Compound : " +j);
+           }else{
+                System.out.println("Adding to the Failed Compound List !");
                 failedCompounds.add(compoundAcc);
-            }
+           }
         }
-
+        System.out.println( " Entry count : " + entries.getChildNodes().getLength());
         //Add the complete study list to the entries section
         //doc.getDocumentElement().appendChild(entries);        //Moved the calling method
 
         if (failedCompounds != null) {
             System.out.println("======================================");
-            System.out.println("List of failed compound(s):");
+            System.out.println("List of failed compound(s)" +failedCompounds.size());
             for (String failedCompound : failedCompounds) {
+                System.out.println("Retrying failed compound : ");
                 System.out.println(failedCompound);
+                Element entry1 = processCompoundToEntry(failedCompound);
+                if(entry1 != null) {
+                    //Add the complete study to the entry section
+                    entries.appendChild(entry1);
+                    j++;
+                    System.out.println("Added the Compound " + j);
+                }else{
+                    System.out.println("Retrying failed !");
+                }
             }
         }
+    }
+
+    private static Element processCompoundToEntry(String compoundAcc){
+        //TODO, add ontologies
+
+        MetaboLightsCompound compound = null;
+
+        Compound comp_response = getCompound(compoundAcc);
+        if (comp_response != null){
+            compound = getCompound(compoundAcc).getMc();
+        }
+
+        if (compound == null) {
+            System.out.println("Could not find compound " + compoundAcc);
+            return null;
+        } else {
+            System.out.println("Got the  compound !");
+            Element entry = doc.createElement("entry");
+            entry.setAttribute("id", compoundAcc);
+
+            if (compound.getName() != null)
+                entry.appendChild(addGenericElement("name", compound.getName()));
+            if (compound.getDescription() != null)
+                entry.appendChild(addGenericElement("description", compound.getDescription()));
+
+            //Add the sub tree "additional_fields"
+            Element additionalField = doc.createElement("additional_fields");
+
+            if (compound.getInchi() != null)
+                additionalField.appendChild(createChildElement(FIELD, "inchi", compound.getInchi()));
+
+            if (compound.getIupacNames() != null)
+                additionalField.appendChild(createChildElement(FIELD, "iupac", compound.getIupacNames()));
+
+            if (compound.getFormula() != null)
+                additionalField.appendChild(createChildElement(FIELD, "formula", compound.getFormula()));
+
+            Element crossreferences = doc.createElement("cross_references");
+            try {
+
+                if (compound.getMetSpecies() != null) {
+                    //System.out.println("Got species information ..");
+                    ArrayList<MetSpecies> metSpecies = compound.getMetSpecies();
+                    ArrayList<String> StudyList = new ArrayList<>();
+                    //System.out.println("Setting  "+metSpecies.size()+ " species. ");
+                    for (MetSpecies species : metSpecies) {
+                        if (species.getSpecies() != null && species.getSpecies().getSpecies() != null) {
+                            additionalField.appendChild(createChildElement(FIELD, "organism", species.getSpecies().getSpecies()));
+
+                            if (species.getSpecies().getSpecies().equalsIgnoreCase("reference compound")) {
+                                //TODO, complete this....
+                            } else {
+                                if (species.getSpecies().getSpeciesMember() != null) {
+                                    additionalField.appendChild(createChildElement(FIELD, "organism_group", species.getSpecies().getSpeciesMember().getSpeciesGroup().getName()));
+                                }
+                            }
+                        }
+
+                        if (species.getCrossReference() != null) {
+                            Element crossref = createChildElement("ref", species.getCrossReference().getAccession(), species.getCrossReference().getDb().getName());
+                            crossreferences.appendChild(crossref);
+
+                            if (species.getCrossReference().getDb().getName().equalsIgnoreCase("MTBLS")) {
+                                if (StudyList.contains(species.getCrossReference().getAccession())) {
+                                    System.out.println("exists");
+                                } else {
+                                    StudyList.add(species.getCrossReference().getAccession());
+                                }
+                            }
+                        }
+                    }
+
+                    for (String study : StudyList) {
+                        additionalField.appendChild(createChildElement(FIELD, "study", study));
+                    }
+                }
+
+                Element chebiCrossRef = createChildElement(REF, compound.getChebiId(), "ChEBI");
+                crossreferences.appendChild(chebiCrossRef);
+
+                entry.appendChild(getElementWithUniqueChildElements(crossreferences));
+                entry.appendChild(additionalField);
+                return entry;
+
+            } catch (Exception e) {
+                System.out.println("Error While Processing Compound : " + e.getMessage());
+                return null;
+            }
+        }
+
     }
 
     private static Compound getCompound(String accession){
@@ -546,7 +565,6 @@ public class MetabolightsXMLExporter {
                 replaceAll("[^\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]", "");
 
         if (clean != s) {
-            System.out.println("Replaced special character in: " + description);
             return clean;
         }
         return s;
@@ -645,161 +663,211 @@ public class MetabolightsXMLExporter {
 
     private static void addStudies(Element entries, Boolean detailedTags){
         //First, add the surrounding <entries> tags
+        System.out.println( "All Studies count " + allStudies.length);
+        int j = 0;
+        int k = 0;
+        int null_title = 0;
+        List<String> failedStudies = new ArrayList<>();
 
         //Add all the public studies
         for (String studyAcc : allStudies){
             try{
-
-                System.out.println("Processing study " + studyAcc);
+                j++;
+                System.out.println("Processing study count " + j);
+                System.out.println("Processing study acc : - " + studyAcc);
 
                 //TODO, add ontologies
 
                 // Empty the metabolites list
                 setMetaboliteList(new ArrayList<String>());
-
-                Study study = getStudy(studyAcc);
-
-                Element entry = doc.createElement("entry");
-                entry.setAttribute("id", studyAcc);
-                entry.appendChild(addGenericElement("name", tidyNonPrintChars(study.getTitle(),"Study title")));
-                entry.appendChild(addGenericElement("description", tidyNonPrintChars(study.getDescription(),"Study description")));
-
-                //Add the sub tree "cross_references"
-                Element crossRefs = doc.createElement("cross_references");
-                entry.appendChild(crossRefs);
-                addXrefs(crossRefs, study);   //Add cross refs AND get the list of metabolites to add to additional_fields
-
-                //Add the sub branch "dates"
-                Element dateFields = doc.createElement("dates");
-                entry.appendChild(dateFields);
-                addDates(dateFields, study);
-
-                if (detailedTags) { // Required for ThomsonReuters feed
-                    entry.appendChild(addDetailedAuthors(study));
-                    entry.appendChild(addStucturedPublicaitons(study));
+                Element entry = processStudyToEntry(studyAcc, detailedTags);
+                if(entry == null) {
+                    null_title++;
+                    System.out.println( "--Empty study--");
+                    continue;
                 }
-
-                //Add the sub tree "additional_fields"
-                Element additionalField = doc.createElement("additional_fields");
-                entry.appendChild(additionalField);
-
-                additionalField.appendChild(createChildElement(FIELD, "repository", "MetaboLights"));
-                additionalField.appendChild(createChildElement(FIELD, "omics_type", "Metabolomics"));
-
-                if (!detailedTags){ // Standard author feed for EBI, DDI and MX
-                    for (Contact contact : study.getContacts()) {
-                        additionalField.appendChild(createChildElement(FIELD, "author",
-                                tidyNonPrintChars(tidyAutors(contact), "Authors")));
-                    }
-                }
-
-                //Add all protocols to the "additional_fields" tree
-                addProtocols(additionalField, study);
-
-                //Do not repeat values
-                List<String> techList = new ArrayList<>();
-                List<String> platformList = new ArrayList<>();
-                for (Assay assay : study.getAssays()){
-
-                    if (assay.getTechnology()!= null && !assay.getTechnology().isEmpty() && !techList.contains(assay.getTechnology())) {
-                        techList.add(assay.getTechnology());
-                        additionalField.appendChild(createChildElement(FIELD, "technology_type", assay.getTechnology()));
-                    }
-
-                    if (assay.getPlatform() != null && !assay.getPlatform().isEmpty() && !platformList.contains(assay.getPlatform())) {
-                        platformList.add(assay.getPlatform());
-                        additionalField.appendChild(createChildElement(FIELD, "instrument_platform", assay.getPlatform()));
-                    }
-
-                    //TODO, MS: Autosampler model - Chromatography Instrument - Instrument
-                    //TODO, NMR: Autosampler model - Instrument
-
-                }
-
-                //List of filenames
-
-                File[] files = getStudyFileList(studyAcc, ML_BASE_FTP_DIR);
-
-                if (files != null) {
-                    for (File file : files) {
-                        String filename = file.toString().replaceAll(ML_BASE_FTP_DIR, ML_BASE_FTP);
-
-                        if (filename != null)
-                            additionalField.appendChild(createChildElement(FIELD, "dataset_file", filename));
-
-                    }
-                }
-
-                additionalField.appendChild(createChildElement(FIELD, "disease", ""));  //We currently do not capture this in a concise way
-                additionalField.appendChild(createChildElement(FIELD, "ptm_modification", ""));  //Proteins only?
-
-                for (User user: study.getUsers()){
-                    additionalField.appendChild(createChildElement(FIELD, "submitter", tidyNonPrintChars(user.getFirstName() + " " + user.getLastName(),"Submitter name" )));
-                    additionalField.appendChild(createChildElement(FIELD, "submitter_email", user.getEmail() ));
-                    if (hasValue(user.getAffiliation()))
-                        additionalField.appendChild(createChildElement(FIELD, "submitter_affiliation", user.getAffiliation() ));
-                }
-
-                for (StudyDesignDescriptors studyDesignDescriptors : study.getDescriptors()) {
-                    String studyDesc = studyDesignDescriptors.getDescription();
-
-                    if (studyDesc.contains(":")) {
-                        int i = 1;
-                        for (String retval : studyDesignDescriptors.getDescription().split(":")) {
-                            if (i == 2) { //Get rid of ontology refs before ":"
-                                additionalField.appendChild(createChildElement(FIELD, "study_design", retval));
-                                additionalField.appendChild(createChildElement(FIELD, "curator_keywords", retval)); //We do not capture this
-                            }
-                            i++;
-                        }
-                    } else {
-                        additionalField.appendChild(createChildElement(FIELD, "study_design", studyDesc));
-                        additionalField.appendChild(createChildElement(FIELD, "curator_keywords", studyDesc)); //We do not capture this
-                    }
-                }
-
-                for (StudyFactor studyFactor : study.getFactors()) {
-                    additionalField.appendChild(createChildElement(FIELD, "study_factor",studyFactor.getName()));
-                }
-
-                additionalField.appendChild(createChildElement(FIELD, "study_status", "Public"));
-                additionalField.appendChild(createChildElement(FIELD, "full_dataset_link", ML_BASE_URL + "/" + studyAcc));     //TODO, all files should be listed
-                additionalField.appendChild(createChildElement(FIELD, "dataset_file", ML_BASE_FTP + studyAcc));
-
-                if (study.getOrganism() != null)
-                    for (Organism organism : study.getOrganism()) {
-                        if (hasValue(organism.getOrganismName()))
-                            additionalField.appendChild(createChildElement(FIELD, "Organism", organism.getOrganismName().trim()));
-
-                        if (hasValue(organism.getOrganismPart()))
-                            additionalField.appendChild(createChildElement(FIELD, "Organism Part", organism.getOrganismPart().trim()));
-                    }
-
-                if (!detailedTags) //Do not need a structured set of fields for Publication
-                for (Publication publication : study.getPublications()) {
-                    String completePublications = composePublications(publication);
-
-                    if (hasValue(completePublications))
-                        additionalField.appendChild(createChildElement(FIELD, "publication", completePublications));
-                }
-
-                //Add the metabolites from the the xrefs loop to the additional_fields sub-tree
-                for (String met : metaboliteList) {
-                    if (met.length() <= 8191) {   //Lucene cannot index more than 8191 in any given field
-                        additionalField.appendChild(createChildElement(FIELD, "metabolite_name", met));
-                    } else {
-                        System.out.println("Metabolite name to long, ignoring ");
-                    }
-
-                }
-
                 //Add the complete study to the entry section
+                //  System.out.println("Adding study entry to the List ");
                 entries.appendChild(entry);
+                k++;
+                System.out.println( "--- Adding the study;  Study count "+k);
 
             } catch (Exception e){
-                System.out.println(e.getMessage());
+               System.out.println("Exception : " + e.getMessage());
+               System.out.println( "--- Adding to the failed study list");
+               failedStudies.add(studyAcc);
             }
         }
+        System.out.println( " Iteration total " +j);
+        System.out.println( " Added studies Total  " +k);
+        System.out.println( " Failed studies   " +failedStudies.size());
+        System.out.println( " Empty study count : " +null_title);
+        System.out.println( " Entry count : " + entries.getChildNodes().getLength());
+        if(failedStudies.size() > 0){
+            System.out.println( "=== Retrying failed studies from Failed list ...");
+            for (String studyAcc : failedStudies){
+                try{
+                    Element entry = processStudyToEntry(studyAcc, detailedTags);
+                    if(entry != null) {
+                        entries.appendChild(entry);
+                        System.out.println( "Retry success for study : "+studyAcc);
+                    }
+                } catch (Exception e){
+                    System.out.println("Exception : " + e.getMessage());
+                    System.out.println( "---Retry failed for study : "+studyAcc);
+                }
+            }
+            System.out.println( " Entry final count : " + entries.getChildNodes().getLength());
+        }
+
+    }
+
+    private static Element processStudyToEntry(String studyAcc, Boolean detailedTags){
+        Study study = getStudy(studyAcc);
+        // System.out.println(" Got study " +study);
+
+        Element entry = doc.createElement("entry");
+        entry.setAttribute("id", studyAcc);
+        // System.out.println(" study.getTitle() "+study.getTitle());
+        // System.out.println(" study.getDescription() "+study.getDescription());
+        // System.out.println(" study.getStudyDescription() "+study.getStudyDescription());
+        if(study.getTitle() == null){
+            System.out.println( " #######Study content empty" );
+            return null;
+        }
+
+        entry.appendChild(addGenericElement("name", tidyNonPrintChars(study.getTitle(),"Study title")));
+
+        entry.appendChild(addGenericElement("description", tidyNonPrintChars(study.getDescription(),"Study description")));
+        //Add the sub tree "cross_references"
+        Element crossRefs = doc.createElement("cross_references");
+        entry.appendChild(crossRefs);
+        // addXrefs(crossRefs, study);   //Add cross refs AND get the list of metabolites to add to additional_fields
+        // System.out.println(" added Xrefs ");
+        //Add the sub branch "dates"
+        Element dateFields = doc.createElement("dates");
+        entry.appendChild(dateFields);
+        //addDates(dateFields, study);
+        // System.out.println(" added Dates ");
+        if (detailedTags) { // Required for ThomsonReuters feed
+            entry.appendChild(addDetailedAuthors(study));
+            entry.appendChild(addStucturedPublicaitons(study));
+        }
+
+        //Add the sub tree "additional_fields"
+        Element additionalField = doc.createElement("additional_fields");
+        entry.appendChild(additionalField);
+
+        additionalField.appendChild(createChildElement(FIELD, "repository", "MetaboLights"));
+        additionalField.appendChild(createChildElement(FIELD, "omics_type", "Metabolomics"));
+
+        if (!detailedTags){ // Standard author feed for EBI, DDI and MX
+            for (Contact contact : study.getContacts()) {
+                additionalField.appendChild(createChildElement(FIELD, "author",
+                        tidyNonPrintChars(tidyAutors(contact), "Authors")));
+            }
+        }
+
+        //Add all protocols to the "additional_fields" tree
+        // addProtocols(additionalField, study);
+        // System.out.println(" added Protocols ");
+        //Do not repeat values
+        List<String> techList = new ArrayList<>();
+        List<String> platformList = new ArrayList<>();
+        for (Assay assay : study.getAssays()){
+
+            if (assay.getTechnology()!= null && !assay.getTechnology().isEmpty() && !techList.contains(assay.getTechnology())) {
+                techList.add(assay.getTechnology());
+                additionalField.appendChild(createChildElement(FIELD, "technology_type", assay.getTechnology()));
+            }
+
+            if (assay.getPlatform() != null && !assay.getPlatform().isEmpty() && !platformList.contains(assay.getPlatform())) {
+                platformList.add(assay.getPlatform());
+                additionalField.appendChild(createChildElement(FIELD, "instrument_platform", assay.getPlatform()));
+            }
+
+            //TODO, MS: Autosampler model - Chromatography Instrument - Instrument
+            //TODO, NMR: Autosampler model - Instrument
+
+        }
+
+        //List of filenames
+
+        File[] files = getStudyFileList(studyAcc, ML_BASE_FTP_DIR);
+
+        if (files != null) {
+            for (File file : files) {
+                String filename = file.toString().replaceAll(ML_BASE_FTP_DIR, ML_BASE_FTP);
+
+                if (filename != null)
+                    additionalField.appendChild(createChildElement(FIELD, "dataset_file", filename));
+
+            }
+        }
+
+        additionalField.appendChild(createChildElement(FIELD, "disease", ""));  //We currently do not capture this in a concise way
+        additionalField.appendChild(createChildElement(FIELD, "ptm_modification", ""));  //Proteins only?
+
+        for (User user: study.getUsers()){
+            additionalField.appendChild(createChildElement(FIELD, "submitter", tidyNonPrintChars(user.getFirstName() + " " + user.getLastName(),"Submitter name" )));
+            additionalField.appendChild(createChildElement(FIELD, "submitter_email", user.getEmail() ));
+            if (hasValue(user.getAffiliation()))
+                additionalField.appendChild(createChildElement(FIELD, "submitter_affiliation", user.getAffiliation() ));
+        }
+
+        for (StudyDesignDescriptors studyDesignDescriptors : study.getDescriptors()) {
+            String studyDesc = studyDesignDescriptors.getDescription();
+
+            if (studyDesc.contains(":")) {
+                int i = 1;
+                for (String retval : studyDesignDescriptors.getDescription().split(":")) {
+                    if (i == 2) { //Get rid of ontology refs before ":"
+                        additionalField.appendChild(createChildElement(FIELD, "study_design", retval));
+                        additionalField.appendChild(createChildElement(FIELD, "curator_keywords", retval)); //We do not capture this
+                    }
+                    i++;
+                }
+            } else {
+                additionalField.appendChild(createChildElement(FIELD, "study_design", studyDesc));
+                additionalField.appendChild(createChildElement(FIELD, "curator_keywords", studyDesc)); //We do not capture this
+            }
+        }
+
+        for (StudyFactor studyFactor : study.getFactors()) {
+            additionalField.appendChild(createChildElement(FIELD, "study_factor",studyFactor.getName()));
+        }
+
+        additionalField.appendChild(createChildElement(FIELD, "study_status", "Public"));
+        additionalField.appendChild(createChildElement(FIELD, "full_dataset_link", ML_BASE_URL + "/" + studyAcc));     //TODO, all files should be listed
+        additionalField.appendChild(createChildElement(FIELD, "dataset_file", ML_BASE_FTP + studyAcc));
+
+        if (study.getOrganism() != null)
+            for (Organism organism : study.getOrganism()) {
+                if (hasValue(organism.getOrganismName()))
+                    additionalField.appendChild(createChildElement(FIELD, "Organism", organism.getOrganismName().trim()));
+
+                if (hasValue(organism.getOrganismPart()))
+                    additionalField.appendChild(createChildElement(FIELD, "Organism Part", organism.getOrganismPart().trim()));
+            }
+
+        if (!detailedTags) //Do not need a structured set of fields for Publication
+            for (Publication publication : study.getPublications()) {
+                String completePublications = composePublications(publication);
+
+                if (hasValue(completePublications))
+                    additionalField.appendChild(createChildElement(FIELD, "publication", completePublications));
+            }
+
+        //Add the metabolites from the the xrefs loop to the additional_fields sub-tree
+        for (String met : metaboliteList) {
+            if (met.length() <= 8191) {   //Lucene cannot index more than 8191 in any given field
+                additionalField.appendChild(createChildElement(FIELD, "metabolite_name", met));
+            } else {
+                System.out.println("Metabolite name to long, ignoring ");
+            }
+
+        }
+        return entry;
     }
 
     private static String tidyDoi(String doi){
