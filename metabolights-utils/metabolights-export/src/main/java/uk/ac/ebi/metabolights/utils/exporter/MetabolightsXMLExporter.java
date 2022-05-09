@@ -263,7 +263,7 @@ public class MetabolightsXMLExporter {
 
         int numberofcompounds = allCompounds.length;
         System.out.println("Total number of compounds : " + numberofcompounds);
-        //Add all the public studies
+        //Add all Compounds
         int i = 0;
         int j = 0;
         ArrayList<String> failedCompounds = new ArrayList<>();
@@ -275,7 +275,6 @@ public class MetabolightsXMLExporter {
                 //Add the complete Compound to the entry section
                 entries.appendChild(entry);
                 j++;
-                //System.out.println("Added the Compound : " +j);
            }else{
                 System.out.println("Adding to the Failed Compound List !");
                 failedCompounds.add(compoundAcc);
@@ -343,10 +342,8 @@ public class MetabolightsXMLExporter {
             try {
 
                 if (compound.getMetSpecies() != null) {
-                    //System.out.println("Got species information ..");
                     ArrayList<MetSpecies> metSpecies = compound.getMetSpecies();
                     ArrayList<String> StudyList = new ArrayList<>();
-                    //System.out.println("Setting  "+metSpecies.size()+ " species. ");
                     for (MetSpecies species : metSpecies) {
                         if (species.getSpecies() != null && species.getSpecies().getSpecies() != null) {
                             additionalField.appendChild(createChildElement(FIELD, "organism", species.getSpecies().getSpecies()));
@@ -724,7 +721,6 @@ public class MetabolightsXMLExporter {
 
     private static Element processStudyToEntry(String studyAcc, Boolean detailedTags){
         Study study = getStudy(studyAcc);
-        // System.out.println(" Got study " +study);
 
         Element entry = doc.createElement("entry");
         entry.setAttribute("id", studyAcc);
@@ -742,13 +738,11 @@ public class MetabolightsXMLExporter {
         //Add the sub tree "cross_references"
         Element crossRefs = doc.createElement("cross_references");
         entry.appendChild(crossRefs);
-        // addXrefs(crossRefs, study);   //Add cross refs AND get the list of metabolites to add to additional_fields
-        // System.out.println(" added Xrefs ");
+        addXrefs(crossRefs, study);   //Add cross refs AND get the list of metabolites to add to additional_fields
         //Add the sub branch "dates"
         Element dateFields = doc.createElement("dates");
         entry.appendChild(dateFields);
-        //addDates(dateFields, study);
-        // System.out.println(" added Dates ");
+        addDates(dateFields, study);
         if (detailedTags) { // Required for ThomsonReuters feed
             entry.appendChild(addDetailedAuthors(study));
             entry.appendChild(addStucturedPublicaitons(study));
@@ -769,8 +763,7 @@ public class MetabolightsXMLExporter {
         }
 
         //Add all protocols to the "additional_fields" tree
-        // addProtocols(additionalField, study);
-        // System.out.println(" added Protocols ");
+        addProtocols(additionalField, study);
         //Do not repeat values
         List<String> techList = new ArrayList<>();
         List<String> platformList = new ArrayList<>();
