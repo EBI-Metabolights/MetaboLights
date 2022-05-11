@@ -29,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import uk.ac.ebi.bioinvindex.model.security.UserRole;
 import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.ChebiWebServiceFault_Exception;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.Entity;
@@ -1615,7 +1616,12 @@ public class StudyController extends BasicController{
 
         try {
             user = usi.lookupByToken(token);
-            logger.info("createEmptyStudy: User {} has requested a new empty study, using token {}", user.getUserName(), token);
+            logger.info("createEmptyStudy: User {} has requested a new empty study, using token {}", user.getEmail(), token);
+			if(user.getRole() == AppRole.ANONYMOUS  ||  user.getStatus() != User.UserStatus.ACTIVE) {
+				logger.error("User hase no permission to execute 'createSimpleStudy' mapping");
+				response.setMessage("User hase no permission to execute 'createSimpleStudy' mapping");
+				return response;
+			}
         } catch (Exception e) {
             logger.error ("Not able to authenticate the user for 'createSimpleStudy' mapping ");
             response.setMessage("Not able to authenticate the user for 'createSimpleStudy' mapping.");
