@@ -1615,7 +1615,12 @@ public class StudyController extends BasicController{
 
         try {
             user = usi.lookupByToken(token);
-            logger.info("createEmptyStudy: User {} has requested a new empty study, using token {}", user.getUserName(), token);
+            logger.info("createEmptyStudy: User {} has requested a new empty study, using token {}", user.getEmail(), token);
+			if(user.getRole() == AppRole.ANONYMOUS  ||  user.getStatus() != User.UserStatus.ACTIVE) {
+				logger.error("User hase no permission to execute 'createSimpleStudy' mapping");
+				response.setMessage("User hase no permission to execute 'createSimpleStudy' mapping");
+				return response;
+			}
         } catch (Exception e) {
             logger.error ("Not able to authenticate the user for 'createSimpleStudy' mapping ");
             response.setMessage("Not able to authenticate the user for 'createSimpleStudy' mapping.");
