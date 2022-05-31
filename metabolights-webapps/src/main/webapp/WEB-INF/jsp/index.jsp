@@ -88,8 +88,6 @@
 </div>
 
 <div class="row">
-    <div class="clearfix">&nbsp;</div>
-    <br>
     <div class="col-md-9">
         <div class="panel panel-default nbr">
             <div class="panel-body grey">
