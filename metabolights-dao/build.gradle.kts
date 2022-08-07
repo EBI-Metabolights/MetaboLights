@@ -10,11 +10,16 @@ plugins {
 
 
 dependencies {
-    // api("org.apache.commons:com.springsource.org.apache.commons.httpclient:3.1.0")
-    api("org.isatools:ISAcreator-api:1.7.7.2-SNAPSHOT"){
+    api("org.apache.commons:com.springsource.org.apache.commons.httpclient:3.1.0")
+    api("org.isatools:ISAcreator-api:1.7.7"){
         exclude(group = "org.isatools", module = "ISAtabErrorReporter")
         exclude(group = "org.isatools", module = "import_layer_MTBLS_API")
+        exclude(group = "org.isatools", module = "import_layer")
         exclude(group = "org.apache.commons", module = "com.springsource.org.apache.commons.httpclient")
+        exclude(group = "prefuse", module = "prefuse")
+        exclude(group = "org.jets3t")
+        exclude(group = "genomespace")
+        exclude(group = "com.explodingpixels", module = "scroller")
     }
     api(project(":metabolights-domain"))
     api(project(":metabolights-isatab-utils"))
@@ -31,6 +36,10 @@ dependencies {
     testImplementation("org.dbunit:dbunit:2.5.1")
     runtimeOnly("org.apache.tomcat:tomcat-catalina:9.0.73")
 
+}
+
+repositories {
+    mavenLocal()
 }
 
 description = "MetaboLights DAO"
