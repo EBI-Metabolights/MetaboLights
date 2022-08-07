@@ -73,6 +73,10 @@ import java.util.Calendar;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
 /**
  * User: conesa
  * Date: 03/12/14
@@ -85,6 +89,9 @@ public class ElasticSearchService implements SearchService <Entity> {
 	private static final String USER_NAME_FIELD = "users.userName";
 	private static final String STUDY_PUBLIC_RELEASE_DATE = "studyPublicReleaseDate";
 	public static final String NO_ESCAPING_CHAR = "'";
+
+	private String elasticsearchServerHost;
+	private int elasticsearchServerPort;
 
 	static Logger logger = LoggerFactory.getLogger(ElasticSearchService.class);
 
@@ -107,9 +114,25 @@ public class ElasticSearchService implements SearchService <Entity> {
 
 	public ElasticSearchService(){
 
-
+		initializeEnvironmentVariables();
 		initialiseElasticSearchClient();
 	}
+
+
+	private void initializeEnvironmentVariables() {
+		Context initCtx;
+		try {
+			initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			this.elasticsearchServerHost = (String)envCtx.lookup("elasticsearchServerHost");
+			String port = (String)envCtx.lookup("elasticsearchServerPort");
+			this.elasticsearchServerPort = Integer.parseInt(port);
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	public ElasticSearchService(String clusterName){
 
 		this.clusterName = clusterName;
@@ -134,9 +157,10 @@ public class ElasticSearchService implements SearchService <Entity> {
 					.put("cluster.name", clusterName).build();
 
 			client = new TransportClient(settings);
+			String hostName = this.elasticsearchServerHost;
+			int port = this.elasticsearchServerPort;
 
-			client.addTransportAddress(new InetSocketTransportAddress("localhost", 9300));
-
+			client.addTransportAddress(new InetSocketTransportAddress(hostName, port));
 
 			logger.info("Connected to index (elasticsearch) server.");
 
@@ -223,40 +247,40 @@ public class ElasticSearchService implements SearchService <Entity> {
 		try {
 			mapping = jsonBuilder().startObject();
 
-				// Add compound mapping root
-				mapping.startObject(COMPOUND_TYPE_NAME);
+			// Add compound mapping root
+			mapping.startObject(COMPOUND_TYPE_NAME);
 
 			// Do not allow dynamic properties: strict is too strict, throws an exception
 			//mapping.field("dynamic", "false");
 
-				// Timestamp
-				addObject("_timestamp", "enabled", true, "store", true, "format", "YYYY-MM-dd hh:mm:ss");
+			// Timestamp
+			addObject("_timestamp", "enabled", true, "store", true, "format", "YYYY-MM-dd hh:mm:ss");
 
-				// Properties configutarion (fields types and storage)
-				mapping.startObject(PROPERTIES);
+			// Properties configutarion (fields types and storage)
+			mapping.startObject(PROPERTIES);
 
-					addObject(STATUS_FIELD, "type", "string", "index", "not_analyzed");
+			addObject(STATUS_FIELD, "type", "string", "index", "not_analyzed");
 
-					addObject("accession", "type", "string", "index", "not_analyzed");
+			addObject("accession", "type", "string", "index", "not_analyzed");
 
-					// Collections
-					// Organisms
-					startObject("organism")
-						.startObject(PROPERTIES);
-							addObject("organismName", "type", "string", "index", "not_analyzed");
-						endObject()
+			// Collections
+			// Organisms
+			startObject("organism")
+					.startObject(PROPERTIES);
+			addObject("organismName", "type", "string", "index", "not_analyzed");
+			endObject()
 					.endObject();
 
-			    endObject();
+			endObject();
 
 		} catch (IOException e) {
 			throw new IndexingFailureException("Can't build study mapping for the index.", e);
 		}
 
-	addMappingToIndex(mapping, COMPOUND_TYPE_NAME);
+		addMappingToIndex(mapping, COMPOUND_TYPE_NAME);
 
 
-}
+	}
 
 	/**
 	 * Adds a the study mapping
@@ -274,68 +298,68 @@ public class ElasticSearchService implements SearchService <Entity> {
 			mapping.startObject(STUDY_TYPE_NAME);
 
 
-				// Do not allow dynamic properties: strict is too strict, throws an exception
-				/**
-				 * To start allow dynamic mapping. This will cause elastic search to index almost everything
-				 * and have a "ugly mapping" with items like this ones:
-				 *
-				 * "10~label"
-				 * "10~labeled extract name"
-				 * ...
-				 *
-				 * If this affects performance we could:
-				 *
-				 * 1.- Switch off dymanic AND define manually the index (we should include what is missing and want to be searchable (OrganismPart, descriptors, factors, protocols...)
-				 * 2.- Leave dynamic on but customize it with templates:
-				 *
-				 * 		http://www.elasticsearch.org/guide/en/elasticsearch/guide/current/custom-dynamic-mapping.html
-				 *      http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/mapping-root-object-type.html
-				 *
-				 */
-				//mapping.field("dynamic", "false");
+			// Do not allow dynamic properties: strict is too strict, throws an exception
+			/**
+			 * To start allow dynamic mapping. This will cause elastic search to index almost everything
+			 * and have a "ugly mapping" with items like this ones:
+			 *
+			 * "10~label"
+			 * "10~labeled extract name"
+			 * ...
+			 *
+			 * If this affects performance we could:
+			 *
+			 * 1.- Switch off dymanic AND define manually the index (we should include what is missing and want to be searchable (OrganismPart, descriptors, factors, protocols...)
+			 * 2.- Leave dynamic on but customize it with templates:
+			 *
+			 * 		http://www.elasticsearch.org/guide/en/elasticsearch/guide/current/custom-dynamic-mapping.html
+			 *      http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/mapping-root-object-type.html
+			 *
+			 */
+			//mapping.field("dynamic", "false");
 
-				// Timestamp
-				addObject("_timestamp", "enabled", true, "store", true, "format", "YYYY-MM-dd hh:mm:ss");
+			// Timestamp
+			addObject("_timestamp", "enabled", true, "store", true, "format", "YYYY-MM-dd hh:mm:ss");
 
-				//_source configuration
-				mapping.startObject("_source")
+			//_source configuration
+			mapping.startObject("_source")
 					.array("excludes", new String[]{"protocols", "sampleTable", "contacts", "studyLocation",
 							"assays.assayTable", "assays.assayNumber", "assays.metaboliteAssignment", "assays.fileName",
 							"users.apiToken", "users.studies", "users.userVerifyDbPassword", "users.dbPassword",
 							"users.listOfAllStatus", "users.affiliationUrl", "users.status", "users.listOfAllStatus", "users.studies",
 							"users.joinDate", "users.email", "users.address", "users.userId", "users.role",
 							"users.affiliation", "users.curator", "users.reviewer"})
-				.endObject()
+					.endObject()
 
-				// Properties configutarion (fields types and storage)
-				.startObject(PROPERTIES);
+					// Properties configutarion (fields types and storage)
+					.startObject(PROPERTIES);
 
-					addObject("studyPublicReleaseDate", "type", "date", "store", true);
+			addObject("studyPublicReleaseDate", "type", "date", "store", true);
 
-					addObject("studySubmissionDate", "type", "date");
+			addObject("studySubmissionDate", "type", "date");
 
-					addObject(STATUS_FIELD, "type", "string", "index", "not_analyzed");
+			addObject(STATUS_FIELD, "type", "string", "index", "not_analyzed");
 
-					addObject("obfuscationCode", "type", "string", "index", "not_analyzed");
+			addObject("obfuscationCode", "type", "string", "index", "not_analyzed");
 
-					addObject("studyIdentifier", "type", "string", "index", "not_analyzed");
+			addObject("studyIdentifier", "type", "string", "index", "not_analyzed");
 
 
-					// Collections
-					// Organisms
-					startObject("organism")
-						.startObject(PROPERTIES);
-							addObject("organismName", "type", "string", "index", "not_analyzed");
-							addObject("organismPart", "type", "string", "index", "not_analyzed");
-						endObject()
+			// Collections
+			// Organisms
+			startObject("organism")
+					.startObject(PROPERTIES);
+			addObject("organismName", "type", "string", "index", "not_analyzed");
+			addObject("organismPart", "type", "string", "index", "not_analyzed");
+			endObject()
 					.endObject();
 
-					// Assays
-					startObject("assays")
-						.startObject(PROPERTIES);
-							addObject("technology", "type", "string", "index", "not_analyzed");
-							addObject("measurement", "type", "string", "index", "not_analyzed");
-						endObject()
+			// Assays
+			startObject("assays")
+					.startObject(PROPERTIES);
+			addObject("technology", "type", "string", "index", "not_analyzed");
+			addObject("measurement", "type", "string", "index", "not_analyzed");
+			endObject()
 					.endObject();
 
 			// Users
@@ -525,7 +549,7 @@ public class ElasticSearchService implements SearchService <Entity> {
 				deleteDocumentType(documentType);
 
 
-			// Delete by id
+				// Delete by id
 			} else {
 
 				DeleteResponse response = client.prepareDelete(indexName, documentType, id).execute().actionGet();
@@ -552,7 +576,7 @@ public class ElasticSearchService implements SearchService <Entity> {
 
 
 
-		public void deleteStudies() throws IndexingFailureException {
+	public void deleteStudies() throws IndexingFailureException {
 
 		deleteDocumentType(STUDY_TYPE_NAME);
 
@@ -735,7 +759,7 @@ public class ElasticSearchService implements SearchService <Entity> {
 			// Only one filter
 			searchRequestBuilder.setPostFilter(facetFilters.get(0));
 
-		// More than 1 facet filter
+			// More than 1 facet filter
 		} else {
 			// Create an and filter
 			FilterBuilder[] filterBuilders =  facetFilters.toArray(new FilterBuilder[facetFilters.size()]);
@@ -804,30 +828,30 @@ public class ElasticSearchService implements SearchService <Entity> {
 	 *
 	 * Sample query
 	 *
-	{
-		"query" : {
-			"filtered" : {
-				"query": {
-					"query_string" : {
-						"query" : "profiling"
-					}
-				},
-				"filter" : {
-					"or": {
-						"filters": [
-							{
-								"term" : { "publicStudy" : true }
-							},
-							{
-								"term" : { "users.userName" : "owner" }
-							}
-						]
-					}
-				}
-			}
-		}
-	}
-	**/
+	 {
+	 "query" : {
+	 "filtered" : {
+	 "query": {
+	 "query_string" : {
+	 "query" : "profiling"
+	 }
+	 },
+	 "filter" : {
+	 "or": {
+	 "filters": [
+	 {
+	 "term" : { "publicStudy" : true }
+	 },
+	 {
+	 "term" : { "users.userName" : "owner" }
+	 }
+	 ]
+	 }
+	 }
+	 }
+	 }
+	 }
+	 **/
 	private QueryBuilder getFilterElasticSearchFilter(SearchQuery query, QueryBuilder esSearchQuery) {
 
 
@@ -839,7 +863,7 @@ public class ElasticSearchService implements SearchService <Entity> {
 
 			// ... only public studies are accesible.
 
-					filter = FilterBuilders.termFilter(STATUS_FIELD, Study.StudyStatus.PUBLIC.name());
+			filter = FilterBuilders.termFilter(STATUS_FIELD, Study.StudyStatus.PUBLIC.name());
 
 			// If user not null...
 			if (query.getUser() != null) {
@@ -1102,7 +1126,7 @@ public class ElasticSearchService implements SearchService <Entity> {
 			if (hit.getType().equals(COMPOUND_TYPE_NAME)){
 				entity = hit2Compound(hit);
 			}
-			
+
 
 			if (entity != null)
 				searchResult.getResults().add(entity);
