@@ -152,7 +152,7 @@
         <repository>
             <id>limpopo-repo</id>
             <name>Limpopo Mini-SF Repository</name>
-            <url>https://limpopo.sourceforge.net/maven/repo</url>
+            <url>http://limpopo.sourceforge.net/maven/repo</url>
         </repository>
         <repository>
             <id>wso2</id>

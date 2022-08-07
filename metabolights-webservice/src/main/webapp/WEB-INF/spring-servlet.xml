@@ -106,6 +106,8 @@
     <jee:jndi-lookup id="swaggerhost" jndi-name="java:comp/env/swaggerhost"/>
 
 
+    <jee:jndi-lookup id="elasticsearchServerHost" jndi-name="java:comp/env/elasticsearchServerHost"/>
+    <jee:jndi-lookup id="elasticsearchServerPort" jndi-name="java:comp/env/elasticsearchServerPort"/>
 
     <!--<jee:jndi-lookup id="mailpassword" jndi-name="java:comp/env/mailpassword"/>-->
 

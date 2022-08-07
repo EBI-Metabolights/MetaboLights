@@ -73,6 +73,10 @@ import java.util.Calendar;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
 /**
  * User: conesa
  * Date: 03/12/14
@@ -85,6 +89,9 @@ public class ElasticSearchService implements SearchService <Entity> {
 	private static final String USER_NAME_FIELD = "users.userName";
 	private static final String STUDY_PUBLIC_RELEASE_DATE = "studyPublicReleaseDate";
 	public static final String NO_ESCAPING_CHAR = "'";
+
+	private String elasticsearchServerHost;
+	private int elasticsearchServerPort;
 
 	static Logger logger = LoggerFactory.getLogger(ElasticSearchService.class);
 
@@ -107,9 +114,25 @@ public class ElasticSearchService implements SearchService <Entity> {
 
 	public ElasticSearchService(){
 
-
+		initializeEnvironmentVariables();
 		initialiseElasticSearchClient();
 	}
+
+
+	private void initializeEnvironmentVariables() {
+		Context initCtx;
+		try {
+			initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			this.elasticsearchServerHost = (String)envCtx.lookup("elasticsearchServerHost");
+			String port = (String)envCtx.lookup("elasticsearchServerPort");
+			this.elasticsearchServerPort = Integer.parseInt(port);
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	public ElasticSearchService(String clusterName){
 
 		this.clusterName = clusterName;
@@ -134,9 +157,10 @@ public class ElasticSearchService implements SearchService <Entity> {
 					.put("cluster.name", clusterName).build();
 
 			client = new TransportClient(settings);
+			String hostName = this.elasticsearchServerHost;
+			int port = this.elasticsearchServerPort;
 
-			client.addTransportAddress(new InetSocketTransportAddress("localhost", 9300));
-
+			client.addTransportAddress(new InetSocketTransportAddress(hostName, port));
 
 			logger.info("Connected to index (elasticsearch) server.");
 
