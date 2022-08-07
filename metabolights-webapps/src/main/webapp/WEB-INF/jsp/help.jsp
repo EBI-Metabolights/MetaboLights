@@ -1,4 +1,5 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
     <%--
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
@@ -30,7 +31,7 @@
         <div>&nbsp;</div>
         <div class="col-md-8 col-md-offset-2">
             <video width="100%" height="auto" controls>
-                <source src="editor/assets/videos/201904_ML_ALL.mp4" type="video/mp4">
+                <source src="<c:out value="${guidedVideoBaseURL}"/>/201904_ML_ALL.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
