@@ -54,7 +54,8 @@ public class MetabolightsXMLExporter {
     private final static String DATE = "date";
     private final static String ML_BASE_URL = "https://www.ebi.ac.uk/metabolights";
     private final static String ML_BASE_FTP = "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/";
-    private final static String ML_BASE_FTP_DIR = "/ebi/ftp/pub/databases/metabolights/studies/public/";
+    private final static String ML_BASE_FTP_DIR = "/ebi/ftp/pub/databases/metabolights/studies/public/"; // This FTP path changed in Codon cluster, this may not be useful now.
+    private final static String ML_BASE_FTP_DIR_CODON = "/nfs/ftp/public/databases/metabolights/studies/public/";
     private static String xmlFileName = null;
     private static DocumentBuilderFactory dbf = null;
     private static DocumentBuilder builder = null;
@@ -254,6 +255,7 @@ public class MetabolightsXMLExporter {
             return true;
         } catch (Exception e) {
             System.out.println("Could not create XML document " + fileName);
+            System.out.println("Exception " + e);
             return false;
         }
     }
@@ -786,11 +788,11 @@ public class MetabolightsXMLExporter {
 
         //List of filenames
 
-        File[] files = getStudyFileList(studyAcc, ML_BASE_FTP_DIR);
+        File[] files = getStudyFileList(studyAcc, ML_BASE_FTP_DIR_CODON);
 
         if (files != null) {
             for (File file : files) {
-                String filename = file.toString().replaceAll(ML_BASE_FTP_DIR, ML_BASE_FTP);
+                String filename = file.toString().replaceAll(ML_BASE_FTP_DIR_CODON, ML_BASE_FTP);
 
                 if (filename != null)
                     additionalField.appendChild(createChildElement(FIELD, "dataset_file", filename));
