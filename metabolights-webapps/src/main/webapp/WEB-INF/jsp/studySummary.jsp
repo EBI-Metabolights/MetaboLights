@@ -146,11 +146,20 @@
                                     -
                                 </c:when>
                                 <c:otherwise>
-                                    <c:forEach var="species" items="${liteStudy.organism}"  varStatus="loop">
-                                        ${species.organismName}
+                                    <jsp:useBean id="organismNames" class="java.util.HashSet" />
+
+                                    <c:forEach var="organism" items="${liteStudy.organism}"  varStatus="loop">
+                                        <c:if test = '${organismNames.add(organism.organismName)}'>
+                                        </c:if>
+                                    </c:forEach>
+                                    <c:forEach var="name" items="${organismNames}"  varStatus="loop">
+                                        ${name}
                                         ${!loop.last ? ', ' : ''}
                                     </c:forEach>
+                                    <c:if test = '${organismNames.clear()}'>
+                                    </c:if>
                                 </c:otherwise>
+
                             </c:choose>
 
                         </td>
@@ -163,10 +172,18 @@
                                     -
                                 </c:when>
                                 <c:otherwise>
-                                    <c:forEach var="factor" items="${liteStudy.factors}" varStatus="loop">
-                                        ${factor.name}
+                                    <jsp:useBean id="factorNames" class="java.util.HashSet" />
+
+                                    <c:forEach var="factor" items="${liteStudy.factors}"  varStatus="loop">
+                                        <c:if test = '${factorNames.add(factor.name)}'>
+                                        </c:if>
+                                    </c:forEach>
+                                    <c:forEach var="name" items="${factorNames}" varStatus="loop">
+                                        ${name}
                                         ${!loop.last ? ', ' : ''}
                                     </c:forEach>
+                                    <c:if test = '${factorNames.clear()}'>
+                                    </c:if>
                                 </c:otherwise>
                             </c:choose>
                         </td>
