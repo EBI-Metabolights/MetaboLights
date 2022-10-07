@@ -430,6 +430,7 @@ public class FileDispatcherController extends AbstractController {
      * @author: jrmacias
      * @date: 20151110
      */
+    /**
     public File[] getPrivateFtpFileList(String studyId) {
 
         // Using the WebService-client to do the job
@@ -437,6 +438,7 @@ public class FileDispatcherController extends AbstractController {
 
         return wsClient.getPrivateFtpFileList(studyId).getContent();
     }
+     */
 
     /**
      * Create a private upload folder for a Study, so the user can upload big files using ftp.
@@ -446,6 +448,7 @@ public class FileDispatcherController extends AbstractController {
      * @author: jrmacias
      * @date: 20151105
      */
+    /**
     @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/requestFtpFolder")
     public ModelAndView requestFtpFolder(@PathVariable("studyId") String studyId) {
 
@@ -464,6 +467,7 @@ public class FileDispatcherController extends AbstractController {
 
         return printMessage("Creating private upload folder for Study...", msg, null, studyId);
     }
+    */
 
     /**
      * Move files from private upload folder for a Study.
@@ -473,6 +477,7 @@ public class FileDispatcherController extends AbstractController {
      * @author: jrmacias
      * @date: 20151105
      */
+    /**
     @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/moveFilesfromFtpFolder",
             method = RequestMethod.POST)
     public ModelAndView moveFilesfromFtpFolder(@PathVariable("studyId") String studyId,
@@ -493,6 +498,7 @@ public class FileDispatcherController extends AbstractController {
         }
         return printMessage("Moving files from private upload folder...", msg, null, studyId);
     }
+                                               */
 
     /**
      * Check if a Study has a private upload folder
@@ -502,6 +508,7 @@ public class FileDispatcherController extends AbstractController {
      * @author: jrmacias
      * @date: 20151012
      */
+    /**
     public boolean hasPrivateFtpFolder(String studyId) {
 
         // Using the WebService-client to do the job
@@ -509,7 +516,7 @@ public class FileDispatcherController extends AbstractController {
 
         return wsClient.hasPrivateFtpFolder(studyId);
     }
-
+  */
     /**
      * Delete a series of files selected from the private upload folder for a Study
      * Requires confirmation.
@@ -521,6 +528,7 @@ public class FileDispatcherController extends AbstractController {
      * @author: jrmacias
      * @date: 20151012
      */
+    /** Commented because of unused & FTP dependency
     @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/deleteSelFtpFiles",
             method = RequestMethod.POST)
     public ModelAndView deleteSelectedFtpFiles(@PathVariable("studyId") String studyId,
@@ -540,4 +548,5 @@ public class FileDispatcherController extends AbstractController {
 
         return printMessage("Deleting files from private upload folder...", msg, null, studyId);
     }
+     */
 }
