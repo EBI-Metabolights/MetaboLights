@@ -933,6 +933,8 @@ public class StudyController extends BasicController{
      * @author khaug
      * @date 20180807
      */
+
+	/**
     @RequestMapping("requestFtpFolderOnApiKey")
     @ResponseBody
     public RestResponse<String> createPrivateFtpFolderOnApiKey(@RequestParam(value = "studyIdentifier") String studyIdentifier, HttpServletRequest request)
@@ -967,7 +969,7 @@ public class StudyController extends BasicController{
 
         return restResponse;
     }
-
+    */
 
 	/**
 	 * Create a private upload folder for a Study, so the user can upload big files using ftp or Aspera.
@@ -978,6 +980,7 @@ public class StudyController extends BasicController{
 	 * @author jrmacias
 	 * @date 20151102
 	 */
+    /**
 	@PreAuthorize("hasRole('ROLE_SUPER_USER') or hasRole('ROLE_SUBMITTER')")
 	@RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/files/requestFtpFolder")
 	@ResponseBody
@@ -1048,6 +1051,7 @@ public class StudyController extends BasicController{
 
         return body.toString();
     }
+	*/
 
 	/**
 	 * Move files from the Study private upload folder to its MetaboLights folder.
@@ -1058,6 +1062,8 @@ public class StudyController extends BasicController{
 	 * @author jrmacias
 	 * @date 20151104
      */
+
+	/**
 	@PreAuthorize("hasRole('ROLE_SUPER_USER') or hasRole('ROLE_SUBMITTER')")
 	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/files/moveFilesfromFtpFolder", method= RequestMethod.POST)
 	@ResponseBody
@@ -1079,7 +1085,7 @@ public class StudyController extends BasicController{
 		restResponse.setMessage(result);
 		return restResponse;
 	}
-
+    */
 
 	/**
 	 * Check if a Study has a private upload folder
@@ -1090,6 +1096,8 @@ public class StudyController extends BasicController{
 	 * @author jrmacias
 	 * @date 20151112
      */
+
+	/**
 	@PreAuthorize("hasRole('ROLE_SUPER_USER') or hasRole('ROLE_SUBMITTER')")
 	@RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/files/privateFtpFolder")
 	@ResponseBody
@@ -1107,6 +1115,7 @@ public class StudyController extends BasicController{
 		restResponse.setMessage(result?ftpFolder:"");
 		return restResponse;
 	}
+	*/
 
 	/**
 	 * Get a list of files in the private upload folder of a Study
@@ -1117,6 +1126,7 @@ public class StudyController extends BasicController{
 	 * @author jrmacias
 	 * @date 20151102
 	 */
+	/**
 	@PreAuthorize("hasRole('ROLE_SUPER_USER') or hasRole('ROLE_SUBMITTER')")
 	@RequestMapping("{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/files/privateFtpFolder/list")
 	@ResponseBody
@@ -1136,6 +1146,7 @@ public class StudyController extends BasicController{
 
 		return restResponse;
 	}
+	*/
 
 	/**
 	 * Delete a list of files from the private upload folder of the study
@@ -1145,6 +1156,7 @@ public class StudyController extends BasicController{
 	 * @author jrmacias
 	 * @date 20151112
 	 */
+	/**
 	@PreAuthorize("hasRole('ROLE_SUPER_USER') or hasRole('ROLE_SUBMITTER')")
 	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/files/deleteFilesfromFtpFolder", method= RequestMethod.POST)
 	@ResponseBody
@@ -1169,6 +1181,7 @@ public class StudyController extends BasicController{
 		return restResponse;
 
 	}
+	 */
 
 
 	/**

@@ -73,7 +73,7 @@ public class SubmissionQueueController extends AbstractController {
 
     private static Logger logger = LoggerFactory.getLogger(SubmissionQueueController.class);
 
-    private @Value("#{uploadDirectory}") String uploadDirectory;
+    // private @Value("#{uploadDirectory}") String uploadDirectory; # Not used
     private @Value("#{userSpace}") String uploadSpectraDirectory;
 
     static class BIIException extends Exception {
@@ -292,37 +292,49 @@ public class SubmissionQueueController extends AbstractController {
 
         try {
 
-            // Extend the message...
-            messageBody.append("\nFileName: " + file.getOriginalFilename() );
-            messageBody.append("\nCompound Identifier: " + compound );
+            if(file.getOriginalFilename().endsWith(".json") || file.getOriginalFilename().endsWith(".zip")){
+                // Extend the message...
+                messageBody.append("\nFileName: " + file.getOriginalFilename() );
+                messageBody.append("\nCompound Identifier: " + compound );
 
-            if (submitter.equals(user.getUserName())){
-                messageBody.append("\nUser: " + user.getUserName());
-            } else {
-                messageBody.append("\nUser: " + user.getUserName() + "on behalf of " + submitter);
+                if (submitter.equals(user.getUserName())){
+                    messageBody.append("\nUser: " + user.getUserName());
+                } else {
+                    messageBody.append("\nUser: " + user.getUserName() + "on behalf of " + submitter);
+                }
+
+
+                byte[] bytes = file.getBytes();
+
+                File dir = new File( uploadSpectraDirectory + File.separator + user.getApiToken() + File.separator + "submission/compound-reference-spectra/ " + compound );
+                if (!dir.exists())
+                    dir.mkdirs();
+
+                // Create the file on server
+                File serverFile = new File(dir.getAbsolutePath() + File.separator + file.getOriginalFilename());
+                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+                stream.write(bytes);
+                stream.close();
+
+                logger.info("Server File Location="
+                        + serverFile.getAbsolutePath());
+
+                ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("referencespectraupload");
+                mav.addObject("compoundId", compound);
+                mav.addObject("successfulUpload", "Compound Reference Spectra Uploaded Successfully");
+
+                return mav;
+
             }
-
-
-            byte[] bytes = file.getBytes();
-
-            File dir = new File( uploadSpectraDirectory + File.separator + user.getUserName() + File.separator + compound );
-            if (!dir.exists())
-                dir.mkdirs();
-
-            // Create the file on server
-            File serverFile = new File(dir.getAbsolutePath() + File.separator + file.getOriginalFilename());
-            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-            stream.write(bytes);
-            stream.close();
-
-            logger.info("Server File Location="
-                    + serverFile.getAbsolutePath());
-
-            ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("referencespectraupload");
-            mav.addObject("compoundId", compound);
-            mav.addObject("successfulUpload", "Compound Reference Spectra Uploaded Successfully");
-
-            return mav;
+            else{
+                ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("submitError");
+                logger.error("Submission errot : File format not matching !");
+                mav.addObject("error", "File format not matching");
+                // Add the study id...
+                mav.addObject("Compound ID", compound);
+                messageBody.append(" We accept only JSON file format & zip !" );
+                return mav;
+            }
 
         }  catch (Exception e){
 
