@@ -255,6 +255,7 @@ public class FileUtil {
 	 * @author jrmacias
 	 * @date 20151102
 	 */
+	/**
 	@PostConstruct
 	public static Path createFtpFolder(String folder) throws IOException {
 
@@ -289,7 +290,7 @@ public class FileUtil {
 
 		return folderPath;
 	}
-
+    */
 	/**
 	 * Move a single file from a private upload folder to MetaboLights
 	 *
@@ -300,6 +301,7 @@ public class FileUtil {
 	 * @author jrmacias
 	 * @date 20151104
      */
+	/**
 	private static boolean moveFileFromFTP(String fileName, String ftpFolder, String studyFolder) {
 		String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");	// ~/ftp_private/
 		boolean result = false;
@@ -322,7 +324,7 @@ public class FileUtil {
 
 		return result;
 	}
-
+    */
 	/**
 	 * Move a list of files from a private upload folder to MetaboLights
 	 *
@@ -333,6 +335,7 @@ public class FileUtil {
 	 * @author jrmacias
 	 * @date 20151104
      */
+	/**
 	public static String moveFilesFromPrivateFtpFolder(List<String> fileNames, String ftpFolder, String studyFolder) {
 
 		StringBuffer result = new StringBuffer();
@@ -343,6 +346,7 @@ public class FileUtil {
 		}
 		return result.toString();
 	}
+	 */
 
 
 	public static Collection<String> listFileTree(File dir) {
@@ -408,7 +412,10 @@ public class FileUtil {
 		return folder.exists() && folder.isDirectory();
 	}
 
-	static String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");
+	/**
+	 * Commented privateFTPRoot due to restrction
+	 */
+	// static String privateFTPRoot = PropertiesUtil.getProperty("privateFTPRoot");
 	static String filePrefix = ".DELETEME-";
 
 	/**
@@ -420,6 +427,7 @@ public class FileUtil {
 	 * @author jrmacias
 	 * @date 20151204
 	 */
+	/**
 	public static String deleteFilesFromPrivateFtpFolder(List<String> fileNames, String ftpFolder) {
 		StringBuffer result = new StringBuffer();
 
@@ -430,6 +438,7 @@ public class FileUtil {
 
 		return result.toString();
 	}
+	 */
 
 	/**
 	 * Delete a file from the private upload folder, upon user request
@@ -442,6 +451,7 @@ public class FileUtil {
 	 * @author jrmacias
 	 * @date 20151204
 	 */
+	/**
 	private static boolean deleteFileFromFTP(String fileName, String ftpFolder) {
 
 		boolean result = false;
@@ -459,8 +469,10 @@ public class FileUtil {
 
 		return result;
 	}
+	 */
 
 	public static String getCurrentTimeStamp() {
 		return new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
 	}
+
 }
