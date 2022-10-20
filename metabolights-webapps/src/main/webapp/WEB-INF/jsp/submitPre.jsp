@@ -111,11 +111,13 @@
                 axios.post("webservice/labs/authenticateToken", { "token" : editorToken }).then(response => {
                     axios.post("webservice/labs-workspace/initialise", { "jwt" : response.headers.jwt, "user" : response.headers.user }).then( res => {
                         localStorage.setItem('user', JSON.stringify(JSON.parse(res.data.content).owner));
+                        localStorage.removeItem('time');
                         window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
                     })
                 });
             }else{
                 localStorage.removeItem("user")
+                localStorage.removeItem('time');
                 window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
             }
         })
