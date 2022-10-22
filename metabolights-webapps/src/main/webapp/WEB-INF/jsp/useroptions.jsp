@@ -255,7 +255,7 @@
                 });
             }else{
                 localStorage.removeItem("user")
-                localStorage.removeItem('time');
+                localStorage.removeItem("time");
                 window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
             }
         })

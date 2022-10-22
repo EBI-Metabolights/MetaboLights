@@ -23,7 +23,7 @@
     },
     "AuthenticationURL": {
         "login": "/ws/auth/login",
-        "token": "/webservice/labs/authenticateToken",
+        "token": "/ws/auth/login-with-token",
         "initialise": "/ws/auth/user",
         "studiesList": "/webservice/study/myStudies"
     },
