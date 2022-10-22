@@ -7,7 +7,7 @@
     "endpoint": "https://www.ebi.ac.uk/metabolights",
     "loginURL": "login",
     "clearJavaSession" : true,
-    "JavaLogoutURL": "http://localhost:8080/metabolights/j_spring_security_logout",
+    "JavaLogoutURL": "https://www.ebi.ac.uk/metabolights/j_spring_security_logout",
     "redirectURL": "console",
     "MetabolightsWSURL": {
         "domain": "https://www.ebi.ac.uk/metabolights/",
@@ -23,10 +23,10 @@
         "article": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=<term>&format=json&resultType=core"
     },
     "AuthenticationURL": {
-        "login": "/ws/auth/login",
-        "token": "/ws/auth/validate-token",
-        "initialise": "/ws/auth/user",
-         "studiesList": "/webservice/study/myStudies"
+      "login": "/ws/auth/login",
+      "token": "/ws/auth/login-with-token",
+      "initialise": "/ws/auth/user",
+      "studiesList": "/webservice/study/myStudies"
   },
   "VideoURL": {
     "all": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_ALL.mp4",
