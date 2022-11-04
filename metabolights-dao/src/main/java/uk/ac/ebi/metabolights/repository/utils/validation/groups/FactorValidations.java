@@ -1,6 +1,5 @@
 package uk.ac.ebi.metabolights.repository.utils.validation.groups;
 
-import uk.ac.ebi.bioinvindex.model.term.Factor;
 import uk.ac.ebi.metabolights.repository.model.*;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Group;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.ValidationIdentifier;

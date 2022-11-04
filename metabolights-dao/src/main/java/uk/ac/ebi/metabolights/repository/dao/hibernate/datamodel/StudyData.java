@@ -26,8 +26,6 @@ import org.hibernate.annotations.Type;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.Constants;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
-import uk.ac.ebi.metabolights.repository.utils.ClobJsonUtils;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -170,7 +168,7 @@ public class StudyData extends DataModel<Study> {
         this.users = UserData.businessModelToDataModel(businessModelEntity.getUsers());
 
         //convert Validations
-        this.validations = ClobJsonUtils.parseToJSONString(businessModelEntity.getValidations());
+        this.validations = "{}";
 
     }
 
@@ -207,14 +205,6 @@ public class StudyData extends DataModel<Study> {
         study.setUpdateDate(new Date(this.updateDate.getTime()));
         study.setStudySubmissionDate(new Date(this.getSubmissionDate().getTime()));
         study.setStudySize(this.studysize);
-        Validations validations = ClobJsonUtils.parseJson(
-                this.getValidations(), Validations.class
-        );
-        if (validations == null) {
-            study.setValidations(new Validations());
-        } else {
-            study.setValidations(validations);
-        }
 
 
     }
