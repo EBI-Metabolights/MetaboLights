@@ -135,7 +135,7 @@ public class ElasticSearchService implements SearchService <Entity> {
 
 			client = new TransportClient(settings);
 
-			client.addTransportAddress(new InetSocketTransportAddress("wp-np3-15", 9300));
+			client.addTransportAddress(new InetSocketTransportAddress("localhost", 9300));
 
 
 			logger.info("Connected to index (elasticsearch) server.");
