@@ -26,12 +26,8 @@ import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.Study;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
-import uk.ac.ebi.metabolights.repository.utils.ClobJsonUtils;
 import uk.ac.ebi.metabolights.repository.utils.FileAuditUtil;
 import uk.ac.ebi.metabolights.repository.utils.IsaTab2MetaboLightsConverter;
-import uk.ac.ebi.metabolights.repository.utils.validation.StudyValidationUtilities;
-import uk.ac.ebi.metabolights.repository.utils.validation.groups.IsatabValidations;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -142,7 +138,7 @@ public class StudyDAO {
                 fillStudyFromFolder(includeMetabolites, studyToFill, studyFolder);
 
             } catch (Exception e) {
-                studyToFill.getValidations().getEntries().addAll(new IsatabValidations().getValidations(studyToFill));
+//                studyToFill.getValidations().getEntries().addAll(new IsatabValidations().getValidations(studyToFill));
 
                 logger.warn("Folder for {} found, but metadata can't be loaded. Load process will continue but without metadata. This should be fixed by submitting new metadata files.", studyToFill.getStudyIdentifier(), e);
 
@@ -173,19 +169,20 @@ public class StudyDAO {
 
 
         } catch (IsaTabException e) {
-            studyToFill.setValidations(new Validations()); // this is to remove any validations loaded from database
+//            studyToFill.setValidations(new Validations()); // this is to remove any validations loaded from database
 //            StudyValidationUtilities.AddValidationFromException(studyToFill, "Study metadata load","We could NOT either find or load the isatab files: " + e.getMessage() + ", " +
 //                    e.getClass().getName());
-            StudyValidationUtilities.AddValidationFromException(studyToFill, "Study metadata load","We could NOT either find or load all the ISA-Tab files." +
-                    " Make sure if you have provided all the required ISA-Tab files, that have successfully passed ISAcreator validation.");
+//            StudyValidationUtilities.AddValidationFromException(studyToFill, "Study metadata load","We could NOT either find or load all the ISA-Tab files." +
+//                    " Make sure if you have provided all the required ISA-Tab files, that have successfully passed ISAcreator validation.");
+            logger.error("IsaTab Error");
 
         }
 
         // Add Backups
         studyToFill.setBackups(FileAuditUtil.getBackupsCollection(studyFolder));
 
-        StudyValidationUtilities.validate(studyToFill,studiesFolder);
-        logger.debug(ClobJsonUtils.parseToJSONString(studyToFill.getValidations()));
+//        StudyValidationUtilities.validate(studyToFill,studiesFolder);
+//        logger.debug(ClobJsonUtils.parseToJSONString(studyToFill.getValidations()));
         logger.info("Study loaded from folder: {}", studyFolder.getAbsolutePath());
 
         return studyToFill;

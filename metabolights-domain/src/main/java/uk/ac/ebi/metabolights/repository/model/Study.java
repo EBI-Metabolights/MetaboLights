@@ -23,7 +23,6 @@ package uk.ac.ebi.metabolights.repository.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
 
 import java.util.Collection;
 import java.util.List;

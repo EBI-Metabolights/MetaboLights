@@ -19,7 +19,6 @@
  */
 package uk.ac.ebi.metabolights.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.jose4j.jws.JsonWebSignature;
@@ -307,13 +306,7 @@ import java.util.GregorianCalendar;
                 mav.addObject("liteStudy", (Object)wsClient.searchStudy(study.getStudyIdentifier()));
                 mav.addObject("studyStatuses", (Object)LiteStudy.StudyStatus.values());
                 final ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-                try {
-                    final String json = ow.writeValueAsString((Object)study.getValidations());
-                    mav.addObject("validationJson", (Object)json);
-                }
-                catch (JsonProcessingException e) {
-                    e.printStackTrace();
-                }
+
                 final FileDispatcherController fdController = new FileDispatcherController();
                 mav.addObject("files", (Object)fdController.getStudyFileList(study.getStudyIdentifier()));
                 if (study.getStudyStatus() == LiteStudy.StudyStatus.SUBMITTED && (user.isCurator() || user.getRole() == AppRole.ROLE_SUBMITTER.ordinal())) {
