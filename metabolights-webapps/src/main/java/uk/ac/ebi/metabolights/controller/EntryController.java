@@ -267,14 +267,16 @@ import java.util.GregorianCalendar;
             return false;
         }
 
-
+        /** Commenting because of unused
         private ModelAndView getWSEntryMAV(final String mtblsId, final String obfuscationCode, final String view, final HttpServletRequest request) {
             final ModelAndView modelAndView = this.getWSEntryMAV(mtblsId, obfuscationCode, view);
             final HttpSession httpSession = request.getSession();
             httpSession.setAttribute("currentpage", (Object)mtblsId);
             return modelAndView;
         }
+         */
 
+        /** Commenting because of unused
         private ModelAndView getWSEntryMAV(String mtblsId, final String obfuscationCode, final String view) {
             final MetabolightsUser user = LoginController.getLoggedUser();
             final MetabolightsWsClient wsClient = getMetabolightsWsClient(user);
@@ -334,6 +336,7 @@ import java.util.GregorianCalendar;
             }
             return new ModelAndView("redirect:/errors/500");
         }
+         **/
 
         public static boolean canUserEditStudy(final String study) {
             return canUserDoThisToStudy(study, null, EntryController.PageActions.EDIT);

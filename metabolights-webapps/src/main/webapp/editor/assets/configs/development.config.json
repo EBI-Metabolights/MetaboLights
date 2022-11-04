@@ -1,0 +1,44 @@
+{
+    "production": "false",
+    "isTesting": "false",
+    "sessionLength": "600000",
+    "origin": "https://wwwdev.ebi.ac.uk",
+    "endpoint": "https://wwwdev.ebi.ac.uk/metabolights",
+    "loginURL": "login",
+    "clearJavaSession" : true,
+    "JavaLogoutURL": "https://wwwdev.ebi.ac.uk/metabolights/j_spring_security_logout",
+    "redirectURL": "console",
+    "MetabolightsWSURL": {
+        "domain": "https://wwwdev.ebi.ac.uk/metabolights/",
+        "baseURL": "https://wwwdev.ebi.ac.uk/metabolights/ws",
+        "guides": "https://raw.githubusercontent.com/EBI-Metabolights/guides/development/",
+        "ontologyDetails": "https://www.ebi.ac.uk/ols/api/ontologies/"
+
+    },
+    "DOIWSURL": {
+        "article": "https://api.crossref.org/works/"
+    },
+    "EuropePMCURL": {
+        "article": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=<term>&format=json&resultType=core"
+    },
+    "AuthenticationURL": {
+        "login": "/ws/auth/login",
+        "token": "/ws/auth/login-with-token",
+        "initialise": "/ws/auth/user",
+        "studiesList": "/webservice/study/myStudies"
+    },
+    "VideoURL": {
+      "all": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_ALL.mp4",
+      "aspera": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_Aspera.mp4",
+      "create_account": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_create-acc.mp4",
+      "create_study": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_create-study.mp4",
+      "maf": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_MAF.mp4",
+      "factors": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_factors.mp4",
+      "create_assay": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_new-assay.mp4",
+      "protocols": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_protocols.mp4",
+      "samples": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_samples.mp4",
+      "descriptors": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_study-description.mp4",
+      "editor": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_Editor.mp4"
+    }
+
+}
