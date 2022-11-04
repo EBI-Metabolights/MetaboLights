@@ -75,7 +75,7 @@
     <jee:jndi-lookup id="uploadDirectory" jndi-name="java:comp/env/uploadDirectory" />
 
     <!-- Private FTP Directory -->
-    <jee:jndi-lookup id="privateFTPRoot" jndi-name="java:comp/env/privateFTPRoot" />
+   <!-- <jee:jndi-lookup id="privateFTPRoot" jndi-name="java:comp/env/privateFTPRoot" /> -->
     <jee:jndi-lookup id="privateFTPServer" jndi-name="java:comp/env/privateFTPServer" />
     <jee:jndi-lookup id="privateFTPUser" jndi-name="java:comp/env/privateFTPUser" />
     <jee:jndi-lookup id="privateFTPPass" jndi-name="java:comp/env/privateFTPPass" />

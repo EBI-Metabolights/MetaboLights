@@ -70,7 +70,7 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <a id="userLoggingOut" href="<spring:url value="/j_spring_security_logout"/>" class="btn btn-default btn-md form-control ml--noborder">
+                                <a id="userLoggingOut" href="#" class="btn btn-default btn-md form-control ml--noborder">
                                     <i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;
                                     <spring:message code="menu.logoutCaps" />
                                 </a>
@@ -248,14 +248,22 @@
                 localStorage.setItem("user", editorToken);
                 axios.post("webservice/labs/authenticateToken", { "token" : editorToken }).then(response => {
                     axios.post("webservice/labs-workspace/initialise", { "jwt" : response.headers.jwt, "user" : response.headers.user }).then( res => {
+                        localStorage.removeItem('time');
                         localStorage.setItem('user', JSON.stringify(JSON.parse(res.data.content).owner));
                         window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
                     })
                 });
             }else{
                 localStorage.removeItem("user")
+                localStorage.removeItem("time");
                 window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
             }
         })
+    });
+    $('#userLoggingOut').click(function(){
+        localStorage.removeItem("user")
+        localStorage.removeItem('time');
+        window.location.href = '/metabolights/j_spring_security_logout';
+
     });
 </script>
