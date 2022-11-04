@@ -37,9 +37,6 @@ import uk.ac.ebi.metabolights.repository.model.AppRole;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.User;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Status;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
 import uk.ac.ebi.metabolights.webservice.utils.TextUtils;
 
 import javax.mail.internet.AddressException;
@@ -433,24 +430,7 @@ public class EmailService {
 	public Exception sendValidationStatus(Study study) {
 
 		Exception ex = null;
-		String from = curationEmailAddress;
-		String submitterEmail = getSubmitterEmail(study);
-		if(submitterEmail.isEmpty())
-			ex = new Exception("Could not find any valid Submitter email address.");
-//		String[] to = new String[]{curationEmailAddress};
-		String[] to = new String[]{submitterEmail, curationEmailAddress};
-		String subject = PropertyLookUpService.getMessage("mail.validations.status.subject", study.getStudyIdentifier());
-
-		Validations validations = study.getValidations();
-		Status valStatus = validations.getStatus();
-		Collection<Validation> vals = validations.getEntries();
-
-		logger.info("Sending Validations status report to submitter email {} .", submitterEmail);
-		sendValidationsEmail(from, to, subject,
-				study,
-				getValidations(vals, Status.RED),
-				getValidations(vals, Status.AMBER),
-				getValidations(vals, Status.GREEN));
+		logger.info("Sending Validations status report to submitter email .");
 
 		return ex;
 	}
@@ -470,76 +450,5 @@ public class EmailService {
 		return "";
 	}
 
-	/**
-	 * Send email with the Validations Status Report using Velocity template
-	 *
-	 * @param from
-	 * @param to
-	 * @param subject
-	 * @param study
-	 * @param failingVals
-	 * @param incompleteVals
-     * @param passingVals
-	 * @author jrmacias
-	 * @date 20160126
-     */
-	private void sendValidationsEmail(final String from, final String[] to, final String subject,
-									  final Study study,
-									  final Collection<Validation> failingVals,
-									  final Collection<Validation> incompleteVals,
-									  final Collection<Validation> passingVals) {
-
-		MimeMessagePreparator preparator = new MimeMessagePreparator() {
-			public void prepare(MimeMessage mimeMessage) throws Exception {
-
-				MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-				message.setTo(to);
-				message.setFrom(from);
-				message.setSubject(subject);
-
-				Map model = new HashMap();
-				model.put("study", study);
-				model.put("failingVals", failingVals);
-				model.put("incompleteVals", incompleteVals);
-				model.put("passingVals", passingVals);
-
-				model.put("mailBody", PropertyLookUpService.getMessage("mail.validations.status.body",study.getStudyIdentifier(),study.getTitle(), study.getValidations().getStatus().name()));
-
-				model.put("msgExperimentPublic", PropertyLookUpService.getMessage("mail.validations.status.experimentMsgPublic"));
-				model.put("msgCuratorsOverride", PropertyLookUpService.getMessage("mail.validations.status.curatorsOverride"));
-
-				String text = VelocityEngineUtils.mergeTemplateIntoString(
-						velocityEngine, "email_template/validationsEmail.vm", "UTF-8", model);
-				message.setText(text, true);
-			}
-		};
-
-		try {
-			this.mailSender.send(preparator);
-		} catch (Exception e) {
-
-			logger.error("Could not sent email: \n Subject: \n {}\n\n Study:\n{}",subject,study.getStudyIdentifier(), e );
-		}
-	}
-
-	/**
-	 * Get a list of validations for the given status
-	 *
-	 * @param validations
-	 * @param status
-     * @return
-	 * @author jrmacias
-	 * @date 20160126
-     */
-	private Collection<Validation> getValidations(Collection<Validation> validations, Status status) {
-
-		LinkedList<Validation> rslt = new LinkedList<>();
-
-		for (Validation validation : validations){
-			if (validation.getStatus().equals(status))
-				rslt.add(validation);
-		}
-		return rslt;
-	}
 
 }
