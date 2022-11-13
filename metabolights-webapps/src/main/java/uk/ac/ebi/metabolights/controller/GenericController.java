@@ -22,6 +22,7 @@ package uk.ac.ebi.metabolights.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -41,15 +42,22 @@ public class GenericController {
 
 	private static Logger logger = LoggerFactory.getLogger(GenericController.class);
 
+	private @Value("#{guidedVideoBaseURL}") String guidedVideoBaseURL;
+
 	/**
 	 * Forwards to the jsp based on the last part of the requested URL.
 	 *
 	 * @param request
 	 * @return String indicating JSP target
 	 */
-	@RequestMapping(value={ "/about","/help","/download", "/pleasewait" ,"/analysis", "/advisoryboard", "/parallelCoordinates"})
+	@RequestMapping(value={ "/about", "/download", "/pleasewait" ,"/analysis", "/advisoryboard", "/parallelCoordinates"})
 	public ModelAndView modelAndView (HttpServletRequest request) {
 		return lastPartOfUrl(request);
+	}
+
+	@RequestMapping(value={"/help"})
+	public ModelAndView helpModelAndView (HttpServletRequest request) {
+		return this.lastPartOfUrlWithConfiguration(request);
 	}
 
     /**
@@ -80,7 +88,20 @@ public class GenericController {
 		logger.debug("target is "+target);
 
 		target = target!=null&&!target.equals("")?target:"index";
+
 		return AppContext.getMAVFactory().getFrontierMav(target);
+	}
+
+	public ModelAndView lastPartOfUrlWithConfiguration (HttpServletRequest request) {
+		String requestUrl = request.getRequestURL().toString();
+		String target=requestUrl.replaceFirst("^(.)*/", "");
+		logger.debug("target is "+target);
+
+		target = target!=null&&!target.equals("")?target:"index";
+
+		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(target);
+		mav.addObject("guidedVideoBaseURL", this.guidedVideoBaseURL);
+		return mav;
 
 	}
 }
