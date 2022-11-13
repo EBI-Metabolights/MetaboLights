@@ -60,6 +60,7 @@ import uk.ac.ebi.metabolights.webservice.client.models.CitationsList;
 import uk.ac.ebi.metabolights.webservice.client.models.MixedSearchResult;
 import uk.ac.ebi.metabolights.webservice.client.models.ReactionsList;
 
+import javax.naming.*;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -96,11 +97,28 @@ public class MetabolightsWsClient {
     private String userToken = ANONYMOUS;
 
     public MetabolightsWsClient(String metabolightsWsUrl) {
-        this.metabolightsWsUrl = metabolightsWsUrl;
+
+        if(metabolightsWsUrl == null)
+            this.initializeEnvironmentVariables();
+        else
+            this.metabolightsWsUrl = metabolightsWsUrl;
     }
 
-    public MetabolightsWsClient() {}
+    public MetabolightsWsClient() {
+        this.initializeEnvironmentVariables();
+    }
 
+    private void initializeEnvironmentVariables() {
+        Context initCtx;
+        try {
+            initCtx = new InitialContext();
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            this.metabolightsWsUrl = (String)envCtx.lookup("metabolightsWsUrl");
+        } catch (NamingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
     public String getMetabolightsWsUrl() {
         return metabolightsWsUrl;
     }
