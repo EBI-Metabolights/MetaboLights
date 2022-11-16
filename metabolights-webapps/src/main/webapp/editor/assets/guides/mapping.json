@@ -1,22 +1,22 @@
 {
-    "languages" : [
-        {
-            "code": "en",
-            "name": "English",
-            "file": "I10n/en.json",
-            "default": true
-        },
-        {
-            "code": "zh",
-            "name": "中文",
-            "file": "I10n/zh.json",
-            "default": false
-        },
-        {
-            "code": "es",
-            "name": "Spanish",
-            "file": "I10n/es.json",
-            "default": false
-        }
-    ]
+  "languages": [
+    {
+      "code": "en",
+      "name": "English",
+      "file": "I10n/en.json",
+      "default": true
+    },
+    {
+      "code": "zh",
+      "name": "中文",
+      "file": "I10n/zh.json",
+      "default": false
+    },
+    {
+      "code": "es",
+      "name": "Spanish",
+      "file": "I10n/es.json",
+      "default": false
+    }
+  ]
 }

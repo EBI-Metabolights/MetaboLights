@@ -7,28 +7,28 @@
     "endpoint": "https://www.ebi.ac.uk/metabolights",
     "loginURL": "login",
     "clearJavaSession" : true,
-    "JavaLogoutURL": "https://www.ebi.ac.uk/metabolights/j_spring_security_logout",
+    "javaLogoutURL": "https://www.ebi.ac.uk/metabolights/j_spring_security_logout",
     "redirectURL": "console",
-    "MetabolightsWSURL": {
+    "metabolightsWSURL": {
         "domain": "https://www.ebi.ac.uk/metabolights/",
         "baseURL": "https://www.ebi.ac.uk/metabolights/ws",
         "guides": "https://raw.githubusercontent.com/EBI-Metabolights/guides/prod/",
         "ontologyDetails": "https://www.ebi.ac.uk/ols/api/ontologies/"
 
     },
-    "DOIWSURL": {
+    "doiWSURL": {
         "article": "https://api.crossref.org/works/"
     },
-    "EuropePMCURL": {
+    "europePMCURL": {
         "article": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=<term>&format=json&resultType=core"
     },
-    "AuthenticationURL": {
+    "authenticationURL": {
       "login": "/ws/auth/login",
       "token": "/ws/auth/login-with-token",
       "initialise": "/ws/auth/user",
       "studiesList": "/webservice/study/myStudies"
   },
-  "VideoURL": {
+  "videoURL": {
     "all": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_ALL.mp4",
     "aspera": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_Aspera.mp4",
     "create_account": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_create-acc.mp4",
