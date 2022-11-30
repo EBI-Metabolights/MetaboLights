@@ -100,7 +100,7 @@
         }
     }
 </style>
-<link rel="stylesheet" href="editor/styles.cdab5a6afcbf519327ed.css">
+<link rel="stylesheet" href="editor/styles.b9670b8b1cecc51f6698.css">
 <noscript>
     <strong>
         We're sorry but MetaboLights online submission and editor tool doesn't work properly without JavaScript enabled. Please enable it to continue.
@@ -114,4 +114,4 @@
         </svg>
     </div>
 </app-root>
-<script src="editor/runtime.359d5ee4682f20e936e9.js" defer></script><script src="editor/polyfills-es5.11d2987ae2d743afd2b7.js" nomodule defer></script><script src="editor/polyfills.c486699dfb727ed35554.js" defer></script><script src="editor/main.bf9f3a9c0f05496a8c7e.js" defer></script>
+<script src="editor/runtime.359d5ee4682f20e936e9.js" defer></script><script src="editor/polyfills-es5.daf963e810f486e931f2.js" nomodule defer></script><script src="editor/polyfills.c8c85ab9fe6c65e3aa77.js" defer></script><script src="editor/main.8eab2c38b233a0eea308.js" defer></script>

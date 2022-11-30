@@ -1,32 +1,31 @@
-
 {
-    "production": "true",
-    "isTesting": "false",
-    "sessionLength": "600000",
-    "origin": "https://www.ebi.ac.uk",
-    "endpoint": "https://www.ebi.ac.uk/metabolights",
-    "loginURL": "login",
-    "clearJavaSession" : true,
-    "javaLogoutURL": "https://www.ebi.ac.uk/metabolights/j_spring_security_logout",
-    "redirectURL": "console",
-    "metabolightsWSURL": {
-        "domain": "https://www.ebi.ac.uk/metabolights/",
-        "baseURL": "https://www.ebi.ac.uk/metabolights/ws",
-        "guides": "https://raw.githubusercontent.com/EBI-Metabolights/guides/master/",
-        "ontologyDetails": "https://www.ebi.ac.uk/ols/api/ontologies/"
+  "production": "false",
+  "isTesting": "false",
+  "sessionLength": "600000",
+  "origin": "https://wwwint.ebi.ac.uk",
+  "endpoint": "https://wwwint.ebi.ac.uk/metabolights",
+  "loginURL": "login",
+  "clearJavaSession" : true,
+  "javaLogoutURL": "https://wwwint.ebi.ac.uk/metabolights/j_spring_security_logout",
+  "redirectURL": "console",
+  "metabolightsWSURL": {
+    "domain": "https://wwwint.ebi.ac.uk/metabolights/",
+    "baseURL": "https://wwwint.ebi.ac.uk/metabolights/ws",
+    "guides": "https://raw.githubusercontent.com/EBI-Metabolights/guides/sync-frp/",
+    "ontologyDetails": "https://www.ebi.ac.uk/ols/api/ontologies/"
 
-    },
-    "doiWSURL": {
-        "article": "https://api.crossref.org/works/"
-    },
-    "europePMCURL": {
-        "article": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=<term>&format=json&resultType=core"
-    },
-    "authenticationURL": {
-      "login": "/ws/auth/login",
-      "token": "/ws/auth/login-with-token",
-      "initialise": "/ws/auth/user",
-      "studiesList": "/webservice/study/myStudies"
+  },
+  "doiWSURL": {
+    "article": "https://api.crossref.org/works/"
+  },
+  "europePMCURL": {
+    "article": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=<term>&format=json&resultType=core"
+  },
+  "authenticationURL": {
+    "login": "/ws/auth/login",
+    "token": "/ws/auth/login-with-token",
+    "initialise": "/ws/auth/user",
+    "studiesList": "/webservice/study/myStudies"
   },
   "videoURL": {
     "all": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_ALL.mp4",
