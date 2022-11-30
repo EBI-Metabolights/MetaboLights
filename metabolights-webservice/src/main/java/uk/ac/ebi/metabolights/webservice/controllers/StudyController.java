@@ -650,6 +650,28 @@ public class StudyController extends BasicController{
 				study = studyDAO.getStudyByObfuscationCode(obfuscationCode, includeMAFFiles);
 			}
 
+
+			List<User> users = study.getUsers();
+			List<User> usersSub = new ArrayList<>();
+
+			for (User user: users) {
+				User user1 = new User();
+				if(user.getFirstName() !=null && !user.getFirstName().equals("")){
+					user1.setFirstName(user.getFirstName());
+				}
+				if(user.getLastName() !=null && !user.getLastName().equals("")){
+					user1.setLastName(user.getLastName());
+				}
+				if(user.getEmail() !=null && !user.getEmail().equals("")){
+					user1.setEmail(user.getEmail());
+				}
+				if(user.getAffiliation() !=null && !user.getAffiliation().equals("")){
+					user1.setAffiliation(user.getAffiliation());
+				}
+				usersSub.add(user1);
+			}
+
+			study.setUsers(usersSub);
 			response.setContent(study);
 			if(study == null){
 				response.setMessage("Study not found");
