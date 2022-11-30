@@ -102,6 +102,14 @@ public class MetabolightsXMLExporter {
         return wsClient;
     }
 
+    public static MetabolightsWsClient getWsClient(String wsClientURL) {
+        if (wsClientURL != null && !wsClientURL.equals(""))
+            wsClient = new MetabolightsWsClient(wsClientURL);
+        else
+            wsClient = new MetabolightsWsClient(WSCLIENT_URL);
+        return wsClient;
+    }
+
     public static List<String> getMetaboliteList() {
         if (metaboliteList == null)
             metaboliteList  = new ArrayList<>();
@@ -149,7 +157,9 @@ public class MetabolightsXMLExporter {
     }
 
     private static String[] getStudiesList(){
-        RestResponse<String[]> response = getWsClient().getAllStudyAcc();
+        //RestResponse<String[]> response = getWsClient().getAllStudyAcc();
+        RestResponse<String[]> response = getWsClient("http://localhost:5000/metabolights/ws/").getAllStudyAcc();
+        //RestResponse<String[]> response = getWsClient("https://wwwdev.ebi.ac.uk/metabolights/webservice/").getAllStudyAcc();
         // return new String[]{"MTBLS291"};
         //return new String[]{"MTBLS124"};
         return response.getContent();
@@ -203,9 +213,9 @@ public class MetabolightsXMLExporter {
 
     public static void main(String[] args) throws Exception {
         // For testing Locally ..
-        //String args1[] = {"/Users/famaladoss/Work/temp/studies.xml", "n", "n", "http://wp-p3s-15:8070/metabolights/webservice/"};
+        String args1[] = {"/Users/famaladoss/Work/temp/studies.xml", "n", "n", "http://wp-p3s-15:8070/metabolights/webservice/"};
         // String args2[] = {"/Users/famaladoss/Work/temp/compounds.xml", "y", "n", "http://wp-p3s-15:8070/metabolights/webservice/"};
-        // args = args1;
+        args = args1;
         if (!validateParams(args)){
             System.out.println("Usage:");
             System.out.println("    Parameter 1: The name of the xml export file (Mandatory)");
@@ -696,6 +706,8 @@ public class MetabolightsXMLExporter {
                System.out.println( "--- Adding to the failed study list");
                failedStudies.add(studyAcc);
             }
+            if(j==5)
+                break;
         }
         System.out.println( " Iteration total " +j);
         System.out.println( " Added studies Total  " +k);

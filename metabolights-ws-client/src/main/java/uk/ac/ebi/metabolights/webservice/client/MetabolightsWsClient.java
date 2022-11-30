@@ -144,7 +144,7 @@ public class MetabolightsWsClient {
     }
 
     private String makeRequest(String path, String method) {
-       return makeRequestSendingData(path,null,method);
+       return makeRequestSendingData(metabolightsWsUrl, path,null,method);
     }
 
     private String makeRequestSendingDataToDev(String path, Object dataToSend, String method, String host) {
@@ -212,16 +212,16 @@ public class MetabolightsWsClient {
 
 
 
-    private String makeRequestSendingData(String path, Object dataToSend, String method) {
+    private String makeRequestSendingData(String metabolightsWsUrl, String path, Object dataToSend, String method) {
 
         logger.debug("Making a {} request to {}", method,path);
-
+        System.out.println("Making rquest " + method+ "; "+path);
         try {
 
             // Get a post connection
-            HttpURLConnection conn = getHttpURLConnection(path, method);
+            HttpURLConnection conn = getHttpURLConnection(metabolightsWsUrl, path, method);
 
-            conn.setRequestProperty("content-type", "application/json");
+            //conn.setRequestProperty("content-type", "application/json");
             conn.setDoOutput(true);
 
             if (dataToSend != null) {
@@ -283,24 +283,30 @@ public class MetabolightsWsClient {
 
 
     private String makePostRequest(String path, Object data) {
-        return makeRequestSendingData(path, data, "POST");
+        return makeRequestSendingData(metabolightsWsUrl, path, data, "POST");
     }
 
     private String makePutRequest(String path, Object data) {
-        return makeRequestSendingData(path, data, "PUT");
+        return makeRequestSendingData(metabolightsWsUrl, path, data, "PUT");
     }
 
-    private String makeDeleteRequest(String path) {return makeRequestSendingData(path, null,"DELETE");  }
+    private String makeDeleteRequest(String path) {return makeRequestSendingData(metabolightsWsUrl, path, null,"DELETE");  }
 
-    private String makeDeleteRequest(String path, Object data) {return makeRequestSendingData(path, data,"DELETE"); }
+    private String makeDeleteRequest(String path, Object data) {return makeRequestSendingData(metabolightsWsUrl, path, data,"DELETE"); }
 
     private String makeGetRequest(String path) {
         return makeRequest(path, "GET");
     }
 
-    private HttpURLConnection getHttpURLConnection(String path, String method) throws IOException {
+    private HttpURLConnection getHttpURLConnection(String mtblsWSURL, String path, String method) throws IOException {
 
-        URL url = new URL(metabolightsWsUrl + path);
+        URL url = null;
+        if(mtblsWSURL !=null && !mtblsWSURL.equals("")){
+            url = new URL(mtblsWSURL + path);
+        }else{
+            url = new URL(metabolightsWsUrl + path);
+        }
+        System.out.println("URL hitting  " + url.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod(method);
         conn.setRequestProperty("Accept", "application/json");
@@ -370,7 +376,8 @@ public class MetabolightsWsClient {
         logger.debug("Getting all public study identifiers from the MetaboLights WS client");
 
         // Make the request
-        String response = makeGetRequest(STUDY_PATH + "list");
+        //String response = makeGetRequest(STUDY_PATH + "list");
+        String response = makeGetRequest( "studies");
 
         return deserializeJSONString(response, String[].class);
 
