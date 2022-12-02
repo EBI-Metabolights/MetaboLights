@@ -653,25 +653,12 @@ public class StudyController extends BasicController{
 
 			List<User> users = study.getUsers();
 			List<User> usersSub = new ArrayList<>();
-
 			for (User user: users) {
-				User user1 = new User();
-				if(user.getFirstName() !=null && !user.getFirstName().equals("")){
-					user1.setFirstName(user.getFirstName());
-				}
-				if(user.getLastName() !=null && !user.getLastName().equals("")){
-					user1.setLastName(user.getLastName());
-				}
-				if(user.getEmail() !=null && !user.getEmail().equals("")){
-					user1.setEmail(user.getEmail());
-				}
-				if(user.getAffiliation() !=null && !user.getAffiliation().equals("")){
-					user1.setAffiliation(user.getAffiliation());
-				}
-				usersSub.add(user1);
+				usersSub.add(getMinimalUserInfo(user));
 			}
-
 			study.setUsers(usersSub);
+			Collection<Backup> backups = new ArrayList<>();
+			study.setBackups(backups); // Hide backup information
 			response.setContent(study);
 			if(study == null){
 				response.setMessage("Study not found");
@@ -681,11 +668,31 @@ public class StudyController extends BasicController{
 		} catch (DAOException e) {
 			logger.error("Can't get the study requested " + studyIdentifier, e);
 			response.setMessage("Can't get the study requested.");
-			response.setErr(e);
+			response.setErr(new Exception("Unauthorized access to study data"));
 		}
 
 		return response;
 
+	}
+
+	private User getMinimalUserInfo(User user){
+		User user1 = new User();
+		if(user.getFirstName() !=null && !user.getFirstName().equals("")){
+			user1.setFirstName(user.getFirstName());
+		}
+		if(user.getLastName() !=null && !user.getLastName().equals("")){
+			user1.setLastName(user.getLastName());
+		}
+		if(user.getEmail() !=null && !user.getEmail().equals("")){
+			user1.setEmail(user.getEmail());
+		}
+		user1.setUserName(user.getUserName());
+
+		if(user.getAffiliation() !=null && !user.getAffiliation().equals("")){
+			user1.setAffiliation(user.getAffiliation());
+		}
+		user1.setJoinDate(null);
+		return user1;
 	}
 
 	private uk.ac.ebi.metabolights.repository.dao.StudyDAO getStudyDAO() throws DAOException {
