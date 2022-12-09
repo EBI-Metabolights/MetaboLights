@@ -2,7 +2,7 @@
 {
     "production": "true",
     "isTesting": "false",
-    "sessionLength": "300000",
+    "sessionLength": "600000",
     "origin": "https://www.ebi.ac.uk",
     "endpoint": "https://www.ebi.ac.uk/metabolights",
     "loginURL": "login",
@@ -12,7 +12,7 @@
     "metabolightsWSURL": {
         "domain": "https://www.ebi.ac.uk/metabolights/",
         "baseURL": "https://www.ebi.ac.uk/metabolights/ws",
-        "guides": "https://raw.githubusercontent.com/EBI-Metabolights/guides/prod/",
+        "guides": "https://raw.githubusercontent.com/EBI-Metabolights/guides/master/",
         "ontologyDetails": "https://www.ebi.ac.uk/ols/api/ontologies/"
 
     },

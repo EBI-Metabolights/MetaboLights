@@ -114,4 +114,4 @@
         </svg>
     </div>
 </app-root>
-<script src="editor/runtime.359d5ee4682f20e936e9.js" defer></script><script src="editor/polyfills-es5.daf963e810f486e931f2.js" nomodule defer></script><script src="editor/polyfills.c8c85ab9fe6c65e3aa77.js" defer></script><script src="editor/main.57d19924b10cfa63a9b8.js" defer></script>
+<script src="editor/runtime.359d5ee4682f20e936e9.js" defer></script><script src="editor/polyfills-es5.daf963e810f486e931f2.js" nomodule defer></script><script src="editor/polyfills.c8c85ab9fe6c65e3aa77.js" defer></script><script src="editor/main.82e67f9776f66db824ea.js" defer></script>

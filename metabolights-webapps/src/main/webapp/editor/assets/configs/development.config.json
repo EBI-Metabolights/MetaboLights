@@ -11,7 +11,7 @@
     "metabolightsWSURL": {
         "domain": "https://wwwdev.ebi.ac.uk/metabolights/",
         "baseURL": "https://wwwdev.ebi.ac.uk/metabolights/ws",
-        "guides": "https://raw.githubusercontent.com/EBI-Metabolights/guides/development/",
+        "guides": "https://raw.githubusercontent.com/EBI-Metabolights/guides/sync-frp/",
         "ontologyDetails": "https://www.ebi.ac.uk/ols/api/ontologies/"
 
     },
