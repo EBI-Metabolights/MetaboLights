@@ -22,6 +22,7 @@ package uk.ac.ebi.metabolights.utils.exporter;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import uk.ac.ebi.metabolights.referencelayer.model.StudyModel;
 import uk.ac.ebi.metabolights.repository.model.Publication;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
@@ -198,8 +199,8 @@ public class MetabolightsEuropePMCExporter {
         }
     }
 
-    private static Study getStudy(String accession){
-        RestResponse<Study> response = getWsClient().getStudy(accession);
+    private static StudyModel getStudy(String accession){
+        RestResponse<StudyModel> response = getWsClient().getStudyModel(accession);
         return response.getContent();
     }
 
@@ -213,7 +214,7 @@ public class MetabolightsEuropePMCExporter {
         return s;
     }
 
-    private static void checkStudy(Study study){
+    private static void checkStudy(StudyModel study){
 
         Integer pmids = 0, dois = 0;
 
@@ -257,7 +258,7 @@ public class MetabolightsEuropePMCExporter {
             try {
                 hasPublication = false;
                 hasPMID = false;
-                Study study = getStudy(studyAcc);
+                StudyModel study = getStudy(studyAcc);
 
                 checkStudy(study); //Does this study have publications? And which type, doi and/or pmid?
 
