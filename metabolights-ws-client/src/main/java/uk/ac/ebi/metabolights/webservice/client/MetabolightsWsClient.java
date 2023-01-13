@@ -48,6 +48,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.referencelayer.model.Compound;
+import uk.ac.ebi.metabolights.referencelayer.model.MetaboliteAssignmentModel;
+import uk.ac.ebi.metabolights.referencelayer.model.StudyModel;
 import uk.ac.ebi.metabolights.repository.model.Assay;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
@@ -92,6 +94,10 @@ public class MetabolightsWsClient {
 
     private String metabolightsWsUrl = "https://www.ebi.ac.uk/metabolights/webservice/";
     private static final String STUDY_PATH = "study/";
+
+    private static final String STUDY_PATH_WS = "public/study/";
+
+    private static final String STUDY_LIST = "studies";
 
     private String tokenHeaderName = DEAFULT_TOKEN_HEADER;
     private String userToken = ANONYMOUS;
@@ -210,8 +216,6 @@ public class MetabolightsWsClient {
         }
     }
 
-
-
     private String makeRequestSendingData(String path, Object dataToSend, String method) {
 
         logger.debug("Making a {} request to {}", method,path);
@@ -219,9 +223,10 @@ public class MetabolightsWsClient {
         try {
 
             // Get a post connection
-            HttpURLConnection conn = getHttpURLConnection(path, method);
-
-            conn.setRequestProperty("content-type", "application/json");
+            HttpURLConnection conn = getHttpURLConnection(null, path, method);
+            if(dataToSend != null){
+                conn.setRequestProperty("content-type", "application/json");
+            }
             conn.setDoOutput(true);
 
             if (dataToSend != null) {
@@ -279,6 +284,15 @@ public class MetabolightsWsClient {
             return serializeObject(response);
 
         }
+        catch (Exception e){
+            System.out.println("Exception occured - "+e);
+            RestResponse response = new RestResponse();
+            response.setMessage("IO exception while trying to reach " + path);
+            response.setErr(e);
+            logger.error(response.getMessage(), e);
+
+            return serializeObject(response);
+        }
     }
 
 
@@ -298,9 +312,15 @@ public class MetabolightsWsClient {
         return makeRequest(path, "GET");
     }
 
-    private HttpURLConnection getHttpURLConnection(String path, String method) throws IOException {
-
-        URL url = new URL(metabolightsWsUrl + path);
+    private HttpURLConnection getHttpURLConnection(String mtblsWsUrl, String path, String method) throws IOException {
+        URL url;
+        if(mtblsWsUrl !=null){
+            url = new URL(mtblsWsUrl + path);
+        }
+        else{
+            url = new URL(metabolightsWsUrl + path);
+        }
+        System.out.println( " !!metabolightsWsURI :- " +url);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod(method);
         conn.setRequestProperty("Accept", "application/json");
@@ -328,10 +348,20 @@ public class MetabolightsWsClient {
 
         logger.debug("Study " + studyIdentifier + " requested to the MetaboLights WS client");
 
-        String path = getStudyPath(studyIdentifier);
+        String path = getStudyPathWS(studyIdentifier);
 
         // Make the request
         return getStudyRestResponse(path);
+
+    }
+
+    public RestResponse<StudyModel> getStudyModel(String studyIdentifier) {
+
+        logger.debug("Study " + studyIdentifier + " requested to the MetaboLights WS client");
+        String path = getStudyPathWS(studyIdentifier);
+
+        // Make the request
+        return getStudyModelRestResponse(path);
 
     }
 
@@ -345,10 +375,27 @@ public class MetabolightsWsClient {
 
     }
 
+    public RestResponse<StudyModel> getStudyModelbyObfuscationCode(String obfuscationCode) {
+
+        logger.info("Study by obfuscation code " + obfuscationCode + " requested to the MetaboLights WS client");
+
+        String path = getObfuscationPath(obfuscationCode);
+
+        return getStudyModelRestResponse(path);
+
+    }
+
     private RestResponse<Study> getStudyRestResponse(String path) {
         // Make the request
         String response = makeGetRequest(path);
         RestResponse<Study> resS = deserializeJSONString(response, Study.class);
+        return resS;
+    }
+
+    private RestResponse<StudyModel> getStudyModelRestResponse(String path) {
+        // Make the request
+        String response = makeGetRequest(path);
+        RestResponse<StudyModel> resS = deserializeJSONString(response, StudyModel.class);
         return resS;
     }
 
@@ -368,9 +415,8 @@ public class MetabolightsWsClient {
     public RestResponse<String[]> getAllStudyAcc() {
 
         logger.debug("Getting all public study identifiers from the MetaboLights WS client");
-
         // Make the request
-        String response = makeGetRequest(STUDY_PATH + "list");
+        String response = makeGetRequest(STUDY_LIST);
 
         return deserializeJSONString(response, String[].class);
 
@@ -379,7 +425,7 @@ public class MetabolightsWsClient {
     public RestResponse<String[]> getAllCompoundsAcc() {
 
         logger.debug("Getting all public compound identifiers from the MetaboLights WS client");
-
+        System.out.println(" getAllCompoundsAcc : " + COMPOUND_PATH + "list");
         // Make the request
         String response = makeGetRequest(COMPOUND_PATH + "list");
 
@@ -390,6 +436,12 @@ public class MetabolightsWsClient {
 
     private String getStudyPath(String studyIdentifier) {
         return STUDY_PATH + studyIdentifier;
+    }
+
+    private String getStudyPathWS(String studyIdentifier) {
+        StringBuilder str = new StringBuilder(STUDY_LIST);
+        str.append("/").append(STUDY_PATH_WS).append(studyIdentifier);
+        return str.toString();
     }
 
     private String getIndexingPath(String action) {
@@ -405,8 +457,8 @@ public class MetabolightsWsClient {
      * @return Order of the assay, and if this assay has a MAF file. Use this number to iterate over the annotation tables(MAFs)
      */
     public Map<Integer,Integer> getAssayOrderAndNumberOfMAFs(String studyIdentifier){
-        RestResponse<Study> restStudy = getStudy(studyIdentifier);
-        Study study = restStudy.getContent();
+        RestResponse<StudyModel> restStudy = getStudyModel(studyIdentifier);
+        StudyModel study = restStudy.getContent();
         Map<Integer,Integer> mafMap = new HashMap<Integer,Integer>(); //Number of the assay and if the assay has a MAF(0 or 1)
         if (study != null) {
 
@@ -425,9 +477,14 @@ public class MetabolightsWsClient {
     }
 
     public String getMetabolitesJSON(String studyIdentifier, int assayNumber){
-        String path = getStudyPath(studyIdentifier) + "/assay/" + assayNumber + "/maf";
+
+        StringBuilder str = new StringBuilder(STUDY_LIST);
+        str.append("/").append(STUDY_PATH_WS).append(studyIdentifier).append("/");
+        str.append("assay/").append(assayNumber-1).append("/maf");
+
+        String path =  str.toString();
         // Make the request
-        String response = makeGetRequest(path);
+        String response = makeRequestSendingData( path, null, "GET");
 
         return response;
     }
@@ -435,6 +492,12 @@ public class MetabolightsWsClient {
     public RestResponse<MetaboliteAssignment> getMetabolites(String studyIdentifier, int assayNumber) {
         String response = getMetabolitesJSON(studyIdentifier,assayNumber);
         return deserializeJSONString(response, MetaboliteAssignment.class);
+
+    }
+
+    public RestResponse<MetaboliteAssignmentModel> getMetabolitesSimple(String studyIdentifier, int assayNumber) {
+        String response = getMetabolitesJSON(studyIdentifier,assayNumber);
+        return deserializeJSONString(response, MetaboliteAssignmentModel.class);
 
     }
 
@@ -470,7 +533,7 @@ public class MetabolightsWsClient {
             return mapper.readValue(response, type);
 
         } catch (IOException e) {
-
+            System.out.println("Can't parse ws response (json) back into " +  valueType.getName() + ": " + e.getMessage());
             logger.error("Can't parse ws response (json) back into " + valueType.getName() + ": " + e.getMessage());
             logger.debug("Response is: " + response);
 

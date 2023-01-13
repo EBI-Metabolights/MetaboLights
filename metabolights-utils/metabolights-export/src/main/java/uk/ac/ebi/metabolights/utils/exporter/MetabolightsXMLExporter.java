@@ -24,9 +24,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import uk.ac.ebi.metabolights.referencelayer.model.Compound;
-import uk.ac.ebi.metabolights.referencelayer.model.MetSpecies;
-import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
+import uk.ac.ebi.metabolights.referencelayer.model.*;
 import uk.ac.ebi.metabolights.repository.model.*;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
@@ -150,8 +148,8 @@ public class MetabolightsXMLExporter {
 
     private static String[] getStudiesList(){
         RestResponse<String[]> response = getWsClient().getAllStudyAcc();
-        // return new String[]{"MTBLS291"};
-        //return new String[]{"MTBLS124"};
+        //String[] studyList = {"MTBLS1", "MTBLS10", "MTBLS100", "MTBLS1014", "MTBLS1015",};
+        //return studyList;
         return response.getContent();
     }
 
@@ -203,7 +201,7 @@ public class MetabolightsXMLExporter {
 
     public static void main(String[] args) throws Exception {
         // For testing Locally ..
-        //String args1[] = {"/Users/famaladoss/Work/temp/studies.xml", "n", "n", "http://wp-p3s-15:8070/metabolights/webservice/"};
+        // String args1[] = {"/Users/famaladoss/Work/temp/studies.xml", "n", "n", "http://wp-p3s-19:5000/metabolights/ws/"};
         // String args2[] = {"/Users/famaladoss/Work/temp/compounds.xml", "y", "n", "http://wp-p3s-15:8070/metabolights/webservice/"};
         // args = args1;
         if (!validateParams(args)){
@@ -427,8 +425,8 @@ public class MetabolightsXMLExporter {
 
     }
 
-    private static Study getStudy(String accession){
-        RestResponse<Study> response = getWsClient().getStudy(accession);
+    private static StudyModel getStudy(String accession){
+        RestResponse<StudyModel> response = getWsClient().getStudyModel(accession);
         return response.getContent();
     }
 
@@ -485,7 +483,7 @@ public class MetabolightsXMLExporter {
         return protocolName +"_protocol";
     }
 
-    private static void addProtocols(Element entry, Study study){
+    private static void addProtocols(Element entry, StudyModel study){
 
         for (Protocol protocol : study.getProtocols()) {
             String protocolName = protocol.getName();
@@ -495,12 +493,12 @@ public class MetabolightsXMLExporter {
 
     }
 
-    private static void addDates(Element dateFields, Study study){
+    private static void addDates(Element dateFields, StudyModel study){
         dateFields.appendChild(createChildElement(DATE, "submission", getDateString(study.getStudySubmissionDate())));
         dateFields.appendChild(createChildElement(DATE, "publication", getDateString(study.getStudyPublicReleaseDate())));
     }
 
-    private static void addXrefs(Element crossRefs, Study study){
+    private static void addXrefs(Element crossRefs, StudyModel study){
         List<String> xrefList = new ArrayList<>();
 
         //PubMed
@@ -511,42 +509,46 @@ public class MetabolightsXMLExporter {
 
         for (int i = 0; i < study.getAssays().size(); i++) {
             i++;
-            RestResponse<MetaboliteAssignment> response = getWsClient().getMetabolites(study.getStudyIdentifier(), i);
+            RestResponse<MetaboliteAssignmentModel> response = getWsClient().getMetabolitesSimple(study.getStudyIdentifier(), i);
 
             if (response.getContent() != null) {
-                MetaboliteAssignment maf = response.getContent();
-                if (maf.getMetaboliteAssignmentLines() != null) {
-                    for (MetaboliteAssignmentLine metaboliteAssignmentLine : maf.getMetaboliteAssignmentLines()) {
-                        String dbId = metaboliteAssignmentLine.getDatabaseIdentifier();
-                        String metName = metaboliteAssignmentLine.getMetaboliteIdentification();
-                        metName = tidyNonPrintChars(metName, "Metabolite name: ");
-                        dbId = dbId.trim(); //Get rid of spaces
+                MetaboliteAssignmentModel maf = response.getContent();
 
-                        //To avoid looping throught this data twice, populate the metabolite list here
-                        if (hasValue(metName) && !getMetaboliteList().contains(metName))
-                            metaboliteList.add(metName);
+                if (maf.getData().getRows() != null) {
+                    for (MetaboliteAssignmentDetails mafDetails : maf.getData().getRows()) {
+                        String dbId = mafDetails.getDatabase_identifier();
+                        //System.out.println( "dbId == " +dbId);
+                        String metName = mafDetails.getMetabolite_identification();
+                        //System.out.println( "metName == " +metName);
+                        if(dbId != null && metName != null){
+                            metName = tidyNonPrintChars(metName, "Metabolite name: ");
+                            dbId = dbId.trim(); //Get rid of spaces
 
-                        if (xrefList.contains(dbId) || !hasValue(dbId))
-                            continue; //Jump out as we only want unique xrefs in the list
+                            //To avoid looping throught this data twice, populate the metabolite list here
+                            if (hasValue(metName) && !getMetaboliteList().contains(metName))
+                                metaboliteList.add(metName);
 
-                        //Add this xref as it's the first time we see it in all assys for this study
-                        xrefList.add(dbId);
+                            if (xrefList.contains(dbId) || !hasValue(dbId))
+                                continue; //Jump out as we only want unique xrefs in the list
 
-                        if (dbId.startsWith("CHEBI:")) {
-                            crossRefs.appendChild(createChildElement(REF, dbId, "ChEBI"));
-                            crossRefs.appendChild(createChildElement(REF, dbId.replace("CHEBI:", "MTBLC"), "MetaboLights"));  //Cheeky assumption for now
-                        } else if (dbId.startsWith("CID")) {
-                            crossRefs.appendChild(createChildElement(REF, dbId, "PubChem"));
-                        } else if (dbId.startsWith("HMDB")) {
-                            crossRefs.appendChild(createChildElement(REF, dbId, "HMDB"));
-                        } else if (dbId.startsWith("MTBLC")) {
-                            crossRefs.appendChild(createChildElement(REF, dbId, "MetaboLights"));
-                        } else if (dbId.startsWith("LM")) {
-                            crossRefs.appendChild(createChildElement(REF, dbId, "LIPID MAPS"));
-                        } else if (dbId.startsWith("C")) {
-                            crossRefs.appendChild(createChildElement(REF, dbId, "KEGG"));
-                        } else if (dbId.startsWith("GMD")) {
-                            crossRefs.appendChild(createChildElement(REF, dbId, "GOLM"));
+                            //Add this xref as it's the first time we see it in all assys for this study
+                            xrefList.add(dbId);
+                            if (dbId.startsWith("CHEBI:")) {
+                                crossRefs.appendChild(createChildElement(REF, dbId, "ChEBI"));
+                                crossRefs.appendChild(createChildElement(REF, dbId.replace("CHEBI:", "MTBLC"), "MetaboLights"));  //Cheeky assumption for now
+                            } else if (dbId.startsWith("CID")) {
+                                crossRefs.appendChild(createChildElement(REF, dbId, "PubChem"));
+                            } else if (dbId.startsWith("HMDB")) {
+                                crossRefs.appendChild(createChildElement(REF, dbId, "HMDB"));
+                            } else if (dbId.startsWith("MTBLC")) {
+                                crossRefs.appendChild(createChildElement(REF, dbId, "MetaboLights"));
+                            } else if (dbId.startsWith("LM")) {
+                                crossRefs.appendChild(createChildElement(REF, dbId, "LIPID MAPS"));
+                            } else if (dbId.startsWith("C")) {
+                                crossRefs.appendChild(createChildElement(REF, dbId, "KEGG"));
+                            } else if (dbId.startsWith("GMD")) {
+                                crossRefs.appendChild(createChildElement(REF, dbId, "GOLM"));
+                            }
                         }
                     }
                 }
@@ -601,7 +603,7 @@ public class MetabolightsXMLExporter {
         return completeAuthor.trim();
     }
 
-    private static Element addDetailedAuthors(Study study){
+    private static Element addDetailedAuthors(StudyModel study){
         //Add the sub tree "authorship"
         Element authorshipField = doc.createElement("authorship");
         for (Contact contact : study.getContacts()) {
@@ -722,7 +724,7 @@ public class MetabolightsXMLExporter {
     }
 
     private static Element processStudyToEntry(String studyAcc, Boolean detailedTags){
-        Study study = getStudy(studyAcc);
+        StudyModel study = getStudy(studyAcc);
 
         Element entry = doc.createElement("entry");
         entry.setAttribute("id", studyAcc);
@@ -916,7 +918,7 @@ public class MetabolightsXMLExporter {
         return completePublication;
     }
 
-    private static Element addStucturedPublicaitons(Study study){
+    private static Element addStucturedPublicaitons(StudyModel study){
         Element publicationsElement = doc.createElement("publications");
 
 
