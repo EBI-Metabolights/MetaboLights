@@ -42,7 +42,7 @@ public class MetabolightsXMLExporterTest  extends TestCase{
             if (detailedTags)
                 fileName = ISATabRootDirectory + "thomsonreuters_metabolights_studies.xml";
 
-            fileExported = xmlExporter.writeFile(fileName, includeCompounds, detailedTags, wsURL);
+            fileExported = xmlExporter.writeFile(fileName, includeCompounds, detailedTags, wsURL, "studies.xml");
 
         } catch (Exception e) {
             e.printStackTrace();

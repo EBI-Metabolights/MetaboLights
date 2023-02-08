@@ -50,6 +50,8 @@ public class MetabolightsXMLExporter {
     private final static String FIELD = "field";
     private final static String REF = "ref";
     private final static String DATE = "date";
+
+    private final static String LAST_MODIFIED = "last_modification";
     private final static String ML_BASE_URL = "https://www.ebi.ac.uk/metabolights";
     private final static String ML_BASE_FTP = "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/studies/public/";
     private final static String ML_BASE_FTP_DIR = "/ebi/ftp/pub/databases/metabolights/studies/public/"; // This FTP path changed in Codon cluster, this may not be useful now.
@@ -63,6 +65,8 @@ public class MetabolightsXMLExporter {
     private static String WSCLIENT_URL = ML_BASE_URL + "/webservice/";
     private static MetabolightsWsClient wsClient;
     private static List<String> metaboliteList;
+
+    private static Boolean  study_document_loaded = false;
 
     public MetabolightsXMLExporter(){}
 
@@ -115,7 +119,7 @@ public class MetabolightsXMLExporter {
         return str != null && !str.isEmpty();
     }
 
-    private static void initParams(String fileName, String wsClientURL, Boolean includeCompounds){
+    private static void initParams(String fileName, String studyFile,String wsClientURL, Boolean includeCompounds){
         if (xmlFileName == null)
             xmlFileName = fileName;
 
@@ -124,11 +128,30 @@ public class MetabolightsXMLExporter {
 
         validateParams(new String[]{xmlFileName, wsClientURL});
 
-        doc = getDoc();                 //Set up builder, parser and document
-        allStudies = getAllStudies();
+        if (includeCompounds){
+            /* parse existing file to DOM */
+            try {
+                String xmlfileDirectory = xmlFileName.substring(0, xmlFileName.lastIndexOf("/"));
+                if(studyFile == null){
+                    studyFile = "eb-eye_metabolights_studies.xml";
+                }
+                String studyFileAbsolute = xmlfileDirectory+"/"+studyFile;
+                System.out.println(" studyFileAbsolute : "+studyFileAbsolute);
+                doc = getBuilder().parse(new File(studyFileAbsolute));
+                study_document_loaded = true;
 
-        if (includeCompounds)
+            } catch (Exception e){
+                System.out.println(" Exception while parsing studies.xml : "+e);
+                doc = getDoc();
+                allStudies = getAllStudies();
+            }
             allCompounds = getAllCompounds();
+
+        }else{
+            allStudies = getAllStudies();
+            doc = getDoc();                 //Set up builder, parser and document
+        }
+
 
         wsClient = getWsClient();
     }
@@ -167,8 +190,11 @@ public class MetabolightsXMLExporter {
         String s1 = args[1].toLowerCase();
         String s2 = args[2].toLowerCase();
         String s3 = args[3];
-
-        System.out.println("Params: " + s0 + ":" + s1 + ":" + s2 + ":" +s3);
+        String s4 = null;
+        if(args.length == 5){
+            s4 = args[4];
+        }
+        System.out.println("Params: " + s0 + ":" + s1 + ":" + s2 + ":" +s3+ ": "+s4);
 
         if (s0 != null && (s0.equals("") || !s0.endsWith(".xml") || !s0.contains(File.separator))){
             System.out.println("ERROR param 1: You must provide a fully qualified filename with extension '.xml'");
@@ -201,15 +227,17 @@ public class MetabolightsXMLExporter {
 
     public static void main(String[] args) throws Exception {
         // For testing Locally ..
-        // String args1[] = {"/Users/famaladoss/Work/temp/studies.xml", "n", "n", "http://wp-p3s-19:5000/metabolights/ws/"};
-        // String args2[] = {"/Users/famaladoss/Work/temp/compounds.xml", "y", "n", "http://wp-p3s-15:8070/metabolights/webservice/"};
-        // args = args1;
+        //String args1[] = {"/Users/famaladoss/Work/temp/eb-eye_metabolights_studies.xml", "n", "n", "http://wp-p3s-19:5000/metabolights/ws/"};
+        //String args2[] = {"/Users/famaladoss/Work/temp/thomsonreuters_metabolights_studies.xml", "n", "y", "http://wp-p3s-19:5000/metabolights/ws/"};
+        //String args3[] = {"/Users/famaladoss/Work/temp/eb-eye_metabolights_complete.xml","y", "n", "http://wp-p3s-19:5000/metabolights/ws/", "eb-eye_metabolights_studies.xml"};
+        //args = args2;
         if (!validateParams(args)){
             System.out.println("Usage:");
             System.out.println("    Parameter 1: The name of the xml export file (Mandatory)");
             System.out.println("    Parameter 2: Include metabolites in the export file (y/n)");
             System.out.println("    Parameter 3: Include detailed author information in the export file (y/n)");
             System.out.println("    Parameter 4: The URL of the MetaboLights Web Service");
+            System.out.println("    Parameter 5: Studies XML, optional for study export");
             System.out.println();
         } else {
 
@@ -225,30 +253,61 @@ public class MetabolightsXMLExporter {
                 if (args[3] != null && args[3].startsWith("http"))
                     WSCLIENT_URL = args[3];     //Use the WS URL provided by the user
 
+            String args4 = "";
+
+            if(args.length == 5){
+                args4 = args[4];
+            }
+
             System.out.println("Using WS endpoint '" + WSCLIENT_URL + "'. Starting to export XML file '" +xmlFileName + "'");
-            writeFile(xmlFileName, includeCompounds, detailedAuthors, WSCLIENT_URL);
+            writeFile(xmlFileName, includeCompounds, detailedAuthors, WSCLIENT_URL, args4);
 
         }
     }
 
+    private static void processCompounds(){
+        Element  documentElement = doc.getDocumentElement();
+        addCompounds(documentElement);
+        updateRootItemElement("name", "MetaboLights");
+        updateRootItemElement("release_date", getDateString(new Date()));
+        NodeList entryList = documentElement.getElementsByTagName("entry");
+        System.out.println("Total number of entries : " + entryList.getLength());
+        updateRootItemElement("entry_count", String.valueOf( + entryList.getLength()));
+    }
 
-    public static boolean writeFile(String fileName, Boolean includeCompounds, Boolean detailedTags, String wsClientURL) throws Exception {
+    private static void processStudies(Boolean detailedTags){
+        Element entries =  doc.createElement(STUDIES);
+        //Loop thorough the studies returned from the WS
+        addStudies(entries, detailedTags);
+        // create the root element node
+        setRootXmlElements(entries);
+        //Add the complete study list to the entries section
+        doc.getDocumentElement().appendChild(entries);
+    }
+
+    private static void addCrossReference( Element crossreferences, CrossReferenceModel reference){
+        Element crossref = createChildElement(REF, reference.getAccession(), reference.getDb().getName());
+        crossreferences.appendChild(crossref);
+    }
+
+    private static void addDates( Element dates, String dateType, String dateString){
+        Element dateElement = createChildElement(DATE, dateType, dateString);
+        dates.appendChild(dateElement);
+    }
+
+    public static boolean writeFile(String fileName, Boolean includeCompounds, Boolean detailedTags, String wsClientURL, String studyFile) throws Exception {
         try {
 
-            initParams(fileName, wsClientURL, includeCompounds);
+            initParams(fileName, studyFile, wsClientURL, includeCompounds);
+            if (includeCompounds && study_document_loaded){
+                processCompounds();
 
-            //Loop thorough the studies returned from the WS
-            Element entries = doc.createElement(STUDIES);
-            addStudies(entries, detailedTags);
-
-            if (includeCompounds)
-                addCompounds(entries);
-
-            // create the root element node
-            setRootXmlElements(includeCompounds, entries);
-
-            //Add the complete study list to the entries section
-            doc.getDocumentElement().appendChild(entries);
+            } else if(includeCompounds && !study_document_loaded){
+                processStudies(detailedTags);
+                processCompounds();
+            }else {
+                processStudies(detailedTags);
+            }
             writeDocument(doc);
             return true;
         } catch (Exception e) {
@@ -258,31 +317,35 @@ public class MetabolightsXMLExporter {
         }
     }
 
-    public static void addCompounds(Element entries){
-        //First, add the surrounding <entries> tags
+    public static void addCompounds(Element documentElement){
+        NodeList entryList = documentElement.getElementsByTagName("entry");
+        System.out.println("Total number of entries with only studies : " + entryList.getLength());
 
+
+        NodeList entriesNodeList = documentElement.getElementsByTagName("entries");
+        Node entriesNode = entriesNodeList.item(0);
         int numberofcompounds = allCompounds.length;
         System.out.println("Total number of compounds : " + numberofcompounds);
         //Add all Compounds
-        int i = 0;
         int j = 0;
         ArrayList<String> failedCompounds = new ArrayList<>();
        for (String compoundAcc : allCompounds){
-           i++;
            System.out.println("Processing compound " + compoundAcc);
            Element entry = processCompoundToEntry(compoundAcc);
            if(entry != null){
                 //Add the complete Compound to the entry section
-                entries.appendChild(entry);
+               entriesNode.appendChild(entry);
                 j++;
+                //if(j==10) break;
            }else{
                 System.out.println("Adding to the Failed Compound List !");
                 failedCompounds.add(compoundAcc);
            }
         }
-        System.out.println( " Entry count : " + entries.getChildNodes().getLength());
+
         //Add the complete study list to the entries section
         //doc.getDocumentElement().appendChild(entries);        //Moved the calling method
+        System.out.println("Total number of compounds added " + j);
 
         if (failedCompounds != null) {
             System.out.println("======================================");
@@ -293,7 +356,7 @@ public class MetabolightsXMLExporter {
                 Element entry1 = processCompoundToEntry(failedCompound);
                 if(entry1 != null) {
                     //Add the complete study to the entry section
-                    entries.appendChild(entry1);
+                    entriesNode.appendChild(entry1);
                     j++;
                     System.out.println("Added the Compound " + j);
                 }else{
@@ -306,12 +369,9 @@ public class MetabolightsXMLExporter {
     private static Element processCompoundToEntry(String compoundAcc){
         //TODO, add ontologies
 
-        MetaboLightsCompound compound = null;
+        MetaboLightsCompoundModel compound = null;
 
-        Compound comp_response = getCompound(compoundAcc);
-        if (comp_response != null){
-            compound = getCompound(compoundAcc).getMc();
-        }
+        compound = getCompound(compoundAcc);
 
         if (compound == null) {
             System.out.println("Could not find compound " + compoundAcc);
@@ -339,33 +399,48 @@ public class MetabolightsXMLExporter {
                 additionalField.appendChild(createChildElement(FIELD, "formula", compound.getFormula()));
 
             Element crossreferences = doc.createElement("cross_references");
+            Element dates = doc.createElement("dates");
             try {
 
                 if (compound.getMetSpecies() != null) {
-                    ArrayList<MetSpecies> metSpecies = compound.getMetSpecies();
+                    ArrayList<SpeciesModel> metSpecies = compound.getMetSpecies();
                     ArrayList<String> StudyList = new ArrayList<>();
-                    for (MetSpecies species : metSpecies) {
-                        if (species.getSpecies() != null && species.getSpecies().getSpecies() != null) {
-                            additionalField.appendChild(createChildElement(FIELD, "organism", species.getSpecies().getSpecies()));
+                    ArrayList<CrossReferenceModel> crossReferenceList = new ArrayList<>();;
+                    if(compound.getCrossReference() != null){
+                        crossReferenceList = compound.getCrossReference();
+                    }
+                    for (CrossReferenceModel crossReference: crossReferenceList) {
+                        if (crossReference != null) {
+                            if (crossReference.getDb().getName().equalsIgnoreCase("MTBLS")) {
+                                if (!StudyList.contains(crossReference.getAccession())) {
+                                    StudyList.add(crossReference.getAccession());
+                                }
+                                addCrossReference(crossreferences, crossReference);
+                            }
+                            else if (crossReference.getDb().getName().equalsIgnoreCase("CHEBI")) {
+                               String accession = crossReference.getAccession();
+                               if(!accession.equals(compound.getChebiId())){
+                                   addCrossReference(crossreferences, crossReference);
+                               }
+                            }
+                            else{
+                                addCrossReference(crossreferences, crossReference);
+                            }
 
-                            if (species.getSpecies().getSpecies().equalsIgnoreCase("reference compound")) {
+                        }
+                    }
+
+                    addDates(dates, LAST_MODIFIED, compound.getUpdatedDate());
+
+                    for (SpeciesModel species : metSpecies) {
+                        if (species.getSpecies() != null) {
+                            additionalField.appendChild(createChildElement(FIELD, "organism", species.getSpecies()));
+
+                            if (species.getSpecies().equalsIgnoreCase("reference compound")) {
                                 //TODO, complete this....
                             } else {
-                                if (species.getSpecies().getSpeciesMember() != null) {
-                                    additionalField.appendChild(createChildElement(FIELD, "organism_group", species.getSpecies().getSpeciesMember().getSpeciesGroup().getName()));
-                                }
-                            }
-                        }
-
-                        if (species.getCrossReference() != null) {
-                            Element crossref = createChildElement("ref", species.getCrossReference().getAccession(), species.getCrossReference().getDb().getName());
-                            crossreferences.appendChild(crossref);
-
-                            if (species.getCrossReference().getDb().getName().equalsIgnoreCase("MTBLS")) {
-                                if (StudyList.contains(species.getCrossReference().getAccession())) {
-                                    System.out.println("exists");
-                                } else {
-                                    StudyList.add(species.getCrossReference().getAccession());
+                                if (species.getSpeciesMember() != null) {
+                                    additionalField.appendChild(createChildElement(FIELD, "organism_group", species.getSpeciesMember().getSpeciesGroup().getName()));
                                 }
                             }
                         }
@@ -378,8 +453,8 @@ public class MetabolightsXMLExporter {
 
                 Element chebiCrossRef = createChildElement(REF, compound.getChebiId(), "ChEBI");
                 crossreferences.appendChild(chebiCrossRef);
-
-                entry.appendChild(getElementWithUniqueChildElements(crossreferences));
+                entry.appendChild(crossreferences);
+                entry.appendChild(dates);
                 entry.appendChild(additionalField);
                 return entry;
 
@@ -391,8 +466,8 @@ public class MetabolightsXMLExporter {
 
     }
 
-    private static Compound getCompound(String accession){
-        RestResponse<Compound> response = getWsClient().getCompound(accession);
+    private static MetaboLightsCompoundModel getCompound(String accession){
+        RestResponse<MetaboLightsCompoundModel> response = getWsClient().getCompoundModel(accession);
         return response.getContent();
     }
 
@@ -406,16 +481,26 @@ public class MetabolightsXMLExporter {
 
     }
 
-    private static void setRootXmlElements(Boolean includeCompounds, Element entries){
+    private static void updateRootItemElement(String itemName, String itemValue){
+        Element newlement = doc.createElement(itemName);
+
+        // add an attribute to the node
+        newlement.setTextContent(itemValue);
+        NodeList oldelemList = doc.getElementsByTagName(itemName);
+        Node oldElement = oldelemList.item(0);
+
+        if (doc.getDocumentElement() != null) {    //There is a parent element
+            doc.getDocumentElement().replaceChild(newlement, oldElement);
+        } else {
+            doc.replaceChild(newlement, oldElement);
+        }
+    }
+
+    private static void setRootXmlElements(Element entries){
         // create the root element node
         Element database = doc.createElement("database");
         //element.setAttribute("id", "MetaboLights\" visible=\"true\" order=\"0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance");
         doc.appendChild(database);
-
-        int exportLength = allStudies.length;
-        if (includeCompounds)
-            exportLength = exportLength + allCompounds.length;
-
         //Section for the standard headings
         createRootItemElement("name", "MetaboLights");
         createRootItemElement("description", "MetaboLights is a database for Metabolomics experiments and derived information");
@@ -692,6 +777,7 @@ public class MetabolightsXMLExporter {
                 entries.appendChild(entry);
                 k++;
                 System.out.println( "--- Adding the study;  Study count "+k);
+                if(k==100) break;
 
             } catch (Exception e){
                System.out.println("Exception : " + e.getMessage());
@@ -703,7 +789,7 @@ public class MetabolightsXMLExporter {
         System.out.println( " Added studies Total  " +k);
         System.out.println( " Failed studies   " +failedStudies.size());
         System.out.println( " Empty study count : " +null_title);
-        System.out.println( " Entry count : " + entries.getChildNodes().getLength());
+        System.out.println( " Entry count studies: " + entries.getChildNodes().getLength());
         if(failedStudies.size() > 0){
             System.out.println( "=== Retrying failed studies from Failed list ...");
             for (String studyAcc : failedStudies){

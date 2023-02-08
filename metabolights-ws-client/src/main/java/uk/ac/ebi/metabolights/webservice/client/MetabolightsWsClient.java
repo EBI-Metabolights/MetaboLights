@@ -48,6 +48,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.referencelayer.model.Compound;
+import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompoundModel;
 import uk.ac.ebi.metabolights.referencelayer.model.MetaboliteAssignmentModel;
 import uk.ac.ebi.metabolights.referencelayer.model.StudyModel;
 import uk.ac.ebi.metabolights.repository.model.Assay;
@@ -407,6 +408,14 @@ public class MetabolightsWsClient {
         return deserializeJSONString(response, Compound.class);
     }
 
+    private RestResponse<MetaboLightsCompoundModel> getCompoundModelRestResponse(String path) {
+        // Make the request
+
+        String response = makeGetRequest(path);
+
+        return deserializeJSONString(response, MetaboLightsCompoundModel.class);
+    }
+
     private String getObfuscationPath(String obfuscationCode) {
         return STUDY_PATH + OBFUSCATIONCODE_PATH + obfuscationCode;
     }
@@ -727,6 +736,18 @@ public class MetabolightsWsClient {
 
         // Make the request
         return getCompoundRestResponse(path);
+
+    }
+
+    public RestResponse<MetaboLightsCompoundModel> getCompoundModel(String compoundIdentifier) {
+
+        logger.debug("Compound " + compoundIdentifier + " requested to the MetaboLights WS client");
+        System.out.println("Compound " + compoundIdentifier + " requested to the MetaboLights WS client");
+
+        String path = getCompoundPath(compoundIdentifier);
+
+        // Make the request
+        return getCompoundModelRestResponse(path);
 
     }
 
