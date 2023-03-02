@@ -349,7 +349,7 @@ public class MetabolightsWsClient {
 
         logger.debug("Study " + studyIdentifier + " requested to the MetaboLights WS client");
 
-        String path = getStudyPathWS(studyIdentifier);
+        String path = getStudyPathJavaWS(studyIdentifier);
 
         // Make the request
         return getStudyRestResponse(path);
@@ -450,6 +450,12 @@ public class MetabolightsWsClient {
     private String getStudyPathWS(String studyIdentifier) {
         StringBuilder str = new StringBuilder(STUDY_LIST);
         str.append("/").append(STUDY_PATH_WS).append(studyIdentifier);
+        return str.toString();
+    }
+
+    private String getStudyPathJavaWS(String studyIdentifier) {
+        StringBuilder str = new StringBuilder();
+        str.append("/").append(STUDY_PATH).append(studyIdentifier);
         return str.toString();
     }
 
