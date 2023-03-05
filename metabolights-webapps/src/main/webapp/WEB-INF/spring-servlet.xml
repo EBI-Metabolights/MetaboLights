@@ -125,6 +125,11 @@
     <jee:jndi-lookup id="elasticsearchServerPort" jndi-name="java:comp/env/elasticsearchServerPort"/>
     <jee:jndi-lookup id="guidedVideoBaseURL" jndi-name="java:comp/env/guidedVideoBaseURL"/>
 
+    <jee:jndi-lookup id="redisHost" jndi-name="java:comp/env/redisHost"/>
+    <jee:jndi-lookup id="redisPort" jndi-name="java:comp/env/redisPort"/>
+    <jee:jndi-lookup id="redisPassword" jndi-name="java:comp/env/redisPassword"/>
+    <jee:jndi-lookup id="redisDBIndex" jndi-name="java:comp/env/redisDBIndex"/>
+
     <!--  register the application properties -->
     <bean id="propertyConfigurer" class="uk.ac.ebi.metabolights.utils.PropertiesUtil">
 		<property name="ignoreUnresolvablePlaceholders" value="true"/>
@@ -154,7 +159,15 @@
     <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
-
+    <bean class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
+        <property name="maxInactiveIntervalInSeconds" value="14400"/>
+    </bean>
+    <bean class="org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory">
+        <property name="hostName" value="#{redisHost}"/>
+        <property name="port" value="#{redisPort}"/>
+        <property name="password" value="#{redisPassword}"/>
+        <property name="database" value="#{redisDBIndex}"/>
+    </bean>
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
