@@ -89,6 +89,9 @@ public class LoginController extends AbstractController {
             user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 
         if (user != null) {
+            mav.addObject("jwt", user.getJwtToken());
+            mav.addObject("jwtTokenExpireTime", user.getJwtTokenExpireTime());
+            mav.addObject("localUser", user.getLocalUserData());
             mav.addObject("editorToken", user.getApiToken());
         }
 
@@ -112,6 +115,8 @@ public class LoginController extends AbstractController {
             user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 
         if (user != null) {
+            mav.addObject("jwt", user.getJwtToken());
+            mav.addObject("jwtTokenExpireTime", user.getJwtTokenExpireTime());
             mav.addObject("editorToken", user.getApiToken());
         }else{
             return new ModelAndView("redirect:index");

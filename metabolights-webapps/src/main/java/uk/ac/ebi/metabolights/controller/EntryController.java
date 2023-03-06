@@ -18,13 +18,21 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 package uk.ac.ebi.metabolights.controller;
-
+import java.util.Base64;
+import org.json.JSONObject;
+import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.jose4j.jws.JsonWebSignature;
 import org.jose4j.lang.JoseException;
 import org.slf4j.Logger;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.security.Key;
 import org.jose4j.keys.HmacKey;
 import org.slf4j.LoggerFactory;
@@ -73,11 +81,6 @@ import java.util.GregorianCalendar;
         private UserService userService;
         public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
         public static final String REVIEWER_OBFUSCATION_CODE_URL = "reviewer{obfuscationCode}";
-        private static MetabolightsWsClient metabolightsWsClient;
-
-        public static MetabolightsWsClient getMetabolightsWsClient(final String instance) {
-            return null;
-        }
 
         public static MetabolightsWsClient getMetabolightsWsClient() {
             return getMetabolightsWsClient(LoginController.getLoggedUser());
@@ -92,7 +95,7 @@ import java.util.GregorianCalendar;
         }
 
         public static MetabolightsWsClient getMetabolightsWsClient(final String user_token, final String wsUrl) {
-            final MetabolightsWsClient wsClient = new MetabolightsWsClient(wsUrl);
+            final MetabolightsWsClient wsClient = MetabolightsWsClient.getInstance(wsUrl);
             wsClient.setUserToken(user_token);
             return wsClient;
         }
@@ -212,31 +215,6 @@ import java.util.GregorianCalendar;
                     }
                     final ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("study");
                     if (!user.getUserName().equals("anonymousUser".toLowerCase())) {
-                        final JwtClaims claims = new JwtClaims();
-                        claims.setSubject(user.getEmail());
-                        claims.setIssuer("Metabolights");
-                        claims.setAudience("Metabolights Labs");
-                        claims.setClaim("Name", (Object)user.getFullName());
-                        Key key = null;
-                        final String token = user.getApiToken();
-                        try {
-                            key = (Key)new HmacKey(token.getBytes("UTF-8"));
-                        }
-                        catch (UnsupportedEncodingException e) {
-                            return new ModelAndView("redirect:/errors/500");
-                        }
-                        final JsonWebSignature jws = new JsonWebSignature();
-                        jws.setPayload(claims.toJson());
-                        jws.setAlgorithmHeaderValue("HS256");
-                        jws.setKey(key);
-                        jws.setDoKeyValidation(false);
-                        String jwt = null;
-                        try {
-                            jwt = jws.getCompactSerialization();
-                        }
-                        catch (JoseException e2) {
-                            return new ModelAndView("redirect:/errors/500");
-                        }
 
 
                         if(doesUserOwnsStudy(study, user)){
@@ -248,14 +226,16 @@ import java.util.GregorianCalendar;
 
                         mav.addObject("isOwner", (Object)(isOwner));
                         mav.addObject("isCurator", (Object)(isCurator));
-                        mav.addObject("jwt", (Object)jwt);
+                        mav.addObject("jwt", (Object) user.getJwtToken());
+                        mav.addObject("jwtExpirationTime", (Object)user.getJwtTokenExpireTime());
+
+                        mav.addObject("localUser", (Object)user.getLocalUserData());
                         mav.addObject("email", (Object)user.getEmail());
                     }
                     return mav;
                 }
             }
         }
-
         private boolean doesUserOwnsStudy(Study study, MetabolightsUser user){
 
             for (User owner : study.getUsers()) {
@@ -266,77 +246,6 @@ import java.util.GregorianCalendar;
 
             return false;
         }
-
-        /** Commenting because of unused
-        private ModelAndView getWSEntryMAV(final String mtblsId, final String obfuscationCode, final String view, final HttpServletRequest request) {
-            final ModelAndView modelAndView = this.getWSEntryMAV(mtblsId, obfuscationCode, view);
-            final HttpSession httpSession = request.getSession();
-            httpSession.setAttribute("currentpage", (Object)mtblsId);
-            return modelAndView;
-        }
-         */
-
-        /** Commenting because of unused
-        private ModelAndView getWSEntryMAV(String mtblsId, final String obfuscationCode, final String view) {
-            final MetabolightsUser user = LoginController.getLoggedUser();
-            final MetabolightsWsClient wsClient = getMetabolightsWsClient(user);
-            RestResponse<Study> response;
-            if (obfuscationCode == null) {
-                EntryController.logger.info("requested entry " + mtblsId);
-                mtblsId = mtblsId.toUpperCase();
-                response = (RestResponse<Study>)wsClient.getStudy(mtblsId);
-            }
-            else {
-                EntryController.logger.info("requested entry by obfuscation " + obfuscationCode);
-                response = (RestResponse<Study>)wsClient.getStudybyObfuscationCode(obfuscationCode);
-            }
-            final Study study = (Study)response.getContent();
-            if (study != null) {
-                final ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(view);
-                mav.addObject("pageTitle", (Object)(study.getStudyIdentifier() + ":" + study.getTitle()));
-                mav.addObject("study", (Object)study);
-                if (obfuscationCode != null) {
-                    EntryController.logger.info("adding the parameter obfuscation code " + obfuscationCode);
-                    mav.addObject("obfuscationCode", (Object)obfuscationCode);
-                }
-                else {
-                    EntryController.logger.info("obfuscation code not found setting the parameter to null");
-                    mav.addObject("obfuscationCode", (Object)"null");
-                }
-                mav.addObject("liteStudy", (Object)wsClient.searchStudy(study.getStudyIdentifier()));
-                mav.addObject("studyStatuses", (Object)LiteStudy.StudyStatus.values());
-                final ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-
-                final FileDispatcherController fdController = new FileDispatcherController();
-                mav.addObject("files", (Object)fdController.getStudyFileList(study.getStudyIdentifier()));
-                if (study.getStudyStatus() == LiteStudy.StudyStatus.SUBMITTED && (user.isCurator() || user.getRole() == AppRole.ROLE_SUBMITTER.ordinal())) {
-                    mav.addObject("ftpFiles", (Object)fdController.getPrivateFtpFileList(study.getStudyIdentifier()));
-                    mav.addObject("hasPrivateFtpFolder", (Object)fdController.hasPrivateFtpFolder(study.getStudyIdentifier()));
-                }
-                if (user.isCurator()) {
-                    mav.addObject("curatorAPIToken", (Object)user.getApiToken());
-                }
-                if (user != null) {
-                    mav.addObject("editorToken", (Object)user.getApiToken());
-                }
-                final Calendar calendar = new GregorianCalendar();
-                calendar.setTime(study.getStudyPublicReleaseDate());
-                mav.addObject("releaseYear", (Object)calendar.get(1));
-                mav.addObject("userOrcidID", (Object)user.getOrcId());
-                mav.addObject("orcidServiceUrl", (Object)this.orcidServiceURL);
-                mav.addObject("orcidRetrieveClaimsServiceUrl", (Object)this.orcidRetreiveClaimsServiceURL);
-                mav.addObject("userHasEditRights", (Object)canEditQuickly(user, (LiteStudy)study));
-                return mav;
-            }
-            if (user.getUserName().equals("anonymousUser".toLowerCase())) {
-                return this.notLoggedIn("" + mtblsId);
-            }
-            if (response.getMessage().equalsIgnoreCase("Study not found")) {
-                return new ModelAndView("redirect:/index?message=" + mtblsId + " can not be accessed or does not exist");
-            }
-            return new ModelAndView("redirect:/errors/500");
-        }
-         **/
 
         public static boolean canUserEditStudy(final String study) {
             return canUserDoThisToStudy(study, null, EntryController.PageActions.EDIT);
@@ -364,29 +273,6 @@ import java.util.GregorianCalendar;
                 }
             }
             return false;
-        }
-
-        public static boolean canEdit(final MetabolightsUser user, final LiteStudy study) {
-            return user.isCurator() || doesUserOwnsTheStudy(user.getUserName(), study);
-        }
-
-        public static boolean canUserQuicklyEditThisToStudy(final String studyId) {
-            final MetabolightsUser user = LoginController.getLoggedUser();
-            if (user.isCurator()) {
-                return true;
-            }
-            final MetabolightsWsClient wsClient = getMetabolightsWsClient(user);
-            final RestResponse<Study> response = (RestResponse<Study>)wsClient.getStudy(studyId);
-            final Study study = (Study)response.getContent();
-            return canEditQuickly(user, (LiteStudy)study);
-        }
-
-        public static boolean canEditQuickly(final MetabolightsUser user, final LiteStudy study) {
-            if (user.isCurator()) {
-                return true;
-            }
-            final boolean userOwnstudy = doesUserOwnsTheStudy(user.getUserName(), study);
-            return userOwnstudy && study.getStudyStatus().equals((Object)LiteStudy.StudyStatus.SUBMITTED) && userOwnstudy;
         }
 
         static {

@@ -30,7 +30,7 @@ import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.search.service.imp.es.ElasticSearchService;
-import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
+//import uk.ac.ebi.metabolights.webservice.client.Metabolights---WsClient;
 import uk.ac.ebi.metabolights.webservice.services.AppContext;
 import uk.ac.ebi.metabolights.webservice.utils.FileUtil;
 import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
@@ -95,8 +95,8 @@ public class SubmissionQueueProcessor {
 
 					AppContext.getEmailService().sendQueuedStudySubmitted(newStudy, si.getOriginalFileName());
 
-                    MetabolightsWsClient mwsClient  = new MetabolightsWsClient();
-                    mwsClient.mapStudyToLabsProject(newStudy.getStudyIdentifier(), labsProjectId, userID, PropertiesUtil.getProperty("EBIHost"));
+//                    Metabolights---WsClient mwsClient  = new Metabolights---WsClient();
+//                    mwsClient.mapStudyToLabsProject(newStudy.getStudyIdentifier(), labsProjectId, userID, PropertiesUtil.getProperty("EBIHost"));
 
 				} else {
 					AppContext.getEmailService().sendQueuedStudySubmitted(newStudy, si.getOriginalFileName());

@@ -64,7 +64,7 @@ public class CompoundController extends AbstractController {
         ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(view);
 
 //        Compound compound = ModelObjectFactory.getCompound(mtblc);
-//        RestResponse<Compound> response = EntryController.getMetabolightsWsClient().getCompound(mtblc);
+//        RestResponse<Compound> response = EntryController.getMetabolightsWs---Client().getCompound(mtblc);
 //
 //        Compound compound = response.getContent();
 //

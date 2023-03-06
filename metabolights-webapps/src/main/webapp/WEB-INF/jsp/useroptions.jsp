@@ -243,18 +243,17 @@
 <script>
     $(document).ready(function () {
         $('#redirectToMyStudiesPage').click(function(){
-            var editorToken = "${editorToken}";
-            if(editorToken != null && editorToken != ''){
-                localStorage.setItem("user", editorToken);
-                axios.post("webservice/labs/authenticateToken", { "token" : editorToken }).then(response => {
-                    axios.post("webservice/labs-workspace/initialise", { "jwt" : response.headers.jwt, "user" : response.headers.user }).then( res => {
-                        localStorage.removeItem('time');
-                        localStorage.setItem('user', JSON.stringify(JSON.parse(res.data.content).owner));
-                        window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
-                    })
-                });
-            }else{
-                localStorage.removeItem("user")
+            var jwt = "${jwt}";
+            var localUser = '${localUser}';
+            if(jwt != null && jwt != '') {
+                localStorage.setItem('user', localUser);
+                localStorage.removeItem("time");
+                localStorage.setItem('jwt', jwt);
+
+                window.open("http://localhost:8080/metabolights/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+            }
+            else{
+                localStorage.removeItem("user");
                 localStorage.removeItem("time");
                 window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
             }
@@ -263,6 +262,7 @@
     $('#userLoggingOut').click(function(){
         localStorage.removeItem("user")
         localStorage.removeItem('time');
+        localStorage.removeItem('jwt');
         window.location.href = '/metabolights/j_spring_security_logout';
 
     });
