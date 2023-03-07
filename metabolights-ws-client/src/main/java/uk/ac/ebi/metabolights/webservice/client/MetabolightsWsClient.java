@@ -148,7 +148,7 @@ public class MetabolightsWsClient {
         try {
 
             // Get a post connection
-            HttpURLConnection conn = getHttpURLConnection(null, path, method);
+            HttpURLConnection conn = getHttpURLConnection(this.metabolightsWsUrl, path, method);
             if(dataToSend != null){
                 conn.setRequestProperty("content-type", "application/json");
             }
@@ -354,7 +354,7 @@ public class MetabolightsWsClient {
 
     private String getStudyPathJavaWS(String studyIdentifier) {
         StringBuilder str = new StringBuilder();
-        str.append("/").append(STUDY_PATH).append(studyIdentifier);
+        str.append("/v1/").append(STUDY_PATH).append(studyIdentifier);
         return str.toString();
     }
 

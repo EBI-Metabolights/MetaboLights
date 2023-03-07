@@ -10,7 +10,7 @@
     "javaLogoutURL": "http://localhost:8080/metabolights/j_spring_security_logout",
     "redirectURL": "console",
     "metabolightsWSURL": {
-        "domain": "http://localhost:8080/metabolights/",
+        "domain": "http://wp-np3-19:5001/metabolights/",
         "baseURL": "http://wp-np3-19:5001/metabolights/ws",
         "guides": "https://raw.githubusercontent.com/EBI-Metabolights/guides/master/",
         "ontologyDetails": "https://www.ebi.ac.uk/ols/api/ontologies/"

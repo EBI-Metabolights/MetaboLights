@@ -109,12 +109,15 @@ import java.util.GregorianCalendar;
             if (EntryController.wsUrl != null) {
                 return EntryController.wsUrl;
             }
-            final String host = PropertiesUtil.getHost();
+            final String host = PropertiesUtil.getProperty("metabolightsWsUrl");
             return EntryController.wsUrl = composeWSPath(host);
         }
 
         public static String composeWSPath(final String host) {
-            return host + "webservice/";
+            if (host.endsWith("/"))
+                return host + "v1/";
+            else
+                return host + "/v1/";
         }
 
         @RequestMapping({ "/reviewer{obfuscationCode}/assay/{assayNumber}/maf" })
