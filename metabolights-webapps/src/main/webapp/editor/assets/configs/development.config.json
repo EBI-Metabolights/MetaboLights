@@ -1,7 +1,7 @@
 {
     "production": "false",
     "isTesting": "false",
-    "sessionLength": "600000",
+    "sessionLength": "10000",
     "origin": "https://wwwdev.ebi.ac.uk",
     "endpoint": "https://wwwdev.ebi.ac.uk/metabolights",
     "loginURL": "login",
@@ -11,7 +11,7 @@
     "metabolightsWSURL": {
         "domain": "https://wwwdev.ebi.ac.uk/metabolights/",
         "baseURL": "https://wwwdev.ebi.ac.uk/metabolights/ws",
-        "guides": "https://raw.githubusercontent.com/EBI-Metabolights/guides/sync-frp/",
+        "guides": "https://raw.githubusercontent.com/EBI-Metabolights/guides/development/",
         "ontologyDetails": "https://www.ebi.ac.uk/ols/api/ontologies/"
 
     },

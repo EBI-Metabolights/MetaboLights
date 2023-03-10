@@ -2,7 +2,7 @@
 {
     "production": "true",
     "isTesting": "false",
-    "sessionLength": "600000",
+    "sessionLength": "10000",
     "origin": "https://www.ebi.ac.uk",
     "endpoint": "https://www.ebi.ac.uk/metabolights",
     "loginURL": "login",
