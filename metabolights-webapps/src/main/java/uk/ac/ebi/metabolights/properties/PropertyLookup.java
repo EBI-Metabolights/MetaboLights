@@ -58,7 +58,7 @@ public class PropertyLookup {
      */
     public static String getEmailMessage(String FileName, String... substitutes) throws IOException {
         String prop = getEmailTemplate(FileName);
-        String message = MessageFormat.format(prop, substitutes);
+        String message = MessageFormat.format(prop, (Object)substitutes);
         return message;
     }
 
@@ -68,7 +68,7 @@ public class PropertyLookup {
 
 	public static String getMessage (String propertyName, String... substitutes	) {
 		String prop= msgResources.getString(propertyName);
-		String message = MessageFormat.format(prop, substitutes);
+		String message = MessageFormat.format(prop, (Object)substitutes);
 		return message;
 	}
 

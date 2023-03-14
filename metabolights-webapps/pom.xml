@@ -79,8 +79,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.2</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>7</source>
+                    <target>7</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
@@ -166,7 +166,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
+        <!-- <dependency>
             <groupId>uk.ac.ebi.rcloud</groupId>
             <artifactId>rcloud-server-api</artifactId>
             <version>1.2.0-rcloud</version>
@@ -181,7 +181,7 @@
                 </exclusion>
                 <exclusion>
                     <artifactId>ojdbc6</artifactId>
-                    <groupId>com.oracle</groupId>
+                    <groupId>oracle</groupId>
                 </exclusion>
                 <exclusion>
                     <artifactId>slf4j-log4j12</artifactId>
@@ -192,7 +192,7 @@
                     <groupId>log4j</groupId>
                 </exclusion>
             </exclusions>
-        </dependency>
+        </dependency> -->
 
         <dependency>
             <groupId>org.json</groupId>
@@ -249,6 +249,29 @@
                     <groupId>commons-logging</groupId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${org.spring.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.session/spring-session-data-redis -->
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+            <version>1.0.2.RELEASE</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-redis -->
+        <!-- https://mvnrepository.com/artifact/io.lettuce/lettuce-core -->
+        <dependency>
+            <groupId>io.lettuce</groupId>
+            <artifactId>lettuce-core</artifactId>
+            <version>5.0.5.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>biz.paluch.redis</groupId>
+            <artifactId>lettuce</artifactId>
+            <version>3.3.1.Final</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>

@@ -3,15 +3,15 @@
     "production": "true",
     "isTesting": "false",
     "sessionLength": "600000",
-    "origin": "https://www.ebi.ac.uk",
-    "endpoint": "https://www.ebi.ac.uk/metabolights",
+    "origin": "http://localhost:8080",
+    "endpoint": "http://wp-np3-19:5001/metabolights",
     "loginURL": "login",
     "clearJavaSession" : true,
-    "javaLogoutURL": "https://www.ebi.ac.uk/metabolights/j_spring_security_logout",
+    "javaLogoutURL": "http://localhost:8080/metabolights/j_spring_security_logout",
     "redirectURL": "console",
     "metabolightsWSURL": {
-        "domain": "https://www.ebi.ac.uk/metabolights/",
-        "baseURL": "https://www.ebi.ac.uk/metabolights/ws",
+        "domain": "http://wp-np3-19:5001/metabolights/",
+        "baseURL": "http://wp-np3-19:5001/metabolights/ws",
         "guides": "https://raw.githubusercontent.com/EBI-Metabolights/guides/master/",
         "ontologyDetails": "https://www.ebi.ac.uk/ols/api/ontologies/"
 
@@ -26,6 +26,7 @@
       "login": "/ws/auth/login",
       "token": "/ws/auth/login-with-token",
       "initialise": "/ws/auth/user",
+      "validateJwtToken": "/ws/auth/validate-token",
       "studiesList": "/webservice/study/myStudies"
   },
   "videoURL": {

@@ -35,7 +35,9 @@ public class BetaController extends AbstractController {
 
         ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(view);
 
+        String metabolightsPythonWsUrl = EntryController.getMetabolightsPythonWsUrl();
         mav.addObject("compoundId", mtblc);
+        mav.addObject("metabolightsPythonWsUrl", metabolightsPythonWsUrl);
 
         return mav;
 

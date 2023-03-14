@@ -100,7 +100,7 @@
                         <div class="mini--banner col-md-12">
                                 <span>
                                     <div class="btn-group" role="group" aria-label="">
-                                        <a target="_blank" :href="'${pageContext.request.contextPath}/webservice/beta/compound/'+mtblc.id" class="btn btn-default btn-xs"><i class="fa fa-save"></i> Export</a>
+                                        <a target="_blank" :href="${metabolightsPythonWsUrl} + '/compounds/'+mtblc.id+'/file'" class="btn btn-default btn-xs"><i class="fa fa-save"></i> Export</a>
                                         <!-- <div class="btn-group" role="group">
                                             <button type="button" class="btn btn-default btn-xs" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share"></i> Share</button>
                                             <ul class="dropdown-menu">
@@ -677,7 +677,8 @@
         },
         ready: function(){
             this.loading = true;
-            this.$http.get('${pageContext.request.contextPath}/webservice/beta/compound/'+ this.compound, function (data, status, request) {
+            metabolightsPythonWsUrl = "${metabolightsPythonWsUrl}";
+            this.$http.get(metabolightsPythonWsUrl + '/compounds/'+ this.compound + '/file', function (data, status, request) {
             // this.$http.get('http://ves-ebi-8d:8080/metabolights/webservice/beta/compound/'+ this.compound, function (data, status, request) {
                 this.$set('mtblc', data);
                 this.mtblc['chebiId'] = this.mtblc['id'].replace("MTBLC", "");

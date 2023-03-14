@@ -30,7 +30,9 @@
     <name>MetaboLights webservice client</name>
     <description>MetaboLights WebService Client</description>
     <version>4.0-SNAPSHOT</version>
-
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
     <parent>
         <artifactId>metabolights-main</artifactId>
         <groupId>uk.ac.ebi.metabolights</groupId>

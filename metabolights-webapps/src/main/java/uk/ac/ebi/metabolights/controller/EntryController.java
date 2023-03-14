@@ -18,17 +18,9 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 package uk.ac.ebi.metabolights.controller;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import org.jose4j.jws.JsonWebSignature;
-import org.jose4j.lang.JoseException;
+import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 import org.slf4j.Logger;
-import java.io.UnsupportedEncodingException;
-import java.security.Key;
-import org.jose4j.keys.HmacKey;
 import org.slf4j.LoggerFactory;
-import org.jose4j.jwt.JwtClaims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -37,7 +29,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import uk.ac.ebi.metabolights.authenticate.AppRole;
+import org.springframework.web.servlet.view.RedirectView;
+
+import uk.ac.ebi.metabolights.authenticate.IsaTabAuthenticationProvider;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
@@ -47,13 +41,9 @@ import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.UserService;
-import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
     /**
      * Controller for entry (=study) details.
@@ -69,15 +59,13 @@ import java.util.GregorianCalendar;
         private String orcidRetreiveClaimsServiceURL;
         private static String wsUrl;
         private final String DESCRIPTION = "descr";
+        private static String editorUrl = null;
+        private static String pythonWsUrl = null;
         @Autowired
         private UserService userService;
         public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
         public static final String REVIEWER_OBFUSCATION_CODE_URL = "reviewer{obfuscationCode}";
-        private static MetabolightsWsClient metabolightsWsClient;
 
-        public static MetabolightsWsClient getMetabolightsWsClient(final String instance) {
-            return null;
-        }
 
         public static MetabolightsWsClient getMetabolightsWsClient() {
             return getMetabolightsWsClient(LoginController.getLoggedUser());
@@ -92,7 +80,7 @@ import java.util.GregorianCalendar;
         }
 
         public static MetabolightsWsClient getMetabolightsWsClient(final String user_token, final String wsUrl) {
-            final MetabolightsWsClient wsClient = new MetabolightsWsClient(wsUrl);
+            final MetabolightsWsClient wsClient = MetabolightsWsClient.getInstance(wsUrl);
             wsClient.setUserToken(user_token);
             return wsClient;
         }
@@ -102,22 +90,42 @@ import java.util.GregorianCalendar;
             EDIT
         }
 
+        public static String getMetabolightsEditorUrl(){
+            if (EntryController.editorUrl != null) {
+                return EntryController.editorUrl;
+            }
+            EntryController.editorUrl = PropertiesUtil.getProperty("metabolightsEditorUrl");
+            return EntryController.editorUrl;
+        }
+
+        public static String getMetabolightsPythonWsUrl(){
+            if (EntryController.pythonWsUrl != null) {
+                return EntryController.pythonWsUrl;
+            }
+            EntryController.pythonWsUrl = PropertiesUtil.getProperty("metabolightsPythonWsUrl");
+            return EntryController.pythonWsUrl;
+        }
+
         private static String getWsPath() {
             if (EntryController.wsUrl != null) {
                 return EntryController.wsUrl;
             }
-            final String host = PropertiesUtil.getHost();
-            return EntryController.wsUrl = composeWSPath(host);
+            final String host = PropertiesUtil.getProperty("metabolightsJavaWsUrl");
+             return composeWSPath(host);
+             
         }
 
         public static String composeWSPath(final String host) {
-            return host + "webservice/";
+            if (host.endsWith("/"))
+                return host + "webservice/";
+            else
+                return host + "/webservice/";
         }
 
-        @RequestMapping({ "/reviewer{obfuscationCode}/assay/{assayNumber}/maf" })
-        public ModelAndView getAltReviewersMetabolitesIdentified(@PathVariable("obfuscationCode") final String obfuscationCode, @PathVariable("assayNumber") final int assayNumber) {
-            return this.getMetabolitesModelAndView(null, assayNumber, obfuscationCode);
-        }
+        // @RequestMapping({ "/reviewer{obfuscationCode}/assay/{assayNumber}/maf" })
+        // public ModelAndView getAltReviewersMetabolitesIdentified(@PathVariable("obfuscationCode") final String obfuscationCode, @PathVariable("assayNumber") final int assayNumber) {
+        //     return this.getMetabolitesModelAndView(null, assayNumber, obfuscationCode);
+        // }
 
         @RequestMapping({ "/{studyIdentifier:(?:MTBLS|mtbls).+}/assay/{assayNumber}/maf" })
         public ModelAndView getAltMetabolitesIdentified(@PathVariable("studyIdentifier") final String studyIdentifier, @PathVariable("assayNumber") final int assayNumber) {
@@ -139,9 +147,33 @@ import java.util.GregorianCalendar;
             mav.addObject("assayNumber", (Object)assayNumber);
             return mav;
         }
+         
+        @RequestMapping(value = {"/reviewer*", "/reviewer*/", "/reviewer*/**"})
+        public RedirectView showLabsPage(HttpServletRequest request) {
+            RedirectView redirectView = new RedirectView();
+            String contextPath = request.getServletContext().getContextPath();
+            String path = request.getRequestURI().replace(contextPath, "");
 
-        @RequestMapping({ "/reviewer{obfuscationCode}" })
-        public ModelAndView showAltReviewerEntry(@PathVariable("obfuscationCode") final String obfuscationCode) {
+            String url = getMetabolightsEditorUrl() + path;
+            try {
+                MetabolightsUser user = LoginController.getLoggedUser();
+                if(user != null && user.getJwtToken() != null){
+                    String loginOneTimeToken = IsaTabAuthenticationProvider.getLoginOneTimeToken(user);
+
+                    if(loginOneTimeToken != null){
+                        url += "?loginOneTimeToken=" + loginOneTimeToken;
+                        redirectView.setUrl(url);
+                        return redirectView;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            redirectView.setUrl(url);
+            return redirectView;
+        }
+        // @RequestMapping({ "/reviewer{obfuscationCode}" })
+        public ModelAndView showAltReviewerEntryOld(@PathVariable("obfuscationCode") final String obfuscationCode) {
             final MetabolightsUser user = LoginController.getLoggedUser();
             final MetabolightsWsClient wsClient = getMetabolightsWsClient(user);
             final ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("study");
@@ -178,8 +210,30 @@ import java.util.GregorianCalendar;
             return new ModelAndView("redirect:/index?message=" + PropertyLookup.getMessage("msg.studyAccessRestricted") + " (" + mtblsId + ")");
         }
 
+
+
         @RequestMapping({ "/{metabolightsId:(?:MTBLS|mtbls).+}", "/{metabolightsId:(?:MTBLS|mtbls).+}/{tabId}" })
-        private ModelAndView getStudyWSEntryMAV(@PathVariable("metabolightsId") String mtblsId, final HttpServletRequest request) {
+        private RedirectView getStudyWSEntryMAV(@PathVariable("metabolightsId") String mtblsId, final HttpServletRequest request) {
+            RedirectView redirectView = new RedirectView();
+            redirectView.setUrl(getMetabolightsEditorUrl() + "/" + mtblsId);
+            try {
+                MetabolightsUser user = LoginController.getLoggedUser();
+                if(user != null && user.getJwtToken() != null){
+                    String loginOneTimeToken = IsaTabAuthenticationProvider.getLoginOneTimeToken(user);
+
+                    if(loginOneTimeToken != null){
+                        redirectView.setUrl(getMetabolightsEditorUrl() + "/" + mtblsId + "?loginOneTimeToken=" + loginOneTimeToken);
+                        return redirectView;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return redirectView;
+        }
+
+        //@RequestMapping({ "/{metabolightsId:(?:MTBLS|mtbls).+}", "/{metabolightsId:(?:MTBLS|mtbls).+}/{tabId}" })
+        private ModelAndView getStudyWSEntryMAVOld(@PathVariable("metabolightsId") String mtblsId, final HttpServletRequest request) {
             final MetabolightsUser user = LoginController.getLoggedUser();
             final MetabolightsWsClient wsClient = getMetabolightsWsClient(user);
             mtblsId = mtblsId.toUpperCase();
@@ -212,31 +266,6 @@ import java.util.GregorianCalendar;
                     }
                     final ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("study");
                     if (!user.getUserName().equals("anonymousUser".toLowerCase())) {
-                        final JwtClaims claims = new JwtClaims();
-                        claims.setSubject(user.getEmail());
-                        claims.setIssuer("Metabolights");
-                        claims.setAudience("Metabolights Labs");
-                        claims.setClaim("Name", (Object)user.getFullName());
-                        Key key = null;
-                        final String token = user.getApiToken();
-                        try {
-                            key = (Key)new HmacKey(token.getBytes("UTF-8"));
-                        }
-                        catch (UnsupportedEncodingException e) {
-                            return new ModelAndView("redirect:/errors/500");
-                        }
-                        final JsonWebSignature jws = new JsonWebSignature();
-                        jws.setPayload(claims.toJson());
-                        jws.setAlgorithmHeaderValue("HS256");
-                        jws.setKey(key);
-                        jws.setDoKeyValidation(false);
-                        String jwt = null;
-                        try {
-                            jwt = jws.getCompactSerialization();
-                        }
-                        catch (JoseException e2) {
-                            return new ModelAndView("redirect:/errors/500");
-                        }
 
 
                         if(doesUserOwnsStudy(study, user)){
@@ -248,14 +277,16 @@ import java.util.GregorianCalendar;
 
                         mav.addObject("isOwner", (Object)(isOwner));
                         mav.addObject("isCurator", (Object)(isCurator));
-                        mav.addObject("jwt", (Object)jwt);
-                        mav.addObject("email", (Object)user.getEmail());
+                        mav.addObject("jwt", (Object) user.getJwtToken());
+                        mav.addObject("email", (Object)user.getUserName());                        
+                        mav.addObject("jwtExpirationTime", (Object)user.getJwtTokenExpireTime());
+                        
+                        mav.addObject("localUser", (Object)user.getLocalUserData());
                     }
                     return mav;
                 }
             }
         }
-
         private boolean doesUserOwnsStudy(Study study, MetabolightsUser user){
 
             for (User owner : study.getUsers()) {
@@ -266,77 +297,6 @@ import java.util.GregorianCalendar;
 
             return false;
         }
-
-        /** Commenting because of unused
-        private ModelAndView getWSEntryMAV(final String mtblsId, final String obfuscationCode, final String view, final HttpServletRequest request) {
-            final ModelAndView modelAndView = this.getWSEntryMAV(mtblsId, obfuscationCode, view);
-            final HttpSession httpSession = request.getSession();
-            httpSession.setAttribute("currentpage", (Object)mtblsId);
-            return modelAndView;
-        }
-         */
-
-        /** Commenting because of unused
-        private ModelAndView getWSEntryMAV(String mtblsId, final String obfuscationCode, final String view) {
-            final MetabolightsUser user = LoginController.getLoggedUser();
-            final MetabolightsWsClient wsClient = getMetabolightsWsClient(user);
-            RestResponse<Study> response;
-            if (obfuscationCode == null) {
-                EntryController.logger.info("requested entry " + mtblsId);
-                mtblsId = mtblsId.toUpperCase();
-                response = (RestResponse<Study>)wsClient.getStudy(mtblsId);
-            }
-            else {
-                EntryController.logger.info("requested entry by obfuscation " + obfuscationCode);
-                response = (RestResponse<Study>)wsClient.getStudybyObfuscationCode(obfuscationCode);
-            }
-            final Study study = (Study)response.getContent();
-            if (study != null) {
-                final ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(view);
-                mav.addObject("pageTitle", (Object)(study.getStudyIdentifier() + ":" + study.getTitle()));
-                mav.addObject("study", (Object)study);
-                if (obfuscationCode != null) {
-                    EntryController.logger.info("adding the parameter obfuscation code " + obfuscationCode);
-                    mav.addObject("obfuscationCode", (Object)obfuscationCode);
-                }
-                else {
-                    EntryController.logger.info("obfuscation code not found setting the parameter to null");
-                    mav.addObject("obfuscationCode", (Object)"null");
-                }
-                mav.addObject("liteStudy", (Object)wsClient.searchStudy(study.getStudyIdentifier()));
-                mav.addObject("studyStatuses", (Object)LiteStudy.StudyStatus.values());
-                final ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-
-                final FileDispatcherController fdController = new FileDispatcherController();
-                mav.addObject("files", (Object)fdController.getStudyFileList(study.getStudyIdentifier()));
-                if (study.getStudyStatus() == LiteStudy.StudyStatus.SUBMITTED && (user.isCurator() || user.getRole() == AppRole.ROLE_SUBMITTER.ordinal())) {
-                    mav.addObject("ftpFiles", (Object)fdController.getPrivateFtpFileList(study.getStudyIdentifier()));
-                    mav.addObject("hasPrivateFtpFolder", (Object)fdController.hasPrivateFtpFolder(study.getStudyIdentifier()));
-                }
-                if (user.isCurator()) {
-                    mav.addObject("curatorAPIToken", (Object)user.getApiToken());
-                }
-                if (user != null) {
-                    mav.addObject("editorToken", (Object)user.getApiToken());
-                }
-                final Calendar calendar = new GregorianCalendar();
-                calendar.setTime(study.getStudyPublicReleaseDate());
-                mav.addObject("releaseYear", (Object)calendar.get(1));
-                mav.addObject("userOrcidID", (Object)user.getOrcId());
-                mav.addObject("orcidServiceUrl", (Object)this.orcidServiceURL);
-                mav.addObject("orcidRetrieveClaimsServiceUrl", (Object)this.orcidRetreiveClaimsServiceURL);
-                mav.addObject("userHasEditRights", (Object)canEditQuickly(user, (LiteStudy)study));
-                return mav;
-            }
-            if (user.getUserName().equals("anonymousUser".toLowerCase())) {
-                return this.notLoggedIn("" + mtblsId);
-            }
-            if (response.getMessage().equalsIgnoreCase("Study not found")) {
-                return new ModelAndView("redirect:/index?message=" + mtblsId + " can not be accessed or does not exist");
-            }
-            return new ModelAndView("redirect:/errors/500");
-        }
-         **/
 
         public static boolean canUserEditStudy(final String study) {
             return canUserDoThisToStudy(study, null, EntryController.PageActions.EDIT);
@@ -364,29 +324,6 @@ import java.util.GregorianCalendar;
                 }
             }
             return false;
-        }
-
-        public static boolean canEdit(final MetabolightsUser user, final LiteStudy study) {
-            return user.isCurator() || doesUserOwnsTheStudy(user.getUserName(), study);
-        }
-
-        public static boolean canUserQuicklyEditThisToStudy(final String studyId) {
-            final MetabolightsUser user = LoginController.getLoggedUser();
-            if (user.isCurator()) {
-                return true;
-            }
-            final MetabolightsWsClient wsClient = getMetabolightsWsClient(user);
-            final RestResponse<Study> response = (RestResponse<Study>)wsClient.getStudy(studyId);
-            final Study study = (Study)response.getContent();
-            return canEditQuickly(user, (LiteStudy)study);
-        }
-
-        public static boolean canEditQuickly(final MetabolightsUser user, final LiteStudy study) {
-            if (user.isCurator()) {
-                return true;
-            }
-            final boolean userOwnstudy = doesUserOwnsTheStudy(user.getUserName(), study);
-            return userOwnstudy && study.getStudyStatus().equals((Object)LiteStudy.StudyStatus.SUBMITTED) && userOwnstudy;
         }
 
         static {

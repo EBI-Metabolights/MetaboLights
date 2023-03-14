@@ -60,11 +60,13 @@ public class CompoundController extends AbstractController {
 		logger.info("requested compound " + mtblc);
 
 		String view =  "compound";
-
         ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(view);
 
+        String metabolightsPythonWsUrl = EntryController.getMetabolightsPythonWsUrl();
+        mav.addObject("metabolightsPythonWsUrl", metabolightsPythonWsUrl);
+
 //        Compound compound = ModelObjectFactory.getCompound(mtblc);
-//        RestResponse<Compound> response = EntryController.getMetabolightsWsClient().getCompound(mtblc);
+//        RestResponse<Compound> response = EntryController.getMetabolightsWs---Client().getCompound(mtblc);
 //
 //        Compound compound = response.getContent();
 //
@@ -74,7 +76,7 @@ public class CompoundController extends AbstractController {
 //        /* We need the species grouped */
 //
 //        WebCompound webCompound = new WebCompound(compound);
-
+        
         mav.addObject("compound", mtblc);
 
 		//mav.addObject("pageTitle", mtblc + " - " + webCompound.getMc().getName());

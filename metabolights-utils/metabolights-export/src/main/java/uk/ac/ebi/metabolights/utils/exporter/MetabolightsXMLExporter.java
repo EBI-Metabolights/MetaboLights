@@ -100,7 +100,7 @@ public class MetabolightsXMLExporter {
 
     public static MetabolightsWsClient getWsClient() {
         if (wsClient == null)
-            wsClient = new MetabolightsWsClient(WSCLIENT_URL);
+            wsClient = MetabolightsWsClient.getInstance(WSCLIENT_URL);
         return wsClient;
     }
 

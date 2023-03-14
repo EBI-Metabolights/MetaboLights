@@ -240,7 +240,7 @@ public class MetPathwayDAO extends AbstractDAO implements IMetPathwayDAO{
 	 */
 	private void insert(Pathway pathway, MetaboLightsCompound compound) throws DAOException {
 		try {
-			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.pathway", new String[]{"id"}, null);
+			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.pathway", new String[]{"id"}, (Object)null);
 			stm.clearParameters();
             stm.setLong(1,compound.getId());
             stm.setLong(2, pathway.getDatabase().getId());

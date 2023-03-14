@@ -163,7 +163,7 @@ public class DatabaseDAO extends AbstractDAO implements IDatabaseDAO {
 	 */
 	private void insert(Database db) throws DAOException {
 		try {
-			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.database", new String[]{"id"}, null);
+			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.database", new String[]{"id"},(Object)null);
 			stm.clearParameters();
 			stm.setString(1, db.getName());
 			stm.executeUpdate();

@@ -110,78 +110,12 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div>
-    <script>
-        $(function () {
-            var token = {
-                token : "<c:out value="${token}"/>"
-            }
 
-            var subdomain = window.location.href.split('.')[0];
-            if(subdomain == "https://www"){
-                $('#labsLink').on('click', function () {
-                    $('#labsAlert').modal('show');
-                });
-            }else{
-                $('#labsLink').on('click', function () {
-                    $.ajax({
-                        url: '/metabolights/webservice/labs/authenticateToken',
-                        type: 'post',
-                        contentType: "application/json",
-                        data: JSON.stringify(token),
-                        success: function (data, textStatus, response) {
-                            var jwt = response.getResponseHeader('jwt');
-                            var user = response.getResponseHeader('user');
-                            localStorage.setItem('jwt', jwt);
-                            localStorage.setItem('user', user);
-                            window.location.href = "/metabolights/labs";
-                        },
-                        error: function (request, status, error) {
-                            alert(request.responseText);
-                        }
-                    });
-                });
-            }
-        });
-
-    </script>
-    <script>
-        function getStudyIdsForClaimPrioritization() {
-            var token = {
-                token : "<c:out value="${token}"/>"
-            }
-            $.ajax({
-                cache: false,
-                url: "/metabolights/webservice/studyids",
-                type: 'post',
-                contentType: "application/json",
-                data: JSON.stringify(token),
-                success: function (studyIdList) {
-                    var ebiClaimAllMetaboLightsUrl = "https://www.ebi.ac.uk/ebisearch/search.ebi?db=metabolights&query=";
-                    if(studyIdList['content'].length > 0){
-                        var idsQueryPart = "id:/MTBLS("
-                        for (var i = 0; i < studyIdList['content'].length; i++) {
-                            var studyId =    studyIdList['content'][i];
-                            var ids = studyId.split("S");
-                           if(i != studyIdList['content'].length - 1){
-                               idsQueryPart += ids[1]+ "|"
-                           }  else{
-                               idsQueryPart += ids[1];
-                           }
-                        }
-                        idsQueryPart += ")/";
-                        document.getElementById("claimStudies").href= ebiClaimAllMetaboLightsUrl + idsQueryPart;
-                       }
-                    else{
-                        document.getElementById("claimStudies").href= ebiClaimAllMetaboLightsUrl;
-                    }
-                }
-            });
-        }
-        getStudyIdsForClaimPrioritization();
- </script>
     <script>
         $('#userLoggingOut').click(function () {
-            localStorage.removeItem("apiToken");
+            localStorage.removeItem("mtblsjwt");
+            localStorage.removeItem("mtblsuser");
+            
         })
     </script>
 </sec:authorize>
@@ -241,29 +175,52 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
 <script>
-    $(document).ready(function () {
+    const setCookie = (name, value, days = 7, path = '/') => {
+        const expires = new Date(Date.now() + days * 864e5).toUTCString()
+        document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=' + path
+      }
+        const getCookie = (name) => {
+        return document.cookie.split('; ').reduce((r, v) => {
+          const parts = v.split('=')
+          return parts[0] === name ? decodeURIComponent(parts[1]) : r
+        }, '')
+      }
+      const deleteCookie = (name, path) => {
+        setCookie(name, '', -1, path)
+      }
+      
+      $(document).ready(function () {
+
         $('#redirectToMyStudiesPage').click(function(){
-            var editorToken = "${editorToken}";
-            if(editorToken != null && editorToken != ''){
-                localStorage.setItem("user", editorToken);
-                axios.post("webservice/labs/authenticateToken", { "token" : editorToken }).then(response => {
-                    axios.post("webservice/labs-workspace/initialise", { "jwt" : response.headers.jwt, "user" : response.headers.user }).then( res => {
-                        localStorage.removeItem('time');
-                        localStorage.setItem('user', JSON.stringify(JSON.parse(res.data.content).owner));
-                        window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
-                    })
-                });
-            }else{
-                localStorage.removeItem("user")
-                localStorage.removeItem("time");
-                window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+            metabolightsEditorUrl = "${metabolightsEditorUrl}";
+            metabolightsPythonWsUrl = "${metabolightsPythonWsUrl}";
+
+            jwt = localStorage.getItem("mtblsjwt");
+            if (jwt == null){
+                jwt = getCookie("jwt");
             }
-        })
+            if(jwt != null && jwt != ''){
+                localStorage.setItem('mtblsjwt', jwt);
+                axios.get(metabolightsPythonWsUrl + "/auth/create-onetime-token", { headers: { "Authorization" : "Bearer " + jwt}}).then(response => {
+                    loginOneTimeToken = response.data.one_time_token;
+                    if (loginOneTimeToken != null){
+                        localStorage.setItem("loginOneTimeToken", loginOneTimeToken);
+                        window.open(metabolightsEditorUrl + "?loginOneTimeToken="+loginOneTimeToken, 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+                    } else {
+                        window.open(metabolightsEditorUrl, 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+                    }
+                });
+            } else {
+                window.open(metabolightsEditorUrl, 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+            }
+            
+        });
     });
     $('#userLoggingOut').click(function(){
-        localStorage.removeItem("user")
-        localStorage.removeItem('time');
+        localStorage.removeItem('mtblsjwt');
+        localStorage.removeItem('mtblsuser');
+        localStorage.removeItem('loginOneTimeToken');
+        deleteCookie("jwt", "/metabolights");
         window.location.href = '/metabolights/j_spring_security_logout';
-
     });
 </script>

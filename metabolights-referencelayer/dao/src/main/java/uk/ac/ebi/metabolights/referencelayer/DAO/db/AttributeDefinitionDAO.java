@@ -167,7 +167,7 @@ public class AttributeDefinitionDAO extends AbstractDAO implements IAttributeDef
 	 */
 	private void insert(AttributeDefinition attributeDefinition) throws DAOException {
 		try {
-			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.attributedefinition", new String[]{"id"}, null);
+			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.attributedefinition", new String[]{"id"}, (Object)null);
 			stm.clearParameters();
 			stm.setString(1, attributeDefinition.getName());
             stm.setString(2, attributeDefinition.getDescription());

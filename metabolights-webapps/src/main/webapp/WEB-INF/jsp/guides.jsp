@@ -45,8 +45,7 @@
 <script type="text/javascript" src="./editor/assets/aspera/install.js" charset="utf-8"></script>
 
 <%--<script>--%>
-<%--var editorToken = ${editorToken};--%>
-<%--localStorage.setItem("user", JSON.stringify(editorToken));--%>
+
 <%--</script>--%>
 <style type="text/css">
     body, html {
@@ -114,4 +113,4 @@
         </svg>
     </div>
 </app-root>
-<script src="editor/runtime.359d5ee4682f20e936e9.js" defer></script><script src="editor/polyfills-es5.daf963e810f486e931f2.js" nomodule defer></script><script src="editor/polyfills.c8c85ab9fe6c65e3aa77.js" defer></script><script src="editor/main.eaad3b6f8f9b46076ca0.js" defer></script>
+<script src="editor/runtime.359d5ee4682f20e936e9.js" defer></script><script src="editor/polyfills-es5.daf963e810f486e931f2.js" nomodule defer></script><script src="editor/polyfills.c8c85ab9fe6c65e3aa77.js" defer></script><script src="editor/main.8bcc144cda5fbf3b9e94.js" defer></script>

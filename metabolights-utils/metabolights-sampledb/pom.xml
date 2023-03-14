@@ -43,7 +43,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
-    <dependencies>
+    <!-- <dependencies>
         <dependency>
             <groupId>uk.ac.ebi.arrayexpress2</groupId>
             <artifactId>limpopo-sampletab</artifactId>
@@ -78,7 +78,7 @@
             <artifactId>metabolights-dao</artifactId>
             <version>4.3-SNAPSHOT</version>
         </dependency>
-    </dependencies>
+    </dependencies> -->
 
     <build>
         <plugins>

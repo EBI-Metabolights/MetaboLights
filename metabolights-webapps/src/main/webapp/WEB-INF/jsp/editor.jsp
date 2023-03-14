@@ -28,12 +28,12 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script>
-    if (location.protocol != 'https:')
-    {
-        location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
-    }
-</script>
+<%--<script>--%>
+<%--    if (location.protocol != 'https:')--%>
+<%--    {--%>
+<%--        location.href = 'https:' + window.location.href.substring(window.location.protocol.length);--%>
+<%--    }--%>
+<%--</script>--%>
 <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.js" ></script>
 <script type="text/javascript" src="//code.jquery.com/ui/1.9.2/jquery-ui.min.js" charset="utf-8"></script>
 
@@ -46,10 +46,6 @@
 <script type="text/javascript" src="./assets/aspera/install.js" charset="utf-8"></script>
 
 
-<%--<script>--%>
-    <%--var editorToken = ${editorToken};--%>
-    <%--localStorage.setItem("user", JSON.stringify(editorToken));--%>
-<%--</script>--%>
 <style type="text/css">
     .app-loading {
         position: relative;
@@ -111,7 +107,7 @@
         We're sorry but MetaboLights online submission and editor tool doesn't work properly without JavaScript enabled. Please enable it to continue.
     </strong>
 </noscript>
-<app-root>
+<app-root isCurator="${isCurator}" mtblsJWT="${jwt}">
     <div class="app-loading">
         <div class="logo"></div>
         <svg class="spinner" viewBox="25 25 50 50">
@@ -119,5 +115,5 @@
         </svg>
     </div>
 </app-root>
-<script src="runtime.359d5ee4682f20e936e9.js" defer></script><script src="polyfills-es5.daf963e810f486e931f2.js" nomodule defer></script><script src="polyfills.c8c85ab9fe6c65e3aa77.js" defer></script><script src="main.eaad3b6f8f9b46076ca0.js" defer></script>
+<script src="runtime.359d5ee4682f20e936e9.js" defer></script><script src="polyfills-es5.daf963e810f486e931f2.js" nomodule defer></script><script src="polyfills.c8c85ab9fe6c65e3aa77.js" defer></script><script src="main.8bcc144cda5fbf3b9e94.js" defer></script>
 

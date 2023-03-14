@@ -83,17 +83,13 @@ public class MetabolightsWsClient {
     private static final String DEAFULT_TOKEN_HEADER = "user_token";
     public static final String OBFUSCATIONCODE_PATH = "obfuscationcode/";
     private static final String INDEXING_PATH = "index/";
-    public static final String REINDEX_PATH = "all";
     public static final String SECURITY_PATH = "security/";
     public static final String SEC_STUDIES = "studies/";
     private static final String COMPOUND_PATH = "compounds/";
-    public static final String STUDIES = "studies";
-    public static final String COMPOUNDS = "compounds";
-    private static final String QUEUE_PATH = "queue/";
 
 
 
-    private String metabolightsWsUrl = "https://www.ebi.ac.uk/metabolights/webservice/";
+    private String metabolightsJavaWsUrl = "https://www.ebi.ac.uk/metabolights/webservice/";
     private static final String STUDY_PATH = "study/";
 
     private static final String STUDY_PATH_WS = "public/study/";
@@ -103,16 +99,22 @@ public class MetabolightsWsClient {
     private String tokenHeaderName = DEAFULT_TOKEN_HEADER;
     private String userToken = ANONYMOUS;
 
-    public MetabolightsWsClient(String metabolightsWsUrl) {
-
-        if(metabolightsWsUrl == null)
-            this.initializeEnvironmentVariables();
-        else
-            this.metabolightsWsUrl = metabolightsWsUrl;
+    public static MetabolightsWsClient getInstance() {
+        return new MetabolightsWsClient();
+    }
+    public static MetabolightsWsClient getInstance(String metabolightsJavaWsUrl) {
+        return new MetabolightsWsClient(metabolightsJavaWsUrl);
+    }
+    private MetabolightsWsClient() {
+        this(null);
     }
 
-    public MetabolightsWsClient() {
-        this.initializeEnvironmentVariables();
+    private MetabolightsWsClient(String metabolightsJavaWsUrl) {
+
+        if(metabolightsJavaWsUrl == null)
+            this.initializeEnvironmentVariables();
+        else
+            this.metabolightsJavaWsUrl = metabolightsJavaWsUrl;
     }
 
     private void initializeEnvironmentVariables() {
@@ -120,26 +122,11 @@ public class MetabolightsWsClient {
         try {
             initCtx = new InitialContext();
             Context envCtx = (Context) initCtx.lookup("java:comp/env");
-            this.metabolightsWsUrl = (String)envCtx.lookup("metabolightsWsUrl");
+            this.metabolightsJavaWsUrl = (String)envCtx.lookup("metabolightsJavaWsUrl");
         } catch (NamingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-    }
-    public String getMetabolightsWsUrl() {
-        return metabolightsWsUrl;
-    }
-
-    public void setMetabolightsWsUrl(String metabolightsWsUrl) {
-        this.metabolightsWsUrl = metabolightsWsUrl;
-    }
-
-    public String getTokenHeaderName() {
-        return tokenHeaderName;
-    }
-
-    public void setTokenHeaderName(String tokenHeaderName) {
-        this.tokenHeaderName = tokenHeaderName;
     }
 
     public String getUserToken() {
@@ -154,69 +141,6 @@ public class MetabolightsWsClient {
        return makeRequestSendingData(path,null,method);
     }
 
-    private String makeRequestSendingDataToDev(String path, Object dataToSend, String method, String host) {
-
-        logger.debug("Making a {} request to {}", method,path);
-
-        try {
-
-            URL url = new URL(host + "webservice/" + path);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod(method);
-            conn.setRequestProperty("Accept", "application/json");
-            conn.setRequestProperty(tokenHeaderName, userToken);
-            conn.setRequestProperty("content-type", "application/json");
-            conn.setDoOutput(true);
-
-            if (dataToSend != null) {
-                String json = null;
-                if (!(dataToSend instanceof String)) {
-                    json = serializeObject(dataToSend);
-                } else {
-                    json = (String) dataToSend;
-                }
-                OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
-                out.write(json);
-                out.close();
-            }
-
-            // Read response
-            if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                throw new RuntimeException("MetaboLights Java WS client: " + conn.getURL().toString() + "(" + method + ") request failed : HTTP error code : "
-                        + conn.getResponseCode());
-            }
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    (conn.getInputStream())));
-
-            String message = org.apache.commons.io.IOUtils.toString(br);
-
-            conn.disconnect();
-
-            return message;
-
-        } catch (MalformedURLException e) {
-
-            RestResponse response = new RestResponse();
-            response.setMessage("Malformed url: " + path);
-            response.setErr(e);
-            logger.error(response.getMessage(), e);
-
-            return serializeObject(response);
-
-
-        } catch (IOException e) {
-
-            RestResponse response = new RestResponse();
-            response.setMessage("IO exception while trying to reach " + path);
-            response.setErr(e);
-            logger.error(response.getMessage(), e);
-
-            return serializeObject(response);
-
-        }
-    }
-
     private String makeRequestSendingData(String path, Object dataToSend, String method) {
 
         logger.debug("Making a {} request to {}", method,path);
@@ -224,7 +148,7 @@ public class MetabolightsWsClient {
         try {
 
             // Get a post connection
-            HttpURLConnection conn = getHttpURLConnection(null, path, method);
+            HttpURLConnection conn = getHttpURLConnection(this.metabolightsJavaWsUrl, path, method);
             if(dataToSend != null){
                 conn.setRequestProperty("content-type", "application/json");
             }
@@ -305,22 +229,22 @@ public class MetabolightsWsClient {
         return makeRequestSendingData(path, data, "PUT");
     }
 
-    private String makeDeleteRequest(String path) {return makeRequestSendingData(path, null,"DELETE");  }
-
-    private String makeDeleteRequest(String path, Object data) {return makeRequestSendingData(path, data,"DELETE"); }
-
     private String makeGetRequest(String path) {
         return makeRequest(path, "GET");
     }
 
     private HttpURLConnection getHttpURLConnection(String mtblsWsUrl, String path, String method) throws IOException {
         URL url;
-        if(mtblsWsUrl !=null){
-            url = new URL(mtblsWsUrl + path);
-        }
-        else{
-            url = new URL(metabolightsWsUrl + path);
-        }
+        String base = mtblsWsUrl;
+        if (base == null)
+           base = metabolightsJavaWsUrl;
+        if (base.endsWith("/"))
+            base = base.replaceAll(".$", "");
+        if (path.startsWith("/"))
+            path = path.substring(1);
+
+        url = new URL(base + "/" + path);
+
         System.out.println( " !!metabolightsWsURI :- " +url);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod(method);
@@ -328,21 +252,6 @@ public class MetabolightsWsClient {
         conn.setRequestProperty(tokenHeaderName, userToken);
 
         return conn;
-    }
-
-    public String mapStudyToLabsProject(String study, String projectId, String userToken, String host) {
-
-        logger.debug("Sending request to labs webservice to map metabolights study to labs project");
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        ObjectNode jsonObject = mapper.createObjectNode();
-
-        String json = jsonObject.put("studyId", study).put("projectId", projectId).put("token", userToken).toString();
-
-        String response =  makeRequestSendingDataToDev("labs-workspace/mapStudy", json, "POST", host);
-
-        return response;
     }
 
     public RestResponse<Study> getStudy(String studyIdentifier) {
@@ -376,15 +285,6 @@ public class MetabolightsWsClient {
 
     }
 
-    public RestResponse<StudyModel> getStudyModelbyObfuscationCode(String obfuscationCode) {
-
-        logger.info("Study by obfuscation code " + obfuscationCode + " requested to the MetaboLights WS client");
-
-        String path = getObfuscationPath(obfuscationCode);
-
-        return getStudyModelRestResponse(path);
-
-    }
 
     private RestResponse<Study> getStudyRestResponse(String path) {
         // Make the request
@@ -442,7 +342,6 @@ public class MetabolightsWsClient {
 
     }
 
-
     private String getStudyPath(String studyIdentifier) {
         return STUDY_PATH + studyIdentifier;
     }
@@ -455,40 +354,12 @@ public class MetabolightsWsClient {
 
     private String getStudyPathJavaWS(String studyIdentifier) {
         StringBuilder str = new StringBuilder();
-        str.append("/").append(STUDY_PATH).append(studyIdentifier);
+        str.append(STUDY_PATH).append(studyIdentifier);
         return str.toString();
     }
 
     private String getIndexingPath(String action) {
         return INDEXING_PATH + action;
-    }
-
-    private String getQueuePath(String action) {
-        return QUEUE_PATH + action;
-    }
-
-    /**
-     * @param studyIdentifier
-     * @return Order of the assay, and if this assay has a MAF file. Use this number to iterate over the annotation tables(MAFs)
-     */
-    public Map<Integer,Integer> getAssayOrderAndNumberOfMAFs(String studyIdentifier){
-        RestResponse<StudyModel> restStudy = getStudyModel(studyIdentifier);
-        StudyModel study = restStudy.getContent();
-        Map<Integer,Integer> mafMap = new HashMap<Integer,Integer>(); //Number of the assay and if the assay has a MAF(0 or 1)
-        if (study != null) {
-
-            for (int i = 0; i < study.getAssays().size(); i++) {
-                Assay assay = study.getAssays().get(i);
-                MetaboliteAssignment metaboliteAssignment = assay.getMetaboliteAssignment();
-                if (metaboliteAssignment != null)
-                    mafMap.put(i+1,1);   //Yes, this assay has a MAF. We start the numbering at 1 so increment from 0
-                else mafMap.put(i+1,0);  //No MAF
-            }
-
-        }
-
-        return mafMap;
-
     }
 
     public String getMetabolitesJSON(String studyIdentifier, int assayNumber){
@@ -667,34 +538,6 @@ public class MetabolightsWsClient {
         }
     }
 
-    public RestResponse<String> deleteStudy(String studyIdentifier){
-
-        String response = makeDeleteRequest(getStudyPath(studyIdentifier));
-
-        return deserializeJSONString(response, String.class);
-
-    }
-
-    /**
-     * Deletes a series of files selected from the Study Files tab in a study.
-     *
-     * @param studyId
-     * @param obfuscationCode, the user credentials
-     * @param selectedFiles, the list of files to be deleted
-     * @return
-     * @author: jrmacias
-     * @date: 20151012
-     */
-    public RestResponse<String> deleteFilesFromStudy(String studyId,
-                                                     String obfuscationCode,
-                                                     List<String> selectedFiles){
-
-        String response = makePostRequest(STUDY_PATH + studyId + "/deleteFiles",selectedFiles);
-        logger.info("Deleting files from study {} by user request.", studyId);
-
-        return deserializeJSONString(response, String.class);
-    }
-
     public RestResponse<String> restore(String studyIdentifier, String backupIdentifier) {
 
         logger.debug("Restoring {} for {} requested to MetaboLights WS client.", backupIdentifier, studyIdentifier);
@@ -823,273 +666,6 @@ public class MetabolightsWsClient {
 
     }
 
-    /**
-     * Reset index
-     */
-    public RestResponse<String> resetIndex(){
 
-        String path = getIndexingPath("reset");
 
-        // Make the request
-        String responseS = makeGetRequest(path);
-
-        return deserializeJSONString(responseS, String.class);
-
-    }
-
-    /**
-     * Indexing all
-     */
-
-    public RestResponse<String> reindex() {
-
-        logger.debug("Indexing all studies and compounds requested to MetaboLights WS client.");
-
-
-        // Make the request
-        String response = makeGetRequest(getIndexingPath(REINDEX_PATH));
-
-        return deserializeJSONString(response, String.class);
-    }
-
-
-
-    public RestResponse<ArrayListOfStrings> deleteIndex() {
-
-        String response = makeDeleteRequest(getIndexingPath(""));
-
-        return deserializeJSONString(response, ArrayListOfStrings.class);
-    }
-
-    public RestResponse<ArrayListOfStrings> deleteIndexedEntries(List<String> ids) {
-
-        String response = makePostRequest(getIndexingPath("delete"), ids);
-
-        return deserializeJSONString(response, ArrayListOfStrings.class);
-    }
-
-    public RestResponse<ArrayListOfStrings> deleteStudiesIndex() {
-
-        String response = makeDeleteRequest(getIndexingPath(STUDIES));
-
-        return deserializeJSONString(response, ArrayListOfStrings.class);
-    }
-    public RestResponse<ArrayListOfStrings> deleteCompoundsIndex() {
-
-        String response = makeDeleteRequest(getIndexingPath(COMPOUNDS));
-
-        return deserializeJSONString(response, ArrayListOfStrings.class);
-    }
-
-    public RestResponse<ArrayListOfStrings> indexStudies(List<String> studyIds) {
-
-        logger.debug("Indexing all studies requested to MetaboLights WS client.");
-
-        // Make the request
-        String response = makePostRequest(getIndexingPath(STUDIES), studyIds);
-
-        return deserializeJSONString(response, ArrayListOfStrings.class);
-    }
-
-    public RestResponse<ArrayListOfStrings> indexAllStudies(){
-
-        return indexStudies(null);
-    }
-
-    public RestResponse<ArrayListOfStrings> indexCompounds(List<String> compoundIds) {
-
-        logger.debug("Indexing all compounds requested to MetaboLights WS client.");
-
-        // Make the request
-        String response = makePostRequest(getIndexingPath(COMPOUNDS), compoundIds);
-
-        return deserializeJSONString(response, ArrayListOfStrings.class);
-    }
-
-    public RestResponse<ArrayListOfStrings> indexAllCompounds(){
-
-        return indexCompounds(null);
-    }
-
-    public RestResponse<ArrayListOfStrings> indexStudy(String studyIdentifier) {
-
-        List<String> studyIdList = new ArrayList<>();
-        studyIdList.add(studyIdentifier);
-        return indexStudies(studyIdList);
-
-
-    }
-
-    public RestResponse<ArrayListOfStrings> indexCompound(String compound) {
-
-        List<String> compoundList = new ArrayList<>();
-        compoundList.add(compound);
-        return indexCompounds(compoundList);
-    }
-
-
-    /**
-     *
-     *
-     * QUEUE MANAGEMENT OPERATIONS
-     *
-     *
-     */
-
-
-    /**
-     * Queue status
-     */
-    public RestResponse<Boolean> getQueueStatus(){
-
-        String path = getQueuePath("status");
-
-        // Make the request
-        String responseS = makeGetRequest(path);
-
-        return deserializeJSONString(responseS, Boolean.class);
-
-    }
-
-    /**
-     * Toggle queue
-     */
-    public RestResponse<Boolean> toggleQueue(){
-
-        String path = getQueuePath("toggle");
-
-        // Make the request
-        String responseS = makeGetRequest(path);
-
-        return deserializeJSONString(responseS, Boolean.class);
-
-    }
-
-    /**
-     * Create a private upload folder for a Study, so the user can upload big files using ftp.
-     *
-     * @param studyId
-     * @return
-     * @author: jrmacias
-     * @date: 20151105
-     */
-    public RestResponse<String> requestFtpFolder(String studyId){
-
-        String jsonData = serializeObject("Request FTP Folder");
-
-        String response = makePostRequest(STUDY_PATH + studyId +
-                "/files/requestFtpFolder", jsonData);
-
-        return deserializeJSONString(response, String.class);
-    }
-
-    /**
-     * Move files from private upload folder for a Study.
-     *
-     * @param studyId
-     * @return
-     * @author: jrmacias
-     * @date: 20151105
-     */
-    public RestResponse<String> moveFilesfromFtpFolder(String studyId, List<String> selFiles){
-
-        String jsonData = serializeObject(selFiles);
-
-        String response = makePostRequest(STUDY_PATH + studyId +
-                "/files/moveFilesfromFtpFolder", jsonData);
-
-        return deserializeJSONString(response, String.class);
-    }
-
-    /**
-     * Get a list of files from private upload folder for a Study
-     *
-     * @param studyId
-     * @return
-     * @author: jrmacias
-     * @date: 20151110
-     */
-    public RestResponse<File[]> getPrivateFtpFileList(String studyId) {
-
-        String response = makeGetRequest(STUDY_PATH + studyId +
-                "/files/privateFtpFolder/list");
-
-        return deserializeJSONString(response, File[].class);
-    }
-
-    /**
-     * Check if a Study has a private upload folder
-     *
-     * @param studyId
-     * @return
-     * @author: jrmacias
-     * @date: 20151112
-     */
-    public boolean hasPrivateFtpFolder(String studyId) {
-
-        boolean response = deserializeJSONString(makeGetRequest(STUDY_PATH + studyId +
-                "/files/privateFtpFolder"), Boolean.class).getContent();
-
-        return response;
-    }
-
-    /**
-     * Delete a list of files from the private upload folder of the study
-     *
-     * @param studyId
-     * @param selectedFiles
-     * @return
-     * @author: jrmacias
-     * @date: 20151112
-     */
-    public RestResponse<String> deletePrivateFtpFiles(String studyId, List<String> selectedFiles) {
-
-        logger.info("Deleting files from study {} private FTP, by user request.", studyId);
-
-        String response = makePostRequest(STUDY_PATH + studyId +
-                "/files/deleteFilesfromFtpFolder", selectedFiles);
-
-        return deserializeJSONString(response, String.class);
-    }
-
-
-    /**
-     * Update metabolites and studies mappings
-     *
-     * @param
-     * @return
-     * @author: CS76
-     * @date: 2016112
-     */
-    public RestResponse<ArrayListOfStrings> updateMetaboliteStudyMappings(){
-
-        logger.info("Updating the Study and metabolites mappings  @ MET_SPECIES Table");
-
-        logger.info("Requesting for study list");
-        RestResponse<ArrayListOfStrings> response = deserializeJSONString(makeGetRequest( STUDY_PATH + "list"), ArrayListOfStrings.class);
-
-        ArrayListOfStrings studies = response.getContent();
-
-        String updateMetaboliteStatus = makeGetRequest(STUDY_PATH + "MTBLS100" + "/updatemetabolites");
-
-
-        return null;
-    }
-
-    /**
-     * Send a report to the submitter with the whole validations status by email
-     *
-     * @param studyId
-     * @return
-     * @author: jrmacias
-     * @date: 20160129
-     */
-    public RestResponse<String> sendValitationReportByEmail(String studyId) {
-        logger.info("Request WS for sending the Validations Status report for the study {} to the submitter by email.", studyId);
-
-        String response = makeGetRequest(STUDY_PATH + studyId +
-                "/validations/statusReportByMail");
-
-        return deserializeJSONString(response, String.class);
-    }
 }

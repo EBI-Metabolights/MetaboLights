@@ -1,18 +1,19 @@
+
 {
-    "production": "false",
-    "isTesting": "false",
-    "sessionLength": "600000",
-    "origin": "https://wwwdev.ebi.ac.uk",
-    "endpoint": "https://wwwdev.ebi.ac.uk/metabolights",
-    "loginURL": "login",
-    "clearJavaSession" : true,
-    "javaLogoutURL": "https://wwwdev.ebi.ac.uk/metabolights/j_spring_security_logout",
-    "redirectURL": "console",
-    "metabolightsWSURL": {
-        "domain": "https://wwwdev.ebi.ac.uk/metabolights/",
-        "baseURL": "https://wwwdev.ebi.ac.uk/metabolights/ws",
-        "guides": "https://raw.githubusercontent.com/EBI-Metabolights/guides/sync-frp/",
-        "ontologyDetails": "https://www.ebi.ac.uk/ols/api/ontologies/"
+  "production": "false",
+  "isTesting": "false",
+  "sessionLength": "600000",
+  "origin": "http://localhost:8080",
+  "endpoint": "http://wp-np3-19:5001/metabolights",
+  "loginURL": "login",
+  "clearJavaSession" : true,
+  "javaLogoutURL": "http://localhost:8080/metabolights/j_spring_security_logout",
+  "redirectURL": "console",
+  "metabolightsWSURL": {
+    "domain": "http://localhost:8080/metabolights/",
+    "baseURL": "http://wp-np3-19:5001/metabolights/ws",
+    "guides": "https://raw.githubusercontent.com/EBI-Metabolights/guides/master/",
+    "ontologyDetails": "https://www.ebi.ac.uk/ols/api/ontologies/"
 
     },
     "doiWSURL": {
@@ -25,16 +26,17 @@
         "login": "/ws/auth/login",
         "token": "/ws/auth/login-with-token",
         "initialise": "/ws/auth/user",
+        "validateJwtToken": "/ws/auth/validate-token",
         "studiesList": "/webservice/study/myStudies"
     },
     "videoURL": {
       "all": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_ALL.mp4",
       "aspera": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_Aspera.mp4",
-      "createAccount": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_create-acc.mp4",
-      "createStudy": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_create-study.mp4",
+      "create_account": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_create-acc.mp4",
+      "create_study": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_create-study.mp4",
       "maf": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_MAF.mp4",
       "factors": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_factors.mp4",
-      "createAssay": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_new-assay.mp4",
+      "create_assay": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_new-assay.mp4",
       "protocols": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_protocols.mp4",
       "samples": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_samples.mp4",
       "descriptors": "https://www.ebi.ac.uk/metabolights/contents/assets/videos/201904_ML_study-description.mp4",

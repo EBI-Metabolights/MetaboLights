@@ -21,6 +21,11 @@
 
 package uk.ac.ebi.metabolights.authenticate;
 
+import org.jose4j.jwt.JwtClaims;
+
+import org.jose4j.jwt.consumer.JwtConsumer;
+import org.jose4j.jwt.consumer.JwtConsumerBuilder;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +33,18 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
-import sun.misc.BASE64Encoder;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.service.UserService;
+import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.security.MessageDigest;
+import java.util.Base64;
 
 /**
  * Process an {@link IsaTabAuthentication} implementation.
@@ -62,7 +73,7 @@ public class IsaTabAuthenticationProvider implements AuthenticationProvider {
 		if (auth.getCredentials()==null || auth.getCredentials().toString().equals("") || auth.getName()==null ||auth.getName().equals("") ) {
 			throw new org.springframework.security.authentication.BadCredentialsException(PropertyLookup.getMessage("msg.reqFieldMissing"));
 		}
-
+		
 		// Does user exist?
 		MetabolightsUser mtblUser = userService.lookupByUserName(auth.getName());
 		if (mtblUser == null)
@@ -79,9 +90,163 @@ public class IsaTabAuthenticationProvider implements AuthenticationProvider {
 			throw new org.springframework.security.authentication.InsufficientAuthenticationException(PropertyLookup.getMessage("msg.incorrUserPw"));
 
 		logger.info("authenticated "+mtblUser.getUserName()+" ID="+mtblUser.getUserId());
-
+		addJwtToUser(mtblUser);
 		return new IsaTabAuthentication(mtblUser," "); // TODO used 2nd argument ?
 	}
+
+
+	private void addJwtToUser(MetabolightsUser user) {
+		String jwt;
+		long expirationTime;
+		try {
+			jwt = getJwt(user);
+			String[] parts = jwt.split("\\.");
+
+			// String part0 = new String(Base64.getUrlDecoder().decode(parts[0]));
+			String part1 = new String(Base64.getUrlDecoder().decode(parts[1]));
+			// String signature = new String(Base64.getUrlDecoder().decode(parts[2]));
+			// JSONObject header = new JSONObject(part0);
+			JSONObject payload = new JSONObject(part1);
+
+			expirationTime = payload.getLong("exp");
+			user.setJwtToken(jwt);
+			user.setJwtTokenExpireTime(expirationTime);
+			String localUser = getLocalUser(user, jwt);
+			user.setLocalUserData(localUser);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static HttpURLConnection getPostConnection(String authPath, String body) throws Exception {
+		try {
+			String wsPrefix = PropertiesUtil.getProperty("metabolightsPythonWsUrl");
+			URL url = null;
+
+			if (wsPrefix.endsWith("/")) {
+				url = new URL(wsPrefix + authPath);
+			} else {
+				url = new URL(wsPrefix + "/" + authPath);
+			}
+
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Accept", "application/json");
+			conn.setRequestProperty("content-type", "application/json");
+			conn.setDoOutput(true);
+			OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
+			out.write(body);
+			out.close();
+			return conn;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	public static HttpURLConnection getGetConnection(String path) throws Exception {
+		try {
+			String wsPrefix = PropertiesUtil.getProperty("metabolightsPythonWsUrl");
+			URL url = null;
+
+			if (wsPrefix.endsWith("/")) {
+				url = new URL(wsPrefix + path);
+			} else {
+				url = new URL(wsPrefix + "/" + path);
+			}
+
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			conn.setRequestProperty("Accept", "application/json");
+			conn.setRequestProperty("content-type", "application/json");
+			conn.setDoOutput(true);
+			return conn;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+
+	public static String getLoginOneTimeToken(MetabolightsUser user) throws Exception {
+		if (user == null || user.getJwtToken() == null)
+			return null;
+
+		HttpURLConnection conn = null;
+		try {
+			String authPath = "auth/create-onetime-token";
+			conn = getGetConnection(authPath);
+			conn.setRequestProperty("Authorization", "Bearer " + user.getJwtToken());
+			if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+				BufferedReader br = new BufferedReader(new InputStreamReader(
+					(conn.getInputStream())));
+				String responseStr = org.apache.commons.io.IOUtils.toString(br);
+
+				JSONObject response = new JSONObject(responseStr);
+				String oneTimeToken = response.getString("one_time_token");
+				return oneTimeToken;
+			}
+
+			throw new Exception("An error occured when reatcing one time token");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}finally {
+			if (conn != null)
+				conn.disconnect();
+		}
+	}
+
+	public static String getJwt(MetabolightsUser user) throws Exception {
+		HttpURLConnection conn = null;
+		try {
+			String body = String.format("{'token': '%s'}", user.getApiToken());
+			String authPath = "auth/login-with-token";
+			conn = getPostConnection(authPath, body);
+
+			if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+				return conn.getHeaderField("jwt");
+			}
+
+			throw new Exception("An error occured when creating JWT");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}finally {
+			if (conn != null)
+				conn.disconnect();
+		}
+	}
+
+	public static String getLocalUser(MetabolightsUser user, String jwt) throws Exception {
+		HttpURLConnection conn = null;
+		try {
+			String body = String.format("{'jwt': '%s', 'user': '%s' }", jwt, user.getUserName());
+			String authPath = "auth/user";
+			conn = getPostConnection(authPath, body);
+
+			if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+				BufferedReader br = new BufferedReader(new InputStreamReader(
+						(conn.getInputStream())));
+				String responseStr = org.apache.commons.io.IOUtils.toString(br);
+
+				JSONObject response = new JSONObject(responseStr);
+				String ownerStr = response.getString("content");
+				JSONObject owner = new JSONObject(ownerStr);
+				String localUser = owner.getString("owner");
+				return localUser;
+			}
+
+			throw new Exception("An error occured when creating local User");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (conn != null)
+				conn.disconnect();
+		}
+	}
+
 
 	/**
 	 * Encoding of password as is done by IsaTab.
@@ -96,7 +261,8 @@ public class IsaTabAuthenticationProvider implements AuthenticationProvider {
 			MessageDigest md = MessageDigest.getInstance("SHA");
 			md.update(plaintext.getBytes("UTF-8"));
 			byte raw[] = md.digest();
-			String hash = (new BASE64Encoder()).encode(raw);
+
+			String hash = new String(Base64.getEncoder().encode(raw));
 			return hash;
 		} catch (Exception e) {
 			e.printStackTrace();

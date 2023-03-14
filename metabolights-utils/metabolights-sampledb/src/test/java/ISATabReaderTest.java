@@ -23,7 +23,7 @@ import org.isatools.isacreator.model.Contact;
 import org.isatools.isacreator.model.Investigation;
 import org.isatools.isacreator.model.Study;
 import org.junit.Test;
-import uk.ac.ebi.arrayexpress2.sampletab.parser.SampleTabParser;
+// import uk.ac.ebi.arrayexpress2.sampletab.parser.SampleTabParser;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.utils.sampletab.ISATabReader;
 
@@ -34,7 +34,7 @@ import static de.regnis.q.sequence.core.QSequenceAssert.assertNotNull;
 
 public class ISATabReaderTest {
 
-    private SampleTabParser parser = new SampleTabParser();
+    // private SampleTabParser parser = new SampleTabParser();
     private ISATabReader isaTabReader = new ISATabReader();
     Investigation investigation;
     public static String studyAcc = "MTBLS1";

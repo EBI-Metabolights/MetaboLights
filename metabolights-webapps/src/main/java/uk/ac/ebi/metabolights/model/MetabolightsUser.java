@@ -44,6 +44,30 @@ import java.util.*;
 //
 public class MetabolightsUser implements Serializable{
 
+	public String getJwtToken() {
+		return jwtToken;
+	}
+
+	public void setJwtToken(String jwtToken) {
+		this.jwtToken = jwtToken;
+	}
+
+	public Long getJwtTokenExpireTime() {
+		return jwtTokenExpireTime;
+	}
+
+	public void setJwtTokenExpireTime(Long jwtTokenExpireTime) {
+		this.jwtTokenExpireTime = jwtTokenExpireTime;
+	}
+
+	public String getLocalUserData() {
+		return localUserData;
+	}
+
+	public void setLocalUserData(String localUserData) {
+		this.localUserData = localUserData;
+	}
+
 	public static enum UserStatus {
 
 		NEW("NEW"), VERIFIED("VERIFIED"), ACTIVE("ACTIVE"), FROZEN("FROZEN");
@@ -66,6 +90,7 @@ public class MetabolightsUser implements Serializable{
 		this.joinDate=new java.util.Date();
 		this.apiToken = UUID.randomUUID().toString();
 		this.role = AppRole.ROLE_SUBMITTER.ordinal();
+		this.jwtToken = null;
 	}
 
 	@Id
@@ -94,6 +119,14 @@ public class MetabolightsUser implements Serializable{
 //    @NotEmpty
     private String userVerifyDbPassword;
 
+	@Transient
+	private String jwtToken;
+
+	@Transient
+	private Long jwtTokenExpireTime;
+
+	@Transient
+	private String localUserData;
 	@Transient
 	private Set<AppRole> authorities;
 

@@ -103,18 +103,19 @@ public class FileDispatcherController extends AbstractController {
                                     @RequestParam("file") List<String> selectedFiles,
                                     HttpServletResponse response){
 
-        // Using the WebService-client to actually delete the files
-        MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
-        String rslt = wsClient.deleteFilesFromStudy(studyId, obfuscationCode, selectedFiles).getMessage();
-
-        // parse WS response for user feedback
-        List<String> msg = new LinkedList<>();
-        String[] str = rslt.split("\\|");
-        for (String line:str){
-            msg.add(line);
-        }
-
-        return printMessage("Deleting files from study...", msg, studyId);
+//        // Using the WebService-client to actually delete the files
+//        MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+//        String rslt = wsClient.deleteFilesFromStudy(studyId, obfuscationCode, selectedFiles).getMessage();
+//
+//        // parse WS response for user feedback
+//        List<String> msg = new LinkedList<>();
+//        String[] str = rslt.split("\\|");
+//        for (String line:str){
+//            msg.add(line);
+//        }
+//
+//        return printMessage("Deleting files from study...", msg, studyId);
+            return printMessage("deleteSelectedFiles", "Please use Python API");
     }
 
 	@RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/downloadSelFiles",
@@ -421,132 +422,4 @@ public class FileDispatcherController extends AbstractController {
 		return null;
 	}
 
-    /**
-     * Get a list of files from private upload folder for a Study
-     * Only Submiters (ROLE_SUBMITTER) and Curators (ROLE_SUPER_USER) should be accessing this
-     *
-     * @param studyId
-     * @return
-     * @author: jrmacias
-     * @date: 20151110
-     */
-    /**
-    public File[] getPrivateFtpFileList(String studyId) {
-
-        // Using the WebService-client to do the job
-        MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
-
-        return wsClient.getPrivateFtpFileList(studyId).getContent();
-    }
-     */
-
-    /**
-     * Create a private upload folder for a Study, so the user can upload big files using ftp.
-     * Only Submiters (ROLE_SUBMITTER) and Curators (ROLE_SUPER_USER) should be accessing this
-     *
-     * @param studyId the ID of the study
-     * @author: jrmacias
-     * @date: 20151105
-     */
-    /**
-    @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/requestFtpFolder")
-    public ModelAndView requestFtpFolder(@PathVariable("studyId") String studyId) {
-
-        logger.info("Requesting a private upload folder for the study {}", studyId);
-
-        // Using the WebService-client to do the job
-        MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
-        String rslt = wsClient.requestFtpFolder(studyId).getMessage();
-
-        // parse WS response for user feedback
-        List<String> msg = new LinkedList<>();
-        String[] str = rslt.split("\\|");
-        for (String line:str){
-            msg.add(line);
-        }
-
-        return printMessage("Creating private upload folder for Study...", msg, null, studyId);
-    }
-    */
-
-    /**
-     * Move files from private upload folder for a Study.
-     * Only Submiters (ROLE_SUBMITTER) and Curators (ROLE_SUPER_USER) should be accessing this
-     *
-     * @param studyId the ID of the study
-     * @author: jrmacias
-     * @date: 20151105
-     */
-    /**
-    @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/moveFilesfromFtpFolder",
-            method = RequestMethod.POST)
-    public ModelAndView moveFilesfromFtpFolder(@PathVariable("studyId") String studyId,
-                                               @RequestParam("ftpFile") List<String> selectedFiles,
-                                               HttpServletResponse response) {
-
-        logger.info("Moving files from private upload folder for the study {}", studyId);
-
-        // Using the WebService-client to do the job
-        MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
-        String rslt = wsClient.moveFilesfromFtpFolder(studyId, selectedFiles).getMessage();
-
-        // parse WS response for user feedback
-        List<String> msg = new LinkedList<>();
-        String[] str = rslt.split("\\|");
-        for (String line:str){
-            msg.add(line);
-        }
-        return printMessage("Moving files from private upload folder...", msg, null, studyId);
-    }
-                                               */
-
-    /**
-     * Check if a Study has a private upload folder
-     *
-     * @param studyId
-     * @return
-     * @author: jrmacias
-     * @date: 20151012
-     */
-    /**
-    public boolean hasPrivateFtpFolder(String studyId) {
-
-        // Using the WebService-client to do the job
-        MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
-
-        return wsClient.hasPrivateFtpFolder(studyId);
-    }
-  */
-    /**
-     * Delete a series of files selected from the private upload folder for a Study
-     * Requires confirmation.
-     * Only Submiters (ROLE_SUBMITTER) and Curators (ROLE_SUPER_USER) should be accessing this
-     *
-     * @param studyId the ID of the study
-     * @param selectedFiles, the list of files to be deleted
-     * @param response
-     * @author: jrmacias
-     * @date: 20151012
-     */
-    /** Commented because of unused & FTP dependency
-    @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/deleteSelFtpFiles",
-            method = RequestMethod.POST)
-    public ModelAndView deleteSelectedFtpFiles(@PathVariable("studyId") String studyId,
-                                            @RequestParam("ftpFile") List<String> selectedFiles,
-                                            HttpServletResponse response){
-
-        // Using the WebService-client to actually delete the files
-        MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
-        String rslt = wsClient.deletePrivateFtpFiles(studyId, selectedFiles).getMessage();
-
-        // parse WS response for user feedback
-        List<String> msg = new LinkedList<>();
-        String[] str = rslt.split("\\|");
-        for (String line:str){
-            msg.add(line);
-        }
-
-        return printMessage("Deleting files from private upload folder...", msg, null, studyId);
-    }
-     */
 }

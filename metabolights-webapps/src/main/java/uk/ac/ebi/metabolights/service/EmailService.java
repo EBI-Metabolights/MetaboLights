@@ -315,8 +315,8 @@ public class EmailService {
 		//String body = PropertyLookup.getMessage("mail.submittedStudy.body", new String[]{fileName,  ID, publicReleaseDate.toString(), prodURL});
 		String text = VelocityEngineUtils.mergeTemplateIntoString(
 				velocityEngine, "email_template/studySubmissionConfirmationEmail.vm", "UTF-8", new HashMap());
-		String body = MessageFormat.format(text,  new String[]{fileName,  ID, publicReleaseDate.toString(), prodURL});
-    	sendSimpleEmailWithBcc(from, to, bcc, subject, body);
+		// String body = MessageFormat.format(text,  new String[]{fileName,  ID, publicReleaseDate.toString(), prodURL});
+    	sendSimpleEmailWithBcc(from, to, bcc, subject, "");
 
 	}
 

@@ -225,7 +225,7 @@ public class MetSpectraDAO extends AbstractDAO implements IMetSpectraDAO {
 	 */
 	private void insert(Spectra spectra, MetaboLightsCompound compound) throws DAOException {
 		try {
-			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.metspectra", new String[]{"id"}, null);
+			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.metspectra", new String[]{"id"}, (Object)null);
 			stm.clearParameters();
             stm.setLong(1, compound.getId());
             stm.setString(2, spectra.getName());
