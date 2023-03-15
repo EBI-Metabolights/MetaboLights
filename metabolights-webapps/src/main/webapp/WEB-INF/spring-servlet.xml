@@ -31,7 +31,7 @@
         http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
-        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
 
     <context:component-scan base-package="uk.ac.ebi.metabolights" />
     <context:annotation-config/>
@@ -204,7 +204,6 @@
         <sec:intercept-url pattern="/privatefiles" access="isAuthenticated()" />
         <sec:intercept-url pattern="/updateAccount" access="isAuthenticated()" />
 
-        <sec:intercept-url pattern="/labs" access="isAuthenticated()" />
         <!-- <sec:intercept-url pattern="/editor" access="isAuthenticated()" /> -->
 		<sec:intercept-url pattern="/reindex" access="hasRole('ROLE_SUPER_USER')" />
         <sec:intercept-url pattern="/reindexall" access="hasRole('ROLE_SUPER_USER')" />
@@ -225,7 +224,7 @@
         <sec:intercept-url pattern="/securedredirect" access="isAuthenticated()" />
         <sec:intercept-url pattern="/login" access="permitAll"/>
         <sec:intercept-url pattern="/**" access="permitAll"/>
-        <sec:logout logout-success-url="/loggedout" delete-cookies="JSESSIONID" />
+        <sec:logout logout-success-url="/loggedout" delete-cookies="JSESSIONID,jwt" />
         <sec:form-login login-page='/login' authentication-failure-url="/login?login_error=1" default-target-url="/login-success"  />
     </sec:http>
     <sec:authentication-manager>

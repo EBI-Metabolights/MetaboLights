@@ -158,18 +158,6 @@
                 </div>
             </div>
         </div>
-        <%--<div class="panel nbr panel-primary">--%>
-            <%--<div class="panel-heading nbtr">--%>
-                <%--Submit to MetaboLights--%>
-            <%--</div>--%>
-            <%--<div class="panel-body">--%>
-                <%--<a href="presubmit" class="more"><b>Upload Study</b></a>--%>
-                <%--&lt;%&ndash;<div class="row">&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;<hr>&ndash;%&gt;--%>
-                <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
-                <%--&lt;%&ndash;Upload reference spectra to MetaboLights - Compounds Reference Library<br><a href="#" class="more">more</a>&ndash;%&gt;--%>
-            <%--</div>--%>
-        <%--</div>--%>
     </div>
 </div>
 <br/>

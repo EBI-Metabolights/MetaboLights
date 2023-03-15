@@ -80,9 +80,18 @@ dependencies {
     testImplementation("org.apache.logging.log4j:log4j-core:2.16.0")
 }
 
+configurations.all {
+  resolutionStrategy {
+    force("org.jvnet.staxex:stax-ex:1.7.7")
+  }
+}
+
 group = "uk.ac.ebi.metabolights"
 version = "3.0"
+// java.sourceCompatibility = JavaVersion.VERSION_1_7
+// java.targetCompatibility = JavaVersion.VERSION_1_7
 java.sourceCompatibility = JavaVersion.VERSION_1_7
+java.targetCompatibility = JavaVersion.VERSION_1_7
 
 publishing {
     publications.create<MavenPublication>("maven") {

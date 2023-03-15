@@ -100,7 +100,7 @@
                         <div class="mini--banner col-md-12">
                                 <span>
                                     <div class="btn-group" role="group" aria-label="">
-                                        <a target="_blank" :href="${metabolightsPythonWsUrl} + '/compounds/'+mtblc.id+'/file'" class="btn btn-default btn-xs"><i class="fa fa-save"></i> Export</a>
+                                        <a target="_blank" :href="'${metabolightsPythonWsUrl}/compounds/${compoundId}/file'" class="btn btn-default btn-xs"><i class="fa fa-save"></i> Export</a>
                                         <!-- <div class="btn-group" role="group">
                                             <button type="button" class="btn btn-default btn-xs" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share"></i> Share</button>
                                             <ul class="dropdown-menu">

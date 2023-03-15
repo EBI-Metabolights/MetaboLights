@@ -31,7 +31,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
@@ -43,7 +42,6 @@ import uk.ac.ebi.metabolights.service.EmailService;
 import uk.ac.ebi.metabolights.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -107,43 +105,6 @@ public class SubmissionQueueController extends AbstractController {
         }
 
         return mav;
-    }
-
-	@RequestMapping(value = { "/submittoqueue" })
-	public ModelAndView preSubmit(HttpServletRequest request) {
-		MetabolightsUser user = null;
-
-		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("submittoqueue"); // Call the Submission form page
-		if (request.getUserPrincipal() != null)
-			user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-
-		if (user != null){
-			//mav.addObject("user", user);
-			try {
-				mav.addObject("queueditems",SubmissionQueue.getQueuedForUserId(user.getUserName().toString()));
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-            // If the user is a curator
-            if (user.isCurator()){
-                mav.addObject("users", userService.getAll());
-            }
-		}
-
-
-		return mav;
-	}
-
-    @RequestMapping(value = "/submissionStatus", method = RequestMethod.GET)
-    @ResponseBody
-    public Object handleRequest(HttpServletRequest req,
-                                      HttpServletResponse res) throws Exception {
-
-        Object o = req.getSession().getAttribute("progress");
-
-        return o;
     }
 
 	@RequestMapping(value = "/queueExperiment", method = RequestMethod.POST)

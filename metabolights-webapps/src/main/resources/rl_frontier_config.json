@@ -76,7 +76,7 @@
             },
             {
                 "title": "Submit Study",
-                "href": "/metabolights/presubmit",
+                "href": "/metabolights/editor",
                 "tooltip": "Submit data to MetaboLights",
                 "iconFontSet": "icon-functional",
                 "dataIcon": "_"

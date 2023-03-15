@@ -117,9 +117,9 @@ import javax.servlet.http.HttpServletRequest;
 
         public static String composeWSPath(final String host) {
             if (host.endsWith("/"))
-                return host + "webservice/";
+                return host;
             else
-                return host + "/webservice/";
+                return host + "/";
         }
 
         // @RequestMapping({ "/reviewer{obfuscationCode}/assay/{assayNumber}/maf" })
@@ -172,44 +172,6 @@ import javax.servlet.http.HttpServletRequest;
             redirectView.setUrl(url);
             return redirectView;
         }
-        // @RequestMapping({ "/reviewer{obfuscationCode}" })
-        public ModelAndView showAltReviewerEntryOld(@PathVariable("obfuscationCode") final String obfuscationCode) {
-            final MetabolightsUser user = LoginController.getLoggedUser();
-            final MetabolightsWsClient wsClient = getMetabolightsWsClient(user);
-            final ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("study");
-            String studyId = null;
-            Study study = null;
-            RestResponse<Study> response;
-            if (obfuscationCode != null) {
-                EntryController.logger.info("requested entry by obfuscation " + obfuscationCode);
-                response = (RestResponse<Study>) wsClient.getStudybyObfuscationCode(obfuscationCode);
-
-                study = (Study)response.getContent();
-
-                studyId = study.getStudyIdentifier();
-
-                if (studyId == null || study.getStudyStatus() != Study.StudyStatus.INREVIEW) {
-                    return new ModelAndView("redirect:/index?message=Study can not be accessed or does not exist");
-                }
-            }
-
-            if(studyId != null){
-                mav.addObject("obfuscationCode", obfuscationCode);
-                mav.addObject("studyId", studyId);
-                return mav;
-            }
-
-            return new ModelAndView("redirect:/errors/500");
-        }
-
-        private ModelAndView notLoggedIn(final String mtblsId) {
-            final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            if (auth.getPrincipal().equals("anonymousUser")) {
-                return new ModelAndView("redirect:securedredirect?url=" + mtblsId);
-            }
-            return new ModelAndView("redirect:/index?message=" + PropertyLookup.getMessage("msg.studyAccessRestricted") + " (" + mtblsId + ")");
-        }
-
 
 
         @RequestMapping({ "/{metabolightsId:(?:MTBLS|mtbls).+}", "/{metabolightsId:(?:MTBLS|mtbls).+}/{tabId}" })
@@ -230,72 +192,6 @@ import javax.servlet.http.HttpServletRequest;
                 e.printStackTrace();
             }
             return redirectView;
-        }
-
-        //@RequestMapping({ "/{metabolightsId:(?:MTBLS|mtbls).+}", "/{metabolightsId:(?:MTBLS|mtbls).+}/{tabId}" })
-        private ModelAndView getStudyWSEntryMAVOld(@PathVariable("metabolightsId") String mtblsId, final HttpServletRequest request) {
-            final MetabolightsUser user = LoginController.getLoggedUser();
-            final MetabolightsWsClient wsClient = getMetabolightsWsClient(user);
-            mtblsId = mtblsId.toUpperCase();
-            boolean isOwner = false;
-            boolean isCurator = false;
-            final RestResponse<Study> response = (RestResponse<Study>)wsClient.getStudy(mtblsId);
-            if (mtblsId == null) {
-                if (user.getUserName().equals("anonymousUser".toLowerCase())) {
-                    return this.notLoggedIn("" + mtblsId);
-                }
-                if (response.getMessage().equalsIgnoreCase("Study not found")) {
-                    return new ModelAndView("redirect:/index?message=" + mtblsId + " can not be accessed or does not exist");
-                }
-                return new ModelAndView("redirect:/errors/500");
-            }
-            else {
-                final Study study = (Study)response.getContent();
-                if (study == null) {
-                    if (user.getUserName().equals("anonymousUser".toLowerCase())) {
-                        return this.notLoggedIn("" + mtblsId);
-                    }
-                    if (response.getMessage().equalsIgnoreCase("Study not found")) {
-                        return new ModelAndView("redirect:/index?message=" + mtblsId + " can not be accessed or does not exist");
-                    }
-                    return new ModelAndView("redirect:/errors/500");
-                }
-                else {
-                    if (study != null && !study.isPublicStudy() && user.getUserName().equals("anonymousUser".toLowerCase())) {
-                        return new ModelAndView("redirect:/securedredirect?url=" + mtblsId);
-                    }
-                    final ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("study");
-                    if (!user.getUserName().equals("anonymousUser".toLowerCase())) {
-
-
-                        if(doesUserOwnsStudy(study, user)){
-                            isOwner = true;
-                        }
-                        if(user.isCurator()){
-                            isCurator = true;
-                        }
-
-                        mav.addObject("isOwner", (Object)(isOwner));
-                        mav.addObject("isCurator", (Object)(isCurator));
-                        mav.addObject("jwt", (Object) user.getJwtToken());
-                        mav.addObject("email", (Object)user.getUserName());                        
-                        mav.addObject("jwtExpirationTime", (Object)user.getJwtTokenExpireTime());
-                        
-                        mav.addObject("localUser", (Object)user.getLocalUserData());
-                    }
-                    return mav;
-                }
-            }
-        }
-        private boolean doesUserOwnsStudy(Study study, MetabolightsUser user){
-
-            for (User owner : study.getUsers()) {
-                if (owner.getUserName().equals(user.getUserName())) {
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         public static boolean canUserEditStudy(final String study) {

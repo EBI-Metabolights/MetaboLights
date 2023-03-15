@@ -154,7 +154,7 @@
                                 <li><a href="/metabolights/about">About</a></li>
                                     </ul>
                                 <ul class="nav navbar-nav cnav navbar-right">
-                                    <li><a href="/metabolights/presubmit">Submit Study</a></li>
+                                    <li><a href="/metabolights/editor">Submit Study</a></li>
                                     <li><a href="/metabolights/login">Login</a></li>
                                 </ul>
                             </span>
@@ -176,7 +176,7 @@
                                     </li>
                                 </ul>
                                 <ul class="nav navbar-nav cnav navbar-right">
-                                    <li><a href="/metabolights/presubmit">Submit Study</a></li>
+                                    <li><a href="/metabolights/editor">Submit Study</a></li>
                                     <li><a href="/metabolights/login">Login</a></li>
                                 </ul>
                             </span>

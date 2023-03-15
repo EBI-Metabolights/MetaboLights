@@ -54,7 +54,7 @@ public class ValidationsDispatcherController  extends AbstractController{
      * @author: jrmacias
      * @date: 20160216
      */
-    @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_VALIDATIONS + "/statusReportByMail")
+    // @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_VALIDATIONS + "/statusReportByMail")
     public ModelAndView sendValitationReportByEmail(@PathVariable("studyId") String studyId) {
 
         logger.info("Sending the Validations Status report for the study {} to the submitter by email.", studyId);

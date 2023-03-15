@@ -48,7 +48,6 @@ import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 import uk.ac.ebi.metabolights.utils.UploadProgressListener;
 import uk.ac.ebi.metabolights.webapp.StudyHealth;
 import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
-import uk.ac.ebi.metabolights.webservice.client.models.ArrayListOfStrings;
 import uk.ac.ebi.metabolights.webservice.client.models.MixedSearchResult;
 
 import javax.naming.Binding;

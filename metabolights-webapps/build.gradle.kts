@@ -6,7 +6,7 @@
 
 plugins {
     id("uk.ac.ebi.metabolights.java-conventions")
-    
+    id("project-report")
     war
 }
 
@@ -21,17 +21,17 @@ dependencies {
     api("org.json:json:20090211")
     api("org.apache.logging.log4j:log4j-web:2.16.0")
     api("org.slf4j:jcl-over-slf4j:1.7.0")
-    api("org.springframework:spring-context:3.2.5.RELEASE")
-    api("org.springframework:spring-aop:3.2.5.RELEASE")
-    api("org.springframework:spring-orm:3.2.5.RELEASE")
-    api("org.springframework:spring-web:3.2.5.RELEASE")
+    api("org.springframework:spring-context:4.3.30.RELEASE")
+    api("org.springframework:spring-aop:4.3.30.RELEASE")
+    api("org.springframework:spring-orm:4.3.30.RELEASE")
+    api("org.springframework:spring-web:4.3.30.RELEASE")
     api("org.springframework.security:spring-security-core:3.2.5.RELEASE")
     api("org.springframework.security:spring-security-config:3.2.5.RELEASE")
     api("org.springframework.security:spring-security-taglibs:3.2.5.RELEASE")
-    api("org.springframework:spring-beans:3.2.5.RELEASE")
-    api("org.springframework:spring-context-support:3.2.5.RELEASE")
-    api("org.springframework:spring-webmvc:3.2.5.RELEASE")
-    api("org.springframework:spring-core:3.2.5.RELEASE")
+    api("org.springframework:spring-beans:4.3.30.RELEASE")
+    api("org.springframework:spring-context-support:4.3.30.RELEASE")
+    api("org.springframework:spring-webmvc:4.3.30.RELEASE")
+    api("org.springframework:spring-core:4.3.30.RELEASE")
     api("org.springframework.session:spring-session-data-redis:1.1.1.RELEASE")
     api("io.lettuce:lettuce-core:5.0.5.RELEASE")
     api("biz.paluch.redis:lettuce:3.3.1.Final")

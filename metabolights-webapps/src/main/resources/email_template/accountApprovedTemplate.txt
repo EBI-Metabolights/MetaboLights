@@ -4,7 +4,7 @@ Thank you for your interest in MetaboLights
 
 Your new MetaboLights account "{0}" has been activated and is ready to use. 
 
-You can create and edit your studies online by choosing the "Create online" option from https://www.ebi.ac.uk/metabolights/presubmit
+You can create and edit your studies online on https://www.ebi.ac.uk/metabolights/editor
 
 If you would like to upload ISA-Tab files directly, please follow these instructions:
 - We use our own version of ISAcreator to capture metabolomics metadata and raw files, which needs to be downloaded and installed. You can download a complete package from our ftp link here: ftp://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip

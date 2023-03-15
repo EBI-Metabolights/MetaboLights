@@ -97,11 +97,11 @@ public class FileDispatcherController extends AbstractController {
      * @author: jrmacias
      * @date: 20151012
      */
-    @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/deleteSelFiles")
-    public ModelAndView deleteSelectedFiles(@PathVariable("studyId") String studyId,
-                                    @RequestParam(value="token", defaultValue = "0") String obfuscationCode,
-                                    @RequestParam("file") List<String> selectedFiles,
-                                    HttpServletResponse response){
+    // @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/deleteSelFiles")
+    // public ModelAndView deleteSelectedFiles(@PathVariable("studyId") String studyId,
+    //                                 @RequestParam(value="token", defaultValue = "0") String obfuscationCode,
+    //                                 @RequestParam("file") List<String> selectedFiles,
+    //                                 HttpServletResponse response){
 
 //        // Using the WebService-client to actually delete the files
 //        MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
@@ -115,8 +115,8 @@ public class FileDispatcherController extends AbstractController {
 //        }
 //
 //        return printMessage("Deleting files from study...", msg, studyId);
-            return printMessage("deleteSelectedFiles", "Please use Python API");
-    }
+    //         return printMessage("deleteSelectedFiles", "Please use Python API");
+    // }
 
 	@RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_FILES + "/downloadSelFiles",
             method = RequestMethod.POST)

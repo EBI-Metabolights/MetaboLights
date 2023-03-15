@@ -54,14 +54,6 @@
 		<put-attribute name="footer" value="/WEB-INF/jsp/frontier/footer.jsp" />
 	</definition>
 
-    <definition name="minimum" template="/WEB-INF/jsp/frontier/labslayout.jsp">
-        <put-attribute name="head" value="" />
-        <put-attribute name="header" value="" />
-        <put-attribute name="localheader" value="" />
-        <put-attribute name="body" value="" />
-        <put-attribute name="footer" value="" />
-    </definition>
-
     <definition name="editorLayout" template="/WEB-INF/jsp/frontier/editorLayout.jsp">
         <put-attribute name="head" value="" />
         <put-attribute name="header" value="" />
@@ -75,11 +67,6 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/refLayerSearch.jsp" />
 	</definition>
 
-	<definition name="oldCompound" extends="default">
-		<put-attribute name="title" value="Compound page" />
-		<put-attribute name="body" value="/WEB-INF/jsp/refCompound.jsp" />
-	</definition>
-
     <definition name="compound" extends="default">
         <put-attribute name="title" value="Compound page" />
         <put-attribute name="body" value="/WEB-INF/jsp/compound.jsp" />
@@ -88,11 +75,6 @@
     <definition name="betacompound" extends="default">
         <put-attribute name="title" value="MetaboLights Compound Page" />
         <put-attribute name="body" value="/WEB-INF/jsp/bcompound.jsp" />
-    </definition>
-
-    <definition name="labs"  extends="minimum">
-        <put-attribute name="title" value="MetaboLights Labs" />
-        <put-attribute name="body" value="/WEB-INF/jsp/metabolightsLabs.jsp" />
     </definition>
 
     <definition name="advancedSearch"  extends="default">
@@ -229,11 +211,6 @@
         <put-attribute name="body" value="/WEB-INF/jsp/parallelCoordinates.jsp" />
     </definition>
 
-    <!--<definition name="compoundsDashboard" extends="default">ƒ-->
-        <!--<put-attribute name="title" value="Compounds Dashboard" />-->
-        <!--<put-attribute name="body" value="/WEB-INF/jsp/compoundsDashboard.jsp" />-->
-    <!--</definition>-->
-
     <definition name="users" extends="default">
         <put-attribute name="title" value="User admin" />
         <put-attribute name="body" value="/WEB-INF/jsp/users.jsp" />
@@ -317,20 +294,6 @@
     </definition>
 
     <definition name="mysubmissions" extends="search">
-        <put-attribute name="title" value="My submissions" />
-    </definition>
-
-    <!--Alternative search pages: using WS and polymer, not working on IE-->
-    <definition name="wsSearchResult" extends="default">
-        <put-attribute name="title" value="Search" />
-        <put-attribute name="body" value="/WEB-INF/jsp/wssearchResults.jsp"/>
-    </definition>
-
-    <definition name="wsBrowse" extends="wsSearchResult">
-        <put-attribute name="title" value="Browse" />
-    </definition>
-
-    <definition name="wsMySubmissions" extends="wsSearchResult">
         <put-attribute name="title" value="My submissions" />
     </definition>
 

@@ -80,42 +80,9 @@
                 </div>
             </div>
         </div>
-        <div id="labsAlert" class="modal fade" tabindex="-1" role="dialog"
-             aria-labelledby="myLargeModalLabel">
-            <div class="modal-dialog modal-md">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <div class="row">
-                            <span class="col-md-10 col-md-offset-1 text-center">
-                                <br><br>
-                                <h2>MetaboLights Labs <sup class="text-primary"><small>BETA</small></sup></h2>
-                                <p>
-                                    Labs is currently in development phase (beta) and you will need a development account to access it.
-                                </p><br>
-                                <p>
-                                   <a href="https://wwwdev.ebi.ac.uk/metabolights/newAccount"> Not registered yet? Create a account</a>.
-                                </p>
-                                <br><br>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="pull-left btn btn-sm btn-default" data-dismiss="modal">
-                            Close
-                        </button>
-                        <a target="_blank" href="https://wwwdev.ebi.ac.uk/metabolights/labs/login" class="btn btn-success">
-                            Proceed
-                        </a>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div>
-
     <script>
         $('#userLoggingOut').click(function () {
-            localStorage.removeItem("mtblsjwt");
-            localStorage.removeItem("mtblsuser");
-            
+            localStorage.removeItem("jwt");            
         })
     </script>
 </sec:authorize>
@@ -195,16 +162,15 @@
             metabolightsEditorUrl = "${metabolightsEditorUrl}";
             metabolightsPythonWsUrl = "${metabolightsPythonWsUrl}";
 
-            jwt = localStorage.getItem("mtblsjwt");
+            jwt = localStorage.getItem("jwt");
             if (jwt == null){
                 jwt = getCookie("jwt");
             }
             if(jwt != null && jwt != ''){
-                localStorage.setItem('mtblsjwt', jwt);
+                localStorage.setItem('jwt', jwt);
                 axios.get(metabolightsPythonWsUrl + "/auth/create-onetime-token", { headers: { "Authorization" : "Bearer " + jwt}}).then(response => {
                     loginOneTimeToken = response.data.one_time_token;
                     if (loginOneTimeToken != null){
-                        localStorage.setItem("loginOneTimeToken", loginOneTimeToken);
                         window.open(metabolightsEditorUrl + "?loginOneTimeToken="+loginOneTimeToken, 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
                     } else {
                         window.open(metabolightsEditorUrl, 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
@@ -217,9 +183,7 @@
         });
     });
     $('#userLoggingOut').click(function(){
-        localStorage.removeItem('mtblsjwt');
-        localStorage.removeItem('mtblsuser');
-        localStorage.removeItem('loginOneTimeToken');
+        localStorage.removeItem('jwt');
         deleteCookie("jwt", "/metabolights");
         window.location.href = '/metabolights/j_spring_security_logout';
     });
