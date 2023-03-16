@@ -10,9 +10,11 @@ plugins {
 
 
 dependencies {
+    // api("org.apache.commons:com.springsource.org.apache.commons.httpclient:3.1.0")
     api("org.isatools:ISAcreator-api:1.7.7.2-SNAPSHOT"){
         exclude(group = "org.isatools", module = "ISAtabErrorReporter")
         exclude(group = "org.isatools", module = "import_layer_MTBLS_API")
+        exclude(group = "org.apache.commons", module = "com.springsource.org.apache.commons.httpclient")
     }
     api(project(":metabolights-domain"))
     api(project(":metabolights-isatab-utils"))

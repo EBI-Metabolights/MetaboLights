@@ -12,6 +12,10 @@ plugins {
 repositories {
     mavenLocal()
     maven {
+        url = uri("https://mvnrepository.com/artifact/")
+    }
+    
+    maven {
         url = uri("https://www.ebi.ac.uk/~maven/m2repo")
     }
 
