@@ -26,17 +26,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.webservice.services.PropertyLookUpService;
 
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.nio.file.*;
-import java.nio.file.attribute.PosixFileAttributeView;
-import java.nio.file.attribute.PosixFilePermission;
-import java.nio.file.attribute.UserPrincipalLookupService;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import javax.servlet.http.HttpServletResponse;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 
 
 public class FileUtil {
@@ -57,6 +68,20 @@ public class FileUtil {
 
 	}
 
+	public static void String2File(String text, String fileToSave, boolean backUp) throws IOException{
+
+		// Audit the file if required
+		if (backUp )FileAuditUtil.backUpFile(new File(fileToSave));
+
+		//instantiate a FileWriter
+        FileWriter writer = new FileWriter(fileToSave);
+        
+        //Write the text
+        writer.write(text);
+        
+        //Close the writer
+        writer.close();
+	}
 	/**
 	 * Returns a string with the contents of a file.
 	 * @param fileToUse

@@ -19,7 +19,6 @@ public class RheaWebserviceWsClient extends WsClient{
     private String limit = "&limit=10";
 
     private static final String GET = "GET";
-    private static final String POST = "POST";
 
 
     private static final Logger logger = LoggerFactory.getLogger(RheaWebserviceWsClient.class);
@@ -38,7 +37,7 @@ public class RheaWebserviceWsClient extends WsClient{
     public JsonNode getRheaReactions(String id){
         String rheaWsURL = getRheaAPIUrl(id);
         logger.info("RheaURL "+rheaWsURL);
-        String rheaResponse = excuteRequest(rheaWsURL, null, this.GET);
+        String rheaResponse = excuteRequest(rheaWsURL, null, GET);
         //logger.debug("Response "+rheaResponse);
         if(rheaResponse == null){
             rheaResponse = "{\"result\":[]}";
@@ -46,12 +45,14 @@ public class RheaWebserviceWsClient extends WsClient{
         ObjectMapper objectMapper = new ObjectMapper();
 
         JsonNode rootNode = null;
+        JsonNode results = null;
         try {
             rootNode = objectMapper.readTree(rheaResponse);
+            results = rootNode.path("results");
+            return results;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        JsonNode results = rootNode.path("results");
         return results;
     }
 

@@ -104,7 +104,7 @@ public class StudyDAO {
     public Study getStudyFromDatabase(String studyId) throws DAOException {
         //Calculate the destination (by default to private)
         logger.info("Loading study from database and adding study location");
-        File studyLocation = fsDAO.getDestinationFolder(studyId);
+        File studyLocation = uk.ac.ebi.metabolights.repository.dao.filesystem.StudyDAO.getDestinationFolder(studyId);
         logger.info(" - Study location is: "+ studyLocation);
         Study study = dbDAO.findByAccession(studyId);
 
@@ -306,7 +306,7 @@ public class StudyDAO {
     private File moveStudyFolderToFinalDestination(String studyIdentifier, File studyFolder) throws IOException {
 
         //Calculate the destination (by default to private)
-        File finalDestination = fsDAO.getDestinationFolder(studyIdentifier);
+        File finalDestination = uk.ac.ebi.metabolights.repository.dao.filesystem.StudyDAO.getDestinationFolder(studyIdentifier);
 
         logger.info("Moving study folder ({}) to {}", studyFolder.getAbsolutePath(), finalDestination.getAbsolutePath());
 
@@ -367,7 +367,7 @@ public class StudyDAO {
     public void updateReleaseDate(String studyIdentifier, Date newPublicReleaseDate, String userToken) throws DAOException {
 
         // Security: Check if the user can edit the study
-        User user = SecurityService.userUpdatingStudy(studyIdentifier, userToken);
+        SecurityService.userUpdatingStudy(studyIdentifier, userToken);
 
         Study study = dbDAO.findByAccession(studyIdentifier);
 
@@ -398,7 +398,7 @@ public class StudyDAO {
     public Study updateStatus(String studyIdentifier, LiteStudy.StudyStatus newStatus, String userToken) throws DAOException {
 
         // Security: Check if the user can edit the study
-        User user = SecurityService.userUpdatingStudy(studyIdentifier, userToken, newStatus);
+        SecurityService.userUpdatingStudy(studyIdentifier, userToken, newStatus);
 
         // Find the study data from the DB
         Study study = dbDAO.findByAccession(studyIdentifier);
@@ -437,7 +437,7 @@ public class StudyDAO {
     public void restoreBackup(String studyIdentifier, String userToken, String backUpIdentifier) throws DAOException, IOException {
 
         // Security: Check if the user can edit the study
-        User user = SecurityService.userUpdatingStudy(studyIdentifier, userToken);
+        SecurityService.userUpdatingStudy(studyIdentifier, userToken);
 
         // Restore back up...
 
@@ -471,7 +471,7 @@ public class StudyDAO {
     public void updateValidations(String studyIdentifier, Validations validations, String userToken) throws DAOException  {
 
         // Security: Check if the user can override the study validations
-        User user = SecurityService.userOverridingStudyValidations(studyIdentifier, userToken);
+        SecurityService.userOverridingStudyValidations(studyIdentifier, userToken);
 
         Study study = dbDAO.findByAccession(studyIdentifier);
 

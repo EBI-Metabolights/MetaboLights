@@ -1,8 +1,8 @@
 package uk.ac.ebi.metabolights.service;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+// import org.slf4j.Logger;
+// import org.slf4j.LoggerFactory;
 // import uk.ac.ebi.rcloud.rpf.RemoteLogListener;
 // import uk.ac.ebi.rcloud.rpf.ServantProviderFactory;
 // import uk.ac.ebi.rcloud.server.RServices;
@@ -13,12 +13,12 @@ import org.slf4j.LoggerFactory;
 // import uk.ac.ebi.rcloud.server.graphics.primitive.GDImage;
 // import uk.ac.ebi.rcloud.server.graphics.primitive.GDObject;
 
-import java.awt.image.BufferedImage;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
-import java.util.Vector;
+// import java.awt.image.BufferedImage;
+// import java.io.FileOutputStream;
+// import java.io.IOException;
+// import java.rmi.RemoteException;
+// import java.rmi.server.UnicastRemoteObject;
+// import java.util.Vector;
 
 /**
  * Created by kalai on 01/07/2014.

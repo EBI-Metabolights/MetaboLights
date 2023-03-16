@@ -21,7 +21,6 @@
 
 package uk.ac.ebi.metabolights.repository.dao.filesystem;
 
-import org.isatools.errorreporter.model.ISAFileErrorReport;
 import org.isatools.isacreator.io.importisa.ISAtabFilesImporter;
 import org.isatools.isacreator.model.Investigation;
 import org.slf4j.Logger;
@@ -94,16 +93,15 @@ public class IsaTabInvestigationDAO {
                     logger.debug("importer is null");
                 } else {
                     logger.debug("importer log messages are: " );
-                    for (ISAFileErrorReport isaFileErrorReport : isatabFilesImporter.getMessages()) {
-                        logger.debug(isaFileErrorReport.getProblemSummary());
-                    }
+                    // for (Object isaFileErrorReport : isatabFilesImporter.getMessages()) {
+                    //     logger.debug(isaFileErrorRepor.getProblemSummary());
+                    // }
                 }
-
-                throw new IsaTabException("Can't load isatab files at " + isaTabStudyFolder, isatabFilesImporter==null? null: isatabFilesImporter.getMessages());
+                throw new IsaTabException("Can't load isatab files at " + isaTabStudyFolder);
+                // throw new IsaTabException("Can't load isatab files at " + isaTabStudyFolder, isatabFilesImporter==null? null: isatabFilesImporter.getMessages());
             }
-
-            return imported;
         }
+        return imported;
     }
 
     /**

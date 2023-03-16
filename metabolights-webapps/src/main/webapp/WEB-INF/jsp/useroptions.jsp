@@ -27,7 +27,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
 
-<sec:authorize ifAnyGranted="ROLE_SUBMITTER">
+<sec:authorize access="hasRole('ROLE_SUBMITTER')">
     <sec:authentication var="token" property="principal.apiToken" />
         <br>
         <div class="panel panel-info">
@@ -87,7 +87,7 @@
     </script>
 </sec:authorize>
 <br>
-<sec:authorize ifAnyGranted="ROLE_SUPER_USER">
+<sec:authorize access="hasRole('ROLE_SUPER_USER')">
         <div class="panel panel-success">
             <div class="panel-heading"><spring:message code="msg.useroptionscurator" /></div>
             <div class="panel-body">
@@ -185,6 +185,6 @@
     $('#userLoggingOut').click(function(){
         localStorage.removeItem('jwt');
         deleteCookie("jwt", "/metabolights");
-        window.location.href = '/metabolights/j_spring_security_logout';
+        window.location.href = '/metabolights/logout';
     });
 </script>

@@ -201,7 +201,7 @@
     var subDomain = window.location.host.split('.')[0]
     if(subDomain != 'www'){
         var brand = document.getElementById("mlLogo")
-        brand.innerHTML = "MetaboLights DEV";
+        brand.innerHTML = "MetaboLights ${pageContext.request.serverName}";
         brand.style.color = "yellow";
         brand.style.fontWeight = "300";
     }

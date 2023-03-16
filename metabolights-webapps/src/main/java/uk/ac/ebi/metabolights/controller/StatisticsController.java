@@ -21,8 +21,6 @@
 
 package uk.ac.ebi.metabolights.controller;
 
-
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,12 +28,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.xmlsoap.schemas.soap.encoding.Integer;
 import uk.ac.ebi.metabolights.model.MLStats;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.MetaboLightsStatsService;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;

@@ -24,7 +24,6 @@ package uk.ac.ebi.metabolights.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 //import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 //import uk.ac.ebi.metabolights.webservice.client.Metabolights---WsClient;

@@ -435,20 +435,4 @@ public class EmailService {
 		return ex;
 	}
 
-	/**
-	 *
-	 * @param study
-	 * @return
-	 * @author jrmacias
-	 * @date 20160126
-	 */
-	private String getSubmitterEmail(Study study) {
-		for (User user : study.getUsers()){
-			if (user.getRole() == AppRole.ROLE_SUBMITTER)
-				return user.getEmail();
-		}
-		return "";
-	}
-
-
 }

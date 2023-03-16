@@ -44,14 +44,12 @@ package uk.ac.ebi.metabolights.webservice.client;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.referencelayer.model.Compound;
 import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompoundModel;
 import uk.ac.ebi.metabolights.referencelayer.model.MetaboliteAssignmentModel;
 import uk.ac.ebi.metabolights.referencelayer.model.StudyModel;
-import uk.ac.ebi.metabolights.repository.model.Assay;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.Study;
@@ -90,6 +88,7 @@ public class MetabolightsWsClient {
 
 
     private String metabolightsJavaWsUrl = "https://www.ebi.ac.uk/metabolights/webservice/";
+    private String metabolightsPythonWsUrl = null;
     private static final String STUDY_PATH = "study/";
 
     private static final String STUDY_PATH_WS = "public/study/";
@@ -110,11 +109,7 @@ public class MetabolightsWsClient {
     }
 
     private MetabolightsWsClient(String metabolightsJavaWsUrl) {
-
-        if(metabolightsJavaWsUrl == null)
-            this.initializeEnvironmentVariables();
-        else
-            this.metabolightsJavaWsUrl = metabolightsJavaWsUrl;
+        this.initializeEnvironmentVariables();
     }
 
     private void initializeEnvironmentVariables() {
@@ -123,8 +118,8 @@ public class MetabolightsWsClient {
             initCtx = new InitialContext();
             Context envCtx = (Context) initCtx.lookup("java:comp/env");
             this.metabolightsJavaWsUrl = (String)envCtx.lookup("metabolightsJavaWsUrl");
+            this.metabolightsPythonWsUrl = (String)envCtx.lookup("metabolightsPythonWsUrl");
         } catch (NamingException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -138,17 +133,17 @@ public class MetabolightsWsClient {
     }
 
     private String makeRequest(String path, String method) {
-       return makeRequestSendingData(path,null,method);
+       return makeRequestSendingData(path,null,method, this.metabolightsJavaWsUrl);
     }
 
-    private String makeRequestSendingData(String path, Object dataToSend, String method) {
+    private String makeRequestSendingData(String path, Object dataToSend, String method, String host) {
 
         logger.debug("Making a {} request to {}", method,path);
 
         try {
 
             // Get a post connection
-            HttpURLConnection conn = getHttpURLConnection(this.metabolightsJavaWsUrl, path, method);
+            HttpURLConnection conn = getHttpURLConnection(host, path, method);
             if(dataToSend != null){
                 conn.setRequestProperty("content-type", "application/json");
             }
@@ -222,17 +217,19 @@ public class MetabolightsWsClient {
 
 
     private String makePostRequest(String path, Object data) {
-        return makeRequestSendingData(path, data, "POST");
+        return makeRequestSendingData(path, data, "POST", this.metabolightsJavaWsUrl);
     }
 
     private String makePutRequest(String path, Object data) {
-        return makeRequestSendingData(path, data, "PUT");
+        return makeRequestSendingData(path, data, "PUT", this.metabolightsJavaWsUrl);
     }
 
     private String makeGetRequest(String path) {
         return makeRequest(path, "GET");
     }
-
+    private String makePythonGetRequest(String path) {
+        return makeRequestSendingData(path,  null,  "GET", this.metabolightsPythonWsUrl);
+    }
     private HttpURLConnection getHttpURLConnection(String mtblsWsUrl, String path, String method) throws IOException {
         URL url;
         String base = mtblsWsUrl;
@@ -323,9 +320,10 @@ public class MetabolightsWsClient {
 
     public RestResponse<String[]> getAllStudyAcc() {
 
-        logger.debug("Getting all public study identifiers from the MetaboLights WS client");
+        logger.debug("Getting all public study identifiers from the MetaboLights Python WS client");
         // Make the request
-        String response = makeGetRequest(STUDY_LIST);
+        
+        String response = makePythonGetRequest(STUDY_LIST);
 
         return deserializeJSONString(response, String[].class);
 
@@ -333,10 +331,10 @@ public class MetabolightsWsClient {
 
     public RestResponse<String[]> getAllCompoundsAcc() {
 
-        logger.debug("Getting all public compound identifiers from the MetaboLights WS client");
+        logger.debug("Getting all public compound identifiers from the MetaboLights Python WS client");
         System.out.println(" getAllCompoundsAcc : " + COMPOUND_PATH + "list");
         // Make the request
-        String response = makeGetRequest(COMPOUND_PATH + "list");
+        String response = makePythonGetRequest(COMPOUND_PATH + "list");
 
         return deserializeJSONString(response, String[].class);
 
@@ -370,7 +368,7 @@ public class MetabolightsWsClient {
 
         String path =  str.toString();
         // Make the request
-        String response = makeRequestSendingData( path, null, "GET");
+        String response = makeRequestSendingData( path, null, "GET", this.metabolightsJavaWsUrl);
 
         return response;
     }

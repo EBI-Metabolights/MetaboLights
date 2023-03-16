@@ -22,8 +22,6 @@
 package uk.ac.ebi.metabolights.repository.dao.hibernate;
 
 import org.hibernate.Query;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -35,8 +33,6 @@ import java.util.Map;
  * Time: 10:44
  */
 public class Filter {
-
-	private static final Logger logger = LoggerFactory.getLogger(Filter.class);
 
 	Map<String,Object> fieldValuePairs = new HashMap<String,Object>();
 

@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.ChebiWebServiceFault_Exception;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.*;
-import uk.ac.ebi.metabolights.webservice.controllers.GenericCompoundWSController;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -21,13 +21,13 @@
 
 package uk.ac.ebi.metabolights.utils.sampletab;
 
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.isatools.isacreator.model.Contact;
-import org.isatools.isacreator.model.Investigation;
-import org.isatools.isacreator.model.Publication;
-import org.isatools.isacreator.model.Study;
-import org.slf4j.LoggerFactory;
+// import org.apache.commons.lang.StringUtils;
+// import org.slf4j.Logger;
+// import org.isatools.isacreator.model.Contact;
+// import org.isatools.isacreator.model.Investigation;
+// import org.isatools.isacreator.model.Publication;
+// import org.isatools.isacreator.model.Study;
+// import org.slf4j.LoggerFactory;
 // import uk.ac.ebi.arrayexpress2.sampletab.datamodel.SampleData;
 // import uk.ac.ebi.arrayexpress2.sampletab.datamodel.msi.Database;
 // import uk.ac.ebi.arrayexpress2.sampletab.datamodel.msi.Organization;
@@ -41,13 +41,13 @@ import org.slf4j.LoggerFactory;
 // import uk.ac.ebi.arrayexpress2.sampletab.renderer.SampleTabWriter;
 // import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+// import java.io.File;
+// import java.io.FileWriter;
+// import java.io.IOException;
+// import java.io.Writer;
+// import java.util.Iterator;
+// import java.util.List;
+// import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -57,13 +57,13 @@ import java.util.Map;
  */
 public class SampleTabExporter {
 
-    private final static Logger logger = LoggerFactory.getLogger(SampleTabExporter.class.getName());
-    private ISATabReader isaTabReader = new ISATabReader();
-    private SampleTabTools tools = new SampleTabTools();
-    private SampleTabUriResolver uriResolver = new SampleTabUriResolver();
+    // private final static Logger logger = LoggerFactory.getLogger(SampleTabExporter.class.getName());
+    // private ISATabReader isaTabReader = new ISATabReader();
+    // private SampleTabTools tools = new SampleTabTools();
+    // private SampleTabUriResolver uriResolver = new SampleTabUriResolver();
 
-    private String metaboLightsURL = "http://www.ebi.ac/uk/metabolights/";
-    private String[] subClassification = {"strain", "part", "family"};
+    // private String metaboLightsURL = "http://www.ebi.ac/uk/metabolights/";
+    // private String[] subClassification = {"strain", "part", "family"};
 
 
 

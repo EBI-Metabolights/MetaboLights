@@ -23,7 +23,6 @@ package uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel;
 
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.User;
-import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validation;
 
 /**
  * User: conesa

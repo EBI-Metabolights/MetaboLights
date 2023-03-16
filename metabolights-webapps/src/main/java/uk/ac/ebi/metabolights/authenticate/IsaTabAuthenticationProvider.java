@@ -21,10 +21,6 @@
 
 package uk.ac.ebi.metabolights.authenticate;
 
-import org.jose4j.jwt.JwtClaims;
-
-import org.jose4j.jwt.consumer.JwtConsumer;
-import org.jose4j.jwt.consumer.JwtConsumerBuilder;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,8 +62,7 @@ public class IsaTabAuthenticationProvider implements AuthenticationProvider {
      * @param auth Spring Authentication (via login form)
 	 */
 	@Override
-	public Authentication authenticate(Authentication auth)
-			throws AuthenticationException {
+	public Authentication authenticate(Authentication auth) throws AuthenticationException {
 
 		// username / password set?
 		if (auth.getCredentials()==null || auth.getCredentials().toString().equals("") || auth.getName()==null ||auth.getName().equals("") ) {

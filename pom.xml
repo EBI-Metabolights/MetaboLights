@@ -116,16 +116,21 @@
         </repository>
     </distributionManagement>
     <repositories>
+            <repository>
+            <id>chebi-repo-snapshot</id>
+            <name>ChEBI Repository</name>
+            <url>https://www.ebi.ac.uk/~biobabel/maven2_repo</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
         <repository>
             <id>ebi-repo</id>
             <name>The EBI repository</name>
             <url>https://www.ebi.ac.uk/~maven/m2repo</url>
+
         </repository>
-        <repository>
-            <id>chebi-repo-snapshot</id>
-            <name>ChEBI Repository</name>
-            <url>https://www.ebi.ac.uk/~biobabel/maven2_repo</url>
-        </repository>
+
         <repository>
             <id>chebi-snapshot-repo-snapshot</id>
             <name>ChEBI Repository</name>
@@ -134,22 +139,26 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-        <repository>
+        <!-- <repository>
             <id>codehaus-mule-repo</id>
             <name>codehaus-mule-repo</name>
             <url>https://repository-master.mulesoft.org/nexus/content/groups/public/</url>
             <layout>default</layout>
-        </repository>
+        </repository> -->
         <repository>
             <id>nexus-ebi-release-repo</id>
             <url>https://www.ebi.ac.uk/Tools/maven/repos/content/groups/ebi-repo/</url>
         </repository>
         <repository>
+            <id>maven repo</id>
+            <url>https://mvnrepository.com/artifact/</url>
+        </repository>
+        <!-- <repository>
             <id>stax-ex-fix</id>
             <name>fix-ebi-missing-repo</name>
             <url>https://mvnrepository.com/artifact/org.jvnet.staxex/stax-ex</url>
             <layout>default</layout>
-        </repository>
+        </repository> -->
         <repository>
             <id>limpopo-repo</id>
             <name>Limpopo Mini-SF Repository</name>
@@ -159,15 +168,15 @@
             <id>wso2</id>
             <url>https://dist.wso2.org/maven2/</url>
         </repository>
-        <repository>
+        <!-- <repository>
             <id>springsource-repo</id>
             <name>SpringSource Repository</name>
             <url>https://repo.springsource.org/release</url>
-        </repository>
-        <repository>
+        </repository> -->
+        <!-- <repository>
             <id>Springframework milestone</id>
             <url>https://maven.springframework.org/milestone</url>
-        </repository>
+        </repository> -->
         <repository>
             <id>JBoss Public Maven Repository Group</id>
             <url>https://repository.jboss.org/nexus/content/repositories/releases/</url>

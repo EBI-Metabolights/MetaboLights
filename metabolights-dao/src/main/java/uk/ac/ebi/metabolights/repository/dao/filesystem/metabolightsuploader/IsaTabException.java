@@ -21,8 +21,6 @@
 
 package uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader;
 
-import org.isatools.errorreporter.model.ISAFileErrorReport;
-
 import java.util.List;
 
 public class IsaTabException extends Exception{
@@ -30,10 +28,10 @@ public class IsaTabException extends Exception{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private List<ISAFileErrorReport> errors;
+	private List<Object> errors;
     private String msg;
 
-	public IsaTabException (String message, List<ISAFileErrorReport> errors){
+	public IsaTabException (String message, List<Object> errors){
 		super(message);
 		this.errors = errors;
         this.msg = message;
@@ -51,7 +49,7 @@ public class IsaTabException extends Exception{
         this.msg = message;
     }
 
-    public List<ISAFileErrorReport> getErrors(){
+    public List<Object> getErrors(){
 		return errors;
 	}
 	@Override
@@ -62,8 +60,8 @@ public class IsaTabException extends Exception{
     public String geTechnicalInfo(){
         StringBuffer logsStrBuffer = new StringBuffer();
 
-        for(ISAFileErrorReport error : errors){
-            logsStrBuffer.append(error.getProblemSummary().toString());
+        for(Object error : errors){
+            logsStrBuffer.append(error.toString());
             logsStrBuffer.append("\n");
         }
 

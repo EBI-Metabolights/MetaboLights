@@ -40,6 +40,17 @@
 
     <dependencies>
         <!--Other metabolights dependencies-->
+        <!-- <dependency>
+            <groupId>org.isatools</groupId>
+            <artifactId>import_layer_MTBLS_API</artifactId>
+            <version>1.1-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>uk.ac.ebi.bioinvindex</artifactId>
+                    <groupId>model_MTBLS</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency> -->
         <dependency>
             <groupId>org.isatools</groupId>
             <artifactId>ISAcreator-api</artifactId>
@@ -48,6 +59,14 @@
                 <exclusion>
                     <artifactId>com.springsource.org.apache.commons.io</artifactId>
                     <groupId>org.apache.commons</groupId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.isatools</groupId>
+                    <artifactId>ISAtabErrorReporter</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.isatools</groupId>
+                    <artifactId>import_layer_MTBLS_API</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -120,10 +139,16 @@
         </dependency>
     </dependencies>
     <repositories>
+            <repository>
+            <id>chebi-repo</id>
+            <name>ChEBI Repository</name>
+            <url>https://www.ebi.ac.uk/~biobabel/maven2_repo/</url>
+
+        </repository>
         <repository>
             <id>chebi-repo-snapshot</id>
             <name>ChEBI Repository</name>
-            <url>https://www.ebi.ac.uk/~biobabel/maven2_repo</url>
+            <url>https://www.ebi.ac.uk/~biobabel/maven2_repo/</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
@@ -135,11 +160,6 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-        <repository>
-            <id>codehaus-mule-repo</id>
-            <name>codehaus-mule-repo</name>
-            <url>https://repository-master.mulesoft.org/nexus/content/groups/public/</url>
-            <layout>default</layout>
-        </repository>
+        
     </repositories>
 </project>

@@ -29,7 +29,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.ModelAndView;
-import org.xmlsoap.schemas.soap.encoding.Boolean;
 
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -305,7 +304,6 @@ public class StyleMAVFactory {
 				reader = new BufferedReader(new FileReader(jsonConfig.getFile()));
 
 				StringBuilder stringBuilder = new StringBuilder();
-				String ls = System.getProperty("line.separator");
 
 				String line;
 				while ((line = reader.readLine()) != null) {

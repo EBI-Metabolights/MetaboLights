@@ -10,9 +10,13 @@ plugins {
 
 
 dependencies {
-    api("org.isatools:ISAcreator-api:1.7.7.2-SNAPSHOT")
+    api("org.isatools:ISAcreator-api:1.7.7.2-SNAPSHOT"){
+        exclude(group = "org.isatools", module = "ISAtabErrorReporter")
+        exclude(group = "org.isatools", module = "import_layer_MTBLS_API")
+    }
     api(project(":metabolights-domain"))
     api(project(":metabolights-isatab-utils"))
+
     api("org.hibernate:hibernate-core:4.3.8.Final")
     api("net.sourceforge.javacsv:javacsv:2.0")
     api("org.codehaus.jtstand:jtstand-sequence:1.2.1")

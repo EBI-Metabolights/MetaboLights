@@ -30,7 +30,7 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
 
     <context:component-scan base-package="uk.ac.ebi.metabolights" />
@@ -176,7 +176,7 @@
         </property>
         <property name="hibernateProperties">
             <props>
-                <!--<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>-->
+                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
                 <!--prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop-->
                 <!--<prop key="hibernate.search.default.indexBase">#{luceneIndexDirectoryShort}</prop>-->
             </props>
@@ -188,7 +188,8 @@
     <!--
     The security department
      -->
-    <sec:http use-expressions="true" auto-config='true'>
+    <sec:http use-expressions="true" disable-url-rewriting="false" auto-config='true'>
+        
         <sec:intercept-url pattern="/updatepublicreleasedate" access="isAuthenticated()" />
         <sec:intercept-url pattern="/updatepublicreleasedateform" access="isAuthenticated()" />
         <sec:intercept-url pattern="/updatestatus" access="isAuthenticated()" />
@@ -225,12 +226,14 @@
         <sec:intercept-url pattern="/login" access="permitAll"/>
         <sec:intercept-url pattern="/**" access="permitAll"/>
         <sec:logout logout-success-url="/loggedout" delete-cookies="JSESSIONID,jwt" />
-        <sec:form-login login-page='/login' authentication-failure-url="/login?login_error=1" default-target-url="/login-success"  />
+        <sec:form-login login-page='/login' authentication-failure-url="/login?error=1" default-target-url="/login-success"  />
+        <sec:csrf disabled="true"/>
+        <sec:headers disabled="true"/>
     </sec:http>
     <sec:authentication-manager>
-        <sec:authentication-provider ref="isaTabAuthenticationProv" />
+        <sec:authentication-provider ref="isaTabAuthenticationProvider" />
     </sec:authentication-manager>
-    <bean id="isaTabAuthenticationProv" class="uk.ac.ebi.metabolights.authenticate.IsaTabAuthenticationProvider"/>
+    <bean id="isaTabAuthenticationProvider" class="uk.ac.ebi.metabolights.authenticate.IsaTabAuthenticationProvider"/>
 
 
     <!--<jee:jndi-lookup id="mailpassword" jndi-name="java:comp/env/mailpassword"/>-->

@@ -49,7 +49,7 @@
                             <form:hidden path="email"/>
                             <form:hidden path="apiToken"/>
                             <form:hidden path="role"/>
-                            <sec:authorize ifNotGranted="ROLE_SUPER_USER" >
+                            <sec:authorize access="!hasRole('ROLE_SUPER_USER')" >
                                 <form:hidden path="status" />
                             </sec:authorize>
 

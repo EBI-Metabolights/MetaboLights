@@ -1,9 +1,5 @@
 package uk.ac.ebi.metabolights.webservice.client;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-
 /**
  * Created by venkata on 10/03/2016.
  */
@@ -12,11 +8,6 @@ public class MetExploreWsClient extends WsClient{
     private String metExploreWsUrl = "";
 
     private static final String GET = "GET";
-    private static final String POST = "POST";
-
-
-    private static final Logger logger = LoggerFactory.getLogger(WikipathwaysWsClient.class);
-
     public MetExploreWsClient(){}
 
     public MetExploreWsClient(String metExploreWsUrl) {
@@ -29,7 +20,7 @@ public class MetExploreWsClient extends WsClient{
 
     public String getPathwayMappings(String studyId){
 
-        String metExploreResponse = excuteRequest(getMetExplorePathwayMappingsUrl(studyId), null, this.GET);
+        String metExploreResponse = excuteRequest(getMetExplorePathwayMappingsUrl(studyId), null, GET);
 
         return metExploreResponse;
 

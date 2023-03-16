@@ -14,7 +14,7 @@ dependencies {
     api("org.apache.ws.commons.axiom:axiom-api:1.2.13")
     api("org.apache.ws.commons.axiom:axiom-impl:1.2.13")
     api("wsdl4j:wsdl4j:1.6.2")
-    api("org.apache.neethi:neethi:3.0.2")
+    api("org.apache.neethi:neethi:3.0.1")
     api("org.apache.axis2:axis2-transport-local:1.6.1")
     api("org.apache.axis2:axis2-transport-http:1.6.1")
     api("org.apache.ws.commons.schema:XmlSchema:1.4.7")

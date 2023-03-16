@@ -21,7 +21,31 @@
 package uk.ac.ebi.metabolights.webservice.controllers;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import javax.naming.NamingException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.Response;
+import javax.xml.namespace.QName;
+
 import org.jose4j.json.internal.json_simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,10 +53,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import uk.ac.ebi.chebi.webapps.chebiWS.client.ChebiWebServiceClient;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.ChebiWebServiceFault_Exception;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.Entity;
-import uk.ac.ebi.metabolights.referencelayer.DAO.db.*;
+import uk.ac.ebi.metabolights.referencelayer.DAO.db.CrossReferenceDAO;
+import uk.ac.ebi.metabolights.referencelayer.DAO.db.DatabaseDAO;
+import uk.ac.ebi.metabolights.referencelayer.DAO.db.MetSpeciesDAO;
+import uk.ac.ebi.metabolights.referencelayer.DAO.db.MetaboLightsCompoundDAO;
+import uk.ac.ebi.metabolights.referencelayer.DAO.db.SpeciesDAO;
 import uk.ac.ebi.metabolights.referencelayer.model.CrossReference;
 import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
 import uk.ac.ebi.metabolights.referencelayer.model.Species;
@@ -42,10 +73,19 @@ import uk.ac.ebi.metabolights.repository.dao.filesystem.MetExploreDAO;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.MzTabDAO;
 import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.IsaTabException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
-import uk.ac.ebi.metabolights.repository.model.*;
+import uk.ac.ebi.metabolights.repository.model.AppRole;
+import uk.ac.ebi.metabolights.repository.model.Assay;
+import uk.ac.ebi.metabolights.repository.model.Backup;
+import uk.ac.ebi.metabolights.repository.model.LiteStudy;
+import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
+import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignmentLine;
+import uk.ac.ebi.metabolights.repository.model.Study;
+import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.repository.model.studyvalidator.Validations;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
+import uk.ac.ebi.metabolights.repository.utils.FileAuditUtil;
 import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
+import uk.ac.ebi.metabolights.webservice.client.MetExploreWsClient;
 import uk.ac.ebi.metabolights.webservice.models.StudyRestResponse;
 import uk.ac.ebi.metabolights.webservice.services.AppContext;
 import uk.ac.ebi.metabolights.webservice.services.EmailService;
@@ -54,22 +94,6 @@ import uk.ac.ebi.metabolights.webservice.services.UserServiceImpl;
 import uk.ac.ebi.metabolights.webservice.utils.FileUtil;
 import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
 import uk.ac.ebi.metabolights.webservice.utils.SecurityUtil;
-
-import javax.naming.NamingException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.Response;
-import javax.xml.namespace.QName;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 @Controller
 @RequestMapping("study")
@@ -782,21 +806,6 @@ public class StudyController extends BasicController{
 		return new RestResponse<MetaboliteAssignment>(getMAFContentFromAssay(response,assayIndex));
 	}
 
-
-	private boolean checkFileExists(String filePath){
-
-		if (filePath == null || filePath.isEmpty())
-			return false;        // No filename given
-
-		File mafFile = new File(filePath);
-
-		if (mafFile.exists())
-			return true;
-
-		return false;
-
-	}
-
 	/**
 	 * To update the status of a study.
 	 * @param studyIdentifier
@@ -1380,7 +1389,7 @@ public class StudyController extends BasicController{
 
         MetExploreDAO metexploredao = new MetExploreDAO();
 
-        String MetExplorePathwaysMAppingData = metexploredao.getMetExploreJSONData(MetExploreJSONFileName, studyIdentifier);
+        String MetExplorePathwaysMAppingData = this.getMetExploreJSONData(MetExploreJSONFileName, studyIdentifier);
 
         response.setContent(MetExplorePathwaysMAppingData);
 
@@ -1389,6 +1398,67 @@ public class StudyController extends BasicController{
 		return response;
 	}
 
+	public String getMetExploreJSONData(String MetExploreJSONFileName, String studyid){
+
+        String metExploreJSONData = "";
+
+        if (checkFileExists(MetExploreJSONFileName)){
+
+            try {
+
+                metExploreJSONData = FileUtil.file2String(MetExploreJSONFileName);
+
+            } catch (IOException e) {
+
+                e.printStackTrace();
+
+            }
+
+            logger.info(" MetExploreJSON File Name - Found: " + MetExploreJSONFileName);
+
+        }else{
+
+            return generateMetExploreJSONFile(studyid, MetExploreJSONFileName);
+
+
+        }
+
+        return metExploreJSONData;
+    }
+
+    private String generateMetExploreJSONFile(String studyid, String MetExploreJSONFileName){
+
+        MetExploreWsClient meWsClient = new MetExploreWsClient();
+
+        String mapping = meWsClient.getPathwayMappings(studyid);
+
+        try {
+
+            FileUtil.String2File(mapping, MetExploreJSONFileName, false);
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        }
+
+        return mapping;
+
+    }
+
+    private Boolean checkFileExists(String assignmentFileName){
+
+        if (assignmentFileName == null || assignmentFileName.isEmpty())
+            return false;        // No filename given
+
+        File f = new File(assignmentFileName);
+
+        if(f.exists())
+            return true;        // Found the file
+
+        return false;           // Did not find the file
+
+    }
 
 
     /**

@@ -1,11 +1,8 @@
 package uk.ac.ebi.metabolights.webservice.controllers;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpStatus;
-import org.apache.http.protocol.HTTP;
 import org.jose4j.json.internal.json_simple.JSONArray;
 import org.jose4j.json.internal.json_simple.parser.JSONParser;
 import org.jose4j.json.internal.json_simple.parser.ParseException;
@@ -21,7 +18,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.*;
 import uk.ac.ebi.metabolights.repository.model.*;
 import org.springframework.stereotype.Controller;
@@ -409,8 +405,6 @@ public class LabsWorkspaceController {
     @RequestMapping(value = "settings", method = RequestMethod.POST)
     @ResponseBody
     public RestResponse<String> getWorkspaceSettings(@RequestBody String data, HttpServletResponse response) throws IOException {
-
-        String error = "";
 
         RestResponse<String> restResponse = new RestResponse<>();
 

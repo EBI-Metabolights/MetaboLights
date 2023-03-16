@@ -19,16 +19,12 @@ repositories {
         url = uri("https://www.ebi.ac.uk/~biobabel/maven2_repo")
     }
 
-    maven {
-        url = uri("https://repository-master.mulesoft.org/nexus/content/groups/public/")
-    }
+    // maven {
+    //     url = uri("https://repository-master.mulesoft.org/nexus/content/groups/public/")
+    // }
 
     maven {
         url = uri("https://www.ebi.ac.uk/Tools/maven/repos/content/groups/ebi-repo/")
-    }
-
-    maven {
-        url = uri("https://mvnrepository.com/artifact/org.jvnet.staxex/stax-ex")
     }
 
     maven {
@@ -37,14 +33,6 @@ repositories {
 
     maven {
         url = uri("https://dist.wso2.org/maven2/")
-    }
-
-    maven {
-        url = uri("https://repo.springsource.org/release")
-    }
-
-    maven {
-        url = uri("https://maven.springframework.org/milestone")
     }
 
     maven {
@@ -82,7 +70,7 @@ dependencies {
 
 configurations.all {
   resolutionStrategy {
-    force("org.jvnet.staxex:stax-ex:1.7.7")
+    force("org.jvnet.staxex:stax-ex:1.7.8")
   }
 }
 
@@ -90,8 +78,8 @@ group = "uk.ac.ebi.metabolights"
 version = "3.0"
 // java.sourceCompatibility = JavaVersion.VERSION_1_7
 // java.targetCompatibility = JavaVersion.VERSION_1_7
-java.sourceCompatibility = JavaVersion.VERSION_1_7
-java.targetCompatibility = JavaVersion.VERSION_1_7
+java.sourceCompatibility = JavaVersion.VERSION_1_8
+java.targetCompatibility = JavaVersion.VERSION_1_8
 
 publishing {
     publications.create<MavenPublication>("maven") {

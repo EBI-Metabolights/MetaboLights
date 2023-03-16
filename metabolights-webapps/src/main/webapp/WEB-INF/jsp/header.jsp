@@ -44,14 +44,13 @@
 	</div>
 
 	<div class="loggedInAsBox">
-			<%-- <sec:authorize ifAnyGranted="ROLE_SUBMITTER">		
 			<ul id="sddm">	       		
 			  <li><a href="<spring:url value="mysubmissions"/>" onmouseover="mopen('m2')"onmouseout="mclosetime()">
 			  			<sec:authentication property="principal.firstName" /><span class="smallArrow"></span></a>
 				 <div id="m2" onmouseover="mcancelclosetime()" onmouseout="mclosetime()">
 					<a href="<spring:url value="mysubmissions"/>"><spring:message code="menu.myStudies"/></a> 
 					<a href="<spring:url value="myAccount"/>"><spring:message code="menu.myAccount"/></a>  
-					<a href="<spring:url value="/j_spring_security_logout"/>"><spring:message code="menu.logout"/></a> 
+					<a href="<spring:url value="/logout"/>"><spring:message code="menu.logout"/></a> 
 				 </div>  
 			   </li>
 			</ul>   
@@ -60,25 +59,11 @@
 
  
 	<ul id="sddm">
-        <sec:authorize ifNotGranted="ROLE_SUBMITTER" >
+        <sec:authorize access="!hasRole('ROLE_SUBMITTER')" >
           <li><a href="login"><spring:message code="menu.login"/><br/>&nbsp;</a></li>
         </sec:authorize>
-        <sec:authorize ifAnyGranted="ROLE_SUBMITTER">
+        <sec:authorize access="hasRole('ROLE_SUBMITTER')">
 			<ul id="sddm">
-			  <%--<li><a href="<spring:url value="mysubmissions"/>" onmouseover="mopen('m2')"onmouseout="mclosetime()">--%>
-                    <sec:authentication property="principal.firstName" /><span class="smallArrow"></span></a>
-				 <%--<div id="m2" onmouseover="mcancelclosetime()" onmouseout="mclosetime()">--%>
-					<%--<a href="<spring:url value="mysubmissions"/>"><spring:message code="menu.myStudies"/></a>--%>
-					<%--<a href="<spring:url value="myAccount"/>"><spring:message code="menu.myAccount"/></a>--%>
-					<%--<a href="<spring:url value="/j_spring_security_logout"/>"><spring:message code="menu.logout"/></a>--%>
-					<%--<sec:authorize ifAnyGranted="ROLE_SUPER_USER">--%>
-						<%--<a href="<spring:url value="/config"/>"><spring:message code="menu.config"/></a>--%>
-						<%--<a href="<spring:url value="/users"/>"><spring:message code="menu.users"/></a>--%>
-						<%--<a href="<spring:url value="/ebeyehelp"/>"><spring:message code="menu.Ebeye"/></a>--%>
-					<%--</sec:authorize>--%>
-					<%----%>
-				 <%--</div>--%>
-			   <%--</li>--%>
 			</ul>
 		</sec:authorize>
 

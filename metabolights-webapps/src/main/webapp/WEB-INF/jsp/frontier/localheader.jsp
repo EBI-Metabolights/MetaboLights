@@ -37,11 +37,11 @@
 
 <c:if test="${pageContext.request.serverName!='www.ebi.ac.uk'}" >
     <script>
-        $("h1 a").css({ 'color': 'yellow'}).html("MetaboLights DEV");
+        $("h1 a").css({ 'color': 'yellow'}).html("${pageContext.request.serverName}");
     </script>
 </c:if>
 
-<sec:authorize ifAnyGranted="ROLE_SUBMITTER">
+<sec:authorize access="hasRole('ROLE_SUBMITTER')">
 	<script>
 		$loginA = $('[href="/metabolights/login"]');
 		$loginA.html('<sec:authentication property="principal.firstName" />');

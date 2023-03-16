@@ -51,9 +51,9 @@
                     <p class="error"><strong><spring:message code="msg.submHeader"/></strong></p>
                 </c:if>
 
-                <form name="loginForm" action="<c:url value='j_spring_security_check'/>" method="post">
+                <form name="loginForm" action="<c:url value='login'/>" method="post">
 
-                    <c:if test="${not empty param.login_error}">
+                    <c:if test="${not empty param.error}">
                         <p class="error">
                             <!-- Your login attempt was not successful, try again.<br/>-->
                             <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>
@@ -62,12 +62,12 @@
 
                     <div class="form-group">
                         <label><spring:message code="label.email"></spring:message><sup>*</sup></label>
-                        <input class="form-control" type='text' name='j_username'/>
+                        <input class="form-control" type='text' name='username'/>
                     </div>
 
                     <div class="form-group">
                         <label><spring:message code="label.password" /><sup>*</sup></label>
-                        <input class="form-control" type='password' name='j_password'/>
+                        <input class="form-control" type='password' name='password'/>
                     </div>
 
                     <div class="form-group">

@@ -29,8 +29,6 @@ import uk.ac.ebi.chebi.webapps.chebiWS.model.ChebiWebServiceFault_Exception;
 import uk.ac.ebi.chebi.webapps.chebiWS.model.Entity;
 import uk.ac.ebi.metabolights.referencelayer.DAO.db.*;
 import uk.ac.ebi.metabolights.referencelayer.model.*;
-import uk.ac.ebi.metabolights.repository.dao.filesystem.MetCompoundDAO;
-import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
 
 import java.util.Collection;
 import java.util.List;

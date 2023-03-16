@@ -11,7 +11,7 @@ plugins {
 dependencies {
     api("net.sf.opencsv:opencsv:2.1")
     api("uk.ac.ebi.pride:jmztab:2.1.8")
-    api("net.sf.jni-inchi:jni-inchi:0.7")
+    api("net.sf.jni-inchi:jni-inchi:0.8")
     api(project(":metabolights-dao"))
 }
 
