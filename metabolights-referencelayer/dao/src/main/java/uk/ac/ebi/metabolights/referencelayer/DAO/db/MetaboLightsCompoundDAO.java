@@ -386,7 +386,7 @@ public class MetaboLightsCompoundDAO implements IMetaboLightsCompoundDAO{
 	 */
 	private void insert(MetaboLightsCompound compound)	throws DAOException {
 		try {
-			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.compound", new String[]{"id"}, (Object)null);       //ID and id are not the same if you use quotes when creating a table
+			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.compound", new String[]{"id"}, null);       //ID and id are not the same if you use quotes when creating a table
 			stm.clearParameters();
 			stm.setString(1, compound.getAccession());
 			stm.setString(2, compound.getName());

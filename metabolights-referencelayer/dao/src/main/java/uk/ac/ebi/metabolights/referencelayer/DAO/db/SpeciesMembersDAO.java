@@ -206,7 +206,7 @@ public class SpeciesMembersDAO extends AbstractDAO implements ISpeciesMembersDAO
 	 */
 	private void insert(SpeciesMembers speciesMember) throws DAOException {
 		try {
-			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.speciesmembers", new String[]{"id"}, (Object)null);
+			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.speciesmembers", new String[]{"id"}, null);
 			stm.clearParameters();
 			stm.setLong(1, speciesMember.getSpeciesGroup().getId());
 			stm.setString(2, speciesMember.getTaxon());

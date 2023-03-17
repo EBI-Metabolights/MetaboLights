@@ -131,7 +131,7 @@ public class StyleMAVFactory {
 		HttpURLConnection conn = null;
 
 		String response= "";
-
+		OutputStream os = null;
 		try {
 
 
@@ -141,11 +141,8 @@ public class StyleMAVFactory {
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
 
-
-
-			OutputStream os = conn.getOutputStream();
+			os = conn.getOutputStream();
 			os.write(jsonObject.getBytes());
-			os.flush();
 
 			if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
 				throw new RuntimeException("Failed : HTTP error code : "
@@ -161,13 +158,20 @@ public class StyleMAVFactory {
 			while ((output = br.readLine()) != null) {
 				response = response + output;
 			}
-
-
-
 		}catch (Exception ex) {
 			// handle exception here
+			ex.printStackTrace();
 		} finally {
-			if (conn != null) conn.disconnect();
+			try {
+				if (os != null) {
+					os.close();
+				}
+				if (conn != null) conn.disconnect();
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+
+
 		}
 
 

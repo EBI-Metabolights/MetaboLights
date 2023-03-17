@@ -223,7 +223,7 @@ public class SpeciesGroupDAO extends AbstractDAO implements ISpeciesGroupDAO {
 	 */
 	private void insert(SpeciesGroup spg) throws DAOException {
 		try {
-			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.speciesgroup", new String[]{"id"}, (Object)null);
+			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.speciesgroup", new String[]{"id"}, null);
 			stm.clearParameters();
 			stm.setString(1, spg.getName());
 			stm.setLong(2,spg.getParentId());

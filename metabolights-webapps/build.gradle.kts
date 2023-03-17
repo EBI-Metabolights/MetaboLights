@@ -20,7 +20,7 @@ dependencies {
     api(project(":metabolights-isatab-utils"))
     api(project(":referencelayer-importer"))
     api("org.json:json:20090211")
-    api("org.apache.logging.log4j:log4j-web:2.16.0")
+    api("org.apache.logging.log4j:log4j-web:2.17.2")
     api("org.slf4j:jcl-over-slf4j:1.7.0")
     api("org.springframework:spring-context:4.3.30.RELEASE")
     api("org.springframework:spring-aop:4.3.30.RELEASE")

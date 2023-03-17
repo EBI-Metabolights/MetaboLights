@@ -245,7 +245,7 @@ public class SpeciesDAO extends AbstractDAO implements ISpeciesDAO{
 	 */
 	private void insert(Species sp) throws DAOException {
 		try {
-			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.species", new String[]{"id"}, (Object)null);
+			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.species", new String[]{"id"}, null);
 			stm.clearParameters();
 			stm.setString(1, sp.getSpecies());
             stm.setString(2, sp.getDescription());

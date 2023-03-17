@@ -63,9 +63,22 @@ public class GenericCompoundWSClients {
 
             if (method.equalsIgnoreCase("post")) {
                 if (!postBody.isEmpty()) {
-                    OutputStream os = connection.getOutputStream();
-                    os.write(postBody.getBytes());
-                    os.flush();
+                    OutputStream os = null;
+                    try {
+                        os = connection.getOutputStream();
+                        os.write(postBody.getBytes());
+                        os.flush();
+                    } finally {
+                        try {
+                            if (os != null) {
+                                os.close();
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        
+                    }
+
                 }
             }
             logger.info(requestURL + " " + method + " " + postBody);

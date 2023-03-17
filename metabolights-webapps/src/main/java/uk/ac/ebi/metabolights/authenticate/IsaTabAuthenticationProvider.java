@@ -114,6 +114,8 @@ public class IsaTabAuthenticationProvider implements AuthenticationProvider {
 	}
 
 	public static HttpURLConnection getPostConnection(String authPath, String body) throws Exception {
+		OutputStreamWriter out = null;
+		HttpURLConnection conn = null;
 		try {
 			String wsPrefix = PropertiesUtil.getProperty("metabolightsPythonWsUrl");
 			URL url = null;
@@ -124,19 +126,27 @@ public class IsaTabAuthenticationProvider implements AuthenticationProvider {
 				url = new URL(wsPrefix + "/" + authPath);
 			}
 
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Accept", "application/json");
 			conn.setRequestProperty("content-type", "application/json");
 			conn.setDoOutput(true);
-			OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
+			out = new OutputStreamWriter(conn.getOutputStream());
 			out.write(body);
-			out.close();
-			return conn;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
+		} finally {
+			try {
+				if (out != null) {
+					out.close();
+				}
+			}catch (Exception e){
+				e.printStackTrace();
+			}
 		}
+
+		return conn;
 	}
 
 	public static HttpURLConnection getGetConnection(String path) throws Exception {

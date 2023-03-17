@@ -10,6 +10,7 @@ plugins {
 
 dependencies {
     api(project(":metabolights-domain"))
+    api("commons-io:commons-io:2.7")
     api("com.fasterxml.jackson.core:jackson-core:2.8.9")
     api("com.fasterxml.jackson.core:jackson-databind:2.8.9")
     api(project(":search-service"))

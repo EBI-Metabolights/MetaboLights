@@ -12,7 +12,7 @@ dependencies {
     api(project(":metabolights-domain"))
     api("uk.ac.ebi.rhea:rhea-ws-client:2.0.0")
     api("uk.ac.ebi.biobabel:biobabel-db:1.3.7")
-    api("org.apache.logging.log4j:log4j-1.2-api:2.16.0")
+    api("org.apache.logging.log4j:log4j-api:2.17.2")
     api("org.postgresql:postgresql:9.4-1200-jdbc41")
     api("com.googlecode.lambdaj:lambdaj:2.3")
 }

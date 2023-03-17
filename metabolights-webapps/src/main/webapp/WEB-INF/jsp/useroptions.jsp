@@ -161,13 +161,18 @@
         $('#redirectToMyStudiesPage').click(function(){
             metabolightsEditorUrl = "${metabolightsEditorUrl}";
             metabolightsPythonWsUrl = "${metabolightsPythonWsUrl}";
-
-            jwt = localStorage.getItem("jwt");
+            jwt = getCookie("jwt");
+            
             if (jwt == null){
                 jwt = getCookie("jwt");
+                
             }
             if(jwt != null && jwt != ''){
-                localStorage.setItem('jwt', jwt);
+                localJwt = localStorage.getItem("jwt");
+                if (jwt != localJwt){
+                    localStorage.setItem('jwt', jwt);
+                }
+                
                 axios.get(metabolightsPythonWsUrl + "/auth/create-onetime-token", { headers: { "Authorization" : "Bearer " + jwt}}).then(response => {
                     loginOneTimeToken = response.data.one_time_token;
                     if (loginOneTimeToken != null){
@@ -175,7 +180,13 @@
                     } else {
                         window.open(metabolightsEditorUrl, 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
                     }
-                });
+                }).catch((error) => { 
+                    if (error.response && error.response.status == 401) {
+                        localStorage.removeItem("jwt");
+                    } 
+                    window.open(metabolightsEditorUrl, 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+                  });
+                ;
             } else {
                 window.open(metabolightsEditorUrl, 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
             }

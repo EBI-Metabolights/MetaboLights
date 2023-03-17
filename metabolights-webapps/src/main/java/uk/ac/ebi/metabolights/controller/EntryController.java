@@ -139,8 +139,8 @@ import javax.servlet.http.HttpServletRequest;
             }
             final MetaboliteAssignment metaboliteAssignment = (MetaboliteAssignment)response.getContent();
             final ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("metabolitesIdentified");
-            mav.addObject("metaboliteAssignment", (Object)metaboliteAssignment);
-            mav.addObject("assayNumber", (Object)assayNumber);
+            mav.addObject("metaboliteAssignment", metaboliteAssignment);
+            mav.addObject("assayNumber", assayNumber);
             return mav;
         }
          

@@ -6,6 +6,7 @@
 
 plugins {
     id("uk.ac.ebi.metabolights.java-conventions")
+    id("project-report")
     war
 }
 
@@ -13,7 +14,7 @@ dependencies {
     api(project(":metabolights-dao"))
     api(project(":metabolights-referencelayer-dao"))
     api(project(":service-es"))
-    api("org.apache.logging.log4j:log4j-web:2.16.0")
+    api("org.apache.logging.log4j:log4j-web:2.17.2")
     api("org.bitbucket.b_c:jose4j:0.4.4")
     api("org.springframework:spring-context:4.3.30.RELEASE")
     api("org.springframework:spring-webmvc:4.3.30.RELEASE")
@@ -36,7 +37,7 @@ dependencies {
     api("com.univocity:univocity-parsers:2.2.0")
     api("org.apache.httpcomponents:httpclient:4.3.5")
     api("uk.ac.ebi.chebi.webapps.chebiWS.client:chebiWS-client:2.3.2")
-    runtimeOnly("org.apache.axis2:axis2-transport-http:1.6.1")
+    runtimeOnly("org.apache.axis2:axis2-transport-http:1.6.4")
     providedCompile("javax.servlet:servlet-api:2.5")
     providedCompile("org.apache.tomcat:catalina:6.0.35")
 }

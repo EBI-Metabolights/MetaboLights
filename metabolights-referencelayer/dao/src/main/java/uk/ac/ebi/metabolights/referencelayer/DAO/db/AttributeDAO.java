@@ -233,7 +233,7 @@ public class AttributeDAO extends AbstractDAO implements IAttributeDAO{
 	 */
 	private void insert(Attribute attribute, Long spectraId, Long pathwayId) throws DAOException {
 		try {
-			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.attribute", new String[]{"id"}, (Object)null);
+			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.attribute", new String[]{"id"}, null);
 			stm.clearParameters();
             stm.setLong(1, attribute.getAttributeDefinition().getId());
 

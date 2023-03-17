@@ -167,7 +167,7 @@ public class MetSpeciesDAO extends AbstractDAO implements IMetSpeciesDAO{
 	 */
 	private void insert(Species species, MetaboLightsCompound compound, CrossReference crossReference) throws DAOException {
 		try {
-			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.metspecies", new String[]{"id"}, (Object)null);
+			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.metspecies", new String[]{"id"}, null);
 			stm.clearParameters();
 			stm.setLong(1,compound.getId());
 			stm.setLong(2, species.getId());
@@ -252,7 +252,7 @@ public class MetSpeciesDAO extends AbstractDAO implements IMetSpeciesDAO{
 	 */
 	private void insert(MetSpecies metSpecies, MetaboLightsCompound compound) throws DAOException {
 		try {
-			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.metspecies", new String[]{"id"}, (Object)null);
+			PreparedStatement stm = sqlLoader.getPreparedStatement("--insert.metspecies", new String[]{"id"}, null);
 			stm.clearParameters();
             stm.setLong(1,compound.getId());
             stm.setLong(2, metSpecies.getSpecies().getId());

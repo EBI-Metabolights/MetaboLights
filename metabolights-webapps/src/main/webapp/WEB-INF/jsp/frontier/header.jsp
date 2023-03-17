@@ -185,15 +185,6 @@
                 <script>
                     $('[href="analysis"]').hide();
                 </script>
-            <%--<nav class="navbar navbar-dark">--%>
-                <%--<ul class="nav navbar-nav">--%>
-
-                <%--</ul>--%>
-                <%--<ul class="nav navbar-nav navbar-right">--%>
-                    <%--<li><a href="//www.ebi.ac.uk/about">Submit Study</a></li>--%>
-                    <%--<li><a href="//www.ebi.ac.uk/about">Login</a></li>--%>
-                <%--</ul>--%>
-            <%--</nav>--%>
         </div>
     </div>
 </div>
@@ -201,7 +192,7 @@
     var subDomain = window.location.host.split('.')[0]
     if(subDomain != 'www'){
         var brand = document.getElementById("mlLogo")
-        brand.innerHTML = "MetaboLights ${pageContext.request.serverName}";
+        brand.innerHTML = "MetaboLights ${pageContext.request.serverName}  ${pageContext.request.serverName}" ;
         brand.style.color = "yellow";
         brand.style.fontWeight = "300";
     }

@@ -111,15 +111,16 @@
     <jee:jndi-lookup id="localHeaderURL"            jndi-name="java:comp/env/localHeaderURL" />
     <jee:jndi-lookup id="footerURL"                 jndi-name="java:comp/env/footerURL" />
     <jee:jndi-lookup id="mailServer"		        jndi-name="java:comp/env/mailServer"/>
+    <jee:jndi-lookup id="mailServerPort"		    jndi-name="java:comp/env/mailServerPort"/>
     <jee:jndi-lookup id="EBIHost"		            jndi-name="java:comp/env/EBIHost"/>
     <jee:jndi-lookup id="curationEmailAddress"		jndi-name="java:comp/env/curationEmailAddress"/>
     <jee:jndi-lookup id="BccPivotalEmailAddress"    jndi-name="java:comp/env/BccPivotalEmailAddress"/>
-    <jee:jndi-lookup id="staticHeaderFooter"    jndi-name="java:comp/env/staticHeaderFooter"/>
-    <jee:jndi-lookup id="userSpace" jndi-name="java:comp/env/userSpace"/>
-    <jee:jndi-lookup id="OrcidClaimServiceURL" jndi-name="java:comp/env/OrcidClaimServiceURL"/>
-    <jee:jndi-lookup id="OrcidLinkServiceURL" jndi-name="java:comp/env/OrcidLinkServiceURL"/>
-    <jee:jndi-lookup id="OrcidRetreiveClaimsURL" jndi-name="java:comp/env/OrcidRetreiveClaimsURL"/>
-    <jee:jndi-lookup id="queueFolder"                 jndi-name="java:comp/env/queueFolder" />
+    <jee:jndi-lookup id="staticHeaderFooter"        jndi-name="java:comp/env/staticHeaderFooter"/>
+    <jee:jndi-lookup id="userSpace"                 jndi-name="java:comp/env/userSpace"/>
+    <jee:jndi-lookup id="OrcidClaimServiceURL"      jndi-name="java:comp/env/OrcidClaimServiceURL"/>
+    <jee:jndi-lookup id="OrcidLinkServiceURL"       jndi-name="java:comp/env/OrcidLinkServiceURL"/>
+    <jee:jndi-lookup id="OrcidRetreiveClaimsURL"    jndi-name="java:comp/env/OrcidRetreiveClaimsURL"/>
+    <jee:jndi-lookup id="queueFolder"                jndi-name="java:comp/env/queueFolder" />
 
     <jee:jndi-lookup id="elasticsearchServerHost" jndi-name="java:comp/env/elasticsearchServerHost"/>
     <jee:jndi-lookup id="elasticsearchServerPort" jndi-name="java:comp/env/elasticsearchServerPort"/>
@@ -240,7 +241,12 @@
 
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 
-        <property name="host"><value>#{mailServer}</value></property>
+        <property name="host">
+           <jee:jndi-lookup id="mailServer" jndi-name="java:comp/env/mailServer" />
+        </property>
+        <property name="port">
+            <jee:jndi-lookup id="mailServerPort" jndi-name="java:comp/env/mailServerPort"/>
+        </property>
 
         <!-- Gmail email settings -->
         <!--<property name="port"><value>587</value></property>-->
