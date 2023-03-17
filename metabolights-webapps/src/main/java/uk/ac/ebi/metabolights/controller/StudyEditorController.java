@@ -22,6 +22,10 @@ public class StudyEditorController extends AbstractController {
         String path = request.getRequestURI().replace(contextPath, "").replace("/editor", "");
 
         String url = EntryController.getMetabolightsEditorUrl() + path;
+        return addLoginToken(url, redirectView, path);
+    }
+
+    private RedirectView addLoginToken(String url, RedirectView redirectView, String path) {
         try {
             MetabolightsUser user = LoginController.getLoggedUser();
             if(user != null && user.getJwtToken() != null){
@@ -45,7 +49,8 @@ public class StudyEditorController extends AbstractController {
         RedirectView redirectView = new RedirectView();
         String contextPath = request.getServletContext().getContextPath();
         String path = request.getRequestURI().replace(contextPath, "");
-        redirectView.setUrl(EntryController.getMetabolightsEditorUrl() + path);
-        return redirectView;
+        String url = EntryController.getMetabolightsEditorUrl() + path;
+
+        return addLoginToken(url, redirectView, path);
     }
 }

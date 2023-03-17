@@ -278,6 +278,7 @@
         <put-attribute name="body" value="/WEB-INF/jsp/importmetabolitesstatus.jsp" />
     </definition>
 
+    <definition name="live" template="/WEB-INF/jsp/live.jsp"/>
     <!-- Standard search pages: JSP-->
     <definition name="search" extends="default">
         <put-attribute name="title" value="Search" />

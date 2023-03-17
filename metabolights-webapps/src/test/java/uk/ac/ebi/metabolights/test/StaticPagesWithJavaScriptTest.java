@@ -361,8 +361,8 @@ public class StaticPagesWithJavaScriptTest extends WebTestCase {
 			//Test the login form
 			System.out.println( "Testing login at '"+baseUrl+loginUrl+" for "+userName);
 
-			setTextField("j_username", userName);
-	        setTextField("j_password", password);
+			setTextField("username", userName);
+	        setTextField("password", password);
 	        submit(); // submit the form 
 
 

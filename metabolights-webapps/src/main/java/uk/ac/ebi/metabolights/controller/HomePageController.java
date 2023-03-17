@@ -66,6 +66,15 @@ public class HomePageController extends AbstractController{
     /**
      * Controller for a browse (empty search) request
      */
+    @RequestMapping(value = "/live")
+    public ModelAndView isAlive(@RequestParam(required = false, value = "message") String message, HttpServletRequest request) {
+	
+	    return AppContext.getMAVFactory().getFrontierMav("live");
+    }
+
+    /**
+     * Controller for a browse (empty search) request
+     */
     @RequestMapping(value = "/index")
     public ModelAndView homePage(@RequestParam(required = false, value = "message") String message, HttpServletRequest request) {
         MetabolightsUser user = null;
