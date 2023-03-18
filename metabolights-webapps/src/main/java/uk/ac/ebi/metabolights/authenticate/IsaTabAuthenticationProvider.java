@@ -20,19 +20,23 @@
  */
 
 package uk.ac.ebi.metabolights.authenticate;
-
+import uk.ac.ebi.metabolights.authenticate.AppRole;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
-import uk.ac.ebi.metabolights.service.UserService;
+import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
+import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -49,12 +53,10 @@ import java.util.Base64;
  * @author Mark Rijnbeek
  */
 @Service
+@Component
 public class IsaTabAuthenticationProvider implements AuthenticationProvider {
 
 	private static Logger logger = LoggerFactory.getLogger(IsaTabAuthenticationProvider.class);
-
-	@Autowired
-	private UserService userService;
 
 	/**
 	 * Authenticates a user following Spring's security framework.
@@ -68,27 +70,75 @@ public class IsaTabAuthenticationProvider implements AuthenticationProvider {
 		if (auth.getCredentials()==null || auth.getCredentials().toString().equals("") || auth.getName()==null ||auth.getName().equals("") ) {
 			throw new org.springframework.security.authentication.BadCredentialsException(PropertyLookup.getMessage("msg.reqFieldMissing"));
 		}
-		
-		// Does user exist?
-		MetabolightsUser mtblUser = userService.lookupByUserName(auth.getName());
-		if (mtblUser == null)
-			throw new org.springframework.security.authentication.InsufficientAuthenticationException(PropertyLookup.getMessage("msg.incorrUserPw"));
+		RestResponse<MetabolightsUser> response = null;
+		MetabolightsUser mtblUser = null;
+		try {
+			response = this.authenticate(auth.getName(), auth.getCredentials().toString());
+			if (response != null && response.getContent() == null){
+				if ( response.getMessage().startsWith("Invalid user or credential")){
+					throw new InsufficientAuthenticationException(PropertyLookup.getMessage("msg.incorrUserPw"));
+				}
+				if (response.getMessage().startsWith("Invalid user status")){
+					throw new InsufficientAuthenticationException(PropertyLookup.getMessage("msg.accountInactive"));
+				}
+				if (response.getMessage().startsWith("Invalid user role")){
+					throw new InsufficientAuthenticationException(PropertyLookup.getMessage("msg.incorrUserPw"));
+				}
+				throw new InsufficientAuthenticationException(PropertyLookup.getMessage("msg.authenticationFailed"));
+			}			
+			mtblUser = response.getContent();
+			logger.info("User authenticated "+mtblUser.getUserName()+" ID="+mtblUser.getUserId());
+			
+			updateJwtExpirationTime(mtblUser);
+			JSONObject localObject = new JSONObject();
+			localObject.put("userName", mtblUser.getUserName());
+			localObject.put("firstName", mtblUser.getFirstName());
+			localObject.put("lastName", mtblUser.getLastName());
+			localObject.put("fullName", mtblUser.getFullName());
+			localObject.put("email", mtblUser.getEmail());
+			localObject.put("status", mtblUser.getStatus().name());
+			localObject.put("orcid", mtblUser.getOrcId());
+			localObject.put("apiToken", mtblUser.getApiToken());
+			localObject.put("joinDate", mtblUser.getJoinDate().getTime());
+			localObject.put("address", mtblUser.getAddress());
+			if (mtblUser.getRole().intValue() == AppRole.ROLE_SUPER_USER.getBit()){
+				localObject.put("role", AppRole.ROLE_SUPER_USER.getAuthority());
+			} else if (mtblUser.getRole().intValue() == AppRole.ROLE_SUBMITTER.getBit()){
+				localObject.put("role", AppRole.ROLE_SUBMITTER.getAuthority());
+			} else if (mtblUser.getRole().intValue() == AppRole.ROLE_REVIEWER.getBit()){
+				localObject.put("role", AppRole.ROLE_REVIEWER.getAuthority());
+			}
+			mtblUser.setLocalUserData(localObject.toString()); 
+			
+			return new IsaTabAuthentication(mtblUser," "); // TODO used 2nd argument ?
+		} catch(InsufficientAuthenticationException ex) {
+			throw ex;
+		} 
+		catch (Exception e) {
 
-		// Is this user active?
-		if (!mtblUser.getStatus().equals(MetabolightsUser.UserStatus.ACTIVE))
-			throw new org.springframework.security.authentication.InsufficientAuthenticationException(PropertyLookup.getMessage("msg.accountInactive"));
-
-
-		// Is this the right password?
-		logger.debug("comparing given password '"+encode(auth.getCredentials().toString())+"' to db password '"+mtblUser.getDbPassword()+"'" );
-		if (! encode(auth.getCredentials().toString()).equals(mtblUser.getDbPassword()))
-			throw new org.springframework.security.authentication.InsufficientAuthenticationException(PropertyLookup.getMessage("msg.incorrUserPw"));
-
-		logger.info("authenticated "+mtblUser.getUserName()+" ID="+mtblUser.getUserId());
-		addJwtToUser(mtblUser);
-		return new IsaTabAuthentication(mtblUser," "); // TODO used 2nd argument ?
+			throw new InsufficientAuthenticationException(PropertyLookup.getMessage("msg.authenticationFailed"));
+		}
 	}
 
+	private void updateJwtExpirationTime(MetabolightsUser user) {
+		String jwt;
+		long expirationTime;
+		try {
+			jwt = user.getJwtToken();
+			String[] parts = jwt.split("\\.");
+
+			// String part0 = new String(Base64.getUrlDecoder().decode(parts[0]));
+			String part1 = new String(Base64.getUrlDecoder().decode(parts[1]));
+			// String signature = new String(Base64.getUrlDecoder().decode(parts[2]));
+			// JSONObject header = new JSONObject(part0);
+			JSONObject payload = new JSONObject(part1);
+
+			expirationTime = payload.getLong("exp");
+			user.setJwtTokenExpireTime(expirationTime);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	private void addJwtToUser(MetabolightsUser user) {
 		String jwt;
@@ -111,6 +161,61 @@ public class IsaTabAuthenticationProvider implements AuthenticationProvider {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private RestResponse<MetabolightsUser> authenticate(String username, String password)  throws Exception {
+
+		 HttpURLConnection conn = null;
+		 OutputStreamWriter out = null;
+		 RestResponse<MetabolightsUser> response = null;
+		 try {
+			 String authPath = "auth/login";
+			 String body = "{'email':'"+ username +"', 'secret':'"+ password+"'}";
+			 conn = getGetConnection(authPath);
+			 conn.setRequestMethod("POST");
+			 conn.setRequestProperty("Accept", "application/json");
+			 conn.setRequestProperty("content-type", "application/json");
+			 conn.setDoOutput(true);
+			 out = new OutputStreamWriter(conn.getOutputStream());
+			 out.write(body);
+			 out.close();
+			 out = null;
+			 BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+			 String responseStr = IOUtils.toString(br);
+			 
+			 if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+				response = MetabolightsWsClient.deserializeJSONString(responseStr, MetabolightsUser.class);
+				response.getContent().setJwtToken(conn.getHeaderField("jwt"));
+			 } else {
+				RestResponse<String> response2 = MetabolightsWsClient.deserializeJSONString(responseStr, String.class);
+				response = new RestResponse<MetabolightsUser>();
+				response.setContent(null);
+				response.setErr(response2.getErr());
+				response.setMessage(response2.getMessage());
+			 }
+			 return response;
+			//  throw new Exception("An error occured when reatcing one time token");
+		 } catch (Exception e) {
+			 BufferedReader br = new BufferedReader(new InputStreamReader((conn.getErrorStream())));
+			 String responseStr = IOUtils.toString(br);
+			 RestResponse<String> response2 = MetabolightsWsClient.deserializeJSONString(responseStr, String.class);
+			 response = new RestResponse<MetabolightsUser>();
+			 response.setContent(null);
+			 response.setErr(response2.getErr());
+			 response.setMessage(response2.getMessage());
+			 return response;
+		 }finally {
+			try {
+				if (out != null) {
+					out.close();
+				}
+				if (conn != null){
+					conn.disconnect();
+				}
+			}catch (Exception e){
+				e.printStackTrace();
+			}
+		 }
 	}
 
 	public static HttpURLConnection getPostConnection(String authPath, String body) throws Exception {
@@ -185,7 +290,7 @@ public class IsaTabAuthenticationProvider implements AuthenticationProvider {
 			if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
 				BufferedReader br = new BufferedReader(new InputStreamReader(
 					(conn.getInputStream())));
-				String responseStr = org.apache.commons.io.IOUtils.toString(br);
+				String responseStr = IOUtils.toString(br);
 
 				JSONObject response = new JSONObject(responseStr);
 				String oneTimeToken = response.getString("one_time_token");
@@ -233,7 +338,7 @@ public class IsaTabAuthenticationProvider implements AuthenticationProvider {
 			if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
 				BufferedReader br = new BufferedReader(new InputStreamReader(
 						(conn.getInputStream())));
-				String responseStr = org.apache.commons.io.IOUtils.toString(br);
+				String responseStr = IOUtils.toString(br);
 
 				JSONObject response = new JSONObject(responseStr);
 				String ownerStr = response.getString("content");

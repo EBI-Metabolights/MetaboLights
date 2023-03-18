@@ -38,6 +38,8 @@
 
     <mvc:resources mapping="/static/**" location="/WEB-INF/static/" />
     <!--  this makes references to picture and style sheets work -->
+    <context:component-scan base-package="uk.ac.ebi.metabolights" />
+
     <mvc:annotation-driven/>
     <mvc:default-servlet-handler/>
 
@@ -150,17 +152,17 @@
 
     <!-- Database connectivity configuration -->
     <!-- Get the data source from tomcat (JNDI resource)  -->
-    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+    <!-- <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
         <property name="jndiName" value="java:comp/env/jdbc/metabolights"/>
         <property name="resourceRef" value="true" />
-    </bean>
+    </bean> -->
 
 
     <tx:annotation-driven />
-    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+    <!-- <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
-    </bean>
-    <bean class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
+    </bean> -->
+    <!-- <bean class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
         <property name="maxInactiveIntervalInSeconds" value="14400"/>
     </bean>
     <bean class="org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory">
@@ -168,9 +170,9 @@
         <property name="port" value="#{redisPort}"/>
         <property name="password" value="#{redisPassword}"/>
         <property name="database" value="#{redisDBIndex}"/>
-    </bean>
+    </bean> -->
 
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+    <!-- <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="configLocation">
             <value>classpath:hibernate.cfg.xml</value>
@@ -178,11 +180,9 @@
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
-                <!--prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop-->
-                <!--<prop key="hibernate.search.default.indexBase">#{luceneIndexDirectoryShort}</prop>-->
             </props>
         </property>
-    </bean>
+    </bean> -->
 
 
 
@@ -234,12 +234,12 @@
     <sec:authentication-manager>
         <sec:authentication-provider ref="isaTabAuthenticationProvider" />
     </sec:authentication-manager>
-    <bean id="isaTabAuthenticationProvider" class="uk.ac.ebi.metabolights.authenticate.IsaTabAuthenticationProvider"/>
+    <!-- <bean id="isaTabAuthenticationProvider" class="uk.ac.ebi.metabolights.authenticate.IsaTabAuthenticationProvider"/> -->
 
 
     <!--<jee:jndi-lookup id="mailpassword" jndi-name="java:comp/env/mailpassword"/>-->
 
-    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+    <!-- <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 
         <property name="host">
            <jee:jndi-lookup id="mailServer" jndi-name="java:comp/env/mailServer" />
@@ -247,21 +247,7 @@
         <property name="port">
             <jee:jndi-lookup id="mailServerPort" jndi-name="java:comp/env/mailServerPort"/>
         </property>
-
-        <!-- Gmail email settings -->
-        <!--<property name="port"><value>587</value></property>-->
-        <!--<property name="protocol"><value>smtp</value></property>-->
-        <!--<property name="username"><value>p.conesa.mingo</value></property>-->
-        <!--<property name="password"><value>#{mailpassword}</value></property>-->
-        <!--<property name="javaMailProperties">-->
-            <!--<props>-->
-                <!--<prop key="mail.smtp.auth">true</prop>-->
-                <!--<prop key="mail.smtp.starttls.enable">true</prop>-->
-                <!--<prop key="mail.smtp.quitwait">false</prop>-->
-            <!--</props>-->
-        <!--</property>-->
-        <!-- End gmail settings-->
-    </bean>
+    </bean> -->
 
     <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
         <property name="velocityProperties">
@@ -281,7 +267,7 @@
     <bean id="verifyNewAccountTemplate" class="org.springframework.mail.SimpleMailMessage">
       <property name="from" value="${replyTo}"/>
       <property name="subject" value="Please confirm your account request for MetaboLights"/>
-    </bean>
+    </bean>   
 
     <bean id="activateAccountTemplate" class="org.springframework.mail.SimpleMailMessage">
       <property name="from" value="${replyTo}"/>

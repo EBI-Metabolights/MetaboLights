@@ -68,6 +68,8 @@ public class GenericCompoundWSClients {
                         os = connection.getOutputStream();
                         os.write(postBody.getBytes());
                         os.flush();
+                        os.close();
+                        os = null;
                     } finally {
                         try {
                             if (os != null) {

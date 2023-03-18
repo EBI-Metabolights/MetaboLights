@@ -49,8 +49,6 @@ public class DDLTest {
 
 		configuration.setProperties(hibernateProperties);
 
-		configuration.setProperty("hibernate.hbm2ddl.auto", "create-drop");
-
 		HibernateUtil.initialize(configuration);
 
 	}

@@ -38,8 +38,8 @@ dependencies {
     api("org.apache.httpcomponents:httpclient:4.3.5")
     api("uk.ac.ebi.chebi.webapps.chebiWS.client:chebiWS-client:2.3.2")
     runtimeOnly("org.apache.axis2:axis2-transport-http:1.6.4")
-    providedCompile("javax.servlet:servlet-api:2.5")
-    providedCompile("org.apache.tomcat:catalina:6.0.35")
+    compileOnly("javax.servlet:javax.servlet-api:3.0.1")
+    compileOnly("org.apache.tomcat:tomcat-catalina:8.5.50")
 }
 
 description = "metabolights webservice"

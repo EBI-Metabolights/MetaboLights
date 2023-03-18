@@ -143,7 +143,8 @@ public class StyleMAVFactory {
 
 			os = conn.getOutputStream();
 			os.write(jsonObject.getBytes());
-
+			os.close();
+			os = null;
 			if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
 				throw new RuntimeException("Failed : HTTP error code : "
 						+ conn.getResponseCode());

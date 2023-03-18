@@ -70,9 +70,9 @@
     <!-- 
     Email stuff
      -->
-	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	<!-- <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 	  <property name="host" value="imap.ebi.ac.uk"/>
-	</bean>
+	</bean> -->
 
 	<bean id="reminderTemplate" class="org.springframework.mail.SimpleMailMessage">
 	  <property name="from" value="no-reply@ebi.ac.uk"/>

@@ -399,7 +399,7 @@ public class MetabolightsWsClient {
     }
 
 
-    private <T> RestResponse<T> deserializeJSONString(String response, Class<T> valueType) {
+    public static <T> RestResponse<T> deserializeJSONString(String response, Class<T> valueType) {
 
         logger.debug("Parsing json response into MetaboLights model: " + response);
 
@@ -426,7 +426,7 @@ public class MetabolightsWsClient {
         return null;
     }
 
-    private String serializeObject(Object objectToSerialize) {
+    public static String serializeObject(Object objectToSerialize) {
 
         logger.debug("Serializing object to a Json string:" + objectToSerialize.getClass());
 

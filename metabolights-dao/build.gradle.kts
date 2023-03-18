@@ -19,7 +19,9 @@ dependencies {
     api(project(":metabolights-domain"))
     api(project(":metabolights-isatab-utils"))
 
-    api("org.hibernate:hibernate-core:4.3.8.Final")
+    // api("org.hibernate:hibernate-core:4.3.8.Final")
+    api("org.hibernate:hibernate-core:5.6.15.Final")
+
     api("net.sourceforge.javacsv:javacsv:2.0")
     api("org.codehaus.jtstand:jtstand-sequence:1.2.1")
     api("com.fasterxml.jackson.core:jackson-core:2.8.9")

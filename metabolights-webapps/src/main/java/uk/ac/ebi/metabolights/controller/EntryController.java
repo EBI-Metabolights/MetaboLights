@@ -36,7 +36,6 @@ import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.service.AppContext;
-import uk.ac.ebi.metabolights.service.UserService;
 import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 
 import javax.servlet.http.HttpServletRequest;
@@ -57,8 +56,6 @@ import javax.servlet.http.HttpServletRequest;
         private final String DESCRIPTION = "descr";
         private static String editorUrl = null;
         private static String pythonWsUrl = null;
-        @Autowired
-        private UserService userService;
         public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
         public static final String REVIEWER_OBFUSCATION_CODE_URL = "reviewer{obfuscationCode}";
 
