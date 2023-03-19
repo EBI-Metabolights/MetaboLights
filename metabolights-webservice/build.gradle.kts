@@ -15,6 +15,8 @@ dependencies {
     api(project(":metabolights-referencelayer-dao"))
     api(project(":service-es"))
     api("org.apache.logging.log4j:log4j-web:2.17.2")
+    api("org.apache.logging.log4j:log4j-slf4j-impl:2.17.2")
+    api("org.apache.logging.log4j:log4j-core:2.17.2")
     api("org.bitbucket.b_c:jose4j:0.4.4")
     api("org.springframework:spring-context:4.3.30.RELEASE")
     api("org.springframework:spring-webmvc:4.3.30.RELEASE")
@@ -37,9 +39,10 @@ dependencies {
     api("com.univocity:univocity-parsers:2.2.0")
     api("org.apache.httpcomponents:httpclient:4.3.5")
     api("uk.ac.ebi.chebi.webapps.chebiWS.client:chebiWS-client:2.3.2")
+    api("javax.annotation:javax.annotation-api:1.3.2")
     runtimeOnly("org.apache.axis2:axis2-transport-http:1.6.4")
-    compileOnly("javax.servlet:javax.servlet-api:3.0.1")
-    compileOnly("org.apache.tomcat:tomcat-catalina:8.5.50")
+    runtimeOnly("jakarta.servlet:jakarta.servlet-api:4.0.4")
+    runtimeOnly("org.apache.tomcat:tomcat-catalina:9.0.73")
 }
 
 description = "metabolights webservice"

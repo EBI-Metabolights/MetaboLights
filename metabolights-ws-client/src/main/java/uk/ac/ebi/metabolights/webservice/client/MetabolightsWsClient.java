@@ -227,7 +227,7 @@ public class MetabolightsWsClient {
     private String makeGetRequest(String path) {
         return makeRequest(path, "GET");
     }
-    private String makePythonGetRequest(String path) {
+    public String makePythonGetRequest(String path) {
         return makeRequestSendingData(path,  null,  "GET", this.metabolightsPythonWsUrl);
     }
     private HttpURLConnection getHttpURLConnection(String mtblsWsUrl, String path, String method) throws IOException {

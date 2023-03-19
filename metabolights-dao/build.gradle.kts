@@ -27,9 +27,10 @@ dependencies {
     api("com.fasterxml.jackson.core:jackson-core:2.8.9")
     api("com.fasterxml.jackson.core:jackson-databind:2.8.9")
     api(project(":metabolights-ws-client"))
-    testImplementation("org.postgresql:postgresql:9.4-1200-jdbc41")
+    api("org.postgresql:postgresql:42.6.0")
     testImplementation("org.dbunit:dbunit:2.5.1")
-    testImplementation("org.apache.tomcat:tomcat-catalina:8.0.18")
+    runtimeOnly("org.apache.tomcat:tomcat-catalina:9.0.73")
+
 }
 
 description = "MetaboLights DAO"

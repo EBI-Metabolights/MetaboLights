@@ -14,7 +14,7 @@ dependencies {
     api("com.google.code.gson:gson:2.1")
     api("com.fasterxml.jackson.core:jackson-core:2.8.9")
     api("com.fasterxml.jackson.core:jackson-databind:2.8.9")
-    testImplementation("org.postgresql:postgresql:9.4-1200-jdbc41")
+    api("org.postgresql:postgresql:42.6.0")
     testImplementation(project(":metabolights-dao"))
 }
 

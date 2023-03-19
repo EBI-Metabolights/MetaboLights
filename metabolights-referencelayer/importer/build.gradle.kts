@@ -15,7 +15,7 @@ dependencies {
     api("org.biojava:biojava3-core:3.0.7")
     api(project(":species-core"))
     api("org.apache.httpcomponents:httpclient:4.3.5")
-    api("org.postgresql:postgresql:9.4-1200-jdbc41")
+    api("org.postgresql:postgresql:42.6.0")
     api("com.google.guava:guava:10.0")
 }
 

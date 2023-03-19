@@ -33,6 +33,7 @@ import uk.ac.ebi.metabolights.referencelayer.model.Species;
 import uk.ac.ebi.metabolights.referencelayer.model.SpeciesGroup;
 import uk.ac.ebi.metabolights.referencelayer.model.ModelObjectFactory;
 import uk.ac.ebi.metabolights.service.AppContext;
+import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -113,13 +114,14 @@ public class SpeciesSearchController extends AbstractController {
 	@RequestMapping(value = "/species/json")
 	@ResponseBody
 	public String getJsonSpecies() {
-
-		Collection<SpeciesGroup> groups = ModelObjectFactory.getAllSpeciesTree();
-
-		// Need to build the json structure.
-		String json = getSpeciesTreeToJson(groups);
-
+		String json = MetabolightsWsClient.getInstance().makePythonGetRequest("/species/tree");
 		return json;
+		// Collection<SpeciesGroup> groups = ModelObjectFactory.getAllSpeciesTree();
+
+		// // Need to build the json structure.
+		// String json = getSpeciesTreeToJson(groups);
+
+		// return json;
 
 	}
 

@@ -13,7 +13,9 @@ plugins {
 dependencies {
     api("javax.mail:mail:1.4.5")
     api("uk.ac.ebi:ebinocle:1.0.4")
-    api("uk.ac.ebi.biobabel:ebeye-client:2.0.0")
+    api("uk.ac.ebi.biobabel:ebeye-client:2.0.0") {
+        exclude(group="log4j", module="log4j")
+    }
     api(project(":metabolights-referencelayer-dao"))
     api("uk.ac.ebi.biobabel:biobabel-citations:2.0.3")
     api(project(":metabolights-ws-client"))
@@ -40,7 +42,7 @@ dependencies {
     api("org.hibernate:hibernate-core:5.6.15.Final")
     api("org.hibernate:hibernate-validator:5.4.3.Final")
 
-    api("org.postgresql:postgresql:9.4-1200-jdbc41")
+    api("org.postgresql:postgresql:42.6.0")
     api("org.apache.tiles:tiles-jsp:2.2.2")
     api("javax.validation:validation-api:1.0.0.GA")
     api("org.apache.commons:commons-compress:1.3")
@@ -49,7 +51,6 @@ dependencies {
     api("org.apache.velocity:velocity:1.7")
     api("javax.persistence:persistence-api:1.0.2")
     api("javax.servlet:jstl:1.2")
-    api("org.glassfish.web:jstl-impl:1.2")
     api("commons-httpclient:commons-httpclient:3.1")
     api("org.apache.logging.log4j:log4j-slf4j-impl:2.17.2")
     api("org.apache.logging.log4j:log4j-core:2.17.2")

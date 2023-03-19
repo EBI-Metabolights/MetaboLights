@@ -20,7 +20,6 @@
 
 package uk.ac.ebi.metabolights.referencelayer;
 
-import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,7 +33,6 @@ public class PostgresSqlLoader  {
 
     private Properties statementsSql;
 
-    private static final Logger LOGGER = Logger.getLogger(PostgresSqlLoader.class);
 
     static Properties properties = new Properties();
 
@@ -95,7 +93,6 @@ public class PostgresSqlLoader  {
         InputStream is = PostgresSqlLoader.class.getClassLoader().getResourceAsStream(fileName + ".properties");
         if (is == null){
             String message = "Unable to open configuration file " +  fileName;
-            LOGGER.error(message);
             throw new IOException(message);
         }
 

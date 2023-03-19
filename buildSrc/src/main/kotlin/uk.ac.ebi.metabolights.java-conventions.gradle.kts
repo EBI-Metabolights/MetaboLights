@@ -65,6 +65,7 @@ repositories {
 dependencies {
     api("commons-io:commons-io:2.7")
     // api("org.slf4j:slf4j-api:1.7.7")
+    api("org.slf4j:slf4j-api:2.0.7")
     api("org.jvnet.staxex:stax-ex:1.7.7") {
         exclude("org.slf4j:slf4j-api:1.7.7")
     }
@@ -80,8 +81,10 @@ configurations.all {
     force("org.apache.logging.log4j:log4j-slf4j-impl:2.17.2")
     force("org.apache.logging.log4j:org.slf4j:slf4j-api:2.17.2")
     force("org.apache.logging.log4j:log4j-core:2.17.2")
+    force("jakarta.servlet:jakarta.servlet-api:4.0.4")
   }
     exclude(group = "org.slf4j", module = "slf4j-simple")
+    exclude(group="log4j", module="log4j")
 
 }
 
