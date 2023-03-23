@@ -64,6 +64,10 @@ public class CompoundController extends AbstractController {
         
         mav.addObject("compound", mtblc);
 
+        String assetsServerBaseURL = EntryController.getMetabolightsAssetsServerBaseUrl();
+        mav.addObject("assetsServerBaseURL", assetsServerBaseURL);
+        
+
         return mav;
 
     }

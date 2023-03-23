@@ -14,6 +14,9 @@ dependencies {
     api("com.fasterxml.jackson.core:jackson-core:2.8.9")
     api("com.fasterxml.jackson.core:jackson-databind:2.8.9")
     api(project(":search-service"))
+    // api("org.apache.logging.log4j:log4j-core:2.17.2")
+    api("org.json:json:20090211")
+    // api("org.apache.logging.log4j:log4j-core:2.17.2")
 }
 
 description = "MetaboLights webservice client"

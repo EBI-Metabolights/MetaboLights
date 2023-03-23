@@ -388,7 +388,7 @@
                                                     <div v-if="selectedNMR.length > 0">
                                                         <br>
                                                         <div class="ml_trc grey"><b><h4>Spectra Viewer</h4></b></div>
-                                                        <!-- MS Spectra -->
+                                                        <!-- NMR Spectra -->
                                                         <div id="NMRSpeckTackle" class="spectakle-container"></div>
                                                         <div class="col-md-12 well">
                                                             <div id="nmrInfo" class="specs">
@@ -679,7 +679,6 @@
             this.loading = true;
             metabolightsPythonWsUrl = "${metabolightsPythonWsUrl}";
             this.$http.get(metabolightsPythonWsUrl + '/compounds/'+ this.compound + '/file', function (data, status, request) {
-            // this.$http.get('http://ves-ebi-8d:8080/metabolights/webservice/beta/compound/'+ this.compound, function (data, status, request) {
                 this.$set('mtblc', data);
                 this.mtblc['chebiId'] = this.mtblc['id'].replace("MTBLC", "");
                 this.mtblc['imageUrl'] = "//www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=" + this.mtblc['chebiId'] + "&dimensions=600&transbg=true";
@@ -781,7 +780,10 @@
         });
         this.MSData.remove();
 
-        this.MSData.add(this.selectedMSSpectra.map(function(spec){
+        this.MSData.add(this.selectedMSSpectra.map(function(spec){ 
+            if(spec.url.startsWith('/metabolights/webservice/beta/spectra')){
+                return '${metabolightsPythonWsUrl}' + spec.url.replace('/metabolights/webservice/beta/spectra', '/compounds') + '/file';
+            }
             return spec.url;
         }));
 
@@ -792,9 +794,21 @@
         this.selectedNMRSpectra = vm.mtblc.spectra.NMR.filter(function(spec){
             return vm.selectedNMR.indexOf(spec.name) > -1 ? true : false;
         });
+        if ($("#NMRSpeckTackle").width() < 1 ){
+            return
+        }
         this.NMRarray.remove();
+        
         this.NMRarray.add(this.selectedNMRSpectra.map(function(spec){
-            return spec.url.replace("http","https");
+            path = "${assetsServerBaseURL}" + spec.path.replace("/net/vnas-metabolights/metabolights/reference", "/compounds");
+            return path;
+            // url = spec.url.replace('/json', '');
+            // if(spec.url.startsWith('http://www.ebi.ac.uk/metabolights/webservice/compounds/spectra')){
+            //     return '${metabolightsPythonWsUrl}' + url.replace('http://www.ebi.ac.uk/metabolights/webservice/compounds/spectra', '/compounds') + '/file';
+            // } else if (spec.url.startsWith('https://www.ebi.ac.uk/metabolights/webservice/compounds/spectra')){
+            //     return '${metabolightsPythonWsUrl}' + url.replace('https://www.ebi.ac.uk/metabolights/webservice/compounds/spectra', '/compounds') + '/file';
+            // }
+            // return spec.url.replace("http","https");
         }));
     })
 

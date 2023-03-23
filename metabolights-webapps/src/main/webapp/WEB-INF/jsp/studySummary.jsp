@@ -100,12 +100,22 @@
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <tbody>
-                        <tr>
+                        <c:if test="${!liteStudy.publicStudy}">
+                          <tr>
+                            <td><i  class="fa fa-anchor" aria-hidden="true"></i>&nbsp;Study Identifier</td>
+                            <td><a href="editor/study/${liteStudy.studyIdentifier}">
+                                ${liteStudy.studyIdentifier}
+                            </a></td>
+                          </tr>
+                        </c:if>
+                        <c:if test="${liteStudy.publicStudy}">
+                          <tr>
                             <td><i  class="fa fa-anchor" aria-hidden="true"></i>&nbsp;Study Identifier</td>
                             <td><a href="${liteStudy.studyIdentifier}">
                                 ${liteStudy.studyIdentifier}
                             </a></td>
                         </tr>
+                        </c:if>
                         <c:if test="${!liteStudy.publicStudy}">
                             <tr>
                                 <td><i data-toggle="tooltip"

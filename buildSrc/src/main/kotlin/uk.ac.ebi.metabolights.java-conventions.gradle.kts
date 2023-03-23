@@ -64,28 +64,27 @@ repositories {
 
 dependencies {
     api("commons-io:commons-io:2.7")
-    // api("org.slf4j:slf4j-api:1.7.7")
-    api("org.slf4j:slf4j-api:2.0.7")
+    api("org.slf4j:slf4j-api:1.7.36")
+    api("org.slf4j:slf4j-simple:1.7.36")
+    // api("org.slf4j:slf4j-api:2.0.7")
+    // api("org.slf4j:slf4j-reload4j:2.0.7")
     api("org.jvnet.staxex:stax-ex:1.7.7") {
         exclude("org.slf4j:slf4j-api:1.7.7")
     }
     api("net.bull.javamelody:javamelody-core:1.69.0")
     testImplementation("junit:junit:4.8.2")
-    api("org.apache.logging.log4j:log4j-slf4j-impl:2.17.2")
-    api("org.apache.logging.log4j:log4j-core:2.17.2")
+    // api("org.apache.logging.log4j:log4j-slf4j-impl:2.17.2")
+    // api("org.apache.logging.log4j:log4j-core:2.17.2")
 }
 
 configurations.all {
   resolutionStrategy {
     force("org.jvnet.staxex:stax-ex:1.7.8")
-    force("org.apache.logging.log4j:log4j-slf4j-impl:2.17.2")
-    force("org.apache.logging.log4j:org.slf4j:slf4j-api:2.17.2")
-    force("org.apache.logging.log4j:log4j-core:2.17.2")
+    // force("org.apache.logging.log4j:log4j-slf4j-impl:2.17.2")
+    // force("org.apache.logging.log4j:org.slf4j:slf4j-api:2.17.2")
+    // force("org.apache.logging.log4j:log4j-core:2.17.2")
     force("jakarta.servlet:jakarta.servlet-api:4.0.4")
   }
-    exclude(group = "org.slf4j", module = "slf4j-simple")
-    exclude(group="log4j", module="log4j")
-
 }
 
 group = "uk.ac.ebi.metabolights"

@@ -42,7 +42,7 @@ public class GenericController {
 
 	private static Logger logger = LoggerFactory.getLogger(GenericController.class);
 
-	private @Value("#{guidedVideoBaseURL}") String guidedVideoBaseURL;
+	private @Value("#{assetsServerBaseURL}") String assetsServerBaseURL;
 
 	/**
 	 * Forwards to the jsp based on the last part of the requested URL.
@@ -100,7 +100,7 @@ public class GenericController {
 		target = target!=null&&!target.equals("")?target:"index";
 
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(target);
-		mav.addObject("guidedVideoBaseURL", this.guidedVideoBaseURL);
+		mav.addObject("assetsServerBaseURL", this.assetsServerBaseURL);
 		return mav;
 
 	}

@@ -189,10 +189,15 @@
     </div>
 </div>
 <script>
-    var subDomain = window.location.host.split('.')[0]
-    if(subDomain != 'www'){
+    var host = window.location.host;
+    if(!host.startsWith('www.ebi')){
         var brand = document.getElementById("mlLogo")
-        brand.innerHTML = "MetaboLights ${pageContext.request.serverName}:${pageContext.request.serverPort}" ;
+        if(${pageContext.request.serverPort} != "80"){
+            brand.innerHTML = "${pageContext.request.serverName}:${pageContext.request.serverPort}" ;
+        } else {
+            brand.innerHTML = "${pageContext.request.serverName}" ;
+        }
+        
         brand.style.color = "yellow";
         brand.style.fontWeight = "300";
     }

@@ -126,7 +126,7 @@
 
     <jee:jndi-lookup id="elasticsearchServerHost" jndi-name="java:comp/env/elasticsearchServerHost"/>
     <jee:jndi-lookup id="elasticsearchServerPort" jndi-name="java:comp/env/elasticsearchServerPort"/>
-    <jee:jndi-lookup id="guidedVideoBaseURL" jndi-name="java:comp/env/guidedVideoBaseURL"/>
+    <jee:jndi-lookup id="assetsServerBaseURL" jndi-name="java:comp/env/assetsServerBaseURL"/>
 
     <jee:jndi-lookup id="redisHost" jndi-name="java:comp/env/redisHost"/>
     <jee:jndi-lookup id="redisPort" jndi-name="java:comp/env/redisPort"/>
@@ -159,7 +159,7 @@
 
 
     <tx:annotation-driven />
-    <!-- <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+    <!-- <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean> -->
     <!-- <bean class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
@@ -172,7 +172,7 @@
         <property name="database" value="#{redisDBIndex}"/>
     </bean> -->
 
-    <!-- <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+    <!-- <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="configLocation">
             <value>classpath:hibernate.cfg.xml</value>

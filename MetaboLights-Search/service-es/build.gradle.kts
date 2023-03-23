@@ -15,7 +15,7 @@ dependencies {
     api("com.fasterxml.jackson.core:jackson-core:2.8.9")
     api("com.fasterxml.jackson.core:jackson-databind:2.8.9")
     api("org.postgresql:postgresql:42.6.0")
-    testImplementation(project(":metabolights-dao"))
+    api(project(":metabolights-dao"))
 }
 
 description = "MetaboLights Search Service - ES"

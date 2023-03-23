@@ -23,9 +23,6 @@ package uk.ac.ebi.metabolights.webapp;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.ModelAndView;
@@ -43,7 +40,6 @@ import java.net.URL;
  */
 public class StyleMAVFactory {
 
-	private static Logger logger = LoggerFactory.getLogger(StyleMAVFactory.class);
 
 	// URLs to make the requests
 	private String headerURL;
@@ -119,7 +115,7 @@ public class StyleMAVFactory {
 			while ( (inputLine = in.readLine()) != null) sbf.append(inputLine);
 			in.close();
 		} catch (Exception e) {
-			logger.info("Failed to get HTML from: " + requestUrl + "\n." + e.getMessage());
+			// logger.info("Failed to get HTML from: " + requestUrl + "\n." + e.getMessage());
 		}
 
 		return sbf.toString();
@@ -155,7 +151,7 @@ public class StyleMAVFactory {
 
 
 			String output;
-			logger.info("Output from Server .... \n");
+			// logger.info("Output from Server .... \n");
 			while ((output = br.readLine()) != null) {
 				response = response + output;
 			}
@@ -321,7 +317,7 @@ public class StyleMAVFactory {
 
 			} catch (Exception e) {
 				// Log the exception
-				logger.info("Failed to read JSON file " + jsonConfig.getFilename() + "\n." + e.getMessage());
+				// logger.info("Failed to read JSON file " + jsonConfig.getFilename() + "\n." + e.getMessage());
 
 				// In the worse case continue with an empty parameter as json object.
 				jsonConfigS = "";

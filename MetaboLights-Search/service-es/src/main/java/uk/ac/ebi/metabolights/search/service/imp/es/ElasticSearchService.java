@@ -47,7 +47,12 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.index.query.*;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.FilterBuilder;
+import org.elasticsearch.index.query.FilterBuilders;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.Aggregation;
@@ -56,8 +61,7 @@ import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.TermsBuilder;
 import org.elasticsearch.search.sort.SortOrder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import uk.ac.ebi.metabolights.referencelayer.model.MetSpecies;
 import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
 import uk.ac.ebi.metabolights.referencelayer.model.Species;
@@ -65,13 +69,24 @@ import uk.ac.ebi.metabolights.repository.model.Entity;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.Organism;
 import uk.ac.ebi.metabolights.repository.model.Study;
-import uk.ac.ebi.metabolights.search.service.*;
+import uk.ac.ebi.metabolights.search.service.Booster;
+import uk.ac.ebi.metabolights.search.service.Facet;
+import uk.ac.ebi.metabolights.search.service.FacetLine;
+import uk.ac.ebi.metabolights.search.service.IndexingFailureException;
+import uk.ac.ebi.metabolights.search.service.Pagination;
+import uk.ac.ebi.metabolights.search.service.SearchQuery;
+import uk.ac.ebi.metabolights.search.service.SearchService;
+import uk.ac.ebi.metabolights.search.service.SearchUser;
+import uk.ac.ebi.metabolights.search.service.SearchResult;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
+
+import org.elasticsearch.common.logging.ESLogger;
+import org.elasticsearch.common.logging.log4j.Log4jESLoggerFactory;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -93,7 +108,7 @@ public class ElasticSearchService implements SearchService <Entity> {
 	private String elasticsearchServerHost;
 	private int elasticsearchServerPort;
 
-	static Logger logger = LoggerFactory.getLogger(ElasticSearchService.class);
+	static ESLogger logger = Log4jESLoggerFactory.getLogger(ElasticSearchService.class.getName());
 
 	public static final String COMPOUND_TYPE_NAME = "compound";
 	public static final String STUDY_TYPE_NAME = "study";
@@ -688,7 +703,7 @@ public class ElasticSearchService implements SearchService <Entity> {
 		// Set pagination
 		// Elastic search first element starts at 0
 		setPagination(query, searchRequestBuilder);
-
+		//System.out.println("Search"  + searchRequestBuilder.internalBuilder().toString());
 		return searchRequestBuilder.execute().actionGet();
 	}
 

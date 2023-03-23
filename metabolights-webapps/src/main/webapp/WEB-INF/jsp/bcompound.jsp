@@ -335,7 +335,7 @@
                                                     {
                                                         "id":${spectra.id},
                                                         "name": "${spectra.name}",
-                                                        "url": "http://www.ebi.ac.uk/metabolights/webservice/compounds/spectra/${spectra.id}/json",
+                                                        "url": "${metabolightsPythonWsUrl}/compounds/${spectra.id}/file",
                                                         "type": "${spectra.spectraType}",
                                                         "properties": [
                                                             <c:forEach var="attribute" items="${spectra.attributes}" varStatus="attributeLoopStatus">
@@ -385,7 +385,7 @@
                                                     {
                                                         "id":${msspectra.id},
                                                         "name": "${msspectra.name}",
-                                                        "url": "http://www.ebi.ac.uk/metabolights/webservice/compounds/spectra/${msspectra.id}/json",
+                                                        "url": "${metabolightsPythonWsUrl}/compounds/${msspectra.id}/file",
                                                         "type": "${msspectra.spectraType}",
                                                         "properties": [
                                                             <c:forEach var="attribute" items="${msspectra.attributes}" varStatus="attributeLoopStatus">

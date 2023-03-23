@@ -56,6 +56,8 @@ import javax.servlet.http.HttpServletRequest;
         private final String DESCRIPTION = "descr";
         private static String editorUrl = null;
         private static String pythonWsUrl = null;
+        private static String assetsServerBaseURL = null;
+        
         public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
         public static final String REVIEWER_OBFUSCATION_CODE_URL = "reviewer{obfuscationCode}";
 
@@ -97,6 +99,14 @@ import javax.servlet.http.HttpServletRequest;
             }
             EntryController.pythonWsUrl = PropertiesUtil.getProperty("metabolightsPythonWsUrl");
             return EntryController.pythonWsUrl;
+        }
+
+        public static String getMetabolightsAssetsServerBaseUrl(){
+            if (EntryController.assetsServerBaseURL != null) {
+                return EntryController.assetsServerBaseURL;
+            }
+            EntryController.assetsServerBaseURL = PropertiesUtil.getProperty("assetsServerBaseURL");
+            return EntryController.assetsServerBaseURL;
         }
 
         private static String getWsPath() {

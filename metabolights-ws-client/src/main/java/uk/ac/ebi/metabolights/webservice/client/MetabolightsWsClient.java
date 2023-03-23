@@ -44,18 +44,27 @@ package uk.ac.ebi.metabolights.webservice.client;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jose4j.json.internal.json_simple.JSONObject;
+import org.jose4j.json.internal.json_simple.JSONArray;
+import org.jose4j.json.internal.json_simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.referencelayer.model.Compound;
+import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
 import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompoundModel;
 import uk.ac.ebi.metabolights.referencelayer.model.MetaboliteAssignmentModel;
 import uk.ac.ebi.metabolights.referencelayer.model.StudyModel;
+import uk.ac.ebi.metabolights.repository.model.Entity;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
+import uk.ac.ebi.metabolights.search.service.Booster;
+import uk.ac.ebi.metabolights.search.service.Facet;
+import uk.ac.ebi.metabolights.search.service.FacetLine;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.search.service.SearchResult;
+import uk.ac.ebi.metabolights.search.service.SearchUser;
 import uk.ac.ebi.metabolights.webservice.client.models.ArrayListOfStrings;
 import uk.ac.ebi.metabolights.webservice.client.models.CitationsList;
 import uk.ac.ebi.metabolights.webservice.client.models.MixedSearchResult;
@@ -74,6 +83,21 @@ import java.util.*;
  * Time: 12:01
  */
 public class MetabolightsWsClient {
+    public static final String OBJECT_TYPE = "ObjectType";
+    public static final String ASSAYS_TECHNOLOGY = "assays.technology";
+    public static final String SPECIES_DATA = "compound.hasSpecies";
+    public static final String PATHWAY_DATA = "compound.hasPathways";
+    public static final String REACTION_DATA = "compound.hasReactions";
+    public static final String NMR_DATA = "compound.hasNMR";
+    public static final String MS_DATA = "compound.hasMS";
+    public static final String STUDY_STATUS = "studyStatus";
+    public static final String ORGANISM_ORGANISM_NAME = "organism.organismName";
+    public static final String ORGANISM_ORGANISM_PART = "organism.organismPart";
+    public static final String FACTORS_NAME = "factors.name";
+    public static final String DESCRIPTORS_DESCRIPTION = "descriptors.description";
+    public static final String VALIDATIONS_STATUS = "validations.status";
+    public static final String VALIDATIONS_ENTRIES_STATUS = "validations.entries.statusExt";
+    public static final String SEARCH_USER_STUDIES = "searchUserStudies";
 
     private static final Logger logger = LoggerFactory.getLogger(MetabolightsWsClient.class);
 
@@ -219,7 +243,9 @@ public class MetabolightsWsClient {
     private String makePostRequest(String path, Object data) {
         return makeRequestSendingData(path, data, "POST", this.metabolightsJavaWsUrl);
     }
-
+    private String makePythonPostRequest(String path, Object data) {
+        return makeRequestSendingData(path, data, "POST", this.metabolightsPythonWsUrl);
+    }
     private String makePutRequest(String path, Object data) {
         return makeRequestSendingData(path, data, "PUT", this.metabolightsJavaWsUrl);
     }
@@ -337,6 +363,62 @@ public class MetabolightsWsClient {
         String response = makePythonGetRequest(COMPOUND_PATH + "list");
 
         return deserializeJSONString(response, String[].class);
+
+    }
+    private void addFacet(String facetName, SearchQuery query) {
+
+        query.getFacets().add(new Facet(facetName));
+    }
+
+    private SearchQuery getEmptyQuery() {
+
+        SearchQuery emptyQuery = new SearchQuery();
+
+        addFacet(OBJECT_TYPE, emptyQuery);
+        addFacet(ASSAYS_TECHNOLOGY, emptyQuery);
+        addFacet(STUDY_STATUS, emptyQuery);
+        addFacet(ORGANISM_ORGANISM_NAME, emptyQuery);
+        addFacet(ORGANISM_ORGANISM_PART, emptyQuery);
+        addFacet(SPECIES_DATA, emptyQuery);
+        addFacet(PATHWAY_DATA, emptyQuery);
+        addFacet(REACTION_DATA, emptyQuery);
+        addFacet(NMR_DATA, emptyQuery);
+        addFacet(MS_DATA, emptyQuery);
+
+//		<c:if test="${not empty usersFullName}">
+//				,"lines":[{"value":"${usersFullName}","checked":true}]
+//			</c:if>
+//
+//        commented out temporarily
+        addFacet(FACTORS_NAME, emptyQuery);
+        addFacet(DESCRIPTORS_DESCRIPTION, emptyQuery);
+        addFacet(VALIDATIONS_STATUS, emptyQuery);
+        addFacet(VALIDATIONS_ENTRIES_STATUS, emptyQuery);
+
+        emptyQuery.getPagination().setPage(1);
+        emptyQuery.getPagination().setPageSize(10);
+
+        Booster titleBooster = new Booster();
+        titleBooster.setBoost(1);
+        titleBooster.setFieldName("title");
+
+        titleBooster = new Booster();
+        titleBooster.setBoost(1);
+        titleBooster.setFieldName("name");
+
+        titleBooster = new Booster();
+        titleBooster.setBoost(2);
+        titleBooster.setFieldName("_id");
+
+
+        emptyQuery.getBoosters().add(titleBooster);
+//
+//		<c:if test="${not empty freeTextQuery}">
+//				emptyQuery.text = "${freeTextQuery}";
+//		</c:if>
+
+        return emptyQuery;
+
 
     }
 
@@ -461,6 +543,22 @@ public class MetabolightsWsClient {
 
     }
 
+
+    public RestResponse<? extends MixedSearchResult> search2() {
+
+        logger.debug("Empty search requested to the MetaboLights WS client");
+
+        // Make the request
+        String response = makePythonPostRequest("/es-index/search", "");
+
+        return deserialize(response,  getEmptyQuery());
+        // MixedSearchResult foo = new MixedSearchResult();
+
+        // return deserializeJSONString(response, foo.getClass());
+
+
+    }
+
     public RestResponse<? extends MixedSearchResult> search(SearchQuery query) {
 
         logger.debug("Search requested to the MetaboLights WS client");
@@ -468,6 +566,7 @@ public class MetabolightsWsClient {
         String json = serializeObject(query);
 
         // Make the request
+        // String response = makePythonPostRequest("/es-index/search", json);
         String response = makePostRequest("search", json);
 
         MixedSearchResult foo = new MixedSearchResult();
@@ -475,6 +574,101 @@ public class MetabolightsWsClient {
         return deserializeJSONString(response, foo.getClass());
 
 
+    }
+
+    public RestResponse<? extends MixedSearchResult> search2(SearchQuery query) {
+
+        logger.debug("Search requested to the MetaboLights WS client");
+
+        String json = serializeObject(query);
+
+        // Make the request
+        String response = makePythonPostRequest("/es-index/search", json);
+        return deserialize(response, query);
+        // MixedSearchResult foo = new MixedSearchResult();
+
+        // return deserializeJSONString(response, foo.getClass());
+
+
+    }
+
+    private RestResponse<MixedSearchResult> deserialize(String input, SearchQuery query){
+        JSONParser parser = new JSONParser();
+        ObjectMapper mapper= new ObjectMapper();
+        mapper.setTimeZone(Calendar.getInstance().getTimeZone());
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        RestResponse<MixedSearchResult> response = new RestResponse<MixedSearchResult>();
+        response.setContent(new MixedSearchResult());
+        response.setErr(null);
+        response.getContent().setQuery(query);
+        
+        try {
+            JSONObject result = (JSONObject) parser.parse(input);
+            response.setMessage(null);
+            
+            if(result != null && result.containsKey("content")){
+                JSONObject content = (JSONObject) result.get("content");
+                
+                if( content != null && content.containsKey("results")){
+                    SearchQuery sq = new SearchQuery();
+                    JSONObject queryJson = (JSONObject) content.get("query");
+                    mapper.readerForUpdating(sq).readValue(queryJson.toJSONString());
+                    
+                    // Map<String, Map<String, FacetLine>> facetLines = new HashMap<String, Map<String, FacetLine>> ();
+                    // for (Facet facet : sq.getFacets()) {
+                    //     Map<String, FacetLine> lineMap = new HashMap<String, FacetLine>();
+                    //     facetLines.put(facet.getName(), lineMap);
+
+                    //     for (FacetLine line : facet.getLines()){
+                    //         lineMap.put(line.getValue(), line);
+                    //     }
+                    // }
+                                        
+                    // for (Facet facet_item : response.getContent().getQuery().getFacets()) {
+                    //     for (FacetLine line : facet_item.getLines()){
+                    //         if(line.isChecked()){
+                    //             if (facetLines.containsValue(facet_item.getName())){
+                    //                 if (facetLines.get(facet_item.getName()).containsKey(line.getValue())){
+                    //                     FacetLine item = facetLines.get(facet_item.getName()).get(line.getValue());
+                    //                     item.setChecked(true);
+                    //                 }
+                    //             }
+                    //         }
+                    //     }
+                    // }
+                    response.getContent().setQuery(sq);
+                    // response.getContent().getQuery().getPagination().setItemsCount(sq.getPagination().getItemsCount());
+                    
+                    Collection<Entity> resultList = response.getContent().getResults();
+                    JSONArray results = (JSONArray) content.get("results");
+                    
+                    for (Object item : results){
+                        JSONObject entity = (JSONObject) item;
+                        if (entity.containsKey("ObjectType")){
+                            String type = (String) entity.get("ObjectType");
+                            if (type.equalsIgnoreCase("study")){
+                                LiteStudy study = new LiteStudy();
+                                mapper.readerForUpdating(study).readValue(entity.toJSONString());
+                                resultList.add(study);
+                            } else if (type.equalsIgnoreCase("compound")){
+                                MetaboLightsCompound compound = new MetaboLightsCompound();
+                                compound =  mapper.readerForUpdating(compound).readValue(entity.toJSONString());
+                                resultList.add(compound);
+                            } else {
+                                System.out.println("Object type is not defined: " + type);
+                            }
+                        } else {
+                            System.out.println("Object type is not defined");
+                        }
+                    }
+                }
+
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return response;
+        
     }
 
     public RestResponse<String> updatePublicReleaseDate(Date newPublicReleaseDate, String studyIdentifier) {

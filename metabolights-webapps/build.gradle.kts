@@ -14,16 +14,18 @@ dependencies {
     api("javax.mail:mail:1.4.5")
     api("uk.ac.ebi:ebinocle:1.0.4")
     api("uk.ac.ebi.biobabel:ebeye-client:2.0.0") {
-        exclude(group="log4j", module="log4j")
+        exclude("log4j:log4j:1.2.8")
     }
     api(project(":metabolights-referencelayer-dao"))
-    api("uk.ac.ebi.biobabel:biobabel-citations:2.0.3")
+    api("uk.ac.ebi.biobabel:biobabel-citations:2.0.3") {
+        exclude("log4j:log4j:1.2.8")
+    }
     api(project(":metabolights-ws-client"))
     api(project(":metabolights-isatab-utils"))
     api(project(":referencelayer-importer"))
     api("org.json:json:20090211")
-    api("org.apache.logging.log4j:log4j-web:2.17.2")
-    api("org.slf4j:jcl-over-slf4j:1.7.0")
+    // api("org.apache.logging.log4j:log4j-web:2.17.2")
+    api("org.slf4j:jcl-over-slf4j:1.7.36")
     api("org.springframework:spring-context:4.3.30.RELEASE")
     api("org.springframework:spring-aop:4.3.30.RELEASE")
     api("org.springframework:spring-orm:4.3.30.RELEASE")
@@ -37,10 +39,10 @@ dependencies {
     api("org.springframework:spring-core:4.3.30.RELEASE")
     api("org.springframework.session:spring-session-data-redis:1.3.5.RELEASE")
     api("biz.paluch.redis:lettuce:3.4.3.Final")
-    // api("org.hibernate:hibernate-core:4.2.11.Final")
-    // api("org.hibernate:hibernate-validator:4.3.2.Final")
-    api("org.hibernate:hibernate-core:5.6.15.Final")
-    api("org.hibernate:hibernate-validator:5.4.3.Final")
+    api("org.hibernate:hibernate-core:4.3.8.Final")
+    api("org.hibernate:hibernate-validator:4.3.2.Final")
+    // api("org.hibernate:hibernate-core:5.6.15.Final")
+    // api("org.hibernate:hibernate-validator:5.4.3.Final")
 
     api("org.postgresql:postgresql:42.6.0")
     api("org.apache.tiles:tiles-jsp:2.2.2")
@@ -49,15 +51,20 @@ dependencies {
     api("commons-fileupload:commons-fileupload:1.2.2")
     api("commons-dbcp:commons-dbcp:1.4")
     api("org.apache.velocity:velocity:1.7")
-    api("javax.persistence:persistence-api:1.0.2")
+    
     api("javax.servlet:jstl:1.2")
     api("commons-httpclient:commons-httpclient:3.1")
-    api("org.apache.logging.log4j:log4j-slf4j-impl:2.17.2")
-    api("org.apache.logging.log4j:log4j-core:2.17.2")
+    // api("org.apache.logging.log4j:log4j-slf4j-impl:2.17.2")
+    // api("org.apache.logging.log4j:log4j-core:2.17.2")
+    // api("org.slf4j:slf4j-log4j12:2.0.7")
+    // api("org.slf4j:slf4j-api:2.0.7")
+    // api("org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final")
     testImplementation("rhino:js:1.7R2")
     testImplementation("org.mozilla:rhino:1.7R3")
     testImplementation("net.sourceforge.jwebunit:jwebunit-htmlunit-plugin:2.5")
-    providedCompile("javax.servlet:javax.servlet-api:3.0.1")
+    api("javax.servlet:javax.servlet-api:3.0.1")
 }
-
+configurations.all {
+    exclude(group = "javax.persistence", module = "persistence-api")
+}
 description = "metabolights Web Application"

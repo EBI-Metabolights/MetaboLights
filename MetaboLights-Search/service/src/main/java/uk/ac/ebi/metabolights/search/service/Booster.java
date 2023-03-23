@@ -1,8 +1,5 @@
 package uk.ac.ebi.metabolights.search.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * User: conesa
  * Date: 15/06/15
@@ -10,7 +7,6 @@ import org.slf4j.LoggerFactory;
  */
 public class Booster {
 
-	private static final Logger logger = LoggerFactory.getLogger(Booster.class);
 
 	private String fieldName;
 	private float boost;
