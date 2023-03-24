@@ -85,9 +85,8 @@ import java.util.Calendar;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
-import org.elasticsearch.common.logging.ESLogger;
-import org.elasticsearch.common.logging.log4j.Log4jESLoggerFactory;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -108,7 +107,7 @@ public class ElasticSearchService implements SearchService <Entity> {
 	private String elasticsearchServerHost;
 	private int elasticsearchServerPort;
 
-	static ESLogger logger = Log4jESLoggerFactory.getLogger(ElasticSearchService.class.getName());
+	static Logger logger = LoggerFactory.getLogger(ElasticSearchService.class.getName());
 
 	public static final String COMPOUND_TYPE_NAME = "compound";
 	public static final String STUDY_TYPE_NAME = "study";
@@ -1045,7 +1044,7 @@ public class ElasticSearchService implements SearchService <Entity> {
 		fillPagination(esResponse,searchResult);
 
 		fillFacets(esResponse,searchResult);
-
+		logger.info("Search result for user {} with text '{}'", query.getUser().getId(), query.getText());
 		return searchResult;
 
 	}

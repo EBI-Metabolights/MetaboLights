@@ -162,7 +162,7 @@ public class MetabolightsWsClient {
 
     private String makeRequestSendingData(String path, Object dataToSend, String method, String host) {
 
-        logger.debug("Making a {} request to {}", method,path);
+        logger.info("Making a {} request to {}", method, path);
 
         try {
 
@@ -269,6 +269,7 @@ public class MetabolightsWsClient {
         url = new URL(base + "/" + path);
 
         System.out.println( " !!metabolightsWsURI :- " +url);
+        logger.info( " !!metabolightsWsURI :- {}", url);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod(method);
         conn.setRequestProperty("Accept", "application/json");
@@ -531,7 +532,7 @@ public class MetabolightsWsClient {
 
     public RestResponse<? extends MixedSearchResult> search() {
 
-        logger.debug("Empty search requested to the MetaboLights WS client");
+        logger.info("Empty search requested to the MetaboLights WS client");
 
         // Make the request
         String response = makeGetRequest("search");

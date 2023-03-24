@@ -14,11 +14,13 @@ dependencies {
     api(project(":metabolights-dao"))
     api(project(":metabolights-referencelayer-dao"))
     api(project(":service-es"))
-    // api("org.apache.logging.log4j:log4j-web:2.17.2")
-    // api("org.apache.logging.log4j:log4j-slf4j-impl:2.17.2")
-    // api("org.apache.logging.log4j:log4j-core:2.17.2")
+
+
     api("org.bitbucket.b_c:jose4j:0.4.4")
-    api("org.springframework:spring-context:4.3.30.RELEASE")
+    api("org.springframework:spring-context:4.3.30.RELEASE"){
+        exclude("commons-logging", "commons-logging")
+        exclude("log4j", "log4j")
+    }
     api("org.springframework:spring-webmvc:4.3.30.RELEASE")
     api("org.springframework:spring-jdbc:4.3.30.RELEASE")
     api("org.springframework:spring-web:4.3.30.RELEASE")
@@ -28,7 +30,10 @@ dependencies {
     api("org.springframework:spring-context-support:4.3.30.RELEASE")
     api("javax.mail:mail:1.4")
     api("org.springframework.security:spring-security-config:4.2.20.RELEASE")
-    api("uk.ac.ebi.biobabel:biobabel-citations:2.0.3")
+    api("uk.ac.ebi.biobabel:biobabel-citations:2.0.3") {
+        exclude("commons-logging", "commons-logging")
+        exclude("log4j", "log4j")
+    }
     api("uk.ac.ebi.metabolights:chemspider_webservices:1.0")
     api("org.apache.axis2:axis2-kernel:1.6.1")
     api("org.apache.axis2:axis2-adb:1.6.1")
@@ -37,7 +42,10 @@ dependencies {
     api("org.apache.commons:commons-compress:1.9")
     api("com.auth0:java-jwt:2.1.0")
     api("com.univocity:univocity-parsers:2.2.0")
-    api("org.apache.httpcomponents:httpclient:4.3.5")
+    api("org.apache.httpcomponents:httpclient:4.3.5") {
+        exclude("commons-logging", "commons-logging")
+        exclude("log4j", "log4j")
+    }
     api("uk.ac.ebi.chebi.webapps.chebiWS.client:chebiWS-client:2.3.2")
     api("javax.annotation:javax.annotation-api:1.3.2")
     runtimeOnly("org.apache.axis2:axis2-transport-http:1.6.4")
