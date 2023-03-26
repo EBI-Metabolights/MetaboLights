@@ -25,8 +25,6 @@ package uk.ac.ebi.metabolights.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,7 +36,6 @@ import uk.ac.ebi.metabolights.model.queue.SubmissionItem;
 import uk.ac.ebi.metabolights.model.queue.SubmissionQueue;
 import uk.ac.ebi.metabolights.repository.model.Entity;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
-import uk.ac.ebi.metabolights.repository.model.User;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.service.AppContext;
@@ -48,7 +45,6 @@ import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 import uk.ac.ebi.metabolights.utils.UploadProgressListener;
 import uk.ac.ebi.metabolights.webapp.StudyHealth;
 import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
-import uk.ac.ebi.metabolights.webservice.client.models.ArrayListOfStrings;
 import uk.ac.ebi.metabolights.webservice.client.models.MixedSearchResult;
 
 import javax.naming.Binding;
@@ -199,7 +195,7 @@ public class ManagerController extends AbstractController{
 
 		// Queue management
 		mav.addObject("user_token", LoginController.getLoggedUser().getApiToken());
-		mav.addObject("queueRunning", EntryController.getMetabolightsWsClient().getQueueStatus().getContent());
+//		mav.addObject("queueRunning", EntryController.getMetabolightsWsClient().getQueueStatus().getContent());
 
         MetaboLightsParameters instances = parametersService.getMetaboLightsParametersOnName("instances");
 
@@ -327,42 +323,44 @@ public class ManagerController extends AbstractController{
 	@RequestMapping(value = "/togglequeue")
 	public @ResponseBody String toggleQueue(@RequestParam(required = true, value = "user_token") String user_token, @RequestParam(required = true, value = "instance") String instance) {
 
-		String wsUrl = "http://" + EntryController.composeWSPath(instance + "/metabolights/" );
-
-		MetabolightsWsClient client = EntryController.getMetabolightsWsClient(user_token, wsUrl);
-
-		RestResponse<Boolean> response;
-
-		try {
-
-			response = client.toggleQueue();
-			return response.getMessage();
-
-		} catch (Exception e){
-
-			return e.getMessage();
-		}
+//		String wsUrl = "http://" + EntryController.composeWSPath(instance + "/metabolights/" );
+//
+//		MetabolightsWs--Client client = EntryController.getMetabolightsWs--Client(user_token, wsUrl);
+//
+//		RestResponse<Boolean> response;
+//
+//		try {
+//
+//			response = client.toggleQueue();
+//			return response.getMessage();
+//
+//		} catch (Exception e){
+//
+//			return e.getMessage();
+//		}
+		return "true";
 	}
 
     @RequestMapping(value = "/queuestatus")
     public @ResponseBody String getQueueStatus(@RequestParam(required = true, value = "user_token") String user_token, @RequestParam(required = true, value = "instance") String instance) {
 
-		String wsUrl = "http://" + EntryController.composeWSPath(instance + "/metabolights/" );
+//		String wsUrl = "http://" + EntryController.composeWSPath(instance + "/metabolights/" );
+//
+//		MetabolightsWsClient client = EntryController.getMetabolightsWs--Client(user_token, wsUrl);
+//
+//		RestResponse<Boolean> response;
+//
+//		try {
+//
+//			response = client.getQueueStatus();
+//			return response.getMessage();
+//
+//		} catch (Exception e){
+//
+//			return e.getMessage();
+//		}
 
-		MetabolightsWsClient client = EntryController.getMetabolightsWsClient(user_token, wsUrl);
-
-		RestResponse<Boolean> response;
-
-		try {
-
-			response = client.getQueueStatus();
-			return response.getMessage();
-
-		} catch (Exception e){
-
-			return e.getMessage();
-		}
-
+		return "true";
 	}
 
 	@RequestMapping({"/users"})
@@ -422,50 +420,50 @@ public class ManagerController extends AbstractController{
 	private ModelAndView deleteIndexedStudies(String[] studyIdentifiers) {
 
 
-		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+//		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+//
+//		RestResponse<ArrayListOfStrings> response;
+//
+//		if(studyIdentifiers != null){
+//
+//			logger.info("Deleting indexed studies: " + Arrays.toString(studyIdentifiers));
+//
+//			response = wsClient.deleteIndexedEntries(Arrays.asList(studyIdentifiers));
+//
+//		} else {
+//
+//			logger.info("Deleting all indexed studies");
+//
+//			response = wsClient.deleteStudiesIndex();
+//		}
 
-		RestResponse<ArrayListOfStrings> response;
-
-		if(studyIdentifiers != null){
-
-			logger.info("Deleting indexed studies: " + Arrays.toString(studyIdentifiers));
-
-			response = wsClient.deleteIndexedEntries(Arrays.asList(studyIdentifiers));
-
-		} else {
-
-			logger.info("Deleting all indexed studies");
-
-			response = wsClient.deleteStudiesIndex();
-
-		}
-
-		return printMessage(response);
+		return printMessage("Delete Indexed Studies", "Please use Python API");
 	}
 
 
 	private ModelAndView reindexStudies(String[] studyIdentifiers) {
 
-
-		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
-
-		RestResponse<ArrayListOfStrings> response;
-
-		if(studyIdentifiers != null){
-
-			logger.info("Re-indexing studyIdentifies: " + Arrays.toString(studyIdentifiers));
-
-			response = wsClient.indexStudies(Arrays.asList(studyIdentifiers));
-
-		} else {
-
-			logger.info("Re-indexing all studies");
-
-			response = wsClient.indexAllStudies();
-
-		}
-
-		return printMessage(response);
+//
+//		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+//
+//		RestResponse<ArrayListOfStrings> response;
+//
+//		if(studyIdentifiers != null){
+//
+//			logger.info("Re-indexing studyIdentifies: " + Arrays.toString(studyIdentifiers));
+//
+//			response = wsClient.indexStudies(Arrays.asList(studyIdentifiers));
+//
+//		} else {
+//
+//			logger.info("Re-indexing all studies");
+//
+//			response = wsClient.indexAllStudies();
+//
+//		}
+//
+//		return printMessage(response);
+		return printMessage("Reindex Studies", "Please use Python API");
 	}
 
 	/**
@@ -475,14 +473,15 @@ public class ManagerController extends AbstractController{
 	@RequestMapping(value = "/resetIndex")
 	public ModelAndView resetIndex(){
 
-		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
-
-		RestResponse<String> response;
-
-		logger.info("Reset index: Delete, rebuild and re-apply the mappings for studies and compounds");
-		response = wsClient.resetIndex();
-
-		return printSingleMessage(response);
+//		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+//
+//		RestResponse<String> response;
+//
+//		logger.info("Reset index: Delete, rebuild and re-apply the mappings for studies and compounds");
+//		response = wsClient.resetIndex();
+//
+//		return printSingleMessage(response);
+		return printMessage("resetIndex", "Please use Python API");
 	}
 	/**
 	 * Will delete the studies index, to use carefully.
@@ -506,26 +505,26 @@ public class ManagerController extends AbstractController{
 	public ModelAndView reindexcompounds(@RequestParam(required = false, value = "compound") String compound){
 
 
-		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
-
-		RestResponse<ArrayListOfStrings> response;
-
-		if(compound != null){
-
-			logger.info("Re-indexing compound: " + compound);
-
-			response = wsClient.indexCompound(compound);
-
-		} else {
-
-			logger.info("Re-indexing all compounds");
-
-			response = wsClient.indexAllCompounds();
-
-		}
-
-		return printMessage(response);
-
+//		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+//
+//		RestResponse<ArrayListOfStrings> response;
+//
+//		if(compound != null){
+//
+//			logger.info("Re-indexing compound: " + compound);
+//
+//			response = wsClient.indexCompound(compound);
+//
+//		} else {
+//
+//			logger.info("Re-indexing all compounds");
+//
+//			response = wsClient.indexAllCompounds();
+//
+//		}
+//
+//		return printMessage(response);
+		return printMessage("Reindex compounds", "Please use Python API");
 	}
 
 	/**
@@ -535,17 +534,18 @@ public class ManagerController extends AbstractController{
 	 */
 	@RequestMapping(value = "/deleteindexedcompounds")
 	public ModelAndView deleteIndexedCompounds(){
-
-
-		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
-
-		RestResponse<ArrayListOfStrings> response;
-
-		logger.info("Deleting compounds index");
-
-		response = wsClient.deleteCompoundsIndex();
-
-		return printMessage(response);
+//
+//
+//		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+//
+//		RestResponse<ArrayListOfStrings> response;
+//
+//		logger.info("Deleting compounds index");
+//
+//		response = wsClient.deleteCompoundsIndex();
+//
+//		return printMessage(response);
+		return printMessage("Reindex compounds", "Please use Python API");
 
 	}
 

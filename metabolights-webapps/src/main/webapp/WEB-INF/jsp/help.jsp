@@ -31,7 +31,7 @@
         <div>&nbsp;</div>
         <div class="col-md-8 col-md-offset-2">
             <video width="100%" height="auto" controls>
-                <source src="<c:out value="${guidedVideoBaseURL}"/>/201904_ML_ALL.mp4" type="video/mp4">
+                <source src="<c:out value="${assetsServerBaseURL}"/>/videos/201904_ML_ALL.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>

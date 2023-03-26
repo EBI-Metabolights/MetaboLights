@@ -66,8 +66,6 @@ public class UpdateStudyController extends AbstractController {
 	@Autowired
 	private EmailService emailService;
 		
-	@Autowired
-	private SubmissionController submissionController;
 
 	/**
 	 * Receives the study that is going to be published and shows the updateStudy Page to let the user to set the public release date.
@@ -337,22 +335,22 @@ public class UpdateStudyController extends AbstractController {
 		// Log start
 		logger.info("Deletion request of " + studyIdentifier + " by " + user.getUserName());
 
+//
+//		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+//
+//		RestResponse<String> response = wsClient.deleteStudy(studyIdentifier);
 
-		MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
+//		if (response.getErr() == null)
+//			return this.printMessage("Study " + studyIdentifier + " deleted.", response.getMessage());
+//
+//
+//		else {
+//
+//			logger.error("There's been a problem while deleting {} study: {} ", studyIdentifier, response.getErr().getMessage() );
+//			throw new Exception(response.getErr().getMessage());
+//		}
 
-		RestResponse<String> response = wsClient.deleteStudy(studyIdentifier);
-
-		if (response.getErr() == null)
-			return this.printMessage("Study " + studyIdentifier + " deleted.", response.getMessage());
-
-
-		else {
-
-			logger.error("There's been a problem while deleting {} study: {} ", studyIdentifier, response.getErr().getMessage() );
-			throw new Exception(response.getErr().getMessage());
-		}
-
-
+		return this.printMessage("Study " + studyIdentifier + " deleted.", "response.getMessage()");
  	}
 
 	/**

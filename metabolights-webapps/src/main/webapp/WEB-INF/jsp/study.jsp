@@ -44,10 +44,6 @@
 <script type="text/javascript" src="./editor/assets/aspera/ml-aspera.js" charset="utf-8"></script>
 <script type="text/javascript" src="./editor/assets/aspera/install.js" charset="utf-8"></script>
 
-<%--<script>--%>
-<%--var editorToken = ${editorToken};--%>
-<%--localStorage.setItem("user", JSON.stringify(editorToken));--%>
-<%--</script>--%>
 <style type="text/css">
     body, html {
         height: 100%;
@@ -106,7 +102,7 @@
         We're sorry but MetaboLights online submission and editor tool doesn't work properly without JavaScript enabled. Please enable it to continue.
     </strong>
 </noscript>
-<app-root mtblsid="${studyId}" obfuscationcode="${obfuscationCode}" mtblsUser="${email}" isOwner="${isOwner}" isCurator="${isCurator}" mtblsJWT="${jwt}">
+<app-root mtblsid="${studyId}" obfuscationcode="${obfuscationCode}" mtblsuser="${email}" isOwner="${isOwner}" isCurator="${isCurator}" mtblsjwt="${jwt}">
     <div class="app-loading">
         <div class="logo"></div>
         <svg class="spinner" viewBox="25 25 50 50">

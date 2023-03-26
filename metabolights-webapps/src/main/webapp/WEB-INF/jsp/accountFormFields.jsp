@@ -93,7 +93,7 @@
         <span class="error"><form:errors path="affiliationUrl"/></span>
 </div>
 
-<sec:authorize ifAnyGranted="ROLE_SUPER_USER">
+<sec:authorize access="hasRole('ROLE_SUPER_USER')">
     <div class="form-group">
         <label><spring:message code="label.userStatus"/>*:</label>
             <form:select class="form-control" path="status" items="${metabolightsUser.listOfAllStatus}"/>

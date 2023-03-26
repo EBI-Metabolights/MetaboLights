@@ -22,9 +22,7 @@ package uk.ac.ebi.metabolights.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import uk.ac.ebi.metabolights.model.MetabolightsUser;
 import uk.ac.ebi.metabolights.service.AppContext;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,9 +35,6 @@ public class AdvancedSearchController extends AbstractController {
     @RequestMapping(value = {"/advancedsearch"})
     public ModelAndView showAdvancedSearchPage(HttpServletRequest request) {
         ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("advancedSearch");
-//        mav.addObject("studyId", studyId);
-//        MetabolightsUser user = LoginController.getLoggedUser();
-//        mav.addObject("apiToken", user.getApiToken());
 
         return mav;
 

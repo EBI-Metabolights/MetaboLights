@@ -1,7 +1,5 @@
 package uk.ac.ebi.metabolights.webservice.client;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -11,7 +9,6 @@ import java.net.URL;
  * Created by venkata on 10/03/2016.
  */
 public class WsClient {
-    private static final Logger logger = LoggerFactory.getLogger(WsClient.class);
 
     public static String excuteRequest(String targetURL, String urlParameters, String method) {
         HttpURLConnection connection = null;

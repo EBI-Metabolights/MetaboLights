@@ -1,3 +1,6 @@
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%--
   ~ EBI MetaboLights - http://www.ebi.ac.uk/metabolights
   ~ Cheminformatics and Metabolism group
@@ -106,6 +109,13 @@
         <div class="ml-header-section-top">
             <div class="col-md-12">
                 <div class="row">
+                    <c:if test="${not empty bannerMessage}">
+                        <div class="col-md-12 ">
+                            <div style="font-size: 14px; color: red; background-color: cornsilk; border-radius: 5px; padding: 5px; border: 1px solid #cce9ff; ">${bannerMessage}</div>
+                        </div>
+                    </c:if>
+                </div>
+                <div class="row">
                     <div class="col-md-7 col-sm-6">
                         <div class="alpha logo-title" id="local-title">
                             <a id="mlLogo" class="ml-logo" href="index" title="Back to MetaboLights homepage">
@@ -154,7 +164,7 @@
                                 <li><a href="/metabolights/about">About</a></li>
                                     </ul>
                                 <ul class="nav navbar-nav cnav navbar-right">
-                                    <li><a href="/metabolights/presubmit">Submit Study</a></li>
+                                    <li><a href="/metabolights/editor">Submit Study</a></li>
                                     <li><a href="/metabolights/login">Login</a></li>
                                 </ul>
                             </span>
@@ -176,7 +186,7 @@
                                     </li>
                                 </ul>
                                 <ul class="nav navbar-nav cnav navbar-right">
-                                    <li><a href="/metabolights/presubmit">Submit Study</a></li>
+                                    <li><a href="/metabolights/editor">Submit Study</a></li>
                                     <li><a href="/metabolights/login">Login</a></li>
                                 </ul>
                             </span>
@@ -185,23 +195,19 @@
                 <script>
                     $('[href="analysis"]').hide();
                 </script>
-            <%--<nav class="navbar navbar-dark">--%>
-                <%--<ul class="nav navbar-nav">--%>
-
-                <%--</ul>--%>
-                <%--<ul class="nav navbar-nav navbar-right">--%>
-                    <%--<li><a href="//www.ebi.ac.uk/about">Submit Study</a></li>--%>
-                    <%--<li><a href="//www.ebi.ac.uk/about">Login</a></li>--%>
-                <%--</ul>--%>
-            <%--</nav>--%>
         </div>
     </div>
 </div>
 <script>
-    var subDomain = window.location.host.split('.')[0]
-    if(subDomain != 'www'){
+    var host = window.location.host;
+    if(!host.startsWith('www.ebi')){
         var brand = document.getElementById("mlLogo")
-        brand.innerHTML = "MetaboLights DEV";
+        if(${pageContext.request.serverPort} != "80"){
+            brand.innerHTML = "${pageContext.request.serverName}:${pageContext.request.serverPort}" ;
+        } else {
+            brand.innerHTML = "${pageContext.request.serverName}" ;
+        }
+        
         brand.style.color = "yellow";
         brand.style.fontWeight = "300";
     }

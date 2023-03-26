@@ -80,7 +80,7 @@
                                 <a href="http://www.ebi.ac.uk/chebi/searchId.do?chebiId=${compound.mc.chebiId}">${compound.chebiEntity.chebiAsciiName}
                                     - (${compound.mc.chebiId})</a>
                             </p>
-                            <p><%-- <a href="${pageContext.request.contextPath}/old/${compound.mc.accession}" class="icon icon-functional" data-icon="*">OLD</a>&emsp; --%><a href="${pageContext.request.contextPath}/beta/${compound.mc.accession}" class="icon icon-functional" data-icon=")">BETA</a></p>
+                            <p><%-- <a href="${pageContext.request.contextPath}/old/${compound.mc.accession}" class="icon icon-functional" data-icon="*">OLD</a>&emsp; --%><a href="${metabolightsPythonWsUrl} + '/compounds/'+${compound.mc.accession}+'/file'" class="icon icon-functional" data-icon=")">BETA</a></p>
                             <p><a href="${pageContext.request.contextPath}/referencespectraupload?cid=${compound.mc.accession}"
                                   class="icon icon-functional" data-icon="_">Upload Reference Spectra</a></p>
                         </div>
@@ -335,7 +335,7 @@
                                                     {
                                                         "id":${spectra.id},
                                                         "name": "${spectra.name}",
-                                                        "url": "http://www.ebi.ac.uk/metabolights/webservice/compounds/spectra/${spectra.id}/json",
+                                                        "url": "${metabolightsPythonWsUrl}/compounds/${spectra.id}/file",
                                                         "type": "${spectra.spectraType}",
                                                         "properties": [
                                                             <c:forEach var="attribute" items="${spectra.attributes}" varStatus="attributeLoopStatus">
@@ -385,7 +385,7 @@
                                                     {
                                                         "id":${msspectra.id},
                                                         "name": "${msspectra.name}",
-                                                        "url": "http://www.ebi.ac.uk/metabolights/webservice/compounds/spectra/${msspectra.id}/json",
+                                                        "url": "${metabolightsPythonWsUrl}/compounds/${msspectra.id}/file",
                                                         "type": "${msspectra.spectraType}",
                                                         "properties": [
                                                             <c:forEach var="attribute" items="${msspectra.attributes}" varStatus="attributeLoopStatus">
@@ -542,7 +542,8 @@
         loadSpectraInfo(spectrum, infoDiv);
     }
     function loadSpectraAndInfo(spectra, infoDiv) {
-        MLSpectraURL = "http://wwwdev.ebi.ac.uk/metabolights/webservice/beta/spectra/${compound.mc.accession}/" + spectra[0]['name'];
+        metabolightsPythonWsUrl = "${metabolightsPythonWsUrl}";
+        MLSpectraURL = metabolightsPythonWsUrl + "/compounds/${compound.mc.accession}/" + spectra[0]['name'] + "/file";
         loadSPLASH(MLSpectraURL);
         loadSpectra(spectra);
 

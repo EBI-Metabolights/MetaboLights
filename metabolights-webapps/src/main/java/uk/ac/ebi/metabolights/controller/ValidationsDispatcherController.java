@@ -24,10 +24,9 @@ package uk.ac.ebi.metabolights.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
-import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
+//import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
+//import uk.ac.ebi.metabolights.webservice.client.Metabolights---WsClient;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -54,22 +53,22 @@ public class ValidationsDispatcherController  extends AbstractController{
      * @author: jrmacias
      * @date: 20160216
      */
-    @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_VALIDATIONS + "/statusReportByMail")
+    // @RequestMapping(value = "/{studyId:" + EntryController.METABOLIGHTS_ID_REG_EXP + "}/" + URL_4_VALIDATIONS + "/statusReportByMail")
     public ModelAndView sendValitationReportByEmail(@PathVariable("studyId") String studyId) {
 
         logger.info("Sending the Validations Status report for the study {} to the submitter by email.", studyId);
 
         // Using the WebService-client to do the job
-        MetabolightsWsClient wsClient = EntryController.getMetabolightsWsClient();
-        RestResponse<String> rslt = wsClient.sendValitationReportByEmail(studyId);
+//        MetabolightsWs---Client wsClient = EntryController.getMetabolights---WsClient();
+//        RestResponse<String> rslt = wsClient.sendValitationReportByEmail(studyId);
 
         // parse WS response for user feedback
         List<String> msg = new LinkedList<>();
-        String[] str = rslt.getMessage().split("\\|");
-        for (String line:str){
-            msg.add(line);
-        }
+//        String[] str = rslt.getMessage().split("\\|");
+//        for (String line:str){
+//            msg.add(line);
+//        }
 
-        return printMessage("Sending the Validations Status report for Study...", msg, rslt.getErr(), studyId);
+        return printMessage("Sending the Validations Status report for Study...", msg, null, studyId);
     }
 }

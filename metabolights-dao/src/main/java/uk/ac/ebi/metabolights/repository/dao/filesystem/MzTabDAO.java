@@ -28,7 +28,6 @@ import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignmentLine;
 import uk.ac.ebi.metabolights.repository.model.SampleMeasurement;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -166,27 +165,6 @@ public class MzTabDAO {
         }
 
         return "";
-    }
-
-
-
-
-    //This can be used to find (MAF) files on the filesystem
-    private File[] findMAFiles(String folderName){
-        File dir = new File(folderName);      //Folder that holds the MAF files
-
-        File[] matches = dir.listFiles(
-            new FilenameFilter(){
-                public boolean accept(File dir, String name){
-                        return name.startsWith("m_") && name.endsWith(".tsv");
-                }
-
-            }
-
-        );
-
-        return matches;
-
     }
 
     private int getMaxColumnNumber(CsvReader fileData, String columnName, int previousMaxNumber){

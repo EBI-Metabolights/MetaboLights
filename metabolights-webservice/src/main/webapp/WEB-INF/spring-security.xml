@@ -23,13 +23,15 @@
        xmlns="http://www.springframework.org/schema/security"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 
     <global-method-security pre-post-annotations="enabled"/>
 
     <http entry-point-ref="restAuthenticationEntryPoint" create-session="stateless">
         <!-- Additional http configuration omitted -->
         <custom-filter position="PRE_AUTH_FILTER" ref="siteminderFilter" />
+        <csrf disabled="true"/>
+        <headers disabled="true"/>
     </http>
 
     <b:bean id="siteminderFilter" class="org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter">
@@ -40,8 +42,7 @@
 
     <b:bean id="preauthAuthProvider" class="org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider">
         <b:property name="preAuthenticatedUserDetailsService">
-            <b:bean id="userDetailsServiceWrapper"
-                  class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper">
+            <b:bean id="userDetailsServiceWrapper" class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper">
                 <b:property name="userDetailsService" ref="userDetailsService"/>
             </b:bean>
         </b:property>

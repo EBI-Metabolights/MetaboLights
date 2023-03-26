@@ -20,9 +20,6 @@
  */
 
 package uk.ac.ebi.metabolights.controller;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -75,7 +72,7 @@ public class WSSearchController extends AbstractController {
     public static final String VALIDATIONS_ENTRIES_STATUS = "validations.entries.statusExt";
     public static final String SEARCH_USER_STUDIES = "searchUserStudies";
 
-    private static Logger logger = LoggerFactory.getLogger(WSSearchController.class);
+    //private static Logger logger = LoggerFactory.getLogger(WSSearchController.class);
 
 
     /**
@@ -279,7 +276,7 @@ public class WSSearchController extends AbstractController {
             }
         }
 
-        logger.warn("Facet with name {} not found.", name);
+        //logger.warn("Facet with name {} not found.", name);
         return null;
     }
 

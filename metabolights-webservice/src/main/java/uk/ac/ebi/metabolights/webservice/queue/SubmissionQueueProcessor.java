@@ -30,7 +30,7 @@ import uk.ac.ebi.metabolights.repository.dao.StudyDAO;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.model.Study;
 import uk.ac.ebi.metabolights.search.service.imp.es.ElasticSearchService;
-import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
+//import uk.ac.ebi.metabolights.webservice.client.Metabolights---WsClient;
 import uk.ac.ebi.metabolights.webservice.services.AppContext;
 import uk.ac.ebi.metabolights.webservice.utils.FileUtil;
 import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
@@ -52,12 +52,12 @@ public class SubmissionQueueProcessor {
 
 	private ElasticSearchService searchService = SubmissionQueueManager.searchService;
 
-	private StudyDAO studyDAO;
+	private StudyDAO studyDAO = null;
 	private SubmissionItem si;
 
 	public SubmissionQueueProcessor(SubmissionItem itemToSubmit) throws DAOException {
 
-		studyDAO = DAOFactory.getInstance().getStudyDAO();
+		this.studyDAO = DAOFactory.getInstance().getStudyDAO();
 		this.si = itemToSubmit;
 
 	}
@@ -77,8 +77,6 @@ public class SubmissionQueueProcessor {
 				return;
 			}
 
-			String labsProjectId = null;
-
 					// Move it to the process folders
 			si.moveFileTo(SubmissionQueue.getProcessFolder(), false);
 
@@ -90,13 +88,13 @@ public class SubmissionQueueProcessor {
 				// Inform the user and team.
 				if (si.getOriginalFileName().contains("LABS_")){
 
-					labsProjectId = si.getOriginalFileName().replace("LABS_", "").replace(".zip", "");
-					String userID = si.getUserToken();
+					 si.getOriginalFileName().replace("LABS_", "").replace(".zip", "");
+					si.getUserToken();
 
 					AppContext.getEmailService().sendQueuedStudySubmitted(newStudy, si.getOriginalFileName());
 
-                    MetabolightsWsClient mwsClient  = new MetabolightsWsClient();
-                    mwsClient.mapStudyToLabsProject(newStudy.getStudyIdentifier(), labsProjectId, userID, PropertiesUtil.getProperty("EBIHost"));
+//                    Metabolights---WsClient mwsClient  = new Metabolights---WsClient();
+//                    mwsClient.mapStudyToLabsProject(newStudy.getStudyIdentifier(), labsProjectId, userID, PropertiesUtil.getProperty("EBIHost"));
 
 				} else {
 					AppContext.getEmailService().sendQueuedStudySubmitted(newStudy, si.getOriginalFileName());

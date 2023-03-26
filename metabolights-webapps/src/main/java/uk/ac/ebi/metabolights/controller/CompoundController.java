@@ -28,9 +28,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import uk.ac.ebi.cdb.webservice.WSCitationImpl;
-import uk.ac.ebi.metabolights.model.WebCompound;
-import uk.ac.ebi.metabolights.referencelayer.model.Compound;
 import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.webservice.client.models.CitationsList;
@@ -52,7 +49,6 @@ public class CompoundController extends AbstractController {
     public static final String METABOLIGHTS_COMPOUND_ID_REG_EXP = "(?:MTBLC|compoundId).+";
 
     //String PMCurl = "http://www.ebi.ac.uk/webservices/citexplore/v3.0.1/service?wsdl";
-    private WSCitationImpl PMCSearchService;
 
     @RequestMapping(value = "/{compoundId:" + METABOLIGHTS_COMPOUND_ID_REG_EXP + "}")
     public ModelAndView showEntry(@PathVariable("compoundId") String mtblc, HttpServletRequest request) {
@@ -60,24 +56,17 @@ public class CompoundController extends AbstractController {
 		logger.info("requested compound " + mtblc);
 
 		String view =  "compound";
-
         ModelAndView mav = AppContext.getMAVFactory().getFrontierMav(view);
 
-//        Compound compound = ModelObjectFactory.getCompound(mtblc);
-//        RestResponse<Compound> response = EntryController.getMetabolightsWsClient().getCompound(mtblc);
-//
-//        Compound compound = response.getContent();
-//
-//        if (compound == null)
-//            return printMessage("Couldn't get the requested compound: "+ mtblc, response.getErr().getMessage());
-//
-//        /* We need the species grouped */
-//
-//        WebCompound webCompound = new WebCompound(compound);
+        String metabolightsPythonWsUrl = EntryController.getMetabolightsPythonWsUrl();
+        mav.addObject("metabolightsPythonWsUrl", metabolightsPythonWsUrl);
 
+        
         mav.addObject("compound", mtblc);
 
-		//mav.addObject("pageTitle", mtblc + " - " + webCompound.getMc().getName());
+        String assetsServerBaseURL = EntryController.getMetabolightsAssetsServerBaseUrl();
+        mav.addObject("assetsServerBaseURL", assetsServerBaseURL);
+        
 
         return mav;
 

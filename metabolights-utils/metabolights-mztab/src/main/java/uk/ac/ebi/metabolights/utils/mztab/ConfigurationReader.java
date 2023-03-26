@@ -24,8 +24,7 @@ package uk.ac.ebi.metabolights.utils.mztab;
 import org.apache.xmlbeans.XmlException;
 import org.isatools.isacreator.configuration.io.ConfigXMLParser;
 import org.isatools.isacreator.spreadsheet.model.TableReferenceObject;
-import org.isatools.isatab.configurator.schema.IsaTabConfigurationType;
-import org.isatools.isatab.configurator.schema.IsatabConfigFileDocument;
+
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -52,26 +51,26 @@ public class ConfigurationReader {
     private TableReferenceObject getConfiguration(String fileName){
         TableReferenceObject tableReferenceObject = null;
 
-        //Load the current settings file
-        try {
-            InputStream inputStream = new FileInputStream(configurationMSfile);
-            IsatabConfigFileDocument configurationFile = IsatabConfigFileDocument.Factory.parse(inputStream);
+        // //Load the current settings file
+        // try {
+        //     InputStream inputStream = new FileInputStream(configurationMSfile);
+        //     IsatabConfigFileDocument configurationFile = IsatabConfigFileDocument.Factory.parse(inputStream);
 
-            ConfigXMLParser parser = new ConfigXMLParser("");
+        //     ConfigXMLParser parser = new ConfigXMLParser("");
 
-            //Add columns defined in the configuration file
-            for (IsaTabConfigurationType doc : configurationFile.getIsatabConfigFile().getIsatabConfigurationArray()) {
-                parser.processTable(doc);
-            }
+        //     //Add columns defined in the configuration file
+        //     for (IsaTabConfigurationType doc : configurationFile.getIsatabConfigFile().getIsatabConfigurationArray()) {
+        //         parser.processTable(doc);
+        //     }
 
-            if (parser.getTables().size() > 0) {
-                return parser.getTables().get(0);
-            }
-        } catch (XmlException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        //     if (parser.getTables().size() > 0) {
+        //         return parser.getTables().get(0);
+        //     }
+        // } catch (XmlException e) {
+        //     e.printStackTrace();
+        // } catch (IOException e) {
+        //     e.printStackTrace();
+        // }
 
         return tableReferenceObject;
     }

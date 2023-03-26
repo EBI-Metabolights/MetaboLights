@@ -5,15 +5,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -138,7 +131,7 @@ public class CTSSearch implements Serializable, Cloneable, Callable<Collection<C
     private boolean isSuccess(String response) {
         if (response != null) {
             try {
-                JSONObject object = new JSONObject(response);
+                new JSONObject(response);
                 return true;
             } catch (JSONException e) {
                 e.printStackTrace();

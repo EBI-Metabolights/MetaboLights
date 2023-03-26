@@ -33,7 +33,9 @@ import uk.ac.ebi.metabolights.referencelayer.model.Species;
 import uk.ac.ebi.metabolights.referencelayer.model.SpeciesGroup;
 import uk.ac.ebi.metabolights.referencelayer.model.ModelObjectFactory;
 import uk.ac.ebi.metabolights.service.AppContext;
+import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -112,13 +114,14 @@ public class SpeciesSearchController extends AbstractController {
 	@RequestMapping(value = "/species/json")
 	@ResponseBody
 	public String getJsonSpecies() {
-
-		Collection<SpeciesGroup> groups = ModelObjectFactory.getAllSpeciesTree();
-
-		// Need to build the json structure.
-		String json = getSpeciesTreeToJson(groups);
-
+		String json = MetabolightsWsClient.getInstance().makePythonGetRequest("/species/tree");
 		return json;
+		// Collection<SpeciesGroup> groups = ModelObjectFactory.getAllSpeciesTree();
+
+		// // Need to build the json structure.
+		// String json = getSpeciesTreeToJson(groups);
+
+		// return json;
 
 	}
 
@@ -286,12 +289,12 @@ public class SpeciesSearchController extends AbstractController {
         }
 
         response.setContentType("text/html");
-        PrintWriter writer;
+        ServletOutputStream writer;
         try {
-            writer = response.getWriter();
-            writer.write(autoCompleteList);
+            writer = response.getOutputStream();
+            writer.print(autoCompleteList);
+			response.flushBuffer();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -304,7 +307,7 @@ public class SpeciesSearchController extends AbstractController {
         if (speciesList == null) //Take some time, so only populate when empty
             speciesList =  ModelObjectFactory.getAutoCompleteSpecies();
 
-        Iterator itr = speciesList.iterator();
+        Iterator<String> itr = speciesList.iterator();
         while(itr.hasNext()) {
             autoCompleteList += itr.next().toString();
         }

@@ -23,13 +23,10 @@ package uk.ac.ebi.metabolights.webapp;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.ModelAndView;
-import org.xmlsoap.schemas.soap.encoding.Boolean;
+import uk.ac.ebi.metabolights.controller.EntryController;
 
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -44,7 +41,6 @@ import java.net.URL;
  */
 public class StyleMAVFactory {
 
-	private static Logger logger = LoggerFactory.getLogger(StyleMAVFactory.class);
 
 	// URLs to make the requests
 	private String headerURL;
@@ -120,7 +116,7 @@ public class StyleMAVFactory {
 			while ( (inputLine = in.readLine()) != null) sbf.append(inputLine);
 			in.close();
 		} catch (Exception e) {
-			logger.info("Failed to get HTML from: " + requestUrl + "\n." + e.getMessage());
+			// logger.info("Failed to get HTML from: " + requestUrl + "\n." + e.getMessage());
 		}
 
 		return sbf.toString();
@@ -132,7 +128,7 @@ public class StyleMAVFactory {
 		HttpURLConnection conn = null;
 
 		String response= "";
-
+		OutputStream os = null;
 		try {
 
 
@@ -142,12 +138,10 @@ public class StyleMAVFactory {
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
 
-
-
-			OutputStream os = conn.getOutputStream();
+			os = conn.getOutputStream();
 			os.write(jsonObject.getBytes());
-			os.flush();
-
+			os.close();
+			os = null;
 			if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
 				throw new RuntimeException("Failed : HTTP error code : "
 						+ conn.getResponseCode());
@@ -158,17 +152,24 @@ public class StyleMAVFactory {
 
 
 			String output;
-			logger.info("Output from Server .... \n");
+			// logger.info("Output from Server .... \n");
 			while ((output = br.readLine()) != null) {
 				response = response + output;
 			}
-
-
-
 		}catch (Exception ex) {
 			// handle exception here
+			ex.printStackTrace();
 		} finally {
-			if (conn != null) conn.disconnect();
+			try {
+				if (os != null) {
+					os.close();
+				}
+				if (conn != null) conn.disconnect();
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+
+
 		}
 
 
@@ -186,7 +187,7 @@ public class StyleMAVFactory {
             if (footer == null) footer = getFooter();
         }else{
             //if (header == null) header = "<div id=\"global-masthead\" class=\"masthead grid_24\"><!--This has to be one line and no newline characters--><a href=\"//www.ebi.ac.uk/\" title=\"Go to the EMBL-EBI homepage\"><img src=\"//www.ebi.ac.uk/web_guidelines/images/logos/EMBL-EBI/EMBL_EBI_Logo_white.png\" alt=\"EMBL European Bioinformatics Institute\"></a><nav><ul id=\"global-nav\"><!-- set active class as appropriate --><li id=\"services\" class=\" first active\"><a href=\"//www.ebi.ac.uk/services\" title=\"Services\">Services</a></li><li id=\"research\" class=\"\"><a href=\"//www.ebi.ac.uk/research\" title=\"Research\">Research</a></li><li id=\"training\" class=\"\"><a href=\"//www.ebi.ac.uk/training\" title=\"Training\">Training</a></li><li id=\"industry\" class=\"\"><a href=\"//www.ebi.ac.uk/industry\" title=\"Industry\">Industry</a></li><li id=\"about\" class=\" last\"><a href=\"//www.ebi.ac.uk/about\" title=\"About us\">About us</a></li></ul></nav></div>";
-            if (localheader == null) localheader = "<div id=\"local-masthead\" class=\"masthead grid_24 nomenu\"><!-- local-title --><!-- NB: for additional title style patterns, see http://frontier.ebi.ac.uk/web/style/patterns --><div class=\"grid_12 alpha logo-title\" id=\"local-title\"><a href=\"index\" title=\"Back to MetaboLights homepage\"><img src=\"/metabolights/img/MetaboLightsLogo.png\" alt=\"MetaboLights\" width=\"64\" height=\"64\"></a><span><h1><a href=\"index\" title=\"Back to MetaboLights homepage\">MetaboLights</a></h1></span></div><!-- /local-title --><!-- local-search --><!-- NB: if you do not have a local-search, delete the following div, and drop the class=\"grid_12 alpha\" class from local-title above --><div class=\"grid_12 omega\"><form id=\"local-search\" name=\"local-search\" action=\"/metabolights/search\" method=\"post\"><fieldset><div class=\"left\"><label><input type=\"text\" name=\"freeTextQuery\" id=\"local-searchbox\"></label><!-- Include some example searchterms - keep them short and few! --><span class=\"examples\">Examples: <a href=\"/metabolights/search?freeTextQuery=alanine\">alanine</a>, <a href=\"/metabolights/search?freeTextQuery=Homo sapiens\">Homo sapiens</a>, <a href=\"/metabolights/search?freeTextQuery=urine\">urine</a>, <a href=\"/metabolights/search?freeTextQuery=MTBLS1\">MTBLS1</a></span><br><a href=\"/metabolights/advancedsearch\" target=\"_blank\">Advanced Search</a></div><div class=\"right\"><input type=\"submit\" name=\"submit\" value=\"Search\" class=\"submit\"></div></fieldset></form></div><!-- /local-search --><!-- local-nav --><nav><ul class=\"grid_24\" id=\"local-nav\"><li class=\" first\"><a href=\"/metabolights/index\" title=\"Home page\">Home</a></li><li class=\"\"><a href=\"/metabolights/studies\" title=\"Browse all Studies/Experiments\">Browse Studies</a></li><li class=\"\"><a href=\"/metabolights/reference\" title=\"Browse all metabolites\">Browse Compounds</a></li><li class=\"\"><a href=\"/metabolights/species\" title=\"Browse all species\">Browse Species</a></li><li class=\"\"><a href=\"/metabolights/analysis\" title=\"Analysis tools\">Analysis</a></li><li class=\"\"><a href=\"/metabolights/download\" title=\"Download\">Download</a></li><li class=\"\"><a href=\"help\" title=\"Help\">Help</a></li><li class=\"\"><a href=\"/metabolights/contact\" title=\"Please give us feedback\">Give us feedback</a></li><li class=\" last\"><a href=\"/metabolights/about\" title=\"About MetaboLights\">About</a></li><!-- If you need to include functional (as opposed to purely navigational) links in your local menu, add them here, and give them a class of \"functional\". Remember: you'll need a class of \"last\" for whichever one will show up last... For example: --><li class=\"functional last\"><a href=\"/metabolights/login\" class=\"icon icon-functional\" data-icon=\"l\" title=\"Log in to MetaboLights\">Login</a></li><li class=\"functional\"><a href=\"/metabolights/presubmit\" class=\"icon icon-functional\" data-icon=\"_\" title=\"Submit data to MetaboLights\">Submit Study</a></li></ul></nav><!-- /local-nav --></div>";
+            if (localheader == null) localheader = "<div id=\"local-masthead\" class=\"masthead grid_24 nomenu\"><!-- local-title --><!-- NB: for additional title style patterns, see http://frontier.ebi.ac.uk/web/style/patterns --><div class=\"grid_12 alpha logo-title\" id=\"local-title\"><a href=\"index\" title=\"Back to MetaboLights homepage\"><img src=\"/metabolights/img/MetaboLightsLogo.png\" alt=\"MetaboLights\" width=\"64\" height=\"64\"></a><span><h1><a href=\"index\" title=\"Back to MetaboLights homepage\">MetaboLights</a></h1></span></div><!-- /local-title --><!-- local-search --><!-- NB: if you do not have a local-search, delete the following div, and drop the class=\"grid_12 alpha\" class from local-title above --><div class=\"grid_12 omega\"><form id=\"local-search\" name=\"local-search\" action=\"/metabolights/search\" method=\"post\"><fieldset><div class=\"left\"><label><input type=\"text\" name=\"freeTextQuery\" id=\"local-searchbox\"></label><!-- Include some example searchterms - keep them short and few! --><span class=\"examples\">Examples: <a href=\"/metabolights/search?freeTextQuery=alanine\">alanine</a>, <a href=\"/metabolights/search?freeTextQuery=Homo sapiens\">Homo sapiens</a>, <a href=\"/metabolights/search?freeTextQuery=urine\">urine</a>, <a href=\"/metabolights/search?freeTextQuery=MTBLS1\">MTBLS1</a></span><br><a href=\"/metabolights/advancedsearch\" target=\"_blank\">Advanced Search</a></div><div class=\"right\"><input type=\"submit\" name=\"submit\" value=\"Search\" class=\"submit\"></div></fieldset></form></div><!-- /local-search --><!-- local-nav --><nav><ul class=\"grid_24\" id=\"local-nav\"><li class=\" first\"><a href=\"/metabolights/index\" title=\"Home page\">Home</a></li><li class=\"\"><a href=\"/metabolights/studies\" title=\"Browse all Studies/Experiments\">Browse Studies</a></li><li class=\"\"><a href=\"/metabolights/reference\" title=\"Browse all metabolites\">Browse Compounds</a></li><li class=\"\"><a href=\"/metabolights/species\" title=\"Browse all species\">Browse Species</a></li><li class=\"\"><a href=\"/metabolights/analysis\" title=\"Analysis tools\">Analysis</a></li><li class=\"\"><a href=\"/metabolights/download\" title=\"Download\">Download</a></li><li class=\"\"><a href=\"help\" title=\"Help\">Help</a></li><li class=\"\"><a href=\"/metabolights/contact\" title=\"Please give us feedback\">Give us feedback</a></li><li class=\" last\"><a href=\"/metabolights/about\" title=\"About MetaboLights\">About</a></li><!-- If you need to include functional (as opposed to purely navigational) links in your local menu, add them here, and give them a class of \"functional\". Remember: you'll need a class of \"last\" for whichever one will show up last... For example: --><li class=\"functional last\"><a href=\"/metabolights/login\" class=\"icon icon-functional\" data-icon=\"l\" title=\"Log in to MetaboLights\">Login</a></li><li class=\"functional\"><a href=\"/metabolights/editor\" class=\"icon icon-functional\" data-icon=\"_\" title=\"Submit data to MetaboLights\">Submit Study</a></li></ul></nav><!-- /local-nav --></div>";
             if (footer == null) footer = "<footer class='grid_24 clearfix'>\n" +
                     "  <div id=\"global-footer\" class=\"global-footer col-md-12\">\n" +
                     "    <nav id=\"global-nav-expanded\" class=\"global-nav-expanded row\">\n" +
@@ -265,6 +266,7 @@ public class StyleMAVFactory {
 		mav.addObject("frontierheader", header);
 		mav.addObject("localfrontierheader", localheader);
 		mav.addObject("frontierfooter", footer);
+		mav.addObject("bannerMessage", getBannerMessage());
 
 		return mav;
 	}
@@ -277,10 +279,15 @@ public class StyleMAVFactory {
 
 	}
 
+	private String getBannerMessage(){
+		String message = EntryController.getBannerMessage();
+		return message;
+	}
 	public ModelAndView getFrontierMav(String name, String modelName, Object objectModel) {
 
 		ModelAndView mav=  getFrontierMav(name);
 
+		mav.addObject("bannerMessage", getBannerMessage());
 		mav.addObject(modelName, objectModel);
 
 		return mav;
@@ -305,7 +312,6 @@ public class StyleMAVFactory {
 				reader = new BufferedReader(new FileReader(jsonConfig.getFile()));
 
 				StringBuilder stringBuilder = new StringBuilder();
-				String ls = System.getProperty("line.separator");
 
 				String line;
 				while ((line = reader.readLine()) != null) {
@@ -318,7 +324,7 @@ public class StyleMAVFactory {
 
 			} catch (Exception e) {
 				// Log the exception
-				logger.info("Failed to read JSON file " + jsonConfig.getFilename() + "\n." + e.getMessage());
+				// logger.info("Failed to read JSON file " + jsonConfig.getFilename() + "\n." + e.getMessage());
 
 				// In the worse case continue with an empty parameter as json object.
 				jsonConfigS = "";

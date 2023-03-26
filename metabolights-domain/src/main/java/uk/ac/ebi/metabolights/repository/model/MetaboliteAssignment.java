@@ -21,7 +21,6 @@
 
 package uk.ac.ebi.metabolights.repository.model;
 
-import java.io.File;
 import java.util.Collection;
 
 public class MetaboliteAssignment {

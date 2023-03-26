@@ -2,12 +2,8 @@ package uk.ac.ebi.metabolights.webservice.client;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 /**
  * Created by venkata on 09/11/2015.
@@ -18,10 +14,6 @@ public class WikipathwaysWsClient extends WsClient{
     private String pathwaysByXrefUrl = "/findPathwaysByXref";
 
     private static final String GET = "GET";
-    private static final String POST = "POST";
-
-
-    private static final Logger logger = LoggerFactory.getLogger(WikipathwaysWsClient.class);
 
     public WikipathwaysWsClient(){
     }
@@ -35,7 +27,7 @@ public class WikipathwaysWsClient extends WsClient{
     }
 
     public JsonNode findPathwaysByXref(String id, String code){
-        String wikiPathwaysResponse = excuteRequest(getPathwaysUrlByXref(id,code), null, this.GET);
+        String wikiPathwaysResponse = excuteRequest(getPathwaysUrlByXref(id,code), null, GET);
         //logger.info("Response "+wikiPathwaysResponse);
         if(wikiPathwaysResponse == null){
             wikiPathwaysResponse = "{\"result\":[]}";
@@ -43,12 +35,14 @@ public class WikipathwaysWsClient extends WsClient{
         ObjectMapper objectMapper = new ObjectMapper();
 
         JsonNode rootNode = null;
+        JsonNode result = null;
         try {
             rootNode = objectMapper.readTree(wikiPathwaysResponse);
+            result = rootNode.path("result");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        JsonNode result = rootNode.path("result");
+        
         //logger.info("result "+result);
         return result;
     }

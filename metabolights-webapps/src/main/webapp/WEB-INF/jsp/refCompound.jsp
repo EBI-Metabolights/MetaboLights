@@ -406,7 +406,7 @@
                             <c:if test="${spectra.spectraType == 'NMR'}">
                             <c:if test="${count gt 0}">,
                             </c:if>
-                            {"id":${spectra.id}, "name": "${spectra.name}", "url": "${pageContext.request.contextPath}/webservice/compounds/spectra/${spectra.id}/json", "type": "${spectra.spectraType}", "properties": [
+                            {"id":${spectra.id}, "name": "${spectra.name}", "url": "${metabolightsPythonWsUrl}/compounds/${spectra.id}/file", "type": "${spectra.spectraType}", "properties": [
                                 <c:forEach var="attribute" items="${spectra.attributes}" varStatus="attributeLoopStatus">
                                 <c:if test="${attributeLoopStatus.index gt 0}">,
                                 </c:if>
@@ -434,7 +434,7 @@
                             <c:if test="${msspectra.spectraType == 'MS'}">
                             <c:if test="${count gt 0}">,
                             </c:if>
-                            {"id":${msspectra.id}, "name": "${msspectra.name}", "url": "${pageContext.request.contextPath}/webservice/compounds/spectra/${msspectra.id}/json", "type": "${msspectra.spectraType}", "properties": [
+                            {"id":${msspectra.id}, "name": "${msspectra.name}", "url": "${metabolightsPythonWsUrl}/compounds/${msspectra.id}/file", "type": "${msspectra.spectraType}", "properties": [
                                 <c:forEach var="attribute" items="${msspectra.attributes}" varStatus="attributeLoopStatus">
                                 <c:if test="${attributeLoopStatus.index gt 0}">,
                                 </c:if>

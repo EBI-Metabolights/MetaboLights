@@ -285,11 +285,11 @@ public class FilesController {
     }
 
     public static void streamFile(File file, HttpServletResponse response, String contentType ){
-
+        InputStream is = null;
         try {
 
             // get your file as InputStream
-            InputStream is = new FileInputStream(file);
+            is = new FileInputStream(file);
 
             // let the browser know the type of file
             response.setContentType(contentType);
@@ -309,7 +309,15 @@ public class FilesController {
         } catch (IOException ex) {
             logger.info("Error writing file to output stream. Filename was '"+ file.getAbsolutePath() + "'");
             response.setStatus(500);
-        }
+        } finally {
+			try {
+				if (is != null) {
+					is.close();
+				}
+			}catch (Exception e){
+				e.printStackTrace();
+			}
+		}
 
     }
 

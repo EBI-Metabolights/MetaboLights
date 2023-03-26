@@ -26,7 +26,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
-import sun.misc.BASE64Encoder;
 import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.UserDAO;
@@ -36,6 +35,7 @@ import uk.ac.ebi.metabolights.webservice.security.SpringUser;
 
 import javax.annotation.Resource;
 import java.security.MessageDigest;
+import java.util.Base64;
 
 /**
  * Implementation for UserService. Note the Spring annotations such as @Service, @Autowired and @Transactional.
@@ -115,7 +115,7 @@ public class UserServiceImpl implements UserService{
 			MessageDigest md = MessageDigest.getInstance("SHA");
 			md.update(plaintext.getBytes("UTF-8"));
 			byte raw[] = md.digest();
-			String hash = (new BASE64Encoder()).encode(raw);
+			String hash = Base64.getEncoder().encodeToString(raw);
 			return hash;
 		} catch (Exception e) {
 			e.printStackTrace();

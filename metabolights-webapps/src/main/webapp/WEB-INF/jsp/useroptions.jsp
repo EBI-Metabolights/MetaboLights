@@ -27,7 +27,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
 
-<sec:authorize ifAnyGranted="ROLE_SUBMITTER">
+<sec:authorize access="hasRole('ROLE_SUBMITTER')">
     <sec:authentication var="token" property="principal.apiToken" />
         <br>
         <div class="panel panel-info">
@@ -80,113 +80,14 @@
                 </div>
             </div>
         </div>
-        <div id="labsAlert" class="modal fade" tabindex="-1" role="dialog"
-             aria-labelledby="myLargeModalLabel">
-            <div class="modal-dialog modal-md">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <div class="row">
-                            <span class="col-md-10 col-md-offset-1 text-center">
-                                <br><br>
-                                <h2>MetaboLights Labs <sup class="text-primary"><small>BETA</small></sup></h2>
-                                <p>
-                                    Labs is currently in development phase (beta) and you will need a development account to access it.
-                                </p><br>
-                                <p>
-                                   <a href="https://wwwdev.ebi.ac.uk/metabolights/newAccount"> Not registered yet? Create a account</a>.
-                                </p>
-                                <br><br>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="pull-left btn btn-sm btn-default" data-dismiss="modal">
-                            Close
-                        </button>
-                        <a target="_blank" href="https://wwwdev.ebi.ac.uk/metabolights/labs/login" class="btn btn-success">
-                            Proceed
-                        </a>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div>
-    <script>
-        $(function () {
-            var token = {
-                token : "<c:out value="${token}"/>"
-            }
-
-            var subdomain = window.location.href.split('.')[0];
-            if(subdomain == "https://www"){
-                $('#labsLink').on('click', function () {
-                    $('#labsAlert').modal('show');
-                });
-            }else{
-                $('#labsLink').on('click', function () {
-                    $.ajax({
-                        url: '/metabolights/webservice/labs/authenticateToken',
-                        type: 'post',
-                        contentType: "application/json",
-                        data: JSON.stringify(token),
-                        success: function (data, textStatus, response) {
-                            var jwt = response.getResponseHeader('jwt');
-                            var user = response.getResponseHeader('user');
-                            localStorage.setItem('jwt', jwt);
-                            localStorage.setItem('user', user);
-                            window.location.href = "/metabolights/labs";
-                        },
-                        error: function (request, status, error) {
-                            alert(request.responseText);
-                        }
-                    });
-                });
-            }
-        });
-
-    </script>
-    <script>
-        function getStudyIdsForClaimPrioritization() {
-            var token = {
-                token : "<c:out value="${token}"/>"
-            }
-            $.ajax({
-                cache: false,
-                url: "/metabolights/webservice/studyids",
-                type: 'post',
-                contentType: "application/json",
-                data: JSON.stringify(token),
-                success: function (studyIdList) {
-                    var ebiClaimAllMetaboLightsUrl = "https://www.ebi.ac.uk/ebisearch/search.ebi?db=metabolights&query=";
-                    if(studyIdList['content'].length > 0){
-                        var idsQueryPart = "id:/MTBLS("
-                        for (var i = 0; i < studyIdList['content'].length; i++) {
-                            var studyId =    studyIdList['content'][i];
-                            var ids = studyId.split("S");
-                           if(i != studyIdList['content'].length - 1){
-                               idsQueryPart += ids[1]+ "|"
-                           }  else{
-                               idsQueryPart += ids[1];
-                           }
-                        }
-                        idsQueryPart += ")/";
-                        document.getElementById("claimStudies").href= ebiClaimAllMetaboLightsUrl + idsQueryPart;
-                       }
-                    else{
-                        document.getElementById("claimStudies").href= ebiClaimAllMetaboLightsUrl;
-                    }
-                }
-            });
-        }
-        getStudyIdsForClaimPrioritization();
- </script>
     <script>
         $('#userLoggingOut').click(function () {
-            localStorage.removeItem("apiToken");
+            localStorage.removeItem("jwt");            
         })
     </script>
 </sec:authorize>
 <br>
-<sec:authorize ifAnyGranted="ROLE_SUPER_USER">
+<sec:authorize access="hasRole('ROLE_SUPER_USER')">
         <div class="panel panel-success">
             <div class="panel-heading"><spring:message code="msg.useroptionscurator" /></div>
             <div class="panel-body">
@@ -241,29 +142,60 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
 <script>
-    $(document).ready(function () {
+    const setCookie = (name, value, days = 7, path = '/') => {
+        const expires = new Date(Date.now() + days * 864e5).toUTCString()
+        document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=' + path
+      }
+        const getCookie = (name) => {
+        return document.cookie.split('; ').reduce((r, v) => {
+          const parts = v.split('=')
+          return parts[0] === name ? decodeURIComponent(parts[1]) : r
+        }, '')
+      }
+      const deleteCookie = (name, path) => {
+        setCookie(name, '', -1, path)
+      }
+      
+      $(document).ready(function () {
+
         $('#redirectToMyStudiesPage').click(function(){
-            var editorToken = "${editorToken}";
-            if(editorToken != null && editorToken != ''){
-                localStorage.setItem("user", editorToken);
-                axios.post("webservice/labs/authenticateToken", { "token" : editorToken }).then(response => {
-                    axios.post("webservice/labs-workspace/initialise", { "jwt" : response.headers.jwt, "user" : response.headers.user }).then( res => {
-                        localStorage.removeItem('time');
-                        localStorage.setItem('user', JSON.stringify(JSON.parse(res.data.content).owner));
-                        window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
-                    })
-                });
-            }else{
-                localStorage.removeItem("user")
-                localStorage.removeItem("time");
-                window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+            metabolightsEditorUrl = "${metabolightsEditorUrl}";
+            metabolightsPythonWsUrl = "${metabolightsPythonWsUrl}";
+            jwt = getCookie("jwt");
+            
+            if (jwt == null){
+                jwt = getCookie("jwt");
+                
             }
-        })
+            if(jwt != null && jwt != ''){
+                localJwt = localStorage.getItem("jwt");
+                if (jwt != localJwt){
+                    localStorage.setItem('jwt', jwt);
+                }
+                
+                axios.get(metabolightsPythonWsUrl + "/auth/create-onetime-token", { headers: { "Authorization" : "Bearer " + jwt}}).then(response => {
+                    loginOneTimeToken = response.data.one_time_token;
+                    if (loginOneTimeToken != null){
+                        window.open(metabolightsEditorUrl + "?loginOneTimeToken="+loginOneTimeToken, 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+                    } else {
+                        window.open(metabolightsEditorUrl, 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+                    }
+                }).catch((error) => { 
+                    if (error.response && error.response.status == 401) {
+                        localStorage.removeItem("jwt");
+                    } 
+                    window.open(metabolightsEditorUrl, 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+                  });
+                ;
+            } else {
+                window.open(metabolightsEditorUrl, 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
+            }
+            
+        });
     });
     $('#userLoggingOut').click(function(){
-        localStorage.removeItem("user")
-        localStorage.removeItem('time');
-        window.location.href = '/metabolights/j_spring_security_logout';
-
+        localStorage.removeItem('jwt');
+        deleteCookie("jwt", "/metabolights");
+        window.location.href = '/metabolights/logout';
     });
 </script>

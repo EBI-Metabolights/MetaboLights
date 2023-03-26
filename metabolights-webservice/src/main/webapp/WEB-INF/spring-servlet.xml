@@ -31,7 +31,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
-        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
@@ -49,7 +49,7 @@
 	Provider of SpringApplication Context
 	Source: http://blog.jdevelop.eu/2008/07/06/access-the-spring-applicationcontext-from-everywhere-in-your-application/
 	-->
-    <bean id="contextApplicationContextProvider" class="uk.ac.ebi.metabolights.webservice.services.ApplicationContextProvider"></bean>
+    <bean id="contextApplicationContextProvider" class="uk.ac.ebi.metabolights.webservice.services.ApplicationContextProvider"/>
 
     <!--  register the application properties -->
     <bean id="propertyConfigurer" class="uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil">
@@ -86,7 +86,9 @@
     <jee:jndi-lookup id="chemspiderSecurityToken" jndi-name="java:comp/env/chemspiderSecurityToken"/>
 
     <!-- Email service settings-->
-    <jee:jndi-lookup id="mailServer" jndi-name="java:comp/env/mailServer"/>
+    <jee:jndi-lookup id="mailServer" jndi-name="java:comp/env/mailServer" />
+    <jee:jndi-lookup id="mailServerPort" jndi-name="java:comp/env/mailServerPort"/>
+
     <jee:jndi-lookup id="EBIHost" jndi-name="java:comp/env/EBIHost"/>
     <jee:jndi-lookup id="curationEmailAddress" jndi-name="java:comp/env/curationEmailAddress"/>
     <jee:jndi-lookup id="BccPivotalEmailAddress" jndi-name="java:comp/env/BccPivotalEmailAddress"/>
@@ -112,8 +114,12 @@
 
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 
-        <property name="host"><value>#{mailServer}</value></property>
-
+        <property name="host">
+           <jee:jndi-lookup id="mailServer" jndi-name="java:comp/env/mailServer" />
+        </property>
+        <property name="port">
+            <jee:jndi-lookup id="mailServerPort" jndi-name="java:comp/env/mailServerPort"/>
+        </property>
         <!-- Gmail email settings -->
         <!--<property name="port"><value>587</value></property>-->
         <!--<property name="protocol"><value>smtp</value></property>-->

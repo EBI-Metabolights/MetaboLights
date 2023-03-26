@@ -27,12 +27,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -57,6 +59,7 @@ public class RheaAndReactomeProxy extends HttpServlet {
 
     @RequestMapping({"/RheaAndReactomeProxy"})
     public static void getContent(HttpServletRequest request, HttpServletResponse response) {
+        ServletOutputStream out  = null;
         try {
             String reqUrl = request.getParameter("url");
             logger.info("Proxy url requested: " + reqUrl);
@@ -86,22 +89,39 @@ public class RheaAndReactomeProxy extends HttpServlet {
                     request.getInputStream().read(idata, 0, clength);
                     con.getOutputStream().write(idata, 0, clength);
                     request.getInputStream().close();
-                    con.getOutputStream().close();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                
+                try {
+                    con.getOutputStream().close();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
+            BufferedReader rd = null;
             try {
-                BufferedReader rd = new BufferedReader(
-                        new InputStreamReader(con.getInputStream(), "UTF-8"));
+                rd = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
                 String line;
-                PrintWriter out = response.getWriter();
+                
+                out = response.getOutputStream();
                 while ((line = rd.readLine()) != null) {
                     out.println(line);
+                    
                 }
-                rd.close();
+                out.flush();
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+
+                try {
+                    if (rd != null) {
+                        rd.close();
+                    }
+                } catch(Exception e){
+                    e.printStackTrace();
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

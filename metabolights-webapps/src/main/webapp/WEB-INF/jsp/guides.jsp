@@ -45,8 +45,7 @@
 <script type="text/javascript" src="./editor/assets/aspera/install.js" charset="utf-8"></script>
 
 <%--<script>--%>
-<%--var editorToken = ${editorToken};--%>
-<%--localStorage.setItem("user", JSON.stringify(editorToken));--%>
+
 <%--</script>--%>
 <style type="text/css">
     body, html {

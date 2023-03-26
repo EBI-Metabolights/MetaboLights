@@ -118,7 +118,7 @@
                             </div>
                             <input type="hidden" name="compoundid" value="${ param.cid }" >
                             <c:set var="currentUserId">
-                                <sec:authorize ifAnyGranted="ROLE_SUBMITTER">
+                                <sec:authorize access="hasRole('ROLE_SUBMITTER')">
                                     <sec:authentication property="principal.userId"/>
                                 </sec:authorize>
                             </c:set>

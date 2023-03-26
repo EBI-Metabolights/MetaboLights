@@ -116,7 +116,7 @@ public class Utilities {
             return;
         }
         boolean somethingsChanged = false;
-        Object o1, o2;
+        Object o1;
         do {
             somethingsChanged = false;
             for (int f = 0; f < searchHits.size() - 1; f++) {

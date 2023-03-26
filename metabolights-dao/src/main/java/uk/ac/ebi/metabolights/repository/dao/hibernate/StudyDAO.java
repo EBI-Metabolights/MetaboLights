@@ -35,7 +35,6 @@ import java.util.*;
  */
 public class StudyDAO extends DAO <Study,StudyData>{
 
-	private List<String> studyList;
 	private UserDAO usersDAO;
 	//private ValidationsDAO validationsDAO;
 

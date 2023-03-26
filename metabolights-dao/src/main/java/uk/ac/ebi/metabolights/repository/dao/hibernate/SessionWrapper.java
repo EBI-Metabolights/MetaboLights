@@ -25,13 +25,9 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.internal.SessionImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.metabolights.repository.dao.hibernate.datamodel.DataModel;
-
-import java.sql.Connection;
-import java.sql.SQLException;
 
 /**
  * User: conesa
@@ -41,7 +37,6 @@ import java.sql.SQLException;
 public class SessionWrapper {
     private SessionFactory factory;
     private Session session;
-    private int sessionCount = 0;
     public SessionWrapper(SessionFactory factory) {
         this.factory = factory;
     }

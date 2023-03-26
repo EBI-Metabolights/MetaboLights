@@ -68,8 +68,6 @@ public class MetCompoundDAO {
 
     public String getCompoundsReport(){
 
-        String reportJSON = "";
-
         String reportJSONPath = ftpCompoundsFolderLocation + File.separator + "MetabolitesReport.json";
 
         if (checkFileExists(reportJSONPath)){

@@ -1,24 +1,13 @@
 package uk.ac.ebi.metabolights.repository.dao.filesystem;
 
-import java.io.File;
-import java.util.List;
-import java.util.UUID;
-import org.slf4j.Logger;
-import java.io.IOException;
-import java.io.BufferedReader;
-import org.slf4j.LoggerFactory;
-import java.io.InputStreamReader;
 import uk.ac.ebi.metabolights.repository.model.*;
 import uk.ac.ebi.metabolights.repository.utils.FileUtil;
-import uk.ac.ebi.metabolights.repository.utils.LabsUtils;
 
 
 /**
  * Created by venkata on 11/10/2016.
  */
 public class MetaboLightsLabsProjectDAO {
-
-    private final static Logger logger = LoggerFactory.getLogger(MetaboLightsLabsProjectDAO.class.getName());
 
     private MLLProject mllProject = null;
 

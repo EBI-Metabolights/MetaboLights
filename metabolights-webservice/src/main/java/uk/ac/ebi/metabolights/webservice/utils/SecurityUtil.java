@@ -3,7 +3,6 @@ package uk.ac.ebi.metabolights.webservice.utils;
 import org.jose4j.json.internal.json_simple.JSONObject;
 import org.jose4j.json.internal.json_simple.parser.JSONParser;
 import org.jose4j.json.internal.json_simple.parser.ParseException;
-import org.jose4j.jwt.JwtClaims;
 import org.jose4j.jwt.consumer.InvalidJwtException;
 import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
@@ -78,7 +77,7 @@ public class SecurityUtil {
 
             try {
 
-                JwtClaims processedClaims = jwtConsumer.processToClaims(jwt);
+                jwtConsumer.processToClaims(jwt);
                 return user;
 
             } catch (InvalidJwtException e) {

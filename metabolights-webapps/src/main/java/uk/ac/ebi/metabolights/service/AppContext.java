@@ -39,8 +39,6 @@ public class AppContext {
 
     private static ApplicationContext ctx;
 	private static EmailService emailService;
-	private static UserService userService;
-	private static String jndiName; 
 	private static DataSource ds;
 	private static StyleMAVFactory mavFactory;
 
@@ -67,12 +65,6 @@ public class AppContext {
     	}
     	
     	return emailService;
-    }
-    public static UserService getUserService(){
-    	if (userService == null){
-    		userService = (UserService) ctx.getBean(UserService.class);
-    	}
-    	return userService;
     }
     
     public static StyleMAVFactory getMAVFactory(){

@@ -43,6 +43,7 @@ import uk.ac.ebi.metabolights.service.EmailService;
 import uk.ac.ebi.metabolights.service.UserService;
 import uk.ac.ebi.metabolights.validate.ValidatorMetabolightsUser;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -64,20 +65,8 @@ public class LoginController extends AbstractController {
     @Autowired
     private UserService userService;
 
-    //	@RequestMapping({"/login-success"})
-//	public ModelAndView loggedIn() {
-//	    //return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.loggedIn"));
-//
-//		MetabolightsUser user = LoginController.getLoggedUser();
-//
-//		if (user.isCurator()){
-//			return new ModelAndView ("redirect:useroptions");
-//		} else {
-//			return new ModelAndView("redirect:mysubmissions");
-//		}
-//    }
     @RequestMapping({"/login-success"})
-    public ModelAndView loggedIn(HttpServletRequest request) {
+    public ModelAndView loggedIn(HttpServletRequest request, HttpServletResponse response) {
         //return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.loggedIn"));
 
         MetabolightsUser user = null;
@@ -85,11 +74,23 @@ public class LoginController extends AbstractController {
         // Instantiate the model and view
         ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("useroptions");
 
+        String metabolightsEditorUrl  = EntryController.getMetabolightsEditorUrl();
+        String metabolightsPythonWsUrl = EntryController.getMetabolightsPythonWsUrl();
+        mav.addObject("metabolightsEditorUrl", metabolightsEditorUrl);
+        mav.addObject("metabolightsPythonWsUrl", metabolightsPythonWsUrl);
         if (request.getUserPrincipal() != null)
             user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 
         if (user != null) {
+            Cookie cookie = new Cookie("jwt", user.getJwtToken());
+            cookie.setMaxAge(60*60);
+            response.addCookie(cookie);
+
+            mav.addObject("jwt", user.getJwtToken());
+            mav.addObject("jwtTokenExpireTime", user.getJwtTokenExpireTime());
+            mav.addObject("localUser", user.getLocalUserData());
             mav.addObject("editorToken", user.getApiToken());
+            mav.addObject("isCurator", user.isCurator());
         }
 
         HttpSession session = request.getSession();
@@ -99,7 +100,6 @@ public class LoginController extends AbstractController {
         }
 
         return new ModelAndView("redirect:" + pagename);
-
     }
 
     @RequestMapping({"/useroptions"})
@@ -110,10 +110,24 @@ public class LoginController extends AbstractController {
 
         if (request.getUserPrincipal() != null)
             user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        String metabolightsEditorUrl  = EntryController.getMetabolightsEditorUrl();
+        String metabolightsPythonWsUrl = EntryController.getMetabolightsPythonWsUrl();
+        mav.addObject("metabolightsEditorUrl", metabolightsEditorUrl);
+        mav.addObject("metabolightsPythonWsUrl", metabolightsPythonWsUrl);
+        
 
         if (user != null) {
+            mav.addObject("jwt", user.getJwtToken());
+            mav.addObject("jwtTokenExpireTime", user.getJwtTokenExpireTime());
+            mav.addObject("localUser", user.getLocalUserData());
             mav.addObject("editorToken", user.getApiToken());
+            mav.addObject("isCurator", user.isCurator());
         }else{
+            mav.addObject("jwt", null);
+            mav.addObject("jwtTokenExpireTime", -1);
+            mav.addObject("localUser", null);
+            mav.addObject("editorToken", null);
+            mav.addObject("isCurator", false);
             return new ModelAndView("redirect:index");
         }
 
@@ -121,11 +135,18 @@ public class LoginController extends AbstractController {
     }
 
     @RequestMapping({"/loggedout"})
-    public ModelAndView loggedOut() {
-        //return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.loggedOut"));
-        //return AppContext.getMAVFactory().getFrontierMav("index","message", PropertyLookup.getMessage("msg.loggedOut"));
+    public ModelAndView loggedOut(HttpServletRequest request, HttpServletResponse response) {
+
         ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("index");
         mav.addObject("message", PropertyLookup.getMessage("msg.loggedOut"));
+        Cookie[] cookies = request.getCookies();
+        for(int i = 0; i< cookies.length ; ++i){
+            if(cookies[i].getName().equals("jwt")){
+                cookies[i].setMaxAge(0);
+                response.addCookie(cookies[i]);
+                break;
+            }
+        }
         return mav;
     }
 

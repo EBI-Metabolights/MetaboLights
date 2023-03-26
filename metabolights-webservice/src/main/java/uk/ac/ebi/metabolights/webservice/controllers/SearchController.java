@@ -46,7 +46,7 @@ public class SearchController extends BasicController {
 	@ResponseBody
 	public RestResponse<SearchResult> emptySearch() {
 
-		logger.debug("GET search requested to the webservice");
+		// logger.debug("GET search requested to the webservice");
 
 		return searchWithQuery(new SearchQuery(""));
 
@@ -56,7 +56,7 @@ public class SearchController extends BasicController {
 	@ResponseBody
 	public RestResponse<SearchResult> searchWithQuery(@RequestBody SearchQuery query) {
 
-		logger.info("Search requested to the webservice: " + query);
+		// logger.info("Search requested to the webservice: " + query);
 
 		addUserToQuery(query);
 

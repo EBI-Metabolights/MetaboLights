@@ -158,18 +158,6 @@
                 </div>
             </div>
         </div>
-        <%--<div class="panel nbr panel-primary">--%>
-            <%--<div class="panel-heading nbtr">--%>
-                <%--Submit to MetaboLights--%>
-            <%--</div>--%>
-            <%--<div class="panel-body">--%>
-                <%--<a href="presubmit" class="more"><b>Upload Study</b></a>--%>
-                <%--&lt;%&ndash;<div class="row">&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;<hr>&ndash;%&gt;--%>
-                <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
-                <%--&lt;%&ndash;Upload reference spectra to MetaboLights - Compounds Reference Library<br><a href="#" class="more">more</a>&ndash;%&gt;--%>
-            <%--</div>--%>
-        <%--</div>--%>
     </div>
 </div>
 <br/>
@@ -248,21 +236,7 @@
 
     $(document).ready(function () {
         $('#redirectToMyStudiesPage').click(function(){
-            var editorToken = "${editorToken}";
-            if(editorToken != null && editorToken != ''){
-                localStorage.setItem("user", editorToken);
-                axios.post("webservice/labs/authenticateToken", { "token" : editorToken }).then(response => {
-                    axios.post("webservice/labs-workspace/initialise", { "jwt" : response.headers.jwt, "user" : response.headers.user }).then( res => {
-                        localStorage.setItem('user', JSON.stringify(JSON.parse(res.data.content).owner));
-                        localStorage.removeItem('time');
-                        window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
-                    })
-                });
-            }else{
-                localStorage.removeItem("user")
-                localStorage.removeItem('time');
-                window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
-            }
+            window.open("${pageContext.request.contextPath}/editor/console", 'toolbar=no, menubar=no,scrollbars=yes,resizable=yes');
         })
     });
 </script>

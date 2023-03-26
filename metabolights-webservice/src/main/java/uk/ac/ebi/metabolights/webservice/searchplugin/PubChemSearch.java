@@ -7,10 +7,8 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -125,38 +123,6 @@ public class PubChemSearch implements Serializable, Cloneable, Callable<Collecti
             logger.error("Something went wrong while requesting metadata from pubchem for " + pubchemID + ", URL=" + searchURL , e);
         }
         return null;
-    }
-
-    private String getChebiID(String pubchemID) {
-        String searchURL = pubchemUrl + "cid/" + pubchemID + "/xrefs/registryID/json";
-        String pubchemResponse = GenericCompoundWSClients.executeRequest(searchURL, "GET", "");
-        if (pubchemResponse == null) return "";
-        try {
-            JSONObject result = new JSONObject(pubchemResponse);
-            JSONObject myObject1 = result.getJSONObject("InformationList");
-            JSONArray array1 = (JSONArray) myObject1.get("Information");
-            JSONObject myObject2 = (JSONObject) array1.get(0);
-            JSONArray array2 = (JSONArray) myObject2.get("RegistryID");
-            return extractChebiID(array2);
-        } catch (Exception e) {
-            logger.error("Something went wrong while requesting chebiID from pubchem for " + pubchemID + ", URL=" + searchURL , e);
-        }
-        return "";
-    }
-
-    private String extractChebiID(JSONArray array) {
-        for (int i = 0; i < array.length(); i++) {
-            try {
-                String value = array.getString(i);
-                if (value.contains("CHEBI:")) {
-                    return value;
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                logger.error("Something went wrong while extracting chebiID from the JSONArray: " + array , e);
-            }
-        }
-        return "";
     }
 
     private void fillFullInfo(CompoundSearchResult compoundSearchResult, JSONObject searchResult) {

@@ -11,7 +11,7 @@
     <c:set var="readOnly" value="true"/>
 </c:if>
 
-<sec:authorize ifAnyGranted="ROLE_SUPER_USER">
+<sec:authorize access="hasRole('ROLE_SUPER_USER')">
     <c:set var="curator" value="true"/>
     <c:set var="readOnly" value="false"/>
 </sec:authorize>

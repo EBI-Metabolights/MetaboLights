@@ -44,16 +44,12 @@ package uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader;
 import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.ac.ebi.metabolights.repository.dao.DAOFactory;
-import uk.ac.ebi.metabolights.repository.dao.hibernate.AccessionDAO;
-import uk.ac.ebi.metabolights.repository.dao.hibernate.DAOException;
 import uk.ac.ebi.metabolights.repository.utils.FileUtil;
 import uk.ac.ebi.metabolights.repository.utils.IsaTab2MetaboLightsConverter;
 import uk.ac.ebi.metabolights.repository.utils.StringUtils;
 
 import javax.naming.ConfigurationException;
 import java.io.*;
-import java.nio.charset.Charset;
 import java.util.*;
 
 
@@ -384,14 +380,6 @@ public class IsaTabReplacer
 
 	private boolean replacing(){
 		return (studyIdentifier != null);
-	}
-
-	private String getAccessionNumber() throws DAOException {
-		AccessionDAO accessionDAO = DAOFactory.getInstance().getAccessionDAO();
-
-		// Using default prefix...we should change this to allow DEV IDs.
-		return accessionDAO.getStableId();
-
 	}
 
 	private String replaceIdInLine(String line){

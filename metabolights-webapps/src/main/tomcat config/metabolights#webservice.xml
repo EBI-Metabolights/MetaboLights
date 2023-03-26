@@ -48,6 +48,7 @@
 
     <!-- Email and host config -->
     <ResourceLink  name="mailServer" global="mailServer" type="java.lang.String"/>
+    <ResourceLink  name="mailServerPort" global="mailServerPort"/>
     <ResourceLink  name="EBIHost" global="EBIHost" type="java.lang.String"/>
     <ResourceLink  name="curationEmailAddress" global="curationEmailAddress" type="java.lang.String"/>
     <ResourceLink  name="BccPivotalEmailAddress" global="BccPivotalEmailAddress" type="java.lang.String"/>
