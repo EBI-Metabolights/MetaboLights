@@ -18,10 +18,11 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 package uk.ac.ebi.metabolights.controller;
+import org.jose4j.json.internal.json_simple.JSONObject;
+import org.jose4j.json.internal.json_simple.parser.JSONParser;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -72,6 +73,26 @@ import javax.servlet.http.HttpServletRequest;
                 user = LoginController.getLoggedUser();
             }
             return getMetabolightsWsClient(user.getApiToken(), wsUrl);
+        }
+
+        public static String getBannerMessage(){
+            try {
+                final MetabolightsWsClient wsClient = MetabolightsWsClient.getInstance(getMetabolightsPythonWsUrl());
+                String result = wsClient.makePythonGetRequest("/ebi-internal/banner");
+
+                JSONParser parser = new JSONParser();
+                JSONObject resultJson = (JSONObject) parser.parse(result);
+                String message = (String) resultJson.get("content");
+                if (message != null) {
+                    return message;
+                } else {
+                    return "";
+                }
+
+            } catch (Exception ex){
+                logger.warn("Error while getting banner message");
+                return "";
+            }
         }
 
         public static MetabolightsWsClient getMetabolightsWsClient(final String user_token, final String wsUrl) {

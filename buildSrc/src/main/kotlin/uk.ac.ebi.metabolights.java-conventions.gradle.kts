@@ -83,6 +83,10 @@ configurations.all {
   }
 }
 
+tasks.withType<Copy> {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 group = "uk.ac.ebi.metabolights"
 version = "3.0"
 // java.sourceCompatibility = JavaVersion.VERSION_1_7

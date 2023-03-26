@@ -26,6 +26,7 @@ import java.io.FileReader;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.ModelAndView;
+import uk.ac.ebi.metabolights.controller.EntryController;
 
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -265,6 +266,7 @@ public class StyleMAVFactory {
 		mav.addObject("frontierheader", header);
 		mav.addObject("localfrontierheader", localheader);
 		mav.addObject("frontierfooter", footer);
+		mav.addObject("bannerMessage", getBannerMessage());
 
 		return mav;
 	}
@@ -277,10 +279,15 @@ public class StyleMAVFactory {
 
 	}
 
+	private String getBannerMessage(){
+		String message = EntryController.getBannerMessage();
+		return message;
+	}
 	public ModelAndView getFrontierMav(String name, String modelName, Object objectModel) {
 
 		ModelAndView mav=  getFrontierMav(name);
 
+		mav.addObject("bannerMessage", getBannerMessage());
 		mav.addObject(modelName, objectModel);
 
 		return mav;
