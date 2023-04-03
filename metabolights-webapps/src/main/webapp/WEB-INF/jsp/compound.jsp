@@ -311,7 +311,7 @@
                                                         </div>
                                                     </div>
                                                     <div v-if="selectedPathway" class="well no-padding">
-                                                        <iframe :src="'//www.wikipathways.org/wpi/PathwayWidget.php?id='+selectedPathway" frameborder="0" width="98%" height="500px" seamless="seamless" scrolling="no"></iframe>
+                                                        <iframe :src="'//classic.wikipathways.org//wpi/PathwayWidget.php?id='+selectedPathway" frameborder="0" width="98%" height="500px" seamless="seamless" scrolling="no"></iframe>
                                                     </div>
                                                 </div>
                                                 <div role="tabpanel" class="tab-pane" id="kegg">
@@ -845,8 +845,10 @@
 
     function loadData(target){
         if (target == 'pathways') {
-            for (firstWikiPathway in vm.mtblc.pathways.WikiPathways) break;
-            data.selectedSpecies = firstWikiPathway;
+
+            // for (firstWikiPathway in vm.mtblc.pathways.WikiPathways) break;
+            if (vm.mtblc.pathways.WikiPathways && vm.mtblc.pathways.WikiPathways.length > 0)
+                data.selectedSpecies = vm.mtblc.pathways.WikiPathways[0];
         }else if (target == 'chemistry') {
             //console.log("chemistry")
         }else if (target == 'reactome') {

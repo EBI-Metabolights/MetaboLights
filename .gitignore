@@ -12,7 +12,7 @@ build/
 *.class
 !gradle-wrapper.jar
 .gradletasknamecache
-
+bin/
 
 mzml_validation_progress_log.txt
 *.mp4

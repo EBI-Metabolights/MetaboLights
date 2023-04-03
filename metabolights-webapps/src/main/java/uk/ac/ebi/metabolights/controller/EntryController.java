@@ -20,6 +20,7 @@
 package uk.ac.ebi.metabolights.controller;
 import org.jose4j.json.internal.json_simple.JSONObject;
 import org.jose4j.json.internal.json_simple.parser.JSONParser;
+import org.springframework.jndi.JndiTemplate;
 import uk.ac.ebi.metabolights.utils.PropertiesUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +40,7 @@ import uk.ac.ebi.metabolights.repository.model.webservice.RestResponse;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 
+import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
 
     /**
@@ -62,6 +64,15 @@ import javax.servlet.http.HttpServletRequest;
         public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
         public static final String REVIEWER_OBFUSCATION_CODE_URL = "reviewer{obfuscationCode}";
 
+        public static String getProperty(String key){
+            JndiTemplate jndi = new JndiTemplate();
+            try {
+                return jndi.lookup("java:comp/env/" + key, java.lang.String.class);
+
+            } catch (NamingException e) {
+                throw new RuntimeException("", e);
+            }
+        }
 
         public static MetabolightsWsClient getMetabolightsWsClient() {
             return getMetabolightsWsClient(LoginController.getLoggedUser());

@@ -157,17 +157,17 @@ public class MetabolightsWsClient {
     }
 
     private String makeRequest(String path, String method) {
-       return makeRequestSendingData(path,null,method, this.metabolightsJavaWsUrl);
+       return makeRequestSendingData(path,null,method, this.metabolightsJavaWsUrl, null);
     }
 
-    private String makeRequestSendingData(String path, Object dataToSend, String method, String host) {
+    private String makeRequestSendingData(String path, Object dataToSend, String method, String host, String userToken) {
 
         logger.info("Making a {} request to {}", method, path);
 
         try {
 
             // Get a post connection
-            HttpURLConnection conn = getHttpURLConnection(host, path, method);
+            HttpURLConnection conn = getHttpURLConnection(host, path, method, userToken);
             if(dataToSend != null){
                 conn.setRequestProperty("content-type", "application/json");
             }
@@ -239,24 +239,43 @@ public class MetabolightsWsClient {
         }
     }
 
-
-    private String makePostRequest(String path, Object data) {
-        return makeRequestSendingData(path, data, "POST", this.metabolightsJavaWsUrl);
+    public String makePythoDeleteRequest(String path, Object data) {
+        return makePythonDeleteRequest(path, data, null);
     }
-    private String makePythonPostRequest(String path, Object data) {
-        return makeRequestSendingData(path, data, "POST", this.metabolightsPythonWsUrl);
+    public String makePythonDeleteRequest(String path, Object data, String userToken) {
+        return makeRequestSendingData(path, data, "DELETE", this.metabolightsPythonWsUrl, userToken);
+    }
+
+    public String makePostRequest(String path, Object data) {
+        return makeRequestSendingData(path, data, "POST", this.metabolightsJavaWsUrl, null);
+    }
+    public String makePythonPostRequest(String path, Object data) {
+        return makePythonPostRequest(path, data, null);
+    }
+    public String makePythonPostRequest(String path, Object data, String userToken) {
+        return makeRequestSendingData(path, data, "POST", this.metabolightsPythonWsUrl, userToken);
     }
     private String makePutRequest(String path, Object data) {
-        return makeRequestSendingData(path, data, "PUT", this.metabolightsJavaWsUrl);
+        return makeRequestSendingData(path, data, "PUT", this.metabolightsJavaWsUrl, null);
     }
-
+    public String makePythonPutRequest(String path, Object data) {
+        return makePythonPutRequest(path, data, null);
+    }
+    public String makePythonPutRequest(String path, Object data, String userToken) {
+        return makeRequestSendingData(path, data, "PUT", this.metabolightsJavaWsUrl, userToken);
+    }
     private String makeGetRequest(String path) {
         return makeRequest(path, "GET");
     }
+
     public String makePythonGetRequest(String path) {
-        return makeRequestSendingData(path,  null,  "GET", this.metabolightsPythonWsUrl);
+        return makePythonGetRequest(path, null);
     }
-    private HttpURLConnection getHttpURLConnection(String mtblsWsUrl, String path, String method) throws IOException {
+
+    public String makePythonGetRequest(String path, String userToken) {
+        return makeRequestSendingData(path,  null,  "GET", this.metabolightsPythonWsUrl, userToken);
+    }
+    private HttpURLConnection getHttpURLConnection(String mtblsWsUrl, String path, String method, String userToken) throws IOException {
         URL url;
         String base = mtblsWsUrl;
         if (base == null)
@@ -273,7 +292,10 @@ public class MetabolightsWsClient {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod(method);
         conn.setRequestProperty("Accept", "application/json");
-        conn.setRequestProperty(tokenHeaderName, userToken);
+        if (userToken != null)
+            conn.setRequestProperty(tokenHeaderName, userToken);
+        else
+            conn.setRequestProperty(tokenHeaderName, this.userToken);
 
         return conn;
     }
@@ -391,10 +413,10 @@ public class MetabolightsWsClient {
 //			</c:if>
 //
 //        commented out temporarily
-        addFacet(FACTORS_NAME, emptyQuery);
-        addFacet(DESCRIPTORS_DESCRIPTION, emptyQuery);
-        addFacet(VALIDATIONS_STATUS, emptyQuery);
-        addFacet(VALIDATIONS_ENTRIES_STATUS, emptyQuery);
+//        addFacet(FACTORS_NAME, emptyQuery);
+//        addFacet(DESCRIPTORS_DESCRIPTION, emptyQuery);
+        // addFacet(VALIDATIONS_STATUS, emptyQuery);
+        // addFacet(VALIDATIONS_ENTRIES_STATUS, emptyQuery);
 
         emptyQuery.getPagination().setPage(1);
         emptyQuery.getPagination().setPageSize(10);
@@ -451,7 +473,7 @@ public class MetabolightsWsClient {
 
         String path =  str.toString();
         // Make the request
-        String response = makeRequestSendingData( path, null, "GET", this.metabolightsJavaWsUrl);
+        String response = makeRequestSendingData(path, null, "GET", this.metabolightsJavaWsUrl, null);
 
         return response;
     }
@@ -653,8 +675,15 @@ public class MetabolightsWsClient {
                                 resultList.add(study);
                             } else if (type.equalsIgnoreCase("compound")){
                                 MetaboLightsCompound compound = new MetaboLightsCompound();
-                                compound =  mapper.readerForUpdating(compound).readValue(entity.toJSONString());
-                                resultList.add(compound);
+                                String data = entity.toJSONString();
+                                try {
+                                    compound =  mapper.readerForUpdating(compound).readValue(data);
+                                    resultList.add(compound);
+                                } catch(Exception ex){
+                                    System.out.println("Error for compound: " + entity.get("name"));
+                                }
+
+
                             } else {
                                 System.out.println("Object type is not defined: " + type);
                             }

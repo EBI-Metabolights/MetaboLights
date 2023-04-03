@@ -324,12 +324,11 @@ public class WSSearchController extends AbstractController {
 //			</c:if>
 //
 //        commented out temporarily
-        addFacet(USERS_FULL_NAME, emptyQuery);
-        addFacet(FACTORS_NAME, emptyQuery);
-        addFacet(DESCRIPTORS_DESCRIPTION, emptyQuery);
-        addFacet(VALIDATIONS_STATUS, emptyQuery);
-        addFacet(VALIDATIONS_ENTRIES_STATUS, emptyQuery);
-
+//        addFacet(USERS_FULL_NAME, emptyQuery);
+//        addFacet(FACTORS_NAME, emptyQuery);
+//        addFacet(DESCRIPTORS_DESCRIPTION, emptyQuery);
+//        addFacet(VALIDATIONS_STATUS, emptyQuery);
+//        addFacet(VALIDATIONS_ENTRIES_STATUS, emptyQuery);
         emptyQuery.getPagination().setPage(1);
         emptyQuery.getPagination().setPageSize(10);
 
