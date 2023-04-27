@@ -24,34 +24,50 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
 <div class="col-md-12">
     <p class="row">
-        <h3><spring:message code="menu.downloadHelp" /></h3><br>
-        <div class="alert nbr alert-warning">
-            <p>
-                <a class="icon icon-generic bigfont" data-icon="T" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip"></a>
-                <spring:message code="msg.metabolightsAbout12" />
-            <p>
-        </div>
-        <div class="well nbr">
-            <p>
-                <a class="icon icon-functional bigfont" data-icon="A" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/"></a>
-                <spring:message code="msg.metabolightsAbout7" />
-            </p>
-        </div>
-        <p><spring:message code="msg.metabolightsAbout13" /></p> </br>
-        <p><spring:message code="msg.metaboLightsAbout16" />&nbsp;<spring:message code="msg.metabolightsAbout8"/></p>
-        <br>
-        <a>MetaboLights XML exports can be downloaded using the following links:</a><br>
-        <p><a class="btn btn-default mt5" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/eb-eye/eb-eye_metabolights_complete.xml" target="_blank">MetaboLights - Complete </a>&emsp;|&emsp;<a class="mt5 btn btn-default" href="ftp://ftp.ebi.ac.uk/pub/databases/metabolights/eb-eye/eb-eye_metabolights_studies.xml" target="_blank">MetaboLights</a></p>
-
+    <h3><spring:message code="menu.downloadHelp" /></h3><br>
+    <% String agent = request.getHeader ("user-agent");
+        String userOS = "";
+        try {
+            if (agent.toLowerCase().indexOf("mac") >= 0) {
+                userOS = "mac";
+            } else {
+                userOS = "non-mac";
+            }
+        }catch (Exception e){}
+    %>
+    <%
+        String protocol = "http";
+        if(userOS.equals("mac")){
+            protocol = "ftp";
+        }
+    %>
+    <div class="alert nbr alert-warning">
+        <p>
+            <a class="icon icon-generic bigfont" data-icon="T" href="<%=protocol%>://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip"></a>
+            <a href="<%=protocol%>://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip"><spring:message code="msg.metabolightsMtblsIsaCreator" /> </a>  <spring:message code="msg.metabolightsAbout12" />
+        <p>
     </div>
+    <div class="well nbr">
+        <p>
+            <a class="icon icon-functional bigfont" data-icon="A" href="<%=protocol%>://ftp.ebi.ac.uk/pub/databases/metabolights/"></a>
+            <a href="<%=protocol%>://ftp.ebi.ac.uk/pub/databases/metabolights/"><b>Experiments</b></a>  <spring:message code="msg.metabolightsAbout7" />
+        </p>
+    </div>
+    <p><spring:message code="msg.metabolightsAbout13" /></p> </br>
+    <p><spring:message code="msg.metaboLightsAbout16" />&nbsp;<spring:message code="msg.metabolightsAbout8"/></p>
+    <br>
+    <a>MetaboLights XML exports can be downloaded using the following links:</a><br>
+    <p><a class="btn btn-default mt5" href="<%=protocol%>://ftp.ebi.ac.uk/pub/databases/metabolights/eb-eye/eb-eye_metabolights_complete.xml" target="_blank">MetaboLights - Complete </a>&emsp;|&emsp;<a class="mt5 btn btn-default" href="<%=protocol%>://ftp.ebi.ac.uk/pub/databases/metabolights/eb-eye/eb-eye_metabolights_studies.xml" target="_blank">MetaboLights</a></p>
+
+</div>
 </div>
 <div class="col-md-12">
     <p class="row">
         <br>
-        <div class="well nbr">
-            <a class="noLine" href="<spring:message code="url.isatools"/>"><img src="img/softwaresuitelogo2.png" alt="ISAtools"/></a>
-            <p><spring:message code="msg.metabolightsAbout6" /></p>
-        </div>
+    <div class="well nbr">
+        <a class="noLine" href="<spring:message code="url.isatools"/>"><img src="img/softwaresuitelogo2.png" alt="ISAtools"/></a>
+        <p><spring:message code="msg.metabolightsAbout6" /></p>
+    </div>
     </p>
 </div>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
