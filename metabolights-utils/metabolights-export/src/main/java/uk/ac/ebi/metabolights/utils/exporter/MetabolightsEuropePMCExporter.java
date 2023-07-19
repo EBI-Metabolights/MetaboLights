@@ -49,7 +49,7 @@ public class MetabolightsEuropePMCExporter {
     private static DocumentBuilder builder = null;
     private static Document doc = null;
     private static String[] allStudies = null;
-    private static String WSCLIENT_URL = ML_BASE_URL + "/webservice/";
+    private static String WSCLIENT_URL = ML_BASE_URL + "/ws/";
     private static MetabolightsWsClient wsClient;
     private static String metaboLightsId = "1782";
     private static final String pmid = "PMID", doi = "DOI", totals = "totalNumber";
@@ -88,7 +88,8 @@ public class MetabolightsEuropePMCExporter {
 
     public static MetabolightsWsClient getWsClient() {
         if (wsClient == null)
-            wsClient = MetabolightsWsClient.getInstance(WSCLIENT_URL);
+
+            wsClient = MetabolightsWsClient.getInstanceForExporter(WSCLIENT_URL);
         return wsClient;
     }
 

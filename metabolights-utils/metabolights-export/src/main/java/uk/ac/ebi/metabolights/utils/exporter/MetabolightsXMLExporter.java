@@ -100,7 +100,7 @@ public class MetabolightsXMLExporter {
 
     public static MetabolightsWsClient getWsClient() {
         if (wsClient == null)
-            wsClient = MetabolightsWsClient.getInstance(WSCLIENT_URL);
+            wsClient = MetabolightsWsClient.getInstanceForExporter(WSCLIENT_URL);
         return wsClient;
     }
 
@@ -777,7 +777,7 @@ public class MetabolightsXMLExporter {
                 entries.appendChild(entry);
                 k++;
                 System.out.println( "--- Adding the study;  Study count "+k);
-                if(k==100) break;
+                // if(k==100) break;
 
             } catch (Exception e){
                System.out.println("Exception : " + e.getMessage());

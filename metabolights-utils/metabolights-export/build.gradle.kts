@@ -12,5 +12,22 @@ dependencies {
     api(project(":metabolights-ws-client"))
     api(project(":metabolights-domain"))
 }
-
 description = "metabolights-export"
+
+tasks.withType<Jar> {
+    enabled = true
+    isZip64 = true
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    archiveFileName.set("metabolights-export.jar")
+
+    from(sourceSets.main.get().output)
+    dependsOn(configurations.compileClasspath)
+    from({
+        configurations.compileClasspath.get().filter {
+            it.name.endsWith("jar")
+        }.map { zipTree(it) }
+    }) {
+        exclude("META-INF/*.RSA", "META-INF/*.SF", "META-INF/*.DSA")
+    }
+}

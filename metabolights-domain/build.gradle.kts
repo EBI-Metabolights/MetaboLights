@@ -6,6 +6,7 @@
 
 plugins {
     id("uk.ac.ebi.metabolights.java-conventions")
+    id ("maven-publish")
 }
 
 dependencies {
@@ -18,5 +19,7 @@ dependencies {
     api("net.minidev:json-smart:2.0-RC3")
     api("org.bitbucket.b_c:jose4j:0.4.4")
 }
-
+repositories {
+    mavenLocal()
+}
 description = "MetaboLights Domain"

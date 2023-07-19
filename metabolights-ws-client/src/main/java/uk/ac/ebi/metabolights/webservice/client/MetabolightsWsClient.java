@@ -128,10 +128,19 @@ public class MetabolightsWsClient {
     public static MetabolightsWsClient getInstance(String metabolightsJavaWsUrl) {
         return new MetabolightsWsClient(metabolightsJavaWsUrl);
     }
+
+    public static MetabolightsWsClient getInstanceForExporter(String metabolightsWsUrl) {
+        return new MetabolightsWsClient(metabolightsWsUrl, "");
+    }
+
     private MetabolightsWsClient() {
         this(null);
     }
 
+    private MetabolightsWsClient(String metabolightsWsUrl,String exporter) {
+        this.metabolightsJavaWsUrl = metabolightsWsUrl;
+        this.metabolightsPythonWsUrl = metabolightsWsUrl;
+    }
     private MetabolightsWsClient(String metabolightsJavaWsUrl) {
         this.initializeEnvironmentVariables();
     }

@@ -6,6 +6,7 @@
 
 plugins {
     id("uk.ac.ebi.metabolights.java-conventions")
+    id ("maven-publish")
 }
 
 dependencies {
@@ -18,5 +19,7 @@ dependencies {
     api("org.json:json:20090211")
     // api("org.apache.logging.log4j:log4j-core:2.17.2")
 }
-
+repositories {
+    mavenLocal()
+}
 description = "MetaboLights webservice client"
