@@ -18,7 +18,7 @@ tasks {
     }
 }
 dependencies {
-    api(project(":libs"))
+    api(fileTree("libs"))
     api("javax.mail:mail:1.4.5")
     api("uk.ac.ebi:ebinocle:1.0.4")
     api("uk.ac.ebi.biobabel:ebeye-client:2.0.0") {

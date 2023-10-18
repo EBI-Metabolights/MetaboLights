@@ -18,7 +18,7 @@ tasks {
     }
 }
 dependencies {
-    api(project(":libs"))
+    api(fileTree("libs"))
 
     api(project(":metabolights-dao"))
     api(project(":metabolights-referencelayer-dao"))

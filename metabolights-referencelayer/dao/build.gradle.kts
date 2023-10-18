@@ -9,7 +9,7 @@ plugins {
 }
 
 dependencies {
-    api(project(":libs"))
+    api(fileTree("libs"))
 
     api(project(":metabolights-domain"))
     api("uk.ac.ebi.rhea:rhea-ws-client:2.0.0") 

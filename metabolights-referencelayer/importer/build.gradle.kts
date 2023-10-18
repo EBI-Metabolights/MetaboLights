@@ -9,7 +9,7 @@ plugins {
 }
 
 dependencies {
-    api(project(":libs"))
+    api(fileTree("libs"))
     api(project(":metabolights-referencelayer-dao"))
     api(project(":metabolights-ws-client"))
     api("uk.ac.ebi.mdk:mdk-service-soap:1.4.1")
