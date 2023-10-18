@@ -1,0 +1,35 @@
+variables:
+     VERSION: "2.1.0"
+     BUILD_SCRIPTS_ROOT_PATH: "/home/gitlab-runner/ci_cd/k8s"
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "development" || $CI_COMMIT_BRANCH == "test" || $CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "staging"
+stages:
+  - build
+  - push
+  - deploy
+
+checkout_configs:
+  stage: build
+  script:
+    - bash "$BUILD_SCRIPTS_ROOT_PATH/checkout_configs.sh"
+
+build_container:
+  stage: build
+  script:
+    - bash "$BUILD_SCRIPTS_ROOT_PATH/metabolights-web/build_container.sh"
+
+push_container:
+  stage: push
+  script:
+    - bash "$BUILD_SCRIPTS_ROOT_PATH/push_container.sh"
+
+deploy:
+  stage: deploy
+  only:
+      - test
+      - staging
+      - master
+  script:
+    - bash "$BUILD_SCRIPTS_ROOT_PATH/metabolights-web/prepare_deployment_files.sh"
+    - bash "$BUILD_SCRIPTS_ROOT_PATH/metabolights-web/deploy.sh"
