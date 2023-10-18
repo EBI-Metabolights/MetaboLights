@@ -5,6 +5,7 @@
  */
 
 rootProject.name = "metabolights-main"
+include(":libs")
 include(":species-model")
 include(":metabolights-search")
 include(":metabolights-referencelayer-dao")
@@ -32,13 +33,13 @@ include(":metabolights-export")
 include(":species-search")
 project(":species-model").projectDir = file("metabolights-species/species-model")
 project(":metabolights-referencelayer-dao").projectDir = file("metabolights-referencelayer/dao")
-project(":service-es").projectDir = file("metabolights-search/service-es")
+project(":service-es").projectDir = file("MetaboLights-Search/service-es")
 // project(":metabolights-mztab").projectDir = file("metabolights-utils/metabolights-mztab")
 // project(":metabolights-sampledb").projectDir = file("metabolights-utils/metabolights-sampledb")
 project(":species-service").projectDir = file("metabolights-species/species-service")
 project(":species-core").projectDir = file("metabolights-species/species-core")
 project(":globalnames-client").projectDir = file("metabolights-species/globalnames-client")
-project(":search-service").projectDir = file("metabolights-search/service")
+project(":search-service").projectDir = file("MetaboLights-Search/service")
 project(":WoRMS-client").projectDir = file("metabolights-referencelayer/WoRMS-client")
 project(":metabolights-webapp").projectDir = file("metabolights-webapps")
 project(":metabolights-isatab-utils").projectDir = file("metabolights-utils/metabolights-isatab-utils")

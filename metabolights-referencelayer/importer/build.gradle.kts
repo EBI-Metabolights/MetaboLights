@@ -9,6 +9,7 @@ plugins {
 }
 
 dependencies {
+    api(project(":libs"))
     api(project(":metabolights-referencelayer-dao"))
     api(project(":metabolights-ws-client"))
     api("uk.ac.ebi.mdk:mdk-service-soap:1.4.1")
@@ -18,6 +19,10 @@ dependencies {
     api("org.postgresql:postgresql:42.6.0")
     api("com.google.guava:guava:10.0")
 }
-
+repositories {
+    flatDir {
+        dirs("libs")
+    }
+}
 group = "uk.ac.ebi.metabolights.referencelayer"
 description = "MetaboLights Reference layer importer"

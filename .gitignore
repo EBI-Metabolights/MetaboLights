@@ -8,7 +8,6 @@ config
 target/
 .DS_Store
 build/
-*.jar
 *.class
 !gradle-wrapper.jar
 .gradletasknamecache

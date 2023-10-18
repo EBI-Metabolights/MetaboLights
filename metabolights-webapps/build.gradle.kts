@@ -9,8 +9,16 @@ plugins {
     id("project-report")
     war
 }
-
+tasks {
+    withType<Copy> {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+    withType<Jar> {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+}
 dependencies {
+    api(project(":libs"))
     api("javax.mail:mail:1.4.5")
     api("uk.ac.ebi:ebinocle:1.0.4")
     api("uk.ac.ebi.biobabel:ebeye-client:2.0.0") {
@@ -78,6 +86,14 @@ dependencies {
     }
     api("javax.servlet:javax.servlet-api:3.0.1")
 }
+
+repositories {
+        
+    flatDir {
+        dirs("libs")
+    }
+}
+
 configurations.all {
     exclude(group = "javax.persistence", module = "persistence-api")
 }

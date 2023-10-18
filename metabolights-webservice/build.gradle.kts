@@ -9,8 +9,17 @@ plugins {
     id("project-report")
     war
 }
-
+tasks {
+    withType<Copy> {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+    withType<Jar> {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+}
 dependencies {
+    api(project(":libs"))
+
     api(project(":metabolights-dao"))
     api(project(":metabolights-referencelayer-dao"))
     api(project(":service-es"))
@@ -34,7 +43,7 @@ dependencies {
         exclude("commons-logging", "commons-logging")
         exclude("log4j", "log4j")
     }
-    api("uk.ac.ebi.metabolights:chemspider_webservices:1.0")
+    // api("uk.ac.ebi.metabolights:chemspider_webservices:1.0")
     api("org.apache.axis2:axis2-kernel:1.6.1")
     api("org.apache.axis2:axis2-adb:1.6.1")
     api("org.apache.axis2:axis2-transport-local:1.6.1")
@@ -52,5 +61,10 @@ dependencies {
     runtimeOnly("jakarta.servlet:jakarta.servlet-api:4.0.4")
     runtimeOnly("org.apache.tomcat:tomcat-catalina:9.0.73")
 }
-
+repositories {
+        
+    flatDir {
+        dirs("libs")
+    }
+}
 description = "metabolights webservice"

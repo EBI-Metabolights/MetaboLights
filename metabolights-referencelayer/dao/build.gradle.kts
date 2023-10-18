@@ -9,6 +9,8 @@ plugins {
 }
 
 dependencies {
+    api(project(":libs"))
+
     api(project(":metabolights-domain"))
     api("uk.ac.ebi.rhea:rhea-ws-client:2.0.0") 
     api("uk.ac.ebi.biobabel:biobabel-db:1.3.7")
@@ -17,5 +19,10 @@ dependencies {
     api("com.googlecode.lambdaj:lambdaj:2.3")
 }
 
+repositories {
+    flatDir {
+        dirs("libs")
+    }
+}
 group = "uk.ac.ebi.metabolights.referencelayer"
 description = "MetaboLights Reference layer Data Access Object"

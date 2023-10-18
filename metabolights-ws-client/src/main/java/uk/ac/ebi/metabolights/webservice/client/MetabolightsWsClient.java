@@ -150,8 +150,8 @@ public class MetabolightsWsClient {
         try {
             initCtx = new InitialContext();
             Context envCtx = (Context) initCtx.lookup("java:comp/env");
-            this.metabolightsJavaWsUrl = (String)envCtx.lookup("metabolightsJavaWsUrl");
-            this.metabolightsPythonWsUrl = (String)envCtx.lookup("metabolightsPythonWsUrl");
+            this.metabolightsJavaWsUrl = (String)envCtx.lookup("metabolightsJavaWsInternalUrl");
+            this.metabolightsPythonWsUrl = (String)envCtx.lookup("metabolightsPythonWsInternalUrl");
         } catch (NamingException e) {
             e.printStackTrace();
         }
@@ -171,7 +171,7 @@ public class MetabolightsWsClient {
 
     private String makeRequestSendingData(String path, Object dataToSend, String method, String host, String userToken) {
 
-        logger.info("Making a {} request to {}", method, path);
+        logger.debug("Making a {} request to {}", method, path);
 
         try {
 
@@ -296,8 +296,8 @@ public class MetabolightsWsClient {
 
         url = new URL(base + "/" + path);
 
-        System.out.println( " !!metabolightsWsURI :- " +url);
-        logger.info( " !!metabolightsWsURI :- {}", url);
+        // System.out.println( " !!metabolightsWsURI :- " +url);
+        logger.debug( " !!metabolightsWsURI :- {}", url);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod(method);
         conn.setRequestProperty("Accept", "application/json");

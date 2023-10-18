@@ -59,6 +59,7 @@ import javax.servlet.http.HttpServletRequest;
         private final String DESCRIPTION = "descr";
         private static String editorUrl = null;
         private static String pythonWsUrl = null;
+        private static String pythonWsInternalUrl = null;
         private static String assetsServerBaseURL = null;
         
         public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
@@ -88,7 +89,7 @@ import javax.servlet.http.HttpServletRequest;
 
         public static String getBannerMessage(){
             try {
-                final MetabolightsWsClient wsClient = MetabolightsWsClient.getInstance(getMetabolightsPythonWsUrl());
+                final MetabolightsWsClient wsClient = MetabolightsWsClient.getInstance(getMetabolightsPythonWsInternalUrl());
                 String result = wsClient.makePythonGetRequest("/ebi-internal/banner");
 
                 JSONParser parser = new JSONParser();
@@ -132,7 +133,13 @@ import javax.servlet.http.HttpServletRequest;
             EntryController.pythonWsUrl = PropertiesUtil.getProperty("metabolightsPythonWsUrl");
             return EntryController.pythonWsUrl;
         }
-
+        public static String getMetabolightsPythonWsInternalUrl(){
+            if (EntryController.pythonWsInternalUrl != null) {
+                return EntryController.pythonWsInternalUrl;
+            }
+            EntryController.pythonWsInternalUrl = PropertiesUtil.getProperty("metabolightsPythonWsInternalUrl");
+            return EntryController.pythonWsInternalUrl;
+        }
         public static String getMetabolightsAssetsServerBaseUrl(){
             if (EntryController.assetsServerBaseURL != null) {
                 return EntryController.assetsServerBaseURL;

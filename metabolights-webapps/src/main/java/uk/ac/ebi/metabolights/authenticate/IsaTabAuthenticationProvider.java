@@ -222,7 +222,7 @@ public class IsaTabAuthenticationProvider implements AuthenticationProvider {
 		OutputStreamWriter out = null;
 		HttpURLConnection conn = null;
 		try {
-			String wsPrefix = PropertiesUtil.getProperty("metabolightsPythonWsUrl");
+			String wsPrefix = PropertiesUtil.getProperty("metabolightsPythonWsInternalUrl");
 			URL url = null;
 
 			if (wsPrefix.endsWith("/")) {
@@ -256,7 +256,7 @@ public class IsaTabAuthenticationProvider implements AuthenticationProvider {
 
 	public static HttpURLConnection getGetConnection(String path) throws Exception {
 		try {
-			String wsPrefix = PropertiesUtil.getProperty("metabolightsPythonWsUrl");
+			String wsPrefix = PropertiesUtil.getProperty("metabolightsPythonWsInternalUrl");
 			URL url = null;
 
 			if (wsPrefix.endsWith("/")) {

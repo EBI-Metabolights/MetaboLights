@@ -83,8 +83,10 @@ configurations.all {
   }
 }
 
-tasks.withType<Copy> {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+tasks {
+    withType<Copy> {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
 }
 
 group = "uk.ac.ebi.metabolights"
