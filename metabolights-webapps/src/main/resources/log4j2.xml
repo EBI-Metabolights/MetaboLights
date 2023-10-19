@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="info">
     <Appenders>
-        <Console name="Console" target="SYSTEM_OUT">
-           <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        <!-- <Console name="Console" target="SYSTEM_OUT"> -->
+           <!-- <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/> -->
             <!-- <JSONLayout compact="true" eventEol="true" properties="true" stacktraceAsString="true" includeTimeMillis="true" >
                 <KeyValuePair key="appName" value="metabolights-webapp" />
             </JSONLayout> -->
-        </Console>
+        <!-- </Console> -->
         <RollingFile name="RollingFile" fileName="${sys:catalina.base}/logs/${sys:hostName}_metabolights-webapp.log"
                      filePattern="${sys:catalina.base}/logs/webapp/${sys:hostName}_%d{MM-dd-yyyy}-%i.log">
            <PatternLayout>
@@ -24,15 +24,15 @@
     </Appenders>
     <Loggers>
         <Logger name="uk.ac.ebi.metabolights" additivity="true" level="info">
-            <AppenderRef ref="Console"/>
+            <!-- <AppenderRef ref="Console"/> -->
             <AppenderRef ref="RollingFile"/>
         </Logger>
         <Logger name="com.lambdaworks" additivity="true" level="warn">
-            <AppenderRef ref="Console"/>
+            <!-- <AppenderRef ref="Console"/> -->
             <AppenderRef ref="RollingFile"/>
         </Logger>
         <Root level="info">
-            <AppenderRef ref="Console"/>
+            <!-- <AppenderRef ref="Console"/> -->
             <AppenderRef ref="RollingFile"/>
         </Root>
     </Loggers>
