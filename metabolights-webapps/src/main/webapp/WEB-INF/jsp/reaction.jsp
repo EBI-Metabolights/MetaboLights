@@ -55,7 +55,7 @@
                     var bioJSReaction = new Biojs.Rheaction({
                         target: 'BioJSReaction',
                         id: id,
-                        proxyUrl: '/metabolights/RheaAndReactomeProxy',
+                        proxyUrl: '${pageContext.request.contextPath}/RheaAndReactomeProxy',
                         rheaWsUrl: "http://www.rhea-db.org/rest/1.0/ws/reaction/cmlreact/"
                     });
 

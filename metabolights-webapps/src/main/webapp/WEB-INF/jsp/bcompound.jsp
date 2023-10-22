@@ -725,7 +725,7 @@
             type: 'GET',
             async: false,
             cache: false,
-            url: "../metabolights/webservice/study/" + id + "/lite",
+            url: "..${pageContext.request.contextPath}/webservice/study/" + id + "/lite",
             success: function (data) {
                 var studyDetails = data['content'];
                 $("." + id + "--title").html(" " + studyDetails['title'] + "<a data-target='#study-details-modal' data-toggle='modal' data-studyid='" +id+ "'> <small>more...</small></a>" );
@@ -755,7 +755,7 @@
         //console.log(title);
         //console.log(description);
         $(this).find('#study--title').text(title);
-        $(this).find('#study--link').attr("href","../metabolights/"+studyid);
+        $(this).find('#study--link').attr("href","..${pageContext.request.contextPath}/"+studyid);
         $(this).find('#study--description').text(description);
     });
 </script>

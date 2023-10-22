@@ -205,7 +205,7 @@
                 xhrObj.setRequestHeader("Content-Type","application/json");
                 xhrObj.setRequestHeader("Accept","application/json");
             },
-            url: "/metabolights/webservice/search",
+            url: "${pageContext.request.contextPath}/webservice/search",
             headers: {"user_token": "${user_token}"},
             type: "POST",
             dataType: "json",

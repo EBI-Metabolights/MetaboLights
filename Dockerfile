@@ -8,6 +8,7 @@ RUN mkdir -p /context && mkdir -p /war-files && mkdir -p /webapps  && mkdir -p /
 ARG GROUP1_ID=2222
 ARG GROUP2_ID=2223
 ARG USER_ID=2222
+
 RUN groupadd group1 -g $GROUP1_ID \
     && groupadd group2 -g $GROUP2_ID \ 
     && useradd -Ms /bin/bash -u $USER_ID -g group1 -G group1,group2 metabolights 

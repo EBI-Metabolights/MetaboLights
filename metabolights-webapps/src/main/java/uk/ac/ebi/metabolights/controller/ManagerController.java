@@ -323,42 +323,12 @@ public class ManagerController extends AbstractController{
 	@RequestMapping(value = "/togglequeue")
 	public @ResponseBody String toggleQueue(@RequestParam(required = true, value = "user_token") String user_token, @RequestParam(required = true, value = "instance") String instance) {
 
-//		String wsUrl = "http://" + EntryController.composeWSPath(instance + "/metabolights/" );
-//
-//		MetabolightsWs--Client client = EntryController.getMetabolightsWs--Client(user_token, wsUrl);
-//
-//		RestResponse<Boolean> response;
-//
-//		try {
-//
-//			response = client.toggleQueue();
-//			return response.getMessage();
-//
-//		} catch (Exception e){
-//
-//			return e.getMessage();
-//		}
 		return "true";
 	}
 
     @RequestMapping(value = "/queuestatus")
     public @ResponseBody String getQueueStatus(@RequestParam(required = true, value = "user_token") String user_token, @RequestParam(required = true, value = "instance") String instance) {
 
-//		String wsUrl = "http://" + EntryController.composeWSPath(instance + "/metabolights/" );
-//
-//		MetabolightsWsClient client = EntryController.getMetabolightsWs--Client(user_token, wsUrl);
-//
-//		RestResponse<Boolean> response;
-//
-//		try {
-//
-//			response = client.getQueueStatus();
-//			return response.getMessage();
-//
-//		} catch (Exception e){
-//
-//			return e.getMessage();
-//		}
 
 		return "true";
 	}

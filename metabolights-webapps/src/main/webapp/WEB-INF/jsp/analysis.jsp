@@ -28,9 +28,9 @@
             <div class="col-md-6">
                 <div class="panel nbr panel-default">
                     <div class="panel-body">
-                        <h3 class="nmt"><a target="_blank" href="/metabolights/metaboanalyst"></a></h3>
+                        <h3 class="nmt"><a target="_blank" href="${pageContext.request.contextPath}/metaboanalyst"></a></h3>
                         <p style="font-weight: normal">
-                            <a href="http://www.ebi.ac.uk/metabolights/metaboanalyst/" target="_blank"><b>MetaboAnalyst</b></a> is a user-friendly, comprehensive web-based analytical pipeline for high-throughput metabolomics studies. Our version of MetaboAnalyst 3.0 is coupled with EBI's in-house R Cloud to faciliate
+                            <a href="http://www.ebi.ac.uk${pageContext.request.contextPath}/metaboanalyst/" target="_blank"><b>MetaboAnalyst</b></a> is a user-friendly, comprehensive web-based analytical pipeline for high-throughput metabolomics studies. Our version of MetaboAnalyst 3.0 is coupled with EBI's in-house R Cloud to faciliate
                             compute intensive data analysis.<br><br><br><br>
                         </p>
                     </div>
@@ -45,9 +45,9 @@
             <div class="col-md-6">
                 <div class="panel nbr panel-default">
                     <div class="panel-body">
-                        <h3 class="nmt"><a target="_blank" href="/metabolights/lipidhome"></a></h3>
+                        <h3 class="nmt"><a target="_blank" href="${pageContext.request.contextPath}/lipidhome"></a></h3>
                         <p style="font-weight: normal">
-                            <a href="http://www.ebi.ac.uk/metabolights/lipidhome/" target="_blank"><b>LipidHome</b></a> is a database of theoretical lipid structures derived from a seed set of lipid sub classes and some lipid chemical space constraints agreed upon with experts in the field. Lipids are organised according to a combination of the LIPID MAPS ontology and the recent publication by the LipidomicNet consortium.
+                            <a href="http://www.ebi.ac.uk${pageContext.request.contextPath}/lipidhome/" target="_blank"><b>LipidHome</b></a> is a database of theoretical lipid structures derived from a seed set of lipid sub classes and some lipid chemical space constraints agreed upon with experts in the field. Lipids are organised according to a combination of the LIPID MAPS ontology and the recent publication by the LipidomicNet consortium.
                         </p>
                     </div>
                     <div class="panel-footer">

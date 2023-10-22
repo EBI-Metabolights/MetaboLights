@@ -160,7 +160,7 @@
                             <div id="loading">
                                <div id="loading-wrapper">
                                    <h4 class="text-center">
-                                       <img src="/metabolights/img/beta_loading.gif" alt="Loading....">
+                                       <img src="${pageContext.request.contextPath}/img/beta_loading.gif" alt="Loading....">
                                    </h4>
                                </div>
                             </div>
@@ -217,14 +217,14 @@
                            </div>
                         </div>
                         <div  v-if="rawFiles.length > 0">
-                            <form id="downloadForm" :action="'/metabolights/'+ study +'/files/downloadSelFiles/'" method="post">
+                            <form id="downloadForm" :action="'${pageContext.request.contextPath}/'+ study +'/files/downloadSelFiles/'" method="post">
                                 <table class="table table-bordered table-condensed table-hover">
                                 <tr v-for="file, key in rawFiles">
                                     <td>
                                         <label>
                                             <input :selected="selectedFiles[key] == file" v-model="selectedFiles" class="fileCheckbox" :value="file" name="file" type="checkbox">
                                         </label>
-                                        <a :href="'/metabolights/' +study + '/files/' + file">{{ file }}</a>
+                                        <a :href="'${pageContext.request.contextPath}/' +study + '/files/' + file">{{ file }}</a>
                                     </td>
                                 </tr>
                                 </table>
@@ -299,7 +299,7 @@
 <script src="//syntagmatic.github.io/parallel-coordinates/d3.parcoords.js"></script>
 <script src="//unpkg.com/vue@2.3.4" type="application/javascript"></script>
 <script src="//labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-<script src="/metabolights/javascript/divgrid.js"></script>
+<script src="${pageContext.request.contextPath}/javascript/divgrid.js"></script>
 
 <script>
     var app = new Vue({
@@ -360,7 +360,7 @@
 
                 function draw(sortValue){
                     d3.selectAll("svg").remove();
-                    d3.json('/metabolights/webservice/study/parallelCoordinatesData?study=""', function(error, jsonData) {
+                    d3.json('${pageContext.request.contextPath}/webservice/study/parallelCoordinatesData?study=""', function(error, jsonData) {
 
                         data = JSON.parse(jsonData.content);
 
@@ -472,7 +472,7 @@
                             })
                             .style("cursor", "pointer")
                             .on("click", function(d){
-                                var win = window.open("/metabolights/parallelCoordinates?study=" + d.Study);
+                                var win = window.open("${pageContext.request.contextPath}/parallelCoordinates?study=" + d.Study);
                                 win.focus();
                             })
                             .on('mouseover', tip.show)
@@ -527,7 +527,7 @@
                 var that = this;
 
                 // load csv file and create the chart
-                d3.json('/metabolights/webservice/study/parallelCoordinatesData?study="' + this.study +'"', function(data) {
+                d3.json('${pageContext.request.contextPath}/webservice/study/parallelCoordinatesData?study="' + this.study +'"', function(data) {
 
                     if(data.content == ""){
                         $("#studyParallelCoordinates").hide();

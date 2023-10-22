@@ -73,7 +73,7 @@
 								<div class="panel panel-warning">
 									<div class="panel-heading">
 										Please note, this site is for testing purposes only and if you intend to submit your data to MetaboLights, go to the production site
-										<a href="https://www.ebi.ac.uk/metabolights">here</a> and <a href="https://www.ebi.ac.uk/metabolights/newAccount">register</a>
+										<a href="https://www.ebi.ac.uk/${pageContext.request.contextPath}">here</a> and <a href="https://www.ebi.ac.uk${pageContext.request.contextPath}/newAccount">register</a>
 									</div>
 								</div>
 							</div>

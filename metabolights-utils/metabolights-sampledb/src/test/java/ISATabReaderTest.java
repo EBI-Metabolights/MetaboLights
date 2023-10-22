@@ -37,40 +37,6 @@ import java.util.Map;
 
 public class ISATabReaderTest {
 
-    // // private SampleTabParser parser = new SampleTabParser();
-    // // private ISATabReader isaTabReader = new ISATabReader();
-    // Investigation investigation;
-    // public static String studyAcc = "MTBLS1";
-    // private static String isatabDirectory = ISATabReaderTest.class.getClassLoader().getResource("./"+studyAcc).getPath();
-    // //private static String configDirectory = ISATabReaderTest.class.getClassLoader().getResource(".").getPath();
-    // private static String configDirectory = "/nfs/public/rw/homes/tc_cm01/metabolights/dev/isatab/configurations";
-
-
-    // private Investigation getInvestigation() throws IsaTabException {
-    //     // investigation = isaTabReader.getInvestigation(configDirectory, isatabDirectory);
-    //     return investigation;
-    // }
-
-
-    // @Test
-    // public void testGetContactsFromInvestigation() throws IsaTabException {
-
-    //     Map<String, Study> studyMap = getInvestigation().getStudies();
-    //     assertNotNull(studyMap);
-
-    //     for (Map.Entry<String, Study> entry : studyMap.entrySet())
-    //     {
-    //         Study study = entry.getValue();
-    //         assertNotNull(study);
-
-    //         List<Contact> contactsList = study.getContacts();
-    //         assertNotNull(contactsList);
-
-    //         if (!contactsList.isEmpty()){
-    //             Contact contact = contactsList.get(0);
-    //             assertNotNull(contact);
-    //         }
-    //     }
 
 
 

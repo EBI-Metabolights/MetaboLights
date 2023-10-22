@@ -12,7 +12,7 @@ build/
 !gradle-wrapper.jar
 .gradletasknamecache
 bin/
-
+x_*/
 mzml_validation_progress_log.txt
 *.mp4
 metabolights.sh

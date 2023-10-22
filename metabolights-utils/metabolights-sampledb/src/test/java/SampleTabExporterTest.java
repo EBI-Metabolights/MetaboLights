@@ -35,33 +35,6 @@
  */
 public class SampleTabExporterTest {
 
-    // private static String isatabDirectory = SampleTabExporterTest.class.getClassLoader().getResource("./"+ISATabReaderTest.studyAcc).getPath();
-    // //private static String configDirectory = SampleTabExporterTest.class.getClassLoader().getResource(".").getPath();
-    // private static String configDirectory = "/nfs/public/rw/homes/tc_cm01/metabolights/dev/isatab/configurations";
-    // private static String sampleTabFile = isatabDirectory + "/sampleTab.tsv";
-
-    // ISATabReader isaTabReader = new ISATabReader();
-    // SampleTabExporter sampleTabExporter = new SampleTabExporter();
-    // Investigation investigation;
-
-
-    // private Investigation getInvestigation() throws IsaTabException {
-    //     investigation = isaTabReader.getInvestigation(configDirectory, isatabDirectory);
-    //     return investigation;
-    // }
-
-    // @Test
-    // public void testGetInvestigation() throws IsaTabException {
-
-    //     getInvestigation();
-    //     assertNotNull(investigation);
-
-    // }
-
-    // @Test
-    // public void testWriteSampleTab() throws IsaTabException {
-    //     sampleTabExporter.exportSampleFile(configDirectory, isatabDirectory, sampleTabFile);
-    // }
 
 
 }

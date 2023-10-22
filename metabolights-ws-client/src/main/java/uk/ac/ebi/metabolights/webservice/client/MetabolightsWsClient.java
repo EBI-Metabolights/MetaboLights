@@ -111,7 +111,7 @@ public class MetabolightsWsClient {
 
 
 
-    private String metabolightsJavaWsUrl = "https://www.ebi.ac.uk/metabolights/webservice/";
+    private String metabolightsJavaWsUrl = null;
     private String metabolightsPythonWsUrl = null;
     private static final String STUDY_PATH = "study/";
 

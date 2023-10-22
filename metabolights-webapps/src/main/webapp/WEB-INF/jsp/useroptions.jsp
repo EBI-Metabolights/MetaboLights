@@ -196,6 +196,6 @@
     $('#userLoggingOut').click(function(){
         localStorage.removeItem('jwt');
         deleteCookie("jwt", "/metabolights");
-        window.location.href = '/metabolights/logout';
+        window.location.href = '${pageContext.request.contextPath}/logout';
     });
 </script>

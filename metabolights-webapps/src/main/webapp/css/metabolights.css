@@ -298,7 +298,7 @@ a:link.hyperlinks{
 
 .ml--loading{
     min-height: 50vh;
-    background:url("/metabolights/img/beta_loading.gif") center center no-repeat;
+    background:url("../img/beta_loading.gif") center center no-repeat;
 }
 
 .ml--inline{
