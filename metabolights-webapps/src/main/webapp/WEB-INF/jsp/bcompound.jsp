@@ -725,7 +725,7 @@
             type: 'GET',
             async: false,
             cache: false,
-            url: "..${pageContext.request.contextPath}/webservice/study/" + id + "/lite",
+            url: "..${pageContext.request.contextPath}/ws/v1/study/" + id,
             success: function (data) {
                 var studyDetails = data['content'];
                 $("." + id + "--title").html(" " + studyDetails['title'] + "<a data-target='#study-details-modal' data-toggle='modal' data-studyid='" +id+ "'> <small>more...</small></a>" );

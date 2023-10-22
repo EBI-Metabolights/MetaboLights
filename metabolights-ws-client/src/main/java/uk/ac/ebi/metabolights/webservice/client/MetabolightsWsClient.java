@@ -561,22 +561,22 @@ public class MetabolightsWsClient {
         return null;
     }
 
+    // public RestResponse<? extends MixedSearchResult> search2() {
+
+    //     logger.info("Empty search requested to the MetaboLights WS client");
+
+    //     // Make the request
+    //     String response = makeGetRequest("search");
+
+    //     MixedSearchResult foo = new MixedSearchResult();
+
+    //     return deserializeJSONString(response, foo.getClass());
+
+
+    // }
+
+
     public RestResponse<? extends MixedSearchResult> search() {
-
-        logger.info("Empty search requested to the MetaboLights WS client");
-
-        // Make the request
-        String response = makeGetRequest("search");
-
-        MixedSearchResult foo = new MixedSearchResult();
-
-        return deserializeJSONString(response, foo.getClass());
-
-
-    }
-
-
-    public RestResponse<? extends MixedSearchResult> search2() {
 
         logger.debug("Empty search requested to the MetaboLights WS client");
 
@@ -591,24 +591,24 @@ public class MetabolightsWsClient {
 
     }
 
+    // public RestResponse<? extends MixedSearchResult> search2(SearchQuery query) {
+
+    //     logger.debug("Search requested to the MetaboLights WS client");
+
+    //     String json = serializeObject(query);
+
+    //     // Make the request
+    //     // String response = makePythonPostRequest("/es-index/search", json);
+    //     String response = makePostRequest("search", json);
+
+    //     MixedSearchResult foo = new MixedSearchResult();
+
+    //     return deserializeJSONString(response, foo.getClass());
+
+
+    // }
+
     public RestResponse<? extends MixedSearchResult> search(SearchQuery query) {
-
-        logger.debug("Search requested to the MetaboLights WS client");
-
-        String json = serializeObject(query);
-
-        // Make the request
-        // String response = makePythonPostRequest("/es-index/search", json);
-        String response = makePostRequest("search", json);
-
-        MixedSearchResult foo = new MixedSearchResult();
-
-        return deserializeJSONString(response, foo.getClass());
-
-
-    }
-
-    public RestResponse<? extends MixedSearchResult> search2(SearchQuery query) {
 
         logger.debug("Search requested to the MetaboLights WS client");
 
@@ -620,7 +620,6 @@ public class MetabolightsWsClient {
         // MixedSearchResult foo = new MixedSearchResult();
 
         // return deserializeJSONString(response, foo.getClass());
-
 
     }
 

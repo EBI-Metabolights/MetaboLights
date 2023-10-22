@@ -19,7 +19,6 @@ RUN chown -R metabolights:group1 /webapps \
 USER metabolights 
 
 COPY metabolights-webapps/build/libs/metabolights-webapp-3.0.war /war-files/metabolights-webapp.war
-COPY metabolights-webservice/build/libs/metabolights-webservice-3.0.war /war-files/metabolights-webservice.war
 
 # COPY $CONF_FOLDER /usr/local/tomcat/conf
 # COPY $CONTEXT_FOLDER /context

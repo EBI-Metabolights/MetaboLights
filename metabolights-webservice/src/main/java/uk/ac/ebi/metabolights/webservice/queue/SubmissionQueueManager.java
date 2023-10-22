@@ -24,7 +24,6 @@ package uk.ac.ebi.metabolights.webservice.queue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import uk.ac.ebi.metabolights.search.service.imp.es.ElasticSearchService;
 import uk.ac.ebi.metabolights.webservice.services.AppContext;
 import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
 
@@ -38,16 +37,6 @@ public class SubmissionQueueManager {
 
 	private static Logger log = LoggerFactory.getLogger(SubmissionQueueManager.class);
 	private static Timer tm;
-	public static ElasticSearchService searchService;
-
-	public ElasticSearchService getSearchService() {
-		return searchService;
-	}
-
-	@Autowired
-	public void setSearchService(ElasticSearchService searchService) {
-		SubmissionQueueManager.searchService = searchService;
-	}
 
 	private String queueRunner;
 	public SubmissionQueueManager(){
@@ -81,7 +70,7 @@ public class SubmissionQueueManager {
 		// Period of time after each execution in milliseconds.
 		long period = 1000 * 60 * minutes;
 		
-		tm.schedule(new SubmissionQueueScan(), 0, period);
+		// tm.schedule(new SubmissionQueueScan(), 0, period);
 			
 		
 	}

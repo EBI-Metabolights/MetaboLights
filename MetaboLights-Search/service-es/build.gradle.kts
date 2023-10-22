@@ -10,7 +10,6 @@ plugins {
 
 dependencies {
     api(project(":search-service"))
-    api("org.elasticsearch:elasticsearch:1.4.1")
     api("com.google.code.gson:gson:2.1")
     api("com.fasterxml.jackson.core:jackson-core:2.8.9")
     api("com.fasterxml.jackson.core:jackson-databind:2.8.9")

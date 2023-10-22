@@ -802,13 +802,6 @@
         this.NMRarray.add(this.selectedNMRSpectra.map(function(spec){
             path = "${assetsServerBaseURL}" + spec.path.replace("/net/vnas-metabolights/metabolights/reference", "/compounds");
             return path;
-            // url = spec.url.replace('/json', '');
-            // if(spec.url.startsWith('http://www.ebi.ac.uk/metabolights/webservice/compounds/spectra')){
-            //     return '${metabolightsPythonWsUrl}' + url.replace('http://www.ebi.ac.uk/metabolights/webservice/compounds/spectra', '/compounds') + '/file';
-            // } else if (spec.url.startsWith('https://www.ebi.ac.uk/metabolights/webservice/compounds/spectra')){
-            //     return '${metabolightsPythonWsUrl}' + url.replace('https://www.ebi.ac.uk/metabolights/webservice/compounds/spectra', '/compounds') + '/file';
-            // }
-            // return spec.url.replace("http","https");
         }));
     })
 

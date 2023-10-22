@@ -118,13 +118,13 @@ $(function() {
         <div>
             <!-- Nav tabs -->
             <ul id="configurationTabs" class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#validations" aria-controls="validations" role="tab" data-toggle="tab">Validations</a></li>
+                <%-- <li role="presentation" class="active"><a href="#validations" aria-controls="validations" role="tab" data-toggle="tab">Validations</a></li> --%>
                 <li role="presentation"><a href="#appProp" aria-controls="appProp" role="tab" data-toggle="tab">Application Properties</a></li>
-                <li role="presentation"><a href="#queue" aria-controls="queue" role="tab" data-toggle="tab">Queue</a></li>
+                <%-- <li role="presentation"><a href="#queue" aria-controls="queue" role="tab" data-toggle="tab">Queue</a></li> --%>
                 <li role="presentation"><a href="#studyHealth" aria-controls="studyHealth" role="tab" data-toggle="tab">Study Health</a></li>
-                <li role="presentation"><a href="#indexMaintenance" aria-controls="indexMaintenance" role="tab" data-toggle="tab">Index Maintenance</a></li>
+                <%-- <li role="presentation"><a href="#indexMaintenance" aria-controls="indexMaintenance" role="tab" data-toggle="tab">Index Maintenance</a></li> --%>
                 <li role="presentation"><a href="#referenceLayer" aria-controls="referenceLayer" role="tab" data-toggle="tab">Reference Layer</a></li>
-                <li role="presentation"><a href="#metabolightsParameters" aria-controls="metabolightsParameters" role="tab" data-toggle="tab">MetaboLights Parameters</a></li>
+                <%-- <li role="presentation"><a href="#metabolightsParameters" aria-controls="metabolightsParameters" role="tab" data-toggle="tab">MetaboLights Parameters</a></li> --%>
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">

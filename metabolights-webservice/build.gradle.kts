@@ -22,7 +22,7 @@ dependencies {
 
     api(project(":metabolights-dao"))
     api(project(":metabolights-referencelayer-dao"))
-    api(project(":service-es"))
+    // api(project(":service-es"))
 
 
     api("org.bitbucket.b_c:jose4j:0.4.4")
