@@ -21,4 +21,4 @@ build_container:
 deploy:
   stage: deploy
   script:
-    - bash "$BUILD_SCRIPTS_ROOT_PATH/metabolights-editor/deploy.sh"
+    - bash "$BUILD_SCRIPTS_ROOT_PATH/metabolights-web/deploy.sh"
