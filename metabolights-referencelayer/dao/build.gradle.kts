@@ -12,7 +12,7 @@ dependencies {
     api(fileTree("libs"))
 
     api(project(":metabolights-domain"))
-    api("uk.ac.ebi.rhea:rhea-ws-client:2.0.0") 
+    // api("uk.ac.ebi.rhea:rhea-ws-client:2.0.0") 
     api("uk.ac.ebi.biobabel:biobabel-db:1.3.7")
     // api("org.apache.logging.log4j:log4j-api:2.17.2")
     api("org.postgresql:postgresql:42.6.0")

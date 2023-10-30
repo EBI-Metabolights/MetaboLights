@@ -28,14 +28,20 @@ dependencies {
         exclude("log4j", "log4j")
         exclude("commons-logging", "commons-logging")
     }
-    api("uk.ac.ebi.biobabel:biobabel-citations:2.0.3") {
-        exclude("log4j", "log4j")
-    }
+    // api("uk.ac.ebi.biobabel:biobabel-citations:2.0.3") {
+    //     exclude("commons-logging", "commons-logging")
+    //     exclude("log4j", "log4j")
+    //     exclude("javax.jws","jsr181")
+    // }
     api(project(":metabolights-ws-client"))
     api(project(":metabolights-isatab-utils"))
-    api(project(":referencelayer-importer")) {
-        exclude("log4j", "log4j")
-        exclude("commons-logging", "commons-logging")
+    // api(project(":referencelayer-importer")) {
+    //     exclude("log4j", "log4j")
+    //     exclude("commons-logging", "commons-logging")
+    //     exclude("javax","jsr181")
+    // }
+    api("uk.ac.ebi.chebi.webapps.chebiWS.client:chebiWS-client:2.3.2"){
+        exclude("javax","jsr181")
     }
     api("org.json:json:20090211")
     api("org.slf4j:jcl-over-slf4j:1.7.36")

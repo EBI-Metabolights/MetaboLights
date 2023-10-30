@@ -15,14 +15,6 @@
         },
         {
             "type": "java",
-            "name": "Debug webservice (Attach)",
-            "request": "attach",
-            "projectName": "metabolights-webservice",
-            "hostName": "localhost",
-            "port": 8000
-        },
-        {
-            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
