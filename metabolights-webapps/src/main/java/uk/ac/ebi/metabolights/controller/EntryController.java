@@ -57,6 +57,8 @@ import javax.servlet.http.HttpServletRequest;
         private String orcidRetreiveClaimsServiceURL;
         private static String wsUrl;
         private final String DESCRIPTION = "descr";
+        private static String webPageUrl = null;
+
         private static String editorUrl = null;
         private static String pythonWsUrl = null;
         private static String assetsServerBaseURL = null;
@@ -116,7 +118,13 @@ import javax.servlet.http.HttpServletRequest;
             READ,
             EDIT
         }
-
+        public static String getWebPageUrl(){
+            if (EntryController.webPageUrl != null) {
+                return EntryController.webPageUrl;
+            }
+            EntryController.webPageUrl = PropertiesUtil.getProperty("EBIHost");
+            return EntryController.webPageUrl;
+        }
         public static String getMetabolightsEditorUrl(){
             if (EntryController.editorUrl != null) {
                 return EntryController.editorUrl;
