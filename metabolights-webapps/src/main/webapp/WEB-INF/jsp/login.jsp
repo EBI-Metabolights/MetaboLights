@@ -51,7 +51,7 @@
                     <p class="error"><strong><spring:message code="msg.submHeader"/></strong></p>
                 </c:if>
 
-                <form name="loginForm" action="<c:url value='login'/>" method="post">
+                <form name="loginForm" action="${ webPageUrl }login" method="post">
 
                     <c:if test="${not empty param.error}">
                         <p class="error">

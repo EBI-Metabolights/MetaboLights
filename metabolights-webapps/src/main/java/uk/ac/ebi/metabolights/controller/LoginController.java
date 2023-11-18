@@ -158,6 +158,10 @@ public class LoginController extends AbstractController {
 
         //ModelAndView mav = new ModelAndView("login");
         ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("login");
+
+        String metabolightsPythonWsUrl = EntryController.getWebPageUrl();
+        mav.addObject("webPageUrl", metabolightsPythonWsUrl);
+
         if (url.contains("submit")) //If we come from the submit menu, show different text in the login jsp
             mav.addObject("fromsubmit", true);
 
