@@ -495,12 +495,12 @@
                         "video": []
                     },
                     {
-                        "title": "You can also cite the MetaboLights reference el",
-                        "content": "Haug et al. MetaboLights: a resource evolving in response to the needs of its scientific community. Nucleic Acids Research, gkz1019, doi:10.1093/nar/gkz1019, PMID:31691833.",
+                        "title": "You can also cite the MetaboLights reference: ",
+                        "content": "Ozgur Yurekten, Thomas Payne, Noemi Tejera, Felix Xavier Amaladoss, Callum Martin, Mark Williams, Claire O’Donovan, MetaboLights: open data repository for metabolomics, Nucleic Acids Research, 2023; gkad1045, https://doi.org/10.1093/nar/gkad1045",
                         "img": [
                             {
-                                "url": "",
-                                "description": ""
+                                "url": "https://doi.org/10.1093/nar/gkad1045",
+                                "description": "MetaboLights"
                             }
                         ],
                         "video": []

@@ -70,9 +70,9 @@
         <div class="panel nbr panel-success">
             <div class="panel-heading">Citing MetaboLights</div>
             <div class="panel-body">
-                <span class="pubauthor">Kenneth Haug, Keeva Cochrane, Venkata Chandrasekhar Nainala, Mark Williams, Jiakang Chang, Kalai Vanii Jayaseelan, Claire O’Donovan.</span><br/>
-                <a target="_blank" href="https://doi.org/10.1093/nar/gkz1019" class="pubtitle">MetaboLights: a resource evolving in response to the needs of its scientific community.</a><br/><br/>
-                <span class="pubjournal">Nucleic Acids Research, gkz1019, doi:10.1093/nar/gkz1019, PMID:31691833.</span>
+                <span class="pubauthor">Ozgur Yurekten, Thomas Payne, Noemi Tejera, Felix Xavier Amaladoss, Callum Martin, Mark Williams, Claire O’Donovan.</span><br/>
+                <a target="_blank" href="https://doi.org/10.1093/nar/gkad1045" class="pubtitle">MetaboLights: open data repository for metabolomics</a><br/><br/>
+                <span class="pubjournal">Nucleic Acids Research, 2023, gkad1045, doi:10.1093/nar/gkad1045</span>
             </div>
         </div>
     </div>
