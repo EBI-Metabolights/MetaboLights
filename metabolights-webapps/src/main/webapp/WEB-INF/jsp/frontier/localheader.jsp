@@ -43,7 +43,7 @@
 
 <sec:authorize access="hasRole('ROLE_SUBMITTER')">
 	<script>
-		$loginA = $('[href="/metabolights/login"]');
+		$loginA = $('[href="${pageContext.request.contextPath}/login"]');
 		$loginA.html('<sec:authentication property="principal.firstName" />');
         $loginA.attr("href", '<spring:url value="/useroptions"/>');
         $loginA.attr("title", '<spring:message code= "msg.welcome"/><sec:authentication property="principal.firstName" />');

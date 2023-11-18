@@ -173,7 +173,7 @@ a span.link-pdf {
 
 .ml-header{
     height: 140px;
-    background-image: url("/metabolights/img/pattern-header.png");
+    background-image: url("../img/pattern-header.png");
     background-size: 100% auto;
 }
 
@@ -1213,7 +1213,7 @@ html.fontface i.icon-conceptual, html.fontface input.icon-conceptual, html.fontf
 
     .ml-header{
         height: 196px;
-        background-image: url("/metabolights/img/pattern-header.png");
+        background-image: url("../img/pattern-header.png");
         background-size: auto 100%;
         background-position: right 0 top;
     }

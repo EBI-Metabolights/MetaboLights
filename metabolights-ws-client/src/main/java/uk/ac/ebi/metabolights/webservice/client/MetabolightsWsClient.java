@@ -111,7 +111,7 @@ public class MetabolightsWsClient {
 
 
 
-    private String metabolightsJavaWsUrl = "https://www.ebi.ac.uk/metabolights/webservice/";
+    private String metabolightsJavaWsUrl = null;
     private String metabolightsPythonWsUrl = null;
     private static final String STUDY_PATH = "study/";
 
@@ -150,8 +150,8 @@ public class MetabolightsWsClient {
         try {
             initCtx = new InitialContext();
             Context envCtx = (Context) initCtx.lookup("java:comp/env");
-            this.metabolightsJavaWsUrl = (String)envCtx.lookup("metabolightsJavaWsUrl");
-            this.metabolightsPythonWsUrl = (String)envCtx.lookup("metabolightsPythonWsUrl");
+            this.metabolightsJavaWsUrl = (String)envCtx.lookup("metabolightsJavaWsInternalUrl");
+            this.metabolightsPythonWsUrl = (String)envCtx.lookup("metabolightsPythonWsInternalUrl");
         } catch (NamingException e) {
             e.printStackTrace();
         }
@@ -171,7 +171,7 @@ public class MetabolightsWsClient {
 
     private String makeRequestSendingData(String path, Object dataToSend, String method, String host, String userToken) {
 
-        logger.info("Making a {} request to {}", method, path);
+        logger.debug("Making a {} request to {}", method, path);
 
         try {
 
@@ -296,8 +296,8 @@ public class MetabolightsWsClient {
 
         url = new URL(base + "/" + path);
 
-        System.out.println( " !!metabolightsWsURI :- " +url);
-        logger.info( " !!metabolightsWsURI :- {}", url);
+        // System.out.println( " !!metabolightsWsURI :- " +url);
+        logger.debug( " !!metabolightsWsURI :- {}", url);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod(method);
         conn.setRequestProperty("Accept", "application/json");
@@ -561,22 +561,22 @@ public class MetabolightsWsClient {
         return null;
     }
 
+    // public RestResponse<? extends MixedSearchResult> search2() {
+
+    //     logger.info("Empty search requested to the MetaboLights WS client");
+
+    //     // Make the request
+    //     String response = makeGetRequest("search");
+
+    //     MixedSearchResult foo = new MixedSearchResult();
+
+    //     return deserializeJSONString(response, foo.getClass());
+
+
+    // }
+
+
     public RestResponse<? extends MixedSearchResult> search() {
-
-        logger.info("Empty search requested to the MetaboLights WS client");
-
-        // Make the request
-        String response = makeGetRequest("search");
-
-        MixedSearchResult foo = new MixedSearchResult();
-
-        return deserializeJSONString(response, foo.getClass());
-
-
-    }
-
-
-    public RestResponse<? extends MixedSearchResult> search2() {
 
         logger.debug("Empty search requested to the MetaboLights WS client");
 
@@ -591,24 +591,24 @@ public class MetabolightsWsClient {
 
     }
 
+    // public RestResponse<? extends MixedSearchResult> search2(SearchQuery query) {
+
+    //     logger.debug("Search requested to the MetaboLights WS client");
+
+    //     String json = serializeObject(query);
+
+    //     // Make the request
+    //     // String response = makePythonPostRequest("/es-index/search", json);
+    //     String response = makePostRequest("search", json);
+
+    //     MixedSearchResult foo = new MixedSearchResult();
+
+    //     return deserializeJSONString(response, foo.getClass());
+
+
+    // }
+
     public RestResponse<? extends MixedSearchResult> search(SearchQuery query) {
-
-        logger.debug("Search requested to the MetaboLights WS client");
-
-        String json = serializeObject(query);
-
-        // Make the request
-        // String response = makePythonPostRequest("/es-index/search", json);
-        String response = makePostRequest("search", json);
-
-        MixedSearchResult foo = new MixedSearchResult();
-
-        return deserializeJSONString(response, foo.getClass());
-
-
-    }
-
-    public RestResponse<? extends MixedSearchResult> search2(SearchQuery query) {
 
         logger.debug("Search requested to the MetaboLights WS client");
 
@@ -620,7 +620,6 @@ public class MetabolightsWsClient {
         // MixedSearchResult foo = new MixedSearchResult();
 
         // return deserializeJSONString(response, foo.getClass());
-
 
     }
 

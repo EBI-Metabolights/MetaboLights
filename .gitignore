@@ -8,12 +8,11 @@ config
 target/
 .DS_Store
 build/
-*.jar
 *.class
 !gradle-wrapper.jar
 .gradletasknamecache
 bin/
-
+x_*/
 mzml_validation_progress_log.txt
 *.mp4
 metabolights.sh

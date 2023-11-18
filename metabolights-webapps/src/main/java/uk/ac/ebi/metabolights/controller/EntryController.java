@@ -57,8 +57,11 @@ import javax.servlet.http.HttpServletRequest;
         private String orcidRetreiveClaimsServiceURL;
         private static String wsUrl;
         private final String DESCRIPTION = "descr";
+        private static String webPageUrl = null;
+
         private static String editorUrl = null;
         private static String pythonWsUrl = null;
+        private static String pythonWsInternalUrl = null;
         private static String assetsServerBaseURL = null;
         
         public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
@@ -88,7 +91,7 @@ import javax.servlet.http.HttpServletRequest;
 
         public static String getBannerMessage(){
             try {
-                final MetabolightsWsClient wsClient = MetabolightsWsClient.getInstance(getMetabolightsPythonWsUrl());
+                final MetabolightsWsClient wsClient = MetabolightsWsClient.getInstance(getMetabolightsPythonWsInternalUrl());
                 String result = wsClient.makePythonGetRequest("/ebi-internal/banner");
 
                 JSONParser parser = new JSONParser();
@@ -116,7 +119,13 @@ import javax.servlet.http.HttpServletRequest;
             READ,
             EDIT
         }
-
+        public static String getWebPageUrl(){
+            if (EntryController.webPageUrl != null) {
+                return EntryController.webPageUrl;
+            }
+            EntryController.webPageUrl = PropertiesUtil.getProperty("EBIHost");
+            return EntryController.webPageUrl;
+        }
         public static String getMetabolightsEditorUrl(){
             if (EntryController.editorUrl != null) {
                 return EntryController.editorUrl;
@@ -132,7 +141,13 @@ import javax.servlet.http.HttpServletRequest;
             EntryController.pythonWsUrl = PropertiesUtil.getProperty("metabolightsPythonWsUrl");
             return EntryController.pythonWsUrl;
         }
-
+        public static String getMetabolightsPythonWsInternalUrl(){
+            if (EntryController.pythonWsInternalUrl != null) {
+                return EntryController.pythonWsInternalUrl;
+            }
+            EntryController.pythonWsInternalUrl = PropertiesUtil.getProperty("metabolightsPythonWsInternalUrl");
+            return EntryController.pythonWsInternalUrl;
+        }
         public static String getMetabolightsAssetsServerBaseUrl(){
             if (EntryController.assetsServerBaseURL != null) {
                 return EntryController.assetsServerBaseURL;

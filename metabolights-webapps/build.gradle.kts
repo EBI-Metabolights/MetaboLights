@@ -9,8 +9,16 @@ plugins {
     id("project-report")
     war
 }
-
+tasks {
+    withType<Copy> {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+    withType<Jar> {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+}
 dependencies {
+    api(fileTree("libs"))
     api("javax.mail:mail:1.4.5")
     api("uk.ac.ebi:ebinocle:1.0.4")
     api("uk.ac.ebi.biobabel:ebeye-client:2.0.0") {
@@ -20,14 +28,20 @@ dependencies {
         exclude("log4j", "log4j")
         exclude("commons-logging", "commons-logging")
     }
-    api("uk.ac.ebi.biobabel:biobabel-citations:2.0.3") {
-        exclude("log4j", "log4j")
-    }
+    // api("uk.ac.ebi.biobabel:biobabel-citations:2.0.3") {
+    //     exclude("commons-logging", "commons-logging")
+    //     exclude("log4j", "log4j")
+    //     exclude("javax.jws","jsr181")
+    // }
     api(project(":metabolights-ws-client"))
     api(project(":metabolights-isatab-utils"))
-    api(project(":referencelayer-importer")) {
-        exclude("log4j", "log4j")
-        exclude("commons-logging", "commons-logging")
+    // api(project(":referencelayer-importer")) {
+    //     exclude("log4j", "log4j")
+    //     exclude("commons-logging", "commons-logging")
+    //     exclude("javax","jsr181")
+    // }
+    api("uk.ac.ebi.chebi.webapps.chebiWS.client:chebiWS-client:2.3.2"){
+        exclude("javax","jsr181")
     }
     api("org.json:json:20090211")
     api("org.slf4j:jcl-over-slf4j:1.7.36")
@@ -78,6 +92,14 @@ dependencies {
     }
     api("javax.servlet:javax.servlet-api:3.0.1")
 }
+
+repositories {
+        
+    flatDir {
+        dirs("libs")
+    }
+}
+
 configurations.all {
     exclude(group = "javax.persistence", module = "persistence-api")
 }

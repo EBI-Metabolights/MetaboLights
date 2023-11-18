@@ -119,12 +119,12 @@
                     <div class="col-md-7 col-sm-6">
                         <div class="alpha logo-title" id="local-title">
                             <a id="mlLogo" class="ml-logo" href="index" title="Back to MetaboLights homepage">
-                                <img src="/metabolights/img/MetaboLightsLogo.png" alt="MetaboLights" width="64" height="64" />MetaboLights
+                                <img src="${pageContext.request.contextPath}/img/MetaboLightsLogo.png" alt="MetaboLights" width="64" height="64" />MetaboLights
                             </a>
                         </div>
                     </div>
                     <div class="col-md-5 col-sm-6">
-                        <form id="local-search" name="local-search" action="/metabolights/search" method="post">
+                        <form id="local-search" name="local-search" action="${pageContext.request.contextPath}/search" method="post">
                             <div class="input-group">
                                 <input type="text" name="freeTextQuery" id="local-searchbox" class="form-control">
                                 <span class="input-group-btn">
@@ -132,8 +132,8 @@
                                 </span>
                             </div>
                             <small class="hidden-xs">
-                                <span class="examples">Examples: <a href="/metabolights/search?freeTextQuery=alanine">Alanine</a>, <a href="/metabolights/search?freeTextQuery=Homo sapiens">Homo sapiens</a>, <a href="/metabolights/search?freeTextQuery=urine">Urine</a>, <a href="/metabolights/search?freeTextQuery=MTBLS1">MTBLS1</a>
-                                <%--<br><a href="/metabolights/advancedsearch" target="_blank">Advanced Search</a></span>--%>
+                                <span class="examples">Examples: <a href="${pageContext.request.contextPath}/search?freeTextQuery=alanine">Alanine</a>, <a href="${pageContext.request.contextPath}/search?freeTextQuery=Homo sapiens">Homo sapiens</a>, <a href="${pageContext.request.contextPath}/search?freeTextQuery=urine">Urine</a>, <a href="${pageContext.request.contextPath}/search?freeTextQuery=MTBLS1">MTBLS1</a>
+                                <%--<br><a href="${pageContext.request.contextPath}/advancedsearch" target="_blank">Advanced Search</a></span>--%>
                             </small>
                         </form>
                     </div>
@@ -153,41 +153,41 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <span class="hidden-sm hidden-md">
                                 <ul class="nav navbar-nav cnav">
-                                <li><a href="/metabolights/index">Home</a></li>
-                                <li><a href="/metabolights/studies">Browse Studies</a></li>
-                                <li><a href="/metabolights/compounds">Browse Compounds</a></li>
-                                <li><a href="/metabolights/species">Browse Species</a></li>
-                                <%--<li><a href="/metabolights/analysis">Analysis</a></li>--%>
-                                <li><a href="/metabolights/download">Download</a></li>
-                                <li><a href="/metabolights/guides">Help</a></li>
-                                <li><a href="/metabolights/contact">Give us feedback</a></li>
-                                <li><a href="/metabolights/about">About</a></li>
+                                <li><a href="${pageContext.request.contextPath}/index">Home</a></li>
+                                <li><a href="${pageContext.request.contextPath}/studies">Browse Studies</a></li>
+                                <li><a href="${pageContext.request.contextPath}/compounds">Browse Compounds</a></li>
+                                <li><a href="${pageContext.request.contextPath}/species">Browse Species</a></li>
+                                <%--<li><a href="${pageContext.request.contextPath}/analysis">Analysis</a></li>--%>
+                                <li><a href="${pageContext.request.contextPath}/download">Download</a></li>
+                                <li><a href="${pageContext.request.contextPath}/guides">Help</a></li>
+                                <li><a href="${pageContext.request.contextPath}/contact">Give us feedback</a></li>
+                                <li><a href="${pageContext.request.contextPath}/about">About</a></li>
                                     </ul>
                                 <ul class="nav navbar-nav cnav navbar-right">
-                                    <li><a href="/metabolights/editor">Submit Study</a></li>
-                                    <li><a href="/metabolights/login">Login</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/editor">Submit Study</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/login">Login</a></li>
                                 </ul>
                             </span>
                             <span class="hidden-xs hidden-lg">
                                 <ul class="nav navbar-nav cnav">
-                                    <li><a href="/metabolights/index">Home</a></li>
-                                    <li><a href="/metabolights/studies">Browse Studies</a></li>
-                                    <li><a href="/metabolights/compounds">Browse Compounds</a></li>
-                                    <li><a href="/metabolights/species">Browse Species</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/index">Home</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/studies">Browse Studies</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/compounds">Browse Compounds</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/species">Browse Species</a></li>
                                     <li class="dropdown">
                                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">More <span class="caret"></span></a>
                                       <ul class="dropdown-menu">
-                                        <%--<li><a href="/metabolights/analysis">Analysis</a></li>--%>
-                                        <li><a href="/metabolights/download">Download</a></li>
-                                        <li><a href="/metabolights/guides">Help</a></li>
-                                        <li><a href="/metabolights/contact">Give us feedback</a></li>
-                                        <li><a href="/metabolights/about">About</a></li>
+                                        <%--<li><a href="${pageContext.request.contextPath}/analysis">Analysis</a></li>--%>
+                                        <li><a href="${pageContext.request.contextPath}/download">Download</a></li>
+                                        <li><a href="${pageContext.request.contextPath}/guides">Help</a></li>
+                                        <li><a href="${pageContext.request.contextPath}/contact">Give us feedback</a></li>
+                                        <li><a href="${pageContext.request.contextPath}/about">About</a></li>
                                       </ul>
                                     </li>
                                 </ul>
                                 <ul class="nav navbar-nav cnav navbar-right">
-                                    <li><a href="/metabolights/editor">Submit Study</a></li>
-                                    <li><a href="/metabolights/login">Login</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/editor">Submit Study</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/login">Login</a></li>
                                 </ul>
                             </span>
                     </div><!-- /.navbar-collapse -->

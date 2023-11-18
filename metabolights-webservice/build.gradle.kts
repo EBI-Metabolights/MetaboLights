@@ -9,11 +9,20 @@ plugins {
     id("project-report")
     war
 }
-
+tasks {
+    withType<Copy> {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+    withType<Jar> {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+}
 dependencies {
+    api(fileTree("libs"))
+
     api(project(":metabolights-dao"))
     api(project(":metabolights-referencelayer-dao"))
-    api(project(":service-es"))
+    // api(project(":service-es"))
 
 
     api("org.bitbucket.b_c:jose4j:0.4.4")
@@ -33,8 +42,9 @@ dependencies {
     api("uk.ac.ebi.biobabel:biobabel-citations:2.0.3") {
         exclude("commons-logging", "commons-logging")
         exclude("log4j", "log4j")
+        exclude("javax.jws","jsr181")
     }
-    api("uk.ac.ebi.metabolights:chemspider_webservices:1.0")
+    // api("uk.ac.ebi.metabolights:chemspider_webservices:1.0")
     api("org.apache.axis2:axis2-kernel:1.6.1")
     api("org.apache.axis2:axis2-adb:1.6.1")
     api("org.apache.axis2:axis2-transport-local:1.6.1")
@@ -46,11 +56,22 @@ dependencies {
         exclude("commons-logging", "commons-logging")
         exclude("log4j", "log4j")
     }
-    api("uk.ac.ebi.chebi.webapps.chebiWS.client:chebiWS-client:2.3.2")
+    api("uk.ac.ebi.chebi.webapps.chebiWS.client:chebiWS-client:2.3.2"){
+        exclude("javax","jsr181")
+    }
+    // api("javax.jws:jsr181-api:1.0-MR1")
     api("javax.annotation:javax.annotation-api:1.3.2")
     runtimeOnly("org.apache.axis2:axis2-transport-http:1.6.4")
     runtimeOnly("jakarta.servlet:jakarta.servlet-api:4.0.4")
     runtimeOnly("org.apache.tomcat:tomcat-catalina:9.0.73")
 }
-
+configurations.all {
+    exclude("javax.jws:jsr181:1.0")
+}
+repositories {
+        
+    flatDir {
+        dirs("libs")
+    }
+}
 description = "metabolights webservice"

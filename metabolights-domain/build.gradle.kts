@@ -15,11 +15,17 @@ dependencies {
     api("com.fasterxml.jackson.core:jackson-databind:2.8.9")
     api("net.java.openjfx.backport:openjfx-78-backport:1.8.0-ea-b96.1")
     api("commons-lang:commons-lang:2.5")
-    api("uk.ac.ebi.chebi.webapps.chebiWS.client:chebiWS-client:2.3.2")
+    api("uk.ac.ebi.chebi.webapps.chebiWS.client:chebiWS-client:2.3.2") {
+        exclude("javax","jsr181")
+    }
     api("net.minidev:json-smart:2.0-RC3")
     api("org.bitbucket.b_c:jose4j:0.4.4")
+    // implementation("javax.jws:jsr181-api:1.0-MR1")
 }
 repositories {
     mavenLocal()
+}
+configurations.all {
+    exclude("javax.jws:jsr181:1.0")
 }
 description = "MetaboLights Domain"

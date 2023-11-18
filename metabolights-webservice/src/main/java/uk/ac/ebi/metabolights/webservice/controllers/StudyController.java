@@ -89,7 +89,6 @@ import uk.ac.ebi.metabolights.webservice.client.MetExploreWsClient;
 import uk.ac.ebi.metabolights.webservice.models.StudyRestResponse;
 import uk.ac.ebi.metabolights.webservice.services.AppContext;
 import uk.ac.ebi.metabolights.webservice.services.EmailService;
-import uk.ac.ebi.metabolights.webservice.services.IndexingService;
 import uk.ac.ebi.metabolights.webservice.services.UserServiceImpl;
 import uk.ac.ebi.metabolights.webservice.utils.FileUtil;
 import uk.ac.ebi.metabolights.webservice.utils.PropertiesUtil;
@@ -101,8 +100,6 @@ public class StudyController extends BasicController{
 
 	@Autowired
 	private EmailService emailService;
-	@Autowired
-	private IndexingService indexingService;
 
     private ChebiWebServiceClient chebiWS;
     private MetaboLightsCompoundDAO mcd;
@@ -339,123 +336,123 @@ public class StudyController extends BasicController{
 
 	}
 
-	@RequestMapping("makestudiespublic")
-	@ResponseBody
-	public RestResponse<ArrayList<String>> makeStudiesPublic() throws DAOException {
+	// @RequestMapping("makestudiespublic")
+	// @ResponseBody
+	// public RestResponse<ArrayList<String>> makeStudiesPublic() throws DAOException {
 
-		logger.info("Making studies public");
+	// 	logger.info("Making studies public");
 
-		RestResponse<ArrayList<String>> response = new RestResponse<>();
-		response.setContent(new ArrayList<String>());
+	// 	RestResponse<ArrayList<String>> response = new RestResponse<>();
+	// 	response.setContent(new ArrayList<String>());
 
-		studyDAO = getStudyDAO();
+	// 	studyDAO = getStudyDAO();
 
-		List<String> studyList = studyDAO.getStudiesToGoLiveList(getUser().getApiToken());
+	// 	List<String> studyList = studyDAO.getStudiesToGoLiveList(getUser().getApiToken());
 
-		String itemLog;
-		int errors = 0;
+	// 	String itemLog;
+	// 	int errors = 0;
 
-		for (String studyIdentifier : studyList) {
+	// 	for (String studyIdentifier : studyList) {
 
-			try {
-				updateStatus(studyIdentifier, LiteStudy.StudyStatus.PUBLIC);
-				itemLog = "Study " + studyIdentifier + " made PUBLIC.";
+	// 		try {
+	// 			updateStatus(studyIdentifier, LiteStudy.StudyStatus.PUBLIC);
+	// 			itemLog = "Study " + studyIdentifier + " made PUBLIC.";
 
-			} catch (Exception e) {
+	// 		} catch (Exception e) {
 
-				itemLog = "Can't make " + studyIdentifier + " PUBLIC: " + e.getMessage();
-				logger.error(itemLog, studyIdentifier,e);
-				errors++;
-				response.setErr(e);
-			}
+	// 			itemLog = "Can't make " + studyIdentifier + " PUBLIC: " + e.getMessage();
+	// 			logger.error(itemLog, studyIdentifier,e);
+	// 			errors++;
+	// 			response.setErr(e);
+	// 		}
 
-			response.getContent().add(itemLog);
+	// 		response.getContent().add(itemLog);
 
-		}
+	// 	}
 
-		if (errors > 0) {
-			response.setMessage("There were " + errors + " errors out of " + studyList.size() + ". Check content for details. Last error is in the error object.");
-		} else {
-			if (studyList.size()== 0){
-				response.setMessage("There isn't any study due to be public today.");
-			} else {
+	// 	if (errors > 0) {
+	// 		response.setMessage("There were " + errors + " errors out of " + studyList.size() + ". Check content for details. Last error is in the error object.");
+	// 	} else {
+	// 		if (studyList.size()== 0){
+	// 			response.setMessage("There isn't any study due to be public today.");
+	// 		} else {
 
-				response.setMessage("All studies were made public. See content for list.");
-			}
-		}
+	// 			response.setMessage("All studies were made public. See content for list.");
+	// 		}
+	// 	}
 
-		return response;
+	// 	return response;
 
-	}
-
-
-	/**
-	 * To update the public release date of a study.
-	 * @param studyIdentifier
-	 * @param newPublicReleaseDate
-	 * @return
-	 */
-	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/publicreleasedate", method= RequestMethod.PUT)
-	@ResponseBody
-	public RestResponse<Boolean> updatePublicReleaseDate(@PathVariable("studyIdentifier") String studyIdentifier, @RequestBody Date newPublicReleaseDate) throws Exception {
-
-		User user = getUser();
-
-		logger.info("User {} requested to update {} public release date to {}", user.getFullName(),studyIdentifier, newPublicReleaseDate);
-
-		studyDAO= getStudyDAO();
-
-		// Update the public release date
-		studyDAO.updateReleaseDate(studyIdentifier, newPublicReleaseDate, user.getApiToken());
-
-		// NOTE: Using IndexController as a Service..this could be refactored. We could have a Index service and a StudyService.
-		// Like this we might have concurrency issues?
-		Study study = studyDAO.getStudy(studyIdentifier,user.getApiToken());
-
-		indexingService.indexStudy(study);
-
-		RestResponse<Boolean> restResponse = new RestResponse<>();
-		restResponse.setContent(true);
-		restResponse.setMessage("Public release date for " + studyIdentifier + " updated to " + study.getStudyPublicReleaseDate() );
-
-		logger.info("public release date updated.");
+	// }
 
 
-		// Email about this
-		emailService.sendPublicReleaseDateUpdated(study);
+	// /**
+	//  * To update the public release date of a study.
+	//  * @param studyIdentifier
+	//  * @param newPublicReleaseDate
+	//  * @return
+	//  */
+	// @RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/publicreleasedate", method= RequestMethod.PUT)
+	// @ResponseBody
+	// public RestResponse<Boolean> updatePublicReleaseDate(@PathVariable("studyIdentifier") String studyIdentifier, @RequestBody Date newPublicReleaseDate) throws Exception {
 
-		return restResponse;
+	// 	User user = getUser();
 
-	}
+	// 	logger.info("User {} requested to update {} public release date to {}", user.getFullName(),studyIdentifier, newPublicReleaseDate);
 
-	/**
-	 * To update the status of a study.
-	 * @param studyIdentifier
-	 * @param newStatus
-	 * @return
-	 */
-	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/status", method= RequestMethod.PUT)
-	@ResponseBody
-	public RestResponse<Boolean> updateStatusUrl(@PathVariable("studyIdentifier") String studyIdentifier, @RequestBody LiteStudy.StudyStatus newStatus) {
+	// 	studyDAO= getStudyDAO();
 
-		RestResponse<Boolean> restResponse = new RestResponse<>();
+	// 	// Update the public release date
+	// 	studyDAO.updateReleaseDate(studyIdentifier, newPublicReleaseDate, user.getApiToken());
 
-		try {
-			newStatus = updateStatus(studyIdentifier, newStatus);
+	// 	// NOTE: Using IndexController as a Service..this could be refactored. We could have a Index service and a StudyService.
+	// 	// Like this we might have concurrency issues?
+	// 	Study study = studyDAO.getStudy(studyIdentifier,user.getApiToken());
 
-			restResponse.setContent(true);
-			restResponse.setMessage("Status for " + studyIdentifier + " updated to " + newStatus );
+	// 	indexingService.indexStudy(study);
 
-		} catch (Exception e) {
+	// 	RestResponse<Boolean> restResponse = new RestResponse<>();
+	// 	restResponse.setContent(true);
+	// 	restResponse.setMessage("Public release date for " + studyIdentifier + " updated to " + study.getStudyPublicReleaseDate() );
 
-			restResponse.setMessage("Couldn't update status for " + studyIdentifier + ": " + e.getMessage());
-			restResponse.setErr(e);
-		}
+	// 	logger.info("public release date updated.");
 
 
-		return restResponse;
+	// 	// Email about this
+	// 	emailService.sendPublicReleaseDateUpdated(study);
 
-	}
+	// 	return restResponse;
+
+	// }
+
+	// /**
+	//  * To update the status of a study.
+	//  * @param studyIdentifier
+	//  * @param newStatus
+	//  * @return
+	//  */
+	// @RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/status", method= RequestMethod.PUT)
+	// @ResponseBody
+	// public RestResponse<Boolean> updateStatusUrl(@PathVariable("studyIdentifier") String studyIdentifier, @RequestBody LiteStudy.StudyStatus newStatus) {
+
+	// 	RestResponse<Boolean> restResponse = new RestResponse<>();
+
+	// 	try {
+	// 		newStatus = updateStatus(studyIdentifier, newStatus);
+
+	// 		restResponse.setContent(true);
+	// 		restResponse.setMessage("Status for " + studyIdentifier + " updated to " + newStatus );
+
+	// 	} catch (Exception e) {
+
+	// 		restResponse.setMessage("Couldn't update status for " + studyIdentifier + ": " + e.getMessage());
+	// 		restResponse.setErr(e);
+	// 	}
+
+
+	// 	return restResponse;
+
+	// }
 
 	/**
 	 * To update the status of a study.
@@ -596,29 +593,29 @@ public class StudyController extends BasicController{
 	}
 
 
-	private LiteStudy.StudyStatus updateStatus(String studyIdentifier, LiteStudy.StudyStatus newStatus) throws DAOException, IsaTabException, IndexingFailureException {
+	// private LiteStudy.StudyStatus updateStatus(String studyIdentifier, LiteStudy.StudyStatus newStatus) throws DAOException, IsaTabException, IndexingFailureException {
 
-		User user = getUser();
+	// 	User user = getUser();
 
-		logger.info("User {} requested to update {} status to {}", user.getFullName(),studyIdentifier, newStatus.name());
+	// 	logger.info("User {} requested to update {} status to {}", user.getFullName(),studyIdentifier, newStatus.name());
 
-		studyDAO= getStudyDAO();
+	// 	studyDAO= getStudyDAO();
 
-		// Update the status
-		Study study = studyDAO.updateStatus(studyIdentifier, newStatus, user.getApiToken());
+	// 	// Update the status
+	// 	Study study = studyDAO.updateStatus(studyIdentifier, newStatus, user.getApiToken());
 
-		// NOTE: Using IndexController as a Service..this could be refactored. We could have a Index service and a StudyService.
-		// Like this we might have concurrency issues?
+	// 	// NOTE: Using IndexController as a Service..this could be refactored. We could have a Index service and a StudyService.
+	// 	// Like this we might have concurrency issues?
 
-		indexingService.indexStudy(study);
+	// 	indexingService.indexStudy(study);
 
-		logger.info("{} study status updated." , studyIdentifier);
+	// 	logger.info("{} study status updated." , studyIdentifier);
 
-		// Email about this
-		emailService.sendStatusChanged(study);
+	// 	// Email about this
+	// 	emailService.sendStatusChanged(study);
 
-		return study.getStudyStatus();
-	}
+	// 	return study.getStudyStatus();
+	// }
 
 	private RestResponse getLiteStudy(String studyIdentifier) throws DAOException {
 
@@ -806,42 +803,42 @@ public class StudyController extends BasicController{
 		return new RestResponse<MetaboliteAssignment>(getMAFContentFromAssay(response,assayIndex));
 	}
 
-	/**
-	 * To update the status of a study.
-	 * @param studyIdentifier
-	 * @return
-	 */
-	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}", method= RequestMethod.DELETE)
-	@ResponseBody
-	public RestResponse<Boolean> deleteStudy(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException, IsaTabException, IndexingFailureException, IOException, InterruptedException {
+	// /**
+	//  * To update the status of a study.
+	//  * @param studyIdentifier
+	//  * @return
+	//  */
+	// @RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}", method= RequestMethod.DELETE)
+	// @ResponseBody
+	// public RestResponse<Boolean> deleteStudy(@PathVariable("studyIdentifier") String studyIdentifier) throws DAOException, IsaTabException, IndexingFailureException, IOException, InterruptedException {
 
-		User user = getUser();
+	// 	User user = getUser();
 
-		logger.info("User {} requested to delete {}", user.getFullName(), studyIdentifier);
+	// 	logger.info("User {} requested to delete {}", user.getFullName(), studyIdentifier);
 
-		studyDAO= getStudyDAO();
+	// 	studyDAO= getStudyDAO();
 
-		// Get the study
-		Study studyToDelete = studyDAO.getStudy(studyIdentifier,user.getApiToken());
+	// 	// Get the study
+	// 	Study studyToDelete = studyDAO.getStudy(studyIdentifier,user.getApiToken());
 
-		// Update the status
-		studyDAO.delete(studyIdentifier, user.getApiToken());
+	// 	// Update the status
+	// 	studyDAO.delete(studyIdentifier, user.getApiToken());
 
-		indexingService.deleteStudy(studyIdentifier);
+	// 	indexingService.deleteStudy(studyIdentifier);
 
-		RestResponse<Boolean> restResponse = new RestResponse<>();
-		restResponse.setContent(true);
-		restResponse.setMessage("Study " + studyIdentifier + " deleted." );
+	// 	RestResponse<Boolean> restResponse = new RestResponse<>();
+	// 	restResponse.setContent(true);
+	// 	restResponse.setMessage("Study " + studyIdentifier + " deleted." );
 
-		logger.info("{} study deleted.", studyIdentifier);
+	// 	logger.info("{} study deleted.", studyIdentifier);
 
-		// Email about this
-		emailService.sendStudyDeleted(studyToDelete);
+	// 	// Email about this
+	// 	emailService.sendStudyDeleted(studyToDelete);
 
-		return restResponse;
+	// 	return restResponse;
 
 
-	}
+	// }
 
 
 	/**
@@ -885,41 +882,41 @@ public class StudyController extends BasicController{
 		return restResponse;
 	}
 
-	/**
-	 * To update the public release date of a study.
-	 * @param studyIdentifier
-	 * @param backupIdentifier
-	 * @return
-	 */
-	@RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/restore", method= RequestMethod.PUT)
-	@ResponseBody
-	public RestResponse<Boolean> restore(@PathVariable("studyIdentifier") String studyIdentifier, @RequestBody String backupIdentifier) throws Exception {
+	// /**
+	//  * To update the public release date of a study.
+	//  * @param studyIdentifier
+	//  * @param backupIdentifier
+	//  * @return
+	//  */
+	// @RequestMapping(value = "{studyIdentifier:" + METABOLIGHTS_ID_REG_EXP +"}/restore", method= RequestMethod.PUT)
+	// @ResponseBody
+	// public RestResponse<Boolean> restore(@PathVariable("studyIdentifier") String studyIdentifier, @RequestBody String backupIdentifier) throws Exception {
 
-		User user = getUser();
+	// 	User user = getUser();
 
-		logger.info("User {} requested to restore {} backup of {}", user.getFullName(),backupIdentifier,studyIdentifier);
+	// 	logger.info("User {} requested to restore {} backup of {}", user.getFullName(),backupIdentifier,studyIdentifier);
 
-		studyDAO= getStudyDAO();
+	// 	studyDAO= getStudyDAO();
 
-		// Update the public release date
-		studyDAO.restoreBackup(studyIdentifier, user.getApiToken(), backupIdentifier);
+	// 	// Update the public release date
+	// 	studyDAO.restoreBackup(studyIdentifier, user.getApiToken(), backupIdentifier);
 
-		// NOTE: Using IndexController as a Service..this could be refactored. We could have a Index service and a StudyService.
-		// Like this we might have concurrency issues?
-		Study study = studyDAO.getStudy(studyIdentifier,user.getApiToken());
+	// 	// NOTE: Using IndexController as a Service..this could be refactored. We could have a Index service and a StudyService.
+	// 	// Like this we might have concurrency issues?
+	// 	Study study = studyDAO.getStudy(studyIdentifier,user.getApiToken());
 
-		indexingService.indexStudy (study);
+	// 	indexingService.indexStudy (study);
 
-		RestResponse<Boolean> restResponse = new RestResponse<>();
-		restResponse.setContent(true);
-		restResponse.setMessage("Backup (" + backupIdentifier + ") of " + studyIdentifier + " restored.");
+	// 	RestResponse<Boolean> restResponse = new RestResponse<>();
+	// 	restResponse.setContent(true);
+	// 	restResponse.setMessage("Backup (" + backupIdentifier + ") of " + studyIdentifier + " restored.");
 
-		logger.info("Backup restored.");
+	// 	logger.info("Backup restored.");
 
-		return restResponse;
+	// 	return restResponse;
 
 
-	}
+	// }
 
 
 	/**
@@ -1759,41 +1756,41 @@ public class StudyController extends BasicController{
         return response;
     }
 
-    @RequestMapping("reindexStudyOnToken")
-    @ResponseBody
-    public RestResponse<String> reindexStudyOnToken(HttpServletRequest request) throws DAOException {
+    // @RequestMapping("reindexStudyOnToken")
+    // @ResponseBody
+    // public RestResponse<String> reindexStudyOnToken(HttpServletRequest request) throws DAOException {
 
-        RestResponse<String> response = new RestResponse<>();
-        UserServiceImpl usi = new UserServiceImpl();
-        studyDAO = DAOFactory.getInstance().getStudyDAO();
+    //     RestResponse<String> response = new RestResponse<>();
+    //     UserServiceImpl usi = new UserServiceImpl();
+    //     studyDAO = DAOFactory.getInstance().getStudyDAO();
 
-        String token = request.getParameter("token");
-        String study_id = request.getParameter("study_id");
+    //     String token = request.getParameter("token");
+    //     String study_id = request.getParameter("study_id");
 
-        User user = null;
-        try {
-            user = usi.lookupByToken(token);
-            logger.info("reindexStudyOnToken: User {} has requested reindexing study {}", token, study_id);
-        } catch (Exception e) {
-            logger.error ("Not able to authenticate the user for 'reindexStudyOnToken' mapping ");
-            response.setMessage("Not able to authenticate the user for 'reindexStudyOnToken' mapping.");
-            response.setErr(e);
-            return response;
-        }
+    //     User user = null;
+    //     try {
+    //         user = usi.lookupByToken(token);
+    //         logger.info("reindexStudyOnToken: User {} has requested reindexing study {}", token, study_id);
+    //     } catch (Exception e) {
+    //         logger.error ("Not able to authenticate the user for 'reindexStudyOnToken' mapping ");
+    //         response.setMessage("Not able to authenticate the user for 'reindexStudyOnToken' mapping.");
+    //         response.setErr(e);
+    //         return response;
+    //     }
 
-        try {
-            studyDAO = getStudyDAO();
-            Study study = studyDAO.getStudy(study_id, user.getApiToken());
-            indexingService.indexStudy(study);
+    //     try {
+    //         studyDAO = getStudyDAO();
+    //         Study study = studyDAO.getStudy(study_id, user.getApiToken());
+    //         indexingService.indexStudy(study);
 
-        } catch (Exception e) {
-            logger.error("Can not reindex " + study_id, e);
-            response.setMessage("Can not create new empty study for " + user.getEmail());
-            response.setErr(e);
-        }
+    //     } catch (Exception e) {
+    //         logger.error("Can not reindex " + study_id, e);
+    //         response.setMessage("Can not create new empty study for " + user.getEmail());
+    //         response.setErr(e);
+    //     }
 
-        return response;
-    }
+    //     return response;
+    // }
 
 
 

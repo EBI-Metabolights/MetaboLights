@@ -12,24 +12,19 @@ plugins {
 repositories {
     mavenLocal()
     maven {
-        url = uri("https://mvnrepository.com/artifact/")
+        url = uri("https://repo1.maven.org/maven2")
+    }
+    maven {
+        url = uri("https://mvnrepository.com/artifact")
     }
     
     maven {
-        url = uri("https://www.ebi.ac.uk/~maven/m2repo")
+        url = uri("https://www.ebi.ac.uk/Tools/maven/repos/content/groups/ebi-repo")
     }
-
-    maven {
-        url = uri("https://www.ebi.ac.uk/~biobabel/maven2_repo")
-    }
-
     // maven {
     //     url = uri("https://repository-master.mulesoft.org/nexus/content/groups/public/")
     // }
 
-    maven {
-        url = uri("https://www.ebi.ac.uk/Tools/maven/repos/content/groups/ebi-repo/")
-    }
 
     maven {
         url = uri("https://limpopo.sourceforge.net/maven/repo")
@@ -85,11 +80,15 @@ configurations.all {
   resolutionStrategy {
     force("org.jvnet.staxex:stax-ex:1.7.8")
     force("jakarta.servlet:jakarta.servlet-api:4.0.4")
+    exclude("javax.jws:jsr181:1.0")
+    force("javax.jws:jsr181-api:1.0-MR1")
   }
 }
 
-tasks.withType<Copy> {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+tasks {
+    withType<Copy> {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
 }
 
 group = "uk.ac.ebi.metabolights"

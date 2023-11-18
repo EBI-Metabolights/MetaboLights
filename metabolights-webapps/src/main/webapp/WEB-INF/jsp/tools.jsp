@@ -42,15 +42,15 @@
                                 <br>
                                 <div class="col-md-12">
                                     <div class="col-md-4 text-center">
-                                        <img src="/metabolights/img/sad.png" style="width: 50px;"><br><br>
+                                        <img src="${pageContext.request.contextPath}/img/sad.png" style="width: 50px;"><br><br>
                                         <p class="text-center"> {{sadPercentage}} %</p>
                                     </div>
                                     <div class="col-md-4 text-center">
-                                        <img src="/metabolights/img/neutral.png" style="width: 50px;"><br><br>
+                                        <img src="${pageContext.request.contextPath}/img/neutral.png" style="width: 50px;"><br><br>
                                         <p class="text-center"> {{neutralPercentage}}%</p>
                                     </div>
                                     <div class="col-md-4 text-center">
-                                        <img src="/metabolights/img/happy.png" style="width: 50px;"><br><br>
+                                        <img src="${pageContext.request.contextPath}/img/happy.png" style="width: 50px;"><br><br>
                                         <p class="text-center"> {{happyPercentage}}%</p>
                                     </div>
                                 </div>
@@ -80,13 +80,13 @@
                                         <small class="text-muted"><i>Experience</i></small>
                                         <br><br>
                                         <span v-if="selectedStudy.experience === 'neutral'">
-                                            <img src="/metabolights/img/neutral.png" style="width: 50px;">
+                                            <img src="${pageContext.request.contextPath}/img/neutral.png" style="width: 50px;">
                                         </span>
                                         <span v-if="selectedStudy.experience === 'sad'">
-                                            <img src="/metabolights/img/neutral.png" style="width: 50px;">
+                                            <img src="${pageContext.request.contextPath}/img/neutral.png" style="width: 50px;">
                                         </span>
                                         <span v-if="selectedStudy.experience === 'happy'">
-                                            <img src="/metabolights/img/happy.png" style="width: 50px;">
+                                            <img src="${pageContext.request.contextPath}/img/happy.png" style="width: 50px;">
                                         </span>
                                     </p>
                                     <p>

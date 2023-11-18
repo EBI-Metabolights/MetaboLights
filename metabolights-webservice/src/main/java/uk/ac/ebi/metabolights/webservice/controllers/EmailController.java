@@ -62,62 +62,62 @@ public class EmailController extends BasicController {
 	}
 
 
-	@RequestMapping(method= RequestMethod.GET, value = "goinglive/{numberOfDays}")
-	@ResponseBody
-	public RestResponse<ArrayList<String>> studyGoingLiveEmail(@PathVariable(value="numberOfDays") int numberOfDays) throws DAOException {
+	// @RequestMapping(method= RequestMethod.GET, value = "goinglive/{numberOfDays}")
+	// @ResponseBody
+	// public RestResponse<ArrayList<String>> studyGoingLiveEmail(@PathVariable(value="numberOfDays") int numberOfDays) throws DAOException {
 
-		logger.debug("About to send studies going live in {} days emails.", numberOfDays);
+	// 	logger.debug("About to send studies going live in {} days emails.", numberOfDays);
 
-		// Get the study DAO
-		StudyDAO studyDAO = DAOFactory.getInstance().getStudyDAO();
+	// 	// Get the study DAO
+	// 	StudyDAO studyDAO = DAOFactory.getInstance().getStudyDAO();
 
-		// Get the list of studies going live in the days specified
-		List<String> studiesGoingLive = studyDAO.getStudiesToGoLiveList(getUser().getApiToken(),numberOfDays);
+	// 	// Get the list of studies going live in the days specified
+	// 	List<String> studiesGoingLive = studyDAO.getStudiesToGoLiveList(getUser().getApiToken(),numberOfDays);
 
-		RestResponse<ArrayList<String>> response = new RestResponse<>();
-		response.setContent(new ArrayList<String>());
+	// 	RestResponse<ArrayList<String>> response = new RestResponse<>();
+	// 	response.setContent(new ArrayList<String>());
 
-		String itemLog = null;
-		int errors = 0;
+	// 	String itemLog = null;
+	// 	int errors = 0;
 
-		for (String studyId : studiesGoingLive) {
+	// 	for (String studyId : studiesGoingLive) {
 
-			// NOTE: this loads all the data, files system data included, could be improved if we only load data from DB (enough)
-			Study study = null;
-			try {
-				study = studyDAO.getStudy(studyId, getUser().getApiToken());
+	// 		// NOTE: this loads all the data, files system data included, could be improved if we only load data from DB (enough)
+	// 		Study study = null;
+	// 		try {
+	// 			study = studyDAO.getStudy(studyId, getUser().getApiToken());
 
-				emailService.sendStudyGoingPublicNotification(study);
+	// 			emailService.sendStudyGoingPublicNotification(study);
 
-				itemLog = "Going live email for " + studyId + " sent successfully.";
+	// 			itemLog = "Going live email for " + studyId + " sent successfully.";
 
 
-			} catch (IsaTabException e) {
+	// 		} catch (IsaTabException e) {
 
-				itemLog = "Can't get study " + studyId + " to send going live email: " + e.getMessage();
-				logger.error(itemLog, studyId,e);
-				errors++;
-				response.setErr(e);
+	// 			itemLog = "Can't get study " + studyId + " to send going live email: " + e.getMessage();
+	// 			logger.error(itemLog, studyId,e);
+	// 			errors++;
+	// 			response.setErr(e);
 
-			} catch (Exception e){
-				itemLog = "Can't send study going live email for " + studyId + ": " + e.getMessage();
-				logger.error(itemLog, studyId,e);
-				errors++;
-				response.setErr(e);
-			}
+	// 		} catch (Exception e){
+	// 			itemLog = "Can't send study going live email for " + studyId + ": " + e.getMessage();
+	// 			logger.error(itemLog, studyId,e);
+	// 			errors++;
+	// 			response.setErr(e);
+	// 		}
 
-			response.getContent().add(itemLog);
+	// 		response.getContent().add(itemLog);
 
-		}
+	// 	}
 
-		if (errors > 0) {
-			response.setMessage("There were " + errors + " errors out of " + studiesGoingLive.size() + ". Check content for details. Last error is in the error object.");
-		} else {
-			response.setMessage("Study going live email sent");
-		}
+	// 	if (errors > 0) {
+	// 		response.setMessage("There were " + errors + " errors out of " + studiesGoingLive.size() + ". Check content for details. Last error is in the error object.");
+	// 	} else {
+	// 		response.setMessage("Study going live email sent");
+	// 	}
 
-		return response;
+	// 	return response;
 
-	}
+	// }
 
 }

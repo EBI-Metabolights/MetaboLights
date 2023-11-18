@@ -1,18 +1,24 @@
-FROM tomcat:8.5.81-jdk8
+FROM tomcat:9.0-jdk8
 LABEL maintainer="MetaboLights (metabolights-help@ebi.ac.uk)"
 
 ARG CONF_FOLDER
 ARG CONTEXT_FOLDER
 
-RUN groupadd -g 1136 cm_pub && groupadd -g 1102 cheminf && useradd tc_cm01 -u 2813 -g 1136 -G 1102
-RUN mkdir -p /context && mkdir -p /war-files
-RUN chown -R tc_cm01:cm_pub /usr/local/tomcat \
-    && chown tc_cm01:cm_pub -R  /context  \
-    && chown -R tc_cm01:cm_pub /war-files
-USER tc_cm01
+RUN mkdir -p /context && mkdir -p /war-files && mkdir -p /webapps  && mkdir -p /usr/local/tomcat/conf
+ARG GROUP1_ID=2222
+ARG GROUP2_ID=2223
+ARG USER_ID=2222
 
-COPY metabolights-webapps/target/metabolights-webapp-2.3.war /war-files/metabolights-webapp.war
-COPY metabolights-webservice/target/metabolights-webservice-3.2-SNAPSHOT.war /war-files/metabolights-webservice.war
+RUN groupadd group1 -g $GROUP1_ID \
+    && groupadd group2 -g $GROUP2_ID \ 
+    && useradd -Ms /bin/bash -u $USER_ID -g group1 -G group1,group2 metabolights 
+RUN chown -R metabolights:group1 /webapps \
+    && chown -R metabolights:group1 /war-files \
+    && chown -R metabolights:group1 /context \
+    && chown -R metabolights:group1 /usr/local/tomcat/conf
+USER metabolights 
+
+COPY metabolights-webapps/build/libs/metabolights-webapp-3.0.war /war-files/metabolights-webapp.war
 
 # COPY $CONF_FOLDER /usr/local/tomcat/conf
 # COPY $CONTEXT_FOLDER /context

@@ -128,7 +128,7 @@
                                              <%--*/--%>
 
                                             <%--var disqus_config = function () {--%>
-                                                <%--this.page.url = "//www.ebi.ac.uk/metabolights/${compoundId}";  // Replace PAGE_URL with your page's canonical URL variable--%>
+                                                <%--this.page.url = "//www.ebi.ac.uk${pageContext.request.contextPath}/${compoundId}";  // Replace PAGE_URL with your page's canonical URL variable--%>
                                                 <%--this.page.identifier = "${compoundId}"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable--%>
                                             <%--};--%>
 
@@ -263,7 +263,7 @@
                                                 <div class="col-md-9 ml_trc">
                                                     <p v-for="source in id">
                                                         <span v-if="isStudy(source.SpeciesAccession)">
-                                                            <a target="_blank" :href="'/metabolights/'+source.SpeciesAccession"><span>{{{ source.SpeciesAccession }}}</span></a>&emsp;
+                                                            <a target="_blank" :href="'${pageContext.request.contextPath}/'+source.SpeciesAccession"><span>{{{ source.SpeciesAccession }}}</span></a>&emsp;
                                                             <a @click="showMAFDetails(source)" ><i class="fa fa-info-circle" aria-hidden="true"></i></a>
                                                         </span>
                                                         <span v-if="!isStudy(source.SpeciesAccession) && !isStudy(source.SourceAccession)">
@@ -306,7 +306,7 @@
                                                         <div class="alert alert-info" role="alert">
                                                             This metabolite has been identified in the following MetaboLights studies.
                                                             <span v-for="map in selectedWPSpeciesStudyMap">
-                                                                <a :href="'//www.ebi.ac.uk/metabolights/'+map.SpeciesAccession" target="_blank">{{ map.SpeciesAccession }}</a>&nbsp;
+                                                                <a :href="'//www.ebi.ac.uk${pageContext.request.contextPath}/'+map.SpeciesAccession" target="_blank">{{ map.SpeciesAccession }}</a>&nbsp;
                                                             </span>
                                                         </div>
                                                     </div>
@@ -781,8 +781,8 @@
         this.MSData.remove();
 
         this.MSData.add(this.selectedMSSpectra.map(function(spec){ 
-            if(spec.url.startsWith('/metabolights/webservice/beta/spectra')){
-                return '${metabolightsPythonWsUrl}' + spec.url.replace('/metabolights/webservice/beta/spectra', '/compounds') + '/file';
+            if(spec.url.startsWith('${pageContext.request.contextPath}/webservice/beta/spectra')){
+                return '${metabolightsPythonWsUrl}' + spec.url.replace('${pageContext.request.contextPath}/webservice/beta/spectra', '/compounds') + '/file';
             }
             return spec.url;
         }));
@@ -802,13 +802,6 @@
         this.NMRarray.add(this.selectedNMRSpectra.map(function(spec){
             path = "${assetsServerBaseURL}" + spec.path.replace("/net/vnas-metabolights/metabolights/reference", "/compounds");
             return path;
-            // url = spec.url.replace('/json', '');
-            // if(spec.url.startsWith('http://www.ebi.ac.uk/metabolights/webservice/compounds/spectra')){
-            //     return '${metabolightsPythonWsUrl}' + url.replace('http://www.ebi.ac.uk/metabolights/webservice/compounds/spectra', '/compounds') + '/file';
-            // } else if (spec.url.startsWith('https://www.ebi.ac.uk/metabolights/webservice/compounds/spectra')){
-            //     return '${metabolightsPythonWsUrl}' + url.replace('https://www.ebi.ac.uk/metabolights/webservice/compounds/spectra', '/compounds') + '/file';
-            // }
-            // return spec.url.replace("http","https");
         }));
     })
 
@@ -821,7 +814,7 @@
         var bioJSReaction = new Biojs.Rheaction({
             target: 'BioJSReaction',
             id: this.selectedReaction,
-            proxyUrl: '/metabolights/RheaAndReactomeProxy',
+            proxyUrl: '${pageContext.request.contextPath}/RheaAndReactomeProxy',
             rheaWsUrl: "https://www.rhea-db.org/rhea/"
         });
 

@@ -25,22 +25,15 @@
   Time: 16:54
   To change this template use File | Settings | File Templates.
 --%>
-
 <base href="${pageContext.request.contextPath}/advsearch/">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <br>
-<mtbls-adv-search></mtbls-adv-search>
-<script type="text/javascript" src="inline.bundle.js"></script>
-<script type="text/javascript" src="polyfills.bundle.js"></script>
-<script type="text/javascript" src="styles.bundle.js"></script>
-<script type="text/javascript" src="vendor.bundle.js"></script>
-<script type="text/javascript" src="main.bundle.js"></script>
+  <script src="runtime.js" type="module"></script>
+  <script src="polyfills.js" type="module"></script>
+  <script src="main.js" type="module"></script>
 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 
-
-
-
-
-
-
-
+<mtbls-adv-search>Loading...</mtbls-adv-search>

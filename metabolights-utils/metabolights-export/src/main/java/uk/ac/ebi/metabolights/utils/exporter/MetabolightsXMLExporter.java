@@ -226,11 +226,7 @@ public class MetabolightsXMLExporter {
 
 
     public static void main(String[] args) throws Exception {
-        // For testing Locally ..
-        //String args1[] = {"/Users/famaladoss/Work/temp/eb-eye_metabolights_studies.xml", "n", "n", "http://wp-p3s-19:5000/metabolights/ws/"};
-        //String args2[] = {"/Users/famaladoss/Work/temp/thomsonreuters_metabolights_studies.xml", "n", "y", "http://wp-p3s-19:5000/metabolights/ws/"};
-        //String args3[] = {"/Users/famaladoss/Work/temp/eb-eye_metabolights_complete.xml","y", "n", "http://wp-p3s-19:5000/metabolights/ws/", "eb-eye_metabolights_studies.xml"};
-        //args = args2;
+
         if (!validateParams(args)){
             System.out.println("Usage:");
             System.out.println("    Parameter 1: The name of the xml export file (Mandatory)");
