@@ -28,12 +28,13 @@
 <base href="${pageContext.request.contextPath}/advsearch/">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <br>
+  <link rel="stylesheet" type="text/css" href="../css/ml.css" media="screen" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
   <script src="runtime.js" type="module"></script>
   <script src="polyfills.js" type="module"></script>
   <script src="main.js" type="module"></script>
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
-  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
 
 <mtbls-adv-search>Loading...</mtbls-adv-search>
