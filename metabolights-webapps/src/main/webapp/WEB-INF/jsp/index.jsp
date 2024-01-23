@@ -102,8 +102,7 @@
                         <ul>
                             <li class="vc vh50"><a href="studies"><b>Browse</b></a></li>
                             <li class="vc vh50"><a href="advancedsearch"><b>ORCID search</b></a></li>
-                            <%--<li class="vc vh50"><a><b>MetaboLights Labs</b>--%>
-                                <%--<br>&nbsp;<span class="label label-warning">Coming soon</span></a></li>--%>
+                            <li class="vc vh50"><a target="_blank" href="https://metabolights-labs.org/"><b>MetaboLights Labs</b></a></li>
                         </ul>
                     </div>
                 </div>
