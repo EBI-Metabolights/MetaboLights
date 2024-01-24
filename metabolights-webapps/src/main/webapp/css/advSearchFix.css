@@ -8,5 +8,6 @@
 }
 
 .navbar-nav>li>a {
+    padding-top: 3px;
     max-height: 40px;
 }
