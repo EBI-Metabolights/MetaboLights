@@ -8,5 +8,5 @@
 }
 
 .navbar-nav>li>a {
-
+    max-height: 40px;
 }
