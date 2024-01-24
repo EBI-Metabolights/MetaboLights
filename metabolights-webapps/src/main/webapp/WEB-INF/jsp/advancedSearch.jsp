@@ -32,7 +32,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="../css/advSearchFix.css">
+  <link rel="stylesheet" type="text/css" href="../css/advSearchFix.css" media="screen">
 
   <script src="runtime.js" type="module"></script>
   <script src="polyfills.js" type="module"></script>
