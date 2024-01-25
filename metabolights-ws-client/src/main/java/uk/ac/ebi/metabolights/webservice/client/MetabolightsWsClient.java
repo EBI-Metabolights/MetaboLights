@@ -49,11 +49,7 @@ import org.jose4j.json.internal.json_simple.JSONArray;
 import org.jose4j.json.internal.json_simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.ac.ebi.metabolights.referencelayer.model.Compound;
-import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompound;
-import uk.ac.ebi.metabolights.referencelayer.model.MetaboLightsCompoundModel;
-import uk.ac.ebi.metabolights.referencelayer.model.MetaboliteAssignmentModel;
-import uk.ac.ebi.metabolights.referencelayer.model.StudyModel;
+import uk.ac.ebi.metabolights.referencelayer.model.*;
 import uk.ac.ebi.metabolights.repository.model.Entity;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.repository.model.MetaboliteAssignment;
@@ -113,6 +109,8 @@ public class MetabolightsWsClient {
 
     private String metabolightsJavaWsUrl = "https://www.ebi.ac.uk/metabolights/webservice/";
     private String metabolightsPythonWsUrl = null;
+
+    private String metabolightsEuroPMCUrl = "https://www.ebi.ac.uk/europepmc/webservices/rest/";
     private static final String STUDY_PATH = "study/";
 
     private static final String STUDY_PATH_WS = "public/study/";
@@ -217,27 +215,80 @@ public class MetabolightsWsClient {
 
             return message;
 
-        } catch (MalformedURLException e) {
+        } catch (Exception e){
+           return handleException(e, path);
+        }
+    }
 
+    public ResultWrapperModel getEuroPMCResult(String URI, String params[]){
+        String response = makeRequestToEuroPMC(URI, params);
+        ResultWrapperModel resS = deserializeStringToResult(response);
+        return resS;
+
+    }
+
+    private ResultWrapperModel deserializeStringToResult(String response){
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        try {
+            return mapper.readValue(response, ResultWrapperModel.class);
+        } catch (IOException e) {
+            System.out.println("Can't parse ws response (json) back into   " + e.getMessage());
+            logger.error("Can't parse ws response (json) back into  " + e.getMessage());
+        }
+
+        return null;
+    }
+
+    private String makeRequestToEuroPMC(String URI, String params[]) {
+        try {
+            URL url = null;
+            StringBuilder buildURL = new StringBuilder(this.metabolightsEuroPMCUrl);
+            buildURL.append("search").append("?");
+            for (String param: params){
+                buildURL.append(param).append("&");
+            }
+            url = new URL(buildURL.toString());
+            System.out.println( " !!EuroPMC URL :- " +url);
+            logger.info( " !!EuroPMC URL :- ", url);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setDoOutput(true);
+            if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                throw new RuntimeException("MetaboLights Java WS client: " + conn.getURL().toString() + "(" + URI + ") request failed : HTTP error code : "
+                        + conn.getResponseCode());
+            }
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    (conn.getInputStream())));
+
+            String message = org.apache.commons.io.IOUtils.toString(br);
+
+            conn.disconnect();
+            //System.out.println( "EuroPMC output  :- " +message);
+            return message;
+
+
+        } catch (Exception e){
+            return handleException(e, URI);
+        }
+    }
+
+    private String handleException(Exception e, String path){
+        if(e instanceof MalformedURLException){
             RestResponse response = new RestResponse();
             response.setMessage("Malformed url: " + path);
             response.setErr(e);
             logger.error(response.getMessage(), e);
-
             return serializeObject(response);
-
-
-        } catch (IOException e) {
-
+        }else if(e instanceof IOException){
             RestResponse response = new RestResponse();
             response.setMessage("IO exception while trying to reach " + path);
             response.setErr(e);
             logger.error(response.getMessage(), e);
-
             return serializeObject(response);
-
-        }
-        catch (Exception e){
+        }else{
             System.out.println("Exception occured - "+e);
             RestResponse response = new RestResponse();
             response.setMessage("IO exception while trying to reach " + path);
@@ -247,6 +298,8 @@ public class MetabolightsWsClient {
             return serializeObject(response);
         }
     }
+
+
 
     public String makePythoDeleteRequest(String path, Object data) {
         return makePythonDeleteRequest(path, data, null);
