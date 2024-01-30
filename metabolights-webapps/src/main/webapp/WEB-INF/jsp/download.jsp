@@ -41,33 +41,34 @@
             protocol = "ftp";
         }
     %>
-    <div class="alert nbr alert-warning">
-        <p>
-            <a class="icon icon-generic bigfont" data-icon="T" href="<%=protocol%>://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip"></a>
-            <a href="<%=protocol%>://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip"><spring:message code="msg.metabolightsMtblsIsaCreator" /> </a>  <spring:message code="msg.metabolightsAbout12" />
-        <p>
-    </div>
     <div class="well nbr">
         <p>
             <a class="icon icon-functional bigfont" data-icon="A" href="<%=protocol%>://ftp.ebi.ac.uk/pub/databases/metabolights/"></a>
             <a href="<%=protocol%>://ftp.ebi.ac.uk/pub/databases/metabolights/"><b>Experiments</b></a>  <spring:message code="msg.metabolightsAbout7" />
         </p>
     </div>
-    <p><spring:message code="msg.metabolightsAbout13" /></p> </br>
-    <p><spring:message code="msg.metaboLightsAbout16" />&nbsp;<spring:message code="msg.metabolightsAbout8"/></p>
+    <p><spring:message code="msg.metabolightsAbout13" /></p>
     <br>
-    <a>MetaboLights XML exports can be downloaded using the following links:</a><br>
+    <p>MetaboLights study metadata and compounds  can be downloaded as XML format. Please use the below links:</p><br>
     <p><a class="btn btn-default mt5" href="<%=protocol%>://ftp.ebi.ac.uk/pub/databases/metabolights/eb-eye/eb-eye_metabolights_complete.xml" target="_blank">MetaboLights - Complete </a>&emsp;|&emsp;<a class="mt5 btn btn-default" href="<%=protocol%>://ftp.ebi.ac.uk/pub/databases/metabolights/eb-eye/eb-eye_metabolights_studies.xml" target="_blank">MetaboLights</a></p>
-
-</div>
-</div>
-<div class="col-md-12">
-    <p class="row">
+    <div>
+        <h4>ISA model support</h4>
+        <div class="col-md-12">
+            <p class="row">
+                <br>
+            <div class="well nbr">
+                <a class="noLine" href="<spring:message code="url.isatools"/>"><img src="img/softwaresuitelogo2.png" alt="ISAtools"/></a>
+                <p><spring:message code="msg.metabolightsAbout6" /></p>
+            </div>
+            </p>
+        </div>
+        <p>
+            <a class="icon icon-generic bigfont" data-icon="T" href="<%=protocol%>://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip"></a>
+            <a href="<%=protocol%>://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip"><spring:message code="msg.metabolightsMtblsIsaCreator" /> </a>  <spring:message code="msg.metabolightsAbout12" />
+        </p>
         <br>
-    <div class="well nbr">
-        <a class="noLine" href="<spring:message code="url.isatools"/>"><img src="img/softwaresuitelogo2.png" alt="ISAtools"/></a>
-        <p><spring:message code="msg.metabolightsAbout6" /></p>
+        <p><spring:message code="msg.metabolightsAbout8"/>&nbsp;<spring:message code="msg.metaboLightsAbout16" /></p>
     </div>
-    </p>
 </div>
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

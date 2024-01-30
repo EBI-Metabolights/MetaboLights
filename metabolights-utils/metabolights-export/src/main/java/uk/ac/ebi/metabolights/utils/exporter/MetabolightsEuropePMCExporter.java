@@ -22,6 +22,8 @@ package uk.ac.ebi.metabolights.utils.exporter;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import uk.ac.ebi.metabolights.referencelayer.model.ResultModel;
+import uk.ac.ebi.metabolights.referencelayer.model.ResultWrapperModel;
 import uk.ac.ebi.metabolights.referencelayer.model.StudyModel;
 import uk.ac.ebi.metabolights.repository.model.Publication;
 import uk.ac.ebi.metabolights.repository.model.Study;
@@ -37,8 +39,12 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 
 public class MetabolightsEuropePMCExporter {
@@ -50,11 +56,10 @@ public class MetabolightsEuropePMCExporter {
     private static Document doc = null;
     private static String[] allStudies = null;
     private static String WSCLIENT_URL = ML_BASE_URL + "/ws/";
+    private static String EURO_PMC_SEARCH_URI = "search";
     private static MetabolightsWsClient wsClient;
     private static String metaboLightsId = "1782";
     private static final String pmid = "PMID", doi = "DOI", totals = "totalNumber";
-    private static Boolean hasPublication = false, hasPMID = false;
-    private static Map<String, Integer> studyPubs = new HashMap();
 
     public MetabolightsEuropePMCExporter(){}
 
@@ -114,7 +119,7 @@ public class MetabolightsEuropePMCExporter {
 
     private static String[] getStudiesList(){
         RestResponse<String[]> response = getWsClient().getAllStudyAcc();
-        //return new String[]{"MTBLS43","MTBLS93","MTBLS124","MTBLS59","MTBLS146"};
+        //return new String[]{"MTBLS43","MTBLS93","MTBLS124","MTBLS59","MTBLS146", "MTBLS1122"};
         return response.getContent();
     }
 
@@ -159,7 +164,8 @@ public class MetabolightsEuropePMCExporter {
          * </providers>
          */
 
-
+        //String args1[] = {"/Users/famaladoss/Work/temp/euroPMC.xml", "http://wp-p1m2-ba.ebi.ac.uk:7007/metabolights/ws/"};
+        //args = args1;
         if (!validateParams(args)){
             System.out.println("Usage:");
             System.out.println("    Parameter 1: The name of the Europe PMC export xml export file (Mandatory)");
@@ -205,6 +211,12 @@ public class MetabolightsEuropePMCExporter {
         return response.getContent();
     }
 
+    private static ResultWrapperModel getEuroPMCResult(String doi){
+        String paramas[] = {"format=json", "query="+doi};
+        ResultWrapperModel resultWrapper = getWsClient().getEuroPMCResult(EURO_PMC_SEARCH_URI, paramas);
+        return  resultWrapper;
+    }
+
     private static String tidyNonPrintChars(String s, String description){
         String clean = s.replaceAll("\\p{C}", "");
 
@@ -213,33 +225,6 @@ public class MetabolightsEuropePMCExporter {
             return clean;
         }
         return s;
-    }
-
-    private static void checkStudy(StudyModel study){
-
-        Integer pmids = 0, dois = 0;
-
-        for (Publication publication : study.getPublications()) {
-            if (checkPMIDPublication(publication)) {
-                pmids++;
-                hasPublication = true;
-            }
-
-            if (hasValue(publication.getDoi())) {
-                dois++;
-                hasPublication = true;
-            }
-        }
-
-        if (dois > 0)
-            studyPubs.put(doi, dois);
-
-        if (pmids > 0)
-            studyPubs.put(pmid, pmids);
-
-        if (hasPublication)
-            System.out.println(study.getStudyIdentifier() + " : has publications. PMIDs: " + pmids + ", DOIs: " + dois );
-
     }
 
     private static Boolean checkPMIDPublication(Publication publication){
@@ -252,18 +237,17 @@ public class MetabolightsEuropePMCExporter {
 
 
     private static void addStudies(Element entries){
+        try {
         //First, add the surrounding <entries> tags
-
+        List<String> pmid_found = new ArrayList<>();
+        List<String> preprint_doi_found = new ArrayList<>();
+        List<String> study_text_found = new ArrayList<>();
         //Add all the public studies
         for (String studyAcc : allStudies){
-            try {
-                hasPublication = false;
-                hasPMID = false;
+
                 StudyModel study = getStudy(studyAcc);
 
-                checkStudy(study); //Does this study have publications? And which type, doi and/or pmid?
-
-                if (hasPublication) {
+                if (study.getPublications().size() > 0) {
 
                     for (Publication publication : study.getPublications()) {
                         Element entry = doc.createElement("link");
@@ -283,14 +267,39 @@ public class MetabolightsEuropePMCExporter {
                             entry.appendChild(recordField);
                             recordField.appendChild(addGenericElement("source", "MED"));
                             recordField.appendChild(addGenericElement("id", tidyPubmed(publication.getPubmedId())));
-                        } else if (!checkPMIDPublication(publication)) {
-                            if (!hasValue(publication.getDoi())) //Check that we really have a value for the doi
+                        } else {
+                            String doi = publication.getDoi();
+                            if (hasValue(doi)) {
+                                System.out.println(" Hitting EuroPMC with doi - "+doi);
+                                ResultWrapperModel resultWrapperModel = getEuroPMCResult(doi);
+                                if(resultWrapperModel.getHitCount() > 0){
+                                    List<ResultModel> resultList = Arrays.asList(resultWrapperModel.getResultList().getResult());
+                                    for (ResultModel result: resultList) {
+                                        if(result.getDoi() != null && result.getDoi().equals(doi)){
+                                            if(result.getSource().equals("MED")){
+                                                pmid_found.add(studyAcc+","+doi);
+                                                //System.out.println("Added to PMID found list; size - "+pmid_found.size());
+                                            }
+                                            else if(result.getSource().equals("PPR")){
+                                                preprint_doi_found.add(studyAcc+","+doi);
+                                                //System.out.println("Added to Preprint found list; size - "+preprint_doi_found.size());
+                                            }
+                                        }
+                                    }
+                                }else{
+                                    String searchQuery = URLEncoder.encode(study.getTitle(), StandardCharsets.UTF_8.toString());
+                                    resultWrapperModel = getEuroPMCResult(searchQuery);
+                                    if(resultWrapperModel.getHitCount() > 0){
+                                        study_text_found.add(studyAcc+","+doi);
+                                        //System.out.println("Added to study_text_found list; size - "+study_text_found.size());
+                                    }
+                                }
+                                System.out.println(studyAcc + " : Adding DOI ");
+                                entry.appendChild(addGenericElement("doi", tidyDoi(doi)));
+                            } else {
                                 break;
-
-                            System.out.println(studyAcc + " : Adding DOI ");
-                            entry.appendChild(addGenericElement("doi", tidyDoi(publication.getDoi())));
+                            }
                         }
-
                         //Add the complete study to the entry section when we have a publication
                         entries.appendChild(entry);
                     }
@@ -298,12 +307,39 @@ public class MetabolightsEuropePMCExporter {
                 else
                     System.out.println(studyAcc + " : --- No publication, skipping ");
 
-            } catch (Exception e){
-                System.out.println(e.getMessage());
-            }
+        }
+
+        int lastIndex = xmlFileName.lastIndexOf("/");
+        String path = xmlFileName.substring(0, lastIndex);
+        System.out.println("File path - "+path);
+        if(pmid_found.size() > 0){
+            String pmid_found_studies = path+"/"+"pmid_found_studies.csv";
+            writeContentToFile(pmid_found_studies, pmid_found);
+        }
+        if(preprint_doi_found.size() > 0){
+            String preprint_found_studies = path+"/"+"preprint_doi_found_studies.csv";
+            writeContentToFile(preprint_found_studies, preprint_doi_found);
+        }
+        if(study_text_found.size() > 0){
+            String study_title_found_studies = path+"/"+"study_title_found_studies.csv";
+            writeContentToFile(study_title_found_studies, study_text_found);
+        }
+
+        } catch (Exception e){
+            System.out.println("Exception occurred while processing - "+ e.getMessage());
         }
     }
 
+    private static void writeContentToFile(String path, List<String> lineList) throws IOException {
+        FileWriter fileWriter = new FileWriter(path);
+        PrintWriter printWriter = new PrintWriter(fileWriter);
+        printWriter.println("study_id,doi");
+        System.out.println("Writing file - "+path);
+        for (String line:lineList) {
+            printWriter.println(line);
+        }
+        printWriter.close();
+    }
 
     private static Element addGenericElement(String itemName, String itemValue) {
 
