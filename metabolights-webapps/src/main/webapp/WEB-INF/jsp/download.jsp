@@ -44,7 +44,7 @@
     <div class="well nbr">
         <p>
             <a class="icon icon-functional bigfont" data-icon="A" href="<%=protocol%>://ftp.ebi.ac.uk/pub/databases/metabolights/"></a>
-            <a href="<%=protocol%>://ftp.ebi.ac.uk/pub/databases/metabolights/"><b>Experiments</b></a>  <spring:message code="msg.metabolightsAbout7" />
+            <a href="<%=protocol%>://ftp.ebi.ac.uk/pub/databases/metabolights/"><b>Metabolights Studies</b></a>  <spring:message code="msg.metabolightsAbout7" />
         </p>
     </div>
     <p><spring:message code="msg.metabolightsAbout13" /></p>
