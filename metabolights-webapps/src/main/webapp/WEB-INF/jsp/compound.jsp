@@ -262,8 +262,8 @@
                                                 <div class="col-md-3 ml_trc"><p class="bnStyling"><b><i>{{ $key }}</i></b></p></div>
                                                 <div class="col-md-9 ml_trc">
                                                     <p v-for="source in id">
-                                                        <span v-if="isStudy(source.SpeciesAccession)">
-                                                            <a target="_blank" :href="'/metabolights/'+source.SpeciesAccession"><span>{{{ source.SpeciesAccession }}}</span></a>&emsp;
+                                                        <span v-if="isStudy(source.SourceAccession)">
+                                                            <a target="_blank" :href="'/metabolights/'+source.SourceAccession"><span>{{{ source.SourceAccession }}}</span></a>&emsp;
                                                             <a @click="showMAFDetails(source)" ><i class="fa fa-info-circle" aria-hidden="true"></i></a>
                                                         </span>
                                                         <span v-if="!isStudy(source.SpeciesAccession) && !isStudy(source.SourceAccession)">
