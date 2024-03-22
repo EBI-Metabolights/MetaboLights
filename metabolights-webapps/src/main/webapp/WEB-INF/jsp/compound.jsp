@@ -683,8 +683,9 @@
                 this.mtblc['chebiId'] = this.mtblc['id'].replace("MTBLC", "");
                 this.mtblc['imageUrl'] = "//www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=" + this.mtblc['chebiId'] + "&dimensions=600&transbg=true";
                 this.mtblc['imageUrlLarge'] = "//www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=" + this.mtblc['chebiId'] + "&dimensions=1000&transbg=true";
-                this.load3DMolecule();
                 this.loading = false;
+
+                this.load3DMolecule();
                 var clipboard = new Clipboard('.ml--clipboard');
                 clipboard.on('success', function(e) {
                     Notifier.success("Successful", e.trigger.id + " Copied to clipboard!");
