@@ -93,7 +93,7 @@ public class WSSearchController extends AbstractController {
     @RequestMapping(value = SEARCH, method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView search(@RequestParam(required = false, value = "freeTextQuery") String freeTextQuery, HttpServletRequest request) throws Exception {
 
-
+        freeTextQuery = this.cleanXSS(freeTextQuery);
         //Trigger the internalSearch based on the filter
         ModelAndView mav = internalSearch(SEARCH, request);
 
@@ -203,6 +203,14 @@ public class WSSearchController extends AbstractController {
         return mav;
     }
 
+    public String cleanXSS(String value) {
+        value = value.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+        value = value.replaceAll("eval\\((.*)\\)", "");
+        value = value.replaceAll("[\\\"\\\'][\\s]*javascript:(.*)[\\\"\\\']", "\"\"");
+        value = value.replaceAll("script", "");
+        return value;
+    }
+
     private SearchQuery getQuery(HttpServletRequest request) {
 
         // Get an empty query
@@ -234,7 +242,9 @@ public class WSSearchController extends AbstractController {
 
                 query.getPagination().setPage(page);
             } else if (key.equals("freeTextQuery")) {
-                query.setText(entry.getValue()[0]);
+                String value = entry.getValue()[0];
+                String sanitizedValue = this.cleanXSS(value);
+                query.setText(sanitizedValue);
 
                 //... its a facet....fill the facet
             } else {
