@@ -100,8 +100,8 @@
                     </div>
                     <div class="custom-footer text-center">
                         <ul>
-                            <li class="vc vh50"><a href="studies"><b>Browse</b></a></li>
-                            <li class="vc vh50"><a href="advancedsearch"><b>ORCID search</b></a></li>
+                            <li class="vc vh50"><a href="/metabolights/studies"><b>Browse</b></a></li>
+                            <li class="vc vh50"><a href="/metabolights/advancedsearch"><b>ORCID search</b></a></li>
                             <li class="vc vh50"><a target="_blank" href="https://metabolights-labs.org/"><b>MetaboLights Labs</b></a></li>
                         </ul>
                     </div>
@@ -116,8 +116,8 @@
                     </div>
                     <div class="custom-footer text-center">
                         <ul>
-                            <li class="vc vh50"><a href="compounds"><b>Compounds</b></a></li>
-                            <li class="vc vh50"><a href="species"><b>Species</b></a></li>
+                            <li class="vc vh50"><a href="/metabolights/compounds"><b>Compounds</b></a></li>
+                            <li class="vc vh50"><a href="/metabolights/species"><b>Species</b></a></li>
                             <%--<li><a href="analysis"><b>Analysis</b></a></li>--%>
                         </ul>
                     </div>
