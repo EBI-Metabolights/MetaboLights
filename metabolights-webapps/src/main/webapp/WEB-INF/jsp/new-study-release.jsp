@@ -45,7 +45,8 @@
             curator can, at their discretion and subject to passing our new autonomous validation pipeline, make a study public without a manual curatorial review.
         </p>
     </div>
-    <p>stick some more content here.</p>
+    <p><a href="mailto:example@example.com?subject=New%20Study%20Release%20Pipeline">Give us feedback about this new mechanism</a>
+    </p>
     <br>
 
 </div>
