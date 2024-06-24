@@ -204,11 +204,14 @@ public class WSSearchController extends AbstractController {
     }
 
     public String cleanXSS(String value) {
-        value = value.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-        value = value.replaceAll("eval\\((.*)\\)", "");
-        value = value.replaceAll("[\\\"\\\'][\\s]*javascript:(.*)[\\\"\\\']", "\"\"");
-        value = value.replaceAll("script", "");
-        return value;
+        if(value != null){
+            value = value.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+            value = value.replaceAll("eval\\((.*)\\)", "");
+            value = value.replaceAll("[\\\"\\\'][\\s]*javascript:(.*)[\\\"\\\']", "\"\"");
+            value = value.replaceAll("script", "");
+            return value;
+        }
+        return "";
     }
 
     private SearchQuery getQuery(HttpServletRequest request) {
