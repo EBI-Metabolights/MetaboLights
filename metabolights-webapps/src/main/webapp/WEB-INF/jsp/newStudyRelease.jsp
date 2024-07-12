@@ -23,22 +23,6 @@
 <div class="col-md-12">
     <p class="row">
     <h3>New Study Release Mechanism</h3><br>
-    <% String agent = request.getHeader ("user-agent");
-        String userOS = "";
-        try {
-            if (agent.toLowerCase().indexOf("mac") >= 0) {
-                userOS = "mac";
-            } else {
-                userOS = "non-mac";
-            }
-        }catch (Exception e){}
-    %>
-    <%
-        String protocol = "http";
-        if(userOS.equals("mac")){
-            protocol = "ftp";
-        }
-    %>
     <div class="well nbr">
         <p>
             Owing to the large volume of study submission, manual curation for every study is no longer practical. For this reason we have introduced a mechanism where a MetaboLights
