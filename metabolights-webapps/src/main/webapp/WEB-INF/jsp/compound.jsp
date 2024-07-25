@@ -322,7 +322,7 @@
                                                     <div v-if="selectedKEGGPathway">
                                                         <br>
                                                         <span class='zoom' id="kegg--img">
-                                                            <img :src="'http://www.kegg.jp/kegg/pathway/ko/'+selectedKEGGPathway+'.png'" class="img-responsive">
+                                                            <img :src="'http://www.kegg.jp/kegg/pathway/'+selectedKEGGPathway+'.png'" class="img-responsive">
                                                         </span>
                                                     </div>
                                                     <div class="clearfix"></div>
