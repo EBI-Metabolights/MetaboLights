@@ -1,0 +1,46 @@
+#!/bin/bash
+
+CI_COMMIT_REF_NAME="$1"
+VERSION="$2"
+echo "Select Deployment configurations for $CI_COMMIT_REF_NAME"
+if [ "$CI_COMMIT_REF_NAME" = "master" ]; then
+    export IMAGE_TAG="${VERSION}"
+    export RELEASE_NAME="$CI_PIPELINE_ID"
+    export BUILD_NUMBER="${CI_PIPELINE_ID}-${CI_COMMIT_SHORT_SHA}"
+    export APPS_PROJECT_BRANCH_NAME="master"
+elif [ "$CI_COMMIT_REF_NAME" = "main" ]; then
+    export IMAGE_TAG="${VERSION}"
+    export RELEASE_NAME="$CI_PIPELINE_ID"
+    export BUILD_NUMBER="${CI_PIPELINE_ID}-${CI_COMMIT_SHORT_SHA}"
+    export APPS_PROJECT_BRANCH_NAME="master"
+elif [ "$CI_COMMIT_REF_NAME" = "migration" ]; then
+    export IMAGE_TAG="${VERSION}-${CI_COMMIT_REF_NAME}"
+    export RELEASE_NAME="${CI_COMMIT_REF_NAME}.$CI_PIPELINE_ID"
+    export BUILD_NUMBER="${CI_COMMIT_REF_NAME}-${CI_PIPELINE_ID}-${CI_COMMIT_SHORT_SHA}"
+    export APPS_PROJECT_BRANCH_NAME="migration"
+elif [ "$CI_COMMIT_REF_NAME" = "staging" ]; then
+    export IMAGE_TAG="${VERSION}-${CI_COMMIT_REF_NAME}"
+    export RELEASE_NAME="${CI_COMMIT_REF_NAME}.$CI_PIPELINE_ID"
+    export BUILD_NUMBER="${CI_COMMIT_REF_NAME}-${CI_PIPELINE_ID}-${CI_COMMIT_SHORT_SHA}"
+    export APPS_PROJECT_BRANCH_NAME="staging"
+elif [ "$CI_COMMIT_REF_NAME" = "test" ]; then
+    export IMAGE_TAG="${VERSION}-${CI_COMMIT_REF_NAME}"
+    export RELEASE_NAME="${CI_COMMIT_REF_NAME}.$CI_PIPELINE_ID"
+    export BUILD_NUMBER="${CI_COMMIT_REF_NAME}-${CI_PIPELINE_ID}-${CI_COMMIT_SHORT_SHA}"
+    export APPS_PROJECT_BRANCH_NAME="test"
+elif [ "$CI_COMMIT_REF_NAME" = "development" ]; then
+    export IMAGE_TAG="${VERSION}-${CI_COMMIT_REF_NAME}"
+    export RELEASE_NAME="${CI_COMMIT_REF_NAME}.$CI_PIPELINE_ID"
+    export BUILD_NUMBER="${CI_COMMIT_REF_NAME}-${CI_PIPELINE_ID}-${CI_COMMIT_SHORT_SHA}"
+    export APPS_PROJECT_BRANCH_NAME="development"
+fi
+export IMAGE_NAME="${CI_REGISTRY_IMAGE}:${IMAGE_TAG}"
+export IMAGE_LATEST_TAG="${CI_COMMIT_REF_NAME}-latest"
+export LATEST_IMAGE_NAME="${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}-latest"
+
+echo "BRANCH: $CI_COMMIT_REF_NAME"
+echo "IMAGE_TAG: $IMAGE_TAG"
+echo "BUILD_NUMBER: $BUILD_NUMBER"
+echo "IMAGE NAME: $IMAGE_NAME"
+echo "IMAGE NAME (with latest tag): $LATEST_IMAGE_NAME"
+echo "Apps project branch name: $APPS_PROJECT_BRANCH_NAME"
