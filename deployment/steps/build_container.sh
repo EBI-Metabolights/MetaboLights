@@ -25,6 +25,7 @@ echo  "APP_VERSION $APP_VERSION"
 echo  "$APP_VERSION" | xargs > api_version
 echo  "$APP_VERSION $API_VERSION"
 
+gradle build -x test
 
 echo "docker build --build-arg GROUP1_ID=$MTBLS_NFS_USER_GROUP1_ID --build-arg GROUP2_ID=$MTBLS_NFS_USER_GROUP2_ID --build-arg USER_ID=$MTBLS_NFS_USER_ID -t $IMAGE_NAME -t $LATEST_IMAGE_NAME ."
 docker build --build-arg GROUP1_ID=$MTBLS_NFS_USER_GROUP1_ID --build-arg GROUP2_ID=$MTBLS_NFS_USER_GROUP2_ID --build-arg USER_ID=$MTBLS_NFS_USER_ID -t $IMAGE_NAME .
