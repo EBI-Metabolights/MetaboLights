@@ -88,11 +88,6 @@
                 <br>
                 <a class="more" target="_blank" href="https://www.ebi.ac.uk/training/online/course/metabolights-quick-tour-0">Quick tour</a>
                 <div>&nbsp;</div>
-                <h4 class="metabolights-logo">New Study Release Mechanism</h4>
-                <p>Formally announced at the 20th meeting of the Metabolomics Society, Osaka 2024, we now have a new release mechanism for making MetaboLights studies public.
-                Once a study passes our autonomous validation pipeline, submitters can make a request to MetaboLights that it be made public with no curatorial review.
-                    This will make it public with a status "Public - Unreviewed".</p>
-                <a class="more" target="_blank" href="${pageContext.request.contextPath}/newStudyRelease">Learn more</a>
 
             </div>
         </div>
