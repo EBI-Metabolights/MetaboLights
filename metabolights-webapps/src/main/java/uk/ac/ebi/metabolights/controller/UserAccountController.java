@@ -110,7 +110,7 @@ public class UserAccountController extends AbstractController{
      */
 	@RequestMapping(value = "/createNewAccount", method = RequestMethod.POST)
     public ModelAndView createNewAccount(@Valid MetabolightsUser metabolightsUser, BindingResult result, Model model, HttpServletRequest request) {
-
+		logger.info( "new account create request email {}", metabolightsUser.getEmail());
     	// The isatab schema works with a USERNAME. For Metabolights, we set the email address to be the user name,
     	// it's easier for people to remember that
     	metabolightsUser.setUserName(metabolightsUser.getEmail());
@@ -148,6 +148,8 @@ public class UserAccountController extends AbstractController{
 			String uniqueURLParameter=numericSequence(metabolightsUser.getDbPassword());
 			String confirmationURL=confirmNewAccountUrl+"?usr="+ URLEncoder.encode(metabolightsUser.getUserName(),"UTF-8")+"&key="+uniqueURLParameter;
 			emailService.sendConfirmNewAccountRequest(metabolightsUser.getEmail(),confirmationURL);
+			String remote_ip = getClientIp(request);
+			logger.info( "Remote IP {}", remote_ip);
 
     	} catch (Exception ex ) {
 			ex.printStackTrace();
@@ -230,9 +232,12 @@ public class UserAccountController extends AbstractController{
 	 * @param key
 	 */
 	@RequestMapping(value={"/confirmAccountRequest"}, method = RequestMethod.GET)
-	public ModelAndView confirmAccountRequested(@RequestParam("usr") String userName, @RequestParam("key") String key) {
+	public ModelAndView confirmAccountRequested(@RequestParam("usr") String userName, @RequestParam("key") String key, HttpServletRequest request) {
 		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("index");
 		MetabolightsUser user = userService.lookupByUserName(userName);
+		logger.info( "confirmAccountRequest email {}", user.getEmail());
+		String remote_ip = getClientIp(request);
+		logger.info( "Remote IP {}", remote_ip);
 		if (user!=null && user.getStatus().equals(MetabolightsUser.UserStatus.NEW)
 				&& numericSequence(user.getDbPassword()).equals(key)   ) {
 			//Set user status to Verified
@@ -406,6 +411,21 @@ public class UserAccountController extends AbstractController{
 		}
 
     	return mav;
+    }
+
+
+	private static String getClientIp(HttpServletRequest request) {
+
+        String remoteAddr = "";
+
+        if (request != null) {
+            remoteAddr = request.getHeader("X-FORWARDED-FOR");
+            if (remoteAddr == null || "".equals(remoteAddr)) {
+                remoteAddr = request.getRemoteAddr();
+            }
+        }
+
+        return remoteAddr;
     }
 
 

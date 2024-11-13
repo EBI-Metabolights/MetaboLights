@@ -348,9 +348,6 @@ public class MetabolightsWsClient {
             path = path.substring(1);
 
         url = new URL(base + "/" + path);
-
-        System.out.println( " !!metabolightsWsURI :- " +url);
-        logger.info( " !!metabolightsWsURI :- {}", url);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod(method);
         conn.setRequestProperty("Accept", "application/json");
