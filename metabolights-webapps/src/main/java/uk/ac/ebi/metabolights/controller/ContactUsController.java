@@ -60,9 +60,9 @@ public class ContactUsController extends AbstractController{
     	
     }
 
-    @RequestMapping(value = "/newStudyRelease")
-    public ModelAndView newStudyRelease() {
-        return AppContext.getMAVFactory().getFrontierMav("newStudyRelease");
+    @RequestMapping(value = "/newAccessions")
+    public ModelAndView newAccessions() {
+        return AppContext.getMAVFactory().getFrontierMav("newAccessions");
 
     }
 

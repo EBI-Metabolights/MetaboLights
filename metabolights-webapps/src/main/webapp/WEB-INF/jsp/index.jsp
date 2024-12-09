@@ -80,6 +80,19 @@
     <div class="col-md-9">
         <div class="panel panel-default nbr">
             <div class="panel-body grey">
+                <h3 class="metabolights-logo-orange">15/01/2024 New Accessioning System and Validation Framework V2</h3>
+                <p>MetaboLights is introducing two new systems that mark a significant change in how a study can be made public. You will now only receive an MTBLS accession once your study has passed validation, and it is no longer required for a study to be manually approved by our curation team. <a href="newAccessions">For more information click here</a>
+                    <br>
+
+                </p>
+                <br>
+                <div>&nbsp;</div>
+
+            </div>
+        </div>
+
+        <div class="panel panel-default nbr">
+            <div class="panel-body grey">
                 <h3 class="metabolights-logo">MetaboLights</h3>
                 <p>MetaboLights is a database for Metabolomics experiments and derived information. The database is cross-species, cross-technique and covers metabolite structures and their reference spectra as well as their biological roles, locations and concentrations, and experimental data from metabolic experiments. MetaboLights is the recommended Metabolomics repository for a number of leading journals.
                     <br>

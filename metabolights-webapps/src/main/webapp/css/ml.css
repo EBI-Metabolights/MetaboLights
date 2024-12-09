@@ -194,6 +194,13 @@ a span.link-pdf {
     margin-top: 10px;
 }
 
+.metabolights-logo-orange {
+    color: #f3b300;
+    font-size: 2.6em;
+    font-weight: 400;
+    margin-top: 10px;
+}
+
 .ml-header .form-control{
     border: 1px solid #8a8a8a;
 }
