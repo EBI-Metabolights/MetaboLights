@@ -82,7 +82,7 @@
                 Licensing
             </div>
             <div class="panel-body">
-                All data is governed by the EMBL-EBI's <a href="http://www.ebi.ac.uk/about/terms-of-use" target="_blank">Terms of use</a> and all <a href="https://github.com/EBI-Metabolights" target="_blank">code</a> is licensed under <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a>.
+                All data is governed by the EMBL-EBI's <a href="http://www.ebi.ac.uk/about/terms-of-use" target="_blank">Terms of use</a> and aligned to EMBL-EBI’s <a href="https://www.ebi.ac.uk/long-term-data-preservation" target="_blank">Long-term data preservation</a>. All <a href="https://github.com/EBI-Metabolights" target="_blank">code</a> is licensed under <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0</a>.
             </div>
         </div>
     </div>
