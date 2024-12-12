@@ -246,9 +246,9 @@
         <put-attribute name="body" value="/WEB-INF/jsp/acknowledgements.jsp"/>
     </definition>
 
-    <definition name="newStudyRelease" extends="default">
-        <put-attribute name="title" value="New Study Release Page"/>
-        <put-attribute name="body" value="/WEB-INF/jsp/newStudyRelease.jsp"/>
+    <definition name="newAccessions" extends="default">
+        <put-attribute name="title" value="New Study Accessioning System"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/newAccessions.jsp"/>
     </definition>
 
     <definition name="advisoryboard" extends="default">
