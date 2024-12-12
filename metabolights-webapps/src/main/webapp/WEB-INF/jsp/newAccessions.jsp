@@ -22,21 +22,17 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/cssrl/iconfont/font_style.css" type="text/css"/>
 <div class="col-md-12">
     <p class="row">
-    <h3>New Study Release Mechanism</h3><br>
+    <h3>Data Submission Updates 2025</h3><br>
     <div class="well nbr">
-        January 15th 2025 marks the release of two new versions of Metabolights functionality. These have been implemented to handle the volume of submissions and to improve the quality of submissions without manual intervention.
-        <h4>New Accessioning System</h4>
-        <p>
-            The first iteration of the MetaboLights accessioning system issued an MTBLS accession upon study creation. This would occasionally result in accessions being wasted on incomplete studies, or journal articles referencing a given MTBLS accession that was not yet public / had not been approved by the curation team.
-            Version 2 instead issues you a request ID. This identifier is temporary, and follows the rough format REQ{datetime} e.g. REQ20241203125485. This identifier is temporary, and a full metabolights accession will be given once a study passes version 2 of our validation system. This enables us to only issue accessions once a submission is complete, and moves us in line with other EBI resources. Existing studies that are not yet public will be unaffected.
-        </p>
-        <h4>Validation Framework V2</h4>
-        <p>
-            The new study validation system comprises a more structured, stricter ruleset. If a study passes this new validation system, it can then be promoted to {NON CURATED} without the need for manual curation. The reason for this new system is to help get datasets public more quickly, while retaining manual curation for some in certain cases. The volume of submissions to MetaboLights has increased tremendously in the last few years, and manually curating each study as a precondition for release was no longer feasible. The new validation system uses a policy engine to validate studies - it is possible to validate locally. The new validation system is accompanied by a redesigned user interface, and includes the capability to browse and download previous validation reports.
-            New studies and studies in submission - even if they were created while v1 validation was in use - are now required to pass this validation system as a minimum threshold for public release. Studies that are In Curation, In Review or Public are unaffected.
-        </p>
-
-
+        January 15th 2025 marks the release of two new MetaboLights functionalities, which are the first of several to be introduced. These have been implemented to improve the handling of the volume and quality of submissions without MetaboLights curation.
+        <h4>New Accessioning</h4>
+        <p>The previous iteration of the MetaboLights accessioning issued a MetaboLights accession number (i.e. MTBLSxxx) upon study creation. This would occasionally result in accessions being misused on incomplete submissions, some being cited in published manuscripts.</p>
+        <p>The new accessioning will first issue a temporary submission request (i.e. REQxxx). This identifier is internal, temporary, and follows the rough format REQ{datetime}, for example, REQ20241203125485. A full MetaboLights study accession number will be assigned only once a study passes Validation Framework v2, and status promoted to ‘In Curation’, to ensure a dataset is complete.</p>
+        <p>This will affect new submissions only.</p>
+        <h4>Validation Framework v2</h4>
+        <p>The new study validation comprises a more structured, stricter ruleset (https://github.com/EBI-Metabolights/mtbls-validation). The reason for this new validation is to improve reporting and speed up data release. The volume of submissions to MetaboLights has increased significantly in the last few years, and curating each study as a precondition for release is no longer sustainable. This version allows validation online as well as locally. It is accompanied by a redesigned user interface in the Online Editor, and includes the capability to browse and download previous validation reports.</p>
+        <p>Studies which pass this version of validation and have status promoted to ‘In Curation’ will instantly receive a private reviewer link and be eligible to go public without MetaboLights curation. </p>
+        <p>New submissions and current studies in ‘Submitted’ status - even if they were created while validation framework v1 was in use - are now required to pass validation framework v2 to promote the status from ‘Submitted’ to ‘In Curation’. Current studies with the status ‘In Curation’ will be assessed for release without MetaboLights curation or contacted for further information. Studies with the status ‘In Review’ or ‘Public’ will be unaffected. MetaboLights curation will be retained in certain cases.</p>
     </div>
     <p><a href="mailto:example@example.com?subject=New%20Study%20Release%20Pipeline">Give us feedback about this new mechanism</a>
     </p>
