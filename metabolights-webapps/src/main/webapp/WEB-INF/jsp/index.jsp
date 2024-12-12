@@ -83,8 +83,9 @@
                 <h3 class="metabolights-logo-orange">Data Submission Updates 2025</h3>
                 <p>Starting mid January 2025, MetaboLights will introduce two new functionalities that mark a significant change in how we handle the volume and quality of submissions.</p>
                 <br>
-                <p>New Accessioning: MetaboLights will first issue a temporary submission request (i.e. REQxxx) instead of the traditional MetaboLights study accession number (i.e. MTBLSxxx). A full MetaboLights accession number will be assigned only once a study passes new validation - Validation Framework v2 (and status promoted to ‘In Curation’).</p>
-                <p>Validation Framework v2: The MetaboLights team has developed a more structured, stricter ruleset. Studies which pass this version of validation will not only receive the full MetaboLights accession number (e.g. MTBLSxxx) but will instantly receive a private reviewer link and be eligible to go public without MetaboLights curation.</p>
+                <p><b>New Accessioning:</b> MetaboLights will first issue a temporary submission request (i.e. REQxxx) instead of the traditional MetaboLights study accession number (i.e. MTBLSxxx). A full MetaboLights accession number will be assigned only once a study passes new validation - Validation Framework v2 (and status promoted to ‘In Curation’).</p>
+                <br>
+                <p><b>Validation Framework v2:</b> The MetaboLights team has developed a more structured, stricter ruleset. Studies which pass this version of validation will not only receive the full MetaboLights accession number (e.g. MTBLSxxx) but will instantly receive a private reviewer link and be eligible to go public without MetaboLights curation.</p>
                 <p>
                     <a href="newAccessions">For more information click here</a>
                     <br>
