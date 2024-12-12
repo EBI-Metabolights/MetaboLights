@@ -88,9 +88,8 @@
                 <p><b>Validation Framework v2:</b> The MetaboLights team has developed a more structured, stricter ruleset. Studies which pass this version of validation will not only receive the full MetaboLights accession number (e.g. MTBLSxxx) but will instantly receive a private reviewer link and be eligible to go public without MetaboLights curation.</p>
                 <br>
                 <p>
-                    <a href="newAccessions">For more information click here</a>
+                    <a class="more" target="_blank" href="newAccessions">For more information click here</a>
                 </p>
-                <br>
                 <div>&nbsp;</div>
 
             </div>
