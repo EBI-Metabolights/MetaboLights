@@ -24,7 +24,7 @@
     <p class="row">
     <h3>Data Submission Updates 2025</h3><br>
     <div class="well nbr">
-        January 15th 2025 marks the release of two new MetaboLights functionalities, which are the first of several to be introduced. These have been implemented to improve the handling of the volume and quality of submissions without MetaboLights curation.
+        <p>January 15th 2025 marks the release of two new MetaboLights functionalities, which are the first of several to be introduced. These have been implemented to improve the handling of the volume and quality of submissions without MetaboLights curation.</p>
         <br>
         <h4 class="modal-title">New Accessioning</h4>
         <p>The previous iteration of the MetaboLights accessioning issued a MetaboLights accession number (i.e. MTBLSxxx) upon study creation. This would occasionally result in accessions being misused on incomplete submissions, some being cited in published manuscripts.</p>
