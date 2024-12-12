@@ -25,12 +25,15 @@
     <h3>Data Submission Updates 2025</h3><br>
     <div class="well nbr">
         January 15th 2025 marks the release of two new MetaboLights functionalities, which are the first of several to be introduced. These have been implemented to improve the handling of the volume and quality of submissions without MetaboLights curation.
-        <h4>New Accessioning</h4>
+        <br>
+        <h4 class="modal-title">New Accessioning</h4>
         <p>The previous iteration of the MetaboLights accessioning issued a MetaboLights accession number (i.e. MTBLSxxx) upon study creation. This would occasionally result in accessions being misused on incomplete submissions, some being cited in published manuscripts.</p>
        <br>
         <p>The new accessioning will first issue a temporary submission request (i.e. REQxxx). This identifier is internal, temporary, and follows the rough format REQ{datetime}, for example, REQ20241203125485. A full MetaboLights study accession number will be assigned only once a study passes Validation Framework v2, and status promoted to ‘In Curation’, to ensure a dataset is complete.</p>
+        <br>
         <p>This will affect new submissions only.</p>
-        <h4>Validation Framework v2</h4>
+        <br>
+        <h4 class="modal-title">Validation Framework v2</h4>
         <p>The new study validation comprises a more structured, stricter ruleset (https://github.com/EBI-Metabolights/mtbls-validation). The reason for this new validation is to improve reporting and speed up data release. The volume of submissions to MetaboLights has increased significantly in the last few years, and curating each study as a precondition for release is no longer sustainable. This version allows validation online as well as locally. It is accompanied by a redesigned user interface in the Online Editor, and includes the capability to browse and download previous validation reports.</p>
         <br>
         <p>Studies which pass this version of validation and have status promoted to ‘In Curation’ will instantly receive a private reviewer link and be eligible to go public without MetaboLights curation. </p>
