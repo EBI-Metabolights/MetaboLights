@@ -86,9 +86,9 @@
                 <p><b>New Accessioning:</b> MetaboLights will first issue a temporary submission request (i.e. REQxxx) instead of the traditional MetaboLights study accession number (i.e. MTBLSxxx). A full MetaboLights accession number will be assigned only once a study passes new validation - Validation Framework v2 (and status promoted to ‘In Curation’).</p>
                 <br>
                 <p><b>Validation Framework v2:</b> The MetaboLights team has developed a more structured, stricter ruleset. Studies which pass this version of validation will not only receive the full MetaboLights accession number (e.g. MTBLSxxx) but will instantly receive a private reviewer link and be eligible to go public without MetaboLights curation.</p>
+                <br>
                 <p>
                     <a href="newAccessions">For more information click here</a>
-                    <br>
                 </p>
                 <br>
                 <div>&nbsp;</div>
