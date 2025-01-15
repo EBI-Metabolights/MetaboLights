@@ -160,7 +160,8 @@ public class EmailService {
 		String body = null;
         try {
             String fileLocation = EmailService.class.getClassLoader().getResource("").getPath()+ File.separator+"email_template"+File.separator;
-            body = PropertyLookup.getEmailMessage(fileLocation+"accountApprovedTemplate.txt",user.getUserName(), user.getFirstName());
+						String fullName = user.getFirstName() + " " + user.getLastName();
+            body = PropertyLookup.getEmailMessage(fileLocation+"accountApprovedTemplate.txt",user.getUserName(), fullName);
         } catch (IOException e) {
             body = PropertyLookup.getMessage("msg.accountActive.old",user.getUserName());
         }

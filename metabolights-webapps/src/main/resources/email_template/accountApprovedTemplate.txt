@@ -6,13 +6,19 @@ Your new MetaboLights account "{0}" has been activated and is ready to use.
 
 You can create and edit your studies online on https://www.ebi.ac.uk/metabolights/editor
 
-If you would like to upload ISA-Tab files directly, please follow these instructions:
-- We use our own version of ISAcreator to capture metabolomics metadata and raw files, which needs to be downloaded and installed. You can download a complete package from our ftp link here: ftp://ftp.ebi.ac.uk/pub/databases/metabolights/submissionTool/ISAcreatorMetaboLights.zip
-- Once downloaded and unzipped, go to the ISAcreatorMetaboLights directory and use one of the supplied scripts to start ISAcreator. Please use "run_WIN.cmd" on Windows, "run_MAC.command" on Mac or "run_LINUX.sh" on Linux, this is a requirement to pass online validation and will preserve all special characters
-- Before you start creating a new study, please read our comprehensive documentation and steps of how to create and set up a new study: https://www.ebi.ac.uk/metabolights/help
+Before you start creating a new study, please visit MetaboLights guides on https://www.ebi.ac.uk/metabolights/guides to learn how to create and complete your submission.
 
 If you would like to occasionally receive general announcements emails from MetaboLights, please subscribe to our MetaboLights-Announce email distribution list here: https://listserver.ebi.ac.uk/mailman/listinfo/metabolights-announce
 
 Please let us know on metabolights-help@ebi.ac.uk if we can help you further.
 
-Best wishes
+Regards,
+
+The MetaboLights Team, EMBL-EBI
+
+Website: http://www.ebi.ac.uk/metabolights
+Email: metabolights-help@ebi.ac.uk
+X-Twitter: @MetaboLights
+Bluesky: @metabolights.bsky.social
+ 
+EMBL-EBI, Wellcome Trust Genome Campus, Hinxton, Cambridgeshire, CB10 1SD, UK
