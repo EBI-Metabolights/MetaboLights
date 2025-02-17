@@ -1320,11 +1320,11 @@ public class StudyController extends BasicController{
                     //Study study = getStudyDAO().getStudy(studyIdentifier,user.getApiToken());
                     boolean userOwnstudy = doesUserOwnsTheStudy(user.getUserName(), study);
 
-                    if (userOwnstudy && study.getStudyStatus() == Study.StudyStatus.SUBMITTED){
+                    if (userOwnstudy && study.getStudyStatus() == Study.StudyStatus.PROVISIONAL){
                         restResponse.setContent( "{ \"read\" : true, \"write\": true" + add_study_info + " }"  );
                         return restResponse;
 
-                    } else if(userOwnstudy && study.getStudyStatus() != Study.StudyStatus.SUBMITTED){
+                    } else if(userOwnstudy && study.getStudyStatus() != Study.StudyStatus.PROVISIONAL){
                         restResponse.setContent( "{ \"read\" : true, \"write\": false" + add_study_info + " }" );
                         return restResponse;
 

@@ -186,13 +186,13 @@ public class SecurityService {
 			return user;
 
 
-		} else if (study.getStudyStatus() == LiteStudy.StudyStatus.SUBMITTED) {
+		} else if (study.getStudyStatus() == LiteStudy.StudyStatus.PROVISIONAL) {
 
 			// If status is passed, user changing the status
 			if (newStatus != null) {
 
 				// User only can request a change to ONCURATION
-				if (newStatus == LiteStudy.StudyStatus.INCURATION) {
+				if (newStatus == LiteStudy.StudyStatus.PROVISIONAL) {
 					return user;
 				}
 
@@ -203,7 +203,7 @@ public class SecurityService {
 			}
 		}
 
-		// Else...not a curator and study not SUBMITTED.
+		// Else...not a curator and study not PROVISIONAL.
 		throwSecurityException(studyIdentifier + " study can't be updated when the status is " + study.getStudyStatus().name());
 
 		return null;

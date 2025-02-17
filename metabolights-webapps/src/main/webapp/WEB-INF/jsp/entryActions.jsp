@@ -7,7 +7,7 @@
 </c:if>
 
 <%--If the study is public it will be readonly--%>
-<c:if test="${study.studyStatus  != 'SUBMITTED'}">
+<c:if test="${study.studyStatus  != 'PROVISIONAL'}">
     <c:set var="readOnly" value="true"/>
 </c:if>
 
@@ -22,33 +22,27 @@
         <ul>
             <li><a href="#">Actions</a>
                 <ul>
-                    <c:if test="${(study.studyStatus == 'SUBMITTED') || curator}">
+                    <c:if test="${(study.studyStatus == 'PROVISIONAL') || curator}">
                         <c:if test="${(study.studyStatus != 'PUBLIC')}">
                             <li><a href="updatepublicreleasedateform?study=${study.studyIdentifier}">change release date</a></li>
                         </c:if>
                         <li><a href="updatestudyform?study=${study.studyIdentifier}">update study</a></li>
                         <li><a href="#">change status to ..</a>
                             <ul>
-                                <c:if test="${curator && (study.studyStatus != 'SUBMITTED')}">
-                                <li><a href="updatestatus?study=${study.studyIdentifier}&newStatus=SUBMITTED" confirmationText="Are you sure you want to change the status back to Submitted?" onclick="return confirmAction(this);">submitted</a></li>
+                                <c:if test="${curator && (study.studyStatus != 'PROVISIONAL')}">
+                                <li><a href="updatestatus?study=${study.studyIdentifier}&newStatus=PROVISIONAL" confirmationText="Are you sure you want to change the status back to Provisional?" onclick="return confirmAction(this);">provisional</a></li>
                                 </c:if>
-                                <%--<c:if test="${(study.studyStatus == 'SUBMITTED') || (curator && (study.studyStatus != 'INCURATION'))}">--%>
 
-                                    <%--<li><a href="updatestatus?study=${study.studyIdentifier}&newStatus=INCURATION" confirmationText="Are you sure you want to send the study to curation?" onclick="return confirmAction(this);">in curation</a></li>--%>
-                                <%--</c:if>--%>
-                                 <%--<c:if test="${(st  udy.studyStatus == 'SUBMITTED') || (curator && (study.studyStatus != 'INCURATION'))}">--%>
-                                    <%--<li><a href="updatestatus?study=${study.studyIdentifier}&newStatus=INCURATION" confirmationText="Are you sure you want to send the study to curation?" onclick="return confirmAction(this);">in curation</a></li>--%>
-                                <%--</c:if>--%>
-                                <c:if test="${(study.studyStatus == 'SUBMITTED' || (curator && (study.studyStatus != 'INCURATION')))}">
+                                <c:if test="${(study.studyStatus == 'PROVISIONAL' || (curator && (study.studyStatus != 'PRIVATE')))}">
                                     <c:if test="${(study.validations.passedMinimumRequirement == 'TRUE')}">
-                                        <li><a href="updatestatus?study=${study.studyIdentifier}&newStatus=INCURATION" confirmationText="Are you sure you want to send the study to curation?" onclick="return confirmAction(this);">in curation</a></li>
+                                        <li><a href="updatestatus?study=${study.studyIdentifier}&newStatus=PRIVATE" confirmationText="Are you sure you want to send the study to private?" onclick="return confirmAction(this);">private</a></li>
                                     </c:if>
                                     <c:if test="${(study.validations.passedMinimumRequirement == 'FALSE')}">
                                         <c:if test="${(!curator)}">
                                             <li><a confirmationText="Please make sure the study has all the required info" onclick="return warnAction(this);">in curation</a></li>
                                         </c:if>
                                         <c:if test="${(curator)}">
-                                            <li><a href="updatestatus?study=${study.studyIdentifier}&newStatus=INCURATION" confirmationText="Please make sure the study has all the required info" onclick="return warnAndProceedAction(this);">in curation</a></li>
+                                            <li><a href="updatestatus?study=${study.studyIdentifier}&newStatus=PRIVATE" confirmationText="Please make sure the study has all the required info" onclick="return warnAndProceedAction(this);">private</a></li>
                                         </c:if>
                                     </c:if>
                                 </c:if>

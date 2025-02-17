@@ -7,7 +7,7 @@
 </c:if>
 
 <%--If the study is public it will be readonly--%>
-<c:if test="${study.studyStatus  != 'SUBMITTED'}">
+<c:if test="${study.studyStatus  != 'PROVISIONAL'}">
     <c:set var="readOnly" value="true"/>
 </c:if>
 
@@ -23,44 +23,11 @@
             <i class="fa fa-cogs"></i> Actions <span class="caret"></span>
         </button>&nbsp;
         <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-            <c:if test="${(study.studyStatus == 'SUBMITTED') || curator}">
+            <c:if test="${(study.studyStatus == 'PROVISIONAL') || curator}">
                 <c:if test="${(study.studyStatus != 'PUBLIC')}">
                     <li><a href="${pageContext.request.contextPath}/updatepublicreleasedateform?study=${study.studyIdentifier}">change release date</a></li>
                 </c:if>
                 <li><a href="${pageContext.request.contextPath}/updatestudyform?study=${study.studyIdentifier}">Update study</a></li>
-<%--                <li class="dropdown-submenu"><a href="#" tabindex="-1">Change status</a>--%>
-<%--                    <ul class="nbr dropdown-menu">--%>
-<%--                        <c:if test="${curator && (study.studyStatus != 'SUBMITTED')}">--%>
-<%--                            <li><a data-href="${pageContext.request.contextPath}/updatestatus?study=${study.studyIdentifier}&newStatus=SUBMITTED" data-title="Confirmation" data-info="Are you sure you want to change the status back to Submitted?" data-toggle="modal" data-target="#confirm-modal" data-class="btn-danger" data-value="Change-status">Submitted</a></li>--%>
-<%--                        </c:if>--%>
-<%--                            &lt;%&ndash;<c:if test="${(study.studyStatus == 'SUBMITTED') || (curator && (study.studyStatus != 'INCURATION'))}">&ndash;%&gt;--%>
-
-<%--                            &lt;%&ndash;<li><a href="updatestatus?study=${study.studyIdentifier}&newStatus=INCURATION" confirmationText="Are you sure you want to send the study to curation?" onclick="return confirmAction(this);">in curation</a></li>&ndash;%&gt;--%>
-<%--                            &lt;%&ndash;</c:if>&ndash;%&gt;--%>
-<%--                            &lt;%&ndash;<c:if test="${(st  udy.studyStatus == 'SUBMITTED') || (curator && (study.studyStatus != 'INCURATION'))}">&ndash;%&gt;--%>
-<%--                            &lt;%&ndash;<li><a href="updatestatus?study=${study.studyIdentifier}&newStatus=INCURATION" confirmationText="Are you sure you want to send the study to curation?" onclick="return confirmAction(this);">in curation</a></li>&ndash;%&gt;--%>
-<%--                            &lt;%&ndash;</c:if>&ndash;%&gt;--%>
-<%--                        <c:if test="${(study.studyStatus == 'SUBMITTED' || (curator && (study.studyStatus != 'INCURATION')))}">--%>
-<%--                            <c:if test="${(study.validations.passedMinimumRequirement == 'TRUE')}">--%>
-<%--                                <li><a data-href="${pageContext.request.contextPath}/updatestatus?study=${study.studyIdentifier}&newStatus=INCURATION" data-title="Confirmation" data-info="Are you sure you want to send the study to curation?" data-toggle="modal" data-target="#confirm-modal" data-class="btn-danger" data-value="Change-status">In curation</a></li>--%>
-<%--                            </c:if>--%>
-<%--                            <c:if test="${(study.validations.passedMinimumRequirement == 'FALSE')}">--%>
-<%--                                <c:if test="${(!curator)}">--%>
-<%--                                    <li><a confirmationText="Please make sure the study has all the required info" onclick="return warnAction(this);">In curation</a></li>--%>
-<%--                                </c:if>--%>
-<%--                                <c:if test="${(curator)}">--%>
-<%--                                    <li><a data-href="${pageContext.request.contextPath}/updatestatus?study=${study.studyIdentifier}&newStatus=INCURATION" data-title="Confirm and Proceed" data-info="Please make sure the study has all the required info" data-toggle="modal" data-target="#confirm-modal" data-class="btn-danger" data-value="Change-status">In curation</a></li>--%>
-<%--                                </c:if>--%>
-<%--                            </c:if>--%>
-<%--                        </c:if>--%>
-<%--                        <c:if test="${curator && (study.studyStatus != 'INREVIEW')}">--%>
-<%--                            <li><a data-href="${pageContext.request.contextPath}/updatestatus?study=${study.studyIdentifier}&newStatus=INREVIEW" data-title="Confirmation" data-info="Is the study ready to be reviewed?" data-toggle="modal" data-target="#confirm-modal" data-class="btn-danger" data-value="Change-status">In review</a></li>--%>
-<%--                        </c:if>--%>
-<%--                        <c:if test="${curator && (study.studyStatus != 'PUBLIC')}">--%>
-<%--                            <li><a data-href="${pageContext.request.contextPath}/updatestatus?study=${study.studyIdentifier}&newStatus=PUBLIC" data-title="Confirmation" data-info="This will make the study Publicly available to anyone. Are you sure?" data-toggle="modal" data-target="#confirm-modal" data-class="btn-danger" data-value="Make study public">Public</a></li>--%>
-<%--                        </c:if>--%>
-<%--                    </ul>--%>
-<%--                </li>--%>
             </c:if>
             <c:if test="${curator}">
                 <li><a data-href="${pageContext.request.contextPath}/deleteStudy?study=${study.studyIdentifier}" data-info="This will delete the study from the system, no way back!." data-toggle="modal" data-target="#confirm-modal" data-class="btn-danger" data-value="Delete study Anyway">Delete</a></li>

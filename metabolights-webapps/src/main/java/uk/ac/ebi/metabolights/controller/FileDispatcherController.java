@@ -357,7 +357,7 @@ public class FileDispatcherController extends AbstractController {
     // If user has no permission throws an exception...
     private File getPathForFileAndCheckAccess (String studyId, String obfuscationCode, String fileName){
 
-        // Get where the file is (either PUBLIC or SUBMITTED)
+        // Get where the file is (either PUBLIC or PROVISIONAL)
         String pathS = getPathForFile(studyId,fileName);
 
         // Check if it exists
@@ -365,7 +365,7 @@ public class FileDispatcherController extends AbstractController {
 
         // if it exists
         // Actually, we could get the study from the database to check the status.
-        // With this approach we are assuming that the files are properly placed based on the study status (SUBMITTED/PUBLIC)
+        // With this approach we are assuming that the files are properly placed based on the study status (PROVISIONAL/PUBLIC)
         if (file.exists()){
 
             // Check the user has privileges to access the file

@@ -233,7 +233,6 @@ public class StudyDAO {
         study.setStudyIdentifier(newStudyIdentifier);
         study.setStudyPublicReleaseDate(publicReleaseDate);
         study.setStudySubmissionDate(new Date());
-        // Status should be SUBMITTED by default.
         // Add the user
         study.getUsers().add(user);
 
@@ -413,12 +412,12 @@ public class StudyDAO {
         }
 
         // Change the status
-        // Change to inCuration, based on the study validation.
-//        if (newStatus == LiteStudy.StudyStatus.INCURATION) {
+        // Change to Private, based on the study validation.
+//        if (newStatus == LiteStudy.StudyStatus.PRIVATE) {
 //            if (!user.isCurator() && study.getValidations().getStatus() != Status.GREEN) {
 //        if (!user.isCurator() && !study.getValidations().isPassedMinimumRequirement()) {
-//                logger.warn("The study is not valid and you don't have enough privileges to change the status to inCuration");
-//                throw new DAOException("The study is not valid and you don't have enough privileges to change the status to inCuration");
+//                logger.warn("The study is not valid and you don't have enough privileges to change the status to PRIVATE");
+//                throw new DAOException("The study is not valid and you don't have enough privileges to change the status to PRIVATE");
 //            }
 //        }
 //

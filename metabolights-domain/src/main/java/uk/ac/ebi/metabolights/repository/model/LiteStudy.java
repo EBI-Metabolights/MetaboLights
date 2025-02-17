@@ -54,8 +54,8 @@ import java.util.List;
 public class LiteStudy extends Entity {
 
     public enum StudyStatus {
-        SUBMITTED("Submitted", "The study is private to you only. You are able to make any changes, including deletion of the study. This submission will have to pass our initial automated validation checks before we can start our curation."),
-        INCURATION("In curation", "At this stage you cannot make any changes. Be advised that further information may be required, and we may contact you to obtain this"),
+        PROVISIONAL("Provisional", "The study is private to you only. You are able to make any changes, including deletion of the study. This submission will have to pass our initial automated validation checks before we can start our curation."),
+        PRIVATE("Private", "At this stage you cannot make any changes. Be advised that further information may be required, and we may contact you to obtain this"),
         INREVIEW("In review", "Approved by our curation team. Ready to be shared with journals and reviewers."),
         PUBLIC("Public", "Anyone can view and download your study. It is searchable and will be exported to other search engines, such as http://metabolomexchange.org/"),
         DORMANT("Dormant","Deletion has been requested for this study, or the study has been abandoned by the submitter");
@@ -85,7 +85,7 @@ public class LiteStudy extends Entity {
     private String studyDescription;
 
     // Database fields
-    private Study.StudyStatus studyStatus = Study.StudyStatus.SUBMITTED;
+    private Study.StudyStatus studyStatus = Study.StudyStatus.PROVISIONAL;
 
     // Dates
     private Date studyPublicReleaseDate;
