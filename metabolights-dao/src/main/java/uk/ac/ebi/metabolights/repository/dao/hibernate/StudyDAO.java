@@ -131,7 +131,7 @@ public class StudyDAO extends DAO <Study,StudyData>{
     public List<String> getPrivateStudyListForUser(String userToken) throws DAOException {
 
         String query = "select distinct study.acc from " + StudyData.class.getSimpleName() + " study" +
-                " left join study.users user where study.status= " + Study.StudyStatus.SUBMITTED.ordinal() + " AND user.apiToken=:apiToken ";
+                " left join study.users user where study.status= " + Study.StudyStatus.PROVISIONAL.ordinal() + " AND user.apiToken=:apiToken ";
 
         // Create an empty filter
         Filter filter = new Filter();
@@ -147,7 +147,7 @@ public class StudyDAO extends DAO <Study,StudyData>{
 //    public Map<String,String> getPrivateDetailedStudyListForUser(String userToken) throws DAOException {
 //
 //        String query = "select distinct study.acc, study.studyPublicReleaseDate from " + StudyData.class.getSimpleName() + " study" +
-//                " left join study.users user where study.status= " + Study.StudyStatus.SUBMITTED.ordinal() + " AND user.apiToken=:apiToken ";
+//                " left join study.users user where study.status= " + Study.StudyStatus.PROVISIONAL.ordinal() + " AND user.apiToken=:apiToken ";
 //
 //        // Create an empty filter
 //        Filter filter = new Filter();

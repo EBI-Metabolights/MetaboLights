@@ -94,18 +94,18 @@ public class StudyDAOTest extends DAOTest {
 		// Add inconsistent (wrong isatab files or empty)
 		inconsistent = new StudyData();
 		inconsistent.setAcc("inconsistent");
-		inconsistent.setStatus(Study.StudyStatus.SUBMITTED.ordinal());
+		inconsistent.setStatus(Study.StudyStatus.PROVISIONAL.ordinal());
 
 
 		// Add MTBLS3 to the database
 		privateStudy = new StudyData();
 		privateStudy.setAcc("MTBLS3");
-		privateStudy.setStatus(Study.StudyStatus.SUBMITTED.ordinal());
+		privateStudy.setStatus(Study.StudyStatus.PROVISIONAL.ordinal());
 
 		// Add MTBLS2 to the database
 		StudyData curatorsStudy = new StudyData();
 		curatorsStudy.setAcc("MTBLS5");
-		curatorsStudy.setStatus(Study.StudyStatus.SUBMITTED.ordinal());
+		curatorsStudy.setStatus(Study.StudyStatus.PROVISIONAL.ordinal());
 
 		// Get users: curator and owner and not owner (persisted already)
 		curator = UserDataTest.addUserToDB(AppRole.ROLE_SUPER_USER);
@@ -271,30 +271,30 @@ public class StudyDAOTest extends DAOTest {
 		// Get the full study
 		Study study = studyDAO.getStudy(inconsistent.getAcc(), owner.getApiToken());
 
-		assertEquals("Default status of a study must be submitted", LiteStudy.StudyStatus.SUBMITTED, study.getStudyStatus());
+		assertEquals("Default status of a study must be provisional", LiteStudy.StudyStatus.PROVISIONAL, study.getStudyStatus());
 
 		// Change the statuses as owner
-		Study savedStudy = updateStatus(study, owner, LiteStudy.StudyStatus.INCURATION, false);
+		Study savedStudy = updateStatus(study, owner, LiteStudy.StudyStatus.PRIVATE, false);
 		updateStatus(study, owner, LiteStudy.StudyStatus.INREVIEW, true);
 		updateStatus(study, owner, LiteStudy.StudyStatus.PUBLIC, true);
 
-		updateStatus(study, notOwner, LiteStudy.StudyStatus.SUBMITTED, true);
-		updateStatus(study, notOwner, LiteStudy.StudyStatus.INCURATION, true);
+		updateStatus(study, notOwner, LiteStudy.StudyStatus.PROVISIONAL, true);
+		updateStatus(study, notOwner, LiteStudy.StudyStatus.PRIVATE, true);
 		updateStatus(study, notOwner, LiteStudy.StudyStatus.INREVIEW, true);
 		updateStatus(study, notOwner, LiteStudy.StudyStatus.PUBLIC, true);
 		assertFalse("Public release date has been changed", DateUtils.isSameDay(new Date(), savedStudy.getStudyPublicReleaseDate()));
 
 		// Change the status as curator
-		updateStatus(study, curator, LiteStudy.StudyStatus.INCURATION, false);
+		updateStatus(study, curator, LiteStudy.StudyStatus.PRIVATE, false);
 
 		// Change the statuses as owner, shouldn't be allowed.
-		updateStatus(study, owner, LiteStudy.StudyStatus.SUBMITTED, true);
-		updateStatus(study, owner, LiteStudy.StudyStatus.INCURATION, true);
+		updateStatus(study, owner, LiteStudy.StudyStatus.PROVISIONAL, true);
+		updateStatus(study, owner, LiteStudy.StudyStatus.PRIVATE, true);
 		updateStatus(study, owner, LiteStudy.StudyStatus.INREVIEW, true);
 		updateStatus(study, owner, LiteStudy.StudyStatus.PUBLIC, true);
 
-		updateStatus(study, notOwner, LiteStudy.StudyStatus.SUBMITTED, true);
-		updateStatus(study, notOwner, LiteStudy.StudyStatus.INCURATION, true);
+		updateStatus(study, notOwner, LiteStudy.StudyStatus.PROVISIONAL, true);
+		updateStatus(study, notOwner, LiteStudy.StudyStatus.PRIVATE, true);
 		updateStatus(study, notOwner, LiteStudy.StudyStatus.INREVIEW, true);
 		updateStatus(study, notOwner, LiteStudy.StudyStatus.PUBLIC, true);
 		assertFalse("Public release date has been changed", DateUtils.isSameDay(new Date(), savedStudy.getStudyPublicReleaseDate()));
@@ -302,13 +302,13 @@ public class StudyDAOTest extends DAOTest {
 
 		updateStatus(study, curator, LiteStudy.StudyStatus.INREVIEW, false);
 		// Change the statuses as owner, shouldn't be allowed.
-		updateStatus(study, owner, LiteStudy.StudyStatus.SUBMITTED, true);
-		updateStatus(study, owner, LiteStudy.StudyStatus.INCURATION, true);
+		updateStatus(study, owner, LiteStudy.StudyStatus.PROVISIONAL, true);
+		updateStatus(study, owner, LiteStudy.StudyStatus.PRIVATE, true);
 		updateStatus(study, owner, LiteStudy.StudyStatus.INREVIEW, true);
 		updateStatus(study, owner, LiteStudy.StudyStatus.PUBLIC, true);
 
-		updateStatus(study, notOwner, LiteStudy.StudyStatus.SUBMITTED, true);
-		updateStatus(study, notOwner, LiteStudy.StudyStatus.INCURATION, true);
+		updateStatus(study, notOwner, LiteStudy.StudyStatus.PROVISIONAL, true);
+		updateStatus(study, notOwner, LiteStudy.StudyStatus.PRIVATE, true);
 		updateStatus(study, notOwner, LiteStudy.StudyStatus.INREVIEW, true);
 		updateStatus(study, notOwner, LiteStudy.StudyStatus.PUBLIC, true);
 
@@ -321,27 +321,27 @@ public class StudyDAOTest extends DAOTest {
 		assertTrue("Public release date not updated when changing study to public", DateUtils.isSameDay(new Date(), savedStudy.getStudyPublicReleaseDate()));
 
 		// Change the statuses as owner, shouldn't be allowed.
-		updateStatus(study, owner, LiteStudy.StudyStatus.SUBMITTED, true);
-		updateStatus(study, owner, LiteStudy.StudyStatus.INCURATION, true);
+		updateStatus(study, owner, LiteStudy.StudyStatus.PROVISIONAL, true);
+		updateStatus(study, owner, LiteStudy.StudyStatus.PRIVATE, true);
 		updateStatus(study, owner, LiteStudy.StudyStatus.INREVIEW, true);
 		updateStatus(study, owner, LiteStudy.StudyStatus.PUBLIC, true);
 
-		updateStatus(study, notOwner, LiteStudy.StudyStatus.SUBMITTED, true);
-		updateStatus(study, notOwner, LiteStudy.StudyStatus.INCURATION, true);
+		updateStatus(study, notOwner, LiteStudy.StudyStatus.PROVISIONAL, true);
+		updateStatus(study, notOwner, LiteStudy.StudyStatus.PRIVATE, true);
 		updateStatus(study, notOwner, LiteStudy.StudyStatus.INREVIEW, true);
 		updateStatus(study, notOwner, LiteStudy.StudyStatus.PUBLIC, true);
 
 
 		// Make study Private again
-		updateStatus(study, curator, LiteStudy.StudyStatus.SUBMITTED, false);
+		updateStatus(study, curator, LiteStudy.StudyStatus.PROVISIONAL, false);
 
 		// Change the release date to yesterday
 		studyDAO.updateReleaseDate(inconsistent.getAcc(), new Date(new Date().getTime()-DateUtils.MILLIS_PER_DAY),owner.getApiToken());
 
-		// Make study INCURATION again
-		savedStudy = updateStatus(study, owner, LiteStudy.StudyStatus.INCURATION, false);
+		// Make study PRIVATE again
+		savedStudy = updateStatus(study, owner, LiteStudy.StudyStatus.PRIVATE, false);
 
-		assertFalse("Public release date updated when changing study to INCURATION and date has passed", DateUtils.isSameDay(new Date(), savedStudy.getStudyPublicReleaseDate()));
+		assertFalse("Public release date updated when changing study to PRIVATE and date has passed", DateUtils.isSameDay(new Date(), savedStudy.getStudyPublicReleaseDate()));
 
 		// Make study READY again this should change de public release date to today and the status to public
 		updateStatus(savedStudy, curator, LiteStudy.StudyStatus.INREVIEW, false);

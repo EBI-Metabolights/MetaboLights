@@ -219,10 +219,10 @@ public class EmailService {
 	private String getMessageForStatusChange(Study study) {
 
 		switch (study.getStudyStatus()) {
-			case SUBMITTED:
-				return PropertyLookUpService.getMessage("mail.status.body.private", study.getStudyStatus().name(), study.getStudyIdentifier(), LiteStudy.StudyStatus.INCURATION.name());
-			case INCURATION:
-				return PropertyLookUpService.getMessage("mail.status.body.incuration", study.getStudyStatus().name(), study.getStudyIdentifier());
+			case PROVISIONAL:
+				return PropertyLookUpService.getMessage("mail.status.body.provisional", study.getStudyStatus().name(), study.getStudyIdentifier(), LiteStudy.StudyStatus.PRIVATE.name());
+			case PRIVATE:
+				return PropertyLookUpService.getMessage("mail.status.body.private", study.getStudyStatus().name(), study.getStudyIdentifier());
 			case INREVIEW:
 				return PropertyLookUpService.getMessage("mail.status.body.inreview", study.getStudyStatus().name(), study.getStudyIdentifier(), prodURL + REVIEWER_URL_PREFIX + study.getObfuscationCode(), prodURL + study.getStudyIdentifier(), curationEmailAddress );
 			case PUBLIC:
