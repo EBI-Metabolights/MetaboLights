@@ -162,6 +162,7 @@
                                 <li><a href="${pageContext.request.contextPath}/guides">Help</a></li>
                                 <li><a href="${pageContext.request.contextPath}/contact">Give us feedback</a></li>
                                 <li><a href="${pageContext.request.contextPath}/about">About</a></li>
+                                <li><a href="${pageContext.request.contextPath}/editor/datapolicy">Data Policy</a></li>
                                     </ul>
                                 <ul class="nav navbar-nav cnav navbar-right">
                                     <li><a href="${pageContext.request.contextPath}/editor">Submit Study</a></li>
