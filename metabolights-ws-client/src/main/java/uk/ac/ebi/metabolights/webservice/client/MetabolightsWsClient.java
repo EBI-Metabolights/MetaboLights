@@ -98,7 +98,7 @@ public class MetabolightsWsClient {
     private static final Logger logger = LoggerFactory.getLogger(MetabolightsWsClient.class);
 
     private static final String ANONYMOUS = "JAVA_WS_client_Anonymous";
-    private static final String DEAFULT_TOKEN_HEADER = "user_token";
+    private static final String DEAFULT_TOKEN_HEADER = "user-token";
     public static final String OBFUSCATIONCODE_PATH = "obfuscationcode/";
     private static final String INDEXING_PATH = "index/";
     public static final String SECURITY_PATH = "security/";
