@@ -3,7 +3,7 @@
 <div id="elixir-banner" data-color="grey" data-name="This service" data-description="MetaboLights is an ELIXIR Recommended Deposition Database" data-more-information-link="https://www.elixir-europe.org/about-us/who-we-are/nodes/embl-ebi" data-use-basic-styles="true"></div>
 <script defer="defer" src="https://ebi.emblstatic.net/web_guidelines/EBI-Framework/v1.3/js/elixirBanner.js"></script>
 <div id="data-protection-message-configuration"
-     data-message='This website requires cookies, and the limited processing of your personal data in order to function. By using the site you are agreeing to this as outlined in our <a target="_blank" href="https://www.ebi.ac.uk/data-protection/privacy-notice/metaboflow" class="white-color">Privacy Notice</a>.'
+     data-message='This website requires cookies, and the limited processing of your personal data in order to function. By using the site you are agreeing to this as outlined in our <a target="_blank" href="https://www.ebi.ac.uk/data-protection/privacy-notice/embl-ebi-public-website/" class="white-color">Privacy Notice</a>.'
      data-service-id="MetaboFlow" data-data-protection-version="0.1"></div>
 <script>
     var localFrameworkVersion = 'other';
