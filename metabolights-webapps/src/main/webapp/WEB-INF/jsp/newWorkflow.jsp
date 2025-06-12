@@ -86,16 +86,17 @@
         <div class="text-center">
             <img src="${pageContext.request.contextPath}/img/Curation Status with border.png" class="img-responsive center-block" alt="Curation Status Diagram" />
         </div>
-
+        <br>
         <p><b>MetaboLights curation will be retained in certain cases.</b></p>
         <br>
         <h4>'In Curation' Studies</h4>
         <p>Current studies with the status ‘In Curation’ will now have the status <b>’PRIVATE’</b> under the new workflow. </p>
+        <br>
         <p>For those submitters who wish to make their studies <b>’PUBLIC’</b>, please:</p>
         <br>
 
         <!-- Fourth change: numbered list -->
-        <ol>
+        <ol style="padding-left: 20px; margin-left: 0;">
             <li>Change status to ’PROVISIONAL’ (drop down menu in the status bar at the top of your study).</li>
             <li>Run new Study Validations and address errors, until validation is successful.</li>
             <li>Change status to ’PRIVATE’ (i.e. keep private until publication is out) or ’PUBLIC’ (for immediate release).</li>
