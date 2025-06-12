@@ -253,7 +253,7 @@
 
     <definition name="newWorkflow" extends="default">
         <put-attribute name="title" value="New Submission Workflow"/>
-        <put-attribute name="body" value="WEB-INF/jsp/newWorkflow.jsp"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/newWorkflow.jsp"/>
     </definition>
 
     <definition name="advisoryboard" extends="default">
