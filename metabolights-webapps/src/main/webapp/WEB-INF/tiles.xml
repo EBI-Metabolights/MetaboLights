@@ -251,6 +251,11 @@
         <put-attribute name="body" value="/WEB-INF/jsp/newAccessions.jsp"/>
     </definition>
 
+    <definition name="newWorkflow" extends="default">
+        <put-attribute name="title" value="New Submission Workflow"/>
+        <put-attribute name="body" value="WEB-INF/jsp/newWorkflow.jsp"/>
+    </definition>
+
     <definition name="advisoryboard" extends="default">
         <put-attribute name="title" value="MetaboLights Strategic Advisory Board"/>
         <put-attribute name="body" value="/WEB-INF/jsp/advisoryboard.jsp"/>

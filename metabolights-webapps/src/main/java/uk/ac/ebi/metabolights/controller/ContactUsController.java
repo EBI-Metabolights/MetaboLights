@@ -66,6 +66,11 @@ public class ContactUsController extends AbstractController{
 
     }
 
+    @RequestMapping(value = "/newWorkflow")
+    public ModelAndView newWorkflow() {
+        return AppContext.getMAVFactory().getFrontierMav("newWorkflow");
+    }
+
     @RequestMapping(value = "/acknowledgements")
     public ModelAndView acknowledgements() {
         return AppContext.getMAVFactory().getFrontierMav("acknowledgements");
