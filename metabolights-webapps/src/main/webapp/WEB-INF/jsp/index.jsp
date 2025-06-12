@@ -93,7 +93,9 @@
                     <a class="more" target="_blank" href="newWorkflow">For more information click here</a>
                 </p>
                 <div>&nbsp;</div>
-                <h3 class="metabolights-logo-orange">Data Submission Updates</h3>
+                <hr style="border-top: 1px solid #ccc; margin: 10px 0;">
+
+                <h3 class="metabolights-logo-orange">Data Submission Updates I - January 2025</h3>
                 <p>Starting January 2025, MetaboLights has introduced two new functionalities that mark a major change in how we handle the volume and quality of submissions.</p>
                 <br>
                 <p><b>New Accessioning:</b> MetaboLights will first issue a temporary submission request (i.e. REQxxx) instead of the traditional MetaboLights study accession number (i.e. MTBLSxxx). A full MetaboLights accession number will be assigned only once a study passes new validation - Validation Framework v2 (and status promoted to ‘Private).</p>
