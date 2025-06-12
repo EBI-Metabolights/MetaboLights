@@ -84,7 +84,7 @@
 
         <!-- Third change: centred image -->
         <div class="text-center">
-            <img src="${pageContext.request.contextPath}/img/Curation Status.png" class="img-responsive center-block" alt="Curation Status Diagram" />
+            <img src="${pageContext.request.contextPath}/img/Curation Status with border.png" class="img-responsive center-block" alt="Curation Status Diagram" />
         </div>
 
         <p><b>MetaboLights curation will be retained in certain cases.</b></p>
