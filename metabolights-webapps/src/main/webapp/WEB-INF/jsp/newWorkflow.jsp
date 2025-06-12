@@ -29,6 +29,7 @@
 
         <h4 class="modal-title">New Submission Workflow</h4>
         <p>The previous 4 stages in the study submission process have now been simplified to a more streamlined 3 stage process:  </p>
+        <br>
 
         <!-- First change: two-column image layout -->
         <div class="row">
@@ -41,8 +42,9 @@
         </div>
 
         <br>
-        <p>Main changes in the study status labels:</p>
 
+        <p>Main changes in the study status labels:</p>
+    <br>
         <!-- Second change: 3-column, 5-row table -->
         <table class="table table-bordered table-striped">
             <thead>
@@ -78,6 +80,7 @@
 
         <br>
         <p>Going forward, Curation Status in MetaboLights will be as follows: </p>
+        <br>
 
         <!-- Third change: centred image -->
         <div class="text-center">
@@ -85,9 +88,11 @@
         </div>
 
         <p><b>MetaboLights curation will be retained in certain cases.</b></p>
+        <br>
         <h4>'In Curation' Studies</h4>
         <p>Current studies with the status ‘In Curation’ will now have the status <b>’PRIVATE’</b> under the new workflow. </p>
         <p>For those submitters who wish to make their studies <b>’PUBLIC’</b>, please:</p>
+        <br>
 
         <!-- Fourth change: numbered list -->
         <ol>

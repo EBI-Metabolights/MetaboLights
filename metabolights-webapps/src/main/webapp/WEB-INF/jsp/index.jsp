@@ -80,12 +80,12 @@
     <div class="col-md-9">
         <div class="panel panel-default nbr">
             <div class="panel-body grey">
-                <h3 class="metabolights-logo-orange">Data Submission Updates II June 2025 (NEW SUBMISSION WORKFLOW)</h3>
+                <h3 class="metabolights-logo-orange">Data Submission Updates II - June 2025 (NEW SUBMISSION WORKFLOW)</h3>
                 <p>MetaboLights is committed to improving the data submission process for our users. In January 2025 the team introduced the <b>New Accessioning</b> and <b>Validation Framework v2</b>, aimed to improve the way we handle the volume and quality of submissions.</p>
                 <br>
                 <p>Starting June 12, the following new changes are now introduced.</p>
                 <br>
-                <p><b>New Submission Workflow</b> Once a study passes Validation Framework v2, submitters will be required to change the status of their studies from ‘<b>PROVISIONAL</b>’ to ‘<b>PRIVATE</b>’ (previously from ‘Submitted’ to ‘In Curation’).</p>
+                <p><b>New Submission Workflow:</b> Once a study passes Validation Framework v2, submitters will be required to change the status of their studies from ‘<b>PROVISIONAL</b>’ to ‘<b>PRIVATE</b>’ (previously from ‘Submitted’ to ‘In Curation’).</p>
                 <br>
                 <p>As a major update, submitters will be able to change the status of their studies from ‘<b>PRIVATE</b>’ to ‘<b>PUBLIC</b>’ without needing to contact MetaboLights or undergo MetaboLights curation.</p>
                 <br>
@@ -94,6 +94,7 @@
                 </p>
                 <div>&nbsp;</div>
                 <hr style="border-top: 1px solid #ccc; margin: 10px 0;">
+                <br>
 
                 <h3 class="metabolights-logo-orange">Data Submission Updates I - January 2025</h3>
                 <p>Starting January 2025, MetaboLights has introduced two new functionalities that mark a major change in how we handle the volume and quality of submissions.</p>
