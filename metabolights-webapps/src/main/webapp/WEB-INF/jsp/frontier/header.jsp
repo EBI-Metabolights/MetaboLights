@@ -85,6 +85,12 @@
         </div>
     </nav>
 </div>
+<div>  
+       <h5 style="color: rgb(111, 95, 200);">&nbsp;We need your help! Has MetaboLights saved you time or effort? 
+        Please take 15 minutes to fill in a survey and help EMBL-EBI make the case 
+        for why open data resources are critical to life science research. 
+        Please Click <a target="_blank" href="https://www.surveymonkey.com/r/QGFMBH8?channel=MetaboLights">here.</a></h5> 
+</div>
 <div  class="masthead-black-bar hidden-lg hidden-md">
     <div class="container">
         <div class="row">
@@ -104,9 +110,10 @@
         </div>
     </div>
 </div>
+
 <div class="ml-header clearfix">
     <div class="container">
-        <div class="ml-header-section-top">
+        <div class="ml-header-section-top" style="margin-top: 6px;">
             <div class="col-md-12">
                 <div class="row">
                     <c:if test="${not empty bannerMessage}">
@@ -140,7 +147,7 @@
                 </div>
             </div>
         </div>
-        <div class="ml-header-section-bottom">
+        <div class="ml-header-section-bottom" style="margin-top: 20px;">
                 <nav class="navbar navbar-dark">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header">
