@@ -77,9 +77,10 @@
     <%--&nbsp;--%>
 <%--</div>--%>
 <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-12">
         <div class="panel panel-default nbr">
             <div class="panel-body grey">
+                <div class="col-md-8">
                 <h3 class="metabolights-logo-orange">Data Submission Updates II - June 2025 (NEW SUBMISSION WORKFLOW)</h3>
                 <p>MetaboLights is committed to improving the data submission process for our users. In January 2025 the team introduced the <b>New Accessioning</b> and <b>Validation Framework v2</b>, aimed to improve the way we handle the volume and quality of submissions.</p>
                 <br>
@@ -88,24 +89,20 @@
                 <p><b>New Submission Workflow:</b> Once a study passes Validation Framework v2, submitters will be required to change the status of their studies from ‘<b>PROVISIONAL</b>’ to ‘<b>PRIVATE</b>’ (previously from ‘Submitted’ to ‘In Curation’).</p>
                 <br>
                 <p>As a major update, submitters will be able to change the status of their studies from ‘<b>PRIVATE</b>’ to ‘<b>PUBLIC</b>’ without needing to contact MetaboLights or undergo MetaboLights curation.</p>
-                <br>
                 <p>
                     <a class="more" target="_blank" href="newWorkflow">For more information click here</a>
                 </p>
+                </div>
                 <div>&nbsp;</div>
-                <hr style="border-top: 1px solid #ccc; margin: 10px 0;">
-                <br>
-
+                <div class="col-md-4">
                 <h3 class="metabolights-logo-orange">Data Submission Updates I - January 2025</h3>
-                <p>Starting January 2025, MetaboLights has introduced two new functionalities that mark a major change in how we handle the volume and quality of submissions.</p>
-                <br>
-                <p><b>New Accessioning:</b> MetaboLights will first issue a temporary submission request (i.e. REQxxx) instead of the traditional MetaboLights study accession number (i.e. MTBLSxxx). A full MetaboLights accession number will be assigned only once a study passes new validation - Validation Framework v2 (and status promoted to ‘Private).</p>
-                <br>
-                <p><b>Validation Framework v2:</b> The MetaboLights team has developed a more structured, stricter ruleset. Studies which pass this version of validation will not only receive the full MetaboLights accession number (e.g. MTBLSxxx) but will instantly receive a private reviewer link and be eligible to go public without MetaboLights curation.</p>
-                <br>
+                <p>Starting January 2025, MetaboLights has introduced two major updates:</p>
+                <p><b>New Accessioning:</b> Submissions initially get a temporary ID (REQxxx). A full accession number (MTBLSxxx) is assigned only after passing the new Validation Framework v2 and reaching ‘Private’ status.</p>
+                <p><b>Validation Framework v2:</b> This stricter system ensures only validated studies receive full accessioning and a reviewer link, allowing them to go public without further curation.</p>
                 <p>
                     <a class="more" target="_blank" href="newAccessions">For more information click here</a>
                 </p>
+                </div>
                 <div>&nbsp;</div>
 
             </div>
@@ -181,16 +178,6 @@
                     </a>
                 </div>
             </div>
-    </div>
-    <div class="col-md-3">
-        <div class="panel nbr panel-default">
-            <div class="panel-body ntbp">
-                <div class="row p1px">
-                    <a class="twitter-timeline"  href="https://twitter.com/MetaboLights" data-widget-id="642268788906422272">Tweets by @MetaboLights</a>
-                    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 <br/>
