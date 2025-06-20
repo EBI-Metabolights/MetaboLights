@@ -80,29 +80,22 @@
     <div class="col-md-12">
         <div class="panel panel-default nbr">
             <div class="panel-body grey">
-                <div class="col-md-8">
-                <h3 class="metabolights-logo-orange">Data Submission Updates II - June 2025 (NEW SUBMISSION WORKFLOW)</h3>
+                <h3 class="metabolights-logo-orange" style="font-size: 1.6em;">Data Submission Updates II - June 2025 (NEW SUBMISSION WORKFLOW)</h3>
                 <p>MetaboLights is committed to improving the data submission process for our users. In January 2025 the team introduced the <b>New Accessioning</b> and <b>Validation Framework v2</b>, aimed to improve the way we handle the volume and quality of submissions.</p>
                 <br>
                 <p>Starting June 12, the following new changes are now introduced.</p>
                 <br>
                 <p><b>New Submission Workflow:</b> Once a study passes Validation Framework v2, submitters will be required to change the status of their studies from ‘<b>PROVISIONAL</b>’ to ‘<b>PRIVATE</b>’ (previously from ‘Submitted’ to ‘In Curation’).</p>
                 <br>
-                <p>As a major update, submitters will be able to change the status of their studies from ‘<b>PRIVATE</b>’ to ‘<b>PUBLIC</b>’ without needing to contact MetaboLights or undergo MetaboLights curation.</p>
-                <p>
-                    <a class="more" target="_blank" href="newWorkflow">For more information click here</a>
-                </p>
-                </div>
-                <div>&nbsp;</div>
-                <div class="col-md-4">
-                <h3 class="metabolights-logo-orange">Data Submission Updates I - January 2025</h3>
+                <p>As a major update, submitters will be able to change the status of their studies from ‘<b>PRIVATE</b>’ to ‘<b>PUBLIC</b>’ without needing to contact MetaboLights or undergo MetaboLights curation. <a class="more" target="_blank" href="newWorkflow">For more information click here</a></p>
+                <hr style="border-top: 1px solid #ccc; margin: 10px 0;">
+                <h3 class="metabolights-logo-orange" style="font-size: 1.8em;">Data Submission Updates I - January 2025</h3>
                 <p>Starting January 2025, MetaboLights has introduced two major updates:</p>
                 <p><b>New Accessioning:</b> Submissions initially get a temporary ID (REQxxx). A full accession number (MTBLSxxx) is assigned only after passing the new Validation Framework v2 and reaching ‘Private’ status.</p>
                 <p><b>Validation Framework v2:</b> This stricter system ensures only validated studies receive full accessioning and a reviewer link, allowing them to go public without further curation.</p>
                 <p>
                     <a class="more" target="_blank" href="newAccessions">For more information click here</a>
                 </p>
-                </div>
                 <div>&nbsp;</div>
 
             </div>
@@ -110,7 +103,7 @@
 
         <div class="panel panel-default nbr">
             <div class="panel-body grey">
-                <h3 class="metabolights-logo">MetaboLights</h3>
+                <h3 class="metabolights-logo" style="font-size: 1.6em;">MetaboLights</h3>
                 <p>MetaboLights is a database for Metabolomics experiments and derived information. The database is cross-species, cross-technique and covers metabolite structures and their reference spectra as well as their biological roles, locations and concentrations, and experimental data from metabolic experiments. MetaboLights is the recommended Metabolomics repository for a number of leading journals.
                     <br>
                     <small><a target="_blank" href="https://www.ebi.ac.uk/about/people/juan-vizcaino">More about us</a></small>
