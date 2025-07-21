@@ -147,7 +147,15 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div style="height: 80px;" class="col-md-6 col-md-offset-3 text-center vc vh100">
+                    <a style="width: 90%; padding: 20px" class="btn btn-lg btn-primary" id="redirectToMyStudiesPage">
+                        &emsp;Submit to MetaboLights&emsp;
+                    </a>
+                </div>
+            </div>
         </div>
+        
 <div class="col-md-12"> 
     <div class="row">
         <div class="vf-content">
@@ -190,7 +198,7 @@
                                          </c:forEach>
                                     </c:when>
                                  </c:choose>
-                                 <div class="vf-summary__text"><a href="https://www.ebi.ac.uk/training/services/metabolights" target="_blank">Click here</a> to see all the tranings.</div>
+                                 <div class="vf-summary__text"><a href="https://www.ebi.ac.uk/training/services/metabolights/live-events" target="_blank">View all live training</a></div>
                             </div>
                         </section>
 
@@ -212,7 +220,7 @@
                                          </c:forEach>
                                     </c:when>
                                  </c:choose>
-                                 <div class="vf-summary__text"><a href="https://www.ebi.ac.uk/training/services/metabolights" target="_blank">Click here</a> for to see all the tranings.</div>
+                                 <div class="vf-summary__text"><a href="https://www.ebi.ac.uk/training/services/metabolights/on-demand" target="_blank">View all on-demand training</a></div>
                             </div>
                         </section>
                     </div>
