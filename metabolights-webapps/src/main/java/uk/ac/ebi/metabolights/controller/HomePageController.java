@@ -30,13 +30,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import uk.ac.ebi.metabolights.model.LiveTraining;
 import uk.ac.ebi.metabolights.model.MetaboLightsParameters;
 import uk.ac.ebi.metabolights.model.MetabolightsUser;
+import uk.ac.ebi.metabolights.model.OdTraining;
 import uk.ac.ebi.metabolights.referencelayer.model.Compound;
 import uk.ac.ebi.metabolights.referencelayer.model.ModelObjectFactory;
 import uk.ac.ebi.metabolights.repository.model.LiteStudy;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.MetaboLightsParametersService;
+import uk.ac.ebi.metabolights.service.TrainingService;
 import uk.ac.ebi.metabolights.webapp.GalleryItem;
 import uk.ac.ebi.metabolights.webapp.GalleryItem.GalleryItemType;
 
@@ -61,6 +65,7 @@ public class HomePageController extends AbstractController{
 	private String galleryItemsIds = null;
     private String galleryParam = "GALLERY_ITEMS";
 	private List<GalleryItem> gallery;
+    TrainingService trainingService = new TrainingService();
 	
 
     /**
@@ -88,11 +93,12 @@ public class HomePageController extends AbstractController{
         if (user != null) {
             mav.addObject("editorToken", user.getApiToken());
         }
-	    
-	    //Add the gallery Items
-//	    mav.addObject("gallery", getGalleryItems());
-	
-	    return mav;
+        
+        List<OdTraining> odlist = trainingService.getOnDemandTraning();
+        mav.addObject("odlist", odlist);
+        List<LiveTraining> livelist = trainingService.getLiveTraning();
+        mav.addObject("livelist", livelist);
+        return mav;
     }
     
     private List<GalleryItem> getGalleryItems(){
