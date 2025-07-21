@@ -80,4 +80,5 @@
         </script>
     </c:if>
     <link rel="stylesheet" type="text/css" href='<spring:url value="/css/ml.css"/>' media="screen" />
+    <link rel="stylesheet" type="text/css" href='<spring:url value="/css/training.css"/>' media="screen" />
 </head>
