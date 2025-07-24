@@ -81,8 +81,6 @@
         <div class="panel panel-default nbr">
             <div class="panel-body grey">
                 <h3 class="metabolights-logo-orange" style="font-size: 1.6em;">Data Submission Updates - NEW SUBMISSION WORKFLOW</h3>
-                <p>MetaboLights is committed to improving the data submission process for our users. In January 2025 the team introduced the <b>New Accessioning</b> and <b>Validation Framework v2</b>, aimed to improve the way we handle the volume and quality of submissions.</p>
-                <br>
                 <p>Starting June 12, the following new changes are now introduced.</p>
                 <br>
                 <p><b>New Submission Workflow:</b> Once a study passes Validation Framework v2, submitters will be required to change the status of their studies from ‘<b>PROVISIONAL</b>’ to ‘<b>PRIVATE</b>’ (previously from ‘Submitted’ to ‘In Curation’).</p>
