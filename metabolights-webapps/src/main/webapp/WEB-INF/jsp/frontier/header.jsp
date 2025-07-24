@@ -85,12 +85,6 @@
         </div>
     </nav>
 </div>
-<div>  
-       <h5 style="color: rgb(111, 95, 200);">&nbsp;We need your help! Has MetaboLights saved you time or effort? 
-        Please take 15 minutes to fill in a survey and help EMBL-EBI make the case 
-        for why open data resources are critical to life science research. 
-        Please Click <a target="_blank" href="https://www.surveymonkey.com/r/QGFMBH8?channel=MetaboLights">here.</a></h5> 
-</div>
 <div  class="masthead-black-bar hidden-lg hidden-md">
     <div class="container">
         <div class="row">
@@ -170,6 +164,7 @@
                                 <li><a href="${pageContext.request.contextPath}/contact">Give us feedback</a></li>
                                 <li><a href="${pageContext.request.contextPath}/about">About</a></li>
                                 <li><a href="${pageContext.request.contextPath}/editor/datapolicy">Data Policy</a></li>
+                                <li><a href="${pageContext.request.contextPath}/training">Training</a></li>
                                     </ul>
                                 <ul class="nav navbar-nav cnav navbar-right">
                                     <li><a href="${pageContext.request.contextPath}/editor">Submit Study</a></li>
@@ -191,7 +186,7 @@
                                         <li><a href="${pageContext.request.contextPath}/contact">Give us feedback</a></li>
                                         <li><a href="${pageContext.request.contextPath}/about">About</a></li>
                                             <li><a href="${pageContext.request.contextPath}/editor/datapolicy">Data Policy</a></li>
-
+                                            <li><a href="${pageContext.request.contextPath}/training">Training</a></li>
                                       </ul>
                                     </li>
                                 </ul>

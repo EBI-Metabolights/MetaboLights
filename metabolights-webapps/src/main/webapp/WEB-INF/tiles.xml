@@ -256,6 +256,11 @@
         <put-attribute name="body" value="/WEB-INF/jsp/newWorkflow.jsp"/>
     </definition>
 
+    <definition name="training" extends="default">
+        <put-attribute name="title" value="Training"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/training.jsp"/>
+    </definition>
+
     <definition name="advisoryboard" extends="default">
         <put-attribute name="title" value="MetaboLights Strategic Advisory Board"/>
         <put-attribute name="body" value="/WEB-INF/jsp/advisoryboard.jsp"/>
