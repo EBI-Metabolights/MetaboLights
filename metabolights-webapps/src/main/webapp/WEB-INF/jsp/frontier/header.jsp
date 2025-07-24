@@ -165,9 +165,9 @@
                                 <li><a href="${pageContext.request.contextPath}/about">About</a></li>
                                 <li><a href="${pageContext.request.contextPath}/editor/datapolicy">Data Policy</a></li>
                                 <li><a href="${pageContext.request.contextPath}/training">Training</a></li>
+                                <li><a href="${pageContext.request.contextPath}/editor">Submit Study</a></li>
                                     </ul>
                                 <ul class="nav navbar-nav cnav navbar-right">
-                                    <li><a href="${pageContext.request.contextPath}/editor">Submit Study</a></li>
                                     <li><a href="${pageContext.request.contextPath}/login">Login</a></li>
                                 </ul>
                             </span>
@@ -187,11 +187,11 @@
                                         <li><a href="${pageContext.request.contextPath}/about">About</a></li>
                                             <li><a href="${pageContext.request.contextPath}/editor/datapolicy">Data Policy</a></li>
                                             <li><a href="${pageContext.request.contextPath}/training">Training</a></li>
+                                            <li><a href="${pageContext.request.contextPath}/editor">Submit Study</a></li>
                                       </ul>
                                     </li>
                                 </ul>
-                                <ul class="nav navbar-nav cnav navbar-right">
-                                    <li><a href="${pageContext.request.contextPath}/editor">Submit Study</a></li>
+                                <ul class="nav navbar-nav cnav navbar-right">        
                                     <li><a href="${pageContext.request.contextPath}/login">Login</a></li>
                                 </ul>
                             </span>
