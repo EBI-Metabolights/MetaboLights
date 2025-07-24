@@ -80,24 +80,16 @@
     <div class="col-md-12">
         <div class="panel panel-default nbr">
             <div class="panel-body grey">
-                <h3 class="metabolights-logo-orange" style="font-size: 1.6em;">Data Submission Updates II - June 2025 (NEW SUBMISSION WORKFLOW)</h3>
+                <h3 class="metabolights-logo-orange" style="font-size: 1.6em;">Data Submission Updates - NEW SUBMISSION WORKFLOW</h3>
                 <p>MetaboLights is committed to improving the data submission process for our users. In January 2025 the team introduced the <b>New Accessioning</b> and <b>Validation Framework v2</b>, aimed to improve the way we handle the volume and quality of submissions.</p>
                 <br>
                 <p>Starting June 12, the following new changes are now introduced.</p>
                 <br>
                 <p><b>New Submission Workflow:</b> Once a study passes Validation Framework v2, submitters will be required to change the status of their studies from ‘<b>PROVISIONAL</b>’ to ‘<b>PRIVATE</b>’ (previously from ‘Submitted’ to ‘In Curation’).</p>
                 <br>
-                <p>As a major update, submitters will be able to change the status of their studies from ‘<b>PRIVATE</b>’ to ‘<b>PUBLIC</b>’ without needing to contact MetaboLights or undergo MetaboLights curation. <a class="more" target="_blank" href="newWorkflow">For more information click here</a></p>
-                <hr style="border-top: 1px solid #ccc; margin: 10px 0;">
-                <h3 class="metabolights-logo-orange" style="font-size: 1.6em;">Data Submission Updates I - January 2025</h3>
-                <p>Starting January 2025, MetaboLights has introduced two major updates:</p>
-                <p><b>New Accessioning:</b> Submissions initially get a temporary ID (REQxxx). A full accession number (MTBLSxxx) is assigned only after passing the new Validation Framework v2 and reaching ‘Private’ status.</p>
-                <p><b>Validation Framework v2:</b> This stricter system ensures only validated studies receive full accessioning and a reviewer link, allowing them to go public without further curation.</p>
-                <p>
-                    <a class="more" target="_blank" href="newAccessions">For more information click here</a>
+                <p>As a major update, submitters will be able to change the status of their studies from ‘<b>PRIVATE</b>’ to ‘<b>PUBLIC</b>’ without needing to contact MetaboLights or undergo MetaboLights curation. 
+                 <a class="more" target="_blank" href="newWorkflow">For more information click here</a>
                 </p>
-                <div>&nbsp;</div>
-
             </div>
         </div>
 
@@ -155,79 +147,6 @@
                 </div>
             </div>
         </div>
-        
-<div class="col-md-12"> 
-    <div class="row">
-        <div class="vf-content">
-                <h3>Training</h3>
-                        <!-- 
-                    This is from EMBL VF Tabs component. You may use Tabs functionality from a different framework.
-                    The layout of the design: maximum of two training courses metadata, each wrapped in VF summary component which are placed inside VF Grid component to arrange them in clumns. The Grid component is inside the Tabs.
-                    -->
-                <div class="vf-tabs">
-                        <ul class="vf-tabs__list" data-vf-js-tabs="" role="tabsList">
-                        <li class="vf-tabs__item" id="vf-tabs__item-1" role="presentation">
-                            <a class="vf-tabs__link is-active" role="tab" id="vf-tabs__head--1" data-tabs__item="vf-tabs__section--1" aria-selected="true">Live training</a>
-                        </li>
-                        <li class="vf-tabs__item" id="vf-tabs__item-2" role="presentation">
-                            <a class="vf-tabs__link" role="tab" id="vf-tabs__head--2" data-tabs__item="vf-tabs__section--2" tabindex="-1">On-demand training</a>
-                        </li>
-                        </ul>
-                </div>
-
-                <div class="vf-tabs-content" data-vf-js-tabs-content="">
-                    <!-- Live training tab content -->
-                        <section class="vf-tabs__section" id="vf-tabs__section--1" role="tabpanel" tabindex="-1" aria-labelledby="vf-tabs__section--1">
-                            <div class="vf-grid vf-grid__col-2">
-                                <c:choose>
-                                    <c:when test="${not empty livelist}">
-                                         <c:forEach var="liveTraining" items="${livelist}">
-                                             <div class="vf-summary vf-summary--event ng-scope" ng-repeat="item in resultsLive">
-                                                <p class="vf-summary__date ng-binding"> ${liveTraining.type} </p>
-                                                <!-- You may need to apply some workaround if the links are showing an 'unsafe' prefix in your application -->
-                                                <h3 class="vf-summary__title"><a href="${liveTraining.link}" target="_blank" class="vf-summary__link ng-binding">${liveTraining.title} </a></h3>
-                                                <div>
-                                                    <!-- The description field may contain some html, so you may want to use an HTML parser to translate html tags. This example doesn't cover that. The description text  might be very long, so slicing it upto a certain length would be better. By default we slice it upto first 200 characaters-->
-                                                    <div class="vf-summary__text ng-binding">
-                                                   ${liveTraining.description}
-                                                    </div>
-                                                    <!-- The icons in this section are being rendered from EMBL VF Icon Font classes. You may have a different library of icons to use or not use them at all. -->
-                                                    <div class="vf-summary__location"><div class="vf-u-margin__top--400"></div><span class="ng-binding">${liveTraining.status}</span> | <span class="ng-binding"><i class="icon icon-common icon-calendar-alt"></i>${liveTraining.date}</span><span class="ng-binding"> | <i class="icon icon-common icon-location"></i> ${liveTraining.venue}</span></div>
-                                                </div>
-                                             </div>
-                                         </c:forEach>
-                                    </c:when>
-                                 </c:choose>
-                                 <div class="vf-summary__text"><a href="https://www.ebi.ac.uk/training/services/metabolights/live-events" target="_blank">View all live training</a></div>
-                            </div>
-                        </section>
-
-                        <section class="vf-tabs__section" id="vf-tabs__section--2" role="tabpanel" tabindex="-1" aria-labelledby="vf-tabs__section--2" hidden="">
-                            <!-- On-demand training tab content -->
-                            <div class="vf-grid vf-grid__col-2">
-                                 <c:choose>
-                                    <c:when test="${not empty odlist}">
-                                         <c:forEach var="odTraining" items="${odlist}">
-                                            <div class="vf-summary vf-summary--event ng-scope" ng-repeat="item in resultsOndemand">
-                                                <p class="vf-summary__date ng-binding"> ${odTraining.type} </p>
-                                                <h3 class="vf-summary__title"><a href="${odTraining.link}" target="_blank" class="vf-summary__link ng-binding">${odTraining.title} <c:if test="${odTraining.subTitle}">: ${odTraining.subTitle}</c:if> </a></h3>
-                                                <div>
-                                                    <div class="vf-summary__text ng-binding">
-                                                     ${odTraining.description}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                         </c:forEach>
-                                    </c:when>
-                                 </c:choose>
-                                 <div class="vf-summary__text"><a href="https://www.ebi.ac.uk/training/services/metabolights/on-demand" target="_blank">View all on-demand training</a></div>
-                            </div>
-                        </section>
-                    </div>
-                    
-        </div>
-    </div>
-</div>     
 <br/>
 <br/>
 <br/>

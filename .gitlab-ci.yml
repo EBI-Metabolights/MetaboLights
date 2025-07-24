@@ -8,7 +8,7 @@ variables:
   LATEST_IMAGE_NAME: "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}-latest"
 workflow:
   rules:
-  - if: $CI_COMMIT_BRANCH == "test" || $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "development" || $CI_COMMIT_BRANCH == "new-workflow" || $CI_COMMIT_BRANCH == "main-new-workflow"
+  - if: $CI_COMMIT_BRANCH == "test" || $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "development" || $CI_COMMIT_BRANCH == "staging"
 stages:
 - build
 - deploy
@@ -53,7 +53,7 @@ deploy_metabolights_web:
   variables:
     CHART_NAME: metabolights-web
   rules:
-  - if: $CI_COMMIT_BRANCH == "test" || $CI_COMMIT_BRANCH == "staging" || $CI_COMMIT_BRANCH == "development" || $CI_COMMIT_BRANCH == "new-workflow" || $CI_COMMIT_BRANCH == "main-new-workflow"
+  - if: $CI_COMMIT_BRANCH == "test" || $CI_COMMIT_BRANCH == "staging" || $CI_COMMIT_BRANCH == "development" || $CI_COMMIT_BRANCH == "staging"
     when: on_success
   - if: $CI_COMMIT_BRANCH == "main"
     when: manual

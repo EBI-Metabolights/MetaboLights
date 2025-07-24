@@ -32,10 +32,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import uk.ac.ebi.metabolights.form.ContactValidation;
+import uk.ac.ebi.metabolights.model.LiveTraining;
+import uk.ac.ebi.metabolights.model.OdTraining;
 import uk.ac.ebi.metabolights.properties.PropertyLookup;
 import uk.ac.ebi.metabolights.service.AppContext;
 import uk.ac.ebi.metabolights.service.EmailService;
+import uk.ac.ebi.metabolights.service.TrainingService;
 import uk.ac.ebi.metabolights.validate.ValidateContactUsForm;
+
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -46,6 +51,7 @@ public class ContactUsController extends AbstractController{
 	
 	@Autowired
 	private EmailService emailService;
+    TrainingService trainingService = new TrainingService();
 	
 	/* Ensures the ValidatorMetabolightsUser is invoked to validate the input (@Valid further down) */
 	@InitBinder
@@ -58,6 +64,18 @@ public class ContactUsController extends AbstractController{
     	//return new ModelAndView("contact","contactValidation", new ContactValidation());  
     	return AppContext.getMAVFactory().getFrontierMav("contact","contactValidation", new ContactValidation());
     	
+    }
+
+    @RequestMapping(value = "/training")
+    public ModelAndView training() {
+        	    // Instantiate the model and view
+	    ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("training");
+        List<OdTraining> odlist = trainingService.getOnDemandTraning();
+        mav.addObject("odlist", odlist);
+        List<LiveTraining> livelist = trainingService.getLiveTraning();
+        mav.addObject("livelist", livelist);
+        return mav;
+
     }
 
     @RequestMapping(value = "/newAccessions")
