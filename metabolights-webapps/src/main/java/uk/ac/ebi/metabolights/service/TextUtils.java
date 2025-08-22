@@ -72,4 +72,11 @@ public class TextUtils {
 		return sb.toString();
 	}
 
+	public static boolean checkSpecialCharsAndScript(String text){
+		if(text.contains("<") || text.contains(">") || text.contains("!") || text.contains("%") ||
+				text.contains("*") || text.contains("?") || text.contains("script")) {
+			return true;
+		}else return false;
+	}
+
 }

@@ -33,6 +33,7 @@ import uk.ac.ebi.metabolights.search.service.Facet;
 import uk.ac.ebi.metabolights.search.service.FacetLine;
 import uk.ac.ebi.metabolights.search.service.SearchQuery;
 import uk.ac.ebi.metabolights.service.AppContext;
+import uk.ac.ebi.metabolights.service.TextUtils;
 import uk.ac.ebi.metabolights.webservice.client.MetabolightsWsClient;
 import uk.ac.ebi.metabolights.webservice.client.models.MixedSearchResult;
 
@@ -234,8 +235,12 @@ public class WSSearchController extends AbstractController {
 
                 query.getPagination().setPage(page);
             } else if (key.equals("freeTextQuery")) {
-                query.setText(entry.getValue()[0]);
-
+                String freeTextValue = entry.getValue()[0].toLowerCase();
+                if(TextUtils.checkSpecialCharsAndScript(freeTextValue)){
+                    query.setText("");
+                }else{
+                    query.setText(entry.getValue()[0]);
+                }
                 //... its a facet....fill the facet
             } else {
 
