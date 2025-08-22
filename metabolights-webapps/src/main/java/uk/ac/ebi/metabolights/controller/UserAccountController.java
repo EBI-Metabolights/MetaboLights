@@ -134,6 +134,16 @@ public class UserAccountController extends AbstractController{
         	return mav;
         }
 
+		String firstName = metabolightsUser.getFirstName().toLowerCase();
+		String lastName = metabolightsUser.getLastName().toLowerCase();
+		String affiliation = metabolightsUser.getAffiliation().toLowerCase();
+
+		if(TextUtils.checkSpecialCharsAndScript(firstName) || TextUtils.checkSpecialCharsAndScript(lastName) || TextUtils.checkSpecialCharsAndScript(affiliation)){
+			ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("createAccount");
+			mav.addObject(metabolightsUser);
+			mav.addObject("inputNotValid", "Entered inputs for First name or Last name or Affiliation is not valid!");
+			return mav;
+		}
 
     	Long newUserId=null;
 

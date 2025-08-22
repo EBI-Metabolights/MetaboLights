@@ -48,6 +48,9 @@
 
 						<form:form name="accountForm" action="createNewAccount" method="post" commandName="metabolightsUser">
 							<div class="form-group">
+								<span class="error">
+									<c:if test="${not empty inputNotValid}"><c:out value="${inputNotValid}" /></c:if>
+								</span>
 								<label><spring:message code="label.email" />*</label>
 								<form:input class="form-control" path="email" maxlength="255" size="40" />
 								<span class="error">
