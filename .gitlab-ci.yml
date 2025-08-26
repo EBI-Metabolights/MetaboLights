@@ -1,3 +1,8 @@
+image: docker:24.0.5
+services:
+  - docker:24.0.5-dind
+before_script:
+  - docker info
 variables:
   APP_VERSION: "2.2.0"
   APPS_PROJECT_BRANCH_NAME: "${CI_COMMIT_REF_NAME}"
