@@ -74,7 +74,8 @@ public class TextUtils {
 
 	public static boolean checkSpecialCharsAndScript(String text){
 		if(text.contains("<") || text.contains(">") || text.contains("!") || text.contains("%") ||
-				text.contains("*") || text.contains("?") || text.contains("script")) {
+				text.contains("*") || text.contains("?") || text.contains("(") || text.contains(")") ||
+				text.contains("\"") || text.contains("script")) {
 			return true;
 		}else return false;
 	}
