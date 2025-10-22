@@ -1,6 +1,3 @@
-image: docker:24.0.5
-services:
-  - docker:24.0.5-dind
 before_script:
   - docker info
 variables:
@@ -20,6 +17,9 @@ stages:
 
 configuration_parameters:
   stage: build
+  tags:
+    - shell
+    - mtbls
   script:
   - id
   - echo "CI_BUILDS_DIR $CI_BUILDS_DIR"
@@ -40,6 +40,9 @@ configuration_parameters:
 
 build_docker:
   stage: build
+  tags:
+    - shell
+    - mtbls
   script:
   - docker image prune -f
   - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin
@@ -55,6 +58,9 @@ build_docker:
 
 deploy_metabolights_web:
   stage: deploy
+  tags:
+    - shell
+    - mtbls
   variables:
     CHART_NAME: metabolights-web
   rules:
@@ -69,6 +75,7 @@ deploy_metabolights_web:
   - mkdir -p $BUILD_PATH
   - cd $BUILD_PATH
   - APPS_ROOT_PATH="$BUILD_PATH/apps"
+  - K8S_CONFIG_FILE_PATH="$APPS_ROOT_PATH/$K8S_CONFIG_FILE_PATH'
   - rm -rf $APPS_ROOT_PATH
   - echo git clone https://$CI_REGISTRY_USER:$CI_REGISTRY_PASSWORD@${APPS_PROJECT_URL}
   - git clone https://$CI_REGISTRY_USER:$CI_REGISTRY_PASSWORD@${APPS_PROJECT_URL}
