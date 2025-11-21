@@ -681,8 +681,8 @@
             this.$http.get(metabolightsPythonWsUrl + '/compounds/'+ this.compound + '/file', function (data, status, request) {
                 this.$set('mtblc', data);
                 this.mtblc['chebiId'] = this.mtblc['id'].replace("MTBLC", "");
-                this.mtblc['imageUrl'] = "//www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=" + this.mtblc['chebiId'] + "&dimensions=600&transbg=true";
-                this.mtblc['imageUrlLarge'] = "//www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=" + this.mtblc['chebiId'] + "&dimensions=1000&transbg=true";
+                this.mtblc['imageUrl'] = "//www.ebi.ac.uk/chebi/backend/api/public/compound/" + this.mtblc['chebiId'] + "/structure/?width=300&height=300";
+                this.mtblc['imageUrlLarge'] = "//www.ebi.ac.uk/chebi/backend/api/public/compound/" + this.mtblc['chebiId'] + "/structure/?width=300&height=300";
                 this.load3DMolecule();
                 this.loading = false;
                 var clipboard = new Clipboard('.ml--clipboard');

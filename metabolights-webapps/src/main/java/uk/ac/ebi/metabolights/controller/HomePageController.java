@@ -129,7 +129,7 @@ public class HomePageController extends AbstractController{
                     Compound comp = ModelObjectFactory.getCompound(item);
 
                     // Convert it into a gallery item....
-                    gi = new GalleryItem( comp.getChebiEntity().getChebiAsciiName() + " - " + item,comp.getChebiEntity().getDefinition() , item, "http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=" + comp.getChebiEntity().getChebiId(),GalleryItemType.Compound);
+                    gi = new GalleryItem( comp.getChebiEntity().getChebiAsciiName() + " - " + item,comp.getChebiEntity().getDefinition() , item, "http://www.ebi.ac.uk/chebi/backend/api/public/compound/"+comp.getChebiEntity().getChebiId()+"/structure/?width=300&height=300",GalleryItemType.Compound);
                 } catch (Exception e){
                   // log the error..and move on
                     logger.error(e.getMessage());

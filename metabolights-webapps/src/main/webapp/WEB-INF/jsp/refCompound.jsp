@@ -283,11 +283,11 @@
     <div class="grid_6 alpha">
         <div class="grid_16 prefix_4">
             <%--<h5>Structure</h5><br>--%>
-            <img src="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=${compound.mc.chebiId}"/>
+            <img src="//www.ebi.ac.uk/chebi/backend/api/public/compound/${compound.mc.chebiId}/structure/?width=300&height=300"/>
         </div>
         <div class="grid_24">
             <p>
-                <a href="http://www.ebi.ac.uk/chebi/searchId.do?chebiId=${compound.mc.chebiId}">${compound.chebiEntity.chebiAsciiName}
+                <a href="http://www.ebi.ac.uk/chebi/backend/api/public/compound/${compound.mc.chebiId}/structure/?width=300&height=300">${compound.chebiEntity.chebiAsciiName}
                     - (${compound.mc.chebiId})</a>
             </p>
             <p><a href="${pageContext.request.contextPath}/${compound.mc.accession}" class="icon icon-generic" data-icon="&lt;">LIVE</a></p>
