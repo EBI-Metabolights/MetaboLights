@@ -53,7 +53,7 @@
         <div class="col-md-3">
             <div class="compound-thumbnail">
                 <a href="${compound.accession}">
-                    <img class="media-object img-responsive" src="//www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=${fn:replace(compound.accession, "MTBLC", "")}&amp;dimensions=200&amp;scaleMolecule=true"
+                    <img class="media-object img-responsive" src="//www.ebi.ac.uk/chebi/backend/api/public/compound/${fn:replace(compound.accession, "MTBLC", "")}/structure/?width=300&height=300"
                          onerror="this.src='img/large_noImage.gif';"/>
                 </a>
             </div>

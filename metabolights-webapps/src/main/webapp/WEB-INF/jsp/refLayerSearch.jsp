@@ -399,9 +399,9 @@
                         <c:if test="${not fn:contains(entry.accession, 'MTBLS')}">
 
                             <div class="grid_6 alpha">
-
+image load
                                 <a href="${entry.accession}">
-                                    <img src="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&imageIndex=0&chebiId=${entry.chebiURL}&amp;dimensions=200&amp;scaleMolecule=true"
+                                    <img src="//www.ebi.ac.uk/chebi/backend/api/public/compound/${fn:replace(compound.accession, "MTBLC", "")}/structure/?width=300&height=300"
                                          onerror="this.src='img/large_noImage.gif';" width="100px"
                                          height="100px" />
                                 </a>
