@@ -64,7 +64,7 @@ import javax.servlet.http.HttpServletRequest;
         private static String pythonWsInternalUrl = null;
         private static String assetsServerBaseURL = null;
         
-        public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
+        public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls|REQ|req|MHD|mhd|MHDT|mhdt).+";
         public static final String REVIEWER_OBFUSCATION_CODE_URL = "reviewer{obfuscationCode}";
 
         public static String getProperty(String key){
@@ -224,7 +224,7 @@ import javax.servlet.http.HttpServletRequest;
         }
 
 
-        @RequestMapping({ "/{metabolightsId:(?:MTBLS|mtbls).+}", "/{metabolightsId:(?:MTBLS|mtbls).+}/{tabId}" })
+        @RequestMapping({ "/{metabolightsId:(?:MTBLS|mtbls|REQ|req|MHD|mhd|MHDT|mhdt).+}", "/{metabolightsId:(?:MTBLS|mtbls|REQ|req|MHD|mhd|MHDT|mhdt).+}/{tabId}" })
         private RedirectView getStudyWSEntryMAV(@PathVariable("metabolightsId") String mtblsId, final HttpServletRequest request) {
             RedirectView redirectView = new RedirectView();
             redirectView.setUrl(getMetabolightsEditorUrl() + "/" + mtblsId);
