@@ -207,11 +207,17 @@ public class EntryController extends AbstractController {
         return new ModelAndView("redirect:/editor/" + reviewerToken);
     }
 
-    @RequestMapping({ "/{metabolightsId:(?:MTBLS|mtbls|REQ|req|MHD|mhd|MHDT|mhdt).+}",
-            "/{metabolightsId:(?:MTBLS|mtbls|REQ|req|MHD|mhd|MHDT|mhdt).+}/{tabId}" })
+    @RequestMapping({ "/{metabolightsId:(?:MTBLS|mtbls|REQ|req|MHD|mhd|MHDT|mhdt).+}" })
     private ModelAndView getStudyWSEntryMAV(@PathVariable("metabolightsId") String mtblsId,
             final HttpServletRequest request) {
         return new ModelAndView("redirect:/editor/" + mtblsId);
+    }
+
+    @RequestMapping({ "/{metabolightsId:(?:MTBLS|mtbls|REQ|req|MHD|mhd|MHDT|mhdt).+}/{tabId}" })
+    private ModelAndView getStudyWSEntryMAV2(@PathVariable("metabolightsId") String mtblsId,
+            @PathVariable("tabId") String tabId,
+            final HttpServletRequest request) {
+        return new ModelAndView("redirect:/editor/" + mtblsId + "/" + tabId);
     }
 
     public static boolean canUserEditStudy(final String study) {
@@ -232,6 +238,15 @@ public class EntryController extends AbstractController {
             return study.isPublicStudy() || userOwnstudy;
         }
         return userOwnstudy;
+    }
+
+    public static boolean doesUserOwnsTheStudy(final String userName, final LiteStudy study) {
+        for (final User user : study.getUsers()) {
+            if (user.getUserName().equals(userName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     static {
