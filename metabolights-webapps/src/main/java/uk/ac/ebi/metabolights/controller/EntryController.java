@@ -210,14 +210,20 @@ public class EntryController extends AbstractController {
     @RequestMapping({ "/{metabolightsId:(?:MTBLS|mtbls|REQ|req|MHD|mhd|MHDT|mhdt).+}" })
     private ModelAndView getStudyWSEntryMAV(@PathVariable("metabolightsId") String mtblsId,
             final HttpServletRequest request) {
-        return new ModelAndView("redirect:/editor/" + mtblsId);
+        if (mtblsId.toUpperCase().startsWith("REQ")) {
+            return new ModelAndView("redirect:/editor/study/" + mtblsId.toUpperCase() + "/overview");
+        }
+        return new ModelAndView("redirect:/editor/" + mtblsId.toUpperCase() + "/overview");
     }
 
     @RequestMapping({ "/{metabolightsId:(?:MTBLS|mtbls|REQ|req|MHD|mhd|MHDT|mhdt).+}/{tabId}" })
     private ModelAndView getStudyWSEntryMAV2(@PathVariable("metabolightsId") String mtblsId,
             @PathVariable("tabId") String tabId,
             final HttpServletRequest request) {
-        return new ModelAndView("redirect:/editor/" + mtblsId + "/" + tabId);
+        if (mtblsId.toUpperCase().startsWith("REQ")) {
+            return new ModelAndView("redirect:/editor/study/" + mtblsId.toUpperCase() + "/" + tabId);
+        }
+        return new ModelAndView("redirect:/editor/" + mtblsId.toUpperCase() + "/" + tabId);
     }
 
     public static boolean canUserEditStudy(final String study) {
