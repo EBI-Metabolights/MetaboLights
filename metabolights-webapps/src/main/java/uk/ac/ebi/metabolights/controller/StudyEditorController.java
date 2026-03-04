@@ -17,12 +17,14 @@ public class StudyEditorController extends AbstractController {
 
     @RequestMapping(value = {"/editor", "/editor/", "/editor/**"})
     public RedirectView showLabsPage(HttpServletRequest request) {
+        
         RedirectView redirectView = new RedirectView();
         String contextPath = request.getServletContext().getContextPath();
         String path = request.getRequestURI().replace(contextPath, "").replace("/editor", "");
 
         String url = EntryController.getMetabolightsEditorUrl() + path;
-        return addLoginToken(url, redirectView, path);
+        redirectView.setUrl(url);
+        return redirectView;
     }
 
     private RedirectView addLoginToken(String url, RedirectView redirectView, String path) {
@@ -51,6 +53,7 @@ public class StudyEditorController extends AbstractController {
         String path = request.getRequestURI().replace(contextPath, "");
         String url = EntryController.getMetabolightsEditorUrl() + path;
 
-        return addLoginToken(url, redirectView, path);
+        redirectView.setUrl(url);
+        return redirectView;
     }
 }
