@@ -201,7 +201,7 @@ public class EntryController extends AbstractController {
         return mav;
     }
 
-    @RequestMapping(value = { "/{reviewerToken:(?:reviewer.+)" })
+    @RequestMapping(value = { "/{reviewerToken:(?:reviewer).+}" })
     public ModelAndView showLabsPage(@PathVariable("reviewerToken") String reviewerToken,
             final HttpServletRequest request) {
         return new ModelAndView("redirect:/editor/" + reviewerToken);
