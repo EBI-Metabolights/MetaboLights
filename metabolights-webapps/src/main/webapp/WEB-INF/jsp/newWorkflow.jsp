@@ -24,6 +24,25 @@
     <p class="row">
     <h3>Data Submission Updates</h3><br>
     <div class="well nbr">
+        <p>Building on the improvements introduced in 2025 to enhance the submission process, MetaboLights has implemented the following changes on March 25:</p>
+        <br>
+        <h4 class="modal-title">New Study Wizard</h4>
+        <p>Study creation ('+ Create New Study') has been redesigned to capture key metadata from the start, that is, contacts and techniques ('Assay Type') along with study title, description and publications. Once complete a temporary submission request is assigned (i.e. REQxxx).</p>
+       <br>
+        <p>Selected techniques are now linked to the new status <b>'Category'</b> - separating studies by data types (MS, NMR, Imaging MS, Other) with multiple studies created and linked automatically when techniques span different categories. Changes apply to new submissions only.</p>
+        <br>
+        <p>In addition, new fields such as 'Funding' and 'Related Datasets' have been introduced as well as new categories for 'Design Descriptors' (keywords) such as 'disease','facility' and so on. To guide users a new submission checklist has been developed.</p>
+        <br>
+        <h4 class="modal-title">New Assay Wizard</h4>
+        <p>Assay creation ('+ Add Assay') has been redesigned to support new fields such as 'Measurement Type' and 'Primary Omics' - defaults are 'untargeted analysis' and 'metabolomics', respectively. Assay descriptors can now be added also (e.g., Data Dependent Acquisition, Ion mobility, etc).</p>
+        <br>
+        <p>Note, available assay types are restricted based on Study Category (above). </p>
+        <br>
+        <p>Mandatory protocol parameters (e.g., 'Scan polarity' in 'mass spectrometry') must now be defined at the assay level. Once complete these values are propagated to associated samples.</p>
+        <br>
+        <p>Editing tables via 'Compact' and 'Expand' remain unchanged.</p>
+    </div>
+    <div class="well nbr">
         <p>Building on the initial improvements introduced in January 2025 to enhance the submission process, MetaboLights has implemented the following changes on June 12:</p>
         <br>
 
