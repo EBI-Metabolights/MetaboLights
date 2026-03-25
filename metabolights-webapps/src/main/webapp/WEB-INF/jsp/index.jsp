@@ -80,13 +80,15 @@
     <div class="col-md-12">
         <div class="panel panel-default nbr">
             <div class="panel-body grey">
-                <h3 class="metabolights-logo-orange" style="font-size: 1.6em;">Data Submission Updates - NEW SUBMISSION WORKFLOW</h3>
-                <p>Starting June 12, the following new changes are now introduced.</p>
+                <h3 class="metabolights-logo-orange" style="font-size: 1.6em;">Data Submission Updates - NEW SUBMISSION WIZARDS</h3>
+                <p>From March 25, the following changes have been introduced:</p>
                 <br>
-                <p><b>New Submission Workflow:</b> Once a study passes Validation Framework v2, submitters will be required to change the status of their studies from ‘<b>PROVISIONAL</b>’ to ‘<b>PRIVATE</b>’ (previously from ‘Submitted’ to ‘In Curation’).</p>
+                <p><b>New Study Wizard:</b> Redesigned study creation introduces new fields and <b>'Category'</b> status to organise studies based on selected techniques, and captures key metadata before assigning a temporary submission request (REQxxx).</p>
                 <br>
-                <p>As a major update, submitters will be able to change the status of their studies from ‘<b>PRIVATE</b>’ to ‘<b>PUBLIC</b>’ without needing to contact MetaboLights or undergo MetaboLights curation. 
-                 <a class="more" target="_blank" href="newWorkflow">For more information click here</a>
+                <p><b>New Assay Wizard:</b> Redesigned assay creation introduces new fields and assay descriptors, and captures default protocol parameters at the assay level with values propagated to associated samples.</p>
+                <br>
+                <p>
+                <a class="more" target="_blank" href="newWorkflow">For more information click here</a>
                 </p>
             </div>
         </div>
