@@ -35,12 +35,12 @@
         <p>Main changes in the study status labels:</p>
     <br>
         <!-- Second change: 3-column, 5-row table -->
-        <table class="table table-bordered table-striped">
+        <table style="width:100%" class="table table-bordered table-striped">
             <thead>
             <tr>
-                <th>PREVIOUS Status</th>
-                <th>NEW Status</th>
-                <th>Description of Updates</th>
+                <th style="width:20%">PREVIOUS Status</th>
+                <th style="width:30%">NEW Status</th>
+                <th style="width:50%">Description of Updates</th>
             </tr>
             </thead>
             <tbody>
