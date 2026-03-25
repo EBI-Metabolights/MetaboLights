@@ -24,12 +24,53 @@
     <p class="row">
     <h3>Data Submission Updates</h3><br>
     <div class="well nbr">
+        <h4 class="modal-title">March 2026</h4>
         <p>Building on the improvements introduced in 2025 to enhance the submission process, MetaboLights has implemented the following changes on March 25:</p>
         <br>
         <h4 class="modal-title">New Study Wizard</h4>
         <p>Study creation ('+ Create New Study') has been redesigned to capture key metadata from the start, that is, contacts and techniques ('Assay Type') along with study title, description and publications. Once complete a temporary submission request is assigned (i.e. REQxxx).</p>
        <br>
         <p>Selected techniques are now linked to the new status <b>'Category'</b> - separating studies by data types (MS, NMR, Imaging MS, Other) with multiple studies created and linked automatically when techniques span different categories. Changes apply to new submissions only.</p>
+        <br>
+        <p>Main changes in the study status labels:</p>
+    <br>
+        <!-- Second change: 3-column, 5-row table -->
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>PREVIOUS Status</th>
+                <th>NEW Status</th>
+                <th>Description of Updates</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>-</td>
+                <td>MTBLS</td>
+                <td>Submissions with no separation based on technique (‘Assay Type’ = any)</td>
+            </tr>
+            <tr>
+                <td>-</td>
+                <td>MS (MTBLS)</td>
+                <td>Submissions consisting of MS techniques (Assay Type’ = ‘LC-MS’, ‘GC-MS’, ‘CE-MS’, ‘FIA-MS’, ‘DI-MS’, ‘MALDI-MS’, ‘GCxGC-MS’, ‘MS’)</td>
+            </tr>
+            <tr>
+                <td>-</td>
+                <td>NMR (MTBLS)</td>
+                <td>Submissions consisting of NMR techniques (Assay Type = ‘NMR’)</td>
+            </tr>
+            <tr>
+                <td>-</td>
+                <td>Imaging MS (MTBLS)</td>
+                <td>Submissions consisting of Imaging MS techniques (Assay Type = ‘MS Imaging’)</td>
+            </tr>
+            <tr>
+                <td>-</td>
+                <td>Other (MTBLS)</td>
+                <td>Submissions consisting of other techniques (Assay Type = ‘GC-FID’ or ‘LC-DAD’)</td>
+            </tr>
+            </tbody>
+        </table>
         <br>
         <p>In addition, new fields such as 'Funding' and 'Related Datasets' have been introduced as well as new categories for 'Design Descriptors' (keywords) such as 'disease','facility' and so on. To guide users a new submission checklist has been developed.</p>
         <br>
@@ -41,8 +82,11 @@
         <p>Mandatory protocol parameters (e.g., 'Scan polarity' in 'mass spectrometry') must now be defined at the assay level. Once complete these values are propagated to associated samples.</p>
         <br>
         <p>Editing tables via 'Compact' and 'Expand' remain unchanged.</p>
+        <br>
+         <p>Please see the Guides for more information.<a href="https://ebi-metabolights.github.io/guides" target="_blank"> here </a></p>
     </div>
     <div class="well nbr">
+        <h4 class="modal-title">June 2025</h4>
         <p>Building on the initial improvements introduced in January 2025 to enhance the submission process, MetaboLights has implemented the following changes on June 12:</p>
         <br>
 
@@ -120,9 +164,11 @@
             <li>Run new Study Validations and address errors, until validation is successful.</li>
             <li>Change status to ’PRIVATE’ (i.e. keep private until publication is out) or ’PUBLIC’ (for immediate release).</li>
         </ol>
-
+        <br>
+        <p>Please see the Guides for more information.<a href="https://ebi-metabolights.github.io/guides" target="_blank"> here </a></p>
     </div>
     <div class="well nbr">
+        <h4 class="modal-title">January 2025</h4>
         <p>January 2025 marks the release of two new MetaboLights functionalities, which are the first of several to be introduced. These have been implemented to improve the handling of the volume and quality of submissions without MetaboLights curation.</p>
         <br>
         <h4 class="modal-title">New Accessioning</h4>
@@ -138,6 +184,8 @@
         <p>Studies which pass this version of validation and have status promoted to Private will instantly receive a private reviewer link and be eligible to go public without MetaboLights curation. </p>
         <br>
         <p>New submissions and current studies in ‘Provisional’ status - even if they were created while validation framework v1 was in use - are now required to pass validation framework v2 to promote the status from 'Provisional' to ‘Private. Current studies with the status ‘Private’ will be assessed for release without MetaboLights curation or contacted for further information. Studies with the status ‘Public’ will be unaffected. MetaboLights curation will be retained in certain cases.</p>
+        <br>
+        <p>Please see the Guides for more information.<a href="https://ebi-metabolights.github.io/guides" target="_blank"> here </a></p>
     </div>
 
     <p><a href="mailto:metabolights-help@ebi.ac.uk?subject=New%20Study%20Release%20Pipeline">Give us feedback about this new mechanism</a></p>
