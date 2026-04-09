@@ -15,23 +15,24 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class StudyEditorController extends AbstractController {
 
-    @RequestMapping(value = {"/editor", "/editor/", "/editor/**"})
+    @RequestMapping(value = { "/editor", "/editor/", "/editor/**" })
     public RedirectView showLabsPage(HttpServletRequest request) {
         RedirectView redirectView = new RedirectView();
         String contextPath = request.getServletContext().getContextPath();
         String path = request.getRequestURI().replace(contextPath, "").replace("/editor", "");
 
         String url = EntryController.getMetabolightsEditorUrl() + path;
-        return addLoginToken(url, redirectView, path);
+        redirectView.setUrl(url);
+        return redirectView;
     }
 
     private RedirectView addLoginToken(String url, RedirectView redirectView, String path) {
         try {
             MetabolightsUser user = LoginController.getLoggedUser();
-            if(user != null && user.getJwtToken() != null){
+            if (user != null && user.getJwtToken() != null) {
                 String loginOneTimeToken = IsaTabAuthenticationProvider.getLoginOneTimeToken(user);
 
-                if(loginOneTimeToken != null){
+                if (loginOneTimeToken != null) {
                     url += "?loginOneTimeToken=" + loginOneTimeToken;
                     redirectView.setUrl(url);
                     return redirectView;
@@ -44,13 +45,14 @@ public class StudyEditorController extends AbstractController {
         return redirectView;
     }
 
-    @RequestMapping(value = {"/guides", "/guides/", "/guides/**" })
+    @RequestMapping(value = { "/guides", "/guides/", "/guides/**" })
     public RedirectView showGuidesPage(HttpServletRequest request) {
         RedirectView redirectView = new RedirectView();
         String contextPath = request.getServletContext().getContextPath();
         String path = request.getRequestURI().replace(contextPath, "");
         String url = EntryController.getMetabolightsEditorUrl() + path;
 
-        return addLoginToken(url, redirectView, path);
+        redirectView.setUrl(url);
+        return redirectView;
     }
 }

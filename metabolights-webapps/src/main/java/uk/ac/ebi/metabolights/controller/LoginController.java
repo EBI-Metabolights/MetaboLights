@@ -65,121 +65,37 @@ public class LoginController extends AbstractController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping({"/login-success"})
+    @RequestMapping({ "/login-success" })
     public ModelAndView loggedIn(HttpServletRequest request, HttpServletResponse response) {
-        //return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.loggedIn"));
-
-        MetabolightsUser user = null;
-
-        // Instantiate the model and view
-        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("useroptions");
-
-        String metabolightsEditorUrl  = EntryController.getMetabolightsEditorUrl();
-        String metabolightsPythonWsUrl = EntryController.getMetabolightsPythonWsUrl();
-        mav.addObject("metabolightsEditorUrl", metabolightsEditorUrl);
-        mav.addObject("metabolightsPythonWsUrl", metabolightsPythonWsUrl);
-        if (request.getUserPrincipal() != null)
-            user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-
-        if (user != null) {
-            Cookie cookie = new Cookie("jwt", user.getJwtToken());
-            cookie.setMaxAge(60*60);
-            response.addCookie(cookie);
-
-            mav.addObject("jwt", user.getJwtToken());
-            mav.addObject("jwtTokenExpireTime", user.getJwtTokenExpireTime());
-            mav.addObject("localUser", user.getLocalUserData());
-            mav.addObject("editorToken", user.getApiToken());
-            mav.addObject("isCurator", user.isCurator());
-        }
-
-        HttpSession session = request.getSession();
-        String pagename = (String) session.getAttribute("currentpage");
-        if (pagename == null) {
-            return mav;
-        }
-
-        return new ModelAndView("redirect:" + pagename);
+        return new ModelAndView("redirect:/editor/");
     }
 
-    @RequestMapping({"/useroptions"})
+    @RequestMapping({ "/useroptions" })
     public ModelAndView useroptions(HttpServletRequest request) {
-        MetabolightsUser user = null;
-
-        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("useroptions");
-
-        if (request.getUserPrincipal() != null)
-            user = (MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        String metabolightsEditorUrl  = EntryController.getMetabolightsEditorUrl();
-        String metabolightsPythonWsUrl = EntryController.getMetabolightsPythonWsUrl();
-        mav.addObject("metabolightsEditorUrl", metabolightsEditorUrl);
-        mav.addObject("metabolightsPythonWsUrl", metabolightsPythonWsUrl);
-        
-
-        if (user != null) {
-            mav.addObject("jwt", user.getJwtToken());
-            mav.addObject("jwtTokenExpireTime", user.getJwtTokenExpireTime());
-            mav.addObject("localUser", user.getLocalUserData());
-            mav.addObject("editorToken", user.getApiToken());
-            mav.addObject("isCurator", user.isCurator());
-        }else{
-            mav.addObject("jwt", null);
-            mav.addObject("jwtTokenExpireTime", -1);
-            mav.addObject("localUser", null);
-            mav.addObject("editorToken", null);
-            mav.addObject("isCurator", false);
-            return new ModelAndView("redirect:index");
-        }
-
-        return mav;
+        return new ModelAndView("redirect:/editor/");
     }
 
-    @RequestMapping({"/loggedout"})
+    @RequestMapping({ "/loggedout" })
     public ModelAndView loggedOut(HttpServletRequest request, HttpServletResponse response) {
 
         ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("index");
         mav.addObject("message", PropertyLookup.getMessage("msg.loggedOut"));
-        Cookie[] cookies = request.getCookies();
-        for(int i = 0; i< cookies.length ; ++i){
-            if(cookies[i].getName().equals("jwt")){
-                cookies[i].setMaxAge(0);
-                response.addCookie(cookies[i]);
-                break;
-            }
-        }
         return mav;
     }
 
-    @RequestMapping(value = {"/login"})
+    @RequestMapping(value = { "/login" })
     public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
-
-        String url = " ";  //Have to reset the string, caching issues
-        url = getRedirectUrl(request, response);
-
-        //ModelAndView mav = new ModelAndView("login");
-        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("login");
-
-        String metabolightsPythonWsUrl = EntryController.getWebPageUrl();
-        mav.addObject("webPageUrl", metabolightsPythonWsUrl);
-
-        if (url.contains("submit")) //If we come from the submit menu, show different text in the login jsp
-            mav.addObject("fromsubmit", true);
-
-        return mav;
+        return new ModelAndView("redirect:/editor/");
     }
 
-    @RequestMapping(value = {"/timeout"})
+    @RequestMapping(value = { "/timeout" })
     public ModelAndView resolveRequest(HttpServletRequest request) {
         return GenericController.lastPartOfUrl(request);
     }
 
-
     @RequestMapping(value = "/forgotPassword")
     public ModelAndView passWordReset() {
-        //ModelAndView mav = new ModelAndView("forgotPassword");
-        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("forgotPassword");
-        mav.addObject(new EmailAddress());
-        return mav;
+        return new ModelAndView("redirect:/editor/");
     }
 
     /**
@@ -191,33 +107,7 @@ public class LoginController extends AbstractController {
      */
     @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
     public ModelAndView resetPassWord(@Valid EmailAddress email, BindingResult result, Model model) {
-        //ModelAndView mav = new ModelAndView("forgotPassword");
-        ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("forgotPassword");
-
-        mav.addObject(email);
-        if (result.hasErrors()) {
-            return mav;
-        }
-        //Find the user associated with the password
-        MetabolightsUser mtblUser = userService.lookupByEmail(email.getEmailAddress());
-        if (mtblUser == null) {
-            mav.addObject("message", PropertyLookup.getMessage("msg.unknownEmail"));
-            return mav;
-        } else {
-            // Get some new password
-            String tempPassword = getTemporaryPassword();
-            mtblUser.setDbPassword(IsaTabAuthenticationProvider.encode(tempPassword));
-
-            // Update database user details
-            userService.update(mtblUser);
-
-            // Send new password to user, tell him to update the temp password
-            emailService.sendResetPassword(email.getEmailAddress(), tempPassword, mtblUser.getUserName());
-
-            //TODO = redirect, work out url?x=y
-            //return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.pwsent",email.getEmailAddress()));
-            return new ModelAndView("redirect:index?message=" + PropertyLookup.getMessage("msg.pwsent", email.getEmailAddress()));
-        }
+        return new ModelAndView("redirect:/editor/");
     }
 
     private String getTemporaryPassword() {
@@ -240,11 +130,11 @@ public class LoginController extends AbstractController {
                 return savedRequest.getRedirectUrl();
         }
 
-	    /* return a sane default in case data isn't there */
+        /* return a sane default in case data isn't there */
         return url;
     }
 
-    @RequestMapping(value = {"/securedredirect"})
+    @RequestMapping(value = { "/securedredirect" })
     public ModelAndView secureRedirect(@RequestParam(required = true, value = "url") String url) {
 
         return new ModelAndView("redirect:" + url);
@@ -273,4 +163,3 @@ public class LoginController extends AbstractController {
     }
 
 }
-

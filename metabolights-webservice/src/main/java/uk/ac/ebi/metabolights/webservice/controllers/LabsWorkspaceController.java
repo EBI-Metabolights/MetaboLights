@@ -45,11 +45,13 @@ import uk.ac.ebi.metabolights.repository.dao.filesystem.metabolightsuploader.Isa
 public class LabsWorkspaceController {
 
     protected static final Logger logger = LoggerFactory.getLogger(BasicController.class);
-    public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
+    public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls|REQ|req|MHD|mhd|MHDT|mhdt).+";
     private StudyDAO studyDAO;
 
     /**
-     * Initialise the workspace - return the dashboard settings to bootstrap the labs
+     * Initialise the workspace - return the dashboard settings to bootstrap the
+     * labs
+     * 
      * @param data
      * @param response
      * @return
@@ -78,9 +80,12 @@ public class LabsWorkspaceController {
 
         String asperaSecret = PropertiesUtil.getProperty("asperaSecret");
 
-        for ( MLLProject project : mllWorkSpace.getProjects() ) {
+        for (MLLProject project : mllWorkSpace.getProjects()) {
 
-            project.setAsperaSettings("{ \"asperaURL\" : \""+ user.getApiToken() + File.separator + project.getId() + "\", \"asperaUser\" : \""+ asperaUser + "\",  \"asperaServer\" : \"hx-fasp-1.ebi.ac.uk\", \"asperaSecret\" :  \""+ asperaSecret + "\" }");
+            project.setAsperaSettings("{ \"asperaURL\" : \"" + user.getApiToken() + File.separator + project.getId()
+                    + "\", \"asperaUser\" : \"" + asperaUser
+                    + "\",  \"asperaServer\" : \"hx-fasp-1.ebi.ac.uk\", \"asperaSecret\" :  \"" + asperaSecret
+                    + "\" }");
 
         }
 
@@ -92,10 +97,10 @@ public class LabsWorkspaceController {
 
     }
 
-
     /**
      * Fetch the list of projects in a workspace
-     * @param data (User_API_TOKEN)
+     * 
+     * @param data     (User_API_TOKEN)
      * @param response
      * @return
      */
@@ -127,16 +132,17 @@ public class LabsWorkspaceController {
 
     }
 
-
     /**
      * Fetch the list of projects in a workspace
-     * @param data (User_API_TOKEN)
+     * 
+     * @param data     (User_API_TOKEN)
      * @param response
      * @return
      */
     @RequestMapping(value = "mapStudy", method = RequestMethod.POST)
     @ResponseBody
-    public RestResponse<String> mapMetaboLightsStudyToLabsProject(@RequestBody String data, HttpServletResponse response) throws IOException {
+    public RestResponse<String> mapMetaboLightsStudyToLabsProject(@RequestBody String data,
+            HttpServletResponse response) throws IOException {
 
         RestResponse<String> restResponse = new RestResponse<>();
 
@@ -172,7 +178,7 @@ public class LabsWorkspaceController {
 
         MLLProject mllProject = mllWorkSpace.getProject(projectId);
 
-        if(mllProject != null){
+        if (mllProject != null) {
 
             mllProject.setStudyId(studyId);
 
@@ -221,13 +227,15 @@ public class LabsWorkspaceController {
 
     /**
      * Fetch the list of projects in a workspace
-     * @param data (User_API_TOKEN)
+     * 
+     * @param data     (User_API_TOKEN)
      * @param response
      * @return
      */
     @RequestMapping(value = "deleteProject", method = RequestMethod.POST)
     @ResponseBody
-    public RestResponse<String> deleteProjectFromWorkspace(@RequestBody String data, HttpServletResponse response) throws IOException {
+    public RestResponse<String> deleteProjectFromWorkspace(@RequestBody String data, HttpServletResponse response)
+            throws IOException {
 
         RestResponse<String> restResponse = new RestResponse<String>();
 
@@ -246,7 +254,6 @@ public class LabsWorkspaceController {
             return restResponse;
 
         }
-
 
         if (user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
 
@@ -272,7 +279,7 @@ public class LabsWorkspaceController {
 
         MLLProject mllProject = mllWorkSpace.getProject(projectId);
 
-        if(mllProject != null){
+        if (mllProject != null) {
 
             mllWorkSpace.deleteProject(mllProject);
 
@@ -280,8 +287,6 @@ public class LabsWorkspaceController {
 
         return restResponse;
     }
-
-
 
     /**
      * Fetch aspera configuration for uploading data to MetaboLights Labs
@@ -296,7 +301,8 @@ public class LabsWorkspaceController {
      */
     @RequestMapping(value = "asperaConfiguration", method = RequestMethod.POST)
     @ResponseBody
-    public RestResponse<String> asperaConfiguration(@RequestBody String data, HttpServletResponse response) throws IOException {
+    public RestResponse<String> asperaConfiguration(@RequestBody String data, HttpServletResponse response)
+            throws IOException {
 
         RestResponse<String> restResponse = new RestResponse<String>();
 
@@ -306,7 +312,8 @@ public class LabsWorkspaceController {
 
         String projectId = (String) serverRequest.get("project_id");
 
-        boolean createNewProject = Boolean.valueOf(((String) serverRequest.get("new_project_flag")).replace("\"", "\\\""));
+        boolean createNewProject = Boolean
+                .valueOf(((String) serverRequest.get("new_project_flag")).replace("\"", "\\\""));
 
         User user = authenticateUser(userToken);
 
@@ -336,7 +343,6 @@ public class LabsWorkspaceController {
 
         String asperaSecret = PropertiesUtil.getProperty("asperaSecret");
 
-
         logger.info("Checking if a project with the give projectId exists");
         logger.info("Checking if a project is not null or empty");
 
@@ -350,7 +356,10 @@ public class LabsWorkspaceController {
 
                     MLLProject mllProject = mllWorkSpace.getProject(projectId);
 
-                    mllProject.setAsperaSettings("{ \"asperaURL\" : \""+ user.getApiToken() + File.separator + mllProject.getId() + "\", \"asperaUser\" : \""+ asperaUser + "\",  \"asperaServer\" : \"hx-fasp-1.ebi.ac.uk\", \"asperaSecret\" :  \""+ asperaSecret + "\" }");
+                    mllProject.setAsperaSettings("{ \"asperaURL\" : \"" + user.getApiToken() + File.separator
+                            + mllProject.getId() + "\", \"asperaUser\" : \"" + asperaUser
+                            + "\",  \"asperaServer\" : \"hx-fasp-1.ebi.ac.uk\", \"asperaSecret\" :  \"" + asperaSecret
+                            + "\" }");
 
                     restResponse.setContent(mllProject.getAsperaSettings());
 
@@ -365,7 +374,10 @@ public class LabsWorkspaceController {
 
             MLLProject mllProject = (new MetaboLightsLabsProjectDAO(mllWorkSpace)).getMllProject();
 
-            mllProject.setAsperaSettings("{ \"asperaURL\" : \""+ user.getApiToken() + File.separator + mllProject.getId() + "\", \"asperaUser\" : \""+ asperaUser + "\",  \"asperaServer\" : \"hx-fasp-1.ebi.ac.uk\", \"asperaSecret\" :  \""+ asperaSecret + "\" }");
+            mllProject.setAsperaSettings("{ \"asperaURL\" : \"" + user.getApiToken() + File.separator
+                    + mllProject.getId() + "\", \"asperaUser\" : \"" + asperaUser
+                    + "\",  \"asperaServer\" : \"hx-fasp-1.ebi.ac.uk\", \"asperaSecret\" :  \"" + asperaSecret
+                    + "\" }");
 
             restResponse.setContent(mllProject.getAsperaSettings());
 
@@ -383,6 +395,7 @@ public class LabsWorkspaceController {
 
     /**
      * Fetch the user workspace details, initialise if user does not exist.
+     * 
      * @param user
      * @return
      */
@@ -394,17 +407,17 @@ public class LabsWorkspaceController {
 
     }
 
-
     /**
      * Fetch the workspace settings
      *
-     * @param data (User_API_TOKEN)
+     * @param data     (User_API_TOKEN)
      * @param response
      * @return RestResponse
      */
     @RequestMapping(value = "settings", method = RequestMethod.POST)
     @ResponseBody
-    public RestResponse<String> getWorkspaceSettings(@RequestBody String data, HttpServletResponse response) throws IOException {
+    public RestResponse<String> getWorkspaceSettings(@RequestBody String data, HttpServletResponse response)
+            throws IOException {
 
         RestResponse<String> restResponse = new RestResponse<>();
 
@@ -440,15 +453,15 @@ public class LabsWorkspaceController {
 
         MLLWorkSpace mllWorkSpace = getWorkspaceInfo(user);
 
-        if(property.equalsIgnoreCase("galaxy")){
+        if (property.equalsIgnoreCase("galaxy")) {
 
             JSONObject jsonobject = SecurityUtil.parseRequest(mllWorkSpace.getSettings());
 
             JSONArray galaxyInstances = null;
             try {
-                if(jsonobject.containsKey(property)) {
+                if (jsonobject.containsKey(property)) {
                     galaxyInstances = (JSONArray) new JSONParser().parse(jsonobject.get(property).toString());
-                }else{
+                } else {
                     galaxyInstances = null;
                 }
             } catch (ParseException e) {
@@ -462,21 +475,21 @@ public class LabsWorkspaceController {
             newGalaxyInstance.put("apikey", apikey);
             newGalaxyInstance.put("description", description);
 
-            if (galaxyInstances == null){
+            if (galaxyInstances == null) {
 
                 galaxyInstances = new JSONArray();
                 galaxyInstances.add(newGalaxyInstance);
 
-            }else{
+            } else {
 
                 boolean instanceExist = false;
                 int instancePosition = 0;
                 int selectedInstancePosition = 0;
-                for(Object instance: galaxyInstances){
+                for (Object instance : galaxyInstances) {
 
                     JSONObject jsonObject = (JSONObject) instance;
 
-                    if (jsonObject.get("url").toString().equalsIgnoreCase(url)){
+                    if (jsonObject.get("url").toString().equalsIgnoreCase(url)) {
                         jsonObject.put("name", title);
                         jsonObject.put("url", url);
                         jsonObject.put("apikey", apikey);
@@ -488,7 +501,7 @@ public class LabsWorkspaceController {
                     instancePosition = instancePosition + 1;
                 }
 
-                if(!instanceExist){
+                if (!instanceExist) {
 
                     galaxyInstances.add(newGalaxyInstance);
 
@@ -496,9 +509,9 @@ public class LabsWorkspaceController {
 
                     response.setStatus(200);
 
-                }else{
+                } else {
 
-                    if(delete != null && delete.equalsIgnoreCase("deleteGalaxyInstance")){
+                    if (delete != null && delete.equalsIgnoreCase("deleteGalaxyInstance")) {
 
                         galaxyInstances.remove(selectedInstancePosition);
 
@@ -508,7 +521,7 @@ public class LabsWorkspaceController {
             }
             mllWorkSpace.setProperty(property, galaxyInstances.toString());
 
-        }else if(property != null && !property.equalsIgnoreCase("galaxy")){
+        } else if (property != null && !property.equalsIgnoreCase("galaxy")) {
 
             mllWorkSpace.setProperty(property, propertyValue);
 
@@ -536,7 +549,8 @@ public class LabsWorkspaceController {
      */
     @RequestMapping(value = "createProject", method = RequestMethod.POST)
     @ResponseBody
-    public RestResponse<String> createProject(@RequestBody String data, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public RestResponse<String> createProject(@RequestBody String data, HttpServletRequest request,
+            HttpServletResponse response) throws IOException {
 
         RestResponse<String> restResponse = new RestResponse<String>();
 
@@ -557,7 +571,6 @@ public class LabsWorkspaceController {
             return restResponse;
 
         }
-
 
         if (user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
 
@@ -589,18 +602,18 @@ public class LabsWorkspaceController {
 
         Boolean byPass = false;
 
-        if(cloneType != 0){
+        if (cloneType != 0) {
             byPass = true;
             cloneProject = true;
-            if(cloneType == 1){
+            if (cloneType == 1) {
                 studyId = (String) serverRequest.get("studyId");
-            }else if(cloneType == 2){
+            } else if (cloneType == 2) {
                 studyId = "MTBLS121";
-            }else if(cloneType == 3){
+            } else if (cloneType == 3) {
                 studyId = "MTBLS130";
-            }else if(cloneType == 4){
+            } else if (cloneType == 4) {
                 studyId = "MTBLS122";
-            }else if(cloneType == 5){
+            } else if (cloneType == 5) {
                 studyId = "MTBLS135";
             }
         }
@@ -618,18 +631,19 @@ public class LabsWorkspaceController {
 
                     Study study = null;
 
-                    if(!byPass){
-                        study =  studyDAO.getStudy(studyId, user.getApiToken());
-                    }else{
+                    if (!byPass) {
+                        study = studyDAO.getStudy(studyId, user.getApiToken());
+                    } else {
 
                         String configUserToken = PropertiesUtil.getProperty("teamToken");
 
-                        study =  studyDAO.getStudy(studyId, configUserToken);
+                        study = studyDAO.getStudy(studyId, configUserToken);
                     }
 
-                    if(study != null){
+                    if (study != null) {
 
-                        MLLProject mllProject = (new MetaboLightsLabsProjectDAO(mllWorkSpace, title, description, study)).getMllProject();
+                        MLLProject mllProject = (new MetaboLightsLabsProjectDAO(mllWorkSpace, title, description,
+                                study)).getMllProject();
 
                         mllProject.log("Cloning study: " + studyId);
 
@@ -637,7 +651,7 @@ public class LabsWorkspaceController {
 
                         return restResponse;
 
-                    }else{
+                    } else {
 
                         logger.warn("User might be trying to clone others private study");
 
@@ -675,8 +689,8 @@ public class LabsWorkspaceController {
 
         }
 
-
-        MLLProject mllProject = (new MetaboLightsLabsProjectDAO(mllWorkSpace, title, description, null)).getMllProject();
+        MLLProject mllProject = (new MetaboLightsLabsProjectDAO(mllWorkSpace, title, description, null))
+                .getMllProject();
 
         restResponse.setContent(mapper.writeValueAsString(mllProject));
 
@@ -684,54 +698,57 @@ public class LabsWorkspaceController {
 
     }
 
-//    @RequestMapping(value = "/downloadFile", method = RequestMethod.GET)
-//    @Produces(MediaType.APPLICATION_OCTET_STREAM)
-//    public HttpServletResponse downloadFile(@RequestParam("jwt") String jwt, @RequestParam("email") String email, @RequestParam("path") String path, HttpServletResponse response) throws IOException {
-//
-//        User user = SecurityUtil.getUser(jwt, email);
-//
-//        if (user != null) {
-//
-//            if (!user.getRole().equals(AppRole.ANONYMOUS)){
-//                MLLWorkSpace mllWorkSpace = getWorkspaceInfo(user);
-//
-//                if (mllWorkSpace != null) {
-//
-//                    String projectPath = mllWorkSpace.getWorkspaceLocation();
-//
-//                    String filePath = projectPath + "/" + path;
-//
-//                    if (FileUtils.checkFileExists(filePath)){
-//
-//                        File file = new File(filePath);
-//
-//                        if(file.isFile()){
-//
-//                            FileUtil.streamFile(file, response);
-//
-//                        }
-//
-//                    }
-//
-//                }
-//            }
-//        }
-//
-//        response.setStatus(403);
-//
-//        return response;
-//
-//    }
+    // @RequestMapping(value = "/downloadFile", method = RequestMethod.GET)
+    // @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    // public HttpServletResponse downloadFile(@RequestParam("jwt") String jwt,
+    // @RequestParam("email") String email, @RequestParam("path") String path,
+    // HttpServletResponse response) throws IOException {
+    //
+    // User user = SecurityUtil.getUser(jwt, email);
+    //
+    // if (user != null) {
+    //
+    // if (!user.getRole().equals(AppRole.ANONYMOUS)){
+    // MLLWorkSpace mllWorkSpace = getWorkspaceInfo(user);
+    //
+    // if (mllWorkSpace != null) {
+    //
+    // String projectPath = mllWorkSpace.getWorkspaceLocation();
+    //
+    // String filePath = projectPath + "/" + path;
+    //
+    // if (FileUtils.checkFileExists(filePath)){
+    //
+    // File file = new File(filePath);
+    //
+    // if(file.isFile()){
+    //
+    // FileUtil.streamFile(file, response);
+    //
+    // }
+    //
+    // }
+    //
+    // }
+    // }
+    // }
+    //
+    // response.setStatus(403);
+    //
+    // return response;
+    //
+    // }
 
     @RequestMapping(value = "/downloadFile", method = RequestMethod.GET)
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
-    public void downloadFile(@RequestParam("apikey") String apikey, @RequestParam("path") String path, HttpServletResponse response) throws IOException {
+    public void downloadFile(@RequestParam("apikey") String apikey, @RequestParam("path") String path,
+            HttpServletResponse response) throws IOException {
 
         User user = authenticateUser(apikey);
 
         if (user != null) {
 
-            if (!user.getRole().equals(AppRole.ANONYMOUS)){
+            if (!user.getRole().equals(AppRole.ANONYMOUS)) {
                 MLLWorkSpace mllWorkSpace = getWorkspaceInfo(user);
 
                 if (mllWorkSpace != null) {
@@ -740,11 +757,11 @@ public class LabsWorkspaceController {
 
                     String filePath = projectPath + "/" + path;
 
-                    if (FileUtils.checkFileExists(filePath)){
+                    if (FileUtils.checkFileExists(filePath)) {
 
                         File file = new File(filePath);
 
-                        if(file.isFile()){
+                        if (file.isFile()) {
 
                             FileUtil.streamFile(file, response);
 
@@ -767,7 +784,6 @@ public class LabsWorkspaceController {
         }
         return studyDAO;
     }
-
 
     /**
      * Authenticate user based on the API_TOKEN
