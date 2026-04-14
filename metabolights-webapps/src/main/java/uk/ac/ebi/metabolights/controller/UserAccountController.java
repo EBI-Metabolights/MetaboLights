@@ -89,10 +89,7 @@ public class UserAccountController extends AbstractController{
 	@RequestMapping(value = "/newAccount")
    	public ModelAndView newAccount() {
     	//ModelAndView mav = new ModelAndView("createAccount");
-		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("createAccount");
-    	mav.addObject(new MetabolightsUser());
-    	mav.addObject("orcidLinkUrl",orcidLinkServiceURL);
-    	return mav;
+		return new ModelAndView("redirect:/editor/");
     }
 
 	private @Value("#{urlConfirmNewAccount}") String confirmNewAccountUrl;
@@ -113,7 +110,7 @@ public class UserAccountController extends AbstractController{
 
     	// The isatab schema works with a USERNAME. For Metabolights, we set the email address to be the user name,
     	// it's easier for people to remember that
-    	metabolightsUser.setUserName(metabolightsUser.getEmail());
+    	/*metabolightsUser.setUserName(metabolightsUser.getEmail());
 
     	boolean duplicateEmailAddress=false;
 
@@ -174,8 +171,8 @@ public class UserAccountController extends AbstractController{
 		httpSession.setAttribute("user", metabolightsUser);
 		httpSession.setAttribute("country",metabolightsUser.getListOfAllCountries().get(metabolightsUser.getAddress()));
 
-    	return new ModelAndView("redirect:accountRequested");
-
+    	return new ModelAndView("redirect:accountRequested");*/
+		return new ModelAndView("redirect:/editor/");
     	//return new ModelAndView("redirect:accountRequested="+emailShort);
 
 	}
@@ -216,7 +213,7 @@ public class UserAccountController extends AbstractController{
 	@RequestMapping(value={"/accountRequested"})
 	public ModelAndView accountRequested(HttpServletRequest request) {
 		//ModelAndView mav = new ModelAndView("index"); // default action for this request, unless the session has candy in it.
-		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("index"); // default action for this request, unless the session has candy in it.
+		/*ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("index"); // default action for this request, unless the session has candy in it.
     	MetabolightsUser newUser = (MetabolightsUser) request.getSession().getAttribute("user");
 
 		if (newUser!=null){
@@ -226,7 +223,8 @@ public class UserAccountController extends AbstractController{
 			request.getSession().removeAttribute("user");
 		}
 
-    	return mav;
+    	return mav;*/
+		return new ModelAndView("redirect:/editor/");
 	}
 
 
@@ -241,7 +239,7 @@ public class UserAccountController extends AbstractController{
 	 */
 	@RequestMapping(value={"/confirmAccountRequest"}, method = RequestMethod.GET)
 	public ModelAndView confirmAccountRequested(@RequestParam("usr") String userName, @RequestParam("key") String key) {
-		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("index");
+		/*ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("index");
 		MetabolightsUser user = userService.lookupByUserName(userName);
 		if (user!=null && user.getStatus().equals(MetabolightsUser.UserStatus.NEW)
 				&& numericSequence(user.getDbPassword()).equals(key)   ) {
@@ -259,7 +257,8 @@ public class UserAccountController extends AbstractController{
             //Ken, 20171219. Also, Notify user that account has been activated
             emailService.sendAccountHasbeenActivated(user);
 		}
-		return mav;
+		return mav;*/
+		return new ModelAndView("redirect:/editor/");
 	}
 
 	/**
@@ -271,7 +270,7 @@ public class UserAccountController extends AbstractController{
 	@RequestMapping(value={"/activateAccount__NotifyUser"}, method = RequestMethod.GET)
 	public ModelAndView activateAccount(@RequestParam("usrId") long usrId, @RequestParam("key") String key) {
 
-		ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("index");
+		/*ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("index");
 
 		MetabolightsUser user = userService.lookupById(usrId);
 		if (user!=null && user.getStatus().equals(MetabolightsUser.UserStatus.VERIFIED)
@@ -281,7 +280,8 @@ public class UserAccountController extends AbstractController{
 			mav.addObject("message", PropertyLookup.getMessage("msg.activatedAccount")+" "+user.getUserName()+".");
 			emailService.sendAccountHasbeenActivated(user);
 		}
-		return mav;
+		return mav;*/
+		return new ModelAndView("redirect:/editor/");
 	}
 
     /**
@@ -291,7 +291,7 @@ public class UserAccountController extends AbstractController{
 	@RequestMapping(value = "/myAccount")
    	public ModelAndView myAccount() {
 
-		ModelAndView mav = null;
+		/*ModelAndView mav = null;
 
 		MetabolightsUser principal = ((MetabolightsUser) (SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
 		if (principal==null) {
@@ -301,7 +301,8 @@ public class UserAccountController extends AbstractController{
      	}
 
 
-    	return mav;
+    	return mav;*/
+		return new ModelAndView("redirect:/editor/");
     }
 
     /**
@@ -311,7 +312,8 @@ public class UserAccountController extends AbstractController{
 	@RequestMapping(value = "/userAccount")
    	public ModelAndView userAccount(@RequestParam("usrId") long usrId) {
 
-    	return getModelAndViewForUser(usrId);
+    	//return getModelAndViewForUser(usrId);
+		return new ModelAndView("redirect:/editor/");
 
     }
 	/* Returns a modelANDView for the userID passed as parameter.*/
@@ -350,7 +352,7 @@ public class UserAccountController extends AbstractController{
 	@RequestMapping(value = "/updateAccount", method = RequestMethod.POST)
     public ModelAndView updateAccount(@Valid MetabolightsUser metabolightsUser, BindingResult result, Model model, HttpServletRequest request) {
 
-    	if (result.hasErrors()) {
+    	/*if (result.hasErrors()) {
         	ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("updateAccount");
         	mav.addObject(metabolightsUser);
 			mav.addObject("orcidLinkUrl",orcidLinkServiceURL);
@@ -393,7 +395,8 @@ public class UserAccountController extends AbstractController{
 				// Is a curator....go back to user list
 			} else {
 				return new ModelAndView("redirect:users");
-			}
+			}*/
+			return new ModelAndView("redirect:/editor/");						
 	}
 
 	/**
@@ -404,7 +407,7 @@ public class UserAccountController extends AbstractController{
 	    //return new ModelAndView("index", "message", PropertyLookup.getMessage("msg.updatedAccount"));
 
 		// default action for this request, unless the session has candy in it.
-		ModelAndView mav = new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.updatedAccount"));
+		/*ModelAndView mav = new ModelAndView ("redirect:index?message="+ PropertyLookup.getMessage("msg.updatedAccount"));
     	MetabolightsUser newUser = (MetabolightsUser) request.getSession().getAttribute("user");
 
 		if (newUser!=null){
@@ -415,7 +418,8 @@ public class UserAccountController extends AbstractController{
 			request.getSession().removeAttribute("user");
 		}
 
-    	return mav;
+    	return mav;*/
+		return new ModelAndView("redirect:/editor/");
     }
 
 

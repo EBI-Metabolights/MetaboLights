@@ -48,22 +48,20 @@ import java.io.*;
 @RequestMapping("dataFiles")
 public class FilesController {
 
-    private @Value("#{ondemand}")
-    String zipOnDemandLocation;
-    public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls).+";
+    private @Value("#{ondemand}") String zipOnDemandLocation;
+    public static final String METABOLIGHTS_ID_REG_EXP = "(?:MTBLS|mtbls|REQ|req|MHD|mhd|MHDT|mhdt).+";
     protected static final Logger logger = LoggerFactory.getLogger(FilesController.class);
 
-    @RequestMapping(value = "uploadFile", method = RequestMethod.POST,consumes = {"multipart/form-data"})
+    @RequestMapping(value = "uploadFile", method = RequestMethod.POST, consumes = { "multipart/form-data" })
     @ResponseBody
     public RestResponse<String> uploadFile(
             HttpServletRequest request,
-            @RequestParam(required = true ,value = "file") MultipartFile file,
-            @RequestParam(required=true,value="publicDate") String publicDate,
-            @RequestParam(required=true,value="study") String studyID) throws Exception {
+            @RequestParam(required = true, value = "file") MultipartFile file,
+            @RequestParam(required = true, value = "publicDate") String publicDate,
+            @RequestParam(required = true, value = "study") String studyID) throws Exception {
 
         RestResponse restResponse = new RestResponse();
         User user = SecurityUtil.validateJWTToken(request);
-
 
         if (user == null || user.getRole().equals(AppRole.ANONYMOUS)) {
             restResponse.setContent("Authentication failed ");
@@ -73,7 +71,7 @@ public class FilesController {
         String FILE_NAME_SEP = "~";
 
         String fileName = user.getApiToken() + FILE_NAME_SEP + studyID + FILE_NAME_SEP + publicDate + FILE_NAME_SEP +
-                FilenameUtils.removeExtension(file.getOriginalFilename()) + "_" + FileUtil.getCurrentTimeStamp() ;
+                FilenameUtils.removeExtension(file.getOriginalFilename()) + "_" + FileUtil.getCurrentTimeStamp();
 
         String uploadDirectory = PropertiesUtil.getProperty("uploadDirectory") + "queue/";
         // create zip with pattern in ondemand folder
@@ -81,26 +79,26 @@ public class FilesController {
         // move the zip folder to the upload directory/queue
 
         String zipFile = zipOnDemandLocation + fileName + ".zip";
-        String zipFileFolder = zipOnDemandLocation + fileName ;
+        String zipFileFolder = zipOnDemandLocation + fileName;
 
-        if (!FileUtil.fileExists(zipFileFolder))  // Just to be sure that the file *doesn't already* exist
+        if (!FileUtil.fileExists(zipFileFolder)) // Just to be sure that the file *doesn't already* exist
         {
             File zip_file_folder = new File(zipFileFolder);
             zip_file_folder.mkdir();
-            String destinationFileName =  zip_file_folder + File.separator + file.getOriginalFilename();
+            String destinationFileName = zip_file_folder + File.separator + file.getOriginalFilename();
             file.transferTo(new File(destinationFileName));
-            if(FilenameUtils.isExtension(destinationFileName,"zip")){
+            if (FilenameUtils.isExtension(destinationFileName, "zip")) {
                 Zipper.unzip2(destinationFileName);
                 File unzippedStudyDirectory = new File(zip_file_folder + File.separator
                         + FilenameUtils.removeExtension(file.getOriginalFilename()));
-                if(unzippedStudyDirectory.isDirectory()){
-                     for(File subFile : unzippedStudyDirectory.listFiles()){
-                        if(subFile.isFile()){
-                            FileUtils.moveFileToDirectory(subFile,zip_file_folder,false);
-                        } else{
-                            FileUtils.moveDirectoryToDirectory(subFile,zip_file_folder,false);
+                if (unzippedStudyDirectory.isDirectory()) {
+                    for (File subFile : unzippedStudyDirectory.listFiles()) {
+                        if (subFile.isFile()) {
+                            FileUtils.moveFileToDirectory(subFile, zip_file_folder, false);
+                        } else {
+                            FileUtils.moveDirectoryToDirectory(subFile, zip_file_folder, false);
                         }
-                     }
+                    }
                 }
                 FileUtils.deleteDirectory(unzippedStudyDirectory);
                 new File(destinationFileName).delete();
@@ -109,21 +107,21 @@ public class FilesController {
             Zipper.zip(zipFileFolder, zipFile);
 
             FileUtils.deleteDirectory(zip_file_folder);
-            FileUtils.moveFileToDirectory(new File(zipFile),new File(uploadDirectory), false);
+            FileUtils.moveFileToDirectory(new File(zipFile), new File(uploadDirectory), false);
             restResponse.setMessage("Success");
-        }else{
+        } else {
             restResponse.setMessage("Something went wrong, Please try again!");
         }
         return restResponse;
     }
 
-    @RequestMapping(value = "uploadFileToQueue", method = RequestMethod.POST,consumes = {"multipart/form-data"})
+    @RequestMapping(value = "uploadFileToQueue", method = RequestMethod.POST, consumes = { "multipart/form-data" })
     @ResponseBody
     public RestResponse<String> uploadFileToQueue(
             HttpServletRequest request,
-            @RequestParam(required = true ,value = "file") MultipartFile file,
-            @RequestParam(required=true,value="publicDate") String publicDate,
-            @RequestParam(required=true,value="study") String studyID) throws Exception {
+            @RequestParam(required = true, value = "file") MultipartFile file,
+            @RequestParam(required = true, value = "publicDate") String publicDate,
+            @RequestParam(required = true, value = "study") String studyID) throws Exception {
 
         RestResponse restResponse = new RestResponse();
         User user = SecurityUtil.validateJWTToken(request);
@@ -133,54 +131,55 @@ public class FilesController {
             String FILE_NAME_SEP = "~";
             String fileName = "";
 
-            if(FilenameUtils.getExtension(file.getOriginalFilename()).equalsIgnoreCase("zip")){
-               fileName = user.getApiToken() + FILE_NAME_SEP + studyID + FILE_NAME_SEP + publicDate + FILE_NAME_SEP +
-                    FilenameUtils.removeExtension(file.getOriginalFilename()) + "_" + FileUtil.getCurrentTimeStamp() + ".zip";
-            }  else{
+            if (FilenameUtils.getExtension(file.getOriginalFilename()).equalsIgnoreCase("zip")) {
                 fileName = user.getApiToken() + FILE_NAME_SEP + studyID + FILE_NAME_SEP + publicDate + FILE_NAME_SEP +
-                         FilenameUtils.getName(file.getOriginalFilename());
+                        FilenameUtils.removeExtension(file.getOriginalFilename()) + "_" + FileUtil.getCurrentTimeStamp()
+                        + ".zip";
+            } else {
+                fileName = user.getApiToken() + FILE_NAME_SEP + studyID + FILE_NAME_SEP + publicDate + FILE_NAME_SEP +
+                        FilenameUtils.getName(file.getOriginalFilename());
             }
 
             String uploadDirectory = PropertiesUtil.getProperty("uploadDirectory") + "queue/";
 
-            //create file name with pattern on queue.
+            // create file name with pattern on queue.
             // transfer file contents to the queue folder
             // set message
             // within queue model, make sure unzipped files are processed
 
             String toBeQueuedFile = uploadDirectory + fileName;
 
-            if (!FileUtil.fileExists(toBeQueuedFile))  // Just to be sure that the file *doesn't already* exist
+            if (!FileUtil.fileExists(toBeQueuedFile)) // Just to be sure that the file *doesn't already* exist
             {
                 file.transferTo(new File(toBeQueuedFile));
                 restResponse.setMessage("Success");
-            }else{
+            } else {
                 restResponse.setMessage("Something went wrong, Please try again!");
             }
             return restResponse;
 
-        }  else{
+        } else {
             restResponse.setContent("Authentication failed ");
             return restResponse;
         }
 
     }
-    
-    @RequestMapping(value = "/download/{studyId:" + METABOLIGHTS_ID_REG_EXP + "}/{fileNamePattern:.+}", method = RequestMethod.GET)
-    public void downloadSingleFile(HttpServletRequest request,
-                              @PathVariable("studyId") String studyId,
-                              @PathVariable("fileNamePattern") String fileNamePattern,
-                              HttpServletResponse response) {
 
-        if(isValidUser(request)){
-            if (fileNamePattern== null || fileNamePattern.isEmpty())
-            {
+    @RequestMapping(value = "/download/{studyId:" + METABOLIGHTS_ID_REG_EXP
+            + "}/{fileNamePattern:.+}", method = RequestMethod.GET)
+    public void downloadSingleFile(HttpServletRequest request,
+            @PathVariable("studyId") String studyId,
+            @PathVariable("fileNamePattern") String fileNamePattern,
+            HttpServletResponse response) {
+
+        if (isValidUser(request)) {
+            if (fileNamePattern == null || fileNamePattern.isEmpty()) {
                 fileNamePattern = "";
-            } else if ("metadata".equals(fileNamePattern)){
-                fileNamePattern =  ".*\\.txt|.*.\\.tsv|.*\\.maf";
+            } else if ("metadata".equals(fileNamePattern)) {
+                fileNamePattern = ".*\\.txt|.*.\\.tsv|.*\\.maf";
             }
-            streamFile(studyId,fileNamePattern,response);
-        }  else{
+            streamFile(studyId, fileNamePattern, response);
+        } else {
             response.setStatus(401);
             return;
         }
@@ -189,29 +188,29 @@ public class FilesController {
     @RequestMapping(value = "/downloadAll/{studyId:" + METABOLIGHTS_ID_REG_EXP + "}", method = RequestMethod.GET)
     @ResponseBody
     public void downloadWholeStudy(HttpServletRequest request,
-                              @PathVariable("studyId") String studyId, HttpServletResponse response) {
+            @PathVariable("studyId") String studyId, HttpServletResponse response) {
 
-        if(isValidUser(request)){
-            streamFile(studyId,"",response);
-        }  else{
+        if (isValidUser(request)) {
+            streamFile(studyId, "", response);
+        } else {
             response.setStatus(401);
             return;
         }
     }
 
-    private boolean isValidUser(HttpServletRequest request){
+    private boolean isValidUser(HttpServletRequest request) {
         User user = SecurityUtil.validateJWTToken(request);
         return (user != null && !user.getRole().equals(AppRole.ANONYMOUS));
     }
 
-    private boolean isValidUser(User user){
-       return (user != null && !user.getRole().equals(AppRole.ANONYMOUS));
+    private boolean isValidUser(User user) {
+        return (user != null && !user.getRole().equals(AppRole.ANONYMOUS));
     }
 
     // Stream the file or folder to the response
     private void streamFile(String studyId, String fileNamePattern, HttpServletResponse response) {
 
-        try{
+        try {
             File[] files = null;
             File fileToStream;
 
@@ -221,7 +220,8 @@ public class FilesController {
             // if file is null...
             if (studyFolder == null) {
 
-                logger.info("File requested not found: Filename was '" + fileNamePattern + "' for the study " + studyId);
+                logger.info(
+                        "File requested not found: Filename was '" + fileNamePattern + "' for the study " + studyId);
                 response.setStatus(404);
                 return;
             }
@@ -245,25 +245,24 @@ public class FilesController {
 
             streamFile(fileToStream, response);
 
-        } catch (Exception e){
+        } catch (Exception e) {
             logger.error(e.getMessage());
             response.setStatus(500);
         }
     }
 
-
-    private File getPathForFile(String studyId, String fileName){
+    private File getPathForFile(String studyId, String fileName) {
 
         File file = null;
 
-        if(!fileName.isEmpty()){
-             file = new File (PropertiesUtil.getProperty("studiesLocation") + studyId +"/" + fileName);
-        } else{
-            file = file = new File (PropertiesUtil.getProperty("studiesLocation") + studyId);
+        if (!fileName.isEmpty()) {
+            file = new File(PropertiesUtil.getProperty("studiesLocation") + studyId + "/" + fileName);
+        } else {
+            file = file = new File(PropertiesUtil.getProperty("studiesLocation") + studyId);
         }
 
         if (file.exists()) {
-            return new File (PropertiesUtil.getProperty("studiesLocation") + studyId);
+            return new File(PropertiesUtil.getProperty("studiesLocation") + studyId);
         }
         // File not found
         return null;
@@ -272,7 +271,7 @@ public class FilesController {
 
     // Get the file, stream to browser
     // Stream a file to the browser
-    public static void streamFile(File file, HttpServletResponse response){
+    public static void streamFile(File file, HttpServletResponse response) {
 
         // get the extension
         String extension = StringUtils.getFilenameExtension(file.getName());
@@ -280,11 +279,11 @@ public class FilesController {
         // let the browser know the type of file
         String contentType = "application/" + extension;
 
-        streamFile(file,response,contentType);
+        streamFile(file, response, contentType);
 
     }
 
-    public static void streamFile(File file, HttpServletResponse response, String contentType ){
+    public static void streamFile(File file, HttpServletResponse response, String contentType) {
         InputStream is = null;
         try {
 
@@ -295,31 +294,30 @@ public class FilesController {
             response.setContentType(contentType);
 
             // Specify the file name
-            response.setHeader( "Content-Disposition", "filename=" + file.getName()   );
-            response.addHeader("Access-Control-Expose-Headers", "Content-Disposition" );
-           
+            response.setHeader("Content-Disposition", "filename=" + file.getName());
+            response.addHeader("Access-Control-Expose-Headers", "Content-Disposition");
+
             // copy it to response's OutputStream
             IOUtils.copy(is, response.getOutputStream());
 
             response.flushBuffer();
 
         } catch (FileNotFoundException e) {
-            logger.info("Can't stream file "+ file.getAbsolutePath() + "!, File not found.");
+            logger.info("Can't stream file " + file.getAbsolutePath() + "!, File not found.");
             response.setStatus(404);
         } catch (IOException ex) {
-            logger.info("Error writing file to output stream. Filename was '"+ file.getAbsolutePath() + "'");
+            logger.info("Error writing file to output stream. Filename was '" + file.getAbsolutePath() + "'");
             response.setStatus(500);
         } finally {
-			try {
-				if (is != null) {
-					is.close();
-				}
-			}catch (Exception e){
-				e.printStackTrace();
-			}
-		}
+            try {
+                if (is != null) {
+                    is.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
     }
-
 
 }
