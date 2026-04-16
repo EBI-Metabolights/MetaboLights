@@ -50,7 +50,7 @@
     <p><spring:message code="msg.metabolightsAbout13" /></p>
     <br>
     <p>MetaboLights study metadata and compounds  can be downloaded as XML format. Please use the below links:</p><br>
-    <p><a class="btn btn-default mt5" href="<%=protocol%>://ftp.ebi.ac.uk/pub/databases/metabolights/eb-eye/eb-eye_metabolights_complete.xml" target="_blank">MetaboLights - Complete </a>&emsp;|&emsp;<a class="mt5 btn btn-default" href="<%=protocol%>://ftp.ebi.ac.uk/pub/databases/metabolights/eb-eye/eb-eye_metabolights_studies.xml" target="_blank">MetaboLights</a></p>
+    <p><a class="btn btn-default mt5" href="<%=protocol%>://ftp.ebi.ac.uk/pub/databases/metabolights/eb-eye/eb_eye_metabolights_complete.xml" target="_blank">MetaboLights - Complete </a>&emsp;|&emsp;<a class="mt5 btn btn-default" href="<%=protocol%>://ftp.ebi.ac.uk/pub/databases/metabolights/eb-eye/eb_eye_metabolights_studies.xml" target="_blank">MetaboLights</a></p>
     <div>
         <h4>ISA model support</h4>
         <div class="col-md-12">
