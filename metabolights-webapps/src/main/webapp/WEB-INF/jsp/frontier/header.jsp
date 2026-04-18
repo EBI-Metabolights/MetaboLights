@@ -197,7 +197,7 @@
                                                     </li>
                                             </ul>
                                             <ul class="nav navbar-nav cnav navbar-right">
-                                                <li><a href="${pageContext.request.contextPath}/editor/">Submissions</a>
+                                                <li><a href="${pageContext.request.contextPath}/editor/">My Studies</a>
                                                 </li>
                                             </ul>
                                         </span>
@@ -233,7 +233,7 @@
                                             </li>
                                             </ul>
                                             <ul class="nav navbar-nav cnav navbar-right">
-                                                <li><a href="${pageContext.request.contextPath}/editor/">Submissions</a>
+                                                <li><a href="${pageContext.request.contextPath}/editor/">My Studies</a>
                                                 </li>
                                             </ul>
                                         </span>
