@@ -207,14 +207,14 @@ public class EntryController extends AbstractController {
         return new ModelAndView("redirect:/editor/" + reviewerToken);
     }
 
-    @RequestMapping({ "/{metabolightsId:(?:MTBLS|mtbls|REQ|req|MHD|mhd|MHDT|mhdt).+}" })
+    /*@RequestMapping({ "/{metabolightsId:(?:MTBLS|mtbls|REQ|req|MHD|mhd|MHDT|mhdt).+}" })
     private ModelAndView getStudyWSEntryMAV(@PathVariable("metabolightsId") String mtblsId,
             final HttpServletRequest request) {
         if (mtblsId.toUpperCase().startsWith("REQ")) {
             return new ModelAndView("redirect:/editor/study/" + mtblsId.toUpperCase() + "/overview");
         }
         return new ModelAndView("redirect:/editor/" + mtblsId.toUpperCase() + "/overview");
-    }
+    }*/
 
     @RequestMapping({ "/{metabolightsId:(?:MTBLS|mtbls|REQ|req|MHD|mhd|MHDT|mhdt).+}/{tabId}" })
     private ModelAndView getStudyWSEntryMAV2(@PathVariable("metabolightsId") String mtblsId,
