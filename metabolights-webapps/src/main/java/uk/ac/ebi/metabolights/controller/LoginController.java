@@ -65,7 +65,7 @@ public class LoginController extends AbstractController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping({ "/login-success" })
+    /*@RequestMapping({ "/login-success" })
     public ModelAndView loggedIn(HttpServletRequest request, HttpServletResponse response) {
         return new ModelAndView("redirect:/editor/");
     }
@@ -97,18 +97,20 @@ public class LoginController extends AbstractController {
     public ModelAndView passWordReset() {
         return new ModelAndView("redirect:/editor/");
     }
-
-    /**
+    */
+    /*
      * Handles a user request who forgot the password.<br>
      *
      * @param email  user form
      * @param result binding result
      * @return where to navigate
      */
+    /* 
     @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
     public ModelAndView resetPassWord(@Valid EmailAddress email, BindingResult result, Model model) {
         return new ModelAndView("redirect:/editor/");
-    }
+    }*/
+
 
     private String getTemporaryPassword() {
         String tempPw = "";
