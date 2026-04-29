@@ -137,7 +137,6 @@ public class UserAccountController extends AbstractController{
 		String firstName = metabolightsUser.getFirstName().toLowerCase();
 		String lastName = metabolightsUser.getLastName().toLowerCase();
 		String affiliation = metabolightsUser.getAffiliation().toLowerCase();
-
 		if(TextUtils.checkSpecialCharsAndScript(firstName) || TextUtils.checkSpecialCharsAndScript(lastName) || TextUtils.checkSpecialCharsAndScript(affiliation)){
 			ModelAndView mav = AppContext.getMAVFactory().getFrontierMav("createAccount");
 			mav.addObject(metabolightsUser);
@@ -152,6 +151,7 @@ public class UserAccountController extends AbstractController{
 			metabolightsUser.setStatus(MetabolightsUser.UserStatus.NEW); // make account non usable yet
 			metabolightsUser.setDbPassword(IsaTabAuthenticationProvider.encode(metabolightsUser.getDbPassword()));
             metabolightsUser.setApiToken(UUID.randomUUID().toString());
+			metabolightsUser.setJoinDate(null); // Let the database set the join date to the current date
 			newUserId = userService.insert(metabolightsUser);
 
 			//Send user a verification email

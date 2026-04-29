@@ -28,6 +28,8 @@ import uk.ac.ebi.metabolights.service.CountryService;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.*;
 
@@ -130,7 +132,8 @@ public class MetabolightsUser implements Serializable{
 	@Transient
 	private Set<AppRole> authorities;
 
-	@Column(name="JOINDATE")
+	@Column(name="JOINDATE", updatable = false)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date joinDate;
 
 	@Column(name="FIRSTNAME")
@@ -179,7 +182,7 @@ public class MetabolightsUser implements Serializable{
 	}
 
 	public void setJoinDate(Date joinDate) {
-		this.joinDate = joinDate;
+		this.joinDate = new java.util.Date();
 	}
 
 	public String getAffiliation() {
